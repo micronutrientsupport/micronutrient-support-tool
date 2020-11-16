@@ -6,8 +6,8 @@ export interface AppRoute {
 /**
  * TODO: This would be more efficient as a pipe?
  * @param appRoute an AppRoute object
- * @param substitutions key-value pairs to replace placeholders in route e.g. {id: 54}
- * will change a route of "job/:id/details" to "job/54/details"
+ * @param substitutions key-value pairs to replace placeholders in route e.g. {job-id: 54}
+ * will change a route of "job/:job-id/details" to "job/54/details"
  */
 function getRoute(appRoute: AppRoute, substitutions = {}): Array<string> {
   let url = `/${appRoute.key}`;
@@ -25,6 +25,10 @@ export class AppRoutes {
   } as AppRoute;
   public static readonly MAPS_TOOL = {
     key: 'maps-tool',
+    route(): Array<string> { return getRoute(this); }
+  } as AppRoute;
+  public static readonly QUICK_MAPS = {
+    key: `${AppRoutes.MAPS_TOOL.key}/quick-maps`,
     route(): Array<string> { return getRoute(this); }
   } as AppRoute;
 }

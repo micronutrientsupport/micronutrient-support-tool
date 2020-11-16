@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppRoutes } from '../app-routes';
 
 @Component({
   selector: 'app-maps-tool',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./mapsTool.component.scss']
 })
 export class MapsToolComponent {
+
+  public ROUTES = AppRoutes;
 }
