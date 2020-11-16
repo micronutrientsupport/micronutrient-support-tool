@@ -11,5 +11,7 @@ jobs:
       - name: Lint
         uses: mooyoul/tslint-actions@v1.1.1
         with:
+          project: ./tsconfig.app.json
+          config: ./tslint.json
           token: ${{ secrets.GITHUB_TOKEN }}
           pattern: "*.ts"

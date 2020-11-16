@@ -9,4 +9,4 @@ export class AppComponent {
   title = 'micronutrient-support-tool';
 }
 
-// comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action error
+// comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action errordddddddddddddd
