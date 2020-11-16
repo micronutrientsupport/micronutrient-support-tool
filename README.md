@@ -1,5 +1,8 @@
 # Micronutrient Support Tool
 
+![Angular Build](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Angular%20Build/badge.svg?branch=develop)
+![Linting](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Linting/badge.svg?branch=develop)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
 ### Development
