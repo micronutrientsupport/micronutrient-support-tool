@@ -25,8 +25,3 @@ jobs:
         run: |
           npm i
           npm run build:prod
-      - name: Push Build to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/angular-githubaction/*"
-          token: ${{ secrets.MAPS_TOKEN_NOV20 }}
