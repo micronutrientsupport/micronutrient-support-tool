@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiResponse } from './apiResponse.interface';
 import { HttpCallErrorHandler } from './httpCallErrorHandler.interface';
 
 export enum RequestMethod {
@@ -22,7 +21,7 @@ export class ApiCaller {
     queryParams = {},
     bodyData: object | FormData = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
-  ): Promise<ApiResponse> {
+  ): Promise<any> {
     const url = this.getUrl(segments);
     // console.debug('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
@@ -51,11 +50,11 @@ export class ApiCaller {
     if (response != null) {
       return response
         .toPromise()
-        .then((responseJson: ApiResponse) => {
+        .then((responseJson: any) => {
           // TODO: Check response meta
           // console.debug(responseJson);
 
-          return responseJson;
+          return this.httpCallErrorHandler.handleSuccess(responseJson);
         })
         .catch(res => {
           console.log('doCall handleError', res);

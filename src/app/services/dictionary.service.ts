@@ -11,7 +11,7 @@ export class DictionaryService {
   ) {
     // test
     // this.getDictionary(DictionaryType.COUNTRIES).then((dict) => {
-    //   console.debug('countries', dict.getItems());
+    //   console.debug('countries', dict);
     // });
   }
 

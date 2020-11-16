@@ -43,6 +43,7 @@ export class ObjectBuilder {
     //   console.debug('ObjectBuilder build', typeObject.name, item, data);
     // }
     return new Promise((resolve) => {
+      // tslint:disable-next-line: no-string-literal
       if (null == item['_requiredDictionaryList']) {
         resolve(item);
       } else {
@@ -58,7 +59,9 @@ export class ObjectBuilder {
       }
     })
       .then(() => {
+        // tslint:disable-next-line: no-string-literal
         return (typeof item['init'] === 'function')
+          // tslint:disable-next-line: no-string-literal
           ? item['init']()
           : item;
       });

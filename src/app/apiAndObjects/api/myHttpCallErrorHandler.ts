@@ -1,10 +1,29 @@
-import { ApiResponse } from '../_lib_code/api/apiResponse.interface';
 import { Injector } from '@angular/core';
+import { ApiResponse } from './apiResponse.interface';
 
 export class MyHttpCallErrorHandler {
+
+  public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (success) {
+          resolve({
+            data: dataIn,
+          } as ApiResponse);
+        } else {
+          reject('Mock API Error');
+        }
+      }, 500);
+    });
+  }
+
   constructor(
     injector: Injector,
   ) {
+  }
+
+  public handleSuccess(res: any): Promise<ApiResponse> {
+    return Promise.resolve(res as ApiResponse);
   }
 
   /*
@@ -33,5 +52,6 @@ export class MyHttpCallErrorHandler {
       return Promise.resolve(returnValue);
     }
   }
+
 
 }

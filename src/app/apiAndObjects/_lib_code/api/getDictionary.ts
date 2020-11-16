@@ -48,10 +48,9 @@ export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
         srcObjects.push(JSON.parse(template.replace(/<<id>>/g, `${i}`)));
       }
     }
-    const callResponsePromise = this.createMockResponseObject(srcObjects);
     return this.buildObjectsFromResponse(
       params.typeObj,
-      callResponsePromise,
+      Promise.resolve(srcObjects),
     ).then((items: Array<DictionaryItem>) => {
       return new Dictionary(this.type, items);
     });

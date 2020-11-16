@@ -2,7 +2,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { ApiCaller } from './apiCaller';
 import { ObjectBuilder } from '../objects/objectBuilder';
 import { BaseObject } from '../objects/baseObject';
-import { ApiResponse } from './apiResponse.interface';
 import { Injector } from '@angular/core';
 
 export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE = RETURN_TYPE> {
@@ -121,14 +120,13 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     // console.debug('endpoint init', this);
   }
 
-  protected   buildObjectsFromResponse(
+  protected buildObjectsFromResponse(
     object: typeof BaseObject,
-    responseProm: Promise<ApiResponse>,
+    dataProm: Promise<any>,
   ): Promise<Array<OBJECT_TYPE>> {
-    return responseProm
-      .then((response: ApiResponse) => {
-        // console.debug('buildObjectsFromResponse', responses);
-        let data = response.data;
+    return dataProm
+      .then((data: any) => {
+        // console.debug('buildObjectsFromResponse', data);
         // if not an array convert to an array
         data = (Array.isArray(data)) ? data : [data];
         return ObjectBuilder.instance.then((builder: ObjectBuilder) => {
@@ -139,9 +137,9 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
 
   protected buildObjectFromResponse(
     object: typeof BaseObject,
-    responseProm: Promise<ApiResponse>,
+    dataProm: Promise<any>,
   ): Promise<OBJECT_TYPE> {
-    return this.buildObjectsFromResponse(object, responseProm)
+    return this.buildObjectsFromResponse(object, dataProm)
       .then((objectArray: Array<OBJECT_TYPE>) => objectArray[0]); // just the one result
   }
 
@@ -174,72 +172,4 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     }
     return returnObj;
   }
-
-  protected createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (success) {
-          resolve({
-            data: dataIn,
-          } as ApiResponse);
-        } else {
-          reject('Mock API Error');
-        }
-      }, 500);
-    });
-  }
-
-  // created to change form of variables to those accepted by api implementation
-  // not currently used
-  // protected processObject(
-  //   object: object,
-  //   includeFilter?: string | Array<string>,
-  //   excludeFilter?: string | Array<string>,
-  //   dontTouchFilter?: string | Array<string>
-  // ): object {
-  //   includeFilter =
-  //     typeof includeFilter === 'string' ? [includeFilter] : includeFilter;
-  //   excludeFilter =
-  //     typeof excludeFilter === 'string' ? [excludeFilter] : excludeFilter;
-  //   const data = {};
-  //   if (null != object) {
-  //     Object.keys(object).forEach((key: string) => {
-  //       const value = object[key];
-  //       if (dontTouchFilter && dontTouchFilter.includes(key)) {
-  //         data[key] = value; // take val as-is and dont tinker
-  //         return;
-  //       }
-  //       // filter not populated
-  //       if (
-  //         (!includeFilter || includeFilter.indexOf(key) > -1) && // included
-  //         (!excludeFilter || excludeFilter.indexOf(key) === -1) // not excluded
-  //       ) {
-  //         switch (true) {
-  //           case (typeof value === 'boolean'):
-  //             data[key] = value;
-  //             break;
-  //           case (!value):
-  //             break; // if empty
-  //           case (Array.isArray(value)):
-  //             if (value.length > 0) {
-  //               data[key] = value;
-  //             }
-  //             break;
-  //           // case (moment.isMoment(value)):
-  //           //   data[key] = (value as moment.Moment).toISOString();
-  //           //   break;
-  //           case (value instanceof Date):
-  //             data[key] = value.toISOString();
-  //             break;
-  //           default:
-  //             data[key] = value;
-  //             break;
-  //         }
-  //       }
-  //     });
-  //   }
-  //   // console.log('criteriaMapToObject',  data, criteriaMap);
-  //   return data;
-  // }
-
 }

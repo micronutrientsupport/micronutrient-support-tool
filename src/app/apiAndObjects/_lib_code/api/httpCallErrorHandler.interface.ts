@@ -1,4 +1,5 @@
 
-export interface HttpCallErrorHandler {
-  handleError(response: any): Promise<any>;
+export interface HttpCallErrorHandler<ResponseType = any> {
+  handleSuccess(response: ResponseType): Promise<ResponseType>;
+  handleError(response: any): Promise<ResponseType>;
 }
