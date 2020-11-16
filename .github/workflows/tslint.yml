@@ -1,0 +1,15 @@
+on: push
+name: workflow
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v1
+      - name: Prepare
+        run: npm ci
+      - name: Lint
+        uses: mooyoul/tslint-actions@v1.1.1
+        with:
+          token: ${{ secrets.MAPS_TOKEN_NOV20 }}
+          pattern: "*.ts"
