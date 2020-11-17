@@ -1,5 +1,16 @@
 
 
+
+::ng-deep {
+    & .mat-menu-panel  {
+        border-radius: 1px;
+    }
+
+    & .mat-menu-item {
+        color: #000;
+    }
+}
+
 mat-toolbar {
     height: 2.5em;
 }
@@ -16,18 +27,14 @@ a {
     align-items: center;
     padding: 0em 5em;
 
-    div:nth-child(1) {
+    & div:nth-child(1) {
         font-size: 17px;
         a { color: #fff;}
     }
 
-    div:nth-child(2) {
+    & div:nth-child(2) {
         font-size: 14px;
         a { color: #fff;}
-    }
-
-    .mat-menu-item {
-        color: #000;
     }
 }
 

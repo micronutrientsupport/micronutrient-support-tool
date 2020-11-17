@@ -1,11 +1,10 @@
-<!-- <a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a>--<a [routerLink]="ROUTES.MAPS_TOOL.route()">Maps Tools</a> -->
 <mat-toolbar color="primary" class="space-between">
     <div><a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a></div>
     <div class="large">
         <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
-        <a>Educational Resources</a>
-        <a>Help</a>
-        <a>Project Objectives</a>
+        <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES.route()">Educational Resources</a>
+        <a [routerLink]="ROUTES.HELP.route()">Help</a>
+        <a [routerLink]="ROUTES.PROJECT_OBJECTIVES.route()">Project Objectives</a>
     </div>
     <div class="small">
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -16,13 +15,13 @@
                 <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
             </button>
             <button mat-menu-item>
-                <a>Educational Resources</a>
+                <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES.route()">Educational Resources</a>
             </button>
             <button mat-menu-item>
-                <a>Help</a>
+                <a [routerLink]="ROUTES.HELP.route()">Help</a>
             </button>
             <button mat-menu-item>
-                <a>Project Objectives</a>
+                <a [routerLink]="ROUTES.PROJECT_OBJECTIVES.route()">Project Objectives</a>
             </button>
         </mat-menu>
     </div>
