@@ -28,23 +28,23 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  rules: {
-    plugins: [
-      'eslint-plugin-import',
-      'eslint-plugin-jsdoc',
-      '@angular-eslint/eslint-plugin',
-      '@angular-eslint/eslint-plugin-template',
-      'eslint-plugin-prefer-arrow',
-      '@typescript-eslint',
-      '@typescript-eslint/tslint',
-      [
-        'error',
-        {
-          format: 'camelCase' | 'UPPER_CASE',
-          leadingUnderscore: 'allow',
-        },
-      ],
+  plugins: [
+    'eslint-plugin-import',
+    'eslint-plugin-jsdoc',
+    '@angular-eslint/eslint-plugin',
+    '@angular-eslint/eslint-plugin-template',
+    'eslint-plugin-prefer-arrow',
+    '@typescript-eslint',
+    '@typescript-eslint/tslint',
+    [
+      'error',
+      {
+        format: 'camelCase' | 'UPPER_CASE',
+        leadingUnderscore: 'allow',
+      },
     ],
+  ],
+  rules: {
     '@angular-eslint/no-conflicting-lifecycle': 'error',
     '@angular-eslint/no-host-metadata-property': 'error',
     '@angular-eslint/no-input-rename': 'error',
