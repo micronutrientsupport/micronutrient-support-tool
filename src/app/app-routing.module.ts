@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppRoutes } from './app-routes';
-import { MapsToolComponent } from './mapsTool/mapsTool.component';
-import { QuickMapsComponent } from './mapsTool/pages/quickMaps/quickMaps.component';
 import { HomeComponent } from './pages/home/home.component';
+import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
+import { QuickMapsComponent } from './pages/quickMaps/quickMaps.component';
 
 const routes: Routes = [
   {
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.MAPS_TOOL.key,
-    component: MapsToolComponent, // maybe lazy loaded with it's own router?? not sure how route constants will work then.
+    component: MapsToolComponent,
   },
   {
     path: AppRoutes.QUICK_MAPS.key,

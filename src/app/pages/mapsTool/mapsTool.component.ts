@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AppRoutes } from '../app-routes';
+import { AppRoutes } from 'src/app/app-routes';
 
 @Component({
   selector: 'app-maps-tool',
