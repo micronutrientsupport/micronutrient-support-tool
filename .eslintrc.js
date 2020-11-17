@@ -100,7 +100,7 @@ module.exports = {
     "@typescript-eslint/dot-notation": "error",
     "@typescript-eslint/indent": [
       "error",
-      4,
+      2,
       {
         "FunctionDeclaration": {
           "parameters": "first"
