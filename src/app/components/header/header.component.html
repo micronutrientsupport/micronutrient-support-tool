@@ -1,15 +1,15 @@
 <!-- <a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a>--<a [routerLink]="ROUTES.MAPS_TOOL.route()">Maps Tools</a> -->
 <mat-toolbar color="primary" class="space-between">
     <div><a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a></div>
-    <div>
+    <div class="large">
         <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
         <a>Educational Resources</a>
         <a>Help</a>
         <a>Project Objectives</a>
     </div>
-    <div>
+    <div class="small">
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <!-- <i class="fas fa-bars"></i> -->
+            <i class="fas fa-bars"></i>
         </button>
         <mat-menu #menu="matMenu" class="mat-menu">
             <button mat-menu-item>

@@ -1,3 +1,5 @@
+
+
 mat-toolbar {
     height: 2.5em;
 }
@@ -28,3 +30,24 @@ a {
         color: #000;
     }
 }
+
+@media only screen and (max-width: 900px) {
+    .large {
+        display: none;
+    }
+    .small {
+        display: block;
+    }
+    .space-between {
+        padding: 0em 1em;
+    }
+  }
+
+  @media only screen and (min-width: 900px) {
+    .small {
+        display: none;
+    }
+    .large {
+        display: block;
+    }
+  }
