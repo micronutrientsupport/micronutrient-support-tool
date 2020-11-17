@@ -6,22 +6,22 @@ import { QuickMapsComponent } from './mapsTool/pages/quickMaps/quickMaps.compone
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-    {
-        path: AppRoutes.HOME.key,
-        component: HomeComponent,
-    },
-    {
-        path: AppRoutes.MAPS_TOOL.key,
-        component: MapsToolComponent, // maybe lazy loaded with it's own router?? not sure how route constants will work then.
-    },
-    {
-        path: AppRoutes.QUICK_MAPS.key,
-        component: QuickMapsComponent,
-    },
+  {
+    path: AppRoutes.HOME.key,
+    component: HomeComponent,
+  },
+  {
+    path: AppRoutes.MAPS_TOOL.key,
+    component: MapsToolComponent, // maybe lazy loaded with it's own router?? not sure how route constants will work then.
+  },
+  {
+    path: AppRoutes.QUICK_MAPS.key,
+    component: QuickMapsComponent,
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
