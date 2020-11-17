@@ -127,7 +127,7 @@ module.exports = {
     '@typescript-eslint/naming-convention': [
       'error',
       {
-        format: 'camelCase' | 'UPPER_CASE',
+        format: ['camelCase', 'UPPER_CASE'],
         leadingUnderscore: 'allow',
       },
     ],
