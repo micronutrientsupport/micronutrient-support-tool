@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injector } from '@angular/core';
 import { ApiResponse } from './apiResponse.interface';
 
 export class MyHttpCallErrorHandler {
-
+  constructor(private injector: Injector) {}
   public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -15,11 +18,6 @@ export class MyHttpCallErrorHandler {
         }
       }, 500);
     });
-  }
-
-  constructor(
-    injector: Injector,
-  ) {
   }
 
   public handleSuccess(res: any): Promise<ApiResponse> {
@@ -38,10 +36,18 @@ export class MyHttpCallErrorHandler {
     let errorMessage = '';
 
     switch (true) {
-      case (res.ok === false): errorMessage = res.message; break;
-      case ((res.status === 404) && (typeof body !== 'string')): returnValue = body; break; // just an empty dataset
-      case (typeof body !== 'string'): errorMessage = body.msg; break;
-      default: errorMessage = res.message; break;
+      case res.ok === false:
+        errorMessage = res.message;
+        break;
+      case res.status === 404 && typeof body !== 'string':
+        returnValue = body;
+        break; // just an empty dataset
+      case typeof body !== 'string':
+        errorMessage = body.msg;
+        break;
+      default:
+        errorMessage = res.message;
+        break;
     }
     // console.debug('error message', errorMessage, returnValue, res);
 
@@ -52,6 +58,4 @@ export class MyHttpCallErrorHandler {
       return Promise.resolve(returnValue);
     }
   }
-
-
 }

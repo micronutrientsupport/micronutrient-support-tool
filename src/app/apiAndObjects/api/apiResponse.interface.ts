@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/ban-types */
 export interface ApiResponse {
   readonly msg: string;
   readonly type: string;

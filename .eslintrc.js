@@ -108,6 +108,7 @@ module.exports = {
         FunctionExpression: {
           parameters: 'first',
         },
+        SwitchCase: 1,
       },
     ],
     '@typescript-eslint/member-delimiter-style': [
@@ -231,6 +232,7 @@ module.exports = {
     'no-debugger': 'error',
     'no-empty': 'off',
     'no-eval': 'error',
+    'no-extra-parens': ['error', 'functions'],
     'no-fallthrough': 'error',
     'no-invalid-this': 'off',
     'no-new-wrappers': 'error',
