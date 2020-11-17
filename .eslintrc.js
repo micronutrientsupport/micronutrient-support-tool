@@ -36,15 +36,27 @@ module.exports = {
     'eslint-plugin-prefer-arrow',
     '@typescript-eslint',
     '@typescript-eslint/tslint',
-    [
-      'error',
-      {
-        format: 'camelCase' | 'UPPER_CASE',
-        leadingUnderscore: 'allow',
-      },
-    ],
   ],
   rules: {
+    '@angular-eslint/component-class-suffix': 'error',
+    '@angular-eslint/component-selector': [
+      'error',
+      {
+        type: 'element',
+        prefix: 'app',
+        style: 'kebab-case',
+      },
+    ],
+    '@angular-eslint/contextual-lifecycle': 'error',
+    '@angular-eslint/directive-class-suffix': 'error',
+    '@angular-eslint/directive-selector': [
+      'error',
+      {
+        type: 'attribute',
+        prefix: 'app',
+        style: 'camelCase',
+      },
+    ],
     '@angular-eslint/no-conflicting-lifecycle': 'error',
     '@angular-eslint/no-host-metadata-property': 'error',
     '@angular-eslint/no-input-rename': 'error',
