@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesModule } from './pages/pages.module';
 import { ComponentsModule } from './components/components.module';
 import { MapsToolModule } from './mapsTool/mapsTool.module';
@@ -14,6 +15,7 @@ import { MapsToolModule } from './mapsTool/mapsTool.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     PagesModule,
     ComponentsModule,
     MapsToolModule,
@@ -21,4 +23,4 @@ import { MapsToolModule } from './mapsTool/mapsTool.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
