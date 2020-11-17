@@ -15,5 +15,3 @@ export class AppComponent {
     
   }
 }
-
-// comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action error comment with treally long long long line to test linting in action errordddddddddddddd
