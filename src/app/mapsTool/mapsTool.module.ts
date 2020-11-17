@@ -5,18 +5,9 @@ import { MapsToolComponent } from './mapsTool.component';
 import { QuickMapsComponent } from './pages/quickMaps/quickMaps.component';
 
 @NgModule({
-  declarations: [
-    MapsToolComponent,
-    QuickMapsComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-  ],
-  providers: [],
-  exports: [
-    MapsToolComponent,
-    QuickMapsComponent,
-  ]
+    declarations: [MapsToolComponent, QuickMapsComponent],
+    imports: [CommonModule, RouterModule],
+    providers: [],
+    exports: [MapsToolComponent, QuickMapsComponent],
 })
-export class MapsToolModule { }
+export class MapsToolModule {}

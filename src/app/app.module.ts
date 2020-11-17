@@ -10,14 +10,7 @@ import { MapsToolModule } from './mapsTool/mapsTool.module';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        PagesModule,
-        ComponentsModule,
-        MapsToolModule,
-    ],
+    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, PagesModule, ComponentsModule, MapsToolModule],
     providers: [],
     bootstrap: [AppComponent],
 })
