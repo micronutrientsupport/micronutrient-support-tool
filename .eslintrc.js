@@ -124,7 +124,14 @@ module.exports = {
             },
         ],
         '@typescript-eslint/member-ordering': 'error',
-        '@typescript-eslint/naming-convention': 'error',
+        '@typescript-eslint/naming-convention': [
+            'error',
+            {
+                // format options
+                format: 'camelCase' | 'UPPER_CASE',
+                leadingUnderscore: 'allow',
+            },
+        ],
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-empty-interface': 'error',
         '@typescript-eslint/no-explicit-any': 'off',
