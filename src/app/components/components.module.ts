@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -15,6 +17,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     CommonModule,
     RouterModule,
     MatToolbarModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   exports: [
     HeaderComponent,

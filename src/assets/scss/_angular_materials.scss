@@ -7,74 +7,74 @@
   http://mcg.mbitson.com/#!?mcgpalette0=%236979f7&themename=mcgtheme
   from base #6979f7
 */
+
+/* For use in src/lib/core/theming/_palette.scss */
 $_primary_pallete: (
-  50 : #edeffe,
-  100 : #d2d7fd,
-  200 : #b4bcfb,
-  300 : #96a1f9,
-  400 : #808df8,
-  500 : #6979f7,
-  600 : #6171f6,
-  700 : #5666f5,
-  800 : #4c5cf3,
-  900 : #3b49f1,
-  A100 : #ffffff,
-  A200 : #ffffff,
-  A400 : #d6d9ff,
-  A700 : #bdc1ff,
-  contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #ffffff, // changed
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
+    50 : #f3eafb,
+    100 : #e1cbf6,
+    200 : #cda8f0,
+    300 : #b985e9,
+    400 : #aa6be5,
+    500 : #9b51e0,
+    600 : #934adc,
+    700 : #8940d8,
+    800 : #7f37d3,
+    900 : #6d27cb,
+    A100 : #ffffff,
+    A200 : #e6d5ff,
+    A400 : #c8a2ff,
+    A700 : #b989ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
 );
-// from base #be52f2
+
+/* For use in src/lib/core/theming/_palette.scss */
 $_accent_pallete: (
-  50 : #f7eafd,
-  100 : #eccbfb,
-  200 : #dfa9f9,
-  300 : #d286f6,
-  400 : #c86cf4,
-  500 : #be52f2,
-  600 : #b84bf0,
-  700 : #af41ee,
-  800 : #a738ec,
-  900 : #9928e8,
-  A100 : #ffffff,
-  A200 : #f9f2ff,
-  A400 : #e3bfff,
-  A700 : #d8a6ff,
-  contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #ffffff,
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
+    50 : #e4e7eb,
+    100 : #bbc2cd,
+    200 : #8e9aab,
+    300 : #617289,
+    400 : #3f5370,
+    500 : #1d3557,
+    600 : #1a304f,
+    700 : #152846,
+    800 : #11223c,
+    900 : #0a162c,
+    A100 : #6896ff,
+    A200 : #3573ff,
+    A400 : #0250ff,
+    A700 : #0047e7,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
 );
-
-
-
 
 
 // Include the common styles for Angular Material. We include this here so that you only

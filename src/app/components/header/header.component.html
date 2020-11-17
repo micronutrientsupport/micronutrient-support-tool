@@ -1,4 +1,29 @@
 <!-- <a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a>--<a [routerLink]="ROUTES.MAPS_TOOL.route()">Maps Tools</a> -->
-<mat-toolbar>
-    <a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a>
+<mat-toolbar color="primary" class="space-between">
+    <div><a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a></div>
+    <div>
+        <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
+        <a>Educational Resources</a>
+        <a>Help</a>
+        <a>Project Objectives</a>
+    </div>
+    <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <!-- <i class="fas fa-bars"></i> -->
+        </button>
+        <mat-menu #menu="matMenu" class="mat-menu">
+            <button mat-menu-item>
+                <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
+            </button>
+            <button mat-menu-item>
+                <a>Educational Resources</a>
+            </button>
+            <button mat-menu-item>
+                <a>Help</a>
+            </button>
+            <button mat-menu-item>
+                <a>Project Objectives</a>
+            </button>
+        </mat-menu>
+    </div>
 </mat-toolbar>
