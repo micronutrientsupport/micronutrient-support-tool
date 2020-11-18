@@ -93,6 +93,10 @@ module.exports = {
           Symbol: {
             message: 'Avoid using the `Symbol` type. Did you mean `symbol`?',
           },
+          '{}': {
+            message: 'Use object instead',
+            fixWith: 'object',
+          },
         },
       },
     ],
@@ -108,6 +112,7 @@ module.exports = {
         FunctionExpression: {
           parameters: 'first',
         },
+        SwitchCase: 1,
       },
     ],
     '@typescript-eslint/member-delimiter-style': [
@@ -231,6 +236,7 @@ module.exports = {
     'no-debugger': 'error',
     'no-empty': 'off',
     'no-eval': 'error',
+    'no-extra-parens': ['error', 'functions'],
     'no-fallthrough': 'error',
     'no-invalid-this': 'off',
     'no-new-wrappers': 'error',
@@ -244,7 +250,13 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-trailing-spaces': 'error',
     'no-undef-init': 'error',
-    'no-underscore-dangle': 'error',
+    'no-underscore-dangle': [
+      'error',
+      {
+        allowAfterThis: true,
+        allowAfterSuper: true,
+      },
+    ],
     'no-unsafe-finally': 'error',
     'no-unused-labels': 'error',
     'no-var': 'error',

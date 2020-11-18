@@ -118,11 +118,10 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 // Include theme styles for your custom components.
 @include bmgf-maps-theme($app-theme);
 
+.mat-menu.mat-menu-panel {
+  border-radius: 2px;
+}
 
-  .mat-menu.mat-menu-panel  {
-    border-radius: 2px;
-  }
-
-  .mat-menu-item {
-    font-weight: 500;
-  }
+.mat-menu-item {
+  font-weight: 500;
+}
