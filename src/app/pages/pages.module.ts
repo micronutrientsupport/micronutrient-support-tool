@@ -8,12 +8,14 @@ import { HomeComponent } from './home/home.component';
 import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsComponent } from './quickMaps/quickMaps.component';
+import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 
 @NgModule({
   declarations: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
-    ProjectObjectivesComponent],
+    ProjectObjectivesComponent, StyleGuideComponent],
   imports: [CommonModule, RouterModule, AppMaterialModule],
   providers: [],
-  exports: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent, ProjectObjectivesComponent],
+  exports: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
+    ProjectObjectivesComponent, StyleGuideComponent],
 })
 export class PagesModule {}
