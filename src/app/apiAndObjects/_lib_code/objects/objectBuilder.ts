@@ -22,15 +22,15 @@ export class ObjectBuilder {
     return null != currentInstance
       ? Promise.resolve(currentInstance)
       : new Promise<ObjectBuilder>((resolve) => {
-          const subs = this.instanceSource.subscribe((builder: ObjectBuilder) => {
-            if (null != builder) {
-              if (null != subs) {
-                subs.unsubscribe();
-              }
-              resolve(builder);
+        const subs = this.instanceSource.subscribe((builder: ObjectBuilder) => {
+          if (null != builder) {
+            if (null != subs) {
+              subs.unsubscribe();
             }
-          });
+            resolve(builder);
+          }
         });
+      });
   }
 
   public build<T>(typeObject: typeof BaseObject, data: Record<string, unknown>): Promise<T> {

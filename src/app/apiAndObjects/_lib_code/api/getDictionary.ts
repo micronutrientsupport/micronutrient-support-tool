@@ -5,11 +5,9 @@ import { Dictionary } from '../objects/dictionary';
 import { RequestMethod } from './apiCaller';
 import { BaseDictionaryItem } from '../objects/baseDictionaryItem';
 
-export class GetDictionary<DICTIONARY_TYPE_ENUM = any> extends CacheableEndpoint<
-  Dictionary<DICTIONARY_TYPE_ENUM>,
-  GetDictionaryItemsParams,
-  DictionaryItem
-> {
+export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
+  extends CacheableEndpoint<Dictionary<DICTIONARY_TYPE_ENUM>, GetDictionaryItemsParams, DictionaryItem> {
+
   protected mockItemsCount = 20;
   protected mockObjects: Array<Record<string, unknown>>;
 
