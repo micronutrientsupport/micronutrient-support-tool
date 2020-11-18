@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
@@ -16,7 +16,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
   templateUrl: './quickMaps.component.html',
   styleUrls: ['./quickMaps.component.scss'],
 })
-export class QuickMapsComponent implements OnInit {
+export class QuickMapsComponent implements AfterViewInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
@@ -61,7 +61,7 @@ export class QuickMapsComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.initialiseMap();
   }
 
