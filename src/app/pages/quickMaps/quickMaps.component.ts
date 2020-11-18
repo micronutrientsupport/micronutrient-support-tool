@@ -10,29 +10,66 @@ import * as L from 'leaflet';
 export class QuickMapsComponent implements OnInit {
   public geojson: L.GeoJSON;
   public map: L.Map;
+  public info: L.Control;
 
-
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.initialiseMap();
   }
 
   public initialiseMap(): void {
-    this.map = L.map('map').setView([51.505, -0.09], 13);
+    this.map = L.map('map').setView([6.6194073, 20.9367017], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    void this.http.get('./assets/geoJSON/africanNations.json').toPromise()
+    void this.http
+      .get('./assets/geoJSON/africanNations.json')
+      .toPromise()
       .then((json: any) => {
         this.geojson = L.geoJSON(json, {
-
+          style: (feature) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            if (feature.properties.sovereignt === 'Malawi') {
+              return {
+                fillColor: 'green',
+                fillOpacity: 0.5,
+              };
+            }
+          },
+          onEachFeature: (feature, layer: L.Layer) => {
+            layer.on({
+              mouseover: () => {
+                this.highlightFeature(layer);
+              },
+              mouseout: () => {
+                this.resetHighlight(layer);
+              },
+              click: (e) => {
+                this.map.fitBounds(e.target.getBounds());
+                window.alert(`you clicked on ${feature.properties.sovereignt}`);
+              },
+            });
+          },
         }).addTo(this.map);
       });
   }
-}
 
+  public highlightFeature(layer: any): void {
+    layer.setStyle({
+      weight: 5,
+      color: '#666',
+      dashArray: '',
+      fillOpacity: 0.2,
+    });
+
+    if (!L.Browser.ie && !L.Browser.edge) {
+      layer.bringToFront();
+    }
+  }
+
+  public resetHighlight(layer: L.Layer): void {
+    this.geojson.resetStyle(layer);
+  }
+}
