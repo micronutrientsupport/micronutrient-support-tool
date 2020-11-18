@@ -4,7 +4,7 @@
 import { Injector } from '@angular/core';
 import { ApiResponse } from './apiResponse.interface';
 
-export class MyHttpCallErrorHandler {
+export class MapsHttpResponseHandler {
   constructor(private injector: Injector) {}
   public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
@@ -20,8 +20,21 @@ export class MyHttpCallErrorHandler {
     });
   }
 
-  public handleSuccess(res: any): Promise<ApiResponse> {
-    return Promise.resolve(res as ApiResponse);
+  public handleSuccess(res: ApiResponse): Promise<any> {
+    // console.debug(res);
+    return new Promise((resolve, reject) => {
+      // validate that it has a data attribute
+      if (undefined === res.data) {
+        // add a message to be handled by the handleError method
+        reject({
+          message: 'Internally generated error: No data attribute in api response',
+          response: res,
+        });
+      } else {
+        // return the data element
+        resolve(res.data);
+      }
+    });
   }
 
   /*

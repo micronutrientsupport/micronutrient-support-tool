@@ -1,11 +1,11 @@
 import { ApiCaller } from './apiCaller';
 import { HttpClient } from '@angular/common/http';
-import { HttpCallErrorHandler } from './httpCallErrorHandler.interface';
 import { ObjectBuilder } from '../objects/objectBuilder';
 import { GetDictionary } from './getDictionary';
 import { Endpoint } from './endpoint.abstract';
 import { Dictionary } from '../objects/dictionary';
 import { Injector } from '@angular/core';
+import { HttpResponseHandler } from './httpResponseHandler.interface';
 
 export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
   protected apiCaller: ApiCaller;
@@ -17,19 +17,29 @@ export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
   constructor(
     private injector: Injector,
     httpClient: HttpClient,
-    httpCallErrorHandler: HttpCallErrorHandler,
+    httpCallErrorHandler: HttpResponseHandler,
     apiBaseUrl: string,
   ) {
-
-    this.apiCaller = new ApiCaller(
-      httpClient,
-      httpCallErrorHandler,
-      apiBaseUrl,
-    );
+    this.apiCaller = new ApiCaller(httpClient, httpCallErrorHandler, apiBaseUrl);
 
     ObjectBuilder.setApi(this);
   }
 
+  public getDictionaryEndpoint(type: DICTIONARY_TYPE_ENUM): GetDictionary {
+    return this.dictionaries.get(type);
+  }
+  public getDictionary(type: DICTIONARY_TYPE_ENUM, useCache?: boolean): Promise<Dictionary> {
+    const endpoint = this.getDictionaryEndpoint(type);
+    return null == endpoint ? Promise.reject() : endpoint.call(null, useCache);
+  }
+  public getDictionaryEndpoints(types: Array<DICTIONARY_TYPE_ENUM>): Array<GetDictionary> {
+    return types.map((type: DICTIONARY_TYPE_ENUM) => this.dictionaries.get(type));
+  }
+
+  public getDictionaries(types: Array<DICTIONARY_TYPE_ENUM>, useCache?: boolean): Promise<Array<Dictionary>> {
+    const endpoints = this.getDictionaryEndpoints(types);
+    return Promise.all(endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache)));
+  }
   protected addDefaultHeader(key: string, value: string): this {
     this.apiCaller.addDefaultHeader(key, value);
     return this;
@@ -61,27 +71,5 @@ export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
       this.addDictionary(endpoint);
     });
     return this;
-  }
-
-  public getDictionaryEndpoint(type: DICTIONARY_TYPE_ENUM): GetDictionary {
-    return this.dictionaries.get(type);
-  }
-  public getDictionary(type: DICTIONARY_TYPE_ENUM, useCache?: boolean): Promise<Dictionary> {
-    const endpoint = this.getDictionaryEndpoint(type);
-    return (null == endpoint)
-      ? Promise.reject()
-      : endpoint.call(null, useCache);
-  }
-  public getDictionaryEndpoints(types: Array<DICTIONARY_TYPE_ENUM>): Array<GetDictionary> {
-    return types.map((type: DICTIONARY_TYPE_ENUM) => {
-      return this.dictionaries.get(type);
-    });
-  }
-
-  public getDictionaries(types: Array<DICTIONARY_TYPE_ENUM>, useCache?: boolean): Promise<Array<Dictionary>> {
-    const endpoints = this.getDictionaryEndpoints(types);
-    return Promise.all(
-      endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache))
-    );
   }
 }

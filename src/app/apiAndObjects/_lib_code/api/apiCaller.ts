@@ -1,19 +1,19 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpCallErrorHandler } from './httpCallErrorHandler.interface';
+import { HttpResponseHandler } from './httpResponseHandler.interface';
 
 export enum RequestMethod {
-  GET, POST, PUT, PATCH, DELETE, // OPTIONS, TRACE, HEAD,
+  GET,
+  POST,
+  PUT,
+  PATCH,
+  DELETE, // OPTIONS, TRACE, HEAD,
 }
 
 export class ApiCaller {
   private headers = new HttpHeaders();
 
-  constructor(
-    private http: HttpClient,
-    private httpCallErrorHandler: HttpCallErrorHandler,
-    private baseUrl: string,
-  ) { }
+  constructor(private http: HttpClient, private httpCallErrorHandler: HttpResponseHandler, private baseUrl: string) {}
 
   public doCall(
     segments: string | Array<string>,
@@ -25,7 +25,7 @@ export class ApiCaller {
     const url = this.getUrl(segments);
     // console.debug('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
-      headers: (null != headerFilter) ? headerFilter(this.headers) : this.headers,
+      headers: null != headerFilter ? headerFilter(this.headers) : this.headers,
       params: queryParams,
     };
 
@@ -51,16 +51,11 @@ export class ApiCaller {
       return response
         .toPromise()
         .then((responseJson: any) => {
-          // TODO: Check response meta
-          // console.debug(responseJson);
-
           return this.httpCallErrorHandler.handleSuccess(responseJson);
         })
-        .catch(res => {
+        .catch((res) => {
           console.log('doCall handleError', res);
-          return (null != this.httpCallErrorHandler)
-            ? this.httpCallErrorHandler.handleError(res)
-            : res;
+          return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
         });
     }
     return null;
