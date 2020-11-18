@@ -1,0 +1,51 @@
+mat-toolbar {
+    height: 2.5em;
+}
+
+a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0em 4em;
+
+    & div:nth-child(1) {
+        font-size: 17px;
+        a { color: #fff;}
+    }
+
+    & div:nth-child(2) {
+        font-size: 14px;
+        a { color: #fff;}
+
+        & a {
+            margin-left: 2em;
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .large {
+        display: none;
+    }
+    .small {
+        display: block;
+    }
+    .space-between {
+        padding: 0em 1em;
+    }
+  }
+
+  @media only screen and (min-width: 900px) {
+    .small {
+        display: none;
+    }
+    .large {
+        display: block;
+    }
+  }

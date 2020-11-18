@@ -1,81 +1,83 @@
+// MAPS Custom Angular Materials theme
+
 // @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular/material/theming';
-// Plus imports for other components in your app.
+@import 'variables';
+@import 'scroll';
+@import 'page';
+@import 'typography';
 
 /*
   Generated here:
   http://mcg.mbitson.com/#!?mcgpalette0=%236979f7&themename=mcgtheme
   from base #6979f7
 */
+/* For use in src/lib/core/theming/_palette.scss */
 $_primary_pallete: (
-  50 : #edeffe,
-  100 : #d2d7fd,
-  200 : #b4bcfb,
-  300 : #96a1f9,
-  400 : #808df8,
-  500 : #6979f7,
-  600 : #6171f6,
-  700 : #5666f5,
-  800 : #4c5cf3,
-  900 : #3b49f1,
-  A100 : #ffffff,
-  A200 : #ffffff,
-  A400 : #d6d9ff,
-  A700 : #bdc1ff,
+  50: #eee7f4,
+  100: #d4c4e3,
+  200: #b89dd1,
+  300: #9b75bf,
+  400: #8558b1,
+  500: #703aa3,
+  600: #68349b,
+  700: #5d2c91,
+  800: #532588,
+  900: #411877,
+  A100: #cfb0ff,
+  A200: #b07dff,
+  A400: #924aff,
+  A700: #8230ff,
   contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #ffffff, // changed
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
 );
-// from base #be52f2
+
 $_accent_pallete: (
-  50 : #f7eafd,
-  100 : #eccbfb,
-  200 : #dfa9f9,
-  300 : #d286f6,
-  400 : #c86cf4,
-  500 : #be52f2,
-  600 : #b84bf0,
-  700 : #af41ee,
-  800 : #a738ec,
-  900 : #9928e8,
-  A100 : #ffffff,
-  A200 : #f9f2ff,
-  A400 : #e3bfff,
-  A700 : #d8a6ff,
+  50: #ffebef,
+  100: #ffccd7,
+  200: #ffabbc,
+  300: #ff89a1,
+  400: #ff6f8c,
+  500: #ff5678,
+  600: #ff4f70,
+  700: #ff4565,
+  800: #ff3c5b,
+  900: #ff2b48,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffd8dd,
+  A700: #ffbec6,
   contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #000000,
-      500 : #ffffff,
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
 );
-
-
-
-
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -86,10 +88,10 @@ $_accent_pallete: (
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $app-primary: mat-palette($_primary_pallete);
-$app-accent:  mat-palette($_accent_pallete);
+$app-accent: mat-palette($_accent_pallete);
 
 // The warn palette is optional (defaults to red).
-$app-warn:    mat-palette($mat-red);
+$app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
@@ -99,7 +101,8 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 // that you are using.
 @include angular-material-theme($app-theme);
 
-
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
 
 // Define a mixin that accepts a theme and outputs the theme-specific styles.
 @mixin bmgf-maps-theme($theme) {
@@ -109,11 +112,16 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
   $warn: map-get($theme, warn);
 
   body.bmgf-maps-theme {
-
   }
 }
 
-
-
 // Include theme styles for your custom components.
 @include bmgf-maps-theme($app-theme);
+
+.mat-menu.mat-menu-panel {
+  border-radius: 2px;
+}
+
+.mat-menu-item {
+  font-weight: 500;
+}

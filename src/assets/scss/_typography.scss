@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/*
+https://material.angular.io/guide/typography
+
+display-4	.mat-display-4	Large, one-off header, usually at the top of the page (e.g. a hero header).
+display-3	.mat-display-3	Large, one-off header, usually at the top of the page (e.g. a hero header).
+display-2	.mat-display-2	Large, one-off header, usually at the top of the page (e.g. a hero header).
+display-1	.mat-display-1	Large, one-off header, usually at the top of the page (e.g. a hero header).
+headline	.mat-h1, .mat-headline	Section heading corresponding to the <h1> tag.
+title	.mat-h2, .mat-title	Section heading corresponding to the <h2> tag.
+subheading-2	.mat-h3, .mat-subheading-2	Section heading corresponding to the <h3> tag.
+subheading-1	.mat-h4, .mat-subheading-1	Section heading corresponding to the <h4> tag.
+body-1	.mat-body, .mat-body-1	Base body text.
+body-2	.mat-body-strong, .mat-body-2	Bolder body text.
+caption	.mat-small, .mat-caption	Smaller body and hint text.
+button	None. Used only in components.	Buttons and anchors.
+input	None. Used only in components.	Form input fields.
+*/
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Quicksand',
+  $headline: mat-typography-level(48px, 48px, 500),
+  $title: mat-typography-level(25px, 30px, 300),
+  $body-1: mat-typography-level(16px, 24px, 400),
+);
