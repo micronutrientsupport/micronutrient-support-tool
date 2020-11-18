@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
@@ -30,7 +33,6 @@ export class QuickMapsComponent implements OnInit {
       .then((json: any) => {
         this.geojson = L.geoJSON(json, {
           style: (feature) => {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (feature.properties.sovereignt === 'Malawi') {
               return {
                 fillColor: 'green',
@@ -56,6 +58,7 @@ export class QuickMapsComponent implements OnInit {
       });
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public highlightFeature(layer: any): void {
     layer.setStyle({
       weight: 5,
