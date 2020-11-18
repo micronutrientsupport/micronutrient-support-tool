@@ -9,11 +9,11 @@ export class MicronutrientDataOption extends BaseObject {
   public id: string;
   public name: string;
 
-  public static makeItemFromObject(source: object): MicronutrientDataOption {
+  public static makeItemFromObject(source: Record<string, unknown>): MicronutrientDataOption {
     return super.makeItemFromObject(source) as MicronutrientDataOption;
   }
 
-  public static createMockItems(count: number): Array<object> {
+  public static createMockItems(count: number): Array<Record<string, unknown>> {
     return new Array(count).fill(null).map((val, index: number) => {
       const returnObj = {};
       returnObj[MicronutrientDataOption.KEYS.ID] = `${index}`;
@@ -23,7 +23,7 @@ export class MicronutrientDataOption extends BaseObject {
   }
 
   protected populateValues(): void {
-    super.populateValues();
+    void super.populateValues();
 
     this.id = this._getString(MicronutrientDataOption.KEYS.ID);
     this.name = this._getString(MicronutrientDataOption.KEYS.NAME);

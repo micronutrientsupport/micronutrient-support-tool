@@ -7,13 +7,17 @@ export class BaseDictionaryItem extends BaseObject {
   public static readonly NAME_ATTRIBUTE: string = 'translation';
   public static readonly DESC_ATTRIBUTE: string = 'description';
 
+  public id: string;
+  public name: string;
+  public description: string;
+
   protected _sourceAttributeId = BaseDictionaryItem.ID_ATTRIBUTE;
   protected _sourceAttributeName = BaseDictionaryItem.NAME_ATTRIBUTE;
   protected _sourceAttributeDesc = BaseDictionaryItem.DESC_ATTRIBUTE;
 
-  public id: string;
-  public name: string;
-  public description: string;
+  protected constructor(protected _sourceObject: Record<string, unknown>) {
+    super(_sourceObject);
+  }
 
   public static toString(source: DictionaryItem | Array<DictionaryItem>): string {
     return (Array.isArray(source) ? source : [source])
@@ -23,7 +27,7 @@ export class BaseDictionaryItem extends BaseObject {
       .join(', ');
   }
 
-  public static makeItemFromObject(source: object): BaseDictionaryItem {
+  public static makeItemFromObject(source: Record<string, unknown>): BaseDictionaryItem {
     return super.makeItemFromObject(source) as BaseDictionaryItem;
   }
 
@@ -36,7 +40,7 @@ export class BaseDictionaryItem extends BaseObject {
     return super.makeItemFromObject(source) as BaseDictionaryItem;
   }
 
-  public static createMockItems(count: number, type: DictionaryType): Array<object> {
+  public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
     return new Array(count).fill(null).map((val, index: number) => {
       const returnObj = {};
       returnObj[this.ID_ATTRIBUTE] = `${index}`;
@@ -46,12 +50,8 @@ export class BaseDictionaryItem extends BaseObject {
     });
   }
 
-  protected constructor(protected _sourceObject: object) {
-    super(_sourceObject);
-  }
-
   protected populateValues(): void {
-    super.populateValues();
+    void super.populateValues();
 
     this.id = this._getString(this._sourceAttributeId);
     this.name = this._getString(this._sourceAttributeName);

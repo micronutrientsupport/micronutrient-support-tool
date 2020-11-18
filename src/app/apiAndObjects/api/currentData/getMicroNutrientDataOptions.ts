@@ -3,9 +3,9 @@ import { RequestMethod } from '../../_lib_code/api/apiCaller';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 
 export class GetMicronutrientDataOptions extends Endpoint<
-  Array<MicronutrientDataOption>,
-  GetMicronutrientDataOptionsParams,
-  MicronutrientDataOption
+Array<MicronutrientDataOption>,
+GetMicronutrientDataOptionsParams,
+MicronutrientDataOption
 > {
   protected callLive(params: GetMicronutrientDataOptionsParams): Promise<Array<MicronutrientDataOption>> {
     throw new Error('Method not implemented.');

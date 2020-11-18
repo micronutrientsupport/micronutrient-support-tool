@@ -13,10 +13,11 @@ export class CountryDictionaryItem extends BaseDictionaryItem {
   //   this.outline = this._getArray<number>(CountryDictionaryItem.OUTLINE_ATTRIBUTE);
   // }
 
-  public static createMockItems(count: number, type: DictionaryType): Array<object> {
-    return super.createMockItems(count, type).map((item: object, index: number) => {
-      // returnObj[this.OUTLINE_ATTRIBUTE] = [0, 10, 20, 0];
-      return item;
-    });
+  public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
+    return super.createMockItems(count, type).map(
+      (item: Record<string, unknown>, index: number) =>
+        // returnObj[this.OUTLINE_ATTRIBUTE] = [0, 10, 20, 0];
+        item,
+    );
   }
 }

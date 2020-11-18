@@ -26,7 +26,7 @@ export class QuickMapsComponent {
   public selectedPopulateionGroup: DictionaryItem;
 
   constructor(dictionariesService: DictionaryService, private currentDataService: CurrentDataService) {
-    dictionariesService
+    void dictionariesService
       .getDictionaries([
         DictionaryType.COUNTRIES,
         DictionaryType.REGIONS,
@@ -40,16 +40,17 @@ export class QuickMapsComponent {
         this.popGroupsDictionary = dicts.shift();
 
         // test
-        (this.selectedCountry = this.countriesDictionary.getItems()[0]),
-          (this.selectedRegion = this.regionDictionary.getItems()[0]),
-          (this.selectedMicronutrient = this.micronutrientsDictionary.getItems()[0]),
-          (this.selectedPopulateionGroup = this.popGroupsDictionary.getItems()[0]),
-          this.updateMicronutrientDataOptions();
+        this.selectedCountry = this.countriesDictionary.getItems()[0];
+        this.selectedRegion = this.regionDictionary.getItems()[0];
+        this.selectedMicronutrient = this.micronutrientsDictionary.getItems()[0];
+        this.selectedPopulateionGroup = this.popGroupsDictionary.getItems()[0];
+
+        this.updateMicronutrientDataOptions();
       });
   }
 
   public updateMicronutrientDataOptions(): void {
-    this.currentDataService
+    void this.currentDataService
       .getMicronutrientDataOptions(
         this.searchByCountry ? this.selectedCountry : this.selectedRegion,
         this.selectedMicronutrient,

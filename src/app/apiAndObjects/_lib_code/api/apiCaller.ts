@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 
+// eslint-disable-next-line no-shadow
 export enum RequestMethod {
   GET,
   POST,
@@ -19,9 +20,9 @@ export class ApiCaller {
     segments: string | Array<string>,
     requestMethod: RequestMethod,
     queryParams = {},
-    bodyData: object | FormData = {},
+    bodyData: Record<string, unknown> | FormData = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
-  ): Promise<any> {
+  ): Promise<unknown> {
     const url = this.getUrl(segments);
     // console.debug('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
@@ -50,22 +51,13 @@ export class ApiCaller {
     if (response != null) {
       return response
         .toPromise()
-        .then((responseJson: any) => {
-          return this.httpCallErrorHandler.handleSuccess(responseJson);
-        })
-        .catch((res) => {
+        .then((responseJson: unknown) => this.httpCallErrorHandler.handleSuccess(responseJson))
+        .catch((res: unknown) => {
           console.log('doCall handleError', res);
           return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
         });
     }
     return null;
-  }
-
-  private getUrl(segments: string | Array<string>): string {
-    segments = Array.isArray(segments) ? segments : [segments];
-
-    const url = `${this.baseUrl}/${segments.join('/')}`;
-    return url;
   }
 
   public addDefaultHeader(key: string, value: string): this {
@@ -76,5 +68,12 @@ export class ApiCaller {
   public removeDefaultHeader(key: string): this {
     this.headers = this.headers.delete(key);
     return this;
+  }
+
+  private getUrl(segments: string | Array<string>): string {
+    segments = Array.isArray(segments) ? segments : [segments];
+
+    const url = `${this.baseUrl}/${segments.join('/')}`;
+    return url;
   }
 }

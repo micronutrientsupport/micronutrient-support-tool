@@ -1,4 +1,4 @@
-export interface HttpResponseHandler<ResponseType = any> {
+export interface HttpResponseHandler<ResponseType = unknown> {
   handleSuccess(response: ResponseType): Promise<ResponseType>;
-  handleError(response: any): Promise<ResponseType>;
+  handleError(response: unknown): Promise<ResponseType>;
 }

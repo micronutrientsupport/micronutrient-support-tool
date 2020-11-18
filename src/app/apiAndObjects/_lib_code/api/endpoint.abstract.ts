@@ -109,11 +109,13 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
   }
 
   protected buildObjectsFromResponse(object: typeof BaseObject, dataProm: Promise<any>): Promise<Array<OBJECT_TYPE>> {
-    return dataProm.then((data: any) => {
+    return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
       // console.debug('buildObjectsFromResponse', data);
       // if not an array convert to an array
-      data = Array.isArray(data) ? data : [data];
-      return ObjectBuilder.instance.then((builder: ObjectBuilder) => builder.buildArray<OBJECT_TYPE>(object, data));
+      const dataArray = Array.isArray(data) ? data : [data];
+      return ObjectBuilder.instance.then((builder: ObjectBuilder) =>
+        builder.buildArray<OBJECT_TYPE>(object, dataArray),
+      );
     });
   }
 
@@ -121,30 +123,28 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     return this.buildObjectsFromResponse(object, dataProm).then((objectArray: Array<OBJECT_TYPE>) => objectArray[0]); // just the one result
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  protected createBodyFormData(bodyData: object): FormData {
+  protected createBodyFormData(bodyData: Record<string, any>): FormData {
     // console.debug('createBodyFormData', bodyData);
     const formData = new FormData();
     Object.keys(bodyData).forEach((key: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const value = bodyData[key];
       // if it's an array of files append differently
       // TODO: check if this was just the way it was for the submission endpoint in eurovolc.
       // Maybe this should happen for all arrays, not just files
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (Array.isArray(bodyData[key]) && bodyData[key][0] instanceof File) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        bodyData[key].forEach((element: any) => {
+      if (Array.isArray(value) && value[0] instanceof File) {
+        value.forEach((element: any) => {
           formData.append(key, element);
         });
       } else {
-        formData.append(key, bodyData[key]);
+        formData.append(key, value);
       }
     });
     return formData;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  protected removeNullsFromObject(object: object): {} {
-    const returnObj = {};
+  protected removeNullsFromObject(object: Record<string, unknown>): Record<string, unknown> {
+    const returnObj: Record<string, unknown> = {};
     if (null != object) {
       Object.keys(object).forEach((key: string) => {
         if (null != object[key]) {

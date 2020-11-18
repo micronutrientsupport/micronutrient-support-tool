@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   version: require('../../package.json').version,
   // buildDate: '{BUILD-DATE}', // populated during pipeline
   // gitCommitHash: '{GIT-COMMIT-HASH}', // populated during pipeline

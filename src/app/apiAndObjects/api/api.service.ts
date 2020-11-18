@@ -29,6 +29,7 @@ export class ApiService extends BaseApi<DictionaryType> {
       .setMockObjects(BaseDictionaryItem.createMockItems(20, DictionaryType.POPULATION_GROUPS)),
   ];
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly currentData = {
     getMicronutrientDataOptions: new GetMicronutrientDataOptions(this.USE_LIVE_API),
   };
@@ -39,6 +40,7 @@ export class ApiService extends BaseApi<DictionaryType> {
     this.addEndpoints(Object.values(this.currentData));
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   constructor(httpClient: HttpClient, injector: Injector) {
     super(injector, httpClient, new MapsHttpResponseHandler(injector), environment.apiBaseUrl);
     this.configure();
