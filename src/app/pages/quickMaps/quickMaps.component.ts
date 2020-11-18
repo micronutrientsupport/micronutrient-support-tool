@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -11,7 +12,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
   templateUrl: './quickMaps.component.html',
   styleUrls: ['./quickMaps.component.scss'],
 })
-export class QuickMapsComponent {
+export class QuickMapsComponent implements OnInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
@@ -47,6 +48,13 @@ export class QuickMapsComponent {
 
         this.updateMicronutrientDataOptions();
       });
+  }
+
+  public ngOnInit(): void {
+    const myMap = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(myMap);
   }
 
   public updateMicronutrientDataOptions(): void {
