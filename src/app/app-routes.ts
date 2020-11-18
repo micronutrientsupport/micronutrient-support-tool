@@ -38,4 +38,22 @@ export class AppRoutes {
       return getRoute(this);
     },
   } as AppRoute;
+  public static readonly EDUCATIONAL_RESOURCES = {
+    key: 'educational-resources',
+    route(): Array<string> {
+      return getRoute(this);
+    },
+  } as AppRoute;
+  public static readonly HELP = {
+    key: 'help',
+    route(): Array<string> {
+      return getRoute(this);
+    },
+  } as AppRoute;
+  public static readonly PROJECT_OBJECTIVES = {
+    key: 'project-objectives',
+    route(): Array<string> {
+      return getRoute(this);
+    },
+  } as AppRoute;
 }
