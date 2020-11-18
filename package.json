@@ -31,7 +31,6 @@
     "@angular/platform-browser-dynamic": "~10.2.0",
     "@angular/router": "~10.2.0",
     "@fortawesome/fontawesome-free": "^5.15.1",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
