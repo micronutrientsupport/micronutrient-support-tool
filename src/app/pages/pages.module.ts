@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AppMaterialModule } from '../app-material.module';
 import { EducationalResourcesComponent } from './educationalResources/educationalResources.component';
 import { HelpComponent } from './help/help.component';
@@ -18,7 +19,7 @@ import { QuickMapsComponent } from './quickMaps/quickMaps.component';
     HelpComponent,
     ProjectObjectivesComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
   providers: [],
   exports: [
     HomeComponent,

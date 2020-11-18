@@ -8,4 +8,6 @@ import { AppRoutes } from 'src/app/app-routes';
 })
 export class MapsToolComponent {
   public ROUTES = AppRoutes;
+
+
 }
