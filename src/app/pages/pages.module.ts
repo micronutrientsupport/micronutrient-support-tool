@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -13,7 +14,13 @@ import { QuickMapsComponent } from './quickMaps/quickMaps.component';
 @NgModule({
   declarations: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
     ProjectObjectivesComponent],
-  imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AppMaterialModule,
+    LeafletModule,
+    HttpClientModule,
+  ],
   providers: [],
   exports: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent, ProjectObjectivesComponent],
 })
