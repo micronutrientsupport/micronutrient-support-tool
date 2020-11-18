@@ -63,3 +63,7 @@ $_accent_pallete: (
     A700: #000000,
   ),
 );
+
+$color_primary: map_get($_primary_pallete, A700);
+$color_grey: #4f4f4f;
+$color_blue: #1d3557;
