@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { DictionaryService } from './services/dictionary.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,9 +7,5 @@ import { DictionaryService } from './services/dictionary.service';
 export class AppComponent {
   title = 'micronutrient-support-tool';
 
-  constructor(
-    dictionaryService: DictionaryService,
-  ) {
-    
-  }
+  constructor() {}
 }

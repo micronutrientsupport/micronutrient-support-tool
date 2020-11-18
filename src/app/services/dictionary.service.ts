@@ -5,13 +5,10 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 
 @Injectable()
 export class DictionaryService {
-
-  constructor(
-    private apiService: ApiService,
-  ) {
+  constructor(private apiService: ApiService) {
     // test
-    // this.getDictionary(DictionaryType.COUNTRIES).then((dict) => {
-    //   console.debug('countries', dict);
+    // this.getDictionary(DictionaryType.POPULATION_GROUPS).then((dict) => {
+    //   console.debug('DICT', dict);
     // });
   }
 
@@ -21,5 +18,4 @@ export class DictionaryService {
   public getDictionaries(types: Array<DictionaryType>): Promise<Array<Dictionary>> {
     return this.apiService.getDictionaries(types);
   }
-
 }
