@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DictionaryType } from '../apiAndObjects/api/dictionaryType.enum';
-import { Dictionary } from '../apiAndObjects/_lib_code/objects/dictionary';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
 import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
