@@ -5,7 +5,7 @@ import { DictionaryType } from './dictionaryType.enum';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { BaseDictionaryItem } from '../_lib_code/objects/baseDictionaryItem';
-import { MapsHttpResponseHandler } from './MapsHttpResponseHandler';
+import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { GetMicronutrientDataOptions } from './currentData/getMicroNutrientDataOptions';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
