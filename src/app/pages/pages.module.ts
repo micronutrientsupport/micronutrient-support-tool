@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -21,7 +22,7 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     ProjectObjectivesComponent,
     StyleGuideComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule, HttpClientModule],
   providers: [],
   exports: [
     HomeComponent,
