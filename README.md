@@ -7,7 +7,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Development
 
-Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode formatter for consistency in linting.
+Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode formatter for consistency in code format/style.
+
+Linting is provided by ESLint as TSLint is [deprecated](https://medium.com/palantir/tslint-in-2019-1a144c2317a9).
 
 ## Development server
 
