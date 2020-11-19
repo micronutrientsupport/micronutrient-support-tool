@@ -1,4 +1,12 @@
-<h1>quick-maps component</h1>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <h3>Search Form</h3>
+  </mat-drawer>
 
-<div id="map" style="height: 300px;">
-</div>
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>
+    <div class="map-containter">
+      <div id="map"></div>
+    </div>
+  </div>
+</mat-drawer-container>

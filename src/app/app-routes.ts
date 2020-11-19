@@ -56,4 +56,10 @@ export class AppRoutes {
       return getRoute(this);
     },
   } as AppRoute;
+  public static readonly STYLE_GUIDE = {
+    key: 'style-guide',
+    route(): Array<string> {
+      return getRoute(this);
+    },
+  } as AppRoute;
 }
