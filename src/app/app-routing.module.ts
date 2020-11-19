@@ -6,7 +6,7 @@ import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObjectives.component';
-import { QuickMapsComponent } from './pages/quickMaps/quickMaps.component';
+import { QuickMapsComponent } from './pages/quickMaps/pages/quickMaps.component';
 
 const routes: Routes = [
   {

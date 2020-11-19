@@ -8,17 +8,11 @@
   height: 100%;
   align-items: center;
   justify-content: center;
-  .map-containter {
-    display: block;
+  app-map-page {
     width: 100%;
   }
 }
 
 .example-sidenav {
-  padding: 20px;
-}
-
-#map {
-  height: 500px;
   padding: 20px;
 }

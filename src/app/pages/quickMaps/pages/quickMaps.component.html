@@ -1,12 +1,10 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <h3>Search Form</h3>
+    <app-side-nav-content></app-side-nav-content>
   </mat-drawer>
 
   <div class="example-sidenav-content">
     <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>
-    <div class="map-containter">
-      <div id="map"></div>
-    </div>
+    <app-map-page></app-map-page>
   </div>
 </mat-drawer-container>
