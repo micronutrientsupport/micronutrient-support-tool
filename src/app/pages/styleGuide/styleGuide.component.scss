@@ -1,0 +1,84 @@
+@import 'src/assets/scss/_colour.scss';
+
+.container {
+    margin: 1em;
+}
+
+.colours{
+  display: flex;
+  flex-flow: row wrap;
+  margin: 1em;
+  
+  & .circle {
+    border-radius: 2px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.headings {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    
+  & h1, h2, h3, h4, h5, h6 {
+        margin: 1em;
+    }
+}
+
+.menus {
+    margin: 1em;
+}
+
+.button-toggle {
+  display: flex;
+  flex-flow: row wrap;
+  background-color: $color_background_form;
+  margin: 1em;
+  padding: 1em;
+
+  & div {
+    margin-left: 2em;
+  }
+}
+
+.buttons {
+    & section {
+        display: table;
+      }
+      
+    & .example-label {
+        display: table-cell;
+        font-size: 14px;
+        margin-left: 8px;
+        min-width: 120px;
+      }
+      
+    & .example-button-row {
+        display: table-cell;
+        width: 490px;
+      }
+      
+    & .example-button-row .mat-button-base {
+        margin: 8px 8px 8px 0;
+      }
+      
+    & .example-flex-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      
+    & .example-button-container {
+        display: flex;
+        justify-content: center;
+        width: 120px;
+      }
+}
+
+i {
+  font-size: 22px;
+}
