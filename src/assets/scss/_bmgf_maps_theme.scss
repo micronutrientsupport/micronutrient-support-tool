@@ -2,11 +2,11 @@
 
 // @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular/material/theming';
-@import 'variables';
 @import 'colour';
 @import 'scroll';
 @import 'page';
 @import 'typography';
+@import 'angular_material_components';
 @import 'card';
 @import 'utilities';
 
@@ -55,11 +55,3 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // Include theme styles for your custom components.
 @include bmgf-maps-theme($app-theme);
-
-.mat-menu.mat-menu-panel {
-  border-radius: 2px;
-}
-
-.mat-menu-item {
-  font-weight: 500;
-}

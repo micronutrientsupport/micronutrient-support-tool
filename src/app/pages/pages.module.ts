@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsComponent } from './quickMaps/quickMaps.component';
+import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { QuickMapsComponent } from './quickMaps/quickMaps.component';
     EducationalResourcesComponent,
     HelpComponent,
     ProjectObjectivesComponent,
+    StyleGuideComponent,
   ],
   imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
   providers: [],
@@ -28,6 +30,7 @@ import { QuickMapsComponent } from './quickMaps/quickMaps.component';
     EducationalResourcesComponent,
     HelpComponent,
     ProjectObjectivesComponent,
+    StyleGuideComponent,
   ],
 })
 export class PagesModule {}
