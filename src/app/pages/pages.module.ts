@@ -11,10 +11,23 @@ import { ProjectObjectivesComponent } from './projectObjectives/projectObjective
 import { QuickMapsComponent } from './quickMaps/quickMaps.component';
 
 @NgModule({
-  declarations: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
-    ProjectObjectivesComponent],
+  declarations: [
+    HomeComponent,
+    MapsToolComponent,
+    QuickMapsComponent,
+    EducationalResourcesComponent,
+    HelpComponent,
+    ProjectObjectivesComponent,
+  ],
   imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
   providers: [],
-  exports: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent, ProjectObjectivesComponent],
+  exports: [
+    HomeComponent,
+    MapsToolComponent,
+    QuickMapsComponent,
+    EducationalResourcesComponent,
+    HelpComponent,
+    ProjectObjectivesComponent,
+  ],
 })
-export class PagesModule { }
+export class PagesModule {}
