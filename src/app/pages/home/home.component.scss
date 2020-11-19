@@ -1,10 +1,3 @@
-.purpleWave {
-  background: url(/assets/images/purple-wave.svg);
-  width: 100%;
-  height: 340px;
-  position: absolute;
-  background-size: cover;
-}
 .purpleWedge {
   background: url(/assets/images/purple-wedge.svg);
 }
@@ -22,4 +15,11 @@
   .homeGrid .mdc-layout-grid__inner {
     justify-content: center;
   }
+}
+
+.wave-header {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
 }
