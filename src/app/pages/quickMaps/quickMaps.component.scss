@@ -4,10 +4,14 @@
 }
 
 .example-sidenav-content {
-  // display: flex;
+  display: flex;
   height: 100%;
-  // align-items: center;
-  // justify-content: center;
+  align-items: center;
+  justify-content: center;
+  .map-containter {
+    display: block;
+    width: 100%;
+  }
 }
 
 .example-sidenav {

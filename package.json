@@ -33,6 +33,7 @@
     "@asymmetrik/ngx-leaflet": "^8.1.0",
     "leaflet": "^1.7.1",
     "@fortawesome/fontawesome-free": "^5.15.1",
+    "@material/layout-grid": "^8.0.0",
     "moment-es6": "^1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

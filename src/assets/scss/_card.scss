@@ -1,0 +1,7 @@
+@import './variables';
+
+.basic-card {
+  border: 2px $color_primary solid;
+  border-radius: 5px;
+  padding: 10px;
+}
