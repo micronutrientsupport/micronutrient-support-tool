@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@material/layout-grid/mdc-layout-grid";
+
+@import '~@material/layout-grid/mdc-layout-grid.scss';
 @import './assets/scss/_bmgf_maps_theme';
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -9,5 +11,20 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Quicksand', sans-serif;
+}
+
+$mdc-layout-grid-breakpoints: (
+  desktop: 840px,
+  tablet: 600px,
+  phone: 0px,
+) !default;
+
+:root {
+  --mdc-layout-grid-margin-desktop: 100px;
+  --mdc-layout-grid-gutter-desktop: 60px;
+  --mdc-layout-grid-margin-tablet: 24px;
+  --mdc-layout-grid-gutter-tablet: 24px;
+  --mdc-layout-grid-margin-phone: 24px;
+  --mdc-layout-grid-gutter-phone: 24px;
 }
