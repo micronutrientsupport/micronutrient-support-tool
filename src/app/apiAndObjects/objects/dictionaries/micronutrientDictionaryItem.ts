@@ -1,6 +1,6 @@
 import { DictionaryType } from '../../api/dictionaryType.enum';
 import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
-import { MicronutrientType } from '../enums/micronutrientDataOption';
+import { MicronutrientType } from '../enums/micronutrientType.enum';
 
 export class MicronutrientDictionaryItem extends BaseDictionaryItem {
   public static readonly DESC_ATTRIBUTE = 'name';
