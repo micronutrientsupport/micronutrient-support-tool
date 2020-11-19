@@ -1,6 +1,5 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": false,
-  "peacock.color": "#68af4a"
+  "editor.formatOnPaste": false
 }
