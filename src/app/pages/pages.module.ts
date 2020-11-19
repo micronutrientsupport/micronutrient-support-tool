@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AppMaterialModule } from '../app-material.module';
 import { EducationalResourcesComponent } from './educationalResources/educationalResources.component';
 import { HelpComponent } from './help/help.component';
@@ -11,11 +12,25 @@ import { QuickMapsComponent } from './quickMaps/quickMaps.component';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 
 @NgModule({
-  declarations: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
-    ProjectObjectivesComponent, StyleGuideComponent],
-  imports: [CommonModule, RouterModule, AppMaterialModule],
+  declarations: [
+    HomeComponent,
+    MapsToolComponent,
+    QuickMapsComponent,
+    EducationalResourcesComponent,
+    HelpComponent,
+    ProjectObjectivesComponent,
+    StyleGuideComponent,
+  ],
+  imports: [CommonModule, RouterModule, AppMaterialModule, LeafletModule],
   providers: [],
-  exports: [HomeComponent, MapsToolComponent, QuickMapsComponent, EducationalResourcesComponent, HelpComponent,
-    ProjectObjectivesComponent, StyleGuideComponent],
+  exports: [
+    HomeComponent,
+    MapsToolComponent,
+    QuickMapsComponent,
+    EducationalResourcesComponent,
+    HelpComponent,
+    ProjectObjectivesComponent,
+    StyleGuideComponent,
+  ],
 })
 export class PagesModule {}

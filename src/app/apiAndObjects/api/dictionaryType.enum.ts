@@ -1,0 +1,7 @@
+// eslint-disable-next-line no-shadow
+export enum DictionaryType {
+  COUNTRIES,
+  REGIONS,
+  MICRONUTRIENTS,
+  POPULATION_GROUPS,
+}

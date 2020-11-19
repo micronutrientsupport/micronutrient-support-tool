@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/scss/_angular_materials';
-@import "@fortawesome/fontawesome-free/css/all.min.css";
+@use "@material/layout-grid/mdc-layout-grid";
+@import './assets/scss/_bmgf_maps_theme';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
