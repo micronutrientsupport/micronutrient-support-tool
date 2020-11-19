@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsModule } from './quickMaps/quickMaps.module';
+import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 
 @NgModule({
   declarations: [
@@ -16,9 +17,17 @@ import { QuickMapsModule } from './quickMaps/quickMaps.module';
     EducationalResourcesComponent,
     HelpComponent,
     ProjectObjectivesComponent,
+    StyleGuideComponent,
   ],
   imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule],
   providers: [],
-  exports: [HomeComponent, MapsToolComponent, EducationalResourcesComponent, HelpComponent, ProjectObjectivesComponent],
+  exports: [
+    HomeComponent,
+    MapsToolComponent,
+    EducationalResourcesComponent,
+    HelpComponent,
+    ProjectObjectivesComponent,
+    StyleGuideComponent,
+  ],
 })
 export class PagesModule {}
