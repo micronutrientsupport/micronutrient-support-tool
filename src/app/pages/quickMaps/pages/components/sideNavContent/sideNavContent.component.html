@@ -2,7 +2,7 @@
 <form *ngIf="quickMapsForm" [formGroup]="quickMapsForm">
     <div class="flex-row">
         <h3>Geography of interest</h3>
-        <i class="fas fa-question-circle" [matTooltip]="geoInterest" style="color: #828282;"></i>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[0]" style="color: #828282;"></i>
     </div>
 
     <!-- NgIf Nation/MultiNation Toggle Buttons -->
@@ -15,55 +15,68 @@
     <!-- NgIf Nation/MultiNation Selects -->
     <mat-form-field appearance="fill" *ngIf="group.value === 'singleNation'" aria-label="Geography of interest">
         <mat-select formControlName="nation" placeholder="select a nation">
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+            <mat-option *ngFor="let example of countriesDictionary?.getItem()" [value]="example.id">{{example.description}
+            </mat-option>
         </mat-select>
         <mat-error>Please select a country</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" *ngIf="group.value === 'multiNation'">
         <mat-select formControlName="multiNation" placeholder="select a multination area">
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+            <mat-option *ngFor="let example of regionDictionary?.getItem()" [value]="example.id">{{example.description}</mat-option>
         </mat-select>
         <mat-error>Please select a country</mat-error>
     </mat-form-field>
 
-    <!-- NgIf for MNDs -->
-    <mat-button-toggle-group #groupMND="matButtonToggleGroup" name="geographyInterest" aria-label="MNDs of interest"
-        value="toggleMNDs">
+    <!-- ngSwitchCase for MNDs -->
+    <div class="flex-row">
+        <h3>MND(s) to explore or compare</h3>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[1]" style="color: #828282;"></i>
+    </div>
+
+    <mat-button-toggle-group #groupMND="matButtonToggleGroup" name="geographyInterest" aria-label="MNDs of interest">
         <mat-button-toggle value="vitamin">Vitamin</mat-button-toggle>
         <mat-button-toggle value="mineral">Mineral</mat-button-toggle>
         <mat-button-toggle value="other">Other</mat-button-toggle>
     </mat-button-toggle-group>
 
-    <div class="flex-row">
-        <h3>MND(s) to explore or compare</h3>
-        <i class="fas fa-question-circle" [matTooltip]="mndsExploreComp" style="color: #828282;"></i>
-    </div>
-    <mat-form-field appearance="fill">
-        <mat-select formControlName="mndsExploreComp" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+    <ng-container [ngSwitch]="groupMND.value">
+
+        <ng-container *ngFor="let selectMND of selectMNDs">
+            <mat-form-field *ngSwitchCase="'selectMND'" appearance="fill">
+                <mat-select formControlName="selectMND" multiple placeholder="Click to select vitamins">
+                    <mat-option *ngFor="let mnd of selectMND.mnds" [value]="mnd">{{mnd}}</mat-option>
         </mat-select>
         <mat-error>{{generalResponse}}</mat-error>
     </mat-form-field>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        Pick an option
+    </ng-container>
+
+    </ng-container>
+
 
     <div class="flex-row">
         <h3>Population group available</h3>
-        <i class="fas fa-question-circle" [matTooltip]="populationGroup" style="color: #828282;"></i>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[2]" style="color: #828282;"></i>
     </div>
     <mat-form-field appearance="fill">
-        <mat-select formControlName="populationGroup" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+        <mat-select formControlName="populationGroup" placeholder="Click to select group">
+            <mat-option [value]="this.preSelectedPopulateionGroup.id">{{this.preSelectedPopulateionGroup.description}}
+            </mat-option>
         </mat-select>
         <mat-error>{{generalResponse}}</mat-error>
     </mat-form-field>
 
     <div class="flex-row">
         <h3>Micronutrient data options</h3>
-        <i class="fas fa-question-circle" [matTooltip]="geoInterestToolTip" style="color: #828282;"></i>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[3]" style="color: #828282;"></i>
     </div>
     <mat-form-field appearance="fill">
-        <mat-select formControlName="microNutrientOptions" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+        <mat-select formControlName="microNutrientOptions" placeholder="Click to select options">
+            <mat-option [value]="this.preSelectedMicronutrient.id">{{this.preSelectedMicronutrient.description}}
+            </mat-option>
         </mat-select>
         <mat-error>{{generalResponse}}</mat-error>
     </mat-form-field>

@@ -13,12 +13,18 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
-  public geoInterest = 'some text exaplaining this form field';
-  public mndsExploreComp = 'some text exaplaining this form field';
-  public populationGroup = 'some text exaplaining this form field';
-  public geoInterestToolTip = 'some text exaplaining this form field';
-  public examples = ['example1', 'example2', 'exmpale3'];
+  public toolTips = [
+    'some text exaplaining this form field',
+    'some text exaplaining this form field',
+    'some text exaplaining this form field',
+    'some text exaplaining this form field',
+  ];
   public generalResponse = 'Please select something';
+  public selectMNDs = [
+    { formControlName: 'vitamin', mnds: ['example1', 'example2', 'exmpale3'], error: 'Click to select vitamins' },
+    { formControlName: 'mineral', mnds: ['example4', 'example5', 'exmpale6'], error: 'Click to select mineral' },
+    { formControlName: 'other', mnds: ['example7', 'example8', 'exmpale9'], error: 'Click to select another option' },
+  ];
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
@@ -30,8 +36,9 @@ export class SideNavContentComponent implements OnInit {
   public searchByCountry = true;
   public selectedCountry: DictionaryItem;
   public selectedRegion: DictionaryItem;
-  public selectedMicronutrient: DictionaryItem;
-  public selectedPopulateionGroup: DictionaryItem;
+
+  public preSelectedMicronutrient: DictionaryItem;
+  public preSelectedPopulateionGroup: DictionaryItem;
 
   constructor(
     private fb: FormBuilder,
@@ -52,10 +59,10 @@ export class SideNavContentComponent implements OnInit {
         this.popGroupsDictionary = dicts.shift();
 
         // test
-        this.selectedCountry = this.countriesDictionary.getItems()[0];
-        this.selectedRegion = this.regionDictionary.getItems()[0];
-        this.selectedMicronutrient = this.micronutrientsDictionary.getItems()[0];
-        this.selectedPopulateionGroup = this.popGroupsDictionary.getItems()[0];
+        // this.selectedCountry = this.countriesDictionary.getItems()[0];
+        // this.selectedRegion = this.regionDictionary.getItems()[0];
+        this.preSelectedMicronutrient = this.micronutrientsDictionary.getItems()[0];
+        this.preSelectedPopulateionGroup = this.popGroupsDictionary.getItems()[0];
 
         this.updateMicronutrientDataOptions();
       });
@@ -63,14 +70,15 @@ export class SideNavContentComponent implements OnInit {
 
   quickMapsForm = this.fb.group({
     nation: [''],
-    multiNation: [''],
-    mndsExploreComp: ['', Validators.required],
-    populationGroup: ['', Validators.required],
-    microNutrientOptions: ['', Validators.required],
+    multiNation: [''], // ?????????
+    mnds: [[], Validators.required], // ??????
+    populationGroup: ['', Validators.required], // pre determined in quick maps
+    microNutrientOptions: ['', Validators.required], // pre determined in quick maps
   });
 
   ngOnInit(): void {
-    // console.log('countriesDicitionary', this.countriesDictionary);
+    console.log('countriesDicitionary', this.countriesDictionary);
+    // console.log('microNutrients', this.micronutrientsDictionary);
   }
 
   public updateMicronutrientDataOptions(): void {
@@ -90,3 +98,12 @@ export class SideNavContentComponent implements OnInit {
     console.warn(this.quickMapsForm.value);
   }
 }
+
+// public instrumentSelectChange(changeEvent: MatSelectChange): void {
+//   this.filteredInstrumentTests = this.instrumentTests
+//     .getItems()
+//     .filter((testDictItem: InstrumentTestDictionaryItem) => (testDictItem.instrument.id === changeEvent.value));
+//   this.selectedTest = '';
+//   this.instrumentRunService.sendInstrumentName(this.selectedInstrument);
+//   this.instrumentRunService.sendTestName(this.selectedTest);
+// }
