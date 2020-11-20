@@ -5,7 +5,6 @@ import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObjectives.component';
-import { QuickMapsComponent } from './pages/quickMaps/pages/quickMaps.component';
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
 
@@ -36,8 +35,12 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.QUICK_MAPS.segments,
-    component: QuickMapsComponent,
+    loadChildren: () => import('./pages/quickMaps/quickMaps.module').then(m => m.QuickMapsModule)
   },
+  {
+    path: '**',
+    redirectTo: '',
+  }
 ];
 
 @NgModule({

@@ -43,6 +43,11 @@ export class AppRoutes {
     segments: 'location',
     parent: AppRoutes.QUICK_MAPS,
   };
+  public static readonly QUICK_MAPS_BASELINE = {
+    ...BASE_ROUTE,
+    segments: 'baseline',
+    parent: AppRoutes.QUICK_MAPS,
+  };
   // *** quick maps end ***
 }
 
