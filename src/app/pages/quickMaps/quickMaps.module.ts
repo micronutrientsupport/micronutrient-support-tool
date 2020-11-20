@@ -12,10 +12,11 @@ import { BaselineComponent } from './pages/baseline/baseline.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickMapsService } from './quickMaps.service';
+import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 
 @NgModule({
   declarations: [QuickMapsComponent, MapPageComponent, SideNavContentComponent, BaselineComponent, ProjectionComponent],
   imports: [CommonModule, QuickMapsRoutingModule, LeafletModule, HttpClientModule, AppMaterialModule, ReactiveFormsModule],
-  providers: [QuickMapsService]
+  providers: [QuickMapsService, QuickMapsRouteGuardService]
 })
 export class QuickMapsModule { }
