@@ -53,6 +53,7 @@
             <mat-form-field appearance="fill">
                 <mat-select formControl="toppings" multiple>
                     <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                    <mat-error>somthing</mat-error>
                 </mat-select>
             </mat-form-field>
         </div>
