@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { Papa } from 'ngx-papaparse';
 
 @Component({
@@ -11,6 +12,13 @@ export class BaselineDetailsComponent implements OnInit {
   public meatva = [];
   public totalva = [];
   public labels = [];
+
+  view: any[] = [1200, 300];
+  legend: boolean = true;
+  // showYAxisLabel: boolean = true;
+  // showXAxisLabel: boolean = true;
+  // xAxisLabel: string = 'Vitamin A from Meat';
+  // yAxisLabel: string = 'Vitamin A total';
 
   public data = {
     labels: this.labels,
