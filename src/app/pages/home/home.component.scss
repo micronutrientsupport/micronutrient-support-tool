@@ -1,4 +1,25 @@
-#purpleWave {
+.purpleWedge {
+  background: url(/assets/images/purple-wedge.svg);
+}
+.homeCell {
+  box-sizing: border-box;
+  // padding: 8px;
+}
+.homeCellImage {
   width: 100%;
-  position: absolute;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+@media (min-width: 840px) {
+  .homeGrid .mdc-layout-grid__inner {
+    justify-content: center;
+  }
+}
+
+.wave-header {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
 }
