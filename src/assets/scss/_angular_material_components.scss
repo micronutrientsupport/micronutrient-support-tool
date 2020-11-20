@@ -1,15 +1,16 @@
-
 // Mat Menu Syling
 
- .mat-menu.mat-menu-panel  {
-    border-radius: 2px;
+.mat-menu.mat-menu-panel {
+  border-radius: 2px;
 
-    .mat-menu-item {
-      font-weight: 500;
-    }
+  .mat-menu-item {
+    font-weight: 500;
   }
+}
 // Toggle Button
-
+mat-button-toggle-group {
+  margin-bottom: 1em;
+}
 mat-button-toggle-group.mat-button-toggle-group-appearance-standard {
   border-radius: 5px 5px 2px 2px;
   border: none;
@@ -27,9 +28,12 @@ mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standar
 }
 
 // Buttons
-  button.mat-raised-button,button.mat-flat-button, button.mat-stroked-button, button.mat-icon-button {
-      border-radius: 2px;
-    }
+button.mat-raised-button,
+button.mat-flat-button,
+button.mat-stroked-button,
+button.mat-icon-button {
+  border-radius: 2px;
+}
 
 // Selects
 
@@ -37,7 +41,7 @@ mat-form-field.mat-form-field {
   font-weight: 600;
 }
 
-mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex{
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex {
   padding: 0em 1em 0.25em 1em;
   background-color: #fff;
 }
