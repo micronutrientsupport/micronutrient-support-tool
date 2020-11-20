@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppRoutes } from 'src/app/routes/routes';
 
 @Component({
   selector: 'app-quick-maps-header',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./quickMapsHeader.component.scss'],
 })
 export class QuickMapsHeaderComponent {
+  public ROUTES = AppRoutes;
   constructor() { }
 }
