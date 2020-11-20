@@ -89,7 +89,9 @@ export interface AppRoute {
  * result is: ['/segment1/segment2/segment3/11/segment4/12']
  */
 export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<string> => {
-  let url = '/' + ((null != route.parent) ? route.parent.getRoute()[0] : '');
+  let url = (null != route.parent) ? route.parent.getRoute()[0] : '';
+  url = '/' + url + '/' + route.segments;
+  url = url.replace(/\/+/g, '/'); // replace multiple '/'
   if (null != subsValues) {
     route.subsKeys.forEach((key: string, i: number) => {
       const value = subsValues[i];
