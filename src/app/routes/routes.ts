@@ -76,7 +76,12 @@ export interface AppRoute {
 /**
  * @param route an AppRoute object
  * @param subsValues array of values that correspond to AppRoute subsKeys and will replace placeholders in route
- * e.g. {job-id: 54} will change a route of "job/:job-id/details" to "job/54/details"
+ * e.g.
+ * route.parent.getRoute() = ['segment1/segment2']
+ * route.segments = 'segment3/:id1/segment4/:id2'
+ * route.subsKeys = ['id1', 'id2']
+ * subsValues = ['11', '12']
+ * result is: ['/segment1/segment2/segment3/11/segment4/12']
  */
 export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<string> => {
   let url = '/' + ((null != route.parent) ? route.parent.getRoute()[0] : '');
