@@ -15,7 +15,7 @@ export class CountryDictionaryItem extends BaseDictionaryItem {
 
   public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
     return super.createMockItems(count, type).map(
-      (item: Record<string, unknown>, index: number) =>
+      (item: Record<string, unknown>) =>
         // returnObj[this.OUTLINE_ATTRIBUTE] = [0, 10, 20, 0];
         item,
     );

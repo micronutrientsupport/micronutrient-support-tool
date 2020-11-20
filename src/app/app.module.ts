@@ -9,7 +9,9 @@ import { ServicesModule } from './services/services.module';
 import { ApiModule } from './apiAndObjects/api.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,4 +25,4 @@ import { ApiModule } from './apiAndObjects/api.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
