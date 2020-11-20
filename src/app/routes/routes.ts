@@ -62,6 +62,11 @@ export class AppRoutes {
     segments: 'baseline',
     parent: AppRoutes.QUICK_MAPS,
   };
+  public static readonly QUICK_MAPS_PROJECTION = {
+    ...BASE_ROUTE,
+    segments: 'projection',
+    parent: AppRoutes.QUICK_MAPS,
+  };
   // *** quick maps end ***
 }
 

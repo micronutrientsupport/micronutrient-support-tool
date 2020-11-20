@@ -9,9 +9,10 @@ import { QuickMapsComponent } from './pages/quickMaps.component';
 import { MapPageComponent } from './pages/components/mapPage/mapPage.component';
 import { SideNavContentComponent } from './pages/components/sideNavContent/sideNavContent.component';
 import { BaselineComponent } from './pages/baseline/baseline.component';
+import { ProjectionComponent } from './pages/projection/projection.component';
 
 @NgModule({
-  declarations: [QuickMapsComponent, MapPageComponent, SideNavContentComponent, BaselineComponent],
+  declarations: [QuickMapsComponent, MapPageComponent, SideNavContentComponent, BaselineComponent, ProjectionComponent],
   imports: [CommonModule, QuickMapsRoutingModule, LeafletModule, HttpClientModule, AppMaterialModule],
 })
 export class QuickMapsModule { }
