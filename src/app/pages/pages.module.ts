@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from '../app-material.module';
+import { RoutesModule } from '../routes/routes.module';
 import { EducationalResourcesComponent } from './educationalResources/educationalResources.component';
 import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
@@ -19,7 +20,7 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     ProjectObjectivesComponent,
     StyleGuideComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule],
   providers: [],
   exports: [
     HomeComponent,
@@ -30,4 +31,4 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     StyleGuideComponent,
   ],
 })
-export class PagesModule {}
+export class PagesModule { }
