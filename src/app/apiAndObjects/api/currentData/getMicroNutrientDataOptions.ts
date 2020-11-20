@@ -1,5 +1,5 @@
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
-import { RequestMethod } from '../../_lib_code/api/apiCaller';
+// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 
 export class GetMicronutrientDataOptions extends Endpoint<
@@ -7,7 +7,7 @@ Array<MicronutrientDataOption>,
 GetMicronutrientDataOptionsParams,
 MicronutrientDataOption
 > {
-  protected callLive(params: GetMicronutrientDataOptionsParams): Promise<Array<MicronutrientDataOption>> {
+  protected callLive(): Promise<Array<MicronutrientDataOption>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -18,7 +18,7 @@ MicronutrientDataOption
     // return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
 
-  protected callMock(params: GetMicronutrientDataOptionsParams): Promise<Array<MicronutrientDataOption>> {
+  protected callMock(): Promise<Array<MicronutrientDataOption>> {
     return this.buildObjectsFromResponse(
       MicronutrientDataOption,
       Promise.resolve(MicronutrientDataOption.createMockItems(20)),

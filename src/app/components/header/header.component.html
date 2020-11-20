@@ -1,26 +1,26 @@
 <mat-toolbar color="primary" class="space-between">
-    <div><a [routerLink]="ROUTES.HOME.route()">BMGF MAPS</a></div>
+    <div><a [routerLink]="ROUTES.HOME | route">BMGF MAPS</a></div>
     <div class="large">
-        <a [routerLink]="ROUTES.MAPS_TOOL.route()">MAPS Tools</a>
-        <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES.route()">Educational Resources</a>
-        <a [routerLink]="ROUTES.HELP.route()">Help</a>
-        <a [routerLink]="ROUTES.PROJECT_OBJECTIVES.route()">Project Objectives</a>
+        <a [routerLink]="ROUTES.MAPS_TOOL | route">MAPS Tools</a>
+        <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">Educational Resources</a>
+        <a [routerLink]="ROUTES.HELP | route">Help</a>
+        <a [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">Project Objectives</a>
     </div>
     <div class="small">
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <i class="fas fa-bars"></i>
         </button>
         <mat-menu #menu="matMenu" class="mat-menu">
-            <button mat-menu-item [routerLink]="ROUTES.MAPS_TOOL.route()">
+            <button mat-menu-item [routerLink]="ROUTES.MAPS_TOOL | route">
                 MAPS Tools
             </button>
-            <button mat-menu-item [routerLink]="ROUTES.EDUCATIONAL_RESOURCES.route()">
+            <button mat-menu-item [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">
                 Educational Resources
             </button>
-            <button mat-menu-item [routerLink]="ROUTES.HELP.route()">
+            <button mat-menu-item [routerLink]="ROUTES.HELP | route">
                 Help
             </button>
-            <button mat-menu-item [routerLink]="ROUTES.PROJECT_OBJECTIVES.route()">
+            <button mat-menu-item [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">
                 Project Objectives
             </button>
         </mat-menu>

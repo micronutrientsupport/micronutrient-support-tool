@@ -260,7 +260,7 @@ module.exports = {
     'no-unsafe-finally': 'error',
     'no-unused-labels': 'error',
     'no-var': 'error',
-    'object-shorthand': 'error',
+    'object-shorthand': ['error', 'methods'],
     'one-var': ['error', 'never'],
     'prefer-arrow/prefer-arrow-functions': 'error',
     'prefer-const': 'error',

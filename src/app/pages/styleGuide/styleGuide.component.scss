@@ -1,14 +1,14 @@
 @import 'src/assets/scss/_colour.scss';
 
 .container {
-    margin: 1em;
+  margin: 1em;
 }
 
-.colours{
+.colours {
   display: flex;
   flex-flow: row wrap;
   margin: 1em;
-  
+
   & .circle {
     border-radius: 2px;
     width: 100px;
@@ -20,17 +20,22 @@
 }
 
 .headings {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    
-  & h1, h2, h3, h4, h5, h6 {
-        margin: 1em;
-    }
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  & h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1em;
+  }
 }
 
 .menus {
-    margin: 1em;
+  margin: 1em;
 }
 
 .button-toggle {
@@ -46,37 +51,37 @@
 }
 
 .buttons {
-    & section {
-        display: table;
-      }
-      
-    & .example-label {
-        display: table-cell;
-        font-size: 14px;
-        margin-left: 8px;
-        min-width: 120px;
-      }
-      
-    & .example-button-row {
-        display: table-cell;
-        width: 490px;
-      }
-      
-    & .example-button-row .mat-button-base {
-        margin: 8px 8px 8px 0;
-      }
-      
-    & .example-flex-container {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-      
-    & .example-button-container {
-        display: flex;
-        justify-content: center;
-        width: 120px;
-      }
+  & section {
+    display: table;
+  }
+
+  & .example-label {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    min-width: 120px;
+  }
+
+  & .example-button-row {
+    display: table-cell;
+    width: 490px;
+  }
+
+  & .example-button-row .mat-button-base {
+    margin: 8px 8px 8px 0;
+  }
+
+  & .example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  & .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  }
 }
 
 i {

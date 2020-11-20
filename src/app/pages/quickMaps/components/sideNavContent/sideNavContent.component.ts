@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+/* eslint-disable @typescript-eslint/unbound-method */
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -7,11 +9,18 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 
 @Component({
-  selector: 'app-quick-maps',
-  templateUrl: './quickMaps.component.html',
-  styleUrls: ['./quickMaps.component.scss'],
+  selector: 'app-side-nav-content',
+  templateUrl: './sideNavContent.component.html',
+  styleUrls: ['./sideNavContent.component.scss'],
 })
-export class QuickMapsComponent {
+export class SideNavContentComponent implements OnInit {
+  public geoInterest = 'some text exaplaining this form field';
+  public mndsExploreComp = 'some text exaplaining this form field';
+  public populationGroup = 'some text exaplaining this form field';
+  public geoInterestToolTip = 'some text exaplaining this form field';
+  public examples = ['example1', 'example2', 'exmpale3'];
+  public generalResponse = 'Please select something';
+
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
@@ -25,7 +34,13 @@ export class QuickMapsComponent {
   public selectedMicronutrient: DictionaryItem;
   public selectedPopulateionGroup: DictionaryItem;
 
-  constructor(public dictionariesService: DictionaryService, private currentDataService: CurrentDataService) {
+  public quickMapsForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    public dictionariesService: DictionaryService,
+    private currentDataService: CurrentDataService,
+  ) {
     void dictionariesService
       .getDictionaries([
         DictionaryType.COUNTRIES,
@@ -47,6 +62,18 @@ export class QuickMapsComponent {
 
         this.updateMicronutrientDataOptions();
       });
+
+    this.quickMapsForm = this.fb.group({
+      nation: [''],
+      multiNation: [''],
+      mndsExploreComp: ['', Validators.required],
+      populationGroup: ['', Validators.required],
+      microNutrientOptions: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    // console.log('countriesDicitionary', this.countriesDictionary);
   }
 
   public updateMicronutrientDataOptions(): void {
@@ -60,5 +87,9 @@ export class QuickMapsComponent {
         this.micronutrientDataOptions = options;
         console.log('MicronutrientDataOption', options);
       });
+  }
+
+  public submitForm(): void {
+    console.warn(this.quickMapsForm.value);
   }
 }
