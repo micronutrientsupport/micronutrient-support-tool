@@ -4,7 +4,10 @@
   </mat-drawer>
 
   <div class="example-sidenav-content">
-    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>
-    <app-map-page></app-map-page>
+    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
+    <app-quick-maps-header></app-quick-maps-header>
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
   </div>
 </mat-drawer-container>

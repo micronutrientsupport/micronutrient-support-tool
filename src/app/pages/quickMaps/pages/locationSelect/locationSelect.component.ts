@@ -6,15 +6,18 @@ import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-map-page',
-  templateUrl: './mapPage.component.html',
-  styleUrls: ['./mapPage.component.scss'],
+  selector: 'app-quickmaps-location-select',
+  templateUrl: './locationSelect.component.html',
+  styleUrls: [
+    './locationSelect.component.scss',
+    '../../components/sideNavContent/sideNavParent.scss',
+  ],
 })
-export class MapPageComponent implements AfterViewInit {
+export class LocationSelectComponent implements AfterViewInit {
   public geojson: L.GeoJSON;
   public map: L.Map;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngAfterViewInit(): void {
     this.initialiseMap();

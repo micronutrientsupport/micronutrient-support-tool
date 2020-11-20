@@ -1,13 +1,19 @@
 # Micronutrient Support Tool
 
-![Angular Build](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Angular%20Build/badge.svg?branch=develop)
-![Linting](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Linting/badge.svg?branch=develop)
+#### Branch Pipeline Status
+
+| Branch    | Lint                                                                                                                      | Build                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `main`    | ![Linting](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Linting/badge.svg?branch=main)    | ![Angular Build](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Angular%20Build/badge.svg?branch=main)    |
+| `develop` | ![Linting](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Linting/badge.svg?branch=develop) | ![Angular Build](https://github.com/micronutrientsupport/micronutrient-support-tool/workflows/Angular%20Build/badge.svg?branch=develop) |
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
 ### Development
 
-Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode formatter for consistency in linting.
+Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode formatter for consistency in code format/style.
+
+Linting is provided by ESLint as TSLint is [deprecated](https://medium.com/palantir/tslint-in-2019-1a144c2317a9).
 
 ## Development server
 
