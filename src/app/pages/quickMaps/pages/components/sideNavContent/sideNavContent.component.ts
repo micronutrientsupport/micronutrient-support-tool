@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -33,6 +34,8 @@ export class SideNavContentComponent implements OnInit {
   public selectedMicronutrient: DictionaryItem;
   public selectedPopulateionGroup: DictionaryItem;
 
+  public quickMapsForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
@@ -59,15 +62,15 @@ export class SideNavContentComponent implements OnInit {
 
         this.updateMicronutrientDataOptions();
       });
-  }
 
-  quickMapsForm = this.fb.group({
-    nation: [''],
-    multiNation: [''],
-    mndsExploreComp: ['', Validators.required],
-    populationGroup: ['', Validators.required],
-    microNutrientOptions: ['', Validators.required],
-  });
+    this.quickMapsForm = this.fb.group({
+      nation: [''],
+      multiNation: [''],
+      mndsExploreComp: ['', Validators.required],
+      populationGroup: ['', Validators.required],
+      microNutrientOptions: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     // console.log('countriesDicitionary', this.countriesDictionary);
