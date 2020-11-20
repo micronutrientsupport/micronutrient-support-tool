@@ -1,3 +1,17 @@
+/**
+ * example route with variables
+  public static readonly TEST = {
+    ...BASE_ROUTE,
+    subsKeys: ['id1', 'id2'],
+    segments: 'test/:id1/:id2',
+    parent: AppRoutes.TEST_PARENT,
+    getRoute(id1: string, id2: string): Array<string> {
+      return getRoute(this, [id1, id2]);
+    },
+  };
+ * get route in ts: AppRoutes.QUICK_MAPS_BASELINE.getRoute('11', '12')
+ * get route in template: <a [routerLink]="ROUTES.TEST | route: [13,14]">TEST</a>
+ */
 
 const BASE_ROUTE = {
   subsKeys: [] as Array<string>,
@@ -51,6 +65,7 @@ export class AppRoutes {
   // *** quick maps end ***
 }
 
+
 export interface AppRoute {
   readonly segments: string;
   readonly parent?: AppRoute;
@@ -64,8 +79,7 @@ export interface AppRoute {
  * e.g. {job-id: 54} will change a route of "job/:job-id/details" to "job/54/details"
  */
 export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<string> => {
-  let url = (null != route.parent) ? route.parent.getRoute()[0] : '';
-  url += '/' + route.segments;
+  let url = '/' + ((null != route.parent) ? route.parent.getRoute()[0] : '');
   if (null != subsValues) {
     route.subsKeys.forEach((key: string, i: number) => {
       const value = subsValues[i];
