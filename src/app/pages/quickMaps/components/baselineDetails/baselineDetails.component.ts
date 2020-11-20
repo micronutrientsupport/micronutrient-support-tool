@@ -13,17 +13,22 @@ export class BaselineDetailsComponent implements OnInit {
   public totalva = [];
   public labels = [];
 
-  view: any[] = [1200, 300];
-  legend: boolean = true;
   // showYAxisLabel: boolean = true;
   // showXAxisLabel: boolean = true;
   // xAxisLabel: string = 'Vitamin A from Meat';
   // yAxisLabel: string = 'Vitamin A total';
+  public graphStyle = {
+    display: 'block',
+    height: '430px',
+    width: '860px',
+    color: '#254',
+  };
 
   public data = {
     labels: this.labels,
     datasets: [
       {
+        color: 'blue',
         label: 'Vitamin A from Meat',
         data: this.meatva,
       },
