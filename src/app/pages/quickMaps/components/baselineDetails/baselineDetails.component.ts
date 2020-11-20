@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { Papa } from 'ngx-papaparse';
 
 @Component({
@@ -13,8 +15,8 @@ export class BaselineDetailsComponent implements OnInit {
   public totalva = [];
   public labels = [];
 
-  view: any[] = [1200, 300];
-  legend: boolean = true;
+  // view: any[] = [1200, 300];
+  // legend: boolean = true;
   // showYAxisLabel: boolean = true;
   // showXAxisLabel: boolean = true;
   // xAxisLabel: string = 'Vitamin A from Meat';
@@ -36,7 +38,7 @@ export class BaselineDetailsComponent implements OnInit {
   constructor(private http: HttpClient, private papa: Papa) {}
 
   ngOnInit(): void {
-    this.http
+    void this.http
       .get('./assets/dummyData/trial_data.csv', { responseType: 'text' })
       .toPromise()
       .then((data) => {
@@ -52,10 +54,8 @@ export class BaselineDetailsComponent implements OnInit {
         });
 
         rawDataArray.forEach((item) => {
-          this.labels.push(item['pc']);
+          this.labels.push(item.pc);
         });
-
-        console.debug(this.totalva);
       });
   }
 }

@@ -6,8 +6,8 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { QuickMapsComponent } from './quickMaps.component';
 import { MapPageComponent } from './components/mapPage/mapPage.component';
 import { SideNavContentComponent } from './components/sideNavContent/sideNavContent.component';
-import { BaselineDetailsComponent } from './components/baselineDetails/baselineDetails.component';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
+import { BaselineDetailsComponent } from './components/baselineDetails/baselineDetails.component';
 
 @NgModule({
   declarations: [QuickMapsComponent, MapPageComponent, SideNavContentComponent, BaselineDetailsComponent],
