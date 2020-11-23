@@ -8,23 +8,20 @@ import * as L from 'leaflet';
 @Component({
   selector: 'app-quickmaps-location-select',
   templateUrl: './locationSelect.component.html',
-  styleUrls: [
-    './locationSelect.component.scss',
-    '../../components/sideNavContent/sideNavParent.scss',
-  ],
+  styleUrls: ['./locationSelect.component.scss', '../../components/sideNavContent/sideNavParent.scss'],
 })
 export class LocationSelectComponent implements AfterViewInit {
   public geojson: L.GeoJSON;
   public map: L.Map;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngAfterViewInit(): void {
     this.initialiseMap();
   }
 
   public initialiseMap(): void {
-    this.map = L.map('map').setView([6.6194073, 20.9367017], 3);
+    this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);

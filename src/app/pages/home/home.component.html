@@ -7,17 +7,20 @@
       <h1>Micronutrient Action Policy Support (MAPS) Tool</h1>
       <h2>MAPS will be a web-hosted tool, communicating estimates of dietary micronutrient (MN) supplies and deficiency
         risks at national and sub-national scales in Africa. </h2>
-      <button mat-raised-button color="primary">Maps Tool Portal</button>
+      <button mat-raised-button color="primary" [routerLink]="ROUTES.MAPS_TOOL | route">Maps Tool Portal</button>
     </div>
     <div class="mdc-layout-grid__cell--span-6">
-      <img class="homeCellImage" src="/assets/images/webp/study-min.webp">
+      <img class="homeCellImage" src="/assets/images/webp/study-map-min.webp">
     </div>
   </div>
 </div>
 
 <mat-divider></mat-divider>
 
-<div class="mdc-layout-grid section">
+<div class="mdc-layout-grid section-shade">
+  <!-- <div class="wedge-section">
+    <img src="/assets/images/purple-wedge.svg">
+  </div> -->
   <div class=" mdc-layout-grid__inner">
     <div class="homeCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
       <div class="basic-card">
@@ -25,7 +28,7 @@
         <div class="text text-center">
           <h2>Educational Resources</h2>
           <p>Educational resources related to the MAPS tool</p>
-          <button mat-button color="primary">View</button>
+          <button mat-button color="primary" [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">View</button>
         </div>
 
       </div>
@@ -36,7 +39,7 @@
         <div class="text text-center">
           <h2>Project Objectives</h2>
           <p>Project goals and ambitions for the future</p>
-          <button mat-button color="primary">View</button>
+          <button mat-button color="primary" [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">View</button>
         </div>
       </div>
     </div>
@@ -52,7 +55,7 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus ipsum a hendrerit ut maecenas. Ornare at
         ultricies nulla arcu ut ornare diam. Donec et pellentesque quis sed sed massa sed. Feugiat gravida ut auctor
         elementum enim at nibh egestas.</p>
-      <button mat-raised-button color="primary">Maps Tool Portal</button>
+      <button mat-raised-button color="primary" [routerLink]="ROUTES.MAPS_TOOL | route">Maps Tool Portal</button>
     </div>
     <div class="mdc-layout-grid__cell--span-6">
       <img class="homeCellImage" src="/assets/images/webp/maps-min.webp">

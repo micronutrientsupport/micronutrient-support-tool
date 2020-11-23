@@ -1,3 +1,66 @@
-<h1>maps-tool component</h1>
-<a [routerLink]="ROUTES.QUICK_MAPS | route">QUICK MAPS</a>
+<div class="wave-header">
+  <img src="/assets/images/purple-opacity-wave.svg">
+</div>
+<div class="mdc-layout-grid header">
+  <div class="mdc-layout-grid__inner">
+    <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
+      <img class="toolCellImage" src="/assets/images/webp/tools-min.webp">
+    </div>
+    <div class="mdc-layout-grid__cell--span-6 text-right">
+      <h1>MAPS Tool Interface</h1>
+      <h2>MAPS will be a web-hosted tool, communicating estimates of dietary micronutrient (MN) supplies and
+        deficiency risks at national and sub-national scales in Africa. </h2>
+    </div>
+  </div>
+</div>
 
+<mat-divider></mat-divider>
+
+<div class="mdc-layout-grid section">
+  <div class=" mdc-layout-grid__inner">
+    <div class="toolCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="basic-card">
+        <i class="fas fa-map-marked-alt fa-5x" style="color: #703AA3;"></i>
+        <div class="text text-center">
+          <h2>Quick Maps</h2>
+          <p>Launch the MAPS Tool using default mode settings to explore micronutrient deficiencies in your geography of
+            interest and possible interventions to mitigate the MNDs</p>
+          <button mat-button color="primary" [routerLink]="ROUTES.QUICK_MAPS | route">View</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="toolCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="basic-card">
+        <i class="fas fa-user-cog fa-5x" style="color: #703AA3;"></i>
+        <div class="text text-center">
+          <h2>My MAPS</h2>
+          <p>Log-in to create or access your stored workspace, including uploading your own data</p>
+          <button mat-button color="primary">View</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="basic-card">
+        <i class="fas fa-sliders-h fa-5x" style="color: #703AA3;"></i>
+        <div class="text text-center">
+          <h2>Choices in MAPS</h2>
+          <p>Launch the MAPS Tool with data and model selection options enabled for you to make bespoke choices</p>
+          <button mat-button color="primary">View</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="basic-card">
+        <i class="fas fa-share-alt fa-5x" style="color: #703AA3;"></i>
+        <div class="text text-center">
+          <h2>Sharing MAPS</h2>
+          <p>Log-in to a shared MAPS Tool workspace</p>
+          <button mat-button color="primary">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

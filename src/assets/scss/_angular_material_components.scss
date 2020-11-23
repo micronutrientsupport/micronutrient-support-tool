@@ -1,11 +1,22 @@
 // Mat Menu Syling
-
 .mat-menu.mat-menu-panel {
   border-radius: 2px;
+  top: 15px;
+  position: relative;
 
   .mat-menu-item {
     font-weight: 500;
+    text-align: right;
+    color: white;
+
+    &:hover {
+      color: $color_primary;
+      background-color: white;
+    }
   }
+}
+.mat-menu-content {
+  background-color: $color_primary;
 }
 // Toggle Button
 mat-button-toggle-group {
