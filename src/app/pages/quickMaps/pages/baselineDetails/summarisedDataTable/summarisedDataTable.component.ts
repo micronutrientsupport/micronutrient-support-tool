@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Papa } from 'ngx-papaparse';
 
 @Component({
   selector: 'app-summarised-data-table',
@@ -9,29 +14,39 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./summarisedDataTable.component.scss'],
 })
 export class SummarisedDataTableComponent implements OnInit {
-  public displayedColumns = [];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {}
+  public displayedColumns = [
+    'pc',
+    'va.supply',
+    'va.cergra',
+    'va.tubers',
+    'va.nuts',
+    'va.veg',
+    'va.meat',
+    'va.fruit',
+    'va.dairy',
+    'va.fat',
+    'va.misc',
+    'va.vendor',
+    'va.bev',
+  ];
+
+  public dataSource = new MatTableDataSource();
+  public rawData;
+
+  constructor(private http: HttpClient, private papa: Papa) {}
 
   ngOnInit(): void {
     void this.http
       .get('./assets/dummyData/trial_data.csv', { responseType: 'text' })
       .toPromise()
       .then((data) => {
-        const rawData = this.papa.parse(data, { header: true });
-        const rawDataArray = rawData.data;
-
-        rawDataArray.forEach((item) => {
-          this.meatva.push(Number(item['va.meat']));
-        });
-
-        rawDataArray.forEach((item) => {
-          this.totalva.push(Number(item['va.supply']));
-        });
-
-        rawDataArray.forEach((item) => {
-          this.labels.push(item.pc);
-        });
+        this.rawData = this.papa.parse(data, { header: true });
+        this.dataSource = new MatTableDataSource(this.rawData.data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
   }
 }
