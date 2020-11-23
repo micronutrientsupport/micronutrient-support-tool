@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
+import { MapViewComponent } from './map-view/map-view.component';
 
 @Component({
   selector: 'app-baseline-details',
@@ -42,7 +44,7 @@ export class BaselineDetailsComponent implements OnInit {
       },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa) {}
+  constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
     void this.http

@@ -4,10 +4,30 @@
   </mat-drawer>
 
   <div class="example-sidenav-content">
-    <app-quick-maps-header></app-quick-maps-header>
-    <div class="chart-container">
-      <ngx-chartjs id="chart" [data]="data" [style]="graphStyle" type="line"> </ngx-chartjs>
+
+    <div class="menu-header">
+      <app-quick-maps-header></app-quick-maps-header>
     </div>
+
+    <div class="grid-container">
+      <div class="card-container">
+        <!-- Map View -->
+        <app-map-view></app-map-view>
+      </div>
+      <div class="card-container">
+        <!-- Chart -->
+      </div>
+      <div class="card-container">
+        <!-- Food composition -->
+      </div>
+      <div class="card-container">
+        <!-- Data table -->
+      </div>
+      <div class="card-container">
+        <!-- Top 20 -->
+      </div>
+    </div>
+
     <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
   </div>
 </mat-drawer-container>

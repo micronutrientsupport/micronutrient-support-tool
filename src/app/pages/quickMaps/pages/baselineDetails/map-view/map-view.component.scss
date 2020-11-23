@@ -1,0 +1,10 @@
+@import "src/assets/scss/_colour.scss";
+
+.map-container {
+    display: block;
+    width: 100%;
+}
+#mapView {
+    height: 348px;
+    border-radius: 5px;
+}

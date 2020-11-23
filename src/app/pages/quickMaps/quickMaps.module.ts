@@ -15,9 +15,17 @@ import { ProjectionComponent } from './pages/projection/projection.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component/quickMapsHeader.component';
 import { RoutesModule } from 'src/app/routes/routes.module';
+import { MapViewComponent } from '../quickMaps/pages/baselineDetails/map-view/map-view.component';
 
 @NgModule({
-  declarations: [LocationSelectComponent, SideNavContentComponent, ProjectionComponent, BaselineDetailsComponent, QuickMapsHeaderComponent],
+  declarations: [
+    LocationSelectComponent,
+    SideNavContentComponent,
+    ProjectionComponent,
+    BaselineDetailsComponent,
+    QuickMapsHeaderComponent,
+    MapViewComponent
+  ],
   imports: [
     CommonModule,
     QuickMapsRoutingModule, LeafletModule, HttpClientModule, AppMaterialModule, ReactiveFormsModule, ChartjsModule, RoutesModule],

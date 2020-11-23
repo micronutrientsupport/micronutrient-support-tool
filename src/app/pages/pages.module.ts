@@ -24,4 +24,4 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
   providers: [],
   exports: [],
 })
-export class PagesModule {}
+export class PagesModule { }
