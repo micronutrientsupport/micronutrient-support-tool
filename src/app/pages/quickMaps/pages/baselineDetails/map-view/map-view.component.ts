@@ -25,7 +25,9 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   public initialiseMap(): void {
-    this.map = L.map('mapView').setView([6.6194073, 20.9367017], 3);
+    this.map = L.map('mapView', {
+
+    }).setView([6.6194073, 20.9367017], 3);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -33,17 +35,17 @@ export class MapViewComponent implements AfterViewInit {
 
     this.http.get('./assets/geoJSON/malawi-admin-boundaries.json').subscribe((data: any) => {
       const layerStyle = {
-        color: '#aaaaaa',
+        color: '#703aa3',
         weight: 1,
-        opacity: 0.5,
-        fillOpacity: 0
+        opacity: 0.9,
+        fillOpacity: 0.1
       };
 
       const props = {
         style: layerStyle,
         onEachFeature: (feature: any, layer: any) => {
-          // console.log(feature, layer);
-          const layerName = feature.properties.DISTRICT;
+          console.log(feature, layer);
+          const layerName = feature.properties.NAME_1;
 
           const layerCentre = layer.getBounds().getCenter();
 
@@ -65,8 +67,7 @@ export class MapViewComponent implements AfterViewInit {
 
       this.boundaryLayer = L.geoJSON(data, props);
       this.map.addLayer(this.boundaryLayer);
-      console.log(this.boundaryLayer.getBounds());
-      // this.map.flyTo(this.boundaryLayer.getBounds().getCenter(), 13);
+      this.map.fitBounds(this.boundaryLayer.getBounds());
     });
   }
 
