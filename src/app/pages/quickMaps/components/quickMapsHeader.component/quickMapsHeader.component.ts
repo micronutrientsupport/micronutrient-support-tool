@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
 
 @Component({
@@ -9,5 +8,5 @@ import { AppRoutes } from 'src/app/routes/routes';
 })
 export class QuickMapsHeaderComponent {
   public ROUTES = AppRoutes;
-  constructor(public router: Router) {}
+  constructor() {}
 }

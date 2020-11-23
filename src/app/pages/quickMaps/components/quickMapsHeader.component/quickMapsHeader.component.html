@@ -1,29 +1,8 @@
-<!-- <a [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route">Baseline</a> -->
-
-<!-- <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <app-side-nav-content></app-side-nav-content>
-  </mat-drawer> -->
-
-<!-- <div class="example-sidenav-content"> -->
-<mat-button-toggle-group #group name="fontStyle" aria-label="Font Style">
-  <mat-button-toggle
-    [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route"
-    [checked]="ROUTES.QUICK_MAPS_BASELINE.getRoute()[0] === router.url"
-    >Baseline</mat-button-toggle
+<div class="container">
+  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" routerLinkActive="active-route">Baseline</a>
+  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route" routerLinkActive="active-route"
+    >Explore projections to 2050</a
   >
-  <mat-button-toggle
-    [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"
-    [checked]="ROUTES.QUICK_MAPS_PROJECTION.getRoute()[0] === router.url"
-    >Explore projections to 2050</mat-button-toggle
-  >
-  <mat-button-toggle value="underline">Explore simple dietary change scenarios</mat-button-toggle>
-  <mat-button-toggle value="underline">Explore cost effectiveness scenarios</mat-button-toggle>
-</mat-button-toggle-group>
-<!-- <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>| -->
-<!-- <app-map-page></app-map-page>
-    <app-baseline-details *ngIf="one.checked"></app-baseline-details>
-  </div>
-</mat-drawer-container> -->
-
-<!-- <a routerLink="/first-component" routerLinkActive="active">First Component</a> -->
+  <a mat-raised-button>Explore simple dietary change scenarios</a>
+  <a mat-raised-button>Explore cost effectiveness scenarios</a>
+</div>
