@@ -5,6 +5,10 @@
 .section {
   margin-top: 30px;
   margin-bottom: 30px;
+
+  &-shade {
+    background-color: $color_background_form;
+  }
 }
 .wave-header {
   top: 63px;
@@ -12,4 +16,9 @@
   width: 100%;
   overflow: hidden;
   line-height: 0;
+}
+.wedge-section {
+  background-image: url(/assets/images/purple-wedge.svg);
+  position: absolute;
+  width: 100%;
 }
