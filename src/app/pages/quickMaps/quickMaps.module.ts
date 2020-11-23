@@ -16,7 +16,11 @@ import { LocationSelectComponent } from './pages/locationSelect/locationSelect.c
 import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component/quickMapsHeader.component';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.component';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
     LocationSelectComponent,
@@ -35,6 +39,7 @@ import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.
     ReactiveFormsModule,
     ChartjsModule,
     RoutesModule,
+    PlotlyModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService],
 })

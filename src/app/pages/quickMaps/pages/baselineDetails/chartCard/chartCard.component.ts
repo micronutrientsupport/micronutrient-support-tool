@@ -14,13 +14,12 @@ export class ChartCardComponent implements OnInit {
   public meatva = [];
   public totalva = [];
   public labels = [];
+  //PLOTLY GRAPH
+  public graph = {
+    data: [{ x: this.meatva, y: this.labels, type: 'scatter', mode: 'markers', marker: { color: 'red' } }],
+    layout: { width: '100%', height: '100%' },
+  };
 
-  // view: any[] = [1200, 300];
-  // legend: boolean = true;
-  // showYAxisLabel: boolean = true;
-  // showXAxisLabel: boolean = true;
-  // xAxisLabel: string = 'Vitamin A from Meat';
-  // yAxisLabel: string = 'Vitamin A total';
   public graphStyle = {
     display: 'block',
     height: '430px',
