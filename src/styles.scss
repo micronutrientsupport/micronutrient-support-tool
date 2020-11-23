@@ -14,11 +14,11 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
-$mdc-layout-grid-breakpoints: (
-  desktop: 840px,
-  tablet: 600px,
-  phone: 0px,
-) !default;
+// $mdc-layout-grid-breakpoints: (
+//   desktop: 840px,
+//   tablet: 600px,
+//   phone: 0px,
+// ) !default;
 
 :root {
   --mdc-layout-grid-margin-desktop: 100px;
