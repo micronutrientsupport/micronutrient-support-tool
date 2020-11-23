@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -28,7 +28,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
     switch (route.routeConfig.path) {
       case (AppRoutes.QUICK_MAPS_BASELINE.segments):
-        promises.push(this.isValidCountry(route.queryParamMap));
+        promises.push(this.isValidCountry(route));
+        promises.push(this.isValidMicronutrients(route));
         break;
     }
     // eslint-disable-next-line arrow-body-style
@@ -44,18 +45,26 @@ export class QuickMapsRouteGuardService implements CanActivate {
     });
   }
 
-  private isValidDictionaryItem(dictType: DictionaryType, itemId: string): Promise<boolean> {
+  private isValidDictionaryItems(dictType: DictionaryType, _itemIds: string | Array<string>): Promise<boolean> {
+    const itemIds = (Array.isArray(_itemIds)) ? _itemIds : [_itemIds];
     return this.dictionaryService
       .getDictionary(dictType)
-      .then((dict: Dictionary) => (null != dict.getItem(itemId)));
+      .then((dict: Dictionary) => (dict.getItems(itemIds).length === itemIds.length));
   };
 
-  private isValidCountry(paramMap: ParamMap): Promise<boolean> {
-    const country = paramMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
+  private isValidCountry(route: ActivatedRouteSnapshot): Promise<boolean> {
+    const country = QuickMapsQueryParams.getCountryId(route);
     // console.debug('isValidCountry', country, paramMap);
     return (null == country)
       ? Promise.resolve(false)
-      : this.isValidDictionaryItem(DictionaryType.COUNTRIES, country);
+      : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
+  };
+  private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
+    const micronutrients = QuickMapsQueryParams.getMicronutrientIds(route);
+    // console.debug('isValidCountry', country, paramMap);
+    return (0 === micronutrients.length)
+      ? Promise.resolve(false)
+      : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, micronutrients);
   };
 
 }
