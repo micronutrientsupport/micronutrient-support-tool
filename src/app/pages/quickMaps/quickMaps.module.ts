@@ -15,12 +15,29 @@ import { ProjectionComponent } from './pages/projection/projection.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component/quickMapsHeader.component';
 import { RoutesModule } from 'src/app/routes/routes.module';
+import { SummarisedDataTableComponent } from './pages/baselineDetails/summarisedDataTable/summarisedDataTable.component';
+import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.component';
 
 @NgModule({
-  declarations: [LocationSelectComponent, SideNavContentComponent, ProjectionComponent, BaselineDetailsComponent, QuickMapsHeaderComponent],
+  declarations: [
+    LocationSelectComponent,
+    SideNavContentComponent,
+    ProjectionComponent,
+    BaselineDetailsComponent,
+    QuickMapsHeaderComponent,
+    SummarisedDataTableComponent,
+    FoodItemsComponent,
+  ],
   imports: [
     CommonModule,
-    QuickMapsRoutingModule, LeafletModule, HttpClientModule, AppMaterialModule, ReactiveFormsModule, ChartjsModule, RoutesModule],
-  providers: [QuickMapsService, QuickMapsRouteGuardService]
+    QuickMapsRoutingModule,
+    LeafletModule,
+    HttpClientModule,
+    AppMaterialModule,
+    ReactiveFormsModule,
+    ChartjsModule,
+    RoutesModule,
+  ],
+  providers: [QuickMapsService, QuickMapsRouteGuardService],
 })
-export class QuickMapsModule { }
+export class QuickMapsModule {}
