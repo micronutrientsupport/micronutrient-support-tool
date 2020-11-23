@@ -1,4 +1,4 @@
-<a [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route">Baseline</a>
+<!-- <a [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route">Baseline</a> -->
 
 <!-- <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
@@ -7,8 +7,16 @@
 
 <!-- <div class="example-sidenav-content"> -->
 <mat-button-toggle-group #group name="fontStyle" aria-label="Font Style">
-  <mat-button-toggle #one value="bold">Baseline</mat-button-toggle>
-  <mat-button-toggle value="italic">Explore projections to 2050</mat-button-toggle>
+  <mat-button-toggle
+    [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route"
+    [checked]="ROUTES.QUICK_MAPS_BASELINE.getRoute()[0] === router.url"
+    >Baseline</mat-button-toggle
+  >
+  <mat-button-toggle
+    [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"
+    [checked]="ROUTES.QUICK_MAPS_PROJECTION.getRoute()[0] === router.url"
+    >Explore projections to 2050</mat-button-toggle
+  >
   <mat-button-toggle value="underline">Explore simple dietary change scenarios</mat-button-toggle>
   <mat-button-toggle value="underline">Explore cost effectiveness scenarios</mat-button-toggle>
 </mat-button-toggle-group>
@@ -17,3 +25,5 @@
     <app-baseline-details *ngIf="one.checked"></app-baseline-details>
   </div>
 </mat-drawer-container> -->
+
+<!-- <a routerLink="/first-component" routerLinkActive="active">First Component</a> -->
