@@ -2,22 +2,34 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
+import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
   selector: 'app-quickmaps-location-select',
   templateUrl: './locationSelect.component.html',
-  styleUrls: [
-    './locationSelect.component.scss',
-    '../../components/sideNavContent/sideNavParent.scss',
-  ],
+  styleUrls: ['./locationSelect.component.scss', '../../components/sideNavContent/sideNavParent.scss'],
 })
-export class LocationSelectComponent implements AfterViewInit {
+export class LocationSelectComponent implements OnInit, AfterViewInit {
+  @ViewChild('drawer') public sidenav: MatSidenav;
+
   public geojson: L.GeoJSON;
   public map: L.Map;
+  public slim: boolean;
 
-  constructor(private http: HttpClient) { }
+  public closeSideNavEvent: MouseEvent;
+
+  constructor(private http: HttpClient, public quickMapsService: QuickMapsService) {
+    // quickMapsService.sideNavClose$.subscribe((closeSideNavEvent: MouseEvent) => {});
+    quickMapsService.slimObservable.subscribe((slim: boolean) => {
+      this.slim = slim;
+    });
+  }
+  ngOnInit(): void {
+    // this.quickMapsService.setSidenav(this.sidenav);
+  }
 
   ngAfterViewInit(): void {
     this.initialiseMap();

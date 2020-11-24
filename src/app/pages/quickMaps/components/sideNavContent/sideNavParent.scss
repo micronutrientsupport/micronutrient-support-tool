@@ -2,7 +2,7 @@
 
 .example-container {
   width: 100%;
-  height: 100%;
+  // height: 100%;
 }
 
 .example-sidenav-content {
@@ -16,8 +16,15 @@
   }
 }
 
-.example-sidenav {
+.large-sidenav-mode {
   padding: 20px;
   background-color: $color_background_form;
   width: 345px;
+  transition: all 0.3s;
+}
+
+.slim-sidenav-mode {
+  width: 50px;
+  background-color: $color_background_form;
+  transition: all 0.3s;
 }

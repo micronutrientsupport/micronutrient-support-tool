@@ -17,10 +17,23 @@ import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component
 import { RoutesModule } from 'src/app/routes/routes.module';
 
 @NgModule({
-  declarations: [LocationSelectComponent, SideNavContentComponent, ProjectionComponent, BaselineDetailsComponent, QuickMapsHeaderComponent],
+  declarations: [
+    LocationSelectComponent,
+    SideNavContentComponent,
+    ProjectionComponent,
+    BaselineDetailsComponent,
+    QuickMapsHeaderComponent,
+  ],
   imports: [
     CommonModule,
-    QuickMapsRoutingModule, LeafletModule, HttpClientModule, AppMaterialModule, ReactiveFormsModule, ChartjsModule, RoutesModule],
-  providers: [QuickMapsService, QuickMapsRouteGuardService]
+    QuickMapsRoutingModule,
+    LeafletModule,
+    HttpClientModule,
+    AppMaterialModule,
+    ReactiveFormsModule,
+    ChartjsModule,
+    RoutesModule,
+  ],
+  providers: [QuickMapsService, QuickMapsRouteGuardService],
 })
-export class QuickMapsModule { }
+export class QuickMapsModule {}

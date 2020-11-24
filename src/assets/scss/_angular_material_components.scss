@@ -27,6 +27,12 @@ mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standar
   border-bottom: 2px solid $color_blue_form;
 }
 
+.mat-button-toggle-disabled .mat-button-toggle-button {
+  color: grey;
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
 // Buttons
 button.mat-raised-button,
 button.mat-flat-button,

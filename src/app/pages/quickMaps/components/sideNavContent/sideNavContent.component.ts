@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
   selector: 'app-side-nav-content',
@@ -20,35 +24,36 @@ export class SideNavContentComponent implements OnInit {
     'some text exaplaining this form field',
     'some text exaplaining this form field',
   ];
-  public generalResponse = 'Please select something';
-  public selectMNDs = [
-    { formControlName: 'vitamin', mnds: ['example1', 'example2', 'exmpale3'], error: 'Click to select vitamins' },
-    { formControlName: 'mineral', mnds: ['example4', 'example5', 'exmpale6'], error: 'Click to select mineral' },
-    { formControlName: 'other', mnds: ['example7', 'example8', 'exmpale9'], error: 'Click to select another option' },
-  ];
+  public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
+  public mndButtonToggleGroup = ['vitamin', 'mineral', 'other'];
+  public selectMNDsFiltered = new Array<DictionaryItem>();
+  public searchByCountry: boolean;
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupsDictionary: Dictionary;
 
+  public nationSelectFormControlArray: Dictionary;
+
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
-  public searchByCountry = true;
   public selectedCountry: DictionaryItem;
   public selectedRegion: DictionaryItem;
 
-  public preSelectedMicronutrient: DictionaryItem;
-  public preSelectedPopulateionGroup: DictionaryItem;
-  public selectedMicronutrient: DictionaryItem;
-  public selectedPopulateionGroup: DictionaryItem;
-
+  public quickMapsPopulationGroup: DictionaryItem;
+  public quickMapsMicronutrientDataOptions: DictionaryItem;
+  public ifQuickMapsVar: boolean;
   public quickMapsForm: FormGroup;
+
+  public slim: boolean;
 
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
+    private router: Router,
+    public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService
       .getDictionaries([
@@ -64,34 +69,57 @@ export class SideNavContentComponent implements OnInit {
         this.popGroupsDictionary = dicts.shift();
 
         // test
-        // this.selectedCountry = this.countriesDictionary.getItems()[0];
-        // this.selectedRegion = this.regionDictionary.getItems()[0];
-        this.preSelectedMicronutrient = this.micronutrientsDictionary.getItems()[0];
-        this.preSelectedPopulateionGroup = this.popGroupsDictionary.getItems()[0];
+        this.quickMapsPopulationGroup = this.popGroupsDictionary.getItems()[0];
+        this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
 
-        this.updateMicronutrientDataOptions();
+        this.updatePopulationAndMicronutrients();
       });
-
-    this.quickMapsForm = this.fb.group({
-      nation: [''],
-      multiNation: [''],
-      mndsExploreComp: ['', Validators.required],
-      populationGroup: ['', Validators.required],
-      microNutrientOptions: ['', Validators.required],
+    quickMapsService.slimObservable.subscribe((slim: boolean) => {
+      this.slim = slim;
     });
+    this.router.url === '/quick-maps' ? (this.ifQuickMapsVar = true) : (this.ifQuickMapsVar = false);
+    if (this.ifQuickMapsVar === true) {
+      this.quickMapsForm = this.fb.group({
+        nation: ['', Validators.required],
+        mndsExploreComp: ['', Validators.required],
+      });
+    } else {
+      // more form controls can be used for the large maps if needed
+    }
+    // this.slim = this.quickMapsService.slim;
   }
 
   ngOnInit(): void {
-    console.log('countriesDicitionary', this.countriesDictionary);
-    // console.log('microNutrients', this.micronutrientsDictionary);
+    this.nationSelectFormControlArray = this.countriesDictionary;
+    this.selectMNDsFiltered = this.micronutrientsDictionary
+      .getItems()
+      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === 'vitamin');
   }
 
-  public updateMicronutrientDataOptions(): void {
+  public mndChange(changeEvent: MatButtonToggleChange): void {
+    this.selectMNDsFiltered = this.micronutrientsDictionary
+      .getItems()
+      .filter(
+        (micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === changeEvent.value,
+      );
+  }
+
+  public countryChange(geography: MatButtonToggleChange): void {
+    if (geography.value === 'singleNation') {
+      this.searchByCountry = true;
+      this.nationSelectFormControlArray = this.countriesDictionary;
+    } else {
+      this.searchByCountry = false;
+      this.nationSelectFormControlArray = this.regionDictionary;
+    }
+  }
+
+  public updatePopulationAndMicronutrients(): void {
     void this.currentDataService
       .getMicronutrientDataOptions(
-        this.searchByCountry ? this.selectedCountry : this.selectedRegion,
-        this.selectedMicronutrient,
-        this.selectedPopulateionGroup,
+        this.searchByCountry && this.ifQuickMapsVar ? this.selectedCountry : this.selectedRegion,
+        this.quickMapsPopulationGroup,
+        this.quickMapsMicronutrientDataOptions,
       )
       .then((options: Array<MicronutrientDataOption>) => {
         this.micronutrientDataOptions = options;
@@ -99,16 +127,11 @@ export class SideNavContentComponent implements OnInit {
       });
   }
 
+  // public closeSideNav(): void {
+  //   this.quickMapsService.closeSideNav();
+  // }
+
   public submitForm(): void {
     console.warn(this.quickMapsForm.value);
   }
 }
-
-// public instrumentSelectChange(changeEvent: MatSelectChange): void {
-//   this.filteredInstrumentTests = this.instrumentTests
-//     .getItems()
-//     .filter((testDictItem: InstrumentTestDictionaryItem) => (testDictItem.instrument.id === changeEvent.value));
-//   this.selectedTest = '';
-//   this.instrumentRunService.sendInstrumentName(this.selectedInstrument);
-//   this.instrumentRunService.sendTestName(this.selectedTest);
-// }

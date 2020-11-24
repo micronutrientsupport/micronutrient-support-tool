@@ -31,4 +31,4 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     StyleGuideComponent,
   ],
 })
-export class PagesModule { }
+export class PagesModule {}

@@ -1,6 +1,6 @@
 @import 'src/assets/scss/_colour';
 
-:host {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,6 +27,7 @@ i {
 
 h2 {
   font-weight: 600;
+  margin-bottom: 0em;
 }
 
 h3 {
@@ -37,4 +38,51 @@ h3 {
 button {
   margin-top: 1em;
   width: auto;
+}
+
+.heading-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5em;
+
+  & div {
+    width: 3em;
+  }
+
+  & button {
+    margin-top: 0em;
+    width: 3em;
+
+    & i {
+      font-size: 25px;
+      margin-left: 0em;
+    }
+  }
+}
+
+.slim-sidenav {
+  & * {
+    display: none;
+  }
+}
+
+.heading {
+  transition: all 0.1s;
+
+  h2 {
+    display: block;
+    transform: rotate(270deg);
+    position: absolute;
+    top: 80px;
+    left: -45px;
+    white-space: nowrap;
+  }
+
+  h2:hover {
+    color: $color_blue_form;
+    cursor: pointer;
+  }
 }
