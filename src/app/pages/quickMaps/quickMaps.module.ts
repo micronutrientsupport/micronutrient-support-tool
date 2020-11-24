@@ -16,6 +16,12 @@ import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { SummarisedDataTableComponent } from './pages/baselineDetails/summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.component';
+import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.component';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
     LocationSelectComponent,
@@ -25,6 +31,7 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
     QuickMapsHeaderComponent,
     SummarisedDataTableComponent,
     FoodItemsComponent,
+    ChartCardComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +42,7 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
     ReactiveFormsModule,
     ChartjsModule,
     RoutesModule,
+    PlotlyModule,
   ],
   providers: [QuickMapsService],
 })
