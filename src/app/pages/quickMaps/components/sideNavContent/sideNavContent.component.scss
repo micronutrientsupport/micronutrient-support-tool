@@ -20,6 +20,11 @@ form {
     align-items: baseline;
     width: 100%;
   }
+
+  mat-form-field,
+  .toggle-buttons {
+    margin-right: 1em;
+  }
 }
 
 i {

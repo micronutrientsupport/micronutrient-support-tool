@@ -25,7 +25,6 @@ export class SideNavContentComponent implements OnInit {
     'some text exaplaining this form field',
   ];
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
-  public mndButtonToggleGroup = ['vitamin', 'mineral', 'other'];
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public searchByCountry: boolean;
 
@@ -68,7 +67,10 @@ export class SideNavContentComponent implements OnInit {
 
         this.quickMapsForm = this.fb.group({
           nation: [this.countriesDictionary.getItem(this.quickMapsService.countryId), Validators.required],
-          mndsExploreComp: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
+          mndsExploreComp: [
+            this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds),
+            Validators.required,
+          ],
         });
 
         if (this.quickMapsForm.valid) {
@@ -79,12 +81,9 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setCountryId(value.id);
         });
         this.quickMapsForm.get('mndsExploreComp').valueChanges.subscribe((values: Array<DictionaryItem>) => {
-          this.quickMapsService.setMicronutrientIds(values.map(item => item.id));
+          this.quickMapsService.setMicronutrientIds(values.map((item) => item.id));
         });
       });
-
-
-
   }
 
   ngOnInit(): void {
