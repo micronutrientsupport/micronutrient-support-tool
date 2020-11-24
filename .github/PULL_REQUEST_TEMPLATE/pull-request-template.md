@@ -1,4 +1,17 @@
-<!--- Provide a general summary of your changes in the Title above -->
+---
+name: Pull Request
+about: This template provides a basic structure for a new Pull Request
+title: Describe your changes in detail
+labels: pr
+assignees: ''
+
+---
+
+---
+name: Pull Request
+about: This template provides a basic structure for a new Pull Request
+
+---
 
 ## Description
 ```
