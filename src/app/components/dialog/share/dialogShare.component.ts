@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-dialog-share',
@@ -16,12 +17,14 @@ export class DialogShareComponent {
     },
     private mdDialogRef: MatDialogRef<DialogShareComponent>,
     private clipboard: Clipboard,
+    private snackbar: SnackbarService,
   ) {
     this.copyLinkUrl = data.shareLink;
   }
 
   public copyLink(): void {
     this.clipboard.copy(this.copyLinkUrl);
+    this.snackbar.openSnackBar('Link copied', 'close');
   }
   public cancel(): void {
     this.close(false);
