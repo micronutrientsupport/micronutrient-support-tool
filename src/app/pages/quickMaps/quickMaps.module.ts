@@ -16,6 +16,7 @@ import { LocationSelectComponent } from './pages/locationSelect/locationSelect.c
 import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component/quickMapsHeader.component';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { MapViewComponent } from '../quickMaps/pages/baselineDetails/map-view/map-view.component';
+import { FoodCompositionViewComponent } from './pages/baselineDetails/food-composition-view/food-composition-view.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MapViewComponent } from '../quickMaps/pages/baselineDetails/map-view/ma
     ProjectionComponent,
     BaselineDetailsComponent,
     QuickMapsHeaderComponent,
-    MapViewComponent
+    MapViewComponent,
+    FoodCompositionViewComponent
   ],
   imports: [
     CommonModule,

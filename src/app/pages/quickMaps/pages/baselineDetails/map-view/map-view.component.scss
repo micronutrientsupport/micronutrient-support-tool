@@ -4,7 +4,14 @@
     display: block;
     width: 100%;
 }
-#mapView {
-    height: 348px;
-    border-radius: 5px;
+#mapView1,
+#mapView2 {
+    height: 279px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+    text-align: center;
 }
