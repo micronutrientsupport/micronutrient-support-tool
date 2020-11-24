@@ -28,8 +28,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
     switch (route.routeConfig.path) {
       case (AppRoutes.QUICK_MAPS_BASELINE.segments):
-        promises.push(this.isValidCountry(route));
-        promises.push(this.isValidMicronutrients(route));
+        // promises.push(this.isValidCountry(route));
+        // promises.push(this.isValidMicronutrients(route));
         break;
     }
     // eslint-disable-next-line arrow-body-style
