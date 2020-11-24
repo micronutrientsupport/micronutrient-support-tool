@@ -15,11 +15,10 @@
 <mat-card class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>ChartJS</mat-card-title>
+    <mat-card-title>Plotly Chart</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="chart-container">
-      <!-- <plotly-plot id="chart" [data]="data" [style]="graphStyle" type="line"> </plotly-plot> -->
       <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
     </div>
   </mat-card-content>

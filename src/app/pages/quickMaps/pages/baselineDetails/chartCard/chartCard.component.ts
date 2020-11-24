@@ -14,31 +14,69 @@ export class ChartCardComponent implements OnInit {
   public meatva = [];
   public totalva = [];
   public labels = [];
-  //PLOTLY GRAPH
+
   public graph = {
-    data: [{ x: this.meatva, y: this.labels, type: 'scatter', mode: 'markers', marker: { color: 'red' } }],
-    layout: { width: '100%', height: '100%' },
+    data: [
+      {
+        x: this.meatva,
+        y: this.labels,
+        type: 'scatter',
+        mode: 'markers',
+        marker: {
+          color: 'red',
+        },
+        xaxis: { text: 'x Axis', color: 'black' },
+      },
+    ],
+    layout: {
+      width: '100%',
+      height: '100%',
+      yaxis: {
+        title: {
+          text: 'People per Household',
+          titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey',
+          },
+        },
+      },
+      xaxis: {
+        title: {
+          text: 'Vitamin A from Meat (μg)',
+          titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey',
+          },
+        },
+      },
+    },
   };
 
   public graphStyle = {
     display: 'block',
     height: '430px',
     width: '860px',
-    color: '#254',
+    color: '#098',
   };
 
   public data = {
     labels: this.labels,
     datasets: [
       {
-        color: 'blue',
-        label: 'Vitamin A from Meat',
-        data: this.meatva,
+        label: 'People per Household',
+        data: this.labels,
       },
       {
-        label: 'Total Vitamin A',
-        data: this.totalva,
+        label: 'Vitamin A from Meat',
+        data: this.meatva,
+        marker: { color: 'red' },
       },
+      // {
+      //   label: 'Total Vitamin A',
+      //   data: this.totalva,
+      // },
     ],
   };
   constructor(private http: HttpClient, private papa: Papa) {}
