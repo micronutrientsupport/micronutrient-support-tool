@@ -8,22 +8,21 @@ import { Component, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.scss']
+  styleUrls: ['./map-view.component.scss'],
 })
 export class MapViewComponent implements AfterViewInit {
-
   public boundaryGeojson: L.GeoJSON;
   // public map: L.Map;
   public boundaryLayer: any;
   private mapView1: L.Map;
   private mapView2: L.Map;
 
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private modalService: DialogService) {}
 
   ngAfterViewInit(): void {
     this.mapView1 = this.initialiseMap('mapView1');
@@ -37,14 +36,11 @@ export class MapViewComponent implements AfterViewInit {
       this.mapView2.invalidateSize();
       this.mapView1.invalidateSize();
     }
-
   };
 
   public initialiseMap(mapId: string): L.Map {
     let map: L.Map;
-    map = L.map(mapId, {
-
-    }).setView([6.6194073, 20.9367017], 3);
+    map = L.map(mapId, {}).setView([6.6194073, 20.9367017], 3);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -55,7 +51,7 @@ export class MapViewComponent implements AfterViewInit {
         color: '#703aa3',
         weight: 1,
         opacity: 0.9,
-        fillOpacity: 0.1
+        fillOpacity: 0.1,
       };
 
       const props = {
@@ -65,26 +61,26 @@ export class MapViewComponent implements AfterViewInit {
           const layerName = feature.properties.NAME_1;
           const layerCentre = layer.getBounds().getCenter();
 
-          const popup = L.popup()
-            .setLatLng(layerCentre)
-            .setContent(`<div>${layerName}</div>`);
+          const popup = L.popup().setLatLng(layerCentre).setContent(`<div>${layerName}</div>`);
 
           layer.bindPopup(popup);
 
           layer.on({
-            mouseover: () => (layer.openPopup()),
-            mouseout: () => (layer.closePopup()),
-            click: (e: any) => (console.log('clicked', e))
+            mouseover: () => layer.openPopup(),
+            mouseout: () => layer.closePopup(),
+            click: (e: any) => console.log('clicked', e),
           });
-        }
+        },
       };
 
       this.boundaryLayer = L.geoJSON(data, props);
       map.addLayer(this.boundaryLayer);
       map.fitBounds(this.boundaryLayer.getBounds());
-
     });
     return map;
   }
 
+  public openDialog(): void {
+    void this.modalService.openChart();
+  }
 }

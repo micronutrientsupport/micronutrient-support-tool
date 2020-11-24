@@ -8,10 +8,11 @@ import { HeaderComponent } from './header/header.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DialogShareComponent } from './dialog/share/dialogShare.component';
+import { DialogModule } from './dialogs/dialog.module';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, DialogShareComponent],
-  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, ShareModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, ShareModule, DialogModule],
   exports: [DialogShareComponent, HeaderComponent, FooterComponent],
 })
 export class ComponentsModule {}
