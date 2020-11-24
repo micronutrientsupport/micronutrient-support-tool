@@ -1,8 +1,21 @@
-<!--- Provide a general summary of the issue in the Title above -->
+---
+name: Issue
+about: This template provides a basic structure for recording issues.
+title: What should happen and what happens instead
+labels: issue
+assignees: ''
+
+---
+
+---
+name: Issue template
+about: This template provides a basic structure for recording issues.
+
+---
 
 ## Description
 ```
-Provide a more detailed introduction to the issue itself, and why you consider it to be a bug
+Provide a more detailed introduction to the issue itself
 ```
 
 ## Expected Behaviour
