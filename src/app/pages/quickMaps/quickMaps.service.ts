@@ -34,29 +34,29 @@ export class QuickMapsService {
     this.slimSubject.next(!this.slimSubject.value);
   }
 
-  public get selectedCountryId(): string {
+  public get countryId(): string {
     return this.countryIdSrc.value;
   }
   public setCountryId(countryId: string, force = false): void {
-    if (force || (this.selectedCountryId !== countryId)) {
+    if (force || (this.countryId !== countryId)) {
       this.countryIdSrc.next(countryId);
     }
   }
 
-  public get selectedMicronutrientIds(): Array<string> {
+  public get micronutrientIds(): Array<string> {
     return this.micronutrientIdsSrc.value;
   }
   public setMicronutrientIds(micronutrientIds: Array<string>, force = false): void {
     micronutrientIds = QuickMapsQueryParams.filterAndSortArray(micronutrientIds);
-    if (force || (QuickMapsQueryParams.compareArrays(micronutrientIds, this.selectedMicronutrientIds))) {
+    if (force || (QuickMapsQueryParams.compareArrays(micronutrientIds, this.micronutrientIds))) {
       this.micronutrientIdsSrc.next(micronutrientIds);
     }
   }
 
   private updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.selectedCountryId;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS] = this.selectedMicronutrientIds;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS] = this.micronutrientIds;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
 
   }
