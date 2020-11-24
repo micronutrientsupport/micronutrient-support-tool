@@ -44,7 +44,7 @@
     </div>
     <ng-container>
         <mat-form-field appearance="fill">
-            <mat-select formControlName="mndsExploreComp" multiple
+            <mat-select formControlName="micronutrients" multiple
                 [placeholder]="'Select ' + groupMND?.value + ' options'">
                 <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
             </mat-select>
@@ -59,8 +59,8 @@
         <i class="fas fa-question-circle" [matTooltip]="toolTips[2]" style="color: #828282;"></i>
     </div>
     <mat-form-field appearance="fill">
-        <mat-select placeholder="Click to select group">
-            <mat-option *ngFor="let item of popGroupsDictionary?.itemsObs | async" [value]="quickMapsPopulationGroup">
+        <mat-select formControlName="popGroup" placeholder="Click to select group">
+            <mat-option *ngFor="let item of popGroupsDictionary?.itemsObs | async" [value]="item">
                 {{item.name}}
             </mat-option>
         </mat-select>
@@ -74,9 +74,9 @@
         <i class="fas fa-question-circle" [matTooltip]="toolTips[3]" style="color: #828282;"></i>
     </div>
     <mat-form-field appearance="fill">
-        <mat-select placeholder="Click to select options">
-            <mat-option *ngFor="let item of micronutrientsDictionary?.itemsObs | async"
-                [value]="quickMapsMicronutrientDataOptions">{{item.name}}
+        <mat-select formControlName="mndsData" placeholder="Click to select options">
+            <mat-option *ngFor="let item of micronutrientDataOptions"
+                [value]="item">{{item.name}}
             </mat-option>
         </mat-select>
         <mat-error>{{errorReponse[0]}}</mat-error>

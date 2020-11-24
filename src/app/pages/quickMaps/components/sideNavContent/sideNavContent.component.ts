@@ -2,12 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
@@ -38,7 +39,6 @@ export class SideNavContentComponent implements OnInit {
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
-  public quickMapsPopulationGroup: DictionaryItem;
   public quickMapsMicronutrientDataOptions: DictionaryItem;
   public quickMapsForm: FormGroup;
 
@@ -47,6 +47,7 @@ export class SideNavContentComponent implements OnInit {
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
     private router: Router,
+    private route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService
@@ -64,11 +65,12 @@ export class SideNavContentComponent implements OnInit {
 
         // test
         this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
-        this.quickMapsPopulationGroup = this.popGroupsDictionary.getItems()[0];
 
         this.quickMapsForm = this.fb.group({
           nation: [this.countriesDictionary.getItem(this.quickMapsService.countryId), Validators.required],
-          mndsExploreComp: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
+          micronutrients: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
+          popGroup: [this.popGroupsDictionary.getItem(this.quickMapsService.popGroupId), Validators.required],
+          mndsData: [null, Validators.required],
         });
 
         if (this.quickMapsForm.valid) {
@@ -77,10 +79,19 @@ export class SideNavContentComponent implements OnInit {
 
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
           this.quickMapsService.setCountryId(value.id);
+          this.updatePopulationAndMicronutrients();
         });
-        this.quickMapsForm.get('mndsExploreComp').valueChanges.subscribe((values: Array<DictionaryItem>) => {
+        this.quickMapsForm.get('micronutrients').valueChanges.subscribe((values: Array<DictionaryItem>) => {
           this.quickMapsService.setMicronutrientIds(values.map(item => item.id));
+          this.updatePopulationAndMicronutrients();
         });
+        this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: DictionaryItem) => {
+          this.quickMapsService.setPopGroupId(value.id);
+          this.updatePopulationAndMicronutrients();
+        });
+        // this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DictionaryItem) => {
+        //   // this.quickMapsService.set(value.id);
+        // });
       });
 
 
@@ -113,16 +124,28 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public updatePopulationAndMicronutrients(): void {
-    void this.currentDataService
-      .getMicronutrientDataOptions(
-        this.countriesDictionary.getItem(this.quickMapsService.countryId),
-        this.quickMapsPopulationGroup,
-        this.quickMapsMicronutrientDataOptions,
-      )
-      .then((options: Array<MicronutrientDataOption>) => {
-        this.micronutrientDataOptions = options;
-        console.log('MicronutrientDataOption', options);
-      });
+    const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
+    const microNutrients = this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds);
+    const popGroup = this.popGroupsDictionary.getItem(this.quickMapsService.popGroupId);
+
+    if ((null != country)
+      && (microNutrients.length > 0)
+      && (null != popGroup)) {
+
+      void this.currentDataService
+        .getMicronutrientDataOptions(
+          country,
+          microNutrients,
+          popGroup,
+        )
+        .then((options: Array<MicronutrientDataOption>) => {
+          this.micronutrientDataOptions = options;
+          console.log('MicronutrientDataOption', options);
+        });
+    } else {
+      // clear
+      this.micronutrientDataOptions = [];
+    }
   }
 
   // public closeSideNav(): void {
@@ -131,5 +154,11 @@ export class SideNavContentComponent implements OnInit {
 
   public submitForm(): void {
     console.warn(this.quickMapsForm.value);
+
+    if (this.quickMapsForm.valid) {
+      void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
+        queryParams: this.route.snapshot.queryParams,
+      });
+    }
   }
 }

@@ -4,6 +4,7 @@ export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_IDS: 'mdn-ids',
+    POP_GROUP_ID: 'pop-group-id',
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
@@ -14,6 +15,10 @@ export class QuickMapsQueryParams {
     let micronutrients = route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS);
     micronutrients = (null == micronutrients) ? '' : micronutrients;
     return this.filterAndSortArray(micronutrients.split(','));
+  }
+
+  public static getPopGroupId(route: ActivatedRouteSnapshot): string {
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
   }
 
 
