@@ -1,4 +1,13 @@
-<p>baseline-details works!</p>
-<div class="chart-container">
-  <ngx-chartjs id="chart" [data]="data" type="line" style="display: block; height: 430px; width: 860px"> </ngx-chartjs>
-</div>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <app-side-nav-content></app-side-nav-content>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <app-quick-maps-header></app-quick-maps-header>
+    <div class="chart-container">
+      <ngx-chartjs id="chart" [data]="data" [style]="graphStyle" type="line"> </ngx-chartjs>
+    </div>
+    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
+  </div>
+</mat-drawer-container>

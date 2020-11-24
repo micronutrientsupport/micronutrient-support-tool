@@ -27,31 +27,35 @@
 // hue. Available color palettes: https://material.io/design/color/
 $app-primary: mat-palette($_primary_pallete);
 $app-accent: mat-palette($_accent_pallete);
-
-// The warn palette is optional (defaults to red).
 $app-warn: mat-palette($mat-red);
 
+$app-theme-standard: mat-light-theme(
+  (
+    color: (
+      primary: $app-primary,
+      accent: $app-accent,
+      warn: $app-warn,
+    ),
+  )
+);
+
 // Create the theme object (a Sass map containing all of the palettes).
-$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+// $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($app-theme);
+@include angular-material-theme($app-theme-standard);
 
 // Override typography for all Angular Material, including mat-base-typography and all components.
 @include angular-material-typography($custom-typography);
 
-// Define a mixin that accepts a theme and outputs the theme-specific styles.
-@mixin bmgf-maps-theme($theme) {
-  // Extract the palettes you need from the theme definition.
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
+// // Define a mixin that accepts a theme and outputs the theme-specific styles.
+// @mixin bmgf-maps-theme($theme) {
+//   $primary: map-get($theme, primary);
+//   $accent: map-get($theme, accent);
+//   $warn: map-get($theme, warn);
+// }
 
-  body.bmgf-maps-theme {
-  }
-}
-
-// Include theme styles for your custom components.
-@include bmgf-maps-theme($app-theme);
+// // Include theme styles for your custom components.
+// @include bmgf-maps-theme($app-theme-standard);

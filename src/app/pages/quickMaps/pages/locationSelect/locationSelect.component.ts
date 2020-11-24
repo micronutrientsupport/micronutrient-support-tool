@@ -19,8 +19,6 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public map: L.Map;
   public slim: boolean;
 
-  public closeSideNavEvent: MouseEvent;
-
   constructor(private http: HttpClient, public quickMapsService: QuickMapsService) {
     // quickMapsService.sideNavClose$.subscribe((closeSideNavEvent: MouseEvent) => {});
     quickMapsService.slimObservable.subscribe((slim: boolean) => {
@@ -36,7 +34,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public initialiseMap(): void {
-    this.map = L.map('map').setView([6.6194073, 20.9367017], 3);
+    this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);

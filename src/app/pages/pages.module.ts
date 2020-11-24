@@ -22,13 +22,6 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
   ],
   imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule],
   providers: [],
-  exports: [
-    HomeComponent,
-    MapsToolComponent,
-    EducationalResourcesComponent,
-    HelpComponent,
-    ProjectObjectivesComponent,
-    StyleGuideComponent,
-  ],
+  exports: [],
 })
 export class PagesModule {}

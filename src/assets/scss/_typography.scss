@@ -20,7 +20,7 @@ input	None. Used only in components.	Form input fields.
 
 $custom-typography: mat-typography-config(
   $font-family: 'Quicksand',
-  $headline: mat-typography-level(48px, 48px, 500),
-  $title: mat-typography-level(25px, 30px, 300),
+  $headline: mat-typography-level(48px, 48px, 600),
+  $title: mat-typography-level(25px, 30px, 400),
   $body-1: mat-typography-level(16px, 24px, 400),
 );

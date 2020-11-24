@@ -5,10 +5,11 @@
   </mat-drawer>
 
   <div class="example-sidenav-content">
-    <button type="button" mat-button (click)="quickMapsService.sideNavToggle()">Toggle sidenav</button>
+    <!-- app-quick-maps-header should not be visible, currently in place to allow navigation to respective pages until search func is in place. -->
     <app-quick-maps-header></app-quick-maps-header>
     <div class="map-container">
       <div id="map"></div>
     </div>
+    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
   </div>
 </mat-drawer-container>
