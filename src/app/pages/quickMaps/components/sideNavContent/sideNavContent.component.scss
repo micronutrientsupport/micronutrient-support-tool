@@ -1,12 +1,11 @@
 @import 'src/assets/scss/_colour';
 
 :host {
-  // @include custom-scroll;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-height: 100%;
 }
 
 form {

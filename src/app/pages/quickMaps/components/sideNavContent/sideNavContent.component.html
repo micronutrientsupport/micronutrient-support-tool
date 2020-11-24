@@ -6,7 +6,7 @@
         <i class="fas fa-caret-left"></i></button>
 </div>
 
-<form [formGroup]="quickMapsForm" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
+<form class="bmgf-maps-nice-scrollbar" [formGroup]="quickMapsForm" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
     <div class="flex-row">
         <h3>Geography of interest</h3>
         <i class="fas fa-question-circle" [matTooltip]="toolTips[0]" style="color: #828282;"></i>
