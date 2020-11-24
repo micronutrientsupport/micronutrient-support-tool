@@ -28,7 +28,7 @@ export class MapViewComponent implements AfterViewInit {
     this.mapView1 = this.initialiseMap('mapView1');
   }
 
-  public tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     // Map container doesn't exist until tab changed...
     if (tabChangeEvent.index === 1 && !this.mapView2) {
       this.mapView2 = this.initialiseMap('mapView2');
@@ -36,7 +36,7 @@ export class MapViewComponent implements AfterViewInit {
       this.mapView2.invalidateSize();
       this.mapView1.invalidateSize();
     }
-  };
+  }
 
   public initialiseMap(mapId: string): L.Map {
     let map: L.Map;
@@ -81,6 +81,6 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   public openDialog(): void {
-    void this.modalService.openChart();
+    void this.modalService.openChart('Hello World');
   }
 }

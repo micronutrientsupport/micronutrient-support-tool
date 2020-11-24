@@ -1,12 +1,10 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseDialogComponent } from './baseDialog/baseDialog.component';
 import { AppMaterialModule } from 'src/app/app-material.module';
-import { ChartDialogComponent } from './chartDialog/chartDialog.component';
-import { DialogService } from './dialog.service';
-
+import { MapDialogComponent } from './mapDialog/mapDialog.component';
 @NgModule({
-  declarations: [BaseDialogComponent, ChartDialogComponent],
+  declarations: [BaseDialogComponent, MapDialogComponent],
   imports: [CommonModule, AppMaterialModule],
 })
 export class DialogModule {

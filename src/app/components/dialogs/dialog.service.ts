@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-import { ChartDialogComponent } from './chartDialog/chartDialog.component';
-
+import { MapDialogComponent } from './mapDialog/mapDialog.component';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +10,9 @@ export class DialogService extends BaseDialogService {
     super(dialog);
   }
 
-  public openChart(): Promise<DialogData> {
-    return this.openDialog('chart', ChartDialogComponent);
+  public openChart(contentValue: string): Promise<DialogData> {
+    return this.openDialog('chart', MapDialogComponent, {
+      content: contentValue,
+    });
   }
 }
