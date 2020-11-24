@@ -49,4 +49,13 @@ export class SummarisedDataTableComponent implements OnInit {
         this.dataSource.sort = this.sort;
       });
   }
+
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 }

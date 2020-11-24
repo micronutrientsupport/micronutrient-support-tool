@@ -1,24 +1,33 @@
-<table mat-table [dataSource]="desserts" matSort class="mat-elevation-z8">
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-heade>Dessert</th>
-    <td mat-cell *matCellDef="let element">{{ element.name }}(100g)</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dessert (100g)</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
   <ng-container matColumnDef="calories">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Calories</th>
     <td mat-cell *matCellDef="let element">{{ element.calories }}</td>
   </ng-container>
   <ng-container matColumnDef="fat">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fat</th>
-    <td mat-cell *matCellDef="let element">{{ element.fat }} (g)</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fat (g)</th>
+    <td mat-cell *matCellDef="let element">{{ element.fat }}</td>
   </ng-container>
   <ng-container matColumnDef="carbs">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Carbs</th>
-    <td mat-cell *matCellDef="let element">{{ element.carbs }} (g)</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Carbs (g)</th>
+    <td mat-cell *matCellDef="let element">{{ element.carbs }}</td>
   </ng-container>
   <ng-container matColumnDef="protein">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Protein</th>
-    <td mat-cell *matCellDef="let element">{{ element.protein }} (g)</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Protein (g)</th>
+    <td mat-cell *matCellDef="let element">{{ element.protein }}</td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+  </tr>
 </table>
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" [length]="desserts.length"> </mat-paginator>
