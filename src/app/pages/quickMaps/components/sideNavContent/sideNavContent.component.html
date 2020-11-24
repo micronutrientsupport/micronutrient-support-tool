@@ -1,90 +1,89 @@
-<div class="bmgf-maps-nice-scrollbar container">
-    <div class="heading-row" [ngClass]="(slim) ? 'slim-sidenav heading' : ''">
-        <div></div>
-        <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
-        <button mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
-            <i class="fas fa-caret-left"></i></button>
+<!-- <div class="bmgf-maps-nice-scrollbar container"> -->
+<div class="heading-row" [ngClass]="(slim) ? 'slim-sidenav heading' : ''">
+    <div></div>
+    <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
+    <button mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
+        <i class="fas fa-caret-left"></i></button>
+</div>
+
+<form [formGroup]="quickMapsForm" [ngClass]="(slim) ? 'slim-sidenav' : ''">
+    <div class="flex-row">
+        <h3>Geography of interest</h3>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[0]" style="color: #828282;"></i>
     </div>
 
-    <form [formGroup]="quickMapsForm" [ngClass]="(slim) ? 'slim-sidenav' : ''">
-        <div class="flex-row">
-            <h3>Geography of interest</h3>
-            <i class="fas fa-question-circle" [matTooltip]="toolTips[0]" style="color: #828282;"></i>
-        </div>
+    <!--Countries/Region -->
+    <div>
+        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest" (change)="countryChange($event)"
+            aria-label="Geography of interest" value="nation">
+            <mat-button-toggle value="nation">Single nation</mat-button-toggle>
+            <mat-button-toggle disabled value="region">Multinational area</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
 
-        <!--Countries/Region -->
-        <div>
-            <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
-                (change)="countryChange($event)" aria-label="Geography of interest" value="nation">
-                <mat-button-toggle value="nation">Single nation</mat-button-toggle>
-                <mat-button-toggle disabled value="region">Multinational area</mat-button-toggle>
-            </mat-button-toggle-group>
-        </div>
+    <mat-form-field appearance="fill" aria-label="Geography of interest">
+        <mat-select formControlName="nation" [placeholder]="'select a ' + group.value">
+            <mat-option *ngFor="let item of nationSelectFormControlArray?.itemsObs | async" [value]="item.id">
+                {{item.description}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{errorReponse[1] + ' (' + group.value + ')'}}</mat-error>
+    </mat-form-field>
+    <!--/Countries/Region -->
 
-        <mat-form-field appearance="fill" aria-label="Geography of interest">
-            <mat-select formControlName="nation" [placeholder]="'select a ' + group.value">
-                <mat-option *ngFor="let item of nationSelectFormControlArray?.itemsObs | async" [value]="item.id">
-                    {{item.description}}
-                </mat-option>
-            </mat-select>
-            <mat-error>{{errorReponse[1] + ' (' + group.value + ')'}}</mat-error>
-        </mat-form-field>
-        <!--/Countries/Region -->
-
-        <!-- MNDs -->
-        <div class="flex-row">
-            <h3>MND(s) to explore or compare</h3>
-            <i class="fas fa-question-circle" [matTooltip]="toolTips[1]" style="color: #828282;"></i>
-        </div>
-        <div>
-            <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
-                (change)="mndChange($event)" value="vitamin">
-                <mat-button-toggle *ngFor="let item of mndButtonToggleGroup" [value]="item">{{item}}</mat-button-toggle>
-            </mat-button-toggle-group>
-        </div>
-        <ng-container>
-            <mat-form-field appearance="fill">
-                <mat-select formControlName="mndsExploreComp" multiple
-                    [placeholder]="'Select ' + groupMND?.value + ' options'">
-                    <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd.id">{{mnd.description}}</mat-option>
-                </mat-select>
-                <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
-            </mat-form-field>
-        </ng-container>
-        <!--/ MNDs -->
-
-        <!-- Population group -->
-        <div class="flex-row">
-            <h3>Population group available</h3>
-            <i class="fas fa-question-circle" [matTooltip]="toolTips[2]" style="color: #828282;"></i>
-        </div>
+    <!-- MNDs -->
+    <div class="flex-row">
+        <h3>MND(s) to explore or compare</h3>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[1]" style="color: #828282;"></i>
+    </div>
+    <div>
+        <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
+            (change)="mndChange($event)" value="vitamin">
+            <mat-button-toggle *ngFor="let item of mndButtonToggleGroup" [value]="item">{{item}}</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <ng-container>
         <mat-form-field appearance="fill">
-            <mat-select placeholder="Click to select group" [disabled]="ifQuickMapsVar">
-                <mat-option *ngFor="let item of popGroupsDictionary?.itemsObs | async"
-                    [value]="quickMapsPopulationGroup">
-                    {{item.name}}
-                </mat-option>
+            <mat-select formControlName="mndsExploreComp" multiple
+                [placeholder]="'Select ' + groupMND?.value + ' options'">
+                <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd.id">{{mnd.description}}</mat-option>
             </mat-select>
-            <mat-error>{{errorReponse[0]}}</mat-error>
+            <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
         </mat-form-field>
-        <!--/ Population group -->
+    </ng-container>
+    <!--/ MNDs -->
 
-        <!-- Micronutrient data -->
-        <div class="flex-row">
-            <h3>Micronutrient data options</h3>
-            <i class="fas fa-question-circle" [matTooltip]="toolTips[3]" style="color: #828282;"></i>
-        </div>
-        <mat-form-field appearance="fill">
-            <mat-select placeholder="Click to select options" [disabled]="ifQuickMapsVar">
-                <mat-option *ngFor="let item of micronutrientsDictionary?.itemsObs | async"
-                    [value]="quickMapsMicronutrientDataOptions">{{item.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error>{{errorReponse[0]}}</mat-error>
-        </mat-form-field>
-        <!--/ Micronutrient data -->
+    <!-- Population group -->
+    <div class="flex-row">
+        <h3>Population group available</h3>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[2]" style="color: #828282;"></i>
+    </div>
+    <mat-form-field appearance="fill">
+        <mat-select placeholder="Click to select group" [disabled]="ifQuickMapsVar">
+            <mat-option *ngFor="let item of popGroupsDictionary?.itemsObs | async" [value]="quickMapsPopulationGroup">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{errorReponse[0]}}</mat-error>
+    </mat-form-field>
+    <!--/ Population group -->
 
-        <button mat-flat-button color="primary" (click)="submitForm()">View results</button>
+    <!-- Micronutrient data -->
+    <div class="flex-row">
+        <h3>Micronutrient data options</h3>
+        <i class="fas fa-question-circle" [matTooltip]="toolTips[3]" style="color: #828282;"></i>
+    </div>
+    <mat-form-field appearance="fill">
+        <mat-select placeholder="Click to select options" [disabled]="ifQuickMapsVar">
+            <mat-option *ngFor="let item of micronutrientsDictionary?.itemsObs | async"
+                [value]="quickMapsMicronutrientDataOptions">{{item.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error>{{errorReponse[0]}}</mat-error>
+    </mat-form-field>
+    <!--/ Micronutrient data -->
 
-    </form>
-</div>
+    <button mat-flat-button color="primary" (click)="submitForm()">View results</button>
+
+</form>
+<!-- </div> -->

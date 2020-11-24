@@ -1,6 +1,8 @@
 @import 'src/assets/scss/_colour';
 
-.container {
+:host {
+  // @include custom-scroll;
+
   display: flex;
   flex-direction: column;
   align-items: center;
