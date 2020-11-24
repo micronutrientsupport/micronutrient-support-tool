@@ -12,4 +12,4 @@ jobs:
         with:
           # build: npm run build
           start: npm start
-          wait-on: http://localhost:8100
+          # wait-on: http://localhost:8100
