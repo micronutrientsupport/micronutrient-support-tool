@@ -5,8 +5,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
-import { MapViewComponent } from './map-view/map-view.component';
-
 @Component({
   selector: 'app-baseline-details',
   templateUrl: './baselineDetails.component.html',
