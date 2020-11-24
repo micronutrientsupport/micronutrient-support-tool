@@ -1,1 +1,24 @@
-<p>food-items works!</p>
+<table mat-table [dataSource]="desserts" matSort class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-heade>Dessert</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}(100g)</td>
+  </ng-container>
+  <ng-container matColumnDef="calories">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Calories</th>
+    <td mat-cell *matCellDef="let element">{{ element.calories }}</td>
+  </ng-container>
+  <ng-container matColumnDef="fat">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fat</th>
+    <td mat-cell *matCellDef="let element">{{ element.fat }} (g)</td>
+  </ng-container>
+  <ng-container matColumnDef="carbs">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Carbs</th>
+    <td mat-cell *matCellDef="let element">{{ element.carbs }} (g)</td>
+  </ng-container>
+  <ng-container matColumnDef="protein">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Protein</th>
+    <td mat-cell *matCellDef="let element">{{ element.protein }} (g)</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
