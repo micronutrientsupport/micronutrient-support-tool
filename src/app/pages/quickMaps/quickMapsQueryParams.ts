@@ -7,11 +7,11 @@ export class QuickMapsQueryParams {
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
-    return route.paramMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
   }
 
   public static getMicronutrientIds(route: ActivatedRouteSnapshot): Array<string> {
-    const micronutrients = route.paramMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS);
+    const micronutrients = route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS);
     return ('string' !== typeof micronutrients)
       ? []
       : micronutrients.split(',')

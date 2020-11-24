@@ -24,7 +24,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route, route.routeConfig.path, AppRoutes.QUICK_MAPS_BASELINE.segments);
+    // console.debug('canActivate', route);
 
     switch (route.routeConfig.path) {
       case (AppRoutes.QUICK_MAPS_BASELINE.segments):
@@ -34,14 +34,20 @@ export class QuickMapsRouteGuardService implements CanActivate {
     }
     // eslint-disable-next-line arrow-body-style
     return Promise.all(promises).then((valids: Array<boolean>) => {
-      return (valids.every(value => value))
-        ? true
-        : this.router.createUrlTree( // redirect to quickmaps map page
+      if (valids.every(value => value)) {
+        return true;
+      } else {
+        // TODO: Show notification of "Params error"?
+
+        // redirect to quickmaps map page
+        // TODO: Consider redirect to params error page?
+        return this.router.createUrlTree(
           AppRoutes.QUICK_MAPS.getRoute(),
           {
             queryParams: route.queryParams,
           }
         );
+      }
     });
   }
 
@@ -49,19 +55,24 @@ export class QuickMapsRouteGuardService implements CanActivate {
     const itemIds = (Array.isArray(_itemIds)) ? _itemIds : [_itemIds];
     return this.dictionaryService
       .getDictionary(dictType)
-      .then((dict: Dictionary) => (dict.getItems(itemIds).length === itemIds.length));
+      .then((dict: Dictionary) => {
+        const items = dict.getItems(itemIds);
+        // console.debug('isValidDictionaryItems', itemIds, items);
+
+        return (items.length === itemIds.length);
+      });
   };
 
   private isValidCountry(route: ActivatedRouteSnapshot): Promise<boolean> {
     const country = QuickMapsQueryParams.getCountryId(route);
-    // console.debug('isValidCountry', country, paramMap);
+    // console.debug('isValidCountry', country, route.paramMap);
     return (null == country)
       ? Promise.resolve(false)
       : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
   };
   private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
     const micronutrients = QuickMapsQueryParams.getMicronutrientIds(route);
-    // console.debug('isValidCountry', country, paramMap);
+    // console.debug('isValidMicronutrients', micronutrients, route.paramMap);
     return (0 === micronutrients.length)
       ? Promise.resolve(false)
       : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, micronutrients);
