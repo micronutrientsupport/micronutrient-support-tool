@@ -29,8 +29,8 @@ export class ChartCardComponent implements OnInit {
       },
     ],
     layout: {
-      width: '100%',
-      height: '100%',
+      autosize: false,
+      height: 270,
       yaxis: {
         title: {
           text: 'People per Household',
@@ -56,8 +56,6 @@ export class ChartCardComponent implements OnInit {
 
   public graphStyle = {
     display: 'block',
-    height: '430px',
-    width: '860px',
     color: '#098',
   };
 
@@ -79,7 +77,7 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa) {}
+  constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
     void this.http

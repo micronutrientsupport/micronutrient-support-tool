@@ -1,66 +1,81 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-</mat-form-field>
+<mat-toolbar color="primary" style="height:40px">
+  <button mat-icon-button class="example-icon" aria-label="Settings icon">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <span class="example-spacer">Summarised data table</span>
+  <button mat-icon-button class="example-icon" aria-label="Modal icon">
+    <mat-icon>launch</mat-icon>
+  </button>
+</mat-toolbar>
 
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-  <ng-container matColumnDef="pc">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>pc</th>
-    <td mat-cell *matCellDef="let element">{{ element.pc }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.supply">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.supply</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.supply'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.cergra">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.cergra</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.cergra'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.tubers">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.tubers</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.tubers'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.nuts">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.nuts</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.nuts'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.veg">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.veg</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.veg'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.meat">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.meat</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.meat'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.fruit">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fruit</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.fruit'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.dairy">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.dairy</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.dairy'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.fat">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fat</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.fat'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.misc">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.misc</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.misc'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.vendor">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.vendor</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.vendor'] }}</td>
-  </ng-container>
-  <ng-container matColumnDef="va.bev">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
-    <td mat-cell *matCellDef="let element">{{ element['va.bev'] }}</td>
-  </ng-container>
+<div class="table-container mat-elevation-z8">
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
-  </tr>
-</table>
-<mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" [length]="rawData?.data?.length"> </mat-paginator>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="pc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>pc</th>
+      <td mat-cell *matCellDef="let element">{{ element.pc }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.supply">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.supply</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.supply'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.cergra">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.cergra</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.cergra'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.tubers">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.tubers</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.tubers'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.nuts">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.nuts</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.nuts'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.veg">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.veg</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.veg'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.meat">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.meat</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.meat'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.fruit">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fruit</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.fruit'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.dairy">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.dairy</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.dairy'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.fat">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fat</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.fat'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.misc">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.misc</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.misc'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.vendor">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.vendor</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.vendor'] }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.bev">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.bev'] }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" [length]="rawData?.data?.length">
+  </mat-paginator>
+
+</div>
