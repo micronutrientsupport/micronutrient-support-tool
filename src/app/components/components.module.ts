@@ -5,10 +5,12 @@ import { AppMaterialModule } from '../app-material.module';
 import { RoutesModule } from '../routes/routes.module';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { ShareModule } from 'ngx-sharebuttons';
+import { DialogShareComponent } from './dialog/share/dialogShare.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent],
-  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule],
-  exports: [HeaderComponent, FooterComponent],
+  declarations: [HeaderComponent, FooterComponent, DialogShareComponent],
+  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ShareModule],
+  exports: [HeaderComponent, FooterComponent, DialogShareComponent],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

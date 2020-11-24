@@ -40,6 +40,7 @@
     "moment-es6": "^1.0.0",
     "ng-navigator-share": "^1.0.4",
     "ngx-papaparse": "^5.0.0",
+    "ngx-sharebuttons": "^8.0.4",
     "plotly.js": "^1.57.1",
     "rxjs": "~6.6.0",
     "save": "^2.4.0",
