@@ -7,6 +7,7 @@ import { PagesModule } from './pages/pages.module';
 import { ComponentsModule } from './components/components.module';
 import { ServicesModule } from './services/services.module';
 import { ApiModule } from './apiAndObjects/api.module';
+import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuard.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import { ApiModule } from './apiAndObjects/api.module';
     ServicesModule,
   ],
   exports: [],
-  providers: [],
+  providers: [QuickMapsRouteGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
