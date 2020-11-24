@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('Basic Tests', () => {
+describe('Homepage Tests', () => {
   it('renders MAPS homepage without crashing', () => {
     cy.visit('/');
     cy.get('#headerTitleText').contains('BMGF MAPS');
