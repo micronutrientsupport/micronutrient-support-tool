@@ -38,8 +38,6 @@ export class SideNavContentComponent implements OnInit {
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
-  public selectedGeography: DictionaryItem;
-
   public quickMapsPopulationGroup: DictionaryItem;
   public quickMapsMicronutrientDataOptions: DictionaryItem;
   public quickMapsForm: FormGroup;
@@ -65,21 +63,27 @@ export class SideNavContentComponent implements OnInit {
         this.popGroupsDictionary = dicts.shift();
 
         // test
-        this.selectedGeography = this.countriesDictionary.getItems()[0];
         this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
         this.quickMapsPopulationGroup = this.popGroupsDictionary.getItems()[0];
 
-        this.updatePopulationAndMicronutrients();
+        this.quickMapsForm = this.fb.group({
+          nation: [this.countriesDictionary.getItem(this.quickMapsService.countryId), Validators.required],
+          mndsExploreComp: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
+        });
+
+        if (this.quickMapsForm.valid) {
+          this.updatePopulationAndMicronutrients();
+        }
+
+        this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
+          this.quickMapsService.setCountryId(value.id);
+        });
+        this.quickMapsForm.get('mndsExploreComp').valueChanges.subscribe((values: Array<DictionaryItem>) => {
+          this.quickMapsService.setMicronutrientIds(values.map(item => item.id));
+        });
       });
 
-    this.quickMapsForm = this.fb.group({
-      nation: ['', Validators.required],
-      mndsExploreComp: ['', Validators.required],
-    });
 
-    this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
-      this.selectedGeography = value;
-    });
 
   }
 
@@ -111,7 +115,7 @@ export class SideNavContentComponent implements OnInit {
   public updatePopulationAndMicronutrients(): void {
     void this.currentDataService
       .getMicronutrientDataOptions(
-        this.selectedGeography,
+        this.countriesDictionary.getItem(this.quickMapsService.countryId),
         this.quickMapsPopulationGroup,
         this.quickMapsMicronutrientDataOptions,
       )

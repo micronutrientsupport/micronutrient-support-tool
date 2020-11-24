@@ -13,7 +13,7 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public countryIdObs = this.countryIdSrc.asObservable();
 
-  private readonly micronutrientIdsSrc = new BehaviorSubject<Array<string>>(null);
+  private readonly micronutrientIdsSrc = new BehaviorSubject<Array<string>>([]);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public micronutrientIdsObs = this.micronutrientIdsSrc.asObservable();
 
@@ -48,7 +48,7 @@ export class QuickMapsService {
   }
   public setMicronutrientIds(micronutrientIds: Array<string>, force = false): void {
     micronutrientIds = QuickMapsQueryParams.filterAndSortArray(micronutrientIds);
-    if (force || (QuickMapsQueryParams.compareArrays(micronutrientIds, this.micronutrientIds))) {
+    if (force || (!QuickMapsQueryParams.arrayValuesSame(micronutrientIds, this.micronutrientIds))) {
       this.micronutrientIdsSrc.next(micronutrientIds);
     }
   }

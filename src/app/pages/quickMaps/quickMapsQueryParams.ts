@@ -18,6 +18,7 @@ export class QuickMapsQueryParams {
 
 
   public static setQueryParams(router: Router, activatedRoute: ActivatedRoute, params: Record<string, string | Array<string>>): void {
+    // console.debug('setQueryParams', params);
     const stringParams: Record<string, string> = {};
     // convert Array values to strings
     Object.keys(params).forEach((key: string) => {
@@ -35,13 +36,13 @@ export class QuickMapsQueryParams {
         relativeTo: activatedRoute,
         replaceUrl: true, // replace in history
         queryParams: stringParams,
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
+        // queryParamsHandling: 'merge', // merges with what's already there, but unused params are removed
       }
     );
   }
 
 
-  public static compareArrays(array1: Array<string>, array2: Array<string>): boolean {
+  public static arrayValuesSame(array1: Array<string>, array2: Array<string>): boolean {
     array1 = this.filterAndSortArray(array1);
     array2 = this.filterAndSortArray(array2);
 
