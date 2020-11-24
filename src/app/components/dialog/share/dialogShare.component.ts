@@ -28,7 +28,7 @@ export class DialogShareComponent {
   }
   public copyLink(): void {
     this.clipboard.copy(this.copyLinkUrl);
-    this.snackbar.openSnackBar('Link copied', 'close');
+    this.snackbar.openSnackBar('Link copied: ' + this.copyLinkUrl, 'close');
   }
   public cancel(): void {
     this.close(false);
