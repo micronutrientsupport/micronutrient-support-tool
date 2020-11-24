@@ -2,7 +2,6 @@
 
 .example-container {
   width: 100%;
-  // height: 100%;
 }
 
 .example-sidenav-content {
@@ -20,11 +19,11 @@
   padding: 1em 0em 1em 1em;
   background-color: $color_background_form;
   width: 345px;
-  transition: all 0.3s;
+  transition: all 0.4s;
 }
 
 .slim-sidenav-mode {
   width: 50px;
   background-color: $color_background_form;
-  transition: all 0.3s;
+  transition: all 0.4s;
 }
