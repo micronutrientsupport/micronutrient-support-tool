@@ -1,0 +1,134 @@
+<div class="container">
+    <h1>Style Guide</h1>
+    <br>
+    <h2>Colours</h2>
+    <div class="colours">
+        <div class="circle" style="background-color: #323130;">#323130</div>
+        <div class="circle" style="background-color: #4F4F4F;">#4F4F4F</div>
+        <div class="circle" style="background-color: #703AA3;">#703AA3</div>
+        <div class="circle" style="background-color: #9B51E0;">#9B51E0</div>
+        <div class="circle" style="background-color: #1D3557;">#1D3557</div>
+        <div class="circle" style="background-color: #F1FAEE;">#F1FAEE</div>
+        <div class="circle" style="background-color: #FFFFFF;">#FFFFFF</div>
+    </div>
+    <h2>Headings</h2>
+    <div class="headings">
+        <h1>H1 text</h1>
+        <h2>H2 text</h2>
+        <h3>H3 text</h3>
+        <h4>H4 text</h4>
+        <h5>H5 text</h5>
+        <h6>H6 text</h6>
+    </div>
+    <h2>MatMenus</h2>
+    <div class="menus">
+        <button mat-raised-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            Menu Example
+        </button>
+        <mat-menu #menu="matMenu" class="mat-menu">
+            <button mat-menu-item>
+                Example 1
+            </button>
+            <button mat-menu-item>
+                Example 2
+            </button>
+            <button mat-menu-item>
+                Example 3
+            </button>
+            <button mat-menu-item>
+                Example 4
+            </button>
+        </mat-menu>
+    </div>
+    <h2>Button Toggle, Select & Tooltip</h2>
+    <div class="button-toggle">
+        <div>
+            <mat-button-toggle-group name="example" aria-label="example">
+                <mat-button-toggle value="bold">Example 1</mat-button-toggle>
+                <mat-button-toggle value="italic">Example 2</mat-button-toggle>
+                <mat-button-toggle value="underline">Example 3</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-select formControl="toppings" multiple>
+                    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                    <mat-error>somthing</mat-error>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <i class="fas fa-question-circle" matTooltip="Example tool tip help icon" style="color: #828282;"></i>
+        </div>
+
+
+    </div>
+    <h2>Buttons</h2>
+    <div class="buttons">
+        <section>
+            <div class="example-label">Basic</div>
+            <div class="example-button-row">
+                <button mat-button>Basic</button>
+                <button mat-button color="primary">Primary</button>
+                <button mat-button color="accent">Accent</button>
+                <button mat-button color="warn">Warn</button>
+                <button mat-button disabled>Disabled</button>
+            </div>
+        </section>
+        <section>
+            <div class="example-label">Raised</div>
+            <div class="example-button-row">
+                <button mat-raised-button>Basic</button>
+                <button mat-raised-button color="primary">Primary</button>
+                <button mat-raised-button color="accent">Accent</button>
+                <button mat-raised-button color="warn">Warn</button>
+                <button mat-raised-button disabled>Disabled</button>
+            </div>
+        </section>
+        <section>
+            <div class="example-label">Stroked</div>
+            <div class="example-button-row">
+                <button mat-stroked-button>Basic</button>
+                <button mat-stroked-button color="primary">Primary</button>
+                <button mat-stroked-button color="accent">Accent</button>
+                <button mat-stroked-button color="warn">Warn</button>
+                <button mat-stroked-button disabled>Disabled</button>
+            </div>
+        </section>
+        <section>
+            <div class="example-label">Flat</div>
+            <div class="example-button-row">
+                <button mat-flat-button>Basic</button>
+                <button mat-flat-button color="primary">Primary</button>
+                <button mat-flat-button color="accent">Accent</button>
+                <button mat-flat-button color="warn">Warn</button>
+                <button mat-flat-button disabled>Disabled</button>
+            </div>
+        </section>
+        <section>
+            <div class="example-label">Icon</div>
+            <div class="example-button-row">
+                <div class="example-flex-container">
+                    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <i class="fas fa-home"></i>
+                    </button>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                    <button mat-icon-button disabled aria-label="Example icon button with a open in new tab icon">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

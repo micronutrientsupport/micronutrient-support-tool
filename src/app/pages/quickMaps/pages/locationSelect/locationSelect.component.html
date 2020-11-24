@@ -1,0 +1,14 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <app-side-nav-content></app-side-nav-content>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <!-- app-quick-maps-header should not be visible, currently in place to allow navigation to respective pages until search func is in place. -->
+    <app-quick-maps-header></app-quick-maps-header>
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
+  </div>
+</mat-drawer-container>

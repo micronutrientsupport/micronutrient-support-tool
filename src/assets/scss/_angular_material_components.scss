@@ -1,0 +1,65 @@
+// Mat Menu Syling
+.mat-menu.mat-menu-panel {
+  border-radius: 2px;
+  top: 15px;
+  position: relative;
+
+  .mat-menu-item {
+    font-weight: 500;
+    text-align: right;
+    color: white;
+
+    &:hover {
+      color: $color_primary;
+      background-color: white;
+    }
+  }
+}
+.mat-menu-content {
+  background-color: $color_primary;
+}
+// Toggle Button
+mat-button-toggle-group {
+  margin-bottom: 1em;
+}
+mat-button-toggle-group.mat-button-toggle-group-appearance-standard {
+  border-radius: 5px 5px 2px 2px;
+  border: none;
+}
+mat-button-toggle.mat-button-toggle-appearance-standard {
+  color: $color_blue_form;
+  font-weight: 600;
+  border: none;
+}
+mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+  color: $color_blue_form;
+  font-weight: 600;
+  background-color: #fff;
+  border-bottom: 2px solid $color_blue_form;
+}
+
+// Buttons
+button.mat-raised-button,
+button.mat-flat-button,
+button.mat-stroked-button,
+button.mat-icon-button {
+  border-radius: 2px;
+}
+
+// Selects
+
+mat-form-field.mat-form-field {
+  font-weight: 600;
+}
+
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 0em 1em 0.25em 1em;
+  background-color: #fff;
+}
+
+mat-form-field.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translateY(0%);
+  .mat-select-arrow {
+    color: black;
+  }
+}

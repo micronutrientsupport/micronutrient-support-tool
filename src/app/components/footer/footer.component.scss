@@ -1,0 +1,40 @@
+@import 'src/assets/scss/_colour.scss';
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  flex-grow: 1;
+  min-width: 1px;
+  padding: 0em 5em;
+}
+
+.container > div {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-start;
+  text-align: left;
+  margin: 2em;
+
+  h3 {
+    color: $color_grey;
+    font-weight: 600;
+  }
+
+  a {
+    text-decoration: none;
+    color: $color_grey;
+  }
+}
+
+hr {
+  border: 1px solid $color_blue;
+  margin: 0px;
+}
+
+@media only screen and (max-width: 900px) {
+  .container {
+    padding: 0em 1em;
+  }
+}

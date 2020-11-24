@@ -28,7 +28,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": []
           },
@@ -66,7 +67,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "micronutrient-support-tool:build"
+            "browserTarget": "micronutrient-support-tool:build",
+            "port": 8100
           },
           "configurations": {
             "production": {
@@ -103,7 +105,7 @@
             "tsConfig": [
               "tsconfig.app.json",
               "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "cypress/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -111,10 +113,35 @@
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@briebug/cypress-schematic:cypress",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "micronutrient-support-tool:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "micronutrient-support-tool:serve:production"
+            }
+          }
+        },
+        "cypress-run": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
             "devServerTarget": "micronutrient-support-tool:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "micronutrient-support-tool:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@briebug/cypress-schematic:cypress",
+          "options": {
+            "devServerTarget": "micronutrient-support-tool:serve",
+            "watch": true,
+            "headless": false
           },
           "configurations": {
             "production": {
@@ -123,6 +150,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "micronutrient-support-tool"
+    }
+  },
+  "defaultProject": "micronutrient-support-tool",
+  "cli": {
+    "analytics": false
+  }
 }

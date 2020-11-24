@@ -1,0 +1,11 @@
+@import 'src/assets/scss/_colour.scss';
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  .active-route {
+    background-color: $color_primary;
+    color: white;
+  }
+}

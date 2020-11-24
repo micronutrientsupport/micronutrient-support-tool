@@ -1,0 +1,23 @@
+@import 'src/assets/scss/_colour.scss';
+
+.example-container {
+  width: 100%;
+  height: 100%;
+}
+
+.example-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  app-map-page {
+    width: 100%;
+  }
+}
+
+.example-sidenav {
+  padding: 20px;
+  background-color: $color_background_form;
+  width: 345px;
+}

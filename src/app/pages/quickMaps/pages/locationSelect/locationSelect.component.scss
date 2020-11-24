@@ -1,0 +1,10 @@
+@import 'src/assets/scss/_colour.scss';
+
+.map-container {
+  display: block;
+  width: 100%;
+}
+#map {
+  height: 500px;
+  padding: 20px;
+}
