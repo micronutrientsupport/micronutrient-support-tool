@@ -54,11 +54,11 @@ export class ChartCardComponent implements OnInit {
     },
   };
 
-  //chartjs
+  // chartjs
   public graphStyle = {
     display: 'block',
     height: '100%',
-    width: '100%', //860px
+    width: '100%',
     color: '#098',
   };
 
