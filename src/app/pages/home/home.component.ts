@@ -19,7 +19,7 @@ export class HomeComponent {
 
   public share(text: string, title?: string, url?: string): void {
     if (!this.ngNavigatorShareService.canShare()) {
-      console.log(`This service/api is not supported in your Browser`);
+      console.log('This service/api is not supported in your Browser');
       this.dialog.open(DialogShareComponent, { data: { shareLink: window.location.href } });
       return;
     }

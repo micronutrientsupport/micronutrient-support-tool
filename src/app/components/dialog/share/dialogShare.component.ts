@@ -22,6 +22,10 @@ export class DialogShareComponent {
     this.copyLinkUrl = data.shareLink;
   }
 
+  @HostListener('keydown.esc')
+  public onEsc(): void {
+    this.close(false);
+  }
   public copyLink(): void {
     this.clipboard.copy(this.copyLinkUrl);
     this.snackbar.openSnackBar('Link copied', 'close');
@@ -34,9 +38,5 @@ export class DialogShareComponent {
   }
   public confirm(): void {
     this.close(true);
-  }
-  @HostListener('keydown.esc')
-  public onEsc(): void {
-    this.close(false);
   }
 }
