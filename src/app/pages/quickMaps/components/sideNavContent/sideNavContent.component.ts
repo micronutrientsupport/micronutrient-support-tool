@@ -38,15 +38,11 @@ export class SideNavContentComponent implements OnInit {
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
-  public selectedCountry: DictionaryItem;
-  public selectedRegion: DictionaryItem;
+  public selectedGeography: DictionaryItem;
 
   public quickMapsPopulationGroup: DictionaryItem;
   public quickMapsMicronutrientDataOptions: DictionaryItem;
-  public ifQuickMapsVar: boolean;
   public quickMapsForm: FormGroup;
-
-  public slim: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -69,24 +65,22 @@ export class SideNavContentComponent implements OnInit {
         this.popGroupsDictionary = dicts.shift();
 
         // test
-        this.quickMapsPopulationGroup = this.popGroupsDictionary.getItems()[0];
+        this.selectedGeography = this.countriesDictionary.getItems()[0];
         this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
+        this.quickMapsPopulationGroup = this.popGroupsDictionary.getItems()[0];
 
         this.updatePopulationAndMicronutrients();
       });
-    quickMapsService.slimObservable.subscribe((slim: boolean) => {
-      this.slim = slim;
+
+    this.quickMapsForm = this.fb.group({
+      nation: ['', Validators.required],
+      mndsExploreComp: ['', Validators.required],
     });
-    this.router.url === '/quick-maps' ? (this.ifQuickMapsVar = true) : (this.ifQuickMapsVar = false);
-    if (this.ifQuickMapsVar === true) {
-      this.quickMapsForm = this.fb.group({
-        nation: ['', Validators.required],
-        mndsExploreComp: ['', Validators.required],
-      });
-    } else {
-      // more form controls can be used for the large maps if needed
-    }
-    // this.slim = this.quickMapsService.slim;
+
+    this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
+      this.selectedGeography = value;
+    });
+
   }
 
   ngOnInit(): void {
@@ -117,7 +111,7 @@ export class SideNavContentComponent implements OnInit {
   public updatePopulationAndMicronutrients(): void {
     void this.currentDataService
       .getMicronutrientDataOptions(
-        this.searchByCountry && this.ifQuickMapsVar ? this.selectedCountry : this.selectedRegion,
+        this.selectedGeography,
         this.quickMapsPopulationGroup,
         this.quickMapsMicronutrientDataOptions,
       )

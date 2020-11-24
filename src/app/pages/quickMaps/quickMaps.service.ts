@@ -1,38 +1,15 @@
 import { Injectable } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { event } from 'cypress/types/jquery';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class QuickMapsService {
-  // private sideNavClose = new Subject();
-  // public sideNavClose$ = this.sideNavClose.asObservable();
-
-  // private sidenav: MatSidenav;
-  public slim = false;
-
-  private slimSubject = new Subject<boolean>();
+  private slimSubject = new BehaviorSubject<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
 
-  constructor() {}
+  constructor() { }
 
-  sideNavToggle(): void {
-    this.sideNavToggleObs((this.slim = !this.slim));
+  public sideNavToggle(): void {
+    this.slimSubject.next(!this.slimSubject.value);
   }
-
-  public sideNavToggleObs(slim: boolean): void {
-    this.slimSubject.next(slim);
-  }
-
-  // public setSidenav(sidenav: MatSidenav): void {
-  //   this.sidenav = sidenav;
-  // }
-
-  // closeSideNav(closeSideNav: MouseEvent): void {
-  //   this.sideNavClose.next(closeSideNav);
-  // }
-
-  // public closeSideNav() {
-  //   return this.sidenav.close();
-  // }
 }
