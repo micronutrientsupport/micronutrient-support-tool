@@ -10,9 +10,7 @@ import { ApiModule } from './apiAndObjects/api.module';
 import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuard.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,4 +24,4 @@ import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuar
   providers: [QuickMapsRouteGuardService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
