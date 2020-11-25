@@ -63,8 +63,8 @@ jobs:
         with:
           url: ${{ steps.deployToNetlify.outputs.deploy-url }}
           responseCode: 200
-          timeout: 2000
-          interval: 500
+          timeout: 60000
+          interval: 200
 
       # - name: Waiting for 200 from Netlify
       #   uses: probablyup/wait-for-netlify-action@3.2.0
