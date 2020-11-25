@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { PopulationGroup } from '../../objects/populationGroup';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 // import { RequestMethod } from '../../_lib_code/api/apiCaller';
@@ -23,11 +24,11 @@ PopulationGroup
   }
 
   protected callMock(
-    params: GetPopulationGroupsParams,
   ): Promise<Array<PopulationGroup>> {
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       PopulationGroup,
-      Promise.resolve(PopulationGroup.createMockItems(('0' === params.countryOrGroupId) ? 2 : 4)),
+      httpClient.get('/assets/exampleData/population-group-select.json').toPromise(),
     );
   }
 }

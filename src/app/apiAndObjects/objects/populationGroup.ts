@@ -13,14 +13,14 @@ export class PopulationGroup extends BaseObject {
     return super.makeItemFromObject(source) as PopulationGroup;
   }
 
-  public static createMockItems(count: number): Array<Record<string, unknown>> {
-    return new Array(count).fill(null).map((val, index: number) => {
-      const returnObj = {};
-      returnObj[PopulationGroup.KEYS.ID] = `${index}`;
-      returnObj[PopulationGroup.KEYS.NAME] = `Population Group ${index}`;
-      return returnObj;
-    });
-  }
+  // public static createMockItems(count: number): Array<Record<string, unknown>> {
+  //   return new Array(count).fill(null).map((val, index: number) => {
+  //     const returnObj = {};
+  //     returnObj[PopulationGroup.KEYS.ID] = `${index}`;
+  //     returnObj[PopulationGroup.KEYS.NAME] = `Population Group ${index}`;
+  //     return returnObj;
+  //   });
+  // }
 
   protected populateValues(): void {
     void super.populateValues();
