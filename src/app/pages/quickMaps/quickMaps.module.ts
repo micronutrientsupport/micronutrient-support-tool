@@ -50,4 +50,4 @@ PlotlyModule.plotlyjs = PlotlyJS;
   ],
   providers: [QuickMapsService],
 })
-export class QuickMapsModule { }
+export class QuickMapsModule {}

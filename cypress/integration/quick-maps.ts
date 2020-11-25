@@ -7,6 +7,7 @@ describe('`Quick Map Tests`', () => {
   });
 
   it('navigate to the baseline page', () => {
+    cy.viewport(1300, 660);
     cy.visit('/quick-maps');
     cy.get('[ng-reflect-router-link="/quick-maps/baseline"]').click();
     cy.get('app-map-view').should('be.visible');
