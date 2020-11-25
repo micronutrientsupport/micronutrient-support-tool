@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
   selector: 'app-quickmaps-projection',
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
 })
 export class ProjectionComponent {
 
-  constructor() { }
+  constructor(
+    public quickMapsService: QuickMapsService,
+  ) { }
 
 
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { AppRoutes } from 'src/app/routes/routes';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -15,20 +16,21 @@ export class QuickMapsRouteGuardService implements CanActivate {
   constructor(
     private router: Router,
     private dictionaryService: DictionaryService,
-    private currentDataService: CurrentDataService,
-  ) {}
+    private miscApiService: MiscApiService,
+  ) { }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route);
+    // console.debug('canActivate', route, route.routeConfig.path);
 
     switch (route.routeConfig.path) {
-      case AppRoutes.QUICK_MAPS_BASELINE.segments:
-        // promises.push(this.isValidCountry(route));
-        // promises.push(this.isValidMicronutrients(route));
+      case AppRoutes.QUICK_MAPS_PROJECTION.segments:
+        promises.push(this.isValidCountry(route));
+        promises.push(this.isValidMicronutrients(route));
+        promises.push(this.isValidPopGroup(route));
         break;
     }
     // eslint-disable-next-line arrow-body-style
@@ -62,11 +64,24 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // console.debug('isValidCountry', country, route.paramMap);
     return null == country ? Promise.resolve(false) : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
   }
+
   private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
     const micronutrients = QuickMapsQueryParams.getMicronutrientIds(route);
     // console.debug('isValidMicronutrients', micronutrients, route.paramMap);
     return 0 === micronutrients.length
       ? Promise.resolve(false)
       : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, micronutrients);
+  }
+
+  private isValidPopGroup(route: ActivatedRouteSnapshot): Promise<boolean> {
+    const popGroup = QuickMapsQueryParams.getPopGroupId(route);
+    // console.debug('isValidCountry', country, route.paramMap);
+    return (null == popGroup)
+      ? Promise.resolve(false)
+      : this.isValidCountry(route).then((validCountry: boolean) => (!validCountry)
+        ? false
+        : this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route), true)
+          .then((groups: Array<PopulationGroup>) => (null != groups.find(item => (item.id === popGroup))))
+      );
   }
 }
