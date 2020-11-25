@@ -36,6 +36,8 @@ jobs:
         with:
           urls: |
             ${{ steps.waitForNetlifyDeploy.outputs.url }}
+            ${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool
+            ${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps
           uploadArtifacts: true
           temporaryPublicStorage: true
       - name: Format lighthouse score
