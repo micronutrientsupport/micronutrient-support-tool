@@ -26,7 +26,6 @@ export class SideNavContentComponent implements OnInit {
     'some text exaplaining this form field',
   ];
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
-  public mndButtonToggleGroup = ['vitamin', 'mineral', 'other'];
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public searchByCountry: boolean;
 
@@ -93,9 +92,6 @@ export class SideNavContentComponent implements OnInit {
         //   // this.quickMapsService.set(value.id);
         // });
       });
-
-
-
   }
 
   ngOnInit(): void {
