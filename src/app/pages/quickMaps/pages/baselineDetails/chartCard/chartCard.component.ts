@@ -56,7 +56,7 @@ export class ChartCardComponent implements OnInit {
     },
   };
 
-  //histo
+  // histo
   public histograph = {
     data: [
       {
@@ -123,11 +123,14 @@ export class ChartCardComponent implements OnInit {
       // },
       {
         label: 'Vitamin A from Meat',
+        backgroundColor: 'red',
         data: this.meatva,
         pointBackgroundColor: 'red',
+
       },
       {
         label: 'Total Vitamin A',
+        backgroundColor: 'blue',
         data: this.totalva,
         pointBackgroundColor: 'blue',
       },
