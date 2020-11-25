@@ -1,7 +1,7 @@
-name: Angular Build and Deploy to Netlify
+name: Build Angular Prod
 on: push
 jobs:
-  build:
+  prod-build-angular:
     runs-on: ubuntu-latest
     strategy:
       matrix:
