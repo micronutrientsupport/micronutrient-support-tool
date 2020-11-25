@@ -16,8 +16,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private router: Router,
     private dictionaryService: DictionaryService,
     private currentDataService: CurrentDataService,
-  ) {
-  }
+  ) {}
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -27,7 +26,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // console.debug('canActivate', route, route.routeConfig.path);
 
     switch (route.routeConfig.path) {
-      case (AppRoutes.QUICK_MAPS_PROJECTION.segments):
+      case AppRoutes.QUICK_MAPS_PROJECTION.segments:
         promises.push(this.isValidCountry(route));
         promises.push(this.isValidMicronutrients(route));
         promises.push(this.isValidPopGroup(route));
@@ -35,57 +34,49 @@ export class QuickMapsRouteGuardService implements CanActivate {
     }
     // eslint-disable-next-line arrow-body-style
     return Promise.all(promises).then((valids: Array<boolean>) => {
-      if (valids.every(value => value)) {
+      if (valids.every((value) => value)) {
         return true;
       } else {
         // TODO: Show notification of "Params error"?
 
         // redirect to quickmaps map page
         // TODO: Consider redirect to params error page?
-        return this.router.createUrlTree(
-          AppRoutes.QUICK_MAPS.getRoute(),
-          {
-            queryParams: route.queryParams,
-          }
-        );
+        return this.router.createUrlTree(AppRoutes.QUICK_MAPS.getRoute(), {
+          queryParams: route.queryParams,
+        });
       }
     });
   }
 
   private isValidDictionaryItems(dictType: DictionaryType, _itemIds: string | Array<string>): Promise<boolean> {
-    const itemIds = (Array.isArray(_itemIds)) ? _itemIds : [_itemIds];
-    return this.dictionaryService
-      .getDictionary(dictType)
-      .then((dict: Dictionary) => {
-        const items = dict.getItems(itemIds);
-        // console.debug('isValidDictionaryItems', itemIds, items);
+    const itemIds = Array.isArray(_itemIds) ? _itemIds : [_itemIds];
+    return this.dictionaryService.getDictionary(dictType).then((dict: Dictionary) => {
+      const items = dict.getItems(itemIds);
+      // console.debug('isValidDictionaryItems', itemIds, items);
 
-        return (items.length === itemIds.length);
-      });
-  };
+      return items.length === itemIds.length;
+    });
+  }
 
   private isValidCountry(route: ActivatedRouteSnapshot): Promise<boolean> {
     const country = QuickMapsQueryParams.getCountryId(route);
     // console.debug('isValidCountry', country, route.paramMap);
-    return (null == country)
-      ? Promise.resolve(false)
-      : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
-  };
+    return null == country ? Promise.resolve(false) : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
+  }
 
   private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
     const micronutrients = QuickMapsQueryParams.getMicronutrientIds(route);
     // console.debug('isValidMicronutrients', micronutrients, route.paramMap);
-    return (0 === micronutrients.length)
+    return 0 === micronutrients.length
       ? Promise.resolve(false)
       : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, micronutrients);
-  };
+  }
 
   private isValidPopGroup(route: ActivatedRouteSnapshot): Promise<boolean> {
     const popGroup = QuickMapsQueryParams.getPopGroupId(route);
     // console.debug('isValidCountry', country, route.paramMap);
-    return (null == popGroup)
+    return null == popGroup
       ? Promise.resolve(false)
       : this.isValidDictionaryItems(DictionaryType.POPULATION_GROUPS, [popGroup]);
-  };
-
+  }
 }
