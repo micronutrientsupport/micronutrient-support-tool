@@ -4,6 +4,7 @@ export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_IDS: 'mdn-ids',
+    POP_GROUP_ID: 'pop-group-id',
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
@@ -16,15 +17,20 @@ export class QuickMapsQueryParams {
     return this.filterAndSortArray(micronutrients.split(','));
   }
 
+  public static getPopGroupId(route: ActivatedRouteSnapshot): string {
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID);
+  }
+
 
   public static setQueryParams(router: Router, activatedRoute: ActivatedRoute, params: Record<string, string | Array<string>>): void {
+    // console.debug('setQueryParams', params);
     const stringParams: Record<string, string> = {};
     // convert Array values to strings
     Object.keys(params).forEach((key: string) => {
       if (Array.isArray(params[key])) {
         params[key] = (params[key] as Array<string>).join(',');
       }
-      const trimmedValue = (params[key] as string).trim();
+      const trimmedValue = (null == params[key]) ? '' : (params[key] as string).trim();
       if (trimmedValue.length > 0) {
         stringParams[key] = trimmedValue;
       }
@@ -35,13 +41,13 @@ export class QuickMapsQueryParams {
         relativeTo: activatedRoute,
         replaceUrl: true, // replace in history
         queryParams: stringParams,
-        queryParamsHandling: 'merge', // remove to replace all query params by provided
+        // queryParamsHandling: 'merge', // merges with what's already there, but unused params are removed
       }
     );
   }
 
 
-  public static compareArrays(array1: Array<string>, array2: Array<string>): boolean {
+  public static arrayValuesSame(array1: Array<string>, array2: Array<string>): boolean {
     array1 = this.filterAndSortArray(array1);
     array2 = this.filterAndSortArray(array2);
 

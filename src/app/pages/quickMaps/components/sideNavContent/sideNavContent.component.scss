@@ -5,12 +5,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-height: 100%;
 }
 
 form {
+  opacity: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
+  transition: opacity 1s ease;
 
   & .flex-row {
     display: flex;
@@ -18,6 +21,11 @@ form {
     justify-content: flex-start;
     align-items: baseline;
     width: 100%;
+  }
+
+  mat-form-field,
+  .toggle-buttons {
+    margin-right: 1em;
   }
 }
 
@@ -27,6 +35,7 @@ i {
 
 h2 {
   font-weight: 600;
+  margin-bottom: 0em;
 }
 
 h3 {
@@ -37,4 +46,59 @@ h3 {
 button {
   margin-top: 1em;
   width: auto;
+}
+
+.heading-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5em;
+
+  & div {
+    width: 3em;
+  }
+
+  & button {
+    margin-top: 0em;
+    width: 3em;
+
+    & i {
+      font-size: 25px;
+      margin-left: 0em;
+    }
+  }
+}
+
+.slim-sidenav {
+  //// opacity doesnt seem to be affected in form...
+  & * {
+    opacity: 0;
+    display: none;
+    transition: all 2s;
+    transition-property: display, opacity;
+
+    & form {
+      opacity: 0;
+    }
+  }
+}
+
+.heading {
+  h2 {
+    opacity: 1;
+    display: block;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 80px;
+    left: -45px;
+    white-space: nowrap;
+    transition: transform 0.4s ease;
+  }
+
+  h2:hover {
+    color: $color_blue_form;
+    cursor: pointer;
+  }
 }

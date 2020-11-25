@@ -5,6 +5,8 @@
 
   <div class="example-sidenav-content">
     <app-quick-maps-header></app-quick-maps-header>
+    Projection to 2050
+    {{quickMapsService.countryIdObs | async}}
     <div style="height: 700px"></div>
     <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
   </div>
