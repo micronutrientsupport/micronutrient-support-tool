@@ -11,12 +11,10 @@ export class SharingService {
     private modalService: DialogService,
   ) {}
 
-  public share(text: string, title?: string, url?: string): void {
+  public share(text: string, title?: string, url?: string): Promise<any> {
     if (!this.ngNavigatorShareService.canShare()) {
       console.log('This service/api is not supported in your Browser');
-      this.modalService.openShareDialog(window.location.href);
-      // this.dialog.open(DialogShareComponent, { id: 'sharingDialog', data: { shareLink: window.location.href } });
-      return;
+      return this.modalService.openShareDialog(window.location.href);
     }
 
     this.ngNavigatorShareService
