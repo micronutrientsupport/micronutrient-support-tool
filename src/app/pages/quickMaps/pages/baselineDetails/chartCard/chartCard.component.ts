@@ -81,10 +81,10 @@ export class ChartCardComponent implements OnInit {
   constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
+
     void this.http
-      .get('./assets/dummyData/trial_data.csv', { responseType: 'text' })
-      .toPromise()
-      .then((data) => {
+      .get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' })
+      .subscribe((data) => {
         const rawData = this.papa.parse(data, { header: true });
         const rawDataArray = rawData.data;
 
@@ -100,5 +100,29 @@ export class ChartCardComponent implements OnInit {
           this.labels.push(item.pc);
         });
       });
+
+
+    void this.http
+      .get('./assets/dummyData/xxx.json', { responseType: 'json' })
+      .subscribe((data: any) => {
+        // const rawData = this.papa.parse(data, { header: true });
+
+        console.log(data[0].data[0].frequency);
+        const rawDataArray = data;
+
+        rawDataArray.forEach((item) => {
+          this.meatva.push(Number(item['va.meat']));
+        });
+
+        rawDataArray.forEach((item) => {
+          this.totalva.push(Number(item['va.supply']));
+        });
+
+        rawDataArray.forEach((item) => {
+          this.labels.push(item.pc);
+        });
+      });
   }
+
+
 }

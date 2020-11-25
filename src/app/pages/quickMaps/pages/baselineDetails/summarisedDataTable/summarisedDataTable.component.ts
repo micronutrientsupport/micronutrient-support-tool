@@ -26,11 +26,11 @@ export class SummarisedDataTableComponent implements OnInit {
     'va.veg',
     'va.meat',
     'va.fruit',
-    'va.dairy',
-    'va.fat',
-    'va.misc',
-    'va.vendor',
-    'va.bev',
+    // 'va.dairy',
+    // 'va.fat',
+    // 'va.misc',
+    // 'va.vendor',
+    // 'va.bev',
   ];
 
   public dataSource = new MatTableDataSource();

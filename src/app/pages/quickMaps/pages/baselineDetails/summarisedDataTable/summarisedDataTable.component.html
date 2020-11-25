@@ -8,7 +8,7 @@
   </button>
 </mat-toolbar>
 
-<div class="table-container mat-elevation-z8">
+<div class="table-container">
 
   <mat-form-field>
     <mat-label>Filter</mat-label>
@@ -22,33 +22,33 @@
     </ng-container>
     <ng-container matColumnDef="va.supply">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.supply</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.supply'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.supply'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.cergra">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.cergra</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.cergra'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.cergra'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.tubers">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.tubers</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.tubers'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.tubers'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.nuts">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.nuts</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.nuts'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.nuts'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.veg">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.veg</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.veg'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.veg'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.meat">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.meat</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.meat'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.meat'] | slice:0:6}}</td>
     </ng-container>
     <ng-container matColumnDef="va.fruit">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fruit</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.fruit'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.fruit']  | slice:0:6}}</td>
     </ng-container>
-    <ng-container matColumnDef="va.dairy">
+    <!-- <ng-container matColumnDef="va.dairy">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.dairy</th>
       <td mat-cell *matCellDef="let element">{{ element['va.dairy'] }}</td>
     </ng-container>
@@ -67,7 +67,7 @@
     <ng-container matColumnDef="va.bev">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
       <td mat-cell *matCellDef="let element">{{ element['va.bev'] }}</td>
-    </ng-container>
+    </ng-container> -->
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -75,7 +75,7 @@
       <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" [length]="rawData?.data?.length">
+  <mat-paginator [pageSize]="3" [pageSizeOptions]="[3]" [length]="rawData?.data?.length">
   </mat-paginator>
 
 </div>
