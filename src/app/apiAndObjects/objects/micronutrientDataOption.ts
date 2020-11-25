@@ -13,14 +13,14 @@ export class MicronutrientDataOption extends BaseObject {
     return super.makeItemFromObject(source) as MicronutrientDataOption;
   }
 
-  public static createMockItems(count: number): Array<Record<string, unknown>> {
-    return new Array(count).fill(null).map((val, index: number) => {
-      const returnObj = {};
-      returnObj[MicronutrientDataOption.KEYS.ID] = `${index}`;
-      returnObj[MicronutrientDataOption.KEYS.NAME] = `Micronutrient data option ${index}`;
-      return returnObj;
-    });
-  }
+  // public static createMockItems(count: number): Array<Record<string, unknown>> {
+  //   return new Array(count).fill(null).map((val, index: number) => {
+  //     const returnObj = {};
+  //     returnObj[MicronutrientDataOption.KEYS.ID] = `${index}`;
+  //     returnObj[MicronutrientDataOption.KEYS.NAME] = `Micronutrient data option ${index}`;
+  //     return returnObj;
+  //   });
+  // }
 
   protected populateValues(): void {
     void super.populateValues();
