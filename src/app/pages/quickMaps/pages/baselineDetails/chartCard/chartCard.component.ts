@@ -14,6 +14,8 @@ export class ChartCardComponent implements OnInit {
   public meatva = [];
   public totalva = [];
   public labels = [];
+  public bin = [];
+  public frequency = [];
 
   public graph = {
     data: [
@@ -53,6 +55,47 @@ export class ChartCardComponent implements OnInit {
       },
     },
   };
+
+  //histo
+  public histograph = {
+    data: [
+      {
+        x: this.bin,
+        y: this.frequency,
+        type: 'scatter',
+        mode: 'markers',
+        marker: {
+          color: 'red',
+        },
+        xaxis: { text: 'x Axis', color: 'black' },
+      },
+    ],
+    layout: {
+      autosize: false,
+      height: 270,
+      yaxis: {
+        title: {
+          text: 'Frequency',
+          titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey',
+          },
+        },
+      },
+      xaxis: {
+        title: {
+          text: 'Household size',
+          titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'lightgrey',
+          },
+        },
+      },
+    },
+  };
+
 
   // chartjs
   public graphStyle = {
@@ -103,24 +146,24 @@ export class ChartCardComponent implements OnInit {
 
 
     void this.http
-      .get('./assets/dummyData/xxx.json', { responseType: 'json' })
+      .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
         // const rawData = this.papa.parse(data, { header: true });
 
-        console.log(data[0].data[0].frequency);
-        const rawDataArray = data;
+        console.log(data[0].data);
+        const rawDataArray = data[0].data;
 
         rawDataArray.forEach((item) => {
-          this.meatva.push(Number(item['va.meat']));
+          this.bin.push(Number(item.bin));
         });
 
         rawDataArray.forEach((item) => {
-          this.totalva.push(Number(item['va.supply']));
+          this.frequency.push(Number(item.frequency));
         });
-
-        rawDataArray.forEach((item) => {
-          this.labels.push(item.pc);
-        });
+        console.log(this.frequency, this.bin);
+        // rawDataArray.forEach((item) => {
+        //   this.labels.push(item.pc);
+        // });
       });
   }
 
