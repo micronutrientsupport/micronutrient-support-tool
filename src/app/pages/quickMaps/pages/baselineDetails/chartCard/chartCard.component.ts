@@ -31,7 +31,7 @@ export class ChartCardComponent implements OnInit {
       },
     ],
     layout: {
-      autosize: false,
+      // autosize: false,
       height: 270,
       yaxis: {
         title: {
@@ -62,7 +62,7 @@ export class ChartCardComponent implements OnInit {
       {
         x: this.bin,
         y: this.frequency,
-        type: 'scatter',
+        type: 'bar',
         mode: 'markers',
         marker: {
           color: 'red',
@@ -71,9 +71,14 @@ export class ChartCardComponent implements OnInit {
       },
     ],
     layout: {
-      autosize: false,
+      autosize: true,
       height: 270,
+      width: 400,
       yaxis: {
+        scaleLabel: {
+          display: true,
+          labelString: 'hello',
+        },
         title: {
           text: 'Frequency',
           titlefont: {
@@ -85,13 +90,19 @@ export class ChartCardComponent implements OnInit {
       },
       xaxis: {
         title: {
-          text: 'Household size',
+          text: 'Bin size',
           titlefont: {
             family: 'Arial, sans-serif',
             size: 18,
             color: 'lightgrey',
           },
         },
+        // ticks: 'outside',
+        // tick0: 0,
+        dtick: 250,
+        // ticklen: 8,
+        tickwidth: 0.25,
+        // tickcolor: '#000'
       },
     },
   };
@@ -106,13 +117,38 @@ export class ChartCardComponent implements OnInit {
   public data = {
     labels: this.labels,
     datasets: [
-      {
-        label: 'People per Household',
-        data: this.labels,
-      },
+      // {
+      //   label: 'People per Household',
+      //   data: this.labels,
+      // },
       {
         label: 'Vitamin A from Meat',
         data: this.meatva,
+        pointBackgroundColor: 'red',
+      },
+      {
+        label: 'Total Vitamin A',
+        data: this.totalva,
+        pointBackgroundColor: 'blue',
+      },
+    ],
+  };
+
+  public histoGraphStyle = {
+    display: 'block',
+    color: '#098',
+  };
+
+  public jsdata = {
+
+    datasets: [
+      {
+        label: 'Frequency',
+        data: this.frequency,
+      },
+      {
+        label: 'bin',
+        data: this.bin,
         marker: { color: 'red' },
       },
       // {
@@ -148,8 +184,6 @@ export class ChartCardComponent implements OnInit {
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
-        // const rawData = this.papa.parse(data, { header: true });
-
         console.log(data[0].data);
         const rawDataArray = data[0].data;
 
