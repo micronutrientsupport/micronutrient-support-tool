@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CurrentDataService } from './currentData.service';
 import { SnackbarService } from './snackbar.service';
 import { SharingService } from './sharing.service';
+import { MiscApiService } from './miscApi.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule, HttpClientModule],
   exports: [],
-  providers: [DictionaryService, CurrentDataService, SnackbarService, SharingService],
+  providers: [DictionaryService, CurrentDataService, MiscApiService, SnackbarService, SharingService],
 })
 export class ServicesModule {}

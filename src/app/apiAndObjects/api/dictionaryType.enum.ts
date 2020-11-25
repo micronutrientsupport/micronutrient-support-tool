@@ -3,5 +3,4 @@ export enum DictionaryType {
   COUNTRIES,
   REGIONS,
   MICRONUTRIENTS,
-  POPULATION_GROUPS,
 }
