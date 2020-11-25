@@ -122,7 +122,7 @@ export class SideNavContentComponent implements OnInit {
       : this.miscApiService.getPopulationGroups(country))
       .then((options: Array<PopulationGroup>) => {
         this.popGroupOptions = options;
-        console.log('popGroupOptions', options);
+        // console.log('popGroupOptions', options);
         this.updateMicronutrientDataOptions();
       });
   }
@@ -144,7 +144,7 @@ export class SideNavContentComponent implements OnInit {
         )
         .then((options: Array<MicronutrientDataOption>) => {
           this.micronutrientDataOptions = options;
-          console.log('MicronutrientDataOption', options);
+          // console.log('MicronutrientDataOption', options);
         });
     } else {
       // clear
