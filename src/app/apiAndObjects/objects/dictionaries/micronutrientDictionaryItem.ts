@@ -1,14 +1,11 @@
 import { DictionaryType } from '../../api/dictionaryType.enum';
-import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
-import { MicronutrientType } from '../enums/micronutrientDataOption';
+import { MicronutrientType } from '../enums/micronutrientType.enum';
+import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
-export class MicronutrientDictionaryItem extends BaseDictionaryItem {
-  public static readonly DESC_ATTRIBUTE = 'name';
+export class MicronutrientDictionaryItem extends MapsDictionaryItem {
   public static readonly TYPE_ATTRIBUTE = 'type';
 
   public type: MicronutrientType;
-
-  protected _sourceAttributeDesc = MicronutrientDictionaryItem.DESC_ATTRIBUTE;
 
   public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
     const types = [MicronutrientType.VITAMIN, MicronutrientType.MINERAL, MicronutrientType.OTHER];

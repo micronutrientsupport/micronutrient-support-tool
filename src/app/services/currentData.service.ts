@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
+import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
 import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DictionaryService } from './dictionary.service';
 
@@ -22,12 +23,14 @@ export class CurrentDataService {
   public getMicronutrientDataOptions(
     countryOrgroup: DictionaryItem,
     micronutrients: Array<DictionaryItem>,
-    populationGroup: DictionaryItem,
+    populationGroup: PopulationGroup,
+    singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
     return this.apiService.currentData.getMicronutrientDataOptions.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map(item => item.id),
-      poulationGroupId: populationGroup.id,
+      populationGroupId: populationGroup.id,
+      singleOptionOnly: singleOptionOnly,
     });
   }
 }

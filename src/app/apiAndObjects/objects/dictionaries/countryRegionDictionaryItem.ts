@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import * as GeoJSON from 'geojson';
 import { DictionaryType } from '../../api/dictionaryType.enum';
-import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
+import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
-export class CountryDictionaryItem extends BaseDictionaryItem {
-  public static readonly ID_ATTRIBUTE = 'id';
-  public static readonly NAME_ATTRIBUTE = 'name';
-  public static readonly DESC_ATTRIBUTE = 'name';
+export class CountryDictionaryItem extends MapsDictionaryItem {
   public static readonly GEOMETRY_ATTRIBUTE = 'geometry';
-
-  protected _sourceAttributeId = CountryDictionaryItem.ID_ATTRIBUTE;
-  protected _sourceAttributeName = CountryDictionaryItem.NAME_ATTRIBUTE;
-  protected _sourceAttributeDesc = CountryDictionaryItem.DESC_ATTRIBUTE;
 
   public geoFeature: GeoJSON.Feature;
 
