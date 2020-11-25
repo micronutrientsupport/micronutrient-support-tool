@@ -38,7 +38,6 @@ export class SideNavContentComponent implements OnInit {
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
-  public quickMapsMicronutrientDataOptions: DictionaryItem;
   public quickMapsForm: FormGroup;
 
   constructor(
@@ -61,13 +60,10 @@ export class SideNavContentComponent implements OnInit {
         this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
 
-        // test
-        this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
-
         this.quickMapsForm = this.fb.group({
-          nation: [this.countriesDictionary.getItem(this.quickMapsService.countryId), Validators.required],
-          micronutrients: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
-          popGroup: [null, Validators.required],
+          nation: [this.quickMapsService.countryId, Validators.required],
+          micronutrients: [this.quickMapsService.micronutrientIds, Validators.required],
+          popGroup: [this.quickMapsService.popGroupId, Validators.required],
           mndsData: [null, Validators.required],
         });
 
@@ -76,16 +72,16 @@ export class SideNavContentComponent implements OnInit {
 
         this.updatePopulationGroupOptions();
 
-        this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
-          this.quickMapsService.setCountryId(value.id);
+        this.quickMapsForm.get('nation').valueChanges.subscribe((value: string) => {
+          this.quickMapsService.setCountryId(value);
           this.updatePopulationGroupOptions();
         });
-        this.quickMapsForm.get('micronutrients').valueChanges.subscribe((values: Array<DictionaryItem>) => {
-          this.quickMapsService.setMicronutrientIds(values.map(item => item.id));
+        this.quickMapsForm.get('micronutrients').valueChanges.subscribe((values: Array<string>) => {
+          this.quickMapsService.setMicronutrientIds(values);
           this.updateMicronutrientDataOptions();
         });
-        this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: DictionaryItem) => {
-          this.quickMapsService.setPopGroupId(value.id);
+        this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: string) => {
+          this.quickMapsService.setPopGroupId(value);
           this.updateMicronutrientDataOptions();
         });
         // this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DictionaryItem) => {

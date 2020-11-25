@@ -24,7 +24,7 @@
 
     <mat-form-field appearance="fill" aria-label="Geography of interest">
         <mat-select formControlName="nation" [placeholder]="'select a ' + group.value">
-            <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
+            <mat-option *ngFor="let item of geographyOptionArray" [value]="item.id">
                 {{item.name}}
             </mat-option>
         </mat-select>
@@ -50,7 +50,7 @@
         <mat-form-field appearance="fill">
             <mat-select formControlName="micronutrients" multiple
                 [placeholder]="'Select ' + groupMND?.value + ' options'">
-                <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
+                <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd.id">{{mnd.name}}</mat-option>
             </mat-select>
             <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
         </mat-form-field>
@@ -65,7 +65,7 @@
     </div>
     <mat-form-field appearance="fill">
         <mat-select formControlName="popGroup" placeholder="Click to select group">
-            <mat-option *ngFor="let item of popGroupOptions" [value]="item">
+            <mat-option *ngFor="let item of popGroupOptions" [value]="item.id">
                 {{item.name}}
             </mat-option>
         </mat-select>
@@ -82,7 +82,7 @@
     <mat-form-field appearance="fill">
         <mat-select formControlName="mndsData" placeholder="Click to select options">
             <mat-option *ngFor="let item of micronutrientDataOptions"
-                [value]="item">{{item.name}}
+                [value]="item.id">{{item.name}}
             </mat-option>
         </mat-select>
         <mat-error>{{errorReponse[0]}}</mat-error>
