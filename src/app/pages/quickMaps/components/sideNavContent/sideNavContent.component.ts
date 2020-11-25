@@ -115,11 +115,16 @@ export class SideNavContentComponent implements OnInit {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     void ((null == country)
       ? Promise.resolve([])
-      : this.miscApiService.getPopulationGroups(country))
+      : this.miscApiService.getPopulationGroups(country, true))
       .then((options: Array<PopulationGroup>) => {
         this.popGroupOptions = options;
         // console.log('popGroupOptions', options);
-        this.updateMicronutrientDataOptions();
+        // if only one option, preselect
+        if (1 === options.length) {
+          this.quickMapsForm.get('popGroup').setValue(options[0].id);
+        } else {
+          this.updateMicronutrientDataOptions();
+        }
       });
   }
 
@@ -137,10 +142,15 @@ export class SideNavContentComponent implements OnInit {
           country,
           microNutrients,
           popGroup,
+          true,
         )
         .then((options: Array<MicronutrientDataOption>) => {
           this.micronutrientDataOptions = options;
           // console.log('MicronutrientDataOption', options);
+          // if only one option, preselect
+          if (1 === options.length) {
+            this.quickMapsForm.get('mndsData').setValue(options[0].id);
+          }
         });
     } else {
       // clear

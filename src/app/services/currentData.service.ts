@@ -24,11 +24,13 @@ export class CurrentDataService {
     countryOrgroup: DictionaryItem,
     micronutrients: Array<DictionaryItem>,
     populationGroup: PopulationGroup,
+    singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
     return this.apiService.currentData.getMicronutrientDataOptions.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map(item => item.id),
       populationGroupId: populationGroup.id,
+      singleOptionOnly: singleOptionOnly,
     });
   }
 }

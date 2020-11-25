@@ -23,12 +23,15 @@ MicronutrientDataOption
     // return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
 
-  protected callMock(): Promise<Array<MicronutrientDataOption>> {
+  protected callMock(
+    params: GetMicronutrientDataOptionsParams,
+  ): Promise<Array<MicronutrientDataOption>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
+    // return a single random element when specified
     return this.buildObjectsFromResponse(
       MicronutrientDataOption,
       httpClient.get('/assets/exampleData/data-options-select.json').toPromise(),
-    );
+    ).then(data => (params.singleOptionOnly) ? [data[Math.floor(Math.random() * data.length)]] : data);
   }
 }
 
@@ -36,4 +39,5 @@ export interface GetMicronutrientDataOptionsParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
   populationGroupId: string;
+  singleOptionOnly: boolean;
 }

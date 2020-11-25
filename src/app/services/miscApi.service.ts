@@ -10,9 +10,11 @@ export class MiscApiService {
 
   public getPopulationGroups(
     countryOrgroup: DictionaryItem | string,
+    singleOptionOnly: boolean,
   ): Promise<Array<PopulationGroup>> {
     return this.apiService.misc.getPopulationGroups.call({
       countryOrGroupId: ('string' === typeof countryOrgroup) ? countryOrgroup : countryOrgroup.id,
+      singleOptionOnly: singleOptionOnly,
     });
   }
 }

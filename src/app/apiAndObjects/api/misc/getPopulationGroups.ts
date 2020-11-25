@@ -10,7 +10,7 @@ PopulationGroup
 > {
 
   protected getCacheKey(params: GetPopulationGroupsParams): string {
-    return params.countryOrGroupId;
+    return JSON.stringify(params);
   }
 
   protected callLive(): Promise<Array<PopulationGroup>> {
@@ -25,15 +25,18 @@ PopulationGroup
   }
 
   protected callMock(
+    params: GetPopulationGroupsParams,
   ): Promise<Array<PopulationGroup>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
+    // return a single random element when specified
     return this.buildObjectsFromResponse(
       PopulationGroup,
       httpClient.get('/assets/exampleData/population-group-select.json').toPromise(),
-    );
+    ).then(data => (params.singleOptionOnly) ? [data[Math.floor(Math.random() * data.length)]] : data);
   }
 }
 
 export interface GetPopulationGroupsParams {
   countryOrGroupId: string;
+  singleOptionOnly: boolean;
 }

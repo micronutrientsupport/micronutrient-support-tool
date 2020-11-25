@@ -80,7 +80,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
       ? Promise.resolve(false)
       : this.isValidCountry(route).then((validCountry: boolean) => (!validCountry)
         ? false
-        : this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route))
+        : this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route), true)
           .then((groups: Array<PopulationGroup>) => (null != groups.find(item => (item.id === popGroup))))
       );
   }
