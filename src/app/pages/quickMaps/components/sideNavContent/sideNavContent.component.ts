@@ -6,11 +6,13 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { GeographyTypes } from './geographyTypes.enum';
 
@@ -29,7 +31,8 @@ export class SideNavContentComponent implements OnInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
-  public popGroupsDictionary: Dictionary;
+
+  public popGroupOptions = new Array<PopulationGroup>();
 
   public geographyOptionArray: Array<DictionaryItem>;
 
@@ -42,6 +45,7 @@ export class SideNavContentComponent implements OnInit {
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
+    private miscApiService: MiscApiService,
     private router: Router,
     private route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
@@ -51,13 +55,11 @@ export class SideNavContentComponent implements OnInit {
         DictionaryType.COUNTRIES,
         DictionaryType.REGIONS,
         DictionaryType.MICRONUTRIENTS,
-        DictionaryType.POPULATION_GROUPS,
       ])
       .then((dicts: Array<Dictionary>) => {
         this.countriesDictionary = dicts.shift();
         this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
-        this.popGroupsDictionary = dicts.shift();
 
         // test
         this.quickMapsMicronutrientDataOptions = this.micronutrientsDictionary.getItems()[0];
@@ -65,26 +67,26 @@ export class SideNavContentComponent implements OnInit {
         this.quickMapsForm = this.fb.group({
           nation: [this.countriesDictionary.getItem(this.quickMapsService.countryId), Validators.required],
           micronutrients: [this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds), Validators.required],
-          popGroup: [this.popGroupsDictionary.getItem(this.quickMapsService.popGroupId), Validators.required],
+          popGroup: [null, Validators.required],
           mndsData: [null, Validators.required],
         });
 
         this.countryChange(GeographyTypes.COUNTRY);
         this.mndChange(MicronutrientType.VITAMIN);
 
-        this.updatePopulationAndMicronutrients();
+        this.updatePopulationGroupOptions();
 
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
           this.quickMapsService.setCountryId(value.id);
-          this.updatePopulationAndMicronutrients();
+          this.updatePopulationGroupOptions();
         });
         this.quickMapsForm.get('micronutrients').valueChanges.subscribe((values: Array<DictionaryItem>) => {
           this.quickMapsService.setMicronutrientIds(values.map(item => item.id));
-          this.updatePopulationAndMicronutrients();
+          this.updateMicronutrientDataOptions();
         });
         this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: DictionaryItem) => {
           this.quickMapsService.setPopGroupId(value.id);
-          this.updatePopulationAndMicronutrients();
+          this.updateMicronutrientDataOptions();
         });
         // this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DictionaryItem) => {
         //   // this.quickMapsService.set(value.id);
@@ -113,10 +115,22 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updatePopulationAndMicronutrients(): void {
+  public updatePopulationGroupOptions(): void {
+    const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
+    void ((null == country)
+      ? Promise.resolve([])
+      : this.miscApiService.getPopulationGroups(country))
+      .then((options: Array<PopulationGroup>) => {
+        this.popGroupOptions = options;
+        console.log('popGroupOptions', options);
+        this.updateMicronutrientDataOptions();
+      });
+  }
+
+  public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     const microNutrients = this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds);
-    const popGroup = this.popGroupsDictionary.getItem(this.quickMapsService.popGroupId);
+    const popGroup = this.popGroupOptions.find(item => (item.id === this.quickMapsService.popGroupId));
 
     if ((null != country)
       && (microNutrients.length > 0)

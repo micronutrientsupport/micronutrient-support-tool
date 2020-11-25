@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { AppRoutes } from 'src/app/routes/routes';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -15,8 +16,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
   constructor(
     private router: Router,
     private dictionaryService: DictionaryService,
-    private currentDataService: CurrentDataService,
-  ) {}
+    private miscApiService: MiscApiService,
+  ) { }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -75,8 +76,12 @@ export class QuickMapsRouteGuardService implements CanActivate {
   private isValidPopGroup(route: ActivatedRouteSnapshot): Promise<boolean> {
     const popGroup = QuickMapsQueryParams.getPopGroupId(route);
     // console.debug('isValidCountry', country, route.paramMap);
-    return null == popGroup
+    return (null == popGroup)
       ? Promise.resolve(false)
-      : this.isValidDictionaryItems(DictionaryType.POPULATION_GROUPS, [popGroup]);
+      : this.isValidCountry(route).then((validCountry: boolean) => (!validCountry)
+        ? false
+        : this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route))
+          .then((groups: Array<PopulationGroup>) => (null != groups.find(item => (item.id === popGroup))))
+      );
   }
 }

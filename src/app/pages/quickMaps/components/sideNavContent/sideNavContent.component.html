@@ -65,7 +65,7 @@
     </div>
     <mat-form-field appearance="fill">
         <mat-select formControlName="popGroup" placeholder="Click to select group">
-            <mat-option *ngFor="let item of popGroupsDictionary?.itemsObs | async" [value]="item">
+            <mat-option *ngFor="let item of popGroupOptions" [value]="item">
                 {{item.name}}
             </mat-option>
         </mat-select>
