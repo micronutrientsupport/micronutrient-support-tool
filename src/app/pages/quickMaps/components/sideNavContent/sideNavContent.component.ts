@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientDataOption';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
@@ -12,6 +12,7 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
+import { GeographyTypes } from './geographyTypes.enum';
 
 @Component({
   selector: 'app-side-nav-content',
@@ -19,12 +20,8 @@ import { QuickMapsService } from '../../quickMaps.service';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
-  public toolTips = [
-    'some text exaplaining this form field',
-    'some text exaplaining this form field',
-    'some text exaplaining this form field',
-    'some text exaplaining this form field',
-  ];
+  public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
+  public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public searchByCountry: boolean;
@@ -34,7 +31,7 @@ export class SideNavContentComponent implements OnInit {
   public micronutrientsDictionary: Dictionary;
   public popGroupsDictionary: Dictionary;
 
-  public nationSelectFormControlArray: Dictionary;
+  public geographyOptionArray: Array<DictionaryItem>;
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
@@ -72,9 +69,10 @@ export class SideNavContentComponent implements OnInit {
           mndsData: [null, Validators.required],
         });
 
-        if (this.quickMapsForm.valid) {
-          this.updatePopulationAndMicronutrients();
-        }
+        this.countryChange(GeographyTypes.COUNTRY);
+        this.mndChange(MicronutrientType.VITAMIN);
+
+        this.updatePopulationAndMicronutrients();
 
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: DictionaryItem) => {
           this.quickMapsService.setCountryId(value.id);
@@ -95,27 +93,23 @@ export class SideNavContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.nationSelectFormControlArray = this.countriesDictionary;
-    this.selectMNDsFiltered = this.micronutrientsDictionary
-      .getItems()
-      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === 'vitamin');
   }
 
-  public mndChange(changeEvent: MatButtonToggleChange): void {
+  public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
       .filter(
-        (micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === changeEvent.value,
+        (micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type,
       );
   }
 
-  public countryChange(geography: MatButtonToggleChange): void {
-    if (geography.value === 'singleNation') {
+  public countryChange(type: GeographyTypes): void {
+    if (type === GeographyTypes.COUNTRY) {
       this.searchByCountry = true;
-      this.nationSelectFormControlArray = this.countriesDictionary;
+      this.geographyOptionArray = this.countriesDictionary.getItems();
     } else {
       this.searchByCountry = false;
-      this.nationSelectFormControlArray = this.regionDictionary;
+      this.geographyOptionArray = this.regionDictionary.getItems();
     }
   }
 

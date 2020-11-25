@@ -15,16 +15,16 @@
 
     <!--Countries/Region -->
     <div class="toggle-buttons">
-        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest" (change)="countryChange($event)"
-            aria-label="Geography of interest" value="nation">
-            <mat-button-toggle value="nation">Single nation</mat-button-toggle>
-            <mat-button-toggle disabled value="region">Multinational area</mat-button-toggle>
+        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest" (change)="countryChange($event.value)"
+            aria-label="Geography of interest" [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">
+            <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
+            <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
 
     <mat-form-field appearance="fill" aria-label="Geography of interest">
         <mat-select formControlName="nation" [placeholder]="'select a ' + group.value">
-            <mat-option *ngFor="let item of nationSelectFormControlArray?.itemsObs | async" [value]="item">
+            <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
                 {{item.name}}
             </mat-option>
         </mat-select>
@@ -40,10 +40,10 @@
     </div>
     <div class="toggle-buttons">
         <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
-            (change)="mndChange($event)" value="vitamin">
-            <mat-button-toggle value="vitamin">Vitamin</mat-button-toggle>
-            <mat-button-toggle value="mineral">Mineral</mat-button-toggle>
-            <mat-button-toggle value="other">Other</mat-button-toggle>
+            (change)="mndChange($event.value)" [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">
+            <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
+            <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
+            <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
     <ng-container>
