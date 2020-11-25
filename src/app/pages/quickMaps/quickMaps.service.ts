@@ -19,7 +19,7 @@ export class QuickMapsService {
 
   private readonly popGroupIdSrc = new BehaviorSubject<string>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public popGroupIdObs = this.countryIdSrc.asObservable();
+  public popGroupIdObs = this.popGroupIdSrc.asObservable();
 
   constructor(
     private router: Router,

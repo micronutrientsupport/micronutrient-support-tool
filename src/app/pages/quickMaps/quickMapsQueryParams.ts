@@ -18,7 +18,7 @@ export class QuickMapsQueryParams {
   }
 
   public static getPopGroupId(route: ActivatedRouteSnapshot): string {
-    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID);
   }
 
 
