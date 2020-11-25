@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Add comment to PR
-        id: loading_comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.issue.number }}
-          header: lighthouse
-          message: |
-            Running Lighthouse audit...
+      # - name: Add comment to PR
+      #   id: loading_comment_to_pr
+      #   uses: marocchino/sticky-pull-request-comment@v1
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     number: ${{ github.event.issue.number }}
+      #     header: lighthouse
+      #     message: |
+      #       Running Lighthouse audit...
       - uses: actions/checkout@v1
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
@@ -80,12 +80,12 @@ jobs:
       #           `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
       #       ].join('\n')
       #        core.setOutput("comment", comment);
-      # - name: Add comment to PR
-      #   id: comment_to_pr
-      #   uses: marocchino/sticky-pull-request-comment@v1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.MAPS_TOKEN_NOV20 }}
-      #     number: ${{ github.event.issue.number }}
-      #     header: lighthouse
-      #     message: |
-      #       ${{ steps.format_lighthouse_score.outputs.comment }}
+      - name: Add comment to PR
+        id: comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.MAPS_TOKEN_NOV20 }}
+          number: ${{ github.event.issue.number }}
+          header: lighthouse
+          message: |
+            **The Lighthouse reports can be downloaded as Artifacts. See the CI stage**
