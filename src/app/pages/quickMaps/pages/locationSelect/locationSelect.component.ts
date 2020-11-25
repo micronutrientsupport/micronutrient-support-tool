@@ -5,6 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
@@ -19,18 +23,41 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public map: L.Map;
   public slim: boolean;
 
-  constructor(private http: HttpClient, public quickMapsService: QuickMapsService) {
-    // quickMapsService.sideNavClose$.subscribe((closeSideNavEvent: MouseEvent) => {});
+  public countriesDictionary: Dictionary;
+
+  public countryId: string;
+  public geoFeatures = new Array();
+
+  constructor(
+    private http: HttpClient,
+    public quickMapsService: QuickMapsService,
+    public dictionaryService: DictionaryService,
+  ) {
+    void dictionaryService.getDictionaries([DictionaryType.COUNTRIES]).then((dicts: Array<Dictionary>) => {
+      this.countriesDictionary = dicts.shift();
+      this.geoFeatures = this.countriesDictionary.getItems().map((feature) => {
+        // tslint:disable-next-line: no-unused-expression
+      });
+      console.log(this.geoFeatures);
+    });
+
     quickMapsService.slimObservable.subscribe((slim: boolean) => {
       this.slim = slim;
     });
+    quickMapsService.countryIdObs.subscribe((countryId: string) => {
+      this.countryId = countryId;
+    });
+    // console.log('countryId', this.countriesDictionary.getItem(this.quickMapsService.countryId));
   }
-  ngOnInit(): void {
-    // this.quickMapsService.setSidenav(this.sidenav);
-  }
+
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.initialiseMap();
+  }
+
+  public log(): void {
+    console.log('countryId');
   }
 
   public initialiseMap(): void {
