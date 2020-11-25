@@ -54,6 +54,7 @@ export class ChartCardComponent implements OnInit {
     },
   };
 
+  // chartjs
   public graphStyle = {
     display: 'block',
     color: '#098',

@@ -1,0 +1,70 @@
+::ng-deep.maps-dialog {
+  & .mat-button.mat-dialog-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  & .mat-dialog-container {
+    display: block;
+    position: relative;
+
+    & > * {
+      display: block;
+      flex-direction: column;
+      align-items: center;
+    }
+    & [mat-dialog-content] {
+      flex-grow: 1;
+      min-height: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3em;
+    }
+  }
+  & .dialog-custom-backdrop-wrapper {
+    position: relative;
+  }
+  & .dialog-custom-backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.32); // same as .cdk-overlay-dark-backdrop
+  }
+
+  .scroll-wrapper {
+    max-height: 90vh;
+    overflow-y: auto;
+    margin-top: 15px;
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
+
+  table.sample-modify {
+    td.mat-cell {
+      text-align: center;
+    }
+    th.mat-header-cell {
+      text-align: center;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}
