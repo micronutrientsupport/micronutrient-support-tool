@@ -9,12 +9,10 @@
 </mat-toolbar>
 
 <div class="table-container">
-
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
   </mat-form-field>
-
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="pc">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>pc</th>
@@ -48,26 +46,26 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fruit</th>
       <td mat-cell *matCellDef="let element">{{ element['va.fruit']  | slice:0:6}}</td>
     </ng-container>
-    <!-- <ng-container matColumnDef="va.dairy">
+    <ng-container matColumnDef="va.dairy">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.dairy</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.dairy'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.dairy'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.fat">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.fat</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.fat'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.fat'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.misc">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.misc</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.misc'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.misc'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.vendor">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.vendor</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.vendor'] }}</td>
+      <td mat-cell *matCellDef="let element">{{ element['va.vendor'] | slice:0:6 }}</td>
     </ng-container>
     <ng-container matColumnDef="va.bev">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
-      <td mat-cell *matCellDef="let element">{{ element['va.bev'] }}</td>
-    </ng-container> -->
+      <td mat-cell *matCellDef="let element">{{ element['va.bev'] | slice:0:6 }}</td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -75,7 +73,7 @@
       <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSize]="3" [pageSizeOptions]="[3]" [length]="rawData?.data?.length">
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="rawData?.data?.length">
   </mat-paginator>
 
 </div>
