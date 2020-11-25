@@ -22,13 +22,37 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: Waiting for 200 from Netlify
-        uses: probablyup/wait-for-netlify-action@3.2.0
-        id: waitForNetlifyDeploy
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        id: deployToNetlify
         with:
-          site_id: ${{ secrets.NETLIFY_SITE_ID }} # See Settings > Site Details > General in the Netlify UI
+          deploy-message: ${{ github.event.head_commit.message }}
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          production-branch: main
+          production-deploy: true
+          publish-dir: "dist"
         env:
-          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - uses: nev7n/wait_for_response@v1
+        with:
+          url: ${{ steps.deployToNetlify.outputs.deploy-url }}
+          responseCode: 200
+          timeout: 2000
+          interval: 500
+
+      # - name: Waiting for 200 from Netlify
+      #   uses: probablyup/wait-for-netlify-action@3.2.0
+      #   id: waitForNetlifyDeploy
+      #   with:
+      #     site_id: ${{ secrets.NETLIFY_SITE_ID }} # See Settings > Site Details > General in the Netlify UI
+      #   env:
+      #     NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
       # - uses: actions/checkout@v2
       # - name: Audit preview URL with Lighthouse
       #   id: lighthouse_audit
@@ -49,7 +73,7 @@ jobs:
           author: ${{ github.actor }}
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
-          urls: "${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps"
+          urls: "${{ steps.deployToNetlify.outputs.deploy-url }},${{ steps.deployToNetlify.outputs.deploy-url }}/maps-tool,${{ steps.deployToNetlify.outputs.deploy-url }}/quick-maps"
           sha: ${{ github.sha }}
       - name: Upload artifacts
         uses: actions/upload-artifact@master
