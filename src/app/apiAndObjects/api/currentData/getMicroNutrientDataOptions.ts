@@ -28,6 +28,6 @@ MicronutrientDataOption
 
 export interface GetMicronutrientDataOptionsParams {
   countryOrGroupId: string;
-  micronutrientId: string;
+  micronutrientIds: Array<string>;
   poulationGroupId: string;
 }
