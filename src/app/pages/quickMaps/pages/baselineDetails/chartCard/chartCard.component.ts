@@ -4,6 +4,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-chart-card',
@@ -160,7 +161,7 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa) { }
+  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) { }
 
   ngOnInit(): void {
 
@@ -203,6 +204,8 @@ export class ChartCardComponent implements OnInit {
         // });
       });
   }
-
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.histograph);
+  }
 
 }
