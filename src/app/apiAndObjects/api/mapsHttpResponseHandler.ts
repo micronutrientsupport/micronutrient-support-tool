@@ -5,7 +5,7 @@ import { Injector } from '@angular/core';
 import { ApiResponse } from './apiResponse.interface';
 
 export class MapsHttpResponseHandler {
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) { }
   public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

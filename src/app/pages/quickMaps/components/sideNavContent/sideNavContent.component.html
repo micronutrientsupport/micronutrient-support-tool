@@ -5,7 +5,7 @@
         <i class="fas fa-caret-left"></i></button>
 </div>
 
-<form class="bmgf-maps-nice-scrollbar" [formGroup]="quickMapsForm" id="quickMapsForm"
+<form *ngIf="null != quickMapsForm" class="bmgf-maps-nice-scrollbar" [formGroup]="quickMapsForm" id="quickMapsForm"
     [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
     <div class="flex-row">
         <h3>Geography of interest</h3>

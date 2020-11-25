@@ -15,9 +15,9 @@ export class ApiService extends BaseApi<DictionaryType> {
   private readonly USE_LIVE_API = false;
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, this.USE_LIVE_API)
-      .setDefaultParams({ path: 'countries', typeObj: CountryDictionaryItem })
-      .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.COUNTRIES)),
+    new GetDictionary(DictionaryType.COUNTRIES, true)
+      .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
+    // .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.COUNTRIES)),
     new GetDictionary(DictionaryType.REGIONS, this.USE_LIVE_API)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
       .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.REGIONS)),
