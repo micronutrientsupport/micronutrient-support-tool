@@ -41,7 +41,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          npm run build:prod
+          npm run build
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
@@ -54,7 +54,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           production-branch: main
           production-deploy: true
-          publish-dir: "dist"
+          publish-dir: "./dist"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
