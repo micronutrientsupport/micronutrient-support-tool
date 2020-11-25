@@ -12,6 +12,7 @@ PopulationGroup
   protected getCacheKey(params: GetPopulationGroupsParams): string {
     return params.countryOrGroupId;
   }
+
   protected callLive(): Promise<Array<PopulationGroup>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {

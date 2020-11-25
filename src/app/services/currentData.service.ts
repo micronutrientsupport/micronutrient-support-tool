@@ -28,7 +28,7 @@ export class CurrentDataService {
     return this.apiService.currentData.getMicronutrientDataOptions.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map(item => item.id),
-      poulationGroupId: populationGroup.id,
+      populationGroupId: populationGroup.id,
     });
   }
 }
