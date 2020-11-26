@@ -21,6 +21,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public popGroupIdObs = this.popGroupIdSrc.asObservable();
 
+  private readonly mndDataIdSrc = new BehaviorSubject<string>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public mndDataIdObs = this.mndDataIdSrc.asObservable();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -30,10 +34,12 @@ export class QuickMapsService {
     this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
     this.setMicronutrientIds(QuickMapsQueryParams.getMicronutrientIds(route.snapshot));
     this.setPopGroupId(QuickMapsQueryParams.getPopGroupId(route.snapshot));
+    this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
 
     this.countryIdObs.subscribe(() => this.updateQueryParams());
     this.micronutrientIdsObs.subscribe(() => this.updateQueryParams());
     this.popGroupIdObs.subscribe(() => this.updateQueryParams());
+    this.mndDataIdObs.subscribe(() => this.updateQueryParams());
   }
 
   public sideNavToggle(): void {
@@ -68,11 +74,21 @@ export class QuickMapsService {
     }
   }
 
+  public get mndDataId(): string {
+    return this.mndDataIdSrc.value;
+  }
+  public setMndDataId(mndDataId: string, force = false): void {
+    if (force || (this.mndDataId !== mndDataId)) {
+      this.mndDataIdSrc.next(mndDataId);
+    }
+  }
+
   private updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS] = this.micronutrientIds;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID] = this.popGroupId;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
 
   }

@@ -21,15 +21,15 @@ export class CurrentDataService {
   }
 
   public getMicronutrientDataOptions(
-    countryOrgroup: DictionaryItem,
-    micronutrients: Array<DictionaryItem>,
-    populationGroup: PopulationGroup,
+    countryOrgroup: DictionaryItem | string,
+    micronutrients: Array<DictionaryItem | string>,
+    populationGroup: PopulationGroup | string,
     singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
     return this.apiService.endpoints.currentData.getMicronutrientDataOptions.call({
-      countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => item.id),
-      populationGroupId: populationGroup.id,
+      countryOrGroupId: ('string' === typeof countryOrgroup) ? countryOrgroup : countryOrgroup.id,
+      micronutrientIds: micronutrients.map(item => ('string' === typeof item) ? item : item.id),
+      populationGroupId: ('string' === typeof populationGroup) ? populationGroup : populationGroup.id,
       singleOptionOnly: singleOptionOnly,
     });
   }

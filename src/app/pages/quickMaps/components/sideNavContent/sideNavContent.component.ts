@@ -64,7 +64,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.countryId, Validators.required],
           micronutrients: [this.quickMapsService.micronutrientIds, Validators.required],
           popGroup: [this.quickMapsService.popGroupId, Validators.required],
-          mndsData: [null, Validators.required],
+          mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
         this.countryChange(GeographyTypes.COUNTRY);
@@ -84,9 +84,9 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setPopGroupId(value);
           this.updateMicronutrientDataOptions();
         });
-        // this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DictionaryItem) => {
-        //   // this.quickMapsService.set(value.id);
-        // });
+        this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
+          this.quickMapsService.setMndDataId(value);
+        });
       });
   }
 
@@ -146,7 +146,6 @@ export class SideNavContentComponent implements OnInit {
         )
         .then((options: Array<MicronutrientDataOption>) => {
           this.micronutrientDataOptions = options;
-          // console.log('MicronutrientDataOption', options);
           // if only one option, preselect
           if (1 === options.length) {
             this.quickMapsForm.get('mndsData').setValue(options[0].id);
