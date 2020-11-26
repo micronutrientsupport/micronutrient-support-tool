@@ -29,8 +29,8 @@ export class ChartCardComponent implements OnInit {
       },
     ],
     layout: {
-      width: '100%',
-      height: '100%',
+      autosize: false,
+      height: 270,
       yaxis: {
         title: {
           text: 'People per Household',
@@ -57,8 +57,6 @@ export class ChartCardComponent implements OnInit {
   // chartjs
   public graphStyle = {
     display: 'block',
-    height: '100%',
-    width: '100%',
     color: '#098',
   };
 
@@ -80,13 +78,12 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa) {}
+  constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
     void this.http
-      .get('./assets/dummyData/trial_data.csv', { responseType: 'text' })
-      .toPromise()
-      .then((data) => {
+      .get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' })
+      .subscribe((data) => {
         const rawData = this.papa.parse(data, { header: true });
         const rawDataArray = rawData.data;
 

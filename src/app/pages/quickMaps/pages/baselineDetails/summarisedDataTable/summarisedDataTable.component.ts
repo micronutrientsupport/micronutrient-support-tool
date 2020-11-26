@@ -36,7 +36,7 @@ export class SummarisedDataTableComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public rawData;
 
-  constructor(private http: HttpClient, private papa: Papa) {}
+  constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
     void this.http
