@@ -85,6 +85,10 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     return this;
   }
 
+  public get getIsLive(): boolean {
+    return this.isLive;
+  }
+
   public setLive(isLive: boolean): this {
     this.isLive = isLive;
     return this;
