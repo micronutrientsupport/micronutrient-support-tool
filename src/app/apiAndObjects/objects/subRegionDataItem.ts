@@ -10,7 +10,7 @@ export class SubRegionDataItem extends BaseObject {
     GEOMETRY: 'geometry',
     MN_ABSOLUTE: 'mn_absolute',
     MN_ABSOLUTE_UNIT: 'mn_absolute_unit',
-    MN_THRESHOLD: 'mn_treshold',
+    MN_THRESHOLD: 'mn_threshold',
     MN_THRESHOLD_UNIT: 'mn_threshold_unit',
     HOUSHOLDS_SURVEYED: 'households_surveyed'
   };
