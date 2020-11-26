@@ -138,7 +138,7 @@
     "subregion_type": "District",
     "mn_absolute": 1525,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 45,
+    "mn_threshold": 45,
     "mn_threshold_unit": "%",
     "households_surveyed": 91
   },
@@ -293,7 +293,7 @@
     "subregion_type": "District",
     "mn_absolute": 1042,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 3,
+    "mn_threshold": 3,
     "mn_threshold_unit": "%",
     "households_surveyed": 2
   },
@@ -544,7 +544,7 @@
     "subregion_type": "District",
     "mn_absolute": 1875,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 14,
+    "mn_threshold": 14,
     "mn_threshold_unit": "%",
     "households_surveyed": 94
   },
@@ -655,7 +655,7 @@
     "subregion_type": "District",
     "mn_absolute": 1470,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 13,
+    "mn_threshold": 13,
     "mn_threshold_unit": "%",
     "households_surveyed": 600
   },
@@ -814,7 +814,7 @@
     "subregion_type": "District",
     "mn_absolute": 1344,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 73,
+    "mn_threshold": 73,
     "mn_threshold_unit": "%",
     "households_surveyed": 678
   },
@@ -1013,7 +1013,7 @@
     "subregion_type": "District",
     "mn_absolute": 1701,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 94,
+    "mn_threshold": 94,
     "mn_threshold_unit": "%",
     "households_surveyed": 486
   },
@@ -1144,7 +1144,7 @@
     "subregion_type": "District",
     "mn_absolute": 332,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 61,
+    "mn_threshold": 61,
     "mn_threshold_unit": "%",
     "households_surveyed": 315
   },
@@ -1459,7 +1459,7 @@
     "subregion_type": "District",
     "mn_absolute": 1014,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 53,
+    "mn_threshold": 53,
     "mn_threshold_unit": "%",
     "households_surveyed": 237
   },
@@ -1722,7 +1722,7 @@
     "subregion_type": "District",
     "mn_absolute": 1367,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 55,
+    "mn_threshold": 55,
     "mn_threshold_unit": "%",
     "households_surveyed": 457
   },
@@ -1961,7 +1961,7 @@
     "subregion_type": "District",
     "mn_absolute": 324,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 89,
+    "mn_threshold": 89,
     "mn_threshold_unit": "%",
     "households_surveyed": 497
   },
@@ -2256,7 +2256,7 @@
     "subregion_type": "District",
     "mn_absolute": 687,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 28,
+    "mn_threshold": 28,
     "mn_threshold_unit": "%",
     "households_surveyed": 483
   },
@@ -2397,7 +2397,7 @@
     "subregion_type": "District",
     "mn_absolute": 1119,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 47,
+    "mn_threshold": 47,
     "mn_threshold_unit": "%",
     "households_surveyed": 103
   },
@@ -2728,7 +2728,7 @@
     "subregion_type": "District",
     "mn_absolute": 318,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 2,
+    "mn_threshold": 2,
     "mn_threshold_unit": "%",
     "households_surveyed": 543
   },
@@ -2891,7 +2891,7 @@
     "subregion_type": "District",
     "mn_absolute": 925,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 61,
+    "mn_threshold": 61,
     "mn_threshold_unit": "%",
     "households_surveyed": 302
   },
@@ -3038,7 +3038,7 @@
     "subregion_type": "District",
     "mn_absolute": 430,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 28,
+    "mn_threshold": 28,
     "mn_threshold_unit": "%",
     "households_surveyed": 98
   },
@@ -3289,7 +3289,7 @@
     "subregion_type": "District",
     "mn_absolute": 532,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 44,
+    "mn_threshold": 44,
     "mn_threshold_unit": "%",
     "households_surveyed": 355
   },
@@ -3472,7 +3472,7 @@
     "subregion_type": "District",
     "mn_absolute": 1380,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 100,
+    "mn_threshold": 100,
     "mn_threshold_unit": "%",
     "households_surveyed": 425
   },
@@ -3571,7 +3571,7 @@
     "subregion_type": "District",
     "mn_absolute": 1305,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 92,
+    "mn_threshold": 92,
     "mn_threshold_unit": "%",
     "households_surveyed": 700
   },
@@ -3802,7 +3802,7 @@
     "subregion_type": "District",
     "mn_absolute": 112,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 62,
+    "mn_threshold": 62,
     "mn_threshold_unit": "%",
     "households_surveyed": 375
   },
@@ -4289,7 +4289,7 @@
     "subregion_type": "District",
     "mn_absolute": 688,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 16,
+    "mn_threshold": 16,
     "mn_threshold_unit": "%",
     "households_surveyed": 212
   },
@@ -4420,7 +4420,7 @@
     "subregion_type": "District",
     "mn_absolute": 486,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 76,
+    "mn_threshold": 76,
     "mn_threshold_unit": "%",
     "households_surveyed": 466
   },
@@ -4695,7 +4695,7 @@
     "subregion_type": "District",
     "mn_absolute": 680,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 82,
+    "mn_threshold": 82,
     "mn_threshold_unit": "%",
     "households_surveyed": 147
   },
@@ -4962,7 +4962,7 @@
     "subregion_type": "District",
     "mn_absolute": 1896,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 39,
+    "mn_threshold": 39,
     "mn_threshold_unit": "%",
     "households_surveyed": 351
   },
@@ -5149,7 +5149,7 @@
     "subregion_type": "District",
     "mn_absolute": 1315,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 44,
+    "mn_threshold": 44,
     "mn_threshold_unit": "%",
     "households_surveyed": 99
   },
@@ -5344,7 +5344,7 @@
     "subregion_type": "District",
     "mn_absolute": 147,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 10,
+    "mn_threshold": 10,
     "mn_threshold_unit": "%",
     "households_surveyed": 7
   },
@@ -5499,7 +5499,7 @@
     "subregion_type": "District",
     "mn_absolute": 306,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 32,
+    "mn_threshold": 32,
     "mn_threshold_unit": "%",
     "households_surveyed": 766
   },
@@ -5606,7 +5606,7 @@
     "subregion_type": "District",
     "mn_absolute": 66,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 28,
+    "mn_threshold": 28,
     "mn_threshold_unit": "%",
     "households_surveyed": 274
   },
@@ -5725,7 +5725,7 @@
     "subregion_type": "District",
     "mn_absolute": 533,
     "mn_absolute_unit": "mg",
-    "mn_treshold": 21,
+    "mn_threshold": 21,
     "mn_threshold_unit": "%",
     "households_surveyed": 223
   }

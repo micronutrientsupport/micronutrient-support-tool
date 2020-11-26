@@ -9,6 +9,7 @@ import { GetMicronutrientDataOptions } from './currentData/getMicroNutrientDataO
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
 import { GetPopulationGroups } from './misc/getPopulationGroups';
+import { GetSubRegionData } from './currentData/getSubRegionData';
 
 @Injectable()
 export class ApiService extends BaseApi<DictionaryType> {
@@ -29,6 +30,7 @@ export class ApiService extends BaseApi<DictionaryType> {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly currentData = {
     getMicronutrientDataOptions: new GetMicronutrientDataOptions(this.USE_LIVE_API),
+    getSubRegionData: new GetSubRegionData(this.USE_LIVE_API),
   };
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly misc = {
