@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 
 @Component({
@@ -8,5 +9,8 @@ import { AppRoutes } from 'src/app/routes/routes';
 })
 export class QuickMapsHeaderComponent {
   public ROUTES = AppRoutes;
-  constructor() {}
+  constructor(
+    public route: ActivatedRoute,
+  ) {
+  }
 }

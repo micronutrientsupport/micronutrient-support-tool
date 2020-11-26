@@ -1,8 +1,8 @@
 <div class="container">
-  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" routerLinkActive="active-route">Baseline</a>
-  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route" routerLinkActive="active-route"
-    >Explore projections to 2050</a
-  >
+  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" [queryParams]="route.queryParams | async"
+    routerLinkActive="active-route">Baseline</a>
+  <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route" [queryParams]="route.queryParams | async"
+    routerLinkActive="active-route">Explore projections to 2050</a>
   <a mat-raised-button>Explore simple dietary change scenarios</a>
   <a mat-raised-button>Explore cost effectiveness scenarios</a>
 </div>

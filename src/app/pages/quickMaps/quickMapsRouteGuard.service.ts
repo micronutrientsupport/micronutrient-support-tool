@@ -38,6 +38,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         break;
     }
     return Promise.all(promises).then((valids: Array<boolean>) => {
+      // console.debug('canActivate', valids);
       if (valids.every((value) => value)) {
         return true;
       } else {
@@ -102,7 +103,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         this.isValidPopGroup(route), // also checks country
       ])
         .then((valids: [boolean, boolean]) => {
-          if (valids.every(valid => (true === valid))) {
+          if (!valids.every(valid => (true === valid))) {
             return false;
           } else {
             return this.currentDataService.getMicronutrientDataOptions(
