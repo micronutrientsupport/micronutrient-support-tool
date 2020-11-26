@@ -26,6 +26,6 @@ export class FoodCompositionViewComponent implements OnInit {
 
   public openDialog(): void {
     // get the active tab content and push to the modal;
-    void this.modalService.openChart('Food composition modal');
+    // void this.modalService.openChartDialog('Food composition modal');
   }
 }
