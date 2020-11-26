@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name": "Vitamin A",
+        "type": "vitamin"
+    },
+    {
+        "id": 2,
+        "name": "Vitamin B12",
+        "type": "vitamin"
+    },
+    {
+        "id": 3,
+        "name": "Vitamin C",
+        "type": "vitamin"
+    },
+    {
+        "id": 4,
+        "name": "Vitamin D",
+        "type": "vitamin"
+    },
+    {
+        "id": 5,
+        "name": "Calcium (Ca)",
+        "type": "mineral"
+    },
+    {
+        "id": 6,
+        "name": "Potassium (K)",
+        "type": "mineral"
+    },
+    {
+        "id": 7,
+        "name": "Iodine (I)",
+        "type": "mineral"
+    },
+    {
+        "id": 8,
+        "name": "Iron (Fe)",
+        "type": "mineral"
+    },
+    {
+        "id": 9,
+        "name": "Selenium (Se)",
+        "type": "mineral"
+    },
+    {
+        "id": 10,
+        "name": "Zinc (Zn)",
+        "type": "mineral"
+    },
+    {
+        "id": 11,
+        "name": "Total Protein",
+        "type": "other"
+    }
+]
