@@ -10,7 +10,7 @@ import { HttpResponseHandler } from './httpResponseHandler.interface';
 export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
   protected apiCaller: ApiCaller;
 
-  protected endPoints = new Array<Endpoint>();
+  protected endPointsArray = new Array<Endpoint>();
 
   protected dictionaries = new Map<DICTIONARY_TYPE_ENUM, GetDictionary<DICTIONARY_TYPE_ENUM>>();
 
@@ -50,7 +50,7 @@ export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
   }
 
   protected addEndpoint(endpoint: Endpoint<any, any>): this {
-    this.endPoints.push(endpoint);
+    this.endPointsArray.push(endpoint);
     endpoint.init(this.injector, this.apiCaller);
     return this;
   }
