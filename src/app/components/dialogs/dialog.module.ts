@@ -5,8 +5,9 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { MapDialogComponent } from './mapDialog/mapDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { ShareModule } from 'ngx-sharebuttons';
+import { ChartDialogComponent } from './chartDialog/chartDialog.component';
 @NgModule({
-  declarations: [BaseDialogComponent, MapDialogComponent, ShareDialogComponent],
+  declarations: [BaseDialogComponent, MapDialogComponent, ShareDialogComponent, ChartDialogComponent],
   imports: [CommonModule, AppMaterialModule, ShareModule],
 })
 export class DialogModule {
