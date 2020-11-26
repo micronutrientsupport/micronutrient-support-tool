@@ -74,7 +74,6 @@ export class ChartCardComponent implements OnInit {
     layout: {
       autosize: true,
       height: 270,
-      width: 400,
       yaxis: {
         scaleLabel: {
           display: true,
@@ -108,7 +107,6 @@ export class ChartCardComponent implements OnInit {
     },
   };
 
-
   // chartjs
   public graphStyle = {
     display: 'block',
@@ -127,7 +125,6 @@ export class ChartCardComponent implements OnInit {
         backgroundColor: 'red',
         data: this.meatva,
         pointBackgroundColor: 'red',
-
       },
       {
         label: 'Total Vitamin A',
@@ -144,7 +141,6 @@ export class ChartCardComponent implements OnInit {
   };
 
   public jsdata = {
-
     datasets: [
       {
         label: 'Frequency',
@@ -161,29 +157,25 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) { }
+  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
 
   ngOnInit(): void {
+    void this.http.get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' }).subscribe((data) => {
+      const rawData = this.papa.parse(data, { header: true });
+      const rawDataArray = rawData.data;
 
-    void this.http
-      .get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' })
-      .subscribe((data) => {
-        const rawData = this.papa.parse(data, { header: true });
-        const rawDataArray = rawData.data;
-
-        rawDataArray.forEach((item) => {
-          this.meatva.push(Number(item['va.meat']));
-        });
-
-        rawDataArray.forEach((item) => {
-          this.totalva.push(Number(item['va.supply']));
-        });
-
-        rawDataArray.forEach((item) => {
-          this.labels.push(item.pc);
-        });
+      rawDataArray.forEach((item) => {
+        this.meatva.push(Number(item['va.meat']));
       });
 
+      rawDataArray.forEach((item) => {
+        this.totalva.push(Number(item['va.supply']));
+      });
+
+      rawDataArray.forEach((item) => {
+        this.labels.push(item.pc);
+      });
+    });
 
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
@@ -207,5 +199,4 @@ export class ChartCardComponent implements OnInit {
   public openDialog(): void {
     void this.dialogService.openChartDialog(this.histograph);
   }
-
 }
