@@ -3,12 +3,12 @@
         <mat-icon>settings</mat-icon>
     </button>
     <span class="example-spacer">Food Consumption</span>
-    <button mat-icon-button class="example-icon" aria-label="Modal icon">
+    <button mat-icon-button (click)="openDialog()" class="example-icon" aria-label="Modal icon">
         <mat-icon>launch</mat-icon>
     </button>
 </mat-toolbar>
 
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Food consumption">
         <div class="tab-element">
             Food composition table (FCT) sources used in estimates is summariswed here
