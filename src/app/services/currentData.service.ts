@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { DietarySource } from '../apiAndObjects/objects/dietarySource';
+import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
@@ -10,7 +11,8 @@ import { DictionaryService } from './dictionary.service';
 @Injectable()
 export class CurrentDataService {
   constructor(private apiService: ApiService, private dictService: DictionaryService) {
-    // void this.apiService.endpoints.currentData.getDietarySources.call({
+    // TEST
+    // void this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
     //   countryOrGroupId: '',
     //   micronutrientIds: [],
     //   populationGroupId: '',
@@ -53,6 +55,20 @@ export class CurrentDataService {
     mndsData: MicronutrientDataOption,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
+      countryOrGroupId: countryOrgroup.id,
+      micronutrientIds: micronutrients.map(item => item.id),
+      populationGroupId: populationGroup.id,
+      mndsDataId: mndsData.id,
+    });
+  }
+
+  public getHouseholdHistogramData(
+    countryOrgroup: DictionaryItem,
+    micronutrients: Array<DictionaryItem>,
+    populationGroup: PopulationGroup,
+    mndsData: MicronutrientDataOption,
+  ): Promise<Array<HouseholdHistogramData>> {
+    return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map(item => item.id),
       populationGroupId: populationGroup.id,

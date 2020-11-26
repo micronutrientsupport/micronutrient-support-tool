@@ -12,6 +12,7 @@ import { GetPopulationGroups } from './misc/getPopulationGroups';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
+import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 
 @Injectable()
 export class ApiService extends BaseApi<DictionaryType> {
@@ -22,6 +23,7 @@ export class ApiService extends BaseApi<DictionaryType> {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(ApiService.USE_LIVE_API),
+      getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),
