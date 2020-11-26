@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
+import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
 @Component({
   selector: 'app-chart-card',
   templateUrl: './chartCard.component.html',

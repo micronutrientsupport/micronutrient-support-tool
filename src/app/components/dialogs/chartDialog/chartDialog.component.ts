@@ -10,16 +10,16 @@ export interface ChartDialogData {
 @Component({
   selector: 'app-chart-dialog',
   templateUrl: './chartDialog.component.html',
-  styleUrls: ['./chartDialog.component.scss']
+  styleUrls: ['./chartDialog.component.scss'],
 })
 export class ChartDialogComponent implements OnInit {
   public content = {};
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<ChartDialogData>) { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<ChartDialogData>) {}
 
   ngOnInit(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.content = this.dialogData.dataIn.content;
-    console.debug(this.content);
+    // eslint-disable-next-line no-console
+    // console.debug(this.content);
   }
-
 }
