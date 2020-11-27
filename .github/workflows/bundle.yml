@@ -53,3 +53,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base_stats_path: ./base-stats/stats.json
           head_stats_path: ./head-stats/stats.json
+          document_extensions: "html"
+          script_extensions: "js,jsx,ts,tsx"
+          stylesheet_extensions: "css"
+          image_extensions: "jpg,jpeg,png,svg,ico,webp"
+          misc_extensions: "json,geojson,yml,yaml"
