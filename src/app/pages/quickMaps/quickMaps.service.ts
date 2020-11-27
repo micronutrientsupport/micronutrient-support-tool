@@ -44,6 +44,14 @@ export class QuickMapsService {
 
   public sideNavToggle(): void {
     this.slimSubject.next(!this.slimSubject.value);
+    // ensure content reacts to change in size
+    let count = 0;
+    const interval = setInterval(() => {
+      window.dispatchEvent(new Event('resize'));
+      if (20 === count++) {
+        clearInterval(interval);
+      }
+    }, 50);
   }
 
   public get countryId(): string {

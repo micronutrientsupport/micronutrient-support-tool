@@ -1,18 +1,16 @@
 @import 'src/assets/scss/_colour.scss';
 
-.example-container {
+.sidenav-container {
   width: 100%;
+  min-height: 300px;
 }
 
-.example-sidenav-content {
+.sidenav-content {
   display: flex;
   flex-direction: column;
   height: 100%;
   align-items: center;
   justify-content: center;
-  app-map-page {
-    width: 100%;
-  }
 }
 
 .large-sidenav-mode {
@@ -27,3 +25,11 @@
   background-color: $color_background_form;
   transition: all 0.4s;
 }
+
+.menu-header {
+  margin-top: 10px;
+}
+app-quick-maps-header {
+  width: 100%;
+}
+

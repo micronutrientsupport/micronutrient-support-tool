@@ -1,37 +1,22 @@
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <app-side-nav-content></app-side-nav-content>
-  </mat-drawer>
-
-  <div class="example-sidenav-content">
-
-    <div class="menu-header">
-      <app-quick-maps-header></app-quick-maps-header>
-    </div>
-
-    <div class="grid-container">
-      <div class="card-container container-a">
-        <!-- Map View -->
-        <app-map-view></app-map-view>
-      </div>
-      <div class="card-container container-b">
-        <!-- Chart -->
-        <app-chart-card></app-chart-card>
-      </div>
-      <div class="card-container container-c">
-        <!-- Food composition -->
-        <app-food-composition-view></app-food-composition-view>
-      </div>
-      <div class="card-container container-d">
-        <!-- Data table -->
-        <app-summarised-data-table></app-summarised-data-table>
-      </div>
-      <div class="card-container container-e">
-        <!-- Top 20 -->
-        <app-food-items></app-food-items>
-      </div>
-    </div>
-
-    <button type="button" mat-button (click)="drawer.toggle()">Toggle sidenav</button>|
+<div class="grid-container">
+  <div class="card-container container-a">
+    <!-- Map View -->
+    <app-map-view></app-map-view>
   </div>
-</mat-drawer-container>
+  <div class="card-container container-b">
+    <!-- Chart -->
+    <app-chart-card></app-chart-card>
+  </div>
+  <div class="card-container container-c">
+    <!-- Food composition -->
+    <app-food-composition-view></app-food-composition-view>
+  </div>
+  <div class="card-container container-d">
+    <!-- Data table -->
+    <app-summarised-data-table></app-summarised-data-table>
+  </div>
+  <div class="card-container container-e">
+    <!-- Top 20 -->
+    <app-food-items></app-food-items>
+  </div>
+</div>

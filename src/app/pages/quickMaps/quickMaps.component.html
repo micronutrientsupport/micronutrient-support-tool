@@ -1,0 +1,12 @@
+<mat-drawer-container class="sidenav-container" autosize>
+  <mat-drawer opened #drawer mode="side"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'" class="sidenav">
+    <app-side-nav-content></app-side-nav-content>
+  </mat-drawer>
+  <div class="sidenav-content">
+    <div class="menu-header">
+      <app-quick-maps-header></app-quick-maps-header>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

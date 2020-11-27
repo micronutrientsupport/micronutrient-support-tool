@@ -111,8 +111,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
               QuickMapsQueryParams.getMicronutrientIds(route),
               QuickMapsQueryParams.getPopGroupId(route),
               true,
-            )
-              .then((options: Array<MicronutrientDataOption>) => (null != options.find(item => (item.id === mndsData))));
+            ).then((options: Array<MicronutrientDataOption>) => (null != options.find(item => (item.id === mndsData))));
           }
         });
   }
