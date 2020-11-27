@@ -29,6 +29,7 @@ describe('`Quick Map Tests`', () => {
 
     cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
 
+    cy.wait(500);
     cy.get('app-baseline-details').should('be.visible');
   });
 
@@ -41,6 +42,7 @@ describe('`Quick Map Tests`', () => {
 
     cy.get('[ng-reflect-router-link="/quick-maps/projection"]').click({ force: true });
 
+    cy.wait(500);
     cy.get('app-quickmaps-projection').should('be.visible');
   });
 });
