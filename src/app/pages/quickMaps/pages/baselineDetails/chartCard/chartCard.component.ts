@@ -17,6 +17,8 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 export class ChartCardComponent implements OnInit {
   public meatva = [];
   public totalva = [];
+  public vegva = [];
+
   public labels = [];
   public bin = [];
   public frequency = [];
@@ -32,9 +34,32 @@ export class ChartCardComponent implements OnInit {
         x: this.meatva,
         y: this.labels,
         type: 'scatter',
+        name: 'Meat',
         mode: 'markers',
         marker: {
           color: 'red',
+        },
+        xaxis: { text: 'x Axis', color: 'black' },
+      },
+      {
+        x: this.vegva,
+        y: this.labels,
+        type: 'scatter',
+        name: 'Veg',
+        mode: 'markers',
+        marker: {
+          color: 'yellow',
+        },
+        xaxis: { text: 'x Axis', color: 'black' },
+      },
+      {
+        x: this.totalva,
+        y: this.labels,
+        type: 'scatter',
+        name: 'Total',
+        mode: 'markers',
+        marker: {
+          color: 'blue',
         },
         xaxis: { text: 'x Axis', color: 'black' },
       },
@@ -54,7 +79,7 @@ export class ChartCardComponent implements OnInit {
       },
       xaxis: {
         title: {
-          text: 'Vitamin A from Meat (μg)',
+          text: 'Vitamin A from food groups (μg)',
           titlefont: {
             family: 'Arial, sans-serif',
             size: 18,
@@ -124,10 +149,12 @@ export class ChartCardComponent implements OnInit {
   public data = {
     labels: this.labels,
     datasets: [
-      // {
-      //   label: 'People per Household',
-      //   data: this.labels,
-      // },
+      {
+        label: 'Vitamin A from Veg',
+        backgroundColor: 'yellow',
+        data: this.vegva,
+        pointBackgroundColor: 'yellow',
+      },
       {
         label: 'Vitamin A from Meat',
         backgroundColor: 'red',
@@ -157,16 +184,6 @@ export class ChartCardComponent implements OnInit {
         backgroundColor: 'blue',
         pointBackgroundColor: 'blue',
       },
-      // ,
-      // {
-      //   label: 'bin',
-      //   data: this.bin,
-      //   marker: { color: 'red' },
-      // },
-      // {
-      //   label: 'Total Vitamin A',
-      //   data: this.totalva,
-      // },
     ],
   };
 
@@ -211,7 +228,9 @@ export class ChartCardComponent implements OnInit {
       rawDataArray.forEach((item) => {
         this.meatva.push(Number(item['va.meat']));
       });
-
+      rawDataArray.forEach((item) => {
+        this.vegva.push(Number(item['va.veg']));
+      });
       rawDataArray.forEach((item) => {
         this.totalva.push(Number(item['va.supply']));
       });
