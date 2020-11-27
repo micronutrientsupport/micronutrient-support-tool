@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -5,8 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
-import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
 @Component({
   selector: 'app-chart-card',
   templateUrl: './chartCard.component.html',
@@ -18,6 +20,11 @@ export class ChartCardComponent implements OnInit {
   public labels = [];
   public bin = [];
   public frequency = [];
+
+  private countryId: any;
+  private micronutrientIds: any[];
+  private populationIds: any;
+  private micronutrientData: any = 2;
 
   public graph = {
     data: [
@@ -158,9 +165,39 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
+
+  constructor(
+    private http: HttpClient,
+    private papa: Papa,
+    private dialogService: DialogService,
+    private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
+  ) {}
 
   ngOnInit(): void {
+    this.quickMapsService.countryIdObs.subscribe((cId) => {
+      this.countryId = cId;
+    });
+
+    this.quickMapsService.micronutrientIdsObs.subscribe((mnIds) => {
+      this.micronutrientIds = mnIds;
+    });
+
+    this.quickMapsService.popGroupIdObs.subscribe((popIds) => {
+      this.populationIds = popIds;
+    });
+
+    void this.currentDataService
+      .getHouseholdHistogramData(this.countryId, this.micronutrientIds, this.populationIds, this.micronutrientData)
+      .then((theData) => {
+        const rawDataArray = theData[0].data;
+
+        rawDataArray.forEach((item) => {
+          this.bin.push(Number(item.bin));
+          this.frequency.push(Number(item.frequency));
+        });
+      });
+
     void this.http.get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' }).subscribe((data) => {
       const rawData = this.papa.parse(data, { header: true });
       const rawDataArray = rawData.data;
@@ -178,24 +215,22 @@ export class ChartCardComponent implements OnInit {
       });
     });
 
-    void this.http
-      .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
-      .subscribe((data: any) => {
-        console.log(data[0].data);
-        const rawDataArray = data[0].data;
+    //   void this.http
+    //     .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
+    //     .subscribe((data: any) => {
+    //       console.log(data[0].data);
+    //       const rawDataArray = data[0].data;
 
-        rawDataArray.forEach((item) => {
-          this.bin.push(Number(item.bin));
-        });
+    //       rawDataArray.forEach((item) => {
+    //         this.bin.push(Number(item.bin));
+    //         this.frequency.push(Number(item.frequency));
+    //       });
 
-        rawDataArray.forEach((item) => {
-          this.frequency.push(Number(item.frequency));
-        });
-        console.log(this.frequency, this.bin);
-        // rawDataArray.forEach((item) => {
-        //   this.labels.push(item.pc);
-        // });
-      });
+    //       console.log(this.frequency, this.bin);
+    //       // rawDataArray.forEach((item) => {
+    //       //   this.labels.push(item.pc);
+    //       // });
+    //     });
   }
   public openDialog(): void {
     void this.dialogService.openChartDialog(this.histograph);
