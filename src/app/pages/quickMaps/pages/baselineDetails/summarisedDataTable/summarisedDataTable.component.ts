@@ -28,15 +28,15 @@ export class SummarisedDataTableComponent implements OnInit {
     'va.fruit',
     'va.dairy',
     'va.fat',
-    'va.misc',
-    'va.vendor',
-    'va.bev',
+    // 'va.misc',
+    // 'va.vendor',
+    // 'va.bev',
   ];
 
   public dataSource = new MatTableDataSource();
   public rawData;
 
-  constructor(private http: HttpClient, private papa: Papa) { }
+  constructor(private http: HttpClient, private papa: Papa) {}
 
   ngOnInit(): void {
     void this.http

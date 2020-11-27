@@ -47,6 +47,14 @@ Run `ng run micronutrient-support-tool:cypress-open` to execute the Cypress end-
 
 [Chrome Extension to scaffold tests](https://chrome.google.com/webstore/detail/cypress-recorder/glcapdcacdfkokcmicllhcjigeodacab)
 
+### Webpack Analysis
+
+Webpack bundle analyzer can generate stats and on the current application bundle size and visualise them in a simple web tool.
+
+Run `npm run build:stats` to build the Angular project and calculate the bundle stats (`dist/stats.json`)
+
+Run `npm run analyze` to use this `stats.json` and load the bundle visualiser at `localhost:8888`
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

@@ -1,59 +1,57 @@
 
-.grid-container {
-  display: grid;
-  grid-gap: 15px;
-  // grid-template-columns: 1fr;
-  grid-template-rows: repeat(2, 370px);
-  grid-template-areas:
-    'a b c'
-    'd d e';
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-top: 20px;
+// Using css flex seems to be more responsive.
+.flex-container {
+  display: flex;
+  // height: 740px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  flex-flow: row wrap;
+  justify-content: start; // previously set to stretch
 }
 
 .card-container {
+  flex: 1 0;
+  margin: 5px;
   border: 1px solid #703aa3;
   border-radius: 5px;
   background-color: #f8f8f8;
 }
+// .grid-container {
+//   display: grid;
+//   grid-gap: 15px;
+//   // grid-template-columns: 1fr;
+//   grid-template-rows: repeat(2, 370px);
+//   grid-template-areas:
+//     'a b c'
+//     'd d e';
+//   margin-left: 15px;
+//   margin-right: 15px;
+//   margin-top: 20px;
+// }
 
-.container-a {
-  grid-area: a;
-}
-
-.container-b {
-  grid-area: b;
-}
-
-.container-b {
-  grid-area: b;
-}
-
-.container-d {
-  grid-area: d;
-}
-
-.container-e {
-  grid-area: e;
-}
-
-// Testing flex but not sure about this yet
 // .card-container {
-//   width: calc(98% / 3);
-//   height: calc(98% / 2);
-//   margin: 5px;
 //   border: 1px solid #703aa3;
 //   border-radius: 5px;
 //   background-color: #f8f8f8;
 // }
 
-// .grid-container {
-//   display: flex;
-//   height: 750px;
-//   margin-left: 10px;
-//   margin-right: 10px;
-//   margin-top: 20px;
-//   flex-flow: row wrap;
-//   justify-content: stretch;
+// .container-a {
+//   grid-area: a;
+// }
+
+// .container-b {
+//   grid-area: b;
+// }
+
+// .container-b {
+//   grid-area: b;
+// }
+
+// .container-d {
+//   grid-area: d;
+// }
+
+// .container-e {
+//   grid-area: e;
 // }
