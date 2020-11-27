@@ -22,6 +22,7 @@ import { GeographyTypes } from './geographyTypes.enum';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
+  public readonly ROUTES = AppRoutes;
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
@@ -46,7 +47,7 @@ export class SideNavContentComponent implements OnInit {
     private currentDataService: CurrentDataService,
     private miscApiService: MiscApiService,
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService

@@ -30,7 +30,10 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.initialiseMap();
+    // fails to find element if not taked out of flow
+    setTimeout(() => {
+      this.initialiseMap();
+    }, 0);
   }
 
   public initialiseMap(): void {
