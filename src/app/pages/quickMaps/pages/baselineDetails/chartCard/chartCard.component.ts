@@ -150,19 +150,12 @@ export class ChartCardComponent implements OnInit {
   };
 
   public jsdata = {
-    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'],
+    labels: this.bin,
     datasets: [
       {
         label: 'Frequency',
         data: this.frequency,
-        backgroundColor: 'red',
-        pointBackgroundColor: 'red',
-      },
-      {
-        label: 'bin',
-        data: this.bin,
-        backgroundColor: 'blue',
-        pointBackgroundColor: 'blue',
+        backgroundColor: 'orange',
       },
     ],
   };
