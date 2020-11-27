@@ -1,5 +1,6 @@
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer opened #drawer mode="side" [ngClass]="(slim) ? 'slim-sidenav-mode' :'large-sidenav-mode'"
+  <mat-drawer opened #drawer mode="side"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'"
     class="example-sidenav">
     <app-side-nav-content></app-side-nav-content>
   </mat-drawer>
@@ -10,6 +11,5 @@
     <div class="map-container">
       <div id="map"></div>
     </div>
-    <button type="button" mat-button (click)="log()">Toggle sidenav</button>|
   </div>
 </mat-drawer-container>

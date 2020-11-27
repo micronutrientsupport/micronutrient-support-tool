@@ -2,9 +2,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpClient } from '@angular/common/http';
+import { isNgTemplate } from '@angular/compiler';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
+import { features } from 'process';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -21,33 +23,16 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
 
   public geojson: L.GeoJSON;
   public map: L.Map;
-  public slim: boolean;
 
-  public countriesDictionary: Dictionary;
-
-  public countryId: string;
-  public geoFeatures = new Array();
+  public selectedCountry;
 
   constructor(
     private http: HttpClient,
     public quickMapsService: QuickMapsService,
     public dictionaryService: DictionaryService,
   ) {
-    void dictionaryService.getDictionaries([DictionaryType.COUNTRIES]).then((dicts: Array<Dictionary>) => {
-      this.countriesDictionary = dicts.shift();
-      this.geoFeatures = this.countriesDictionary.getItems().map((feature) => {
-        // tslint:disable-next-line: no-unused-expression
-      });
-      console.log(this.geoFeatures);
-    });
-
-    quickMapsService.slimObservable.subscribe((slim: boolean) => {
-      this.slim = slim;
-    });
-    quickMapsService.countryIdObs.subscribe((countryId: string) => {
-      this.countryId = countryId;
-    });
-    // console.log('countryId', this.countriesDictionary.getItem(this.quickMapsService.countryId));
+    quickMapsService.countryIdObs.subscribe((countryId: string) => {});
+    console.log('countryId', this.quickMapsService.countryId);
   }
 
   ngOnInit(): void {}
@@ -56,54 +41,52 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     this.initialiseMap();
   }
 
-  public log(): void {
-    console.log('countryId');
-  }
-
-  public initialiseMap(): void {
+  private initialiseMap(): void {
     this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    void this.http
-      .get('./assets/geoJSON/africanNations.json')
-      .toPromise()
-      .then((json: any) => {
-        this.geojson = L.geoJSON(json, {
-          style: (feature) => {
-            if (feature.properties.sovereignt === 'Malawi') {
-              return {
-                fillColor: 'green',
-                fillOpacity: 0.5,
-              };
-            }
-          },
-          onEachFeature: (feature, layer: L.Layer) => {
-            layer.on({
-              mouseover: () => {
-                this.highlightFeature(layer);
-              },
-              mouseout: () => {
-                this.resetHighlight(layer);
-              },
-              click: (e) => {
-                this.map.fitBounds(e.target.getBounds());
-                window.alert(`you clicked on ${feature.properties.sovereignt}`);
-              },
-            });
-          },
-        }).addTo(this.map);
-      });
+    this.addCountriesMapLayer();
+  }
+
+  private resetHighlight(layer: L.Layer): void {
+    if (layer !== this.selectedCountry) {
+      this.geojson.resetStyle(layer);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public highlightFeature(layer: any): void {
+  private hoverHighlightFeature(layer: any): void {
+    if (layer !== this.selectedCountry) {
+      layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.3,
+      });
+
+      if (!L.Browser.ie && !L.Browser.edge) {
+        layer.bringToFront();
+      }
+    }
+  }
+  private selectFeature(layer: any): void {
+    if (null != this.selectedCountry) {
+      this.selectedCountry.setStyle({
+        fillColor: '#8a66ad',
+        fillOpacity: 0.1,
+        color: '#3a1d54',
+        opacity: 0.8,
+      });
+    }
+
+    this.selectedCountry = layer;
     layer.setStyle({
       weight: 5,
-      color: '#666',
+      color: '#008000',
       dashArray: '',
-      fillOpacity: 0.2,
+      fillOpacity: 0.3,
     });
 
     if (!L.Browser.ie && !L.Browser.edge) {
@@ -111,7 +94,50 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public resetHighlight(layer: L.Layer): void {
-    this.geojson.resetStyle(layer);
+  public goToCountry(id: string): void {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+      const country = dict.getItem<CountryDictionaryItem>(id);
+      if (null != country && null != country.geoFeature) {
+        // this.map.fitBounds(country.geoFeature.geometry);
+        this.hoverHighlightFeature(country.geoFeature);
+      }
+    });
+  }
+
+  private addCountriesMapLayer(): void {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+      const featureCollection: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: dict
+          .getItems<CountryDictionaryItem>()
+          .map((item) => item.geoFeature)
+          .filter((item) => null != item),
+      };
+      this.geojson = L.geoJSON(featureCollection, {
+        style: () => {
+          return {
+            fillColor: '#8a66ad',
+            fillOpacity: 0.1,
+            color: '#3a1d54',
+            opacity: 0.8,
+          };
+        },
+        onEachFeature: (feature, singleFeatureLayer: L.Layer) => {
+          singleFeatureLayer.on({
+            mouseover: () => {
+              this.hoverHighlightFeature(singleFeatureLayer);
+            },
+            mouseout: () => {
+              this.resetHighlight(singleFeatureLayer);
+            },
+            click: (e) => {
+              this.quickMapsService.setCountryId(`${feature.properties.countryId}`);
+              this.selectFeature(e.target);
+            },
+          });
+        },
+      }).addTo(this.map);
+      // L.map('map').setView(filterCountries(featureCollection))
+    });
   }
 }

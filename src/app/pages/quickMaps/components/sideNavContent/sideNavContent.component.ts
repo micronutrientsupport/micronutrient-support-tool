@@ -50,11 +50,7 @@ export class SideNavContentComponent implements OnInit {
     public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService
-      .getDictionaries([
-        DictionaryType.COUNTRIES,
-        DictionaryType.REGIONS,
-        DictionaryType.MICRONUTRIENTS,
-      ])
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
       .then((dicts: Array<Dictionary>) => {
         this.countriesDictionary = dicts.shift();
         this.regionDictionary = dicts.shift();
@@ -90,15 +86,12 @@ export class SideNavContentComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
-      .filter(
-        (micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type,
-      );
+      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
   }
 
   public countryChange(type: GeographyTypes): void {
@@ -113,10 +106,8 @@ export class SideNavContentComponent implements OnInit {
 
   public updatePopulationGroupOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    void ((null == country)
-      ? Promise.resolve([])
-      : this.miscApiService.getPopulationGroups(country, true))
-      .then((options: Array<PopulationGroup>) => {
+    void (null == country ? Promise.resolve([]) : this.miscApiService.getPopulationGroups(country, true)).then(
+      (options: Array<PopulationGroup>) => {
         this.popGroupOptions = options;
         // console.log('popGroupOptions', options);
         // if only one option, preselect
@@ -125,25 +116,18 @@ export class SideNavContentComponent implements OnInit {
         } else {
           this.updateMicronutrientDataOptions();
         }
-      });
+      },
+    );
   }
 
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     const microNutrients = this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds);
-    const popGroup = this.popGroupOptions.find(item => (item.id === this.quickMapsService.popGroupId));
+    const popGroup = this.popGroupOptions.find((item) => item.id === this.quickMapsService.popGroupId);
 
-    if ((null != country)
-      && (microNutrients.length > 0)
-      && (null != popGroup)) {
-
+    if (null != country && microNutrients.length > 0 && null != popGroup) {
       void this.currentDataService
-        .getMicronutrientDataOptions(
-          country,
-          microNutrients,
-          popGroup,
-          true,
-        )
+        .getMicronutrientDataOptions(country, microNutrients, popGroup, true)
         .then((options: Array<MicronutrientDataOption>) => {
           this.micronutrientDataOptions = options;
           // console.log('MicronutrientDataOption', options);
