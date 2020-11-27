@@ -25,6 +25,7 @@ export class ChartCardComponent implements OnInit {
   private micronutrientIds: any[];
   private populationIds: any;
   private micronutrientData: any = 2;
+  ƒ;
 
   public graph = {
     data: [
@@ -149,20 +150,20 @@ export class ChartCardComponent implements OnInit {
   };
 
   public jsdata = {
+    labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'],
     datasets: [
       {
         label: 'Frequency',
         data: this.frequency,
+        backgroundColor: 'red',
+        pointBackgroundColor: 'red',
       },
       {
         label: 'bin',
         data: this.bin,
-        marker: { color: 'red' },
+        backgroundColor: 'blue',
+        pointBackgroundColor: 'blue',
       },
-      // {
-      //   label: 'Total Vitamin A',
-      //   data: this.totalva,
-      // },
     ],
   };
 
@@ -177,26 +178,18 @@ export class ChartCardComponent implements OnInit {
   ngOnInit(): void {
     this.quickMapsService.countryIdObs.subscribe((cId) => {
       this.countryId = cId;
+      this.plotHistogramData();
     });
 
     this.quickMapsService.micronutrientIdsObs.subscribe((mnIds) => {
       this.micronutrientIds = mnIds;
+      this.plotHistogramData();
     });
 
     this.quickMapsService.popGroupIdObs.subscribe((popIds) => {
       this.populationIds = popIds;
+      this.plotHistogramData();
     });
-
-    void this.currentDataService
-      .getHouseholdHistogramData(this.countryId, this.micronutrientIds, this.populationIds, this.micronutrientData)
-      .then((theData) => {
-        const rawDataArray = theData[0].data;
-
-        rawDataArray.forEach((item) => {
-          this.bin.push(Number(item.bin));
-          this.frequency.push(Number(item.frequency));
-        });
-      });
 
     void this.http.get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' }).subscribe((data) => {
       const rawData = this.papa.parse(data, { header: true });
@@ -204,34 +197,26 @@ export class ChartCardComponent implements OnInit {
 
       rawDataArray.forEach((item) => {
         this.meatva.push(Number(item['va.meat']));
-      });
-
-      rawDataArray.forEach((item) => {
         this.totalva.push(Number(item['va.supply']));
-      });
-
-      rawDataArray.forEach((item) => {
         this.labels.push(item.pc);
       });
     });
-
-    //   void this.http
-    //     .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
-    //     .subscribe((data: any) => {
-    //       console.log(data[0].data);
-    //       const rawDataArray = data[0].data;
-
-    //       rawDataArray.forEach((item) => {
-    //         this.bin.push(Number(item.bin));
-    //         this.frequency.push(Number(item.frequency));
-    //       });
-
-    //       console.log(this.frequency, this.bin);
-    //       // rawDataArray.forEach((item) => {
-    //       //   this.labels.push(item.pc);
-    //       // });
-    //     });
   }
+
+  private plotHistogramData(): void {
+    if (this.countryId && this.micronutrientIds && this.populationIds && this.micronutrientData) {
+      void this.currentDataService
+        .getHouseholdHistogramData(this.countryId, this.micronutrientIds, this.populationIds, this.micronutrientData)
+        .then((theData) => {
+          const rawDataArray = theData[0].data;
+          rawDataArray.forEach((item) => {
+            this.bin.push(Number(item.bin));
+            this.frequency.push(Number(item.frequency));
+          });
+        });
+    }
+  }
+
   public openDialog(): void {
     void this.dialogService.openChartDialog(this.histograph);
   }

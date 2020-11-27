@@ -12,11 +12,8 @@
   <mat-tab label="Plotly 1">
     <div class="tab-element">
       <div class="chart-container">
-        <plotly-plot
-          [data]="histograph.data"
-          [layout]="histograph.layout"
-          [config]="{ responsive: true }"
-        ></plotly-plot>
+        <plotly-plot [data]="histograph.data" [layout]="histograph.layout" [config]="{ responsive: true }">
+        </plotly-plot>
       </div>
     </div>
   </mat-tab>
