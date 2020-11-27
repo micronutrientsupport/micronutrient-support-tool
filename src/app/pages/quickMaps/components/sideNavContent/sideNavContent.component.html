@@ -15,15 +15,17 @@
 
     <!--Countries/Region -->
     <div class="toggle-buttons">
-        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest" (change)="countryChange($event.value)"
-            aria-label="Geography of interest" [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">
+        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
+            (change)="countryChange($event.value)" aria-label="Geography of interest"
+            [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">
             <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
             <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
 
     <mat-form-field appearance="fill" aria-label="Geography of interest">
-        <mat-select formControlName="nation" [placeholder]="'select a ' + group.value">
+        <mat-select formControlName="nation" [placeholder]="'select a ' + group.value"
+            (selectionChange)="selectCountryOnMap($event)">
             <mat-option *ngFor="let item of geographyOptionArray" [value]="item.id">
                 {{item.name}}
             </mat-option>
@@ -81,8 +83,7 @@
     </div>
     <mat-form-field appearance="fill">
         <mat-select formControlName="mndsData" placeholder="Click to select options">
-            <mat-option *ngFor="let item of micronutrientDataOptions"
-                [value]="item.id">{{item.name}}
+            <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
             </mat-option>
         </mat-select>
         <mat-error>{{errorReponse[0]}}</mat-error>

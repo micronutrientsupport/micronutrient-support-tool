@@ -31,8 +31,15 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     public quickMapsService: QuickMapsService,
     public dictionaryService: DictionaryService,
   ) {
-    quickMapsService.countryIdObs.subscribe((countryId: string) => {});
-    console.log('countryId', this.quickMapsService.countryId);
+    quickMapsService.countryIdObs.subscribe((countryId: string) => {
+      this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+        const country = dict.getItem<CountryDictionaryItem>(countryId);
+        if (null != country && null != country.geoFeature) {
+          // this.map.fitBounds(country.geoFeature.geometry);
+          this.selectFeature(country.geoFeature);
+        }
+      });
+    });
   }
 
   ngOnInit(): void {}
@@ -71,27 +78,45 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  private selectFeature(layer: any): void {
-    if (null != this.selectedCountry) {
-      this.selectedCountry.setStyle({
-        fillColor: '#8a66ad',
-        fillOpacity: 0.1,
-        color: '#3a1d54',
-        opacity: 0.8,
+  private selectFeature(country: any): void {
+    if (null != this.geojson) {
+      this.geojson.eachLayer((layer: L.Layer) => {
+        if (layer['feature']['geometry'] === country) {
+          layer.setStyle({
+            weight: 5,
+            color: '#008000',
+            dashArray: '',
+            fillOpacity: 0.3,
+          });
+        }
       });
     }
+    // if (null != layer['feature'] && null != feature) {
+    //   if (layer['feature']['geometry']['properties']['countryId'] === countryId) {
+    //     if (null != this.selectedCountry) {
+    //       this.selectedCountry.setStyle({
+    //         fillColor: '#8a66ad',
+    //         fillOpacity: 0.1,
+    //         color: '#3a1d54',
+    //         opacity: 0.8,
+    //       });
+    //     }
 
-    this.selectedCountry = layer;
-    layer.setStyle({
-      weight: 5,
-      color: '#008000',
-      dashArray: '',
-      fillOpacity: 0.3,
-    });
+    //     this.selectedCountry = feature;
+    //     feature.setStyle({
+    //       weight: 5,
+    //       color: '#008000',
+    //       dashArray: '',
+    //       fillOpacity: 0.3,
+    //     });
 
-    if (!L.Browser.ie && !L.Browser.edge) {
-      layer.bringToFront();
-    }
+    //     if (!L.Browser.ie && !L.Browser.edge) {
+    //       feature.bringToFront();
+    //     }
+    //   }
+    // }
+
+    // console.debug(feature);
   }
 
   public goToCountry(id: string): void {
@@ -132,7 +157,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
             },
             click: (e) => {
               this.quickMapsService.setCountryId(`${feature.properties.countryId}`);
-              this.selectFeature(e.target);
+              // this.selectFeature(e.target);
             },
           });
         },

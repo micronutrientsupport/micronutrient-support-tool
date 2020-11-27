@@ -21,11 +21,7 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public popGroupIdObs = this.popGroupIdSrc.asObservable();
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    route: ActivatedRoute,
-  ) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, route: ActivatedRoute) {
     // set from query params on init
     this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
     this.setMicronutrientIds(QuickMapsQueryParams.getMicronutrientIds(route.snapshot));
@@ -44,7 +40,7 @@ export class QuickMapsService {
     return this.countryIdSrc.value;
   }
   public setCountryId(countryId: string, force = false): void {
-    if (force || (this.countryId !== countryId)) {
+    if (force || this.countryId !== countryId) {
       this.countryIdSrc.next(countryId);
     }
   }
@@ -54,7 +50,7 @@ export class QuickMapsService {
   }
   public setMicronutrientIds(micronutrientIds: Array<string>, force = false): void {
     micronutrientIds = QuickMapsQueryParams.filterAndSortArray(micronutrientIds);
-    if (force || (!QuickMapsQueryParams.arrayValuesSame(micronutrientIds, this.micronutrientIds))) {
+    if (force || !QuickMapsQueryParams.arrayValuesSame(micronutrientIds, this.micronutrientIds)) {
       this.micronutrientIdsSrc.next(micronutrientIds);
     }
   }
@@ -63,7 +59,7 @@ export class QuickMapsService {
     return this.popGroupIdSrc.value;
   }
   public setPopGroupId(popGroupId: string, force = false): void {
-    if (force || (this.popGroupId !== popGroupId)) {
+    if (force || this.popGroupId !== popGroupId) {
       this.popGroupIdSrc.next(popGroupId);
     }
   }
@@ -74,7 +70,5 @@ export class QuickMapsService {
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_IDS] = this.micronutrientIds;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID] = this.popGroupId;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
-
   }
-
 }

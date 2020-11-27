@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -102,6 +103,11 @@ export class SideNavContentComponent implements OnInit {
       this.searchByCountry = false;
       this.geographyOptionArray = this.regionDictionary.getItems();
     }
+  }
+
+  public selectCountryOnMap(event: MatSelectChange): void {
+    const countryID = event.value;
+    this.quickMapsService.setCountryId(countryID);
   }
 
   public updatePopulationGroupOptions(): void {
