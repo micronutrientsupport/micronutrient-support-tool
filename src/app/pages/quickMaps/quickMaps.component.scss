@@ -1,5 +1,9 @@
 @import "src/assets/scss/_colour.scss";
 
+mat-drawer {
+  padding: 1em 0;
+}
+
 .sidenav-container {
   width: 100%;
   min-height: 300px;
