@@ -14,7 +14,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: head-stats
-          path: ../dist/stats.json
+          path: ./dist/micronutrient-support-tool/stats.json
 
   build-base:
     name: "Build base"
@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: base-stats
-          path: ../dist/stats.json
+          path: ./dist/micronutrient-support-tool/stats.json
 
   compare:
     name: "Compare base & head bundle sizes"
