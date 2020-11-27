@@ -5,7 +5,7 @@
   </mat-drawer>
   <div class="sidenav-content">
     <div class="menu-header">
-      <app-quick-maps-header></app-quick-maps-header>
+      <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
     </div>
     <router-outlet></router-outlet>
   </div>

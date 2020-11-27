@@ -6,6 +6,11 @@ import { LocationSelectComponent } from './pages/locationSelect/locationSelect.c
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
+
+export interface QuickMapsRouteData {
+  showQuickMapsHeader: boolean;
+};
+
 const routes: Routes = [
   {
     path: '',
@@ -14,6 +19,7 @@ const routes: Routes = [
       {
         path: '',
         component: LocationSelectComponent,
+        data: { showQuickMapsHeader: false }
       }, {
         path: AppRoutes.QUICK_MAPS_BASELINE.segments,
         component: BaselineDetailsComponent,
