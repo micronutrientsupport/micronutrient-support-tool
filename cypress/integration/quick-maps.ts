@@ -4,19 +4,19 @@
 export const populateSelectValues = (): void => {
 
   cy.get('[name="nation"]').click({ force: true });
-  cy.get('mat-option > .mat-option-text').first().click({ force: true });
+  cy.get('mat-option > .mat-option-text',  { timeout: 1000 }).first().click({ force: true });
+
 
   cy.get('[name="micronutrients"]').click({ force: true });
-  cy.get('mat-option > .mat-option-text').first().click({ force: true });
+  // wait for previous select to close and this one to open
+  cy.wait(500);
+  cy.get('mat-option > .mat-option-text',  { timeout: 1000 }).first().click({ force: true });
 
-  cy.get('[name="popGroup"]').click({ force: true });
-  cy.get('mat-option > .mat-option-text').first().click({ force: true });
-
-  cy.get('[name="mndsData"]').click({ force: true });
-  cy.get('mat-option > .mat-option-text').first().click({ force: true });
+  // wait for auto select of pop group and mnds data
+  cy.wait(2000);
 };
 
-describe('`Quick Map Tests`', () => {
+describe('Quick Map Tests', () => {
   it('load leaflet map', () => {
     cy.visit('/quick-maps');
     cy.get('#map').should('be.visible');
@@ -29,7 +29,6 @@ describe('`Quick Map Tests`', () => {
 
     cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
 
-    cy.wait(500);
     cy.get('app-baseline-details').should('be.visible');
   });
 
@@ -42,7 +41,6 @@ describe('`Quick Map Tests`', () => {
 
     cy.get('[ng-reflect-router-link="/quick-maps/projection"]').click({ force: true });
 
-    cy.wait(500);
     cy.get('app-quickmaps-projection').should('be.visible');
   });
 });
