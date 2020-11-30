@@ -21,11 +21,13 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
 import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.component';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
+import { QuickMapsComponent } from './quickMaps.component';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
+    QuickMapsComponent,
     LocationSelectComponent,
     SideNavContentComponent,
     ProjectionComponent,

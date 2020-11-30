@@ -1,18 +1,23 @@
-@import 'src/assets/scss/_colour';
+@import "src/assets/scss/_colour";
 
 :host {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   max-height: 100%;
 }
 
+.scroll-area {
+  overflow-y: scroll;
+}
+
 form {
+  padding: 1em;
   opacity: 1;
-  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   transition: opacity 1s ease;
 
   & .flex-row {
@@ -23,10 +28,6 @@ form {
     width: 100%;
   }
 
-  mat-form-field,
-  .toggle-buttons {
-    margin-right: 1em;
-  }
 }
 
 i {
@@ -53,7 +54,6 @@ button {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   margin-bottom: 0.5em;
 
   & div {
@@ -69,6 +69,10 @@ button {
       margin-left: 0em;
     }
   }
+}
+.footer-row {
+  display: flex;
+  justify-content: center;
 }
 
 .slim-sidenav {
@@ -86,7 +90,7 @@ button {
 }
 
 .heading {
-  h2 {
+  & h2 {
     opacity: 1;
     display: block;
     transform: rotate(90deg);
@@ -95,10 +99,9 @@ button {
     left: -45px;
     white-space: nowrap;
     transition: transform 0.4s ease;
-  }
-
-  h2:hover {
-    color: $color_blue_form;
-    cursor: pointer;
+    &:hover {
+      color: $color_blue_form;
+      cursor: pointer;
+    }
   }
 }

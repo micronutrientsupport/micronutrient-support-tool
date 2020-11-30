@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
   selector: 'app-baseline-details',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./baselineDetails.component.scss'],
 })
 export class BaselineDetailsComponent implements OnInit {
-  constructor() {}
-  ngOnInit(): void {}
+  constructor(
+    public quickmapsService: QuickMapsService,
+  ) { }
+  ngOnInit(): void { }
 }

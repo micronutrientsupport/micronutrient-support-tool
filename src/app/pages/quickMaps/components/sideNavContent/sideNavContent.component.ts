@@ -22,6 +22,7 @@ import { GeographyTypes } from './geographyTypes.enum';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
+  public readonly ROUTES = AppRoutes;
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
@@ -46,7 +47,7 @@ export class SideNavContentComponent implements OnInit {
     private currentDataService: CurrentDataService,
     private miscApiService: MiscApiService,
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService
@@ -64,7 +65,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.countryId, Validators.required],
           micronutrients: [this.quickMapsService.micronutrientIds, Validators.required],
           popGroup: [this.quickMapsService.popGroupId, Validators.required],
-          mndsData: [null, Validators.required],
+          mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
         this.countryChange(GeographyTypes.COUNTRY);
@@ -84,9 +85,9 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setPopGroupId(value);
           this.updateMicronutrientDataOptions();
         });
-        // this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DictionaryItem) => {
-        //   // this.quickMapsService.set(value.id);
-        // });
+        this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
+          this.quickMapsService.setMndDataId(value);
+        });
       });
   }
 
@@ -146,7 +147,6 @@ export class SideNavContentComponent implements OnInit {
         )
         .then((options: Array<MicronutrientDataOption>) => {
           this.micronutrientDataOptions = options;
-          // console.log('MicronutrientDataOption', options);
           // if only one option, preselect
           if (1 === options.length) {
             this.quickMapsForm.get('mndsData').setValue(options[0].id);

@@ -4,19 +4,32 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
+import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
+
+export interface QuickMapsRouteData {
+  showQuickMapsHeader: boolean;
+};
+
 const routes: Routes = [
   {
     path: '',
-    component: LocationSelectComponent,
-  }, {
-    path: AppRoutes.QUICK_MAPS_BASELINE.segments,
-    component: BaselineDetailsComponent,
-    canActivate: [QuickMapsRouteGuardService],
-  }, {
-    path: AppRoutes.QUICK_MAPS_PROJECTION.segments,
-    component: ProjectionComponent,
-    canActivate: [QuickMapsRouteGuardService],
+    component: QuickMapsComponent,
+    children: [
+      {
+        path: '',
+        component: LocationSelectComponent,
+        data: { showQuickMapsHeader: false }
+      }, {
+        path: AppRoutes.QUICK_MAPS_BASELINE.segments,
+        component: BaselineDetailsComponent,
+        canActivate: [QuickMapsRouteGuardService],
+      }, {
+        path: AppRoutes.QUICK_MAPS_PROJECTION.segments,
+        component: ProjectionComponent,
+        canActivate: [QuickMapsRouteGuardService],
+      },
+    ],
   }, {
     path: '**',
     redirectTo: '',

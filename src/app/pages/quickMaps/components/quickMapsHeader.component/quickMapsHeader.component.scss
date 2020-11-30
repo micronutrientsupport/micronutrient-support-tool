@@ -4,7 +4,7 @@
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  .active-route {
+  & .active-route {
     background-color: $color_primary;
     color: white;
   }

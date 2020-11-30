@@ -25,7 +25,10 @@ export class MapViewComponent implements AfterViewInit {
   constructor(private http: HttpClient, private modalService: DialogService) { }
 
   ngAfterViewInit(): void {
-    this.mapView1 = this.initialiseMap('mapView1');
+    // fails to find element if not taked out of flow
+    setTimeout(() => {
+      this.mapView1 = this.initialiseMap('mapView1');
+    }, 0);
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {

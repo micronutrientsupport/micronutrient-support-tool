@@ -10,7 +10,7 @@ import { QuickMapsService } from '../../quickMaps.service';
 @Component({
   selector: 'app-quickmaps-location-select',
   templateUrl: './locationSelect.component.html',
-  styleUrls: ['./locationSelect.component.scss', '../../components/sideNavContent/sideNavParent.scss'],
+  styleUrls: ['./locationSelect.component.scss'],
 })
 export class LocationSelectComponent implements OnInit, AfterViewInit {
   @ViewChild('drawer') public sidenav: MatSidenav;
@@ -30,7 +30,10 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initialiseMap();
+    // fails to find element if not taked out of flow
+    setTimeout(() => {
+      this.initialiseMap();
+    }, 0);
   }
 
   public initialiseMap(): void {

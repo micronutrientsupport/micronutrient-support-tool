@@ -56,7 +56,7 @@ export class AppRoutes {
   // used in quick maps sub-router
   public static readonly QUICK_MAPS_LOCATION_SELECT = {
     ...BASE_ROUTE,
-    segments: 'location',
+    segments: '',
     parent: AppRoutes.QUICK_MAPS,
   };
   public static readonly QUICK_MAPS_BASELINE = {

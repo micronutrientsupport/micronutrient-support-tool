@@ -3,8 +3,9 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router'
 export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {
     COUNTRY_ID: 'country-id',
-    MICRONUTRIENT_IDS: 'mdn-ids',
+    MICRONUTRIENT_IDS: 'mnd-ids',
     POP_GROUP_ID: 'pop-group-id',
+    MICRONUTRIENT_DATASET: 'dataset-id',
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
@@ -19,6 +20,10 @@ export class QuickMapsQueryParams {
 
   public static getPopGroupId(route: ActivatedRouteSnapshot): string {
     return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID);
+  }
+
+  public static getMndsDataId(route: ActivatedRouteSnapshot): string {
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET);
   }
 
 
