@@ -9,6 +9,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
+      
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: start deployment
         uses: bobheadxi/deployments@v0.4.3
@@ -40,8 +45,9 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          PR: ${{ steps.findPr.outputs.pr }}
         with:
-          args: deploy --dir=dist/micronutrient-support-tool --alias test
+          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
 
       - name: update deployment status
         uses: bobheadxi/deployments@v0.4.3
