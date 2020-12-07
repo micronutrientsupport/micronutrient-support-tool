@@ -12,13 +12,8 @@ jobs:
 
       - name: Build compodoc
         run: |
-          npx compodoc -p tsconfig.json
-
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        if: github.event_name == 'pull_request'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}\
+          ls -alh
+          npx compodoc -p ./tsconfig.json
 
       - name: Deploy docs to netlify
         id: deploy-netlify

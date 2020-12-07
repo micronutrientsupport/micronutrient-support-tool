@@ -9,12 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
-      
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        if: github.event_name == 'pull_request'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: start deployment
         uses: bobheadxi/deployments@v0.4.3
