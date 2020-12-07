@@ -21,11 +21,11 @@ const routes: Routes = [
         component: LocationSelectComponent,
         data: { showQuickMapsHeader: false }
       }, {
-        path: AppRoutes.QUICK_MAPS_BASELINE.segments,
+        path: AppRoutes.QUICK_MAPS_BASELINE.segments.valueOf(),
         component: BaselineDetailsComponent,
         canActivate: [QuickMapsRouteGuardService],
       }, {
-        path: AppRoutes.QUICK_MAPS_PROJECTION.segments,
+        path: AppRoutes.QUICK_MAPS_PROJECTION.segments.valueOf(),
         component: ProjectionComponent,
         canActivate: [QuickMapsRouteGuardService],
       },
