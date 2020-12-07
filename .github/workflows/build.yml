@@ -10,6 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
 
+      - name: start deployment
+        uses: bobheadxi/deployments@v0.4.3
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: release    
+
       - name: Cache node modules
         uses: actions/cache@v2.1.3
         with:
@@ -25,14 +33,6 @@ jobs:
         run: |
           npm i
           npm run build:prod
-
-      - name: start deployment
-        uses: bobheadxi/deployments@v0.4.3
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: release    
 
       - name: Deploy to netlify
         id: deploy-netlify
