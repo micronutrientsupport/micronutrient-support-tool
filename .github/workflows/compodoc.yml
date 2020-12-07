@@ -25,3 +25,13 @@ jobs:
           PR: docs${{ github.event.number }}
         with:
           args: deploy --dir=documentation --alias ${PR}
+
+      - name: Compodoc Preview URL
+        uses: unsplash/comment-on-pr@master
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT: "The compodoc for this PR is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n📖  Compodoc: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
+        with:
+          msg: ${{ env.OUTPUT }}
+          check_for_duplicate_msg: false
