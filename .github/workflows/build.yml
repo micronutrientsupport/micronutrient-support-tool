@@ -48,7 +48,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          PR: ${{ steps.findPr.outputs.pr }}
+          PR: preview${{ steps.findPr.outputs.pr }}
         with:
           args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
 
