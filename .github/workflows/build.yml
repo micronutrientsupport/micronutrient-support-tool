@@ -1,5 +1,5 @@
 name: Angular Build
-on: push
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,12 +12,14 @@ jobs:
       
       - uses: jwalton/gh-find-current-pr@v1
         id: findPr
+        if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: start deployment
         uses: bobheadxi/deployments@v0.4.3
         id: deployment
+        if: github.event_name == 'pull_request'
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -41,6 +43,7 @@ jobs:
 
       - name: Deploy to netlify
         id: deploy-netlify
+        if: github.event_name == 'pull_request'
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
@@ -51,7 +54,7 @@ jobs:
 
       - name: update deployment status
         uses: bobheadxi/deployments@v0.4.3
-        if: always()
+        if: github.event_name == 'pull_request'
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -60,6 +63,7 @@ jobs:
 
       - name: Netlify Preview URL
         uses: unsplash/comment-on-pr@master
+        if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Inspect: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
