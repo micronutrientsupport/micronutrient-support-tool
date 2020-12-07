@@ -47,7 +47,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           PR: ${{ steps.findPr.outputs.pr }}
         with:
-          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
+          args: deploy --dir=dist/micronutrient-support-tool --alias preview-${PR}
 
       - name: update deployment status
         uses: bobheadxi/deployments@v0.4.3
