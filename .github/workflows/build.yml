@@ -25,6 +25,15 @@ jobs:
         run: |
           npm i
           npm run build:prod
+
+      - name: start deployment
+      uses: bobheadxi/deployments@v0.4.3
+      id: deployment
+      with:
+        step: start
+        token: ${{ secrets.GITHUB_TOKEN }}
+        env: release    
+
       - name: Deploy to netlify
         id: deploy-netlify
         uses: netlify/actions/cli@master
@@ -33,6 +42,16 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
           args: deploy --dir=dist/micronutrient-support-tool --alias test
+
+      - name: update deployment status
+        uses: bobheadxi/deployments@v0.4.3
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
       - name: Netlify Preview URL
         uses: unsplash/comment-on-pr@master
         env:
