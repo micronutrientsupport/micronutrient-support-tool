@@ -1,4 +1,4 @@
-name: Angular Build
+name: Compodoc
 on: pull_request
 jobs:
   build:
@@ -27,6 +27,6 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          PR: docs${{ steps.findPr.outputs.pr }}
+          PR: docs${{ github.event.number }}
         with:
           args: deploy --dir=documentation --alias ${PR}
