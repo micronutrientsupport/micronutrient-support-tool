@@ -1,5 +1,5 @@
 name: Angular Build
-on: push
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,6 +9,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
+
+      - name: start deployment
+        uses: bobheadxi/deployments@v0.4.3
+        id: deployment
+        if: github.event_name == 'pull_request'
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: release    
 
       - name: Cache node modules
         uses: actions/cache@v2.1.3
@@ -25,3 +34,33 @@ jobs:
         run: |
           npm i
           npm run build:prod
+
+      - name: Deploy to netlify
+        id: deploy-netlify
+        if: github.event_name == 'pull_request'
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          PR: preview${{ github.event.number }}
+        with:
+          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
+
+      - name: update deployment status
+        uses: bobheadxi/deployments@v0.4.3
+        if: github.event_name == 'pull_request'
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Netlify Preview URL
+        uses: unsplash/comment-on-pr@master
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
+        with:
+          msg: ${{ env.OUTPUT }}
+          check_for_duplicate_msg: false
