@@ -31,11 +31,19 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     public quickMapsService: QuickMapsService,
     public dictionaryService: DictionaryService,
   ) {
-    quickMapsService.countryIdObs.subscribe((countryId: string) => {});
-    console.log('countryId', this.quickMapsService.countryId);
+
+    quickMapsService.countryIdObs.subscribe((countryId: string) => {
+      // this.getselectedLayer(countryId);
+      const country = this.getselectedLayer(countryId);
+      if (country) {
+        this.selectFeature(country);
+      }
+    });
+
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow
@@ -136,11 +144,24 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
             click: (e) => {
               this.quickMapsService.setCountryId(`${feature.properties.countryId}`);
               this.selectFeature(e.target);
+              // console.debug('click event', e.target['feature']);
             },
           });
         },
       }).addTo(this.map);
       // L.map('map').setView(filterCountries(featureCollection))
     });
+  }
+
+  public getselectedLayer(countryId: string): any {
+    let country
+    if (this.geojson) {
+      this.geojson.eachLayer((layer: any) => {
+        if ((layer['feature']['geometry']['properties']['countryId'] === countryId)) {
+          country = layer;
+        }
+      });
+      return country;
+    }
   }
 }
