@@ -1,0 +1,14 @@
+<div class="card-container">
+  <mat-toolbar color="primary" style="height: 40px">
+    <button (click)="functionSettings()" mat-icon-button class="example-icon" aria-label="Settings icon">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <span class="example-spacer">{{title}}</span>
+    <button (click)="functionExpand()" mat-icon-button class="example-icon" aria-label="Modal icon">
+      <mat-icon>launch</mat-icon>
+    </button>
+  </mat-toolbar>
+  <ng-content>
+
+  </ng-content>
+</div>

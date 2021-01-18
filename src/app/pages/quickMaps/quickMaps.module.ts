@@ -22,6 +22,7 @@ import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { QuickMapsComponent } from './quickMaps.component';
+import { CardComponent } from './pages/components/card/card.component';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -38,6 +39,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     SummarisedDataTableComponent,
     FoodItemsComponent,
     ChartCardComponent,
+    CardComponent,
   ],
   imports: [
     CommonModule,

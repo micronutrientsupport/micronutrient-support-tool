@@ -1,0 +1,20 @@
+.flex-container {
+  display: flex;
+  // height: 740px;
+  flex-flow: row wrap;
+  justify-content: start; // previously set to stretch
+}
+
+.card-container {
+  flex: 1 0;
+  margin: 5px;
+  border: 1px solid #703aa3;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 17px;
+}
