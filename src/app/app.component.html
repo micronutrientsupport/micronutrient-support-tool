@@ -2,4 +2,9 @@
 
 <router-outlet></router-outlet>
 
-<app-footer></app-footer>
+<div *ngIf="showMinFooter(router.url) === true">
+  <app-footer></app-footer>
+</div>
+<div *ngIf="showMinFooter(router.url) === false">
+  <app-footer-light></app-footer-light>
+</div>
