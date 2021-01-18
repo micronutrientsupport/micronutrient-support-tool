@@ -42,7 +42,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     this.initialiseMap();
@@ -82,12 +82,12 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     if (null != this.geojson) {
       this.geojson.eachLayer((layer: L.Layer) => {
         if (layer['feature']['geometry'] === country) {
-          layer.setStyle({
-            weight: 5,
-            color: '#008000',
-            dashArray: '',
-            fillOpacity: 0.3,
-          });
+          // layer.setStyle({
+          //   weight: 5,
+          //   color: '#008000',
+          //   dashArray: '',
+          //   fillOpacity: 0.3,
+          // });
         }
       });
     }
