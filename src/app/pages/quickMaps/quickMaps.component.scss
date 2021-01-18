@@ -13,12 +13,8 @@ mat-drawer {
   display: flex;
   flex-direction: column;
   height: 100%;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  & ::ng-deep > .ng-star-inserted {
-    // flex-grow: 1;
-    width: 100%;
-  }
 }
 
 .large-sidenav-mode {
@@ -33,9 +29,10 @@ mat-drawer {
   transition: all 0.4s;
 }
 
-.menu-header {
-  margin-top: 10px;
-}
 app-quick-maps-header {
-  width: 100%;
+  margin: 10px;
+}
+
+.header-present router-outlet ::ng-deep + * {
+  margin: 0 10px;
 }

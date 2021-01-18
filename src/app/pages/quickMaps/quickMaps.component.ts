@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { QuickMapsRouteData } from './quickMaps-routing.module';
@@ -13,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class QuickMapsComponent implements OnInit {
 
-  public showHeader = true;
+  public showHeader = false;
 
   constructor(
     router: Router,
