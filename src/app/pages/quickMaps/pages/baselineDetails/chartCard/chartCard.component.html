@@ -9,14 +9,6 @@
 </mat-toolbar>
 
 <mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Plotly 1">
-    <div class="tab-element">
-      <div class="chart-container">
-        <plotly-plot [data]="histograph.data" [layout]="histograph.layout" [config]="{ responsive: true }">
-        </plotly-plot>
-      </div>
-    </div>
-  </mat-tab>
   <mat-tab label="Chart JS 1">
     <div class="tab-element">
       <div class="chartjs-container">
@@ -25,13 +17,6 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Plotly 2">
-    <div class="tab-element">
-      <div class="chart-container">
-        <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="{ responsive: true }"></plotly-plot>
-      </div>
-    </div>
-  </mat-tab>
   <mat-tab label="Chart JS 2">
     <div class="tab-element">
       <div class="chartjs-container">
