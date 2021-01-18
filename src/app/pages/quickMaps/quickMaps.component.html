@@ -3,7 +3,7 @@
     [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'" class="sidenav">
     <app-side-nav-content></app-side-nav-content>
   </mat-drawer>
-  <div class="sidenav-content">
+  <div class="sidenav-content" [class.header-present]="showHeader">
     <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
     <router-outlet></router-outlet>
   </div>
