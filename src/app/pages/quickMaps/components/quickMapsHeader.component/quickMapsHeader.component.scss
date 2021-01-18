@@ -3,9 +3,13 @@
 .container {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   & .active-route {
     background-color: $color_primary;
     color: white;
   }
+}
+
+a {
+  flex-shrink: 0;
 }

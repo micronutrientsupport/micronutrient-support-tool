@@ -4,9 +4,7 @@
     <app-side-nav-content></app-side-nav-content>
   </mat-drawer>
   <div class="sidenav-content">
-    <div class="menu-header">
-      <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
-    </div>
+    <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
     <router-outlet></router-outlet>
   </div>
 </mat-drawer-container>
