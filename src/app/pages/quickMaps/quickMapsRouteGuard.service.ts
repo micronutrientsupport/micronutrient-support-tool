@@ -30,12 +30,15 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // console.debug('canActivate', route, route.routeConfig.path);
 
     switch (route.routeConfig.path) {
+      case AppRoutes.QUICK_MAPS_BASELINE.segments:
       case AppRoutes.QUICK_MAPS_PROJECTION.segments:
         promises.push(this.isValidCountry(route));
         promises.push(this.isValidMicronutrients(route));
         promises.push(this.isValidPopGroup(route));
         promises.push(this.isValidMndsData(route));
         break;
+      default:
+        promises.push(Promise.resolve(true));
     }
     return Promise.all(promises).then((valids: Array<boolean>) => {
       // console.debug('canActivate', valids);
