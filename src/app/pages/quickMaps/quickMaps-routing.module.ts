@@ -9,7 +9,7 @@ import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 
 export interface QuickMapsRouteData {
   showQuickMapsHeader: boolean;
-};
+}
 
 const routes: Routes = [
   {
@@ -19,25 +19,28 @@ const routes: Routes = [
       {
         path: '',
         component: LocationSelectComponent,
-        data: { showQuickMapsHeader: false }
-      }, {
+        data: { showQuickMapsHeader: false },
+      },
+      {
         path: AppRoutes.QUICK_MAPS_BASELINE.segments.valueOf(),
         component: BaselineDetailsComponent,
         canActivate: [QuickMapsRouteGuardService],
-      }, {
+      },
+      {
         path: AppRoutes.QUICK_MAPS_PROJECTION.segments.valueOf(),
         component: ProjectionComponent,
         canActivate: [QuickMapsRouteGuardService],
       },
     ],
-  }, {
+  },
+  {
     path: '**',
     redirectTo: '',
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QuickMapsRoutingModule { }
+export class QuickMapsRoutingModule {}
