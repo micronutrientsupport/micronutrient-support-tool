@@ -2,25 +2,25 @@
   <button mat-icon-button class="example-icon" aria-label="Settings icon">
     <mat-icon>settings</mat-icon>
   </button>
-  <span class="example-spacer">Chart View</span>
+  <span class="example-spacer">Household dietary supply</span>
   <button (click)="openDialog()" mat-icon-button class="example-icon" aria-label="Modal icon">
     <mat-icon>launch</mat-icon>
   </button>
 </mat-toolbar>
 
 <mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Chart JS 1">
+  <mat-tab label="Household Histogram">
     <div class="tab-element">
       <div class="chartjs-container">
-        <ngx-chartjs [data]="jsdata" [style]="histoGraphStyle" type="bar"></ngx-chartjs>
+        <ngx-chartjs id="histo" [data]="jsdata" [style]="histoGraphStyle" type="bar"></ngx-chartjs>
       </div>
     </div>
   </mat-tab>
 
-  <mat-tab label="Chart JS 2">
+  <mat-tab label="JS chart">
     <div class="tab-element">
       <div class="chartjs-container">
-        <ngx-chartjs id="chart" [data]="data" [style]="graphStyle" type="line"></ngx-chartjs>
+        <ngx-chartjs id="jschart" [data]="data" [style]="graphStyle" type="line"></ngx-chartjs>
       </div>
     </div>
   </mat-tab>

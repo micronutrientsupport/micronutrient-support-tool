@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-
 import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
+import 'chartjs-plugin-annotation';
 @Component({
   selector: 'app-chart-card',
   templateUrl: './chartCard.component.html',
@@ -53,22 +53,42 @@ export class ChartCardComponent implements OnInit {
   };
 
   public jsdata = {
+    labels: this.bin,
+
     datasets: [
       {
         label: 'Frequency',
         data: this.frequency,
+        backgroundColor: '#ff6384',
       },
-      {
-        label: 'bin',
-        data: this.bin,
-        marker: { color: 'red' },
-      },
-      // {
-      //   label: 'Total Vitamin A',
-      //   data: this.totalva,
-      // },
     ],
+    // options: {
+    //   scales: {
+    //     yAxes: [
+    //       {
+    //         ticks: {
+    //           // beginAtZero: true,
+    //           max: 600,
+    //           min: 0,
+    //         },
+    //       },
+    //     ],
+    //   },
+    // },
+    options: {
+      linearScaleOptions: [
+        {
+          id: 'y-axis-0',
+          type: 'linear',
+          tick: {
+            min: 0,
+            max: 600,
+          },
+        },
+      ],
+    },
   };
+
   constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
 
   ngOnInit(): void {
@@ -89,6 +109,7 @@ export class ChartCardComponent implements OnInit {
       });
     });
 
+    //get Household histogram example data JSON
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
@@ -109,6 +130,6 @@ export class ChartCardComponent implements OnInit {
       });
   }
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.jsdata);
+    void this.dialogService.openChartDialog(this.data);
   }
 }
