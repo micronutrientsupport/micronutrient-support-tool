@@ -153,7 +153,7 @@ export class SideNavContentComponent implements OnInit {
   // }
 
   public submitForm(): void {
-    console.warn(this.quickMapsForm.value);
+    // console.warn(this.quickMapsForm.value);
 
     if (this.quickMapsForm.valid) {
       void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
