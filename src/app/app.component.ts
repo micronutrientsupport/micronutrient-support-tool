@@ -17,9 +17,9 @@ export class AppComponent {
 
   public showMinFooter(url: string): boolean {
     if (this.minFooterPages.some((v) => url.includes(v))) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 }
