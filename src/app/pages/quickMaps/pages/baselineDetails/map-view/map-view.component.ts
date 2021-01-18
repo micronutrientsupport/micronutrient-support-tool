@@ -22,10 +22,13 @@ export class MapViewComponent implements AfterViewInit {
   private mapView1: L.Map;
   private mapView2: L.Map;
 
-  constructor(private http: HttpClient, private modalService: DialogService) {}
+  constructor(private http: HttpClient, private modalService: DialogService) { }
 
   ngAfterViewInit(): void {
-    this.mapView1 = this.initialiseMap('mapView1');
+    // fails to find element if not taked out of flow
+    setTimeout(() => {
+      this.mapView1 = this.initialiseMap('mapView1');
+    }, 0);
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -81,6 +84,6 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   public openDialog(): void {
-    void this.modalService.openChart('Hello World');
+    void this.modalService.openMapDialog('Hello World');
   }
 }

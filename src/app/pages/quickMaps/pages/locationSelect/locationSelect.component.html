@@ -1,15 +1,3 @@
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer opened #drawer mode="side"
-    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'"
-    class="example-sidenav">
-    <app-side-nav-content></app-side-nav-content>
-  </mat-drawer>
-
-  <div class="example-sidenav-content">
-    <!-- app-quick-maps-header should not be visible, currently in place to allow navigation to respective pages until search func is in place. -->
-    <app-quick-maps-header></app-quick-maps-header>
-    <div class="map-container">
+<div class="map-container">
       <div id="map"></div>
-    </div>
-  </div>
-</mat-drawer-container>
+</div>

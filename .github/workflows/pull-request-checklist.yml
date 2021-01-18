@@ -1,0 +1,11 @@
+name: PR check
+on: pull_request
+jobs:
+  checklist:
+    name: "Post checklist for PR review"
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR checklist
+        uses: micronutrientsupport/code-review-checklist@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

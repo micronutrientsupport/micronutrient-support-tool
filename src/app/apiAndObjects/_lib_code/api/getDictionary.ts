@@ -4,10 +4,12 @@ import { DictionaryItem } from '../objects/dictionaryItem.interface';
 import { Dictionary } from '../objects/dictionary';
 import { RequestMethod } from './apiCaller';
 import { BaseDictionaryItem } from '../objects/baseDictionaryItem';
+import { Injector } from '@angular/core';
 
 export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
   extends CacheableEndpoint<Dictionary<DICTIONARY_TYPE_ENUM>, GetDictionaryItemsParams, DictionaryItem> {
 
+  public mockObjectsCreatorFunc: (injector: Injector) => Promise<Array<Record<string, unknown>>>;
   protected mockItemsCount = 20;
   protected mockObjects: Array<Record<string, unknown>>;
 
@@ -19,12 +21,16 @@ export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
     this.mockItemsCount = count;
     return this;
   }
-
   /**
    * Set mock objects as they would be returned from a faked API call
    */
   public setMockObjects(objects: Array<Record<string, unknown>>): this {
     this.mockObjects = objects;
+    return this;
+  }
+
+  public setMockObjectsCreatorFunc(func: (injector: Injector) => Promise<Array<Record<string, unknown>>>): this {
+    this.mockObjectsCreatorFunc = func;
     return this;
   }
 
@@ -42,9 +48,12 @@ export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
   }
 
   protected callMock(params: GetDictionaryItemsParams): Promise<Dictionary<DICTIONARY_TYPE_ENUM>> {
-    const srcObjects: Array<Record<string, unknown>> = null != this.mockObjects ? this.mockObjects.slice() : [];
-
-    return this.buildObjectsFromResponse(params.typeObj, Promise.resolve(srcObjects)).then(
+    return this.buildObjectsFromResponse(
+      params.typeObj,
+      ((null == this.mockObjectsCreatorFunc)
+        ? Promise.resolve((null != this.mockObjects) ? this.mockObjects.slice() : [])
+        : this.mockObjectsCreatorFunc(this.injector))
+    ).then(
       (items: Array<DictionaryItem>) => new Dictionary(this.type, (items as unknown) as Array<DictionaryItem>),
     );
   }
