@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class QuickMapsComponent implements OnInit {
 
-  public showHeader = true;
+  public showHeader = false;
 
   constructor(
     router: Router,
