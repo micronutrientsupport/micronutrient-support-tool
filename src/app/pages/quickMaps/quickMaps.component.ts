@@ -14,7 +14,7 @@ export class QuickMapsComponent implements OnInit {
 
   constructor(router: Router, private activatedRoute: ActivatedRoute, public quickMapsService: QuickMapsService) {
     router.events.subscribe((event) => {
-      console.log('quickmaps = ', event);
+      // console.log('quickmaps = ', event);
       if (event instanceof NavigationEnd) {
         let subs: Subscription;
         // eslint-disable-next-line prefer-const
