@@ -19,95 +19,6 @@ export class ChartCardComponent implements OnInit {
   public bin = [];
   public frequency = [];
 
-  public graph = {
-    data: [
-      {
-        x: this.meatva,
-        y: this.labels,
-        type: 'scatter',
-        mode: 'markers',
-        marker: {
-          color: 'red',
-        },
-        xaxis: { text: 'x Axis', color: 'black' },
-      },
-    ],
-    layout: {
-      // autosize: false,
-      height: 270,
-      yaxis: {
-        title: {
-          text: 'People per Household',
-          titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey',
-          },
-        },
-      },
-      xaxis: {
-        title: {
-          text: 'Vitamin A from Meat (μg)',
-          titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey',
-          },
-        },
-      },
-    },
-  };
-
-  // histo
-  public histograph = {
-    data: [
-      {
-        x: this.bin,
-        y: this.frequency,
-        type: 'bar',
-        mode: 'markers',
-        marker: {
-          color: 'red',
-        },
-        xaxis: { text: 'x Axis', color: 'black' },
-      },
-    ],
-    layout: {
-      autosize: true,
-      height: 270,
-      yaxis: {
-        scaleLabel: {
-          display: true,
-          labelString: 'hello',
-        },
-        title: {
-          text: 'Frequency',
-          titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey',
-          },
-        },
-      },
-      xaxis: {
-        title: {
-          text: 'Bin size',
-          titlefont: {
-            family: 'Arial, sans-serif',
-            size: 18,
-            color: 'lightgrey',
-          },
-        },
-        // ticks: 'outside',
-        // tick0: 0,
-        dtick: 250,
-        // ticklen: 8,
-        tickwidth: 0.25,
-        // tickcolor: '#000'
-      },
-    },
-  };
-
   // chartjs
   public graphStyle = {
     display: 'block',
@@ -198,6 +109,6 @@ export class ChartCardComponent implements OnInit {
       });
   }
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.histograph);
+    void this.dialogService.openChartDialog(this.jsdata);
   }
 }
