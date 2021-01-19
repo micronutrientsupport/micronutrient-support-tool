@@ -50,6 +50,50 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
+  public goToCountry(id: string): void {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+      const country = dict.getItem<CountryDictionaryItem>(id);
+      if (null != country && null != country.geoFeature) {
+        // this.map.fitBounds(country.geoFeature.geometry);
+        this.hoverHighlightFeature(country.geoFeature);
+      }
+    });
+  }
+
+  public getGeoJsonData(): void {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+      const featureCollection: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: dict
+          .getItems<CountryDictionaryItem>()
+          .map((item) => item.geoFeature)
+          .filter((item) => null != item),
+      };
+      this.geojson = L.geoJSON(featureCollection, {
+        style: () => {
+          return {
+            fillColor: '#8a66ad',
+            fillOpacity: 0.1,
+            color: '#3a1d54',
+            opacity: 0.8,
+          };
+        }
+      });
+    });
+  }
+
+  public getselectedLayer(countryId: string): any {
+    let country;
+    if (this.geojson) {
+      this.geojson.eachLayer((layer: any) => {
+        if ((layer.feature.geometry.properties.countryId === countryId)) {
+          country = layer;
+        }
+      });
+      return country;
+    }
+  }
+
   private initialiseMap(): void {
     this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -84,6 +128,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
   private selectFeature(layer: any): void {
     if (null != this.selectedCountry) {
       this.selectedCountry.setStyle({
@@ -105,16 +150,6 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     if (!L.Browser.ie && !L.Browser.edge) {
       layer.bringToFront();
     }
-  }
-
-  public goToCountry(id: string): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-      const country = dict.getItem<CountryDictionaryItem>(id);
-      if (null != country && null != country.geoFeature) {
-        // this.map.fitBounds(country.geoFeature.geometry);
-        this.hoverHighlightFeature(country.geoFeature);
-      }
-    });
   }
 
   private addCountriesMapLayer(): void {
@@ -152,40 +187,6 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
         },
       }).addTo(this.map);
       // L.map('map').setView(filterCountries(featureCollection))
-    });
-  }
-
-  public getselectedLayer(countryId: string): any {
-    let country;
-    if (this.geojson) {
-      this.geojson.eachLayer((layer: any) => {
-        if ((layer.feature.geometry.properties.countryId === countryId)) {
-          country = layer;
-        }
-      });
-      return country;
-    }
-  }
-
-  public getGeoJsonData(): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-      const featureCollection: GeoJSON.FeatureCollection = {
-        type: 'FeatureCollection',
-        features: dict
-          .getItems<CountryDictionaryItem>()
-          .map((item) => item.geoFeature)
-          .filter((item) => null != item),
-      };
-      this.geojson = L.geoJSON(featureCollection, {
-        style: () => {
-          return {
-            fillColor: '#8a66ad',
-            fillOpacity: 0.1,
-            color: '#3a1d54',
-            opacity: 0.8,
-          };
-        }
-      });
     });
   }
 }
