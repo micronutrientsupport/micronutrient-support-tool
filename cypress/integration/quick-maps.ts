@@ -4,7 +4,7 @@ export const populateSelectValues = (): void => {
   cy.get('[name="nation"]').click({ force: true });
   cy.get('mat-option > .mat-option-text', { timeout: 10000 }).first().click({ force: true });
 
-  cy.get('[name="micronutrients"]').click({ force: true });
+  cy.get('[name="micronutrient"]').click({ force: true });
   // wait for previous select to close and this one to open
   cy.wait(500);
   cy.get('mat-option > .mat-option-text', { timeout: 10000 }).first().click({ force: true });
