@@ -2,119 +2,52 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
-import 'chartjs-plugin-annotation';
+// import 'chartjs-plugin-annotation';
+import * as ChartAnnotation from 'chartjs-plugin-annotation';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
 @Component({
   selector: 'app-chart-card',
   templateUrl: './chartCard.component.html',
   styleUrls: ['./chartCard.component.scss'],
 })
 export class ChartCardComponent implements OnInit {
-  public meatva = [];
-  public totalva = [];
+  @ViewChild(MatPaginator, { static: true }) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+  }
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+  }
+
+  public paginator: MatPaginator;
+  public sort: MatSort;
+
   public labels = [];
   public bin = [];
   public frequency = [];
+  public threshold: number;
+  public chartData;
 
-  // chartjs
-  public graphStyle = {
-    display: 'block',
-    color: '#098',
-  };
+  public displayedColumns = ['bin', 'frequency'];
 
-  public data = {
-    labels: this.labels,
-    datasets: [
-      // {
-      //   label: 'People per Household',
-      //   data: this.labels,
-      // },
-      {
-        label: 'Vitamin A from Meat',
-        backgroundColor: 'red',
-        data: this.meatva,
-        pointBackgroundColor: 'red',
-      },
-      {
-        label: 'Total Vitamin A',
-        backgroundColor: 'blue',
-        data: this.totalva,
-        pointBackgroundColor: 'blue',
-      },
-    ],
-  };
-
-  public histoGraphStyle = {
-    display: 'block',
-    color: '#098',
-  };
-
-  public jsdata = {
-    labels: this.bin,
-
-    datasets: [
-      {
-        label: 'Frequency',
-        data: this.frequency,
-        backgroundColor: '#ff6384',
-      },
-    ],
-    // options: {
-    //   scales: {
-    //     yAxes: [
-    //       {
-    //         ticks: {
-    //           // beginAtZero: true,
-    //           max: 600,
-    //           min: 0,
-    //         },
-    //       },
-    //     ],
-    //   },
-    // },
-    options: {
-      linearScaleOptions: [
-        {
-          id: 'y-axis-0',
-          type: 'linear',
-          tick: {
-            min: 0,
-            max: 600,
-          },
-        },
-      ],
-    },
-  };
+  public dataSource = new MatTableDataSource();
 
   constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
 
   ngOnInit(): void {
-    void this.http.get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' }).subscribe((data) => {
-      const rawData = this.papa.parse(data, { header: true });
-      const rawDataArray = rawData.data;
-
-      rawDataArray.forEach((item) => {
-        this.meatva.push(Number(item['va.meat']));
-      });
-
-      rawDataArray.forEach((item) => {
-        this.totalva.push(Number(item['va.supply']));
-      });
-
-      rawDataArray.forEach((item) => {
-        this.labels.push(item.pc);
-      });
-    });
-
-    //get Household histogram example data JSON
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
-        console.log(data[0].data);
         const rawDataArray = data[0].data;
+        const threshold = data[0].adequacy_threshold;
+        this.threshold = Number(threshold);
 
         rawDataArray.forEach((item) => {
           this.bin.push(Number(item.bin));
@@ -123,13 +56,72 @@ export class ChartCardComponent implements OnInit {
         rawDataArray.forEach((item) => {
           this.frequency.push(Number(item.frequency));
         });
-        console.log(this.frequency, this.bin);
-        // rawDataArray.forEach((item) => {
-        //   this.labels.push(item.pc);
-        // });
+        this.initialiseGraph();
+        this.initialiseTable(rawDataArray);
       });
   }
+
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.data);
+    // void this.dialogService.openChartDialog(this.data);
+  }
+
+  public initialiseGraph(): void {
+    this.chartData = {
+      plugins: [ChartAnnotation],
+      type: 'bar',
+      data: {
+        labels: this.bin,
+        datasets: [
+          {
+            label: 'Frequency',
+            data: this.frequency,
+            borderColor: '#ff6384',
+            backgroundColor: '#ff6384',
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        legend: {
+          display: true,
+        },
+        scales: {
+          xAxes: [
+            {
+              display: true,
+            },
+          ],
+          yAxes: [
+            {
+              display: true,
+              id: 'y-axis-0',
+            },
+          ],
+        },
+        annotation: {
+          annotations: [
+            {
+              type: 'line',
+              id: 'hLine',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: this.threshold, // data-value at which the line is drawn
+              borderWidth: 2.5,
+              borderColor: 'black',
+              label: {
+                enabled: true,
+                content: 'Threshold',
+              },
+            },
+          ],
+        },
+      },
+    };
+  }
+
+  public initialiseTable(data: Array<any>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }

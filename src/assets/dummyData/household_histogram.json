@@ -1,211 +1,211 @@
 [
-    {
-        "adequacy_threshold": 570,
-        "data": [
-            {
-                "bin": 0,
-                "frequency": 3
-            },
-            {
-                "bin": 50,
-                "frequency": 79
-            },
-            {
-                "bin": 100,
-                "frequency": 188
-            },
-            {
-                "bin": 150,
-                "frequency": 283
-            },
-            {
-                "bin": 200,
-                "frequency": 317
-            },
-            {
-                "bin": 250,
-                "frequency": 387
-            },
-            {
-                "bin": 300,
-                "frequency": 407
-            },
-            {
-                "bin": 350,
-                "frequency": 419
-            },
-            {
-                "bin": 400,
-                "frequency": 371
-            },
-            {
-                "bin": 450,
-                "frequency": 389
-            },
-            {
-                "bin": 500,
-                "frequency": 375
-            },
-            {
-                "bin": 550,
-                "frequency": 403
-            },
-            {
-                "bin": 600,
-                "frequency": 331
-            },
-            {
-                "bin": 650,
-                "frequency": 302
-            },
-            {
-                "bin": 700,
-                "frequency": 345
-            },
-            {
-                "bin": 750,
-                "frequency": 329
-            },
-            {
-                "bin": 800,
-                "frequency": 292
-            },
-            {
-                "bin": 850,
-                "frequency": 262
-            },
-            {
-                "bin": 900,
-                "frequency": 269
-            },
-            {
-                "bin": 950,
-                "frequency": 251
-            },
-            {
-                "bin": 1000,
-                "frequency": 238
-            },
-            {
-                "bin": 1050,
-                "frequency": 224
-            },
-            {
-                "bin": 1100,
-                "frequency": 219
-            },
-            {
-                "bin": 1150,
-                "frequency": 227
-            },
-            {
-                "bin": 1200,
-                "frequency": 201
-            },
-            {
-                "bin": 1250,
-                "frequency": 209
-            },
-            {
-                "bin": 1300,
-                "frequency": 173
-            },
-            {
-                "bin": 1350,
-                "frequency": 170
-            },
-            {
-                "bin": 1400,
-                "frequency": 161
-            },
-            {
-                "bin": 1450,
-                "frequency": 167
-            },
-            {
-                "bin": 1500,
-                "frequency": 166
-            },
-            {
-                "bin": 1550,
-                "frequency": 161
-            },
-            {
-                "bin": 1600,
-                "frequency": 144
-            },
-            {
-                "bin": 1650,
-                "frequency": 139
-            },
-            {
-                "bin": 1700,
-                "frequency": 122
-            },
-            {
-                "bin": 1750,
-                "frequency": 135
-            },
-            {
-                "bin": 1800,
-                "frequency": 122
-            },
-            {
-                "bin": 1850,
-                "frequency": 113
-            },
-            {
-                "bin": 1900,
-                "frequency": 103
-            },
-            {
-                "bin": 1950,
-                "frequency": 100
-            },
-            {
-                "bin": 2000,
-                "frequency": 111
-            },
-            {
-                "bin": 2050,
-                "frequency": 79
-            },
-            {
-                "bin": 2100,
-                "frequency": 81
-            },
-            {
-                "bin": 2150,
-                "frequency": 71
-            },
-            {
-                "bin": 2200,
-                "frequency": 82
-            },
-            {
-                "bin": 2250,
-                "frequency": 88
-            },
-            {
-                "bin": 2300,
-                "frequency": 75
-            },
-            {
-                "bin": 2350,
-                "frequency": 64
-            },
-            {
-                "bin": 2400,
-                "frequency": 57
-            },
-            {
-                "bin": 2450,
-                "frequency": 62
-            },
-            {
-                "bin": 2500,
-                "frequency": 62
-            }
-        ]
-    }
+  {
+    "adequacy_threshold": 570,
+    "data": [
+      {
+        "bin": 0,
+        "frequency": 3
+      },
+      {
+        "bin": 50,
+        "frequency": 79
+      },
+      {
+        "bin": 100,
+        "frequency": 188
+      },
+      {
+        "bin": 150,
+        "frequency": 283
+      },
+      {
+        "bin": 200,
+        "frequency": 317
+      },
+      {
+        "bin": 250,
+        "frequency": 387
+      },
+      {
+        "bin": 300,
+        "frequency": 407
+      },
+      {
+        "bin": 350,
+        "frequency": 419
+      },
+      {
+        "bin": 400,
+        "frequency": 371
+      },
+      {
+        "bin": 450,
+        "frequency": 389
+      },
+      {
+        "bin": 500,
+        "frequency": 375
+      },
+      {
+        "bin": 550,
+        "frequency": 403
+      },
+      {
+        "bin": 600,
+        "frequency": 331
+      },
+      {
+        "bin": 650,
+        "frequency": 302
+      },
+      {
+        "bin": 700,
+        "frequency": 345
+      },
+      {
+        "bin": 750,
+        "frequency": 329
+      },
+      {
+        "bin": 800,
+        "frequency": 292
+      },
+      {
+        "bin": 850,
+        "frequency": 262
+      },
+      {
+        "bin": 900,
+        "frequency": 269
+      },
+      {
+        "bin": 950,
+        "frequency": 251
+      },
+      {
+        "bin": 1000,
+        "frequency": 238
+      },
+      {
+        "bin": 1050,
+        "frequency": 224
+      },
+      {
+        "bin": 1100,
+        "frequency": 219
+      },
+      {
+        "bin": 1150,
+        "frequency": 227
+      },
+      {
+        "bin": 1200,
+        "frequency": 201
+      },
+      {
+        "bin": 1250,
+        "frequency": 209
+      },
+      {
+        "bin": 1300,
+        "frequency": 173
+      },
+      {
+        "bin": 1350,
+        "frequency": 170
+      },
+      {
+        "bin": 1400,
+        "frequency": 161
+      },
+      {
+        "bin": 1450,
+        "frequency": 167
+      },
+      {
+        "bin": 1500,
+        "frequency": 166
+      },
+      {
+        "bin": 1550,
+        "frequency": 161
+      },
+      {
+        "bin": 1600,
+        "frequency": 144
+      },
+      {
+        "bin": 1650,
+        "frequency": 139
+      },
+      {
+        "bin": 1700,
+        "frequency": 122
+      },
+      {
+        "bin": 1750,
+        "frequency": 135
+      },
+      {
+        "bin": 1800,
+        "frequency": 122
+      },
+      {
+        "bin": 1850,
+        "frequency": 113
+      },
+      {
+        "bin": 1900,
+        "frequency": 103
+      },
+      {
+        "bin": 1950,
+        "frequency": 100
+      },
+      {
+        "bin": 2000,
+        "frequency": 111
+      },
+      {
+        "bin": 2050,
+        "frequency": 79
+      },
+      {
+        "bin": 2100,
+        "frequency": 81
+      },
+      {
+        "bin": 2150,
+        "frequency": 71
+      },
+      {
+        "bin": 2200,
+        "frequency": 82
+      },
+      {
+        "bin": 2250,
+        "frequency": 88
+      },
+      {
+        "bin": 2300,
+        "frequency": 75
+      },
+      {
+        "bin": 2350,
+        "frequency": 64
+      },
+      {
+        "bin": 2400,
+        "frequency": 57
+      },
+      {
+        "bin": 2450,
+        "frequency": 62
+      },
+      {
+        "bin": 2500,
+        "frequency": 62
+      }
+    ]
+  }
 ]
