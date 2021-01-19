@@ -1,10 +1,8 @@
-
 // Using css flex seems to be more responsive.
 .flex-container {
   display: flex;
-  // height: 740px;
+  height: 100%;
   flex-flow: row wrap;
-  justify-content: start; // previously set to stretch
 }
 
 .card-container {
@@ -14,41 +12,3 @@
   border-radius: 5px;
   background-color: #f8f8f8;
 }
-// .grid-container {
-//   display: grid;
-//   grid-gap: 15px;
-//   // grid-template-columns: 1fr;
-//   grid-template-rows: repeat(2, 370px);
-//   grid-template-areas:
-//     'a b c'
-//     'd d e';
-//   margin-left: 15px;
-//   margin-right: 15px;
-//   margin-top: 20px;
-// }
-
-// .card-container {
-//   border: 1px solid #703aa3;
-//   border-radius: 5px;
-//   background-color: #f8f8f8;
-// }
-
-// .container-a {
-//   grid-area: a;
-// }
-
-// .container-b {
-//   grid-area: b;
-// }
-
-// .container-b {
-//   grid-area: b;
-// }
-
-// .container-d {
-//   grid-area: d;
-// }
-
-// .container-e {
-//   grid-area: e;
-// }

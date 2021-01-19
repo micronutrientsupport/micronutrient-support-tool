@@ -10,6 +10,8 @@ export class CardComponent implements OnInit {
   @Output() public expandTrigger = new EventEmitter();
 
   @Input() title: string;
+  @Input() showSettings: boolean;
+  @Input() showExpand: boolean;
 
   constructor() { }
 
