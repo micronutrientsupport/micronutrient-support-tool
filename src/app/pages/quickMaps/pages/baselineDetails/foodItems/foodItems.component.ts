@@ -4,6 +4,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TopFoodParams } from 'src/app/apiAndObjects/api/currentData/getTopFood';
+import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
+import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { QuickMapsService } from '../../../quickMaps.service';
 
 @Component({
   selector: 'app-food-items',
@@ -13,7 +18,11 @@ import { TopFoodParams } from 'src/app/apiAndObjects/api/currentData/getTopFood'
 export class FoodItemsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  public topFood: TopFoodParams[];
+  public countriesDictionary: Dictionary;
+  public regionDictionary: Dictionary;
+  public micronutrientsDictionary: Dictionary;
+  public popGroupOptions = new Array<PopulationGroup>();
+  public topFood: Food[];
   // public desserts: Dessert[] = [
   //   { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
   //   { name: 'Ice cream sandwich', calories: 237, fat: 9, carbs: 37, protein: 4 },
@@ -40,17 +49,23 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private currentDataService: CurrentDataService,
+    public quickMapsService: QuickMapsService,
+  ) {}
 
   ngOnInit(): void {
-    this.http.get('./assets/exampleData/top-foods.json').subscribe((foodData: TopFoodParams) => {
-      // console.log('top food data: ', foodData);
-      this.topFood = foodData[0];
-      this.dataSource = new MatTableDataSource(this.topFood);
-      console.log(this.dataSource);
-    });
-
-    // this.dataSource = new MatTableDataSource(this.desserts);
+    void this.currentDataService
+      .getTopFood(
+        this.quickMapsService.countryDict,
+        this.quickMapsService.micronutrientDict,
+        this.quickMapsService.popGroupId,
+        // this.quickMapsService.mndDataIdObs,
+      )
+      .then((options: Array<TopFoodSource>) => {
+        console.log(options);
+      });
   }
 
   ngAfterViewInit(): void {
@@ -68,10 +83,10 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
   // }
 }
 
-// export interface Food {
-//   name: string;
-//   value: number;
-// }
+export interface Food {
+  name: string;
+  value: number;
+}
 // export interface Dessert {
 //   calories: number;
 //   carbs: number;

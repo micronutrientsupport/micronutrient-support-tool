@@ -9,17 +9,9 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   }
   protected callLive(): Promise<Array<TopFoodSource>> {
     throw new Error('Method not implemented.');
-    // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
-    //   'country-or-group-id': params.countryOrGroupId,
-    //   'micronutrient-id': params.micronutrientId,
-    //   'poulationGroup-id': params.poulationGroupId,
-    // });
-
-    // return this.buildObjectsFromResponse(DietarySource, callResponsePromise);
   }
 
-  protected callMock(): // params: GetBaselineDataParams,
-  Promise<Array<TopFoodSource>> {
+  protected callMock(): Promise<Array<TopFoodSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
     return this.buildObjectsFromResponse(
@@ -33,5 +25,5 @@ export interface TopFoodParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
   populationGroupId: string;
-  mndsDataId: string;
+  // mndsDataId: string;
 }

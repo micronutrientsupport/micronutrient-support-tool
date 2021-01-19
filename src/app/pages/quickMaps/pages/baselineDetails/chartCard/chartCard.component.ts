@@ -90,7 +90,7 @@ export class ChartCardComponent implements OnInit {
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
-        console.log(data[0].data);
+        // console.log(data[0].data);
         const rawDataArray = data[0].data;
 
         rawDataArray.forEach((item) => {
@@ -100,7 +100,7 @@ export class ChartCardComponent implements OnInit {
         rawDataArray.forEach((item) => {
           this.frequency.push(Number(item.frequency));
         });
-        console.log(this.frequency, this.bin);
+        // console.log(this.frequency, this.bin);
         // rawDataArray.forEach((item) => {
         //   this.labels.push(item.pc);
         // });

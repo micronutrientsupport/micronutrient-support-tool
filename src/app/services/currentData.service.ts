@@ -66,14 +66,14 @@ export class CurrentDataService {
   public getTopFood(
     countryOrgroup: DictionaryItem,
     micronutrients: Array<DictionaryItem>,
-    populationGroup: PopulationGroup,
-    mndsData: MicronutrientDataOption,
+    populationGroup: string,
+    // mndsData: MicronutrientDataOption,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFood.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map((item) => item.id),
-      populationGroupId: populationGroup.id,
-      mndsDataId: mndsData.id,
+      populationGroupId: populationGroup,
+      // mndsDataId: mndsData.id,
     });
   }
 
