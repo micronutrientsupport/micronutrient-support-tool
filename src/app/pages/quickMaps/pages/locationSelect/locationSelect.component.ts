@@ -2,11 +2,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { HttpClient } from '@angular/common/http';
-import { isNgTemplate } from '@angular/compiler';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
-import { features } from 'process';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -158,10 +156,10 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public getselectedLayer(countryId: string): any {
-    let country
+    let country;
     if (this.geojson) {
       this.geojson.eachLayer((layer: any) => {
-        if ((layer['feature']['geometry']['properties']['countryId'] === countryId)) {
+        if ((layer.feature.geometry.properties.countryId === countryId)) {
           country = layer;
         }
       });
@@ -169,7 +167,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public getGeoJsonData() {
+  public getGeoJsonData(): void {
     this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',

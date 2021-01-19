@@ -8,16 +8,6 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
 
   public geoFeature: GeoJSON.Feature;
 
-  protected populateValues(): void {
-    super.populateValues();
-    this.geoFeature = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Feature;
-    if (null != this.geoFeature) {
-      this.geoFeature.properties = {
-        countryId: this.id,
-      };
-    }
-  }
-
   public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
     return super.createMockItems(count, type).map((item: Record<string, unknown>, index: number) => {
       item[this.GEOMETRY_ATTRIBUTE] = {
@@ -36,5 +26,15 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
       };
       return item;
     });
+  }
+
+  protected populateValues(): void {
+    super.populateValues();
+    this.geoFeature = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Feature;
+    if (null != this.geoFeature) {
+      this.geoFeature.properties = {
+        countryId: this.id,
+      };
+    }
   }
 }

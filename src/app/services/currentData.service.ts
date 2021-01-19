@@ -30,7 +30,7 @@ export class CurrentDataService {
       countryOrGroupId: ('string' === typeof countryOrgroup) ? countryOrgroup : countryOrgroup.id,
       micronutrientIds: micronutrients.map(item => ('string' === typeof item) ? item : item.id),
       populationGroupId: ('string' === typeof populationGroup) ? populationGroup : populationGroup.id,
-      singleOptionOnly: singleOptionOnly,
+      singleOptionOnly,
     });
   }
 
