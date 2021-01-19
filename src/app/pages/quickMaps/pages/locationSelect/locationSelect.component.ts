@@ -51,7 +51,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public goToCountry(id: string): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
       const country = dict.getItem<CountryDictionaryItem>(id);
       if (null != country && null != country.geoFeature) {
         // this.map.fitBounds(country.geoFeature.geometry);
@@ -61,7 +61,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public getGeoJsonData(): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: dict
@@ -70,7 +70,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           .filter((item) => null != item),
       };
       this.geojson = L.geoJSON(featureCollection, {
-        style: () => {
+        style: () => { // eslint-disable-line no-use-before-define
           return {
             fillColor: '#8a66ad',
             fillOpacity: 0.1,
@@ -139,7 +139,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.selectedCountry = layer;
+    this.selectedCountry = layer; // eslint-disable-line no-use-before-define
     layer.setStyle({
       weight: 5,
       color: '#703AA3',
@@ -153,7 +153,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   private addCountriesMapLayer(): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: dict
@@ -162,7 +162,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           .filter((item) => null != item),
       };
       this.geojson = L.geoJSON(featureCollection, {
-        style: () => {
+        style: () => { // eslint-disable-line no-use-before-define
           return {
             fillColor: '#8a66ad',
             fillOpacity: 0.1,
