@@ -8,36 +8,49 @@ import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObj
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
 
+export interface RouteData {
+  hideQuickMapsHeader?: boolean;
+  showLightFooter?: boolean;
+}
+
 const routes: Routes = [
   {
     path: AppRoutes.HOME.segments,
     component: HomeComponent,
-  }, {
+  },
+  {
     path: AppRoutes.MAPS_TOOL.segments,
     component: MapsToolComponent,
-  }, {
+  },
+  {
     path: AppRoutes.EDUCATIONAL_RESOURCES.segments,
     component: EducationalResourcesComponent,
-  }, {
+  },
+  {
     path: AppRoutes.HELP.segments,
     component: HelpComponent,
-  }, {
+  },
+  {
     path: AppRoutes.PROJECT_OBJECTIVES.segments,
     component: ProjectObjectivesComponent,
-  }, {
+  },
+  {
     path: AppRoutes.STYLE_GUIDE.segments,
     component: StyleGuideComponent,
-  }, {
+  },
+  {
     path: AppRoutes.QUICK_MAPS.segments,
-    loadChildren: () => import('./pages/quickMaps/quickMaps.module').then(m => m.QuickMapsModule)
-  }, {
+    loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
+    data: { showLightFooter: true },
+  },
+  {
     path: '**',
     redirectTo: '',
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

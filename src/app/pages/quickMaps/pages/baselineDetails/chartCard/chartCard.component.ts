@@ -2,11 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
-// import 'chartjs-plugin-annotation';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
