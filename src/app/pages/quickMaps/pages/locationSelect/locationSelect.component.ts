@@ -25,6 +25,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public map: L.Map;
 
   public selectedCountry;
+  public activeCountry;
 
   constructor(
     private http: HttpClient,
@@ -33,10 +34,9 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   ) {
 
     quickMapsService.countryIdObs.subscribe((countryId: string) => {
-      // this.getselectedLayer(countryId);
-      const country = this.getselectedLayer(countryId);
-      if (country) {
-        this.selectFeature(country);
+      this.activeCountry = this.getselectedLayer(countryId);
+      if (this.activeCountry) {
+        this.selectFeature(this.activeCountry);
       }
     });
 
@@ -59,6 +59,10 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }).addTo(this.map);
 
     this.addCountriesMapLayer();
+
+    if (this.activeCountry) {
+      this.selectFeature(this.activeCountry);
+    }
   }
 
   private resetHighlight(layer: L.Layer): void {
@@ -72,7 +76,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     if (layer !== this.selectedCountry) {
       layer.setStyle({
         weight: 5,
-        color: '#666',
+        color: '#9B51E0',
         dashArray: '',
         fillOpacity: 0.3,
       });
@@ -87,7 +91,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       this.selectedCountry.setStyle({
         fillColor: '#8a66ad',
         fillOpacity: 0.1,
-        color: '#3a1d54',
+        color: '#1D3557',
         opacity: 0.8,
       });
     }
@@ -95,7 +99,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     this.selectedCountry = layer;
     layer.setStyle({
       weight: 5,
-      color: '#008000',
+      color: '#703AA3',
       dashArray: '',
       fillOpacity: 0.3,
     });
@@ -129,7 +133,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           return {
             fillColor: '#8a66ad',
             fillOpacity: 0.1,
-            color: '#3a1d54',
+            color: '#1D3557',
             opacity: 0.8,
           };
         },
@@ -163,5 +167,27 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       });
       return country;
     }
+  }
+
+  public getGeoJsonData() {
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+      const featureCollection: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: dict
+          .getItems<CountryDictionaryItem>()
+          .map((item) => item.geoFeature)
+          .filter((item) => null != item),
+      };
+      this.geojson = L.geoJSON(featureCollection, {
+        style: () => {
+          return {
+            fillColor: '#8a66ad',
+            fillOpacity: 0.1,
+            color: '#3a1d54',
+            opacity: 0.8,
+          };
+        }
+      });
+    });
   }
 }

@@ -41,6 +41,8 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
+  public selectedCountry;
+
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
@@ -64,6 +66,10 @@ export class SideNavContentComponent implements OnInit {
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          this.quickMapsForm.get('nation').setValue(countryId);
+        });
+
         this.countryChange(GeographyTypes.COUNTRY);
         this.mndChange(MicronutrientType.VITAMIN);
 
@@ -85,9 +91,10 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setMndDataId(value);
         });
       });
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
