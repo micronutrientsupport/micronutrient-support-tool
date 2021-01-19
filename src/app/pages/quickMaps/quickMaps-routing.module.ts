@@ -7,14 +7,11 @@ import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 
-export interface QuickMapsRouteData {
-  showQuickMapsHeader: boolean;
-}
-
 const routes: Routes = [
   {
     path: '',
     component: QuickMapsComponent,
+
     children: [
       {
         path: '',

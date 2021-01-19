@@ -8,7 +8,8 @@ import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObj
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
 
-export interface FooterRouteData {
+export interface RouteData {
+  showQuickMapsHeader: boolean;
   showFullFooter: boolean;
 }
 
@@ -16,42 +17,41 @@ const routes: Routes = [
   {
     path: AppRoutes.HOME.segments,
     component: HomeComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.MAPS_TOOL.segments,
     component: MapsToolComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.EDUCATIONAL_RESOURCES.segments,
     component: EducationalResourcesComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.HELP.segments,
     component: HelpComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.PROJECT_OBJECTIVES.segments,
     component: ProjectObjectivesComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.STYLE_GUIDE.segments,
     component: StyleGuideComponent,
-    data: { FooterRouteData: true },
+    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.QUICK_MAPS.segments,
-    data: { FooterRouteData: false },
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
+    data: { showFullFooter: false },
   },
   {
     path: '**',
     redirectTo: '',
-    data: { FooterRouteData: false },
   },
 ];
 
