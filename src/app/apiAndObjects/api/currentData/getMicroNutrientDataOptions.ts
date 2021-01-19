@@ -27,11 +27,11 @@ MicronutrientDataOption
     params: GetMicronutrientDataOptionsParams,
   ): Promise<Array<MicronutrientDataOption>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    // return a single random element when specified
+    // return only first item when single option specified
     return this.buildObjectsFromResponse(
       MicronutrientDataOption,
       httpClient.get('/assets/exampleData/data-options-select.json').toPromise(),
-    ).then(data => (params.singleOptionOnly) ? [data[Math.floor(Math.random() * data.length)]] : data);
+    ).then(data => (params.singleOptionOnly) ? data.slice(0, 1) : data);
   }
 }
 
