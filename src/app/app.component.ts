@@ -10,7 +10,7 @@ import { PageLoadingService } from './services/pageLoadingService.service';
 })
 export class AppComponent {
   title = 'micronutrient-support-tool';
-  public showFullFooter: boolean;
+  public showLightFooter = false;
 
   constructor(
     public router: Router,
@@ -26,7 +26,7 @@ export class AppComponent {
             subs.unsubscribe();
           }
 
-          this.showFullFooter = null == data.showFullFooter || false !== data.showFullFooter;
+          this.showLightFooter = true === data.showLightFooter;
         });
       }
 

@@ -22,7 +22,7 @@ export class QuickMapsComponent implements OnInit {
           if (null != subs) {
             subs.unsubscribe();
           }
-          this.showHeader = null == data.showQuickMapsHeader || false !== data.showQuickMapsHeader;
+          this.showHeader = true !== data.hideQuickMapsHeader;
           // console.log('this.showHeader, data = ', this.showHeader, data);
         });
       }
