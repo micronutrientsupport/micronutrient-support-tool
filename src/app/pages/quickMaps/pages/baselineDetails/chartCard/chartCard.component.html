@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" style="height: 40px">
+<!-- <mat-toolbar color="primary" style="height: 40px">
   <button mat-icon-button class="example-icon" aria-label="Settings icon">
     <mat-icon>settings</mat-icon>
   </button>
@@ -6,22 +6,24 @@
   <button (click)="openDialog()" mat-icon-button class="example-icon" aria-label="Modal icon">
     <mat-icon>launch</mat-icon>
   </button>
-</mat-toolbar>
+</mat-toolbar> -->
 
-<mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Chart JS 1">
-    <div class="tab-element">
-      <div class="chartjs-container">
-        <ngx-chartjs [data]="jsdata" [style]="histoGraphStyle" type="bar"></ngx-chartjs>
+<app-card [title]="'Chart View'" (settingsTrigger)="openDialog()">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Chart JS 1">
+      <div class="tab-element">
+        <div class="chartjs-container">
+          <ngx-chartjs [data]="jsdata" [style]="histoGraphStyle" type="bar"></ngx-chartjs>
+        </div>
       </div>
-    </div>
-  </mat-tab>
+    </mat-tab>
 
-  <mat-tab label="Chart JS 2">
-    <div class="tab-element">
-      <div class="chartjs-container">
-        <ngx-chartjs id="chart" [data]="data" [style]="graphStyle" type="line"></ngx-chartjs>
+    <mat-tab label="Chart JS 2">
+      <div class="tab-element">
+        <div class="chartjs-container">
+          <ngx-chartjs id="chart" [data]="data" [style]="graphStyle" type="line"></ngx-chartjs>
+        </div>
       </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</app-card>

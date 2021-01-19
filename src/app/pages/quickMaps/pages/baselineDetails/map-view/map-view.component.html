@@ -8,7 +8,7 @@
   </button>
 </mat-toolbar> -->
 
-<app-card>
+<app-card [title]="'Map View'">
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Absolute Values">
       <div id="mapView1"></div>

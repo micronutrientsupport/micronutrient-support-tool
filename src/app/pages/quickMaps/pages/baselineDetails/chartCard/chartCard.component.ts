@@ -13,6 +13,9 @@ import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
   styleUrls: ['./chartCard.component.scss'],
 })
 export class ChartCardComponent implements OnInit {
+
+  public title: 'Chart View';
+
   public meatva = [];
   public totalva = [];
   public labels = [];
@@ -69,7 +72,7 @@ export class ChartCardComponent implements OnInit {
       // },
     ],
   };
-  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
+  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     void this.http.get('./assets/dummyData/trial_data_truncated.csv', { responseType: 'text' }).subscribe((data) => {
