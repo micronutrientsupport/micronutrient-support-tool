@@ -4,5 +4,10 @@
   <app-loading></app-loading>
   <router-outlet></router-outlet>
 
-  <app-footer></app-footer>
+  <div *ngIf="showFullFooter">
+    <app-footer></app-footer>
+  </div>
+  <div *ngIf="!showFullFooter">
+    <app-footer-light></app-footer-light>
+  </div>
 </div>

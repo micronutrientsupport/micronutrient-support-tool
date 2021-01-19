@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { GuardsCheckEnd, GuardsCheckStart, Router } from '@angular/router';
+import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
 @Component({
   selector: 'app-root',
@@ -7,13 +9,27 @@ import { PageLoadingService } from './services/pageLoadingService.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title = 'micronutrient-support-tool';
+  public showFullFooter: boolean;
 
   constructor(
-    router: Router,
+    public router: Router,
+    private activatedRoute: ActivatedRoute,
     public pageLoadingService: PageLoadingService,
   ) {
-    // on navigation, guard checking can take a little time, so show page loading indicator
-    router.events.subscribe(event => {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
+        let subs: Subscription;
+        // eslint-disable-next-line prefer-const
+        subs = this.activatedRoute.firstChild.data.subscribe((data: RouteData) => {
+          if (null != subs) {
+            subs.unsubscribe();
+          }
+
+          this.showFullFooter = null == data.showFullFooter || false !== data.showFullFooter;
+        });
+      }
+
       if (event instanceof GuardsCheckStart) {
         this.pageLoadingService.showLoading(true);
         // console.log('GuardStart');
@@ -22,8 +38,7 @@ export class AppComponent {
         this.pageLoadingService.showLoading(false);
         // console.log('GuardEnd');
       }
+
     });
   }
-
-
 }
