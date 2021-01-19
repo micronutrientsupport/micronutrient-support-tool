@@ -63,7 +63,7 @@ export class SideNavContentComponent implements OnInit {
 
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.countryId, Validators.required],
-          micronutrients: [this.quickMapsService.micronutrientIds, Validators.required],
+          micronutrient: [this.quickMapsService.micronutrientId, Validators.required],
           popGroup: [this.quickMapsService.popGroupId, Validators.required],
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
@@ -77,8 +77,8 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setCountryId(value);
           this.updatePopulationGroupOptions();
         });
-        this.quickMapsForm.get('micronutrients').valueChanges.subscribe((values: Array<string>) => {
-          this.quickMapsService.setMicronutrientIds(values);
+        this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: string) => {
+          this.quickMapsService.setMicronutrientId(value);
           this.updateMicronutrientDataOptions();
         });
         this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: string) => {
@@ -131,17 +131,17 @@ export class SideNavContentComponent implements OnInit {
 
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    const microNutrients = this.micronutrientsDictionary.getItems(this.quickMapsService.micronutrientIds);
+    const microNutrient = this.micronutrientsDictionary.getItem(this.quickMapsService.micronutrientId);
     const popGroup = this.popGroupOptions.find(item => (item.id === this.quickMapsService.popGroupId));
 
     if ((null != country)
-      && (microNutrients.length > 0)
+      && (null != microNutrient)
       && (null != popGroup)) {
 
       void this.currentDataService
         .getMicronutrientDataOptions(
           country,
-          microNutrients,
+          [microNutrient],
           popGroup,
           true,
         )

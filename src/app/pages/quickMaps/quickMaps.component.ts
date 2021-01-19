@@ -14,7 +14,7 @@ export class QuickMapsComponent implements OnInit {
 
   constructor(router: Router, private activatedRoute: ActivatedRoute, public quickMapsService: QuickMapsService) {
     router.events.subscribe((event) => {
-      console.log('quickmaps = ', event);
+      // console.log('quickmaps = ', event);
       if (event instanceof NavigationEnd) {
         let subs: Subscription;
         // eslint-disable-next-line prefer-const
@@ -22,7 +22,7 @@ export class QuickMapsComponent implements OnInit {
           if (null != subs) {
             subs.unsubscribe();
           }
-          this.showHeader = null == data.showQuickMapsHeader || false !== data.showQuickMapsHeader;
+          this.showHeader = true !== data.hideQuickMapsHeader;
           // console.log('this.showHeader, data = ', this.showHeader, data);
         });
       }

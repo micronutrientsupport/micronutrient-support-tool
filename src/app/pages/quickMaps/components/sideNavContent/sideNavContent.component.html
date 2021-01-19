@@ -53,7 +53,7 @@
       </div>
       <ng-container>
           <mat-form-field appearance="fill">
-              <mat-select name="micronutrients" formControlName="micronutrients" multiple
+              <mat-select name="micronutrient" formControlName="micronutrient"
                   [placeholder]="'Select ' + groupMND?.value + ' options'">
                   <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd.id">{{mnd.name}}</mat-option>
               </mat-select>

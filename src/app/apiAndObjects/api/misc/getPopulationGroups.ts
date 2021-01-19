@@ -28,11 +28,11 @@ PopulationGroup
     params: GetPopulationGroupsParams,
   ): Promise<Array<PopulationGroup>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    // return a single random element when specified
+    // return only first item when single option specified
     return this.buildObjectsFromResponse(
       PopulationGroup,
       httpClient.get('/assets/exampleData/population-group-select.json').toPromise(),
-    ).then(data => (params.singleOptionOnly) ? [data[Math.floor(Math.random() * data.length)]] : data);
+    ).then(data => (params.singleOptionOnly) ? data.slice(0, 1) : data);
   }
 }
 

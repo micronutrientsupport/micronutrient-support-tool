@@ -9,45 +9,39 @@ import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
 
 export interface RouteData {
-  showQuickMapsHeader: boolean;
-  showFullFooter: boolean;
+  hideQuickMapsHeader?: boolean;
+  showLightFooter?: boolean;
 }
 
 const routes: Routes = [
   {
     path: AppRoutes.HOME.segments,
     component: HomeComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.MAPS_TOOL.segments,
     component: MapsToolComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.EDUCATIONAL_RESOURCES.segments,
     component: EducationalResourcesComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.HELP.segments,
     component: HelpComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.PROJECT_OBJECTIVES.segments,
     component: ProjectObjectivesComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.STYLE_GUIDE.segments,
     component: StyleGuideComponent,
-    data: { showFullFooter: true },
   },
   {
     path: AppRoutes.QUICK_MAPS.segments,
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
-    data: { showFullFooter: false },
+    data: { showLightFooter: true },
   },
   {
     path: '**',
