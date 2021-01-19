@@ -5,6 +5,7 @@ import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistog
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
+import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DictionaryService } from './dictionary.service';
 
@@ -27,9 +28,9 @@ export class CurrentDataService {
     singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
     return this.apiService.endpoints.currentData.getMicronutrientDataOptions.call({
-      countryOrGroupId: ('string' === typeof countryOrgroup) ? countryOrgroup : countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => ('string' === typeof item) ? item : item.id),
-      populationGroupId: ('string' === typeof populationGroup) ? populationGroup : populationGroup.id,
+      countryOrGroupId: 'string' === typeof countryOrgroup ? countryOrgroup : countryOrgroup.id,
+      micronutrientIds: micronutrients.map((item) => ('string' === typeof item ? item : item.id)),
+      populationGroupId: 'string' === typeof populationGroup ? populationGroup : populationGroup.id,
       singleOptionOnly: singleOptionOnly,
     });
   }
@@ -42,7 +43,7 @@ export class CurrentDataService {
   ): Promise<Array<SubRegionDataItem>> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => item.id),
+      micronutrientIds: micronutrients.map((item) => item.id),
       populationGroupId: populationGroup.id,
       mndsDataId: mndsData.id,
     });
@@ -56,7 +57,21 @@ export class CurrentDataService {
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => item.id),
+      micronutrientIds: micronutrients.map((item) => item.id),
+      populationGroupId: populationGroup.id,
+      mndsDataId: mndsData.id,
+    });
+  }
+
+  public getTopFood(
+    countryOrgroup: DictionaryItem,
+    micronutrients: Array<DictionaryItem>,
+    populationGroup: PopulationGroup,
+    mndsData: MicronutrientDataOption,
+  ): Promise<Array<TopFoodSource>> {
+    return this.apiService.endpoints.currentData.getTopFood.call({
+      countryOrGroupId: countryOrgroup.id,
+      micronutrientIds: micronutrients.map((item) => item.id),
       populationGroupId: populationGroup.id,
       mndsDataId: mndsData.id,
     });
@@ -70,7 +85,7 @@ export class CurrentDataService {
   ): Promise<Array<HouseholdHistogramData>> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => item.id),
+      micronutrientIds: micronutrients.map((item) => item.id),
       populationGroupId: populationGroup.id,
       mndsDataId: mndsData.id,
     });
