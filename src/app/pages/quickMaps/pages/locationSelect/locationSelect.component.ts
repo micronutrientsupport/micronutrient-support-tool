@@ -82,8 +82,8 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public getselectedLayer(countryId: string): any {
-    let country;
+  public getselectedLayer(countryId: string): CountryDictionaryItem {
+    let country: CountryDictionaryItem;
     if (this.geojson) {
       this.geojson.eachLayer((layer: any) => {
         if ((layer.feature.geometry.properties.countryId === countryId)) {
