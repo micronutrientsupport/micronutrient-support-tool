@@ -1,6 +1,11 @@
 <app-card [title]="'Monthly Food Card'" [showExpand]="true">
   <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Montly Summary Chart"> </mat-tab>
+    <mat-tab label="Montly Summary Chart">
+      <div *ngIf="null != chartData">
+        <ngx-chartjs id="stacked-chart" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
+        </ngx-chartjs>
+      </div>
+    </mat-tab>
 
     <mat-tab label="Monthly Summary Data">
       <!-- <div class="table-container">

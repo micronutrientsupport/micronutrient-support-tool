@@ -78,16 +78,16 @@ export class CurrentDataService {
   }
 
   public getMonthlyFoodGroups(
-    countryOrgroup: DictionaryItem,
-    micronutrients: Array<DictionaryItem>,
-    populationGroup: PopulationGroup,
-    mndsData: MicronutrientDataOption,
+    countryOrGroupId: string,
+    micronutrients: Array<string>,
+    populationGroupId: string,
+    mndsDataId: string,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
-      countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map(item => item.id),
-      populationGroupId: populationGroup.id,
-      mndsDataId: mndsData.id,
+      countryOrGroupId: countryOrGroupId,
+      micronutrientIds: micronutrients,
+      populationGroupId: populationGroupId,
+      mndsDataId: mndsDataId,
     });
   }
 }
