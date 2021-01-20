@@ -2,11 +2,7 @@ ngx-chartjs {
   height: 100%;
   width: 100%;
 }
-.chartjs-container {
-  position: relative;
-  max-height: 260px;
-  max-width: 500px;
-}
+
 .example-card {
   max-width: 900px;
 }
@@ -23,4 +19,23 @@ ngx-chartjs {
 
 .tab-element {
   margin: 5px;
+}
+
+table {
+  width: 100%;
+}
+td {
+  text-align: center;
+}
+
+::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+
+.chartjs-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
