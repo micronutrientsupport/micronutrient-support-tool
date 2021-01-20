@@ -41,6 +41,8 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
+  public selectedCountry;
+
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
@@ -51,11 +53,7 @@ export class SideNavContentComponent implements OnInit {
     public quickMapsService: QuickMapsService,
   ) {
     void dictionariesService
-      .getDictionaries([
-        DictionaryType.COUNTRIES,
-        DictionaryType.REGIONS,
-        DictionaryType.MICRONUTRIENTS,
-      ])
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
       .then((dicts: Array<Dictionary>) => {
         this.countriesDictionary = dicts.shift();
         this.regionDictionary = dicts.shift();
@@ -66,6 +64,10 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrientId, Validators.required],
           popGroup: [this.quickMapsService.popGroupId, Validators.required],
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
+        });
+
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          this.quickMapsForm.get('nation').setValue(countryId);
         });
 
         this.countryChange(GeographyTypes.COUNTRY);
@@ -89,17 +91,15 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setMndDataId(value);
         });
       });
+
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
-      .filter(
-        (micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type,
-      );
+      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
   }
 
   public countryChange(type: GeographyTypes): void {
@@ -114,10 +114,8 @@ export class SideNavContentComponent implements OnInit {
 
   public updatePopulationGroupOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    void ((null == country)
-      ? Promise.resolve([])
-      : this.miscApiService.getPopulationGroups(country, true))
-      .then((options: Array<PopulationGroup>) => {
+    void (null == country ? Promise.resolve([]) : this.miscApiService.getPopulationGroups(country, true)).then(
+      (options: Array<PopulationGroup>) => {
         this.popGroupOptions = options;
         // console.log('popGroupOptions', options);
         // if only one option, preselect
@@ -126,13 +124,14 @@ export class SideNavContentComponent implements OnInit {
         } else {
           this.updateMicronutrientDataOptions();
         }
-      });
+      },
+    );
   }
 
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     const microNutrient = this.micronutrientsDictionary.getItem(this.quickMapsService.micronutrientId);
-    const popGroup = this.popGroupOptions.find(item => (item.id === this.quickMapsService.popGroupId));
+    const popGroup = this.popGroupOptions.find((item) => item.id === this.quickMapsService.popGroupId);
 
     if ((null != country)
       && (null != microNutrient)
@@ -163,7 +162,7 @@ export class SideNavContentComponent implements OnInit {
   // }
 
   public submitForm(): void {
-    console.warn(this.quickMapsForm.value);
+    // console.warn(this.quickMapsForm.value);
 
     if (this.quickMapsForm.valid) {
       void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
