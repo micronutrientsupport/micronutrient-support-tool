@@ -40,6 +40,7 @@
     "@types/chart.js": "^2.9.28",
     "chart.js": "^2.9.4",
     "chartjs-plugin-annotation": "^0.5.7",
+    "chartjs-plugin-stacked100": "^0.7.1",
     "leaflet": "^1.7.1",
     "moment-es6": "^1.0.0",
     "ng-navigator-share": "^1.0.4",
