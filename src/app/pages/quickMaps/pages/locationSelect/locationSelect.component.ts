@@ -51,7 +51,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public goToCountry(id: string): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
+    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
       const country = dict.getItem<CountryDictionaryItem>(id);
       if (null != country && null != country.geoFeature) {
         // this.map.fitBounds(country.geoFeature.geometry);
@@ -61,7 +61,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   public getGeoJsonData(): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
+    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: dict
@@ -70,14 +70,12 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           .filter((item) => null != item),
       };
       this.geojson = L.geoJSON(featureCollection, {
-        style: () => { // eslint-disable-line no-use-before-define
-          return {
-            fillColor: '#8a66ad',
-            fillOpacity: 0.1,
-            color: '#3a1d54',
-            opacity: 0.8,
-          };
-        }
+        style: () => ({
+          fillColor: '#8a66ad',
+          fillOpacity: 0.1,
+          color: '#3a1d54',
+          opacity: 0.8,
+        })
       });
     });
   }
@@ -87,6 +85,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     if (this.geojson) {
       this.geojson.eachLayer((layer: any) => {
         if ((layer.feature.geometry.properties.countryId === countryId)) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           country = layer;
         }
       });
@@ -139,7 +138,8 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       });
     }
 
-    this.selectedCountry = layer; // eslint-disable-line no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    this.selectedCountry = layer;
     layer.setStyle({
       weight: 5,
       color: '#703AA3',
@@ -153,7 +153,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   private addCountriesMapLayer(): void {
-    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary): void => {
+    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: dict
@@ -162,14 +162,12 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           .filter((item) => null != item),
       };
       this.geojson = L.geoJSON(featureCollection, {
-        style: () => { // eslint-disable-line no-use-before-define
-          return {
-            fillColor: '#8a66ad',
-            fillOpacity: 0.1,
-            color: '#1D3557',
-            opacity: 0.8,
-          };
-        },
+        style: () => ({
+          fillColor: '#8a66ad',
+          fillOpacity: 0.1,
+          color: '#1D3557',
+          opacity: 0.8,
+        }),
         onEachFeature: (feature, singleFeatureLayer: L.Layer) => {
           singleFeatureLayer.on({
             mouseover: () => {
@@ -181,12 +179,10 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
             click: (e) => {
               this.quickMapsService.setCountryId(`${feature.properties.countryId}`);
               this.selectFeature(e.target);
-              // console.debug('click event', e.target['feature']);
             },
           });
         },
       }).addTo(this.map);
-      // L.map('map').setView(filterCountries(featureCollection))
     });
   }
 }
