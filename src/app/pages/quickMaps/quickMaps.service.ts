@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 @Injectable()
@@ -25,6 +25,14 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
 
+  /**
+   * subject to provide a single observable that can be subscribed to, to be notified if anything
+   * changes, so that an observer doesn't need to subscribe to many.
+   */
+  private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public parameterChangedObs = this.parameterChangedSrc.asObservable();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -36,10 +44,10 @@ export class QuickMapsService {
     this.setPopGroupId(QuickMapsQueryParams.getPopGroupId(route.snapshot));
     this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
 
-    this.countryIdObs.subscribe(() => this.updateQueryParams());
-    this.micronutrientIdObs.subscribe(() => this.updateQueryParams());
-    this.popGroupIdObs.subscribe(() => this.updateQueryParams());
-    this.mndDataIdObs.subscribe(() => this.updateQueryParams());
+    this.countryIdObs.subscribe(() => this.parameterChanged());
+    this.micronutrientIdObs.subscribe(() => this.parameterChanged());
+    this.popGroupIdObs.subscribe(() => this.parameterChanged());
+    this.mndDataIdObs.subscribe(() => this.parameterChanged());
   }
 
   public sideNavToggle(): void {
@@ -88,6 +96,11 @@ export class QuickMapsService {
     if (force || (this.mndDataId !== mndDataId)) {
       this.mndDataIdSrc.next(mndDataId);
     }
+  }
+
+  private parameterChanged(): void {
+    this.updateQueryParams();
+    this.parameterChangedSrc.next();
   }
 
   private updateQueryParams(): void {

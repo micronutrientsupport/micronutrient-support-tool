@@ -8,11 +8,10 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./food-composition-view.component.scss'],
 })
 export class FoodCompositionViewComponent implements OnInit {
-  private content: any;
 
-  constructor(private modalService: DialogService) {}
+  constructor(private modalService: DialogService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 1) {
