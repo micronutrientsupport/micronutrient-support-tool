@@ -29,10 +29,6 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     public quickMapsService: QuickMapsService,
     public dictionaryService: DictionaryService,
   ) {
-
-    quickMapsService.countryIdObs.subscribe((countryId: string) => {
-      this.selectFeature(this.getLayer(countryId));
-    });
   }
 
   ngOnInit(): void { }
@@ -40,7 +36,11 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow
     setTimeout(() => {
-      this.initialiseMap();
+      void this.initialiseMap().then(() => {
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          this.selectFeature(this.getLayer(countryId));
+        });
+      });
     }, 0);
   }
 
@@ -57,13 +57,13 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     return country;
   }
 
-  private initialiseMap(): void {
+  private initialiseMap(): Promise<void> {
     this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    void this.addCountriesMapLayer().then(() => this.selectFeature(this.selectedFeatureLayer));
+    return this.addCountriesMapLayer().then(() => this.selectFeature(this.selectedFeatureLayer));
 
   }
 
