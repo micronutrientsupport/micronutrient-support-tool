@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -32,7 +33,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   ) {
 
     quickMapsService.countryIdObs.subscribe((countryId: string) => {
-      this.activeCountry = this.getselectedLayer(countryId);
+      this.activeCountry = this.getLayer(countryId);
       if (this.activeCountry) {
         this.selectFeature(this.activeCountry);
       }
@@ -50,15 +51,14 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  public goToCountry(id: string): void {
-    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-      const country = dict.getItem<CountryDictionaryItem>(id);
-      if (null != country && null != country.geoFeature) {
-        // this.map.fitBounds(country.geoFeature.geometry);
-        this.hoverHighlightFeature(country.geoFeature);
-      }
-    });
-  }
+  // public goToCountry(id: string): void {
+  //   void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+  //     const country = dict.getItem<CountryDictionaryItem>(id);
+  //     if (null != country && null != country.geoFeature) {
+  //       this.hoverHighlightFeature(country);
+  //     }
+  //   });
+  // }
 
   public getGeoJsonData(): void {
     void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
@@ -80,17 +80,17 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public getselectedLayer(countryId: string): CountryDictionaryItem {
-    let country: CountryDictionaryItem;
+  public getLayer(countryId: string): L.GeoJSON {
+    let country: L.GeoJSON;
     if (this.geojson) {
-      this.geojson.eachLayer((layer: any) => {
-        if ((layer.feature.geometry.properties.countryId === countryId)) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      this.geojson.eachLayer((layer: L.GeoJSON) => {
+        // tslint:disable-next-line: no-string-literal
+        if (((layer.feature as GeoJSON.Feature).properties['countryId'] === countryId)) {
           country = layer;
         }
       });
-      return country;
     }
+    return country;
   }
 
   private initialiseMap(): void {
@@ -112,8 +112,8 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  private hoverHighlightFeature(layer: any): void {
+  private hoverHighlightFeature(layer: L.GeoJSON): void {
+    // const layer = this.getLayer(country.id);
     if (layer !== this.selectedCountry) {
       layer.setStyle({
         weight: 5,
@@ -128,7 +128,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private selectFeature(layer: any): void {
+  private selectFeature(layer: L.GeoJSON): void {
     if (null != this.selectedCountry) {
       this.selectedCountry.setStyle({
         fillColor: '#8a66ad',
@@ -138,8 +138,8 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       });
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.selectedCountry = layer;
+    console.log('layer type', this.selectedCountry);
     layer.setStyle({
       weight: 5,
       color: '#703AA3',
@@ -168,7 +168,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           color: '#1D3557',
           opacity: 0.8,
         }),
-        onEachFeature: (feature, singleFeatureLayer: L.Layer) => {
+        onEachFeature: (feature, singleFeatureLayer: L.GeoJSON) => {
           singleFeatureLayer.on({
             mouseover: () => {
               this.hoverHighlightFeature(singleFeatureLayer);
@@ -177,7 +177,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
               this.resetHighlight(singleFeatureLayer);
             },
             click: (e) => {
-              this.quickMapsService.setCountryId(`${feature.properties.countryId}`);
+              this.quickMapsService.setCountryId(feature.properties.countryId);
               this.selectFeature(e.target);
             },
           });
