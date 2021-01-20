@@ -8,8 +8,6 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./food-composition-view.component.scss'],
 })
 export class FoodCompositionViewComponent implements OnInit {
-  public title: 'Chart View';
-  private content: any;
 
   constructor(private modalService: DialogService) { }
 
