@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class FoodItemsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  public title: 'Food';
 
   public desserts: Dessert[] = [
     { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
@@ -38,7 +39,7 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
   public displayedColumns = ['name', 'calories', 'fat', 'carbs', 'protein'];
   public dataSource = new MatTableDataSource();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.desserts);

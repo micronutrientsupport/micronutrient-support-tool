@@ -1,42 +1,28 @@
-<mat-toolbar color="primary" style="height: 40px">
-  <button mat-icon-button class="example-icon" aria-label="Settings icon">
-    <mat-icon>settings</mat-icon>
-  </button>
-  <span class="example-spacer">Household dietary supply</span>
-  <button (click)="openDialog()" mat-icon-button class="example-icon" aria-label="Modal icon">
-    <mat-icon>launch</mat-icon>
-  </button>
-</mat-toolbar>
+<app-card [title]="'Household dietary supply'" [showExpand]="true" [showSettings]="true" (expandTrigger)="openDialog()">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Household Histogram">
+      <div *ngIf="null != chartData" class="chartjs-container">
+        <ngx-chartjs id="histo" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options"
+          [plugins]="chartData.plugins"></ngx-chartjs>
+      </div>
+    </mat-tab>
 
-<mat-tab-group mat-align-tabs="center">
-  <mat-tab label="Household Histogram">
-    <div *ngIf="null != chartData" class="chartjs-container">
-      <ngx-chartjs
-        id="histo"
-        [data]="chartData.data"
-        [type]="chartData.type"
-        [options]="chartData.options"
-        [plugins]="chartData.plugins"
-      ></ngx-chartjs>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="Household Data">
-    <div class="table-container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="bin">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bin</th>
-          <td mat-cell *matCellDef="let element">{{ element.bin }}</td>
-        </ng-container>
-        <ng-container matColumnDef="frequency">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Frequency</th>
-          <td mat-cell *matCellDef="let element">{{ element.frequency }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        <!-- <tr class="mat-row" *matNoDataRow></tr> -->
-      </table>
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="bin.length"></mat-paginator>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    <mat-tab label="Household Data">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="bin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bin</th>
+            <td mat-cell *matCellDef="let element">{{ element.bin }}</td>
+          </ng-container>
+          <ng-container matColumnDef="frequency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Frequency</th>
+            <td mat-cell *matCellDef="let element">{{ element.frequency }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="bin.length"></mat-paginator>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</app-card>

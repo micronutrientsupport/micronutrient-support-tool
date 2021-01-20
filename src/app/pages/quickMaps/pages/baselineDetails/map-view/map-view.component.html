@@ -1,18 +1,10 @@
-<mat-toolbar color="primary" style="height: 40px">
-  <button mat-icon-button class="example-icon" aria-label="Settings icon">
-    <mat-icon>settings</mat-icon>
-  </button>
-  <span class="example-spacer">Map View</span>
-  <button (click)="openDialog()" mat-icon-button class="example-icon" aria-label="Modal icon">
-    <mat-icon>launch</mat-icon>
-  </button>
-</mat-toolbar>
-
-<mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
-  <mat-tab label="Absolute Values">
-    <div id="mapView1"></div>
-  </mat-tab>
-  <mat-tab label="Variation from Threshold">
-    <div id="mapView2"></div>
-  </mat-tab>
-</mat-tab-group>
+<app-card [title]="'Map View'">
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Absolute Values">
+      <div id="mapView1"></div>
+    </mat-tab>
+    <mat-tab label="Variation from Threshold">
+      <div id="mapView2"></div>
+    </mat-tab>
+  </mat-tab-group>
+</app-card>

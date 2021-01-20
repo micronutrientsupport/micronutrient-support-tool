@@ -11,21 +11,16 @@ ngx-chartjs {
   background-size: cover;
 }
 
-.example-spacer {
-  flex: 1 1 auto;
-  text-align: center;
-  font-size: 17px;
-}
-
 .tab-element {
   margin: 5px;
 }
 
 table {
   width: 100%;
-}
-td {
-  text-align: center;
+  td.mat-cell {
+    text-align: center;
+    font-size: 12px;
+  }
 }
 
 ::ng-deep .mat-sort-header-container {
