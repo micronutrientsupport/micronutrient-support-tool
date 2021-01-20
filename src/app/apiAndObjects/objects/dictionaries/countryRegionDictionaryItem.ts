@@ -30,10 +30,13 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
 
   protected populateValues(): void {
     super.populateValues();
-    this.geoFeature = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Feature;
-    if (null != this.geoFeature) {
-      this.geoFeature.properties = {
-        countryId: this.id,
+    const geometry = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Geometry;
+    if (null != geometry) {
+      this.geoFeature = {
+        geometry,
+        type: 'Feature',
+        properties: {},
+        id: this.id,
       };
     }
   }

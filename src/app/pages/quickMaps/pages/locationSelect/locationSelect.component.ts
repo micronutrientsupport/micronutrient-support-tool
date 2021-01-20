@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
@@ -23,23 +22,17 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public geojson: L.GeoJSON;
   public map: L.Map;
 
-  public selectedCountry;
-  public activeCountry;
+  public selectedFeatureLayer: UnknownLeafletFeatureLayerClass;
+  public hoverFeatureLayer: UnknownLeafletFeatureLayerClass;
 
   constructor(
-    private http: HttpClient,
     public quickMapsService: QuickMapsService,
     public dictionaryService: DictionaryService,
   ) {
 
     quickMapsService.countryIdObs.subscribe((countryId: string) => {
-      this.activeCountry = this.getLayer(countryId);
-      if (this.activeCountry) {
-        this.selectFeature(this.activeCountry);
-      }
+      this.selectFeature(this.getLayer(countryId));
     });
-
-
   }
 
   ngOnInit(): void { }
@@ -51,41 +44,12 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  // public goToCountry(id: string): void {
-  //   void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-  //     const country = dict.getItem<CountryDictionaryItem>(id);
-  //     if (null != country && null != country.geoFeature) {
-  //       this.hoverHighlightFeature(country);
-  //     }
-  //   });
-  // }
-
-  public getGeoJsonData(): void {
-    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-      const featureCollection: GeoJSON.FeatureCollection = {
-        type: 'FeatureCollection',
-        features: dict
-          .getItems<CountryDictionaryItem>()
-          .map((item) => item.geoFeature)
-          .filter((item) => null != item),
-      };
-      this.geojson = L.geoJSON(featureCollection, {
-        style: () => ({
-          fillColor: '#8a66ad',
-          fillOpacity: 0.1,
-          color: '#3a1d54',
-          opacity: 0.8,
-        })
-      });
-    });
-  }
-
-  public getLayer(countryId: string): L.GeoJSON {
-    let country: L.GeoJSON;
+  public getLayer(countryId: string): UnknownLeafletFeatureLayerClass {
+    let country: UnknownLeafletFeatureLayerClass;
     if (this.geojson) {
-      this.geojson.eachLayer((layer: L.GeoJSON) => {
+      this.geojson.eachLayer((layer: UnknownLeafletFeatureLayerClass) => {
         // tslint:disable-next-line: no-string-literal
-        if (((layer.feature as GeoJSON.Feature).properties['countryId'] === countryId)) {
+        if ((null == country) && (layer.feature.id === countryId)) {
           country = layer;
         }
       });
@@ -99,22 +63,19 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    this.addCountriesMapLayer();
+    void this.addCountriesMapLayer().then(() => this.selectFeature(this.selectedFeatureLayer));
 
-    if (this.activeCountry) {
-      this.selectFeature(this.activeCountry);
-    }
   }
 
   private resetHighlight(layer: L.Layer): void {
-    if (layer !== this.selectedCountry) {
+    if (layer !== this.selectedFeatureLayer) {
       this.geojson.resetStyle(layer);
     }
   }
 
-  private hoverHighlightFeature(layer: L.GeoJSON): void {
+  private hoverHighlightFeature(layer: UnknownLeafletFeatureLayerClass): void {
     // const layer = this.getLayer(country.id);
-    if (layer !== this.selectedCountry) {
+    if (layer !== this.selectedFeatureLayer) {
       layer.setStyle({
         weight: 5,
         color: '#9B51E0',
@@ -128,32 +89,30 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private selectFeature(layer: L.GeoJSON): void {
-    if (null != this.selectedCountry) {
-      this.selectedCountry.setStyle({
-        fillColor: '#8a66ad',
-        fillOpacity: 0.1,
-        color: '#1D3557',
-        opacity: 0.8,
-      });
+  private selectFeature(layer: UnknownLeafletFeatureLayerClass): void {
+    // resets previous selected feature's style
+    if (null != this.selectedFeatureLayer) {
+      this.geojson.resetStyle(this.selectedFeatureLayer);
     }
 
-    this.selectedCountry = layer;
-    console.log('layer type', this.selectedCountry);
-    layer.setStyle({
-      weight: 5,
-      color: '#703AA3',
-      dashArray: '',
-      fillOpacity: 0.3,
-    });
+    this.selectedFeatureLayer = layer;
+    if (null != this.selectedFeatureLayer) {
+      console.log('layer type', this.selectedFeatureLayer);
+      this.selectedFeatureLayer.setStyle({
+        weight: 5,
+        color: '#703AA3',
+        dashArray: '',
+        fillOpacity: 0.3,
+      });
 
-    if (!L.Browser.ie && !L.Browser.edge) {
-      layer.bringToFront();
+      if (!L.Browser.ie && !L.Browser.edge) {
+        this.selectedFeatureLayer.bringToFront();
+      }
     }
   }
 
-  private addCountriesMapLayer(): void {
-    void this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
+  private addCountriesMapLayer(): Promise<void> {
+    return this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
       const featureCollection: GeoJSON.FeatureCollection = {
         type: 'FeatureCollection',
         features: dict
@@ -168,7 +127,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
           color: '#1D3557',
           opacity: 0.8,
         }),
-        onEachFeature: (feature, singleFeatureLayer: L.GeoJSON) => {
+        onEachFeature: (feature: GeoJSON.Feature, singleFeatureLayer: UnknownLeafletFeatureLayerClass) => {
           singleFeatureLayer.on({
             mouseover: () => {
               this.hoverHighlightFeature(singleFeatureLayer);
@@ -176,13 +135,16 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
             mouseout: () => {
               this.resetHighlight(singleFeatureLayer);
             },
-            click: (e) => {
-              this.quickMapsService.setCountryId(feature.properties.countryId);
-              this.selectFeature(e.target);
+            click: () => {
+              this.quickMapsService.setCountryId(`${feature.id}`);
             },
           });
         },
       }).addTo(this.map);
     });
   }
+}
+
+interface UnknownLeafletFeatureLayerClass extends L.Path {
+  feature: GeoJSON.Feature;
 }
