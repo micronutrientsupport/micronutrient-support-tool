@@ -37,7 +37,7 @@
     "@ctrl/ngx-chartjs": "^4.0.2",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@material/layout-grid": "^9.0.0",
-    "@types/chart.js": "^2.9.28",
+    "@types/chart.js": "^2.9.29",
     "chart.js": "^2.9.4",
     "chartjs-chart-treemap": "^0.2.3",
     "leaflet": "^1.7.1",

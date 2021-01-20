@@ -1,22 +1,81 @@
 [{
-  "Poultry": 3.17276256615469,
-  "Eggs": 22.7510933437594,
-  "Dairy": 0.547628383034992,
-  "Barley": 1.76826654657459,
-  "Maize": 11.337750456652,
-  "Millet": 9.97548718069936,
-  "Rice": 12.8777462512764,
-  "Sorghum": 7.69862263323709,
-  "Wheat": 5.38526882606607,
-  "Other Cereals": 3.08045122492409,
-  "Cassava": 3.61630672928275,
-  "Potato": 2.05153368524876,
-  "Sweet Potatoes": 3.23742772055967,
-  "Yams": 2.30618757827016,
-  "Other Roots & Tubers": 2.76323805950054,
-  "Beans": 3.35228203113356,
-  "Chickpeas": 1.25289121559603,
-  "Cowpeas": 0.00804380052775321,
-  "Lentils": 0.887753787047604,
-  "Pigeonpeas": 1.92925798045451
-}]
+    "foodex2_name": "Poultry",
+    "value": 3.17276256615469
+  },
+  {
+    "foodex2_name": "Eggs",
+    "value": 22.7510933437594
+  },
+  {
+    "foodex2_name": "Dairy",
+    "value": 0.547628383034992
+  },
+  {
+    "foodex2_name": "Barley",
+    "value": 1.76826654657459
+  },
+  {
+    "foodex2_name": "Maize",
+    "value": 11.337750456652
+  },
+  {
+    "foodex2_name": "Millet",
+    "value": 9.97548718069936
+  },
+  {
+    "foodex2_name": "Rice",
+    "value": 12.8777462512764
+  },
+  {
+    "foodex2_name": "Sorghum",
+    "value": 7.69862263323709
+  },
+  {
+    "foodex2_name": "Wheat",
+    "value": 5.38526882606607
+  },
+  {
+    "foodex2_name": "Other Cereals",
+    "value": 3.08045122492409
+  },
+  {
+    "foodex2_name": "Cassava",
+    "value": 3.61630672928275
+  },
+  {
+    "foodex2_name": "Potato",
+    "value": 2.05153368524876
+  },
+  {
+    "foodex2_name": "Sweet Potatoes",
+    "value": 3.23742772055967
+  },
+  {
+    "foodex2_name": "Yams",
+    "value": 2.30618757827016
+  },
+  {
+    "foodex2_name": "Other Roots & Tubers",
+    "value": 2.76323805950054
+  },
+  {
+    "foodex2_name": "Beans",
+    "value": 3.35228203113356
+  },
+  {
+    "foodex2_name": "Chickpeas",
+    "value": 1.25289121559603
+  },
+  {
+    "foodex2_name": "Cowpeas",
+    "value": 0.00804380052775321
+  },
+  {
+    "foodex2_name": "Lentils",
+    "value": 0.887753787047604
+  },
+  {
+    "foodex2_name": "Pigeonpeas",
+    "value": 1.92925798045451
+  }
+]

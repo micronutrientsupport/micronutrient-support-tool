@@ -9,7 +9,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
-
+import 'chartjs-chart-treemap';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -23,6 +23,7 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public topFood: Food[];
+  public chartData;
   // public desserts: Dessert[] = [
   //   { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
   //   { name: 'Ice cream sandwich', calories: 237, fat: 9, carbs: 37, protein: 4 },
@@ -52,7 +53,7 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
   constructor(
     private http: HttpClient,
     private currentDataService: CurrentDataService,
-    public quickMapsService: QuickMapsService,
+    private quickMapsService: QuickMapsService, // private chart: Chart,
   ) {}
 
   ngOnInit(): void {
@@ -63,14 +64,26 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )
-      .then((options: Array<TopFoodSource>) => {
-        console.log(options);
+      .then((foodData: Array<TopFoodSource>) => {
+        // console.log(options);
+        this.dataSource = new MatTableDataSource(foodData);
+        console.log('sending ', foodData);
+        this.initTreemap(foodData);
       });
   }
 
   ngAfterViewInit(): void {
     //   this.dataSource.paginator = this.paginator;
     //   this.dataSource.sort = this.sort;
+  }
+
+  public initTreemap(data: Array<TopFoodSource>): void {
+    this.chartData = {
+      type: 'treemap',
+      tree: data,
+      key: 'value',
+      groups: ['foodex2Name'],
+    };
   }
 
   // public applyFilter(event: Event): void {
@@ -87,10 +100,3 @@ export interface Food {
   name: string;
   value: number;
 }
-// export interface Dessert {
-//   calories: number;
-//   carbs: number;
-//   fat: number;
-//   name: string;
-//   protein: number;
-// }
