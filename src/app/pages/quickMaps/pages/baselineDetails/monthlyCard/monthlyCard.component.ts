@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
-// import * as stacked100 from 'chartjs-plugin-annotation';
-
 @Component({
   selector: 'app-monthly-card',
   templateUrl: './monthlyCard.component.html',
@@ -11,8 +13,28 @@ import { QuickMapsService } from '../../../quickMaps.service';
 })
 export class MonthlyCardComponent implements OnInit {
 
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   public rawData: MonthlyFoodGroups;
+  public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData;
+
+  public displayedColumns = [
+    'month',
+    'unitPerc',
+    'vegetablesPerc',
+    'cerealGrainsPerc',
+    'dairyPerc',
+    'fatPerc',
+    'fruitPerc',
+    'meatPerc',
+    'tubersPerc',
+    'nutsPerc',
+    'miscPerc',
+    'supplyTotal',
+    'supplyUnit',
+  ];
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -31,24 +53,19 @@ export class MonthlyCardComponent implements OnInit {
           this.rawData = data;
         })
         .catch((err) => console.error(err))
-        .finally(() => this.initialiseGraph());
+        .finally(() => {
+          this.initialiseGraph();
+          this.initializeTable(this.rawData.all);
+        });
     });
-
-    // void this.dictService.getDictionary(DictionaryType.COUNTRIES).then((dict: Dictionary) => {
-    //   this.countriesDictionaryItem = dict;
-    // });
   }
 
   ngOnInit(): void {
-
   }
 
   public initialiseGraph(): void {
     this.chartData = {
       type: 'bar',
-      // plugins: {
-      //   stacked100: { enable: true }
-      // },
       data: {
         labels: ['Foo', 'Bar'],
         datasets: [
@@ -64,5 +81,11 @@ export class MonthlyCardComponent implements OnInit {
         }
       }
     };
+  }
+
+  public initializeTable(data: Array<MonthlyFoodGroup>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 }
