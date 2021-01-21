@@ -130,7 +130,7 @@ export class MonthlyCardComponent implements OnInit {
               categoryPercentage: 1.0,
               scaleLabel: {
                 display: true,
-                labelString: 'mg',
+                labelString: 'percentage',
               },
             },
           ],
