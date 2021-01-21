@@ -4,7 +4,7 @@
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
     </mat-form-field>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="pc">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>pc</th>
         <td mat-cell *matCellDef="let element">{{ element.pc }}</td>
@@ -46,17 +46,17 @@
         <td mat-cell *matCellDef="let element">{{ element['va.fat'] | slice:0:6 }}</td>
       </ng-container>
       <!-- <ng-container matColumnDef="va.misc">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>va.misc</th>
-        <td mat-cell *matCellDef="let element">{{ element['va.misc'] | slice:0:6 }}</td>
-      </ng-container>
-      <ng-container matColumnDef="va.vendor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>va.vendor</th>
-        <td mat-cell *matCellDef="let element">{{ element['va.vendor'] | slice:0:6 }}</td>
-      </ng-container>
-      <ng-container matColumnDef="va.bev">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
-        <td mat-cell *matCellDef="let element">{{ element['va.bev'] | slice:0:6 }}</td>
-      </ng-container> -->
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.misc</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.misc'] | slice:0:6 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.vendor">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.vendor</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.vendor'] | slice:0:6 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="va.bev">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>va.bev</th>
+      <td mat-cell *matCellDef="let element">{{ element['va.bev'] | slice:0:6 }}</td>
+    </ng-container> -->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
