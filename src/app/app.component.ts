@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
+import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'micronutrient-support-tool';
   public showLightFooter = false;
 
@@ -16,6 +18,7 @@ export class AppComponent {
     public router: Router,
     private activatedRoute: ActivatedRoute,
     public pageLoadingService: PageLoadingService,
+    private titleService: Title,
   ) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
@@ -40,5 +43,23 @@ export class AppComponent {
       }
 
     });
+  }
+
+  ngOnInit(): void {
+    const appTitle = this.titleService.getTitle();
+    this.router
+      .events.pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => {
+          const child = this.activatedRoute.firstChild;
+          if (child.snapshot.data.title) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            return child.snapshot.data.title;
+          }
+          return appTitle;
+        })
+      ).subscribe((ttl: string) => {
+        this.titleService.setTitle(ttl);
+      });
   }
 }

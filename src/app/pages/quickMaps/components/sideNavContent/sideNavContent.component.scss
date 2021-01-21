@@ -13,25 +13,38 @@
 }
 
 form {
-  padding: 1em;
+  padding: 0.7em;
   opacity: 1;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   transition: opacity 1s ease;
 
-  & .flex-row {
+  & fieldset {
+
+    border: none;
+    background: #1d355712;
+    border-radius: 2px;
+    padding: 1em 0.4em 0em 0.4em;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: baseline;
-    width: 100%;
+    flex-direction: column;
+
+    & legend {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: baseline;
+      width: 100%;
+      border: none;
+      margin: 0em 0em 0.5em 0em;
+      transform: translateY(15px);
+    }
   }
 
 }
 
 i {
-  margin-left: 1em;
+  margin: 0em 1em;
 }
 
 h2 {
@@ -41,7 +54,7 @@ h2 {
 
 h3 {
   color: $color_grey;
-  margin-top: 0.5em;
+  margin: 0em;
 }
 
 button {
@@ -70,12 +83,14 @@ button {
     }
   }
 }
+
 .footer-row {
   display: flex;
   justify-content: center;
 }
 
 .slim-sidenav {
+
   //// opacity doesnt seem to be affected in form...
   & * {
     opacity: 0;
@@ -99,6 +114,7 @@ button {
     left: -45px;
     white-space: nowrap;
     transition: transform 0.4s ease;
+
     &:hover {
       color: $color_blue_form;
       cursor: pointer;

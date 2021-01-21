@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +21,7 @@ import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuar
     ServicesModule,
   ],
   exports: [],
-  providers: [QuickMapsRouteGuardService],
+  providers: [QuickMapsRouteGuardService, Title],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
