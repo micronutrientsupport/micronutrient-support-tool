@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
@@ -10,6 +9,10 @@ import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 @Injectable()
 export class QuickMapsService {
+  public countriesDictionary: Dictionary;
+  public regionDictionary: Dictionary;
+  public micronutrientsDictionary: Dictionary;
+
   private slimSubject = new BehaviorSubject<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
@@ -29,10 +32,6 @@ export class QuickMapsService {
   private readonly mndDataIdSrc = new BehaviorSubject<string>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
-
-  public countriesDictionary: Dictionary;
-  public regionDictionary: Dictionary;
-  public micronutrientsDictionary: Dictionary;
 
   constructor(
     public dictionariesService: DictionaryService,
@@ -88,7 +87,7 @@ export class QuickMapsService {
     return this.micronutrientIdSrc.value;
   }
   public get micronutrientDict(): DictionaryItem[] {
-    let arrayOfMicroDict: DictionaryItem[] = [];
+    const arrayOfMicroDict: DictionaryItem[] = [];
     arrayOfMicroDict.push(this.micronutrientsDictionary.getItem(this.micronutrientId));
     return arrayOfMicroDict;
   }

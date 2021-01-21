@@ -12,12 +12,12 @@
   <mat-tab label="Table">
     <div class="tab-element">
       <div class="table-container">
-        <!-- <mat-form-field>
+        <mat-form-field>
           <mat-label>Filter</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-        </mat-form-field> -->
+          <input matInput (keyup)="applyFilter($event)" placeholder="Potato" #input />
+        </mat-form-field>
 
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Food</th>
             <td mat-cell *matCellDef="let element">{{ element.foodex2Name }}</td>
@@ -28,19 +28,19 @@
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <!-- <tr class="mat-row" *matNoDataRow>
+          <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
-          </tr> -->
+          </tr>
         </table>
-        <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="desserts.length"> </mat-paginator> -->
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource.data.length"> </mat-paginator>
       </div>
     </div>
   </mat-tab>
 
   <mat-tab label="Tree">
     <div class="tab-element">
-      <ngx-chartjs id="treemap" [data]="chartData.tree" [type]="chartData.type" [options]="chartData.options"
-        [plugins]="chartData.plugins">
+      <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options" [plugins]="chartData.plugins">
       </ngx-chartjs>
     </div>
   </mat-tab>
