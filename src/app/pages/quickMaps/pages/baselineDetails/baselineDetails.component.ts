@@ -66,6 +66,20 @@ export class BaselineDetailsComponent implements OnInit {
         dropOverItems: false,
         dropOverItemsCallback: BaselineDetailsComponent.overlapEvent,
       },
+      resizable: {
+        delayStart: 0,
+        enabled: true,
+        handles: {
+          s: true,
+          e: true,
+          n: true,
+          w: true,
+          se: true,
+          ne: true,
+          sw: true,
+          nw: true,
+        },
+      },
     };
 
     this.dashboard = [
