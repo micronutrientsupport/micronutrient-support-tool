@@ -1,5 +1,7 @@
+@import 'src/assets/scss/_layout.scss';
+
 mat-toolbar {
-  height: 2.5em;
+  height: $header_height;
   position: sticky;
   top: 0;
   z-index: 100;

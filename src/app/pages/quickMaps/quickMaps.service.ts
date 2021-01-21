@@ -56,10 +56,10 @@ export class QuickMapsService {
     let count = 0;
     const interval = setInterval(() => {
       window.dispatchEvent(new Event('resize'));
-      if (20 === count++) {
+      if (200 === count++) {
         clearInterval(interval);
       }
-    }, 50);
+    }, 10);
   }
 
   public get countryId(): string {

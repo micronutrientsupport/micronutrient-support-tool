@@ -1,20 +1,32 @@
 @import "src/assets/scss/_colour.scss";
+@import 'src/assets/scss/_layout.scss';
 
 mat-drawer {
   padding: 1em 0;
 }
 
 .sidenav-container {
-  width: 100%;
-  min-height: 300px;
+  position: absolute;
+  top: $header_height;
+  bottom: $footer_light_height;
+  left: 0;
+  right: 0;
+}
+
+// fix the footer position
+::ng-deep app-footer-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .sidenav-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  align-items: stretch;
-  justify-content: center;
+  // height: 100%;
+  // align-items: stretch;
+  // justify-content: center;
 }
 
 .large-sidenav-mode {

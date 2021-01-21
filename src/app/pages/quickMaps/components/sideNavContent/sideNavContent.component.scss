@@ -3,9 +3,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  max-height: 100%;
+  height: 100%;
 }
 
 .scroll-area {
@@ -44,35 +42,39 @@ h3 {
   margin-top: 0.5em;
 }
 
-button {
-  margin-top: 1em;
-  width: auto;
-}
-
 .heading-row {
+  position: relative;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5em;
-
-  & div {
-    width: 3em;
+  height: 3em;
+  cursor: pointer;
+  &:hover {
+    color: $color_blue_form;
   }
 
-  & button {
-    margin-top: 0em;
-    width: 3em;
-
+  & .minimize-button {
+    position: absolute;
+    right: 0;
     & i {
       font-size: 25px;
-      margin-left: 0em;
+      margin: auto;
     }
   }
+
+  & h2 {
+    width: 100%;
+    text-align: center;
+  }
+ 
 }
 .footer-row {
   display: flex;
   justify-content: center;
+  
+  & button {
+    margin: 1em 0;
+  }
 }
 
 .slim-sidenav {
@@ -95,13 +97,9 @@ button {
     display: block;
     transform: rotate(90deg);
     position: absolute;
-    top: 80px;
-    left: -45px;
+    top: 30px;
+    width: 2em;
     white-space: nowrap;
     transition: transform 0.4s ease;
-    &:hover {
-      color: $color_blue_form;
-      cursor: pointer;
-    }
   }
 }
