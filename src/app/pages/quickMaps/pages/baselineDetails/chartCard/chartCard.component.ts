@@ -2,20 +2,39 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Input,
+  OnDestroy,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { GridsterItem } from 'angular-gridster2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chart-card',
   templateUrl: './chartCard.component.html',
   styleUrls: ['./chartCard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class ChartCardComponent implements OnInit {
+export class ChartCardComponent implements OnInit, OnDestroy {
+  @Input()
+  widget;
+  @Input()
+  resizeEvent: EventEmitter<GridsterItem>;
+
+  resizeSub: Subscription;
   @ViewChild(MatPaginator, { static: true }) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }
@@ -37,9 +56,16 @@ export class ChartCardComponent implements OnInit {
 
   public dataSource = new MatTableDataSource();
 
-  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) { }
+  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) {}
 
   ngOnInit(): void {
+    this.resizeSub = this.resizeEvent.subscribe((widget) => {
+      if (widget === this.widget) {
+        // or check id , type or whatever you have there
+        // resize your widget, chart, map , etc.
+        // console.log(widget);
+      }
+    });
     void this.http
       .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
       .subscribe((data: any) => {
@@ -56,6 +82,10 @@ export class ChartCardComponent implements OnInit {
         this.initialiseGraph();
         this.initialiseTable(rawDataArray);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.resizeSub.unsubscribe();
   }
 
   public openDialog(): void {
