@@ -1,6 +1,14 @@
 <app-card [title]="'Top 20 food items'">
   <div class="table-container">
     <mat-tab-group mat-align-tabs="center">
+      <mat-tab label="Tree">
+        <div class="tab-element">
+          <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
+            [options]="chartData.options" [plugins]="chartData.plugins">
+          </ngx-chartjs>
+        </div>
+      </mat-tab>
+
       <mat-tab label="Table">
         <div class="tab-element">
           <div class="table-container">
@@ -29,11 +37,5 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Tree">
-        <div class="tab-element">
-          <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
-            [options]="chartData.options" [plugins]="chartData.plugins">
-          </ngx-chartjs>
-        </div>
-      </mat-tab>
+
     </mat-tab-group>
