@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { BehaviorSubject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 @Injectable()
 export class QuickMapsService {
+  public countriesDictionary: Dictionary;
+  public regionDictionary: Dictionary;
+  public micronutrientsDictionary: Dictionary;
+
   private slimSubject = new BehaviorSubject<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
@@ -34,6 +42,7 @@ export class QuickMapsService {
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   constructor(
+    public dictionariesService: DictionaryService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     route: ActivatedRoute,
@@ -44,6 +53,18 @@ export class QuickMapsService {
     this.setPopGroupId(QuickMapsQueryParams.getPopGroupId(route.snapshot));
     this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
 
+    this.countryIdObs.subscribe(() => this.updateQueryParams());
+    this.micronutrientIdObs.subscribe(() => this.updateQueryParams());
+    this.popGroupIdObs.subscribe(() => this.updateQueryParams());
+    this.mndDataIdObs.subscribe(() => this.updateQueryParams());
+
+    void dictionariesService
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
+      .then((dicts: Array<Dictionary>) => {
+        this.countriesDictionary = dicts.shift();
+        this.regionDictionary = dicts.shift();
+        this.micronutrientsDictionary = dicts.shift();
+      });
     this.countryIdObs.subscribe(() => this.parameterChanged());
     this.micronutrientIdObs.subscribe(() => this.parameterChanged());
     this.popGroupIdObs.subscribe(() => this.parameterChanged());
@@ -65,8 +86,11 @@ export class QuickMapsService {
   public get countryId(): string {
     return this.countryIdSrc.value;
   }
+  public get countryDict(): DictionaryItem {
+    return this.countriesDictionary.getItem(this.countryId);
+  }
   public setCountryId(countryId: string, force = false): void {
-    if (force || (this.countryId !== countryId)) {
+    if (force || this.countryId !== countryId) {
       this.countryIdSrc.next(countryId);
     }
   }
@@ -74,8 +98,13 @@ export class QuickMapsService {
   public get micronutrientId(): string {
     return this.micronutrientIdSrc.value;
   }
+  public get micronutrientDict(): DictionaryItem[] {
+    const arrayOfMicroDict: DictionaryItem[] = [];
+    arrayOfMicroDict.push(this.micronutrientsDictionary.getItem(this.micronutrientId));
+    return arrayOfMicroDict;
+  }
   public setMicronutrientId(micronutrientId: string, force = false): void {
-    if (force || (micronutrientId !== this.micronutrientId)) {
+    if (force || micronutrientId !== this.micronutrientId) {
       this.micronutrientIdSrc.next(micronutrientId);
     }
   }
@@ -84,7 +113,7 @@ export class QuickMapsService {
     return this.popGroupIdSrc.value;
   }
   public setPopGroupId(popGroupId: string, force = false): void {
-    if (force || (this.popGroupId !== popGroupId)) {
+    if (force || this.popGroupId !== popGroupId) {
       this.popGroupIdSrc.next(popGroupId);
     }
   }
@@ -93,7 +122,7 @@ export class QuickMapsService {
     return this.mndDataIdSrc.value;
   }
   public setMndDataId(mndDataId: string, force = false): void {
-    if (force || (this.mndDataId !== mndDataId)) {
+    if (force || this.mndDataId !== mndDataId) {
       this.mndDataIdSrc.next(mndDataId);
     }
   }
@@ -111,5 +140,4 @@ export class QuickMapsService {
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
   }
-
 }

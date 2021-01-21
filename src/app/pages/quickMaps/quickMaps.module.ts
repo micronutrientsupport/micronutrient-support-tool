@@ -21,6 +21,7 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
 import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { CardComponent } from './pages/baselineDetails/card/card.component';
+import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
 @NgModule({
   declarations: [
     QuickMapsComponent,
@@ -35,6 +36,7 @@ import { CardComponent } from './pages/baselineDetails/card/card.component';
     FoodItemsComponent,
     ChartCardComponent,
     CardComponent,
+    MonthlyCardComponent,
   ],
   imports: [
     CommonModule,
@@ -48,4 +50,4 @@ import { CardComponent } from './pages/baselineDetails/card/card.component';
   ],
   providers: [QuickMapsService],
 })
-export class QuickMapsModule { }
+export class QuickMapsModule {}

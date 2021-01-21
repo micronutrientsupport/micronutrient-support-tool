@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Papa } from 'ngx-papaparse';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,7 +36,7 @@ export class ChartCardComponent implements OnInit {
 
   public dataSource = new MatTableDataSource();
 
-  constructor(private http: HttpClient, private papa: Papa, private dialogService: DialogService) { }
+  constructor(private http: HttpClient, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     void this.http
@@ -50,10 +49,10 @@ export class ChartCardComponent implements OnInit {
         rawDataArray.forEach((item) => {
           this.bin.push(Number(item.bin));
         });
-
         rawDataArray.forEach((item) => {
           this.frequency.push(Number(item.frequency));
         });
+
         this.initialiseGraph();
         this.initialiseTable(rawDataArray);
       });

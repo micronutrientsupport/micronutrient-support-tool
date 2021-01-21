@@ -12,6 +12,7 @@ import { GetPopulationGroups } from './misc/getPopulationGroups';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
+import { GetTopFood } from './currentData/getTopFood';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 
@@ -24,17 +25,20 @@ export class ApiService extends BaseApi<DictionaryType> {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(ApiService.USE_LIVE_API),
+      getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),
-    }
+    },
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, true)
-      .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
+    new GetDictionary(DictionaryType.COUNTRIES, true).setDefaultParams({
+      path: 'country',
+      typeObj: CountryDictionaryItem,
+    }),
     // .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.COUNTRIES)),
     new GetDictionary(DictionaryType.REGIONS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
@@ -42,7 +46,7 @@ export class ApiService extends BaseApi<DictionaryType> {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
       // .setMockObjects(MicronutrientDictionaryItem.createMockItems(30, DictionaryType.MICRONUTRIENTS)),
-      .setMockObjectsCreatorFunc(injector => MicronutrientDictionaryItem.getMockItems(injector)),
+      .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {
