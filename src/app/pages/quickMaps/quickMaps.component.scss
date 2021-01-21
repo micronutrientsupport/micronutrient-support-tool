@@ -1,6 +1,10 @@
 @import "src/assets/scss/_colour.scss";
 @import 'src/assets/scss/_layout.scss';
 
+router-outlet ::ng-deep + * {
+  flex: 1 1;
+}
+
 mat-drawer {
   padding: 1em 0;
 }
@@ -24,9 +28,9 @@ mat-drawer {
 .sidenav-content {
   display: flex;
   flex-direction: column;
-  // height: 100%;
-  // align-items: stretch;
-  // justify-content: center;
+  height: 100%;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .large-sidenav-mode {
