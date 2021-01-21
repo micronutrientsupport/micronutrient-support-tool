@@ -1,23 +1,23 @@
 <app-card [title]="'Monthly Food Card'" [showExpand]="true">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
-      <div *ngIf="null != chartData">
+      <div class="data-container" *ngIf="null != chartData">
         <ngx-chartjs id="stacked-chart" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
         </ngx-chartjs>
       </div>
     </mat-tab>
 
     <mat-tab label="Monthly Summary Data">
-      <div class="table-container">
-        <table mat-table [dataSource]="dataSource" matSort>
-          <ng-container matColumnDef="month">
+      <div class="data-container">
+        <table class=" bmgf-maps-nice-scrollbar" mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="month" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Month</th>
             <td mat-cell *matCellDef="let element">{{ element.month }}</td>
           </ng-container>
-          <ng-container matColumnDef="unitPerc">
+          <!-- <ng-container matColumnDef="unitPerc">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>unitPerc</th>
             <td mat-cell *matCellDef="let element">{{ element.unitPerc }}</td>
-          </ng-container>
+          </ng-container> -->
           <ng-container matColumnDef="vegetablesPerc">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>vegetablesPerc</th>
             <td mat-cell *matCellDef="let element">{{ element.vegetablesPerc }}</td>
@@ -58,10 +58,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>supplyTotal</th>
             <td mat-cell *matCellDef="let element">{{ element.supplyTotal }}</td>
           </ng-container>
-          <ng-container matColumnDef="supplyUnit">
+          <!-- <ng-container matColumnDef="supplyUnit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>supplyUnit</th>
             <td mat-cell *matCellDef="let element">{{ element.supplyUnit }}</td>
-          </ng-container>
+          </ng-container> -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>

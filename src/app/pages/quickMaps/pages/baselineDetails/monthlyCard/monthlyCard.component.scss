@@ -1,3 +1,10 @@
-.table-container {
-  width: 100%;
+@import "src/assets/scss/_colour";
+
+.data-container {
+  width: 700px;
+  max-width: 100%;
+  table {
+    overflow: auto;
+    width: 100%
+  }
 }

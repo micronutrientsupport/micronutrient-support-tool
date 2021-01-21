@@ -23,7 +23,7 @@ export class MonthlyCardComponent implements OnInit {
 
   public displayedColumns = [
     'month',
-    'unitPerc',
+    // 'unitPerc',
     'vegetablesPerc',
     'cerealGrainsPerc',
     'dairyPerc',
@@ -34,7 +34,7 @@ export class MonthlyCardComponent implements OnInit {
     'nutsPerc',
     'miscPerc',
     'supplyTotal',
-    'supplyUnit',
+    // 'supplyUnit',
   ];
 
   constructor(
@@ -65,12 +65,12 @@ export class MonthlyCardComponent implements OnInit {
 
   public initialiseGraph(): void {
     this.chartData = {
-      type: 'horizontalBar',
+      type: 'bar',
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            label: 'cereal grains',
+            label: 'Cereal Grains',
             data: [
               this.rawData.jan.cerealGrainsPerc,
               this.rawData.feb.cerealGrainsPerc,
@@ -88,7 +88,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(255, 165, 0, 0.6)',
           },
           {
-            label: 'dairy',
+            label: 'Dairy',
             data: [
               this.rawData.jan.dairyPerc,
               this.rawData.feb.dairyPerc,
@@ -103,10 +103,10 @@ export class MonthlyCardComponent implements OnInit {
               this.rawData.nov.dairyPerc,
               this.rawData.dec.dairyPerc,
             ],
-            backgroundColor: 'rgbargb(106, 90, 205)',
+            backgroundColor: 'rgba(248,228,165)',
           },
           {
-            label: 'fat',
+            label: 'Fat',
             data: [
               this.rawData.jan.fatPerc,
               this.rawData.feb.fatPerc,
@@ -124,7 +124,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(0, 0, 255, 0.6)',
           },
           {
-            label: 'nuts',
+            label: 'Nuts',
             data: [
               this.rawData.jan.nutsPerc,
               this.rawData.feb.nutsPerc,
@@ -142,7 +142,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(172, 114, 87, 0.6)',
           },
           {
-            label: 'misc',
+            label: 'Misc',
             data: [
               this.rawData.jan.miscPerc,
               this.rawData.feb.miscPerc,
@@ -160,7 +160,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(238, 130, 238, 0.6)',
           },
           {
-            label: 'fruit',
+            label: 'Fruit',
             data: [
               this.rawData.jan.fruitPerc,
               this.rawData.feb.fruitPerc,
@@ -178,7 +178,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(100, 181, 220, 0.6)',
           },
           {
-            label: 'meat',
+            label: 'Meat',
             data: [
               this.rawData.jan.meatPerc,
               this.rawData.feb.meatPerc,
@@ -196,7 +196,7 @@ export class MonthlyCardComponent implements OnInit {
             backgroundColor: 'rgba(255, 0, 0, 0.6)',
           },
           {
-            label: 'tubers',
+            label: 'Tubers',
             data: [
               this.rawData.jan.tubersPerc,
               this.rawData.feb.tubersPerc,
@@ -249,7 +249,6 @@ export class MonthlyCardComponent implements OnInit {
               stacked: true,
               barPercentage: 0.9,
               categoryPercentage: 1.0,
-              // barThickness: 10,
             },
           ],
         },
