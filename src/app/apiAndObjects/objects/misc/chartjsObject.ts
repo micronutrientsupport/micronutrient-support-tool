@@ -22,6 +22,10 @@ export interface ChartJSObject {
       yAxes: [
         {
           stacked?: boolean;
+          scaleLabel?: {
+            display: boolean;
+            labelString: string;
+          };
           barPercentage?: number;
           categoryPercentage?: number;
         }
