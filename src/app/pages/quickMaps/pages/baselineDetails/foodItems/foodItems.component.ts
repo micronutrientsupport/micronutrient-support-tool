@@ -1,53 +1,92 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/dot-notation */
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
+import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { QuickMapsService } from '../../../quickMaps.service';
+import 'chartjs-chart-treemap';
+import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
   styleUrls: ['./foodItems.component.scss'],
 })
-export class FoodItemsComponent implements OnInit, AfterViewInit {
+export class FoodItemsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  public title: 'Food';
-
-  public desserts: Dessert[] = [
-    { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
-    { name: 'Ice cream sandwich', calories: 237, fat: 9, carbs: 37, protein: 4 },
-    { name: 'Eclair', calories: 262, fat: 16, carbs: 24, protein: 6 },
-    { name: 'Cupcake', calories: 305, fat: 4, carbs: 67, protein: 4 },
-    { name: 'Gingerbread', calories: 356, fat: 16, carbs: 49, protein: 4 },
-    { name: 'Pizza Crunch', calories: 1000, fat: 1000, carbs: 1000, protein: 0 },
-    { name: 'Cheese', calories: 159, fat: 6, carbs: 24, protein: 4 },
-    { name: 'Cake', calories: 262, fat: 16, carbs: 24, protein: 6 },
-    { name: 'Strudel', calories: 305, fat: 4, carbs: 67, protein: 4 },
-    { name: 'Brownie', calories: 356, fat: 16, carbs: 49, protein: 4 },
-    { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
-    { name: 'Ice cream sandwich', calories: 237, fat: 9, carbs: 37, protein: 4 },
-    { name: 'Eclair', calories: 262, fat: 16, carbs: 24, protein: 6 },
-    { name: 'Cupcake', calories: 305, fat: 4, carbs: 67, protein: 4 },
-    { name: 'Gingerbread', calories: 356, fat: 16, carbs: 49, protein: 4 },
-    { name: 'Frozen yogurt', calories: 159, fat: 6, carbs: 24, protein: 4 },
-    { name: 'Ice cream sandwich', calories: 237, fat: 9, carbs: 37, protein: 4 },
-    { name: 'Eclair', calories: 262, fat: 16, carbs: 24, protein: 6 },
-    { name: 'Cupcake', calories: 305, fat: 4, carbs: 67, protein: 4 },
-    { name: 'Gingerbread', calories: 356, fat: 16, carbs: 49, protein: 4 },
-  ];
-
-  public displayedColumns = ['name', 'calories', 'fat', 'carbs', 'protein'];
+  public countriesDictionary: Dictionary;
+  public regionDictionary: Dictionary;
+  public micronutrientsDictionary: Dictionary;
+  public popGroupOptions = new Array<PopulationGroup>();
+  public chartData;
+  public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
 
-  constructor() { }
+  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) {}
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.desserts);
+    void this.currentDataService
+      .getTopFood(
+        this.quickMapsService.countryDict,
+        this.quickMapsService.micronutrientDict,
+        this.quickMapsService.popGroupId,
+        // this.quickMapsService.mndDataIdObs,
+      )
+      .then((foodData: Array<TopFoodSource>) => {
+        this.dataSource = new MatTableDataSource(foodData);
+        this.initTreemap(foodData);
+
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  public initTreemap(data: Array<TopFoodSource>): void {
+    this.chartData = {
+      type: 'treemap',
+      data: {
+        datasets: [
+          {
+            tree: data,
+            key: 'value',
+            groups: ['foodex2Name'],
+            groupLabels: true,
+            fontColor: '#ffffff',
+            fontFamily: 'Quicksand',
+            fontSize: 14,
+            fontStyle: 'normal',
+            // random shade of color palette purple
+            backgroundColor: (): string => {
+              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
+              return 'hsl(271, 70%, ' + calculatedHSLValue + '%)';
+            },
+          },
+        ],
+      },
+      options: {
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          callbacks: {
+            title: (): string => 'Food Item',
+            label: (item: ChartTooltipItem, result: ChartData): string => {
+              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+              // tslint:disable-next-line: no-string-literal
+              const label: string = dataItem['g'] as string;
+              // tslint:disable-next-line: no-string-literal
+              const value: string = dataItem['v'] as string;
+              return label + ': ' + value;
+            },
+          },
+        },
+      },
+    };
   }
 
   public applyFilter(event: Event): void {
@@ -58,11 +97,4 @@ export class FoodItemsComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-export interface Dessert {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
 }

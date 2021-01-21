@@ -1,22 +1,24 @@
-table {
-    width: 100%;
-}
-
-:host::ng-deep {
-    mat-paginator {
-
-        border-radius: 0px 0px 5px 5px;
-
-        & .mat-paginator-container {
-            min-height: 47px;
-        }
-    }
+.tableFullWidth {
+  width: 100%;
 }
 
 .table-container {
-    width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 17px;
+}
+
+tr.mat-row {
+  height: 30px !important;
 }
 
 td.mat-cell {
-    font-size: 12px;
+  font-size: 12px;
 }

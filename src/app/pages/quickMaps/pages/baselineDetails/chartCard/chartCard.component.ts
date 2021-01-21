@@ -50,7 +50,6 @@ export class ChartCardComponent implements OnInit {
         rawDataArray.forEach((item) => {
           this.bin.push(Number(item.bin));
         });
-
         rawDataArray.forEach((item) => {
           this.frequency.push(Number(item.frequency));
         });
