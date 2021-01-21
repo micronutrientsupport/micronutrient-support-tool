@@ -26,13 +26,13 @@ export class FoodItemsComponent implements OnInit {
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
 
-  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) {}
+  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) { }
 
   ngOnInit(): void {
     void this.currentDataService
       .getTopFood(
-        this.quickMapsService.countryDict,
-        this.quickMapsService.micronutrientDict,
+        this.quickMapsService.countryId,
+        [this.quickMapsService.micronutrientId],
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )
