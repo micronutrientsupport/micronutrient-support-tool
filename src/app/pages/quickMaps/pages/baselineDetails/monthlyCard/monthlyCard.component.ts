@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
 import { CurrentDataService } from 'src/app/services/currentData.service';
@@ -18,8 +19,7 @@ export class MonthlyCardComponent implements OnInit {
 
   public rawData: MonthlyFoodGroups;
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
-  public chartData;
-  public cerealData;
+  public chartData: ChartJSObject;
 
   public displayedColumns = [
     'month',
