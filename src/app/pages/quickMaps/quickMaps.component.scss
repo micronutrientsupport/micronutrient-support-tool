@@ -3,7 +3,7 @@
 
 router-outlet ::ng-deep + * {
   flex: 1 1;
-  min-height: 1px;
+  min-height: 0; // needs this to make the above flex rule work!
 }
 
 mat-drawer {
@@ -48,8 +48,4 @@ mat-drawer {
 
 app-quick-maps-header {
   margin: 10px;
-}
-
-.header-present router-outlet ::ng-deep + * {
-  margin: 0 10px;
 }
