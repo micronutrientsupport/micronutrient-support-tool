@@ -3,6 +3,7 @@
 
 router-outlet ::ng-deep + * {
   flex: 1 1;
+  min-height: 1px;
 }
 
 mat-drawer {
