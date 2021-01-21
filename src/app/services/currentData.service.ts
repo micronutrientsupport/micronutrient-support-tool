@@ -3,6 +3,7 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { DietarySource } from '../apiAndObjects/objects/dietarySource';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
+import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
@@ -13,7 +14,7 @@ import { DictionaryService } from './dictionary.service';
 export class CurrentDataService {
   constructor(private apiService: ApiService, private dictService: DictionaryService) {
     // TEST
-    // void this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
+    // void this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
     //   countryOrGroupId: '',
     //   micronutrientIds: [],
     //   populationGroupId: '',
@@ -31,7 +32,7 @@ export class CurrentDataService {
       countryOrGroupId: 'string' === typeof countryOrgroup ? countryOrgroup : countryOrgroup.id,
       micronutrientIds: micronutrients.map((item) => ('string' === typeof item ? item : item.id)),
       populationGroupId: 'string' === typeof populationGroup ? populationGroup : populationGroup.id,
-      singleOptionOnly: singleOptionOnly,
+      singleOptionOnly,
     });
   }
 
@@ -84,6 +85,20 @@ export class CurrentDataService {
     mndsData: MicronutrientDataOption,
   ): Promise<Array<HouseholdHistogramData>> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
+      countryOrGroupId: countryOrgroup.id,
+      micronutrientIds: micronutrients.map((item) => item.id),
+      populationGroupId: populationGroup.id,
+      mndsDataId: mndsData.id,
+    });
+  }
+
+  public getMonthlyFoodGroups(
+    countryOrgroup: DictionaryItem,
+    micronutrients: Array<DictionaryItem>,
+    populationGroup: PopulationGroup,
+    mndsData: MicronutrientDataOption,
+  ): Promise<MonthlyFoodGroups> {
+    return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroupId: countryOrgroup.id,
       micronutrientIds: micronutrients.map((item) => item.id),
       populationGroupId: populationGroup.id,

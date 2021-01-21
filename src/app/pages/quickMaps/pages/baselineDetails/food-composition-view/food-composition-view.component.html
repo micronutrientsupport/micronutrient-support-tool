@@ -1,29 +1,21 @@
-<mat-toolbar color="primary" style="height:40px">
-    <button mat-icon-button class="example-icon" aria-label="Settings icon">
-        <mat-icon>settings</mat-icon>
-    </button>
-    <span class="example-spacer">Food Consumption</span>
-    <button mat-icon-button (click)="openDialog()" class="example-icon" aria-label="Modal icon">
-        <mat-icon>launch</mat-icon>
-    </button>
-</mat-toolbar>
-
-<mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
+<app-card [title]="'Data sources & Methods'">
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Food consumption">
-        <div class="tab-element">
-            <p>Food composition table (FCT) sources used in estimates is summarised here.</p>
-        </div>
+      <div class="tab-element">
+        <p>Food composition table (FCT) sources used in estimates is summarised here.</p>
+      </div>
 
     </mat-tab>
     <mat-tab label="Food composition">
-        <div class="tab-element">
-            Food composition data
-        </div>
+      <div class="tab-element">
+        Food composition data
+      </div>
     </mat-tab>
     <mat-tab label="Thresholds">
-        <div class="tab-element">
-            Thresholds data
-        </div>
+      <div class="tab-element">
+        Thresholds data
+      </div>
 
     </mat-tab>
-</mat-tab-group>
+  </mat-tab-group>
+</app-card>

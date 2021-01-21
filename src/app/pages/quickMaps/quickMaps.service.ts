@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 @Injectable()
@@ -33,6 +33,14 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
 
+  /**
+   * subject to provide a single observable that can be subscribed to, to be notified if anything
+   * changes, so that an observer doesn't need to subscribe to many.
+   */
+  private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public parameterChangedObs = this.parameterChangedSrc.asObservable();
+
   constructor(
     public dictionariesService: DictionaryService,
     private router: Router,
@@ -57,6 +65,10 @@ export class QuickMapsService {
         this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
       });
+    this.countryIdObs.subscribe(() => this.parameterChanged());
+    this.micronutrientIdObs.subscribe(() => this.parameterChanged());
+    this.popGroupIdObs.subscribe(() => this.parameterChanged());
+    this.mndDataIdObs.subscribe(() => this.parameterChanged());
   }
 
   public sideNavToggle(): void {
@@ -113,6 +125,11 @@ export class QuickMapsService {
     if (force || this.mndDataId !== mndDataId) {
       this.mndDataIdSrc.next(mndDataId);
     }
+  }
+
+  private parameterChanged(): void {
+    this.updateQueryParams();
+    this.parameterChangedSrc.next();
   }
 
   private updateQueryParams(): void {

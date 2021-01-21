@@ -19,6 +19,7 @@ export class MapViewComponent implements AfterViewInit {
   public boundaryGeojson: L.GeoJSON;
   // public map: L.Map;
   public boundaryLayer: any;
+  public title: 'Map View';
   private mapView1: L.Map;
   private mapView2: L.Map;
 
@@ -86,4 +87,5 @@ export class MapViewComponent implements AfterViewInit {
   public openDialog(): void {
     void this.modalService.openMapDialog('Hello World');
   }
+
 }
