@@ -14,7 +14,7 @@ export class MiscApiService {
   ): Promise<Array<PopulationGroup>> {
     return this.apiService.endpoints.misc.getPopulationGroups.call({
       countryOrGroupId: ('string' === typeof countryOrgroup) ? countryOrgroup : countryOrgroup.id,
-      singleOptionOnly: singleOptionOnly,
+      singleOptionOnly,
     });
   }
 }
