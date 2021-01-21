@@ -1,10 +1,5 @@
 <app-card [title]="'Top 20 food items'">
   <div class="table-container">
-    <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-    </mat-form-field>
-
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Table">
         <div class="tab-element">

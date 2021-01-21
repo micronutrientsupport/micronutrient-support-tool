@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,7 +9,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
-import { ChartData, ChartDataSets, ChartPoint, ChartTooltipCallback, ChartTooltipItem } from 'chart.js';
+import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -59,7 +60,10 @@ export class FoodItemsComponent implements OnInit {
             fontSize: 14,
             fontStyle: 'normal',
             // random shade of color palette purple
-            backgroundColor: (): string => 'hsl(271, 70%, ' + Math.floor(Math.random() * (70 - 10 + 1) + 10) + '%)',
+            backgroundColor: (): string => {
+              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
+              return 'hsl(271, 70%, ' + calculatedHSLValue + '%)';
+            },
           },
         ],
       },
@@ -73,12 +77,11 @@ export class FoodItemsComponent implements OnInit {
             label: (item: ChartTooltipItem, result: ChartData): string => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              console.log('item: ', dataset);
-              console.log('result: ', dataItem);
-              // const obj = dataItem;
-              // const label = obj.foodex2Name;
-              return 'test';
-              // return label + ': ' + dataItem.v;
+              // tslint:disable-next-line: no-string-literal
+              const label: string = dataItem['g'] as string;
+              // tslint:disable-next-line: no-string-literal
+              const value: string = dataItem['v'] as string;
+              return label + ': ' + value;
             },
           },
         },
