@@ -79,6 +79,7 @@ export class ChartCardComponent implements OnInit, OnDestroy {
         rawDataArray.forEach((item) => {
           this.frequency.push(Number(item.frequency));
         });
+
         this.initialiseGraph();
         this.initialiseTable(rawDataArray);
       });

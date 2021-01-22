@@ -1,7 +1,7 @@
 @import 'src/assets/scss/_colour.scss';
 
-.container {
-  width: 100%;
+:host {
+  flex: 0 0;
   display: flex;
   justify-content: center;
   & .active-route {

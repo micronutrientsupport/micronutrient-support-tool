@@ -1,25 +1,34 @@
 <!-- <div class="flex-container"> -->
 <!-- Map View -->
 <!-- <app-map-view></app-map-view> -->
+<div class="flex-container bmgf-maps-nice-scrollbar">
+  <!-- Map View -->
+  <!-- <app-map-view></app-map-view> -->
 
-<!-- Chart -->
-<!-- <app-chart-card></app-chart-card> -->
+  <!-- Chart -->
+  <!-- <app-chart-card></app-chart-card> -->
 
-<!-- Food composition -->
-<!-- <app-food-composition-view></app-food-composition-view> -->
+  <!-- Food composition -->
+  <!-- <app-food-composition-view></app-food-composition-view> -->
+  <!-- Monthly Card -->
+  <!-- <app-monthly-card></app-monthly-card> -->
 
-<!-- Top 20 -->
-<!-- <app-food-items></app-food-items> -->
+  <!-- Food composition -->
+  <!-- <app-food-composition-view></app-food-composition-view> -->
 
-<!-- Data table -->
-<!-- TODO: if this is not needed long-term, remove the component code -->
-<!-- <app-summarised-data-table></app-summarised-data-table> -->
-<!-- </div> -->
+  <!-- Top 20 -->
+  <!-- <app-food-items></app-food-items> -->
 
-<div class="gridsterContainer">
-  <gridster [options]="options">
-    <gridster-item [item]="item" *ngFor="let item of dashboard">
-      <app-parent-dynamic [widget]="item" [resizeEvent]="resizeEvent"></app-parent-dynamic>
-    </gridster-item>
-  </gridster>
+  <!-- Data table -->
+  <!-- TODO: if this is not needed long-term, remove the component code -->
+  <!-- <app-summarised-data-table></app-summarised-data-table> -->
+  <!-- </div> -->
+
+  <div class="gridsterContainer">
+    <gridster [options]="options">
+      <gridster-item [item]="item" *ngFor="let item of dashboard">
+        <app-parent-dynamic [widget]="item" [resizeEvent]="resizeEvent"></app-parent-dynamic>
+      </gridster-item>
+    </gridster>
+  </div>
 </div>

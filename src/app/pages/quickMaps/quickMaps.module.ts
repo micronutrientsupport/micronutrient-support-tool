@@ -22,6 +22,7 @@ import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.
 import { QuickMapsComponent } from './quickMaps.component';
 import { CardComponent } from './pages/baselineDetails/card/card.component';
 import { ParentDynamicComponent } from './pages/baselineDetails/parentDynamic.component';
+import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
 @NgModule({
   declarations: [
     QuickMapsComponent,
@@ -37,6 +38,7 @@ import { ParentDynamicComponent } from './pages/baselineDetails/parentDynamic.co
     FoodItemsComponent,
     ChartCardComponent,
     CardComponent,
+    MonthlyCardComponent,
   ],
   imports: [
     CommonModule,

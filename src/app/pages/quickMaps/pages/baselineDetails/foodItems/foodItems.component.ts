@@ -45,7 +45,7 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
 
-  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) {}
+  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -58,8 +58,8 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
 
     void this.currentDataService
       .getTopFood(
-        this.quickMapsService.countryDict,
-        this.quickMapsService.micronutrientDict,
+        this.quickMapsService.countryId,
+        [this.quickMapsService.micronutrientId],
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )

@@ -1,12 +1,29 @@
 @import "src/assets/scss/_colour.scss";
+@import 'src/assets/scss/_layout.scss';
+
+router-outlet ::ng-deep + * {
+  flex: 1 1;
+  min-height: 0; // needs this to make the above flex rule work!
+}
 
 mat-drawer {
   padding: 1em 0;
 }
 
 .sidenav-container {
-  width: 100%;
-  min-height: 300px;
+  position: absolute;
+  top: $header_height;
+  bottom: $footer_light_height;
+  left: 0;
+  right: 0;
+}
+
+// fix the footer position
+::ng-deep app-footer-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .sidenav-content {
@@ -31,8 +48,4 @@ mat-drawer {
 
 app-quick-maps-header {
   margin: 10px;
-}
-
-.header-present router-outlet ::ng-deep + * {
-  margin: 0 10px;
 }
