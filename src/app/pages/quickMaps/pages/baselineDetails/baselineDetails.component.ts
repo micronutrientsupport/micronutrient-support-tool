@@ -58,7 +58,7 @@ export class BaselineDetailsComponent implements OnInit {
       draggable: {
         delayStart: 0,
         enabled: true,
-        ignoreContentClass: 'gridster-item-content',
+        ignoreContentClass: 'gridster-no-drag',
         ignoreContent: false,
         dragHandleClass: 'drag-handler',
         stop: BaselineDetailsComponent.eventStop,
