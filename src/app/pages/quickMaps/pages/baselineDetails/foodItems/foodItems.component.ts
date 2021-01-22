@@ -23,7 +23,7 @@ export class FoodItemsComponent implements OnInit {
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData;
-  public displayedColumns = ['name', 'value'];
+  public displayedColumns = ['foodex2Name', 'value'];
   public dataSource = new MatTableDataSource();
   public loading = false;
 
