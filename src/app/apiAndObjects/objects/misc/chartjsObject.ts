@@ -1,7 +1,7 @@
 export interface ChartJSObject {
   type: string;
   data: {
-    labels?: Array<string>;
+    labels?: Array<string | number>;
     datasets: Array<{
       label: string;
       data: Array<number>;

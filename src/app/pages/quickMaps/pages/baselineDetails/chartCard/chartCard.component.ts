@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
@@ -30,9 +26,8 @@ export class ChartCardComponent implements OnInit {
   public paginator: MatPaginator;
   public sort: MatSort;
 
-  public labels = [];
-  public bin = [];
-  public frequency = [];
+  public bin = Array<number>();
+  public frequency = Array<number>();
   public threshold: number;
   public chartData: ChartJSObject;
 
@@ -56,43 +51,26 @@ export class ChartCardComponent implements OnInit {
           this.quickMapsService.mndDataId,
         )
         .then((data: Array<HouseholdHistogramData>) => {
-          const rawData = data[0].data;
-          const threshold = data[0].adequacyThreshold;
-          this.threshold = Number(threshold);
+          if (null != data) {
+            const rawData = data[0].data;
+            this.threshold = Number(data[0].adequacyThreshold);
 
-          rawData.forEach((item: BinValue) => {
-            this.bin.push(Number(item.bin));
-          });
-          rawData.forEach((item: BinValue) => {
-            this.frequency.push(Number(item.frequency));
-          });
+            rawData.forEach((item: BinValue) => {
+              this.bin.push(item.bin);
+              this.frequency.push(item.frequency);
+            });
 
-          this.initialiseGraph();
-          this.initialiseTable(rawData);
+            this.initialiseGraph();
+            this.initialiseTable(rawData);
+          }
         })
         .catch((err) => console.error(err));
     });
-    // void this.http
-    // .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
-    // .subscribe((data: any) => {
-    //   const rawDataArray = data[0].data;
-    //   const threshold = data[0].adequacy_threshold;
-    //   this.threshold = Number(threshold);
 
-    //   rawDataArray.forEach((item) => {
-    //     this.bin.push(Number(item.bin));
-    //   });
-    //   rawDataArray.forEach((item) => {
-    //     this.frequency.push(Number(item.frequency));
-    //   });
-
-    //   this.initialiseGraph();
-    //   this.initialiseTable(rawDataArray);
-    // });
   }
 
   public openDialog(): void {
-    // void this.dialogService.openChartDialog({});
+    void this.dialogService.openChartDialog(this.chartData);
   }
 
   public initialiseGraph(): void {
