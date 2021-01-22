@@ -12,7 +12,9 @@ SubRegionDataItem
   protected getCacheKey(params: GetSubRegionDataParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<Array<SubRegionDataItem>> {
+  protected callLive(
+  // params: GetSubRegionDataParams,
+  ): Promise<Array<SubRegionDataItem>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -24,13 +26,17 @@ SubRegionDataItem
   }
 
   protected callMock(
-  // params: GetBaselineDataParams,
+  // params: GetSubRegionDataParams,
   ): Promise<Array<SubRegionDataItem>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    // return a single random element when specified
     return this.buildObjectsFromResponse(
       SubRegionDataItem,
-      httpClient.get('/assets/exampleData/sub-region-results.json').toPromise(),
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/sub-region-results.json').toPromise());
+        }, 1500);
+      }),
     );
   }
 }

@@ -12,7 +12,9 @@ HouseholdHistogramData
   protected getCacheKey(params: GetHouseholdHistogramDataParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<Array<HouseholdHistogramData>> {
+  protected callLive(
+  // params: GetHouseholdHistogramDataParams,
+  ): Promise<Array<HouseholdHistogramData>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -24,13 +26,17 @@ HouseholdHistogramData
   }
 
   protected callMock(
-  // params: GetBaselineDataParams,
+  // params: GetHouseholdHistogramDataParams,
   ): Promise<Array<HouseholdHistogramData>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    // return a single random element when specified
     return this.buildObjectsFromResponse(
       HouseholdHistogramData,
-      httpClient.get('/assets/exampleData/household_histogram.json').toPromise(),
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/household_histogram.json').toPromise());
+        }, 1500);
+      }),
     );
   }
 }
