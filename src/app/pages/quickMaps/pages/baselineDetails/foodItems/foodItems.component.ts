@@ -10,6 +10,8 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -22,7 +24,7 @@ export class FoodItemsComponent implements OnInit {
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
-  public chartData;
+  public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
   public dataSource = new MatTableDataSource();
   public loading = false;
@@ -30,9 +32,10 @@ export class FoodItemsComponent implements OnInit {
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {
-  }
+  ) { }
+
 
   ngOnInit(): void {
 
@@ -80,9 +83,9 @@ export class FoodItemsComponent implements OnInit {
             fontSize: 14,
             fontStyle: 'normal',
             // random shade of color palette purple
-            backgroundColor: (): string => {
+            backgroundColor: () => {
               const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
-              return 'hsl(271, 70%, ' + calculatedHSLValue + '%)';
+              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
             },
           },
         ],
@@ -93,8 +96,8 @@ export class FoodItemsComponent implements OnInit {
         },
         tooltips: {
           callbacks: {
-            title: (): string => 'Food Item',
-            label: (item: ChartTooltipItem, result: ChartData): string => {
+            title: () => 'Food Item',
+            label: (item: ChartTooltipItem, result: ChartData) => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
               // tslint:disable-next-line: no-string-literal
@@ -117,4 +120,8 @@ export class FoodItemsComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.chartData);
+}
 }

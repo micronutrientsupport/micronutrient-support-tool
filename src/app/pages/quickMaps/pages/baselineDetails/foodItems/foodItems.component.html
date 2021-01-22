@@ -1,4 +1,4 @@
-<app-card [title]="'Top 20 food items'" [loading]="loading">
+<app-card [title]="'Top 20 food items'" [loading]="loading" [showExpand]="true" (expandTrigger)="openDialog()">
   <span *ngIf="null == dataSource">Data Error...</span>
   <div *ngIf="null != dataSource" class="table-container">
     <mat-tab-group mat-align-tabs="center">

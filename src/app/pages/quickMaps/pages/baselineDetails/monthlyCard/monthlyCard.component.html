@@ -1,4 +1,4 @@
-<app-card [title]="'Monthly Food Card'" [showExpand]="true" [loading]="loading">
+<app-card [title]="'Monthly Food Card'" [showExpand]="true" [loading]="loading" (expandTrigger)="openDialog()">
   <span *ngIf="null == rawData">Data Error...</span>
   <mat-tab-group *ngIf="null != rawData" mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
