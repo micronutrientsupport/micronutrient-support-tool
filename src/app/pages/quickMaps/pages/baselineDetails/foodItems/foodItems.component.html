@@ -1,4 +1,4 @@
-<app-card [title]="'Top 20 food items'">
+<app-card [title]="'Top 20 food items'" [showExpand]="true" (expandTrigger)="openDialog()">
   <div class="table-container">
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Tree">

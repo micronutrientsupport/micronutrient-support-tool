@@ -66,11 +66,6 @@ export class ChartCardComponent implements OnInit {
         })
         .catch((err) => console.error(err));
     });
-
-  }
-
-  public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
   }
 
   public initialiseGraph(): void {
@@ -84,7 +79,7 @@ export class ChartCardComponent implements OnInit {
             label: 'Frequency',
             data: this.frequency,
             borderColor: '#ff6384',
-            backgroundColor: '#ff6384',
+            backgroundColor: () => '#ff6384',
             fill: true,
           },
         ],
@@ -115,7 +110,7 @@ export class ChartCardComponent implements OnInit {
               scaleID: 'y-axis-0',
               value: this.threshold, // data-value at which the line is drawn
               borderWidth: 2.5,
-              borderColor: 'black',
+              borderColor: () => 'black',
               label: {
                 enabled: true,
                 content: 'Threshold',
@@ -132,4 +127,9 @@ export class ChartCardComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.chartData);
+  }
+
 }
