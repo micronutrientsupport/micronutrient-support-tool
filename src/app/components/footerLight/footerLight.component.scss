@@ -1,5 +1,12 @@
 @import 'src/assets/scss/_colour.scss';
+@import 'src/assets/scss/_layout.scss';
 
+:host {
+  height: $footer_light_height;
+}
+hr {
+  margin: 0px;
+}
 .container {
   display: flex;
   flex-flow: row wrap;
