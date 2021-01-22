@@ -49,7 +49,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       if (widget === this.widget) {
         // or check id , type or whatever you have there
         // resize your widget, chart, map , etc.
-        console.log(widget);
+        // console.log(widget);
       }
     });
   }

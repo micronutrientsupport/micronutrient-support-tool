@@ -1,3 +1,11 @@
+<style>
+  .testBg {
+    background-color: red;
+    height: 100%;
+    width: 100%;
+  }
+
+</style>
 <!-- Map View -->
 <app-map-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'"></app-map-view>
 
@@ -11,3 +19,6 @@
 <!-- Top 20 -->
 <app-food-items [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
 </app-food-items>
+
+<!-- <div class="testBg" *ngIf="widget.type === 'cssTest'">ddsds
+</div> -->

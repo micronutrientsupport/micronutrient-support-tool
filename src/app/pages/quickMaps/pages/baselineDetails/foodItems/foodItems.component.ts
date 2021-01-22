@@ -52,7 +52,7 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
       if (widget === this.widget) {
         // or check id , type or whatever you have there
         // resize your widget, chart, map , etc.
-        // console.log(widget);
+        // console.log(]widget);
       }
     });
 
@@ -99,6 +99,8 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
         ],
       },
       options: {
+        maintainAspectRatio: false,
+        // responsive: true,
         legend: {
           display: false,
         },
