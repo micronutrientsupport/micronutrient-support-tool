@@ -72,15 +72,6 @@ export interface ChartJSObject {
       callbacks?: {
         title: () => string;
         label: (item: ChartTooltipItem, result: ChartData) => string;
-        // label: (item: ChartTooltipItem, result: ChartData): string => {
-        //   const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-        //   const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-        //   // tslint:disable-next-line: no-string-literal
-        //   const label: string = dataItem['g'] as string;
-        //   // tslint:disable-next-line: no-string-literal
-        //   const value: string = dataItem['v'] as string;
-        //   return label + ': ' + value;
-        // },
       };
     };
   };
