@@ -4,10 +4,13 @@
   border-radius: 5px;
   height: 28.3em;
   margin: 5px;
+  display: flex;
+  flex-direction: column;
   & .card-container {
-    flex: 1 0;
+    flex: 1 1;
     background-color: #f8f8f8;
-    height: 28em;
+    display: flex;
+    flex-direction: column;
   }
 }
 
