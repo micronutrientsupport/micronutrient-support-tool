@@ -29,14 +29,14 @@ import { GridsterItem } from 'angular-gridster2';
   encapsulation: ViewEncapsulation.None,
 })
 export class FoodItemsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   @Input()
   widget;
   @Input()
   resizeEvent: EventEmitter<GridsterItem>;
   resizeSub: Subscription;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
@@ -45,7 +45,7 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
 
-  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) { }
+  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) {}
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {

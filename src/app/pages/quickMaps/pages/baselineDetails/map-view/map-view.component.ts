@@ -50,8 +50,12 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         // or check id , type or whatever you have there
         // resize your widget, chart, map , etc.
         // console.log(widget);
-        this.mapView2.invalidateSize();
-        this.mapView1.invalidateSize();
+        if (this.mapView1) {
+          this.mapView1.invalidateSize();
+        }
+        if (this.mapView2) {
+          this.mapView2.invalidateSize();
+        }
       }
     });
   }
