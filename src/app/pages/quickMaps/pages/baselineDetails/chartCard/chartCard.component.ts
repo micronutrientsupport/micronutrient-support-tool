@@ -36,7 +36,7 @@ export class ChartCardComponent implements OnInit {
 
   public dataSource = new MatTableDataSource();
 
-  constructor(private http: HttpClient, private dialogService: DialogService) {}
+  constructor(private http: HttpClient, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     void this.http
@@ -59,7 +59,7 @@ export class ChartCardComponent implements OnInit {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog({});
+    // void this.dialogService.openChartDialog({});
   }
 
   public initialiseGraph(): void {

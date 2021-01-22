@@ -1,4 +1,6 @@
 <app-base-dialog>
-  <p>chart-dialog works!</p>
-  {{ content | json }}
+  <div class="data-container" *ngIf="showChart">
+    <ngx-chartjs id="dialog-chart" [data]="graphData.data" [type]="graphData.type" [options]="graphData.options">
+    </ngx-chartjs>
+  </div>
 </app-base-dialog>

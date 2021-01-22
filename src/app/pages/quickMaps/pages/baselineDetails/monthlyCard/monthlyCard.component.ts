@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 @Component({
@@ -40,6 +41,7 @@ export class MonthlyCardComponent implements OnInit {
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
   ) {
 
     this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -66,6 +68,9 @@ export class MonthlyCardComponent implements OnInit {
   public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
     this.chartData = {
       type: 'bar',
+      legend: {
+        display: true
+      },
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
@@ -143,5 +148,9 @@ export class MonthlyCardComponent implements OnInit {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.chartData);
   }
 }

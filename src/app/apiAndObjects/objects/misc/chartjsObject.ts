@@ -1,5 +1,8 @@
 export interface ChartJSObject {
   type: string;
+  legend?: {
+    display: boolean;
+  };
   data: {
     labels?: Array<string>;
     datasets: Array<{
