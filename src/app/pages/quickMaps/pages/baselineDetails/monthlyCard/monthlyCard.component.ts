@@ -17,6 +17,8 @@ export class MonthlyCardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public loading = false;
+
   public rawData: MonthlyFoodGroups;
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
@@ -40,28 +42,31 @@ export class MonthlyCardComponent implements OnInit {
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
-  ) {
+  ) { }
 
+  ngOnInit(): void {
     this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.currentDataService
-        .getMonthlyFoodGroups(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
+      this.loading = true;
+      void this.currentDataService.getMonthlyFoodGroups(
+        this.quickMapsService.countryId,
+        [this.quickMapsService.micronutrientId],
+        this.quickMapsService.popGroupId,
+        this.quickMapsService.mndDataId,
+      )
         .then((data: MonthlyFoodGroups) => {
           this.rawData = data;
-        })
-        .catch((err) => console.error(err))
-        .finally(() => {
           this.initialiseGraph(this.rawData.all);
           this.initializeTable(this.rawData.all);
+        })
+        .catch((err) => {
+          this.rawData = null;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     });
   }
-
-  ngOnInit(): void { }
 
   public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
     this.chartData = {

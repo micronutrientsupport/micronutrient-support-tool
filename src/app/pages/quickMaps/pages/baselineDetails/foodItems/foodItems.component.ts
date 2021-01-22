@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,27 +25,47 @@ export class FoodItemsComponent implements OnInit {
   public chartData;
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
+  public loading = false;
 
-  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) { }
+  constructor(
+    private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
+    private cdr: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
-    void this.currentDataService
-      .getTopFood(
+
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.loading = true;
+      void this.currentDataService.getTopFood(
         this.quickMapsService.countryId,
         [this.quickMapsService.micronutrientId],
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )
-      .then((foodData: Array<TopFoodSource>) => {
-        this.dataSource = new MatTableDataSource(foodData);
-        this.initTreemap(foodData);
+        .then((foodData: Array<TopFoodSource>) => {
+          this.dataSource = new MatTableDataSource(foodData);
+          this.initTreemap(foodData);
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        })
+        .catch((err) => {
+          this.dataSource = null;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    });
   }
 
   public initTreemap(data: Array<TopFoodSource>): void {
+    // force removing chart before re-setting it to stop js error
+    this.chartData = null;
+    this.cdr.detectChanges();
+
     this.chartData = {
       type: 'treemap',
       data: {

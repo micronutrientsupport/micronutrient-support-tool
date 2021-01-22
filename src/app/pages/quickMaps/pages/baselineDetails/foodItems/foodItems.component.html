@@ -1,5 +1,6 @@
-<app-card [title]="'Top 20 food items'">
-  <div class="table-container">
+<app-card [title]="'Top 20 food items'" [loading]="loading">
+  <span *ngIf="null == dataSource">Data Error...</span>
+  <div *ngIf="null != dataSource" class="table-container">
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Tree">
         <div class="tab-element">
@@ -39,3 +40,5 @@
 
 
     </mat-tab-group>
+  </div>
+</app-card>

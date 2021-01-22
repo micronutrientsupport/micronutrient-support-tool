@@ -12,7 +12,7 @@ export class CardComponent implements OnInit {
   @Input() title: string;
   @Input() showSettings: boolean;
   @Input() showExpand: boolean;
-  @Input() loading: boolean;
+  @Input() loading = false;
 
   constructor() { }
 
