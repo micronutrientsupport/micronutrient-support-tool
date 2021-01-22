@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 @Component({
@@ -40,6 +41,7 @@ export class MonthlyCardComponent implements OnInit {
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
   ) {
 
     this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -52,12 +54,10 @@ export class MonthlyCardComponent implements OnInit {
         )
         .then((data: MonthlyFoodGroups) => {
           this.rawData = data;
-        })
-        .catch((err) => console.error(err))
-        .finally(() => {
           this.initialiseGraph(this.rawData.all);
           this.initializeTable(this.rawData.all);
-        });
+        })
+        .catch((err) => console.error(err));
     });
   }
 
@@ -72,47 +72,47 @@ export class MonthlyCardComponent implements OnInit {
           {
             label: 'Cereal Grains',
             data: data.map(year => year.cerealGrainsPerc),
-            backgroundColor: 'rgba(255, 165, 0, 0.6)',
+            backgroundColor: () => 'rgba(255, 165, 0, 0.6)',
           },
           {
             label: 'Dairy',
             data: data.map(year => year.dairyPerc),
-            backgroundColor: 'rgba(248,228,165)',
+            backgroundColor: () => 'rgba(248,228,165)',
           },
           {
             label: 'Fat',
             data: data.map(year => year.fatPerc),
-            backgroundColor: 'rgba(0, 0, 255, 0.6)',
+            backgroundColor: () => 'rgba(0, 0, 255, 0.6)',
           },
           {
             label: 'Nuts',
             data: data.map(year => year.nutsPerc),
-            backgroundColor: 'rgba(172, 114, 87, 0.6)',
+            backgroundColor: () => 'rgba(172, 114, 87, 0.6)',
           },
           {
             label: 'Misc',
             data: data.map(year => year.miscPerc),
-            backgroundColor: 'rgba(238, 130, 238, 0.6)',
+            backgroundColor: () => 'rgba(238, 130, 238, 0.6)',
           },
           {
             label: 'Fruit',
             data: data.map(year => year.fruitPerc),
-            backgroundColor: 'rgba(100, 181, 220, 0.6)',
+            backgroundColor: () => 'rgba(100, 181, 220, 0.6)',
           },
           {
             label: 'Meat',
             data: data.map(year => year.meatPerc),
-            backgroundColor: 'rgba(255, 0, 0, 0.6)',
+            backgroundColor: () => 'rgba(255, 0, 0, 0.6)',
           },
           {
             label: 'Tubers',
             data: data.map(year => year.tubersPerc),
-            backgroundColor: 'rgba(255, 235, 59, 0.6)',
+            backgroundColor: () => 'rgba(255, 235, 59, 0.6)',
           },
           {
             label: 'Vegetables',
             data: data.map(year => year.vegetablesPerc),
-            backgroundColor: 'rgba(60, 179, 113, 0.6)',
+            backgroundColor: () => 'rgba(60, 179, 113, 0.6)',
           },
         ],
       },
@@ -143,5 +143,9 @@ export class MonthlyCardComponent implements OnInit {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.chartData);
   }
 }

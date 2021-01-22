@@ -18,7 +18,7 @@ import { MapViewComponent } from './pages/baselineDetails/map-view/map-view.comp
 import { FoodCompositionViewComponent } from './pages/baselineDetails/food-composition-view/food-composition-view.component';
 import { SummarisedDataTableComponent } from './pages/baselineDetails/summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.component';
-import { ChartCardComponent } from './pages/baselineDetails/chartCard/chartCard.component';
+import { ChartCardComponent } from './pages/baselineDetails/chartCard/householdCard.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { CardComponent } from './pages/baselineDetails/card/card.component';
 import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
@@ -50,4 +50,4 @@ import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthl
   ],
   providers: [QuickMapsService],
 })
-export class QuickMapsModule {}
+export class QuickMapsModule { }

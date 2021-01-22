@@ -1,4 +1,4 @@
-<app-card [title]="'Monthly Food Card'" [showExpand]="true">
+<app-card [title]="'Monthly Food Card'" [showExpand]="true" (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
       <div class="data-container" *ngIf="null != chartData">
