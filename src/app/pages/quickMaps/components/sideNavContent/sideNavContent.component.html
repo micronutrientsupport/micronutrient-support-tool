@@ -1,8 +1,8 @@
+
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-    <div></div>
+  <button class="minimize-button" mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
+    <i class="fas fa-caret-left"></i></button>
     <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
-    <button mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
-        <i class="fas fa-caret-left"></i></button>
 </div>
 
 <div *ngIf="(null != quickMapsForm) && (quickMapsService.slimObservable | async) === (false)"
