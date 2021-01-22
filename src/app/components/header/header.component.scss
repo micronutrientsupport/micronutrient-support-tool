@@ -1,5 +1,10 @@
+@import 'src/assets/scss/_layout.scss';
+
 mat-toolbar {
-  height: 2.5em;
+  height: $header_height;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 a {
@@ -14,19 +19,16 @@ a {
   align-items: center;
   padding: 0em 4em;
 
+  & a {
+    color: #fff;
+  }
+
   & div:nth-child(1) {
     font-size: 17px;
-    a {
-      color: #fff;
-    }
   }
 
   & div:nth-child(2) {
     font-size: 14px;
-    a {
-      color: #fff;
-    }
-
     & a {
       margin-left: 2em;
     }

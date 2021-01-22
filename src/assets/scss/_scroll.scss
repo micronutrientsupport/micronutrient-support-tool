@@ -26,3 +26,8 @@
 .bmgf-maps-nice-scrollbar {
   @include custom-scroll;
 }
+
+body {
+  @include custom-scroll;
+}
+

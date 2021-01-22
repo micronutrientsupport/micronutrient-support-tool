@@ -4,10 +4,6 @@
   <app-loading></app-loading>
   <router-outlet></router-outlet>
 
-  <div *ngIf="!showLightFooter">
-    <app-footer></app-footer>
-  </div>
-  <div *ngIf="showLightFooter">
-    <app-footer-light></app-footer-light>
-  </div>
+  <app-footer *ngIf="!showLightFooter"></app-footer>
+  <app-footer-light *ngIf="showLightFooter"></app-footer-light>
 </div>
