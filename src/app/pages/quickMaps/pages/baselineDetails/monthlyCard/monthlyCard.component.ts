@@ -54,12 +54,10 @@ export class MonthlyCardComponent implements OnInit {
         )
         .then((data: MonthlyFoodGroups) => {
           this.rawData = data;
-        })
-        .catch((err) => console.error(err))
-        .finally(() => {
           this.initialiseGraph(this.rawData.all);
           this.initializeTable(this.rawData.all);
-        });
+        })
+        .catch((err) => console.error(err));
     });
   }
 

@@ -48,7 +48,7 @@ export class FoodItemsComponent implements OnInit {
 
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      });
+      }).catch((err) => console.error(err));
   }
 
   public initTreemap(data: Array<TopFoodSource>): void {
