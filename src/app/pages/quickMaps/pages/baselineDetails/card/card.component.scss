@@ -1,10 +1,13 @@
-.card-container {
-  flex: 1 0;
-  margin: 5px;
+.wrapper {
   border: 1px solid #703aa3;
   border-radius: 5px;
-  background-color: #f8f8f8;
-  height: 28em;
+  height: 28.3em;
+  margin: 5px;
+  .card-container {
+    flex: 1 0;
+    background-color: #f8f8f8;
+    height: 28em;
+  }
 }
 
 .example-spacer {
