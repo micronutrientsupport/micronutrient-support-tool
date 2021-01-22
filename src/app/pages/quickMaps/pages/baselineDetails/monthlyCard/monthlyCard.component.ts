@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,11 +14,12 @@ import { QuickMapsService } from '../../../quickMaps.service';
   styleUrls: ['./monthlyCard.component.scss'],
 })
 export class MonthlyCardComponent implements OnInit {
-
-  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  public rawData: MonthlyFoodGroups;
+  public loading = false;
+  public dataError = true;
+
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
 
@@ -42,26 +43,41 @@ export class MonthlyCardComponent implements OnInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
-  ) {
+    private cdr: ChangeDetectorRef,
+  ) { }
 
+  ngOnInit(): void {
     this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.currentDataService
-        .getMonthlyFoodGroups(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
+      this.loading = true;
+      void this.currentDataService.getMonthlyFoodGroups(
+        this.quickMapsService.countryId,
+        [this.quickMapsService.micronutrientId],
+        this.quickMapsService.popGroupId,
+        this.quickMapsService.mndDataId,
+      )
         .then((data: MonthlyFoodGroups) => {
-          this.rawData = data;
-          this.initialiseGraph(this.rawData.all);
-          this.initializeTable(this.rawData.all);
+          this.dataSource = new MatTableDataSource(data.all);
+          this.dataError = false;
+          this.chartData = null;
+          // force change detection to:
+          // remove chart before re-setting it to stop js error
+          // show table and init paginator and sorter
+          this.cdr.detectChanges();
+
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.initialiseGraph(data.all);
+        })
+        .catch((err) => {
+          this.dataError = true;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
         })
         .catch((err) => console.error(err));
     });
   }
-
-  ngOnInit(): void { }
 
   public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
     this.chartData = {
@@ -137,12 +153,6 @@ export class MonthlyCardComponent implements OnInit {
         },
       },
     };
-  }
-
-  public initializeTable(data: Array<MonthlyFoodGroup>): void {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
 
   public openDialog(): void {

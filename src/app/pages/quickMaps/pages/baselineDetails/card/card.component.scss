@@ -1,12 +1,17 @@
 .wrapper {
+  position: relative;
   border: 1px solid #703aa3;
   border-radius: 5px;
+  overflow: hidden;
   height: 28.3em;
   margin: 5px;
-  .card-container {
-    flex: 1 0;
+  display: flex;
+  flex-direction: column;
+  & .card-container {
+    flex: 1 1;
     background-color: #f8f8f8;
-    height: 28em;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -18,4 +23,17 @@
 
 mat-toolbar {
   height: 40px;
+}
+
+.loading-indicator {
+  z-index: 1000;
+  background-color: #afafaf40;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

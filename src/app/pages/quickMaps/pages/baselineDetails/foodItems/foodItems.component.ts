@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,37 +18,58 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./foodItems.component.scss'],
 })
 export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData: ChartJSObject;
-  public displayedColumns = ['name', 'value'];
-  public dataSource = new MatTableDataSource();
+  public displayedColumns = ['foodex2Name', 'value'];
+  public dataSource: MatTableDataSource<TopFoodSource>;
+  public loading = false;
+  public dataError = true;
 
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
+
   ngOnInit(): void {
-    void this.currentDataService
-      .getTopFood(
+
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.loading = true;
+      void this.currentDataService.getTopFood(
         this.quickMapsService.countryId,
         [this.quickMapsService.micronutrientId],
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )
-      .then((foodData: Array<TopFoodSource>) => {
-        this.dataSource = new MatTableDataSource(foodData);
-        this.initTreemap(foodData);
+        .then((foodData: Array<TopFoodSource>) => {
+          this.dataSource = new MatTableDataSource(foodData);
+          this.dataError = false;
+          this.chartData = null;
+          // force change detection to:
+          // remove chart before re-setting it to stop js error
+          // show table and init paginator and sorter
+          this.cdr.detectChanges();
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }).catch((err) => console.error(err));
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.initTreemap(foodData);
+        })
+        .catch((err) => {
+          this.dataError = true;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    });
   }
 
   public initTreemap(data: Array<TopFoodSource>): void {

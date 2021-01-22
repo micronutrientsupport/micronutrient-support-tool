@@ -10,6 +10,7 @@ import { AppRoutes } from './routes/routes';
 
 export interface RouteData {
   hideQuickMapsHeader?: boolean;
+  showQuickMapsGoButton?: boolean;
   showLightFooter?: boolean;
 }
 
@@ -53,4 +54,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

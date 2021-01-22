@@ -98,6 +98,7 @@
     </form>
 </div>
 
-<div class="footer-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+<div class="footer-row" [class.show]="showGoButton"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
     <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
 </div>

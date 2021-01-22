@@ -12,7 +12,9 @@ DietarySource
   protected getCacheKey(params: GetDietarySourcesParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<Array<DietarySource>> {
+  protected callLive(
+  // params: GetDietarySourcesParams,
+  ): Promise<Array<DietarySource>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -24,7 +26,7 @@ DietarySource
   }
 
   protected callMock(
-  // params: GetBaselineDataParams,
+  // params: GetDietarySourcesParams,
   ): Promise<Array<DietarySource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
