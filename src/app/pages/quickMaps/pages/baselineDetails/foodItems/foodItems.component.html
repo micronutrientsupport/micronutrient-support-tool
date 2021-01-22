@@ -1,6 +1,6 @@
 <app-card [title]="'Top 20 food items'" [loading]="loading" [showExpand]="true" (expandTrigger)="openDialog()">
-  <span *ngIf="null == dataSource">Data Error...</span>
-  <div *ngIf="null != dataSource" class="table-container">
+  <span *ngIf="dataError">Data Error...</span>
+  <div *ngIf="!dataError" class="table-container">
     <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Tree">
         <div class="tab-element">
@@ -33,7 +33,7 @@
                 <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
               </tr>
             </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource.data.length"> </mat-paginator>
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
           </div>
         </div>
       </mat-tab>

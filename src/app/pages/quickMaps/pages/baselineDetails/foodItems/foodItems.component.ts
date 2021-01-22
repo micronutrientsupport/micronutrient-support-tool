@@ -18,16 +18,18 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./foodItems.component.scss'],
 })
 export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
-  public dataSource = new MatTableDataSource();
+  public dataSource: MatTableDataSource<TopFoodSource>;
   public loading = false;
+  public dataError = true;
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -49,13 +51,19 @@ export class FoodItemsComponent implements OnInit {
       )
         .then((foodData: Array<TopFoodSource>) => {
           this.dataSource = new MatTableDataSource(foodData);
-          this.initTreemap(foodData);
+          this.dataError = false;
+          this.chartData = null;
+          // force change detection to:
+          // remove chart before re-setting it to stop js error
+          // show table and init paginator and sorter
+          this.cdr.detectChanges();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.initTreemap(foodData);
         })
         .catch((err) => {
-          this.dataSource = null;
+          this.dataError = true;
           console.error(err);
         })
         .finally(() => {
@@ -65,10 +73,6 @@ export class FoodItemsComponent implements OnInit {
   }
 
   public initTreemap(data: Array<TopFoodSource>): void {
-    // force removing chart before re-setting it to stop js error
-    this.chartData = null;
-    this.cdr.detectChanges();
-
     this.chartData = {
       type: 'treemap',
       data: {
@@ -123,5 +127,5 @@ export class FoodItemsComponent implements OnInit {
 
   public openDialog(): void {
     void this.dialogService.openChartDialog(this.chartData);
-}
+  }
 }
