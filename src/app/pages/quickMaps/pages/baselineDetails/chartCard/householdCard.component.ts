@@ -10,9 +10,9 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 
 @Component({
-  selector: 'app-chart-card',
-  templateUrl: './chartCard.component.html',
-  styleUrls: ['./chartCard.component.scss'],
+  selector: 'app-household-card',
+  templateUrl: './householdCard.component.html',
+  styleUrls: ['./householdCard.component.scss'],
 })
 export class ChartCardComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) set matPaginator(mp: MatPaginator) {
