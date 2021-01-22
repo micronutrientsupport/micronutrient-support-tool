@@ -16,7 +16,7 @@ import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js
   styleUrls: ['./foodItems.component.scss'],
 })
 export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
