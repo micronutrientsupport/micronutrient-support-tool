@@ -20,11 +20,13 @@ const routes: Routes = [
       {
         path: AppRoutes.QUICK_MAPS_BASELINE.segments.valueOf(),
         component: BaselineDetailsComponent,
+        data: { title: 'Micronutrient Action Policy Support (MAPS): Quick Maps - Baseline' },
         canActivate: [QuickMapsRouteGuardService],
       },
       {
         path: AppRoutes.QUICK_MAPS_PROJECTION.segments.valueOf(),
         component: ProjectionComponent,
+        data: { title: 'Micronutrient Action Policy Support (MAPS): Quick Maps - Projections to 2050' },
         canActivate: [QuickMapsRouteGuardService],
       },
     ],
@@ -39,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QuickMapsRoutingModule {}
+export class QuickMapsRoutingModule { }
