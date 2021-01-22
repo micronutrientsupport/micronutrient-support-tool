@@ -68,9 +68,6 @@ export class MonthlyCardComponent implements OnInit {
   public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
     this.chartData = {
       type: 'bar',
-      legend: {
-        display: true
-      },
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [

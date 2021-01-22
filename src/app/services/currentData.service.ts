@@ -79,16 +79,16 @@ export class CurrentDataService {
   }
 
   public getHouseholdHistogramData(
-    countryOrgroup: DictionaryItem,
-    micronutrients: Array<DictionaryItem>,
-    populationGroup: PopulationGroup,
-    mndsData: MicronutrientDataOption,
+    countryOrGroupId: string,
+    micronutrients: Array<string>,
+    populationGroupId: string,
+    mndsDataId: string,
   ): Promise<Array<HouseholdHistogramData>> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
-      countryOrGroupId: countryOrgroup.id,
-      micronutrientIds: micronutrients.map((item) => item.id),
-      populationGroupId: populationGroup.id,
-      mndsDataId: mndsData.id,
+      countryOrGroupId: countryOrGroupId,
+      micronutrientIds: micronutrients,
+      populationGroupId: populationGroupId,
+      mndsDataId: mndsDataId,
     });
   }
 

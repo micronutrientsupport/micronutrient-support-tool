@@ -17,20 +17,12 @@ export class ChartDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // setTimeout(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartData: ChartJSObject = this.dialogData.dataIn;
     this.initialiseGraph(chartData);
-    // }, 1000);
   }
 
   public initialiseGraph(chartObject: ChartJSObject): void {
-    // this.graphData = {} as ChartJSObject;
     this.graphData = chartObject;
-    // this.graphData.type = chartObject.type;
-    // this.graphData.options = chartObject.options;
-    // this.graphData.legend = chartObject.legend;
     this.showChart = true;
-    console.debug(chartObject);
   }
 }

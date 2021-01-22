@@ -8,6 +8,10 @@ import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { QuickMapsService } from '../../../quickMaps.service';
+import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 
 @Component({
   selector: 'app-chart-card',
@@ -30,32 +34,61 @@ export class ChartCardComponent implements OnInit {
   public bin = [];
   public frequency = [];
   public threshold: number;
-  public chartData;
+  public chartData: ChartJSObject;
 
   public displayedColumns = ['bin', 'frequency'];
 
   public dataSource = new MatTableDataSource();
 
-  constructor(private http: HttpClient, private dialogService: DialogService) { }
+  constructor(
+    private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
+  ) { }
 
   ngOnInit(): void {
-    void this.http
-      .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
-      .subscribe((data: any) => {
-        const rawDataArray = data[0].data;
-        const threshold = data[0].adequacy_threshold;
-        this.threshold = Number(threshold);
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.currentDataService
+        .getHouseholdHistogramData(
+          this.quickMapsService.countryId,
+          [this.quickMapsService.micronutrientId],
+          this.quickMapsService.popGroupId,
+          this.quickMapsService.mndDataId,
+        )
+        .then((data: Array<HouseholdHistogramData>) => {
+          const rawData = data[0].data;
+          const threshold = data[0].adequacyThreshold;
+          this.threshold = Number(threshold);
 
-        rawDataArray.forEach((item) => {
-          this.bin.push(Number(item.bin));
-        });
-        rawDataArray.forEach((item) => {
-          this.frequency.push(Number(item.frequency));
-        });
+          rawData.forEach((item: BinValue) => {
+            this.bin.push(Number(item.bin));
+          });
+          rawData.forEach((item: BinValue) => {
+            this.frequency.push(Number(item.frequency));
+          });
 
-        this.initialiseGraph();
-        this.initialiseTable(rawDataArray);
-      });
+          this.initialiseGraph();
+          this.initialiseTable(rawData);
+        })
+        .catch((err) => console.error(err));
+    });
+    // void this.http
+    // .get('./assets/dummyData/household_histogram.json', { responseType: 'json' })
+    // .subscribe((data: any) => {
+    //   const rawDataArray = data[0].data;
+    //   const threshold = data[0].adequacy_threshold;
+    //   this.threshold = Number(threshold);
+
+    //   rawDataArray.forEach((item) => {
+    //     this.bin.push(Number(item.bin));
+    //   });
+    //   rawDataArray.forEach((item) => {
+    //     this.frequency.push(Number(item.frequency));
+    //   });
+
+    //   this.initialiseGraph();
+    //   this.initialiseTable(rawDataArray);
+    // });
   }
 
   public openDialog(): void {
