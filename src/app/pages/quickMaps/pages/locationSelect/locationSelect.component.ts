@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
