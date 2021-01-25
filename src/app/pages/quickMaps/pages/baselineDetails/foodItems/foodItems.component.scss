@@ -1,12 +1,7 @@
 @import 'src/assets/scss/_colour';
 
-.chart-container {
-  display: block;
-  position: relative;
-  height: 100%;
-}
-
 mat-tab-group {
+  min-height: 0;
   flex: 1 1;
   & ::ng-deep {
     & .mat-tab-body-wrapper {
@@ -16,4 +11,32 @@ mat-tab-group {
       }
     }
   }
+}
+
+ngx-chartjs {
+  display: block;
+  & ::ng-deep > * {
+    height: 100%;
+  }
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.tab-element {
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+  & td.mat-cell {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
 }

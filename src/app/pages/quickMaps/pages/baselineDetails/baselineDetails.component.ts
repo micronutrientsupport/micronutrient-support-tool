@@ -30,6 +30,8 @@ export class BaselineDetailsComponent implements OnInit {
       ignoreMarginInRow: false,
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
+        // helps some components re-adjust size
+        window.dispatchEvent(new Event('resize'));
       },
       itemChangeCallback: (item) => {
         this.changeEvent.emit(item);

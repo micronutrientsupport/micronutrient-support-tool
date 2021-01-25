@@ -160,6 +160,7 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         scales: {
           xAxes: [
             {
