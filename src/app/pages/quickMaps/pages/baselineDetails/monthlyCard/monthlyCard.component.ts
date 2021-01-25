@@ -74,8 +74,7 @@ export class MonthlyCardComponent implements OnInit {
         })
         .finally(() => {
           this.loading = false;
-        })
-        .catch((err) => console.error(err));
+        });
     });
   }
 

@@ -1,4 +1,5 @@
-<app-card [title]="'Household dietary supply'" [showExpand]="true" [showSettings]="true" (expandTrigger)="openDialog()">
+<app-card [title]="'Household dietary supply'" [showExpand]="true" [loading]="loading" [error]="error"
+  [showSettings]="true" (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Household Histogram">
       <div *ngIf="null != chartData" class="chartjs-container">
