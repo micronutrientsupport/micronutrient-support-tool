@@ -25,7 +25,7 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) {}
+  constructor(public quickmapsService: QuickMapsService) { }
 
   static itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
     console.log('itemChanged', item, itemComponent);
@@ -53,6 +53,8 @@ export class BaselineDetailsComponent implements OnInit {
       ignoreMarginInRow: false,
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
+        // helps some components re-adjust size
+        window.dispatchEvent(new Event('resize'));
       },
       itemChangeCallback: (item) => {
         this.changeEvent.emit(item);
