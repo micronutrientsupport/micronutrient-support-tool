@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -146,6 +147,10 @@ export class MonthlyCardComponent implements OnInit {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    const tableData: MatTableObject = {
+      data: this.rawData.all,
+      columnIdentifiers: this.displayedColumns
+    };
+    void this.dialogService.openChartDialog(this.chartData, tableData);
   }
 }
