@@ -1,6 +1,5 @@
-<app-card [title]="'Monthly Food Card'" [showExpand]="true" [loading]="loading" (expandTrigger)="openDialog()">
-  <span *ngIf="dataError">Data Error...</span>
-  <mat-tab-group *ngIf="!dataError" mat-align-tabs="center">
+<app-card title="Monthly Food Card" [showExpand]="true" [loading]="loading" [error]="error" (expandTrigger)="openDialog()">
+  <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
       <div class="data-container" *ngIf="null != chartData">
         <ngx-chartjs id="stacked-chart" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">

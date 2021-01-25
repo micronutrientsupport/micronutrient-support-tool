@@ -29,7 +29,7 @@ export class FoodItemsComponent implements OnInit {
   public displayedColumns = ['foodex2Name', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public loading = false;
-  public dataError = true;
+  public error = false;
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -51,7 +51,7 @@ export class FoodItemsComponent implements OnInit {
       )
         .then((foodData: Array<TopFoodSource>) => {
           this.dataSource = new MatTableDataSource(foodData);
-          this.dataError = false;
+          this.error = false;
           this.chartData = null;
           // force change detection to:
           // remove chart before re-setting it to stop js error
@@ -63,7 +63,7 @@ export class FoodItemsComponent implements OnInit {
           this.initTreemap(foodData);
         })
         .catch((err) => {
-          this.dataError = true;
+          this.error = true;
           console.error(err);
         })
         .finally(() => {
