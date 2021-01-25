@@ -6,39 +6,21 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { QuickMapsRoutingModule } from './quickMaps-routing.module';
 import { SideNavContentComponent } from './components/sideNavContent/sideNavContent.component';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
-import { GridsterModule } from 'angular-gridster2';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickMapsService } from './quickMaps.service';
-import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { QuickMapsHeaderComponent } from './components/quickMapsHeader.component/quickMapsHeader.component';
 import { RoutesModule } from 'src/app/routes/routes.module';
-import { MapViewComponent } from './pages/baselineDetails/map-view/map-view.component';
-import { FoodCompositionViewComponent } from './pages/baselineDetails/food-composition-view/food-composition-view.component';
-import { SummarisedDataTableComponent } from './pages/baselineDetails/summarisedDataTable/summarisedDataTable.component';
-import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.component';
-import { HouseholdCardComponent } from './pages/baselineDetails/householdCard/householdCard.component';
 import { QuickMapsComponent } from './quickMaps.component';
-import { CardComponent } from './pages/baselineDetails/card/card.component';
-import { ParentDynamicComponent } from './pages/baselineDetails/parentDynamic.component';
-import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
+import { BaselineDetailsModule } from './pages/baselineDetails/baselineDetails.module';
 @NgModule({
   declarations: [
     QuickMapsComponent,
     LocationSelectComponent,
     SideNavContentComponent,
     ProjectionComponent,
-    BaselineDetailsComponent,
-    ParentDynamicComponent,
     QuickMapsHeaderComponent,
-    MapViewComponent,
-    FoodCompositionViewComponent,
-    SummarisedDataTableComponent,
-    FoodItemsComponent,
-    HouseholdCardComponent,
-    CardComponent,
-    MonthlyCardComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +31,7 @@ import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthl
     ReactiveFormsModule,
     ChartjsModule,
     RoutesModule,
-    GridsterModule,
+    BaselineDetailsModule,
   ],
   providers: [QuickMapsService],
 })

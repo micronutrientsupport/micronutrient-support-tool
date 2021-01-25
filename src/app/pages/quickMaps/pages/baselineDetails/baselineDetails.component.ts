@@ -18,16 +18,17 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) {}
+  constructor(public quickmapsService: QuickMapsService) { }
 
   ngOnInit(): void {
     this.options = {
-      gridType: GridType.Fit,
-      displayGrid: DisplayGrid.Always,
+      gridType: GridType.ScrollVertical,
+      displayGrid: DisplayGrid.OnDragAndResize,
       disableWindowResize: false,
       scrollToNewItems: false,
       disableWarnings: false,
       ignoreMarginInRow: false,
+      margin: 10,
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
@@ -40,8 +41,8 @@ export class BaselineDetailsComponent implements OnInit {
         delayStart: 0,
         enabled: true,
         ignoreContentClass: 'gridster-no-drag',
-        ignoreContent: false,
-        dragHandleClass: 'drag-handler',
+        ignoreContent: true,
+        dragHandleClass: 'drag-handle',
         stop: (item) => {
           this.stopEvent.emit(item);
         },
@@ -70,10 +71,10 @@ export class BaselineDetailsComponent implements OnInit {
     };
 
     this.dashboard = [
-      { cols: 1, rows: 1, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 1, rows: 1, y: 0, x: 1, type: 'widgetMonthly' },
-      { cols: 1, rows: 1, y: 1, x: 0, type: 'widgetTopFood' },
-      { cols: 1, rows: 1, y: 1, x: 1, type: 'widgetMap' },
+      { cols: 2, rows: 2, y: 0, x: 0, type: 'widgetChart' },
+      { cols: 2, rows: 2, y: 0, x: 2, type: 'widgetMonthly' },
+      { cols: 2, rows: 2, y: 2, x: 0, type: 'widgetTopFood' },
+      { cols: 2, rows: 2, y: 2, x: 2, type: 'widgetMap' },
     ];
   }
 
