@@ -40,8 +40,8 @@ export class BaselineDetailsComponent implements OnInit {
         delayStart: 0,
         enabled: true,
         ignoreContentClass: 'gridster-no-drag',
-        ignoreContent: false,
-        dragHandleClass: 'drag-handler',
+        ignoreContent: true,
+        dragHandleClass: 'drag-handle',
         stop: (item) => {
           this.stopEvent.emit(item);
         },
