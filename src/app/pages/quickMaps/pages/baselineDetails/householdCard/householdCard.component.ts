@@ -14,7 +14,7 @@ import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/
   templateUrl: './householdCard.component.html',
   styleUrls: ['./householdCard.component.scss'],
 })
-export class ChartCardComponent implements OnInit {
+export class HouseholdCardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
