@@ -2,12 +2,12 @@
 
 mat-tab-group {
   flex: 1 1;
-  & ::ng-deep {
+  // & ::ng-deep { // not needed due to gridster
     & .mat-tab-body-wrapper {
       flex: 1 1;
       & .mat-tab-body-content > * {
         height: 100%;
       }
     }
-  }
+  // }
 }
