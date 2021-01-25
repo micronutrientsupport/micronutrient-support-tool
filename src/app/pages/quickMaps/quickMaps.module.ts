@@ -21,7 +21,6 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
 import { HouseholdCardComponent } from './pages/baselineDetails/householdCard/householdCard.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { CardComponent } from './pages/baselineDetails/card/card.component';
-import { ParentDynamicComponent } from './pages/baselineDetails/parentDynamic.component';
 import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthl
     SideNavContentComponent,
     ProjectionComponent,
     BaselineDetailsComponent,
-    ParentDynamicComponent,
     QuickMapsHeaderComponent,
     MapViewComponent,
     FoodCompositionViewComponent,
