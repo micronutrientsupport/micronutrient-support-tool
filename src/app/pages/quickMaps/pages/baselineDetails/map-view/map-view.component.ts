@@ -10,7 +10,6 @@ import {
   ChangeDetectionStrategy,
   Input,
   OnDestroy,
-  ViewEncapsulation,
   EventEmitter,
   OnInit,
 } from '@angular/core';
@@ -26,7 +25,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  //encapsulation: ViewEncapsulation.None,
 })
 export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()

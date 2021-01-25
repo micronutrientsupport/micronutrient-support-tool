@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  ViewEncapsulation,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -29,7 +28,6 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   templateUrl: './foodItems.component.html',
   styleUrls: ['./foodItems.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  //encapsulation: ViewEncapsulation.None,
 })
 export class FoodItemsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

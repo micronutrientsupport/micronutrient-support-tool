@@ -1,13 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { QuickMapsService } from '../../quickMaps.service';
-import {
-  DisplayGrid,
-  GridsterComponent,
-  GridsterConfig,
-  GridsterItem,
-  GridsterItemComponentInterface,
-  GridType,
-} from 'angular-gridster2';
+import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 
 @Component({
   selector: 'app-baseline-details',
@@ -26,22 +19,6 @@ export class BaselineDetailsComponent implements OnInit {
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
   constructor(public quickmapsService: QuickMapsService) {}
-
-  // static itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-  //   console.log('itemChanged', item, itemComponent);
-  // }
-  // static itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-  //   console.log('itemResized', item, itemComponent);
-  // }
-  // static eventStart(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
-  //   console.log('eventStart', item, itemComponent, event);
-  // }
-  // static eventStop(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
-  //   console.log('eventStop', item, itemComponent, event);
-  // }
-  // static overlapEvent(source: GridsterItem, target: GridsterItem, grid: GridsterComponent): void {
-  //   console.log('overlap', source, target, grid);
-  // }
 
   ngOnInit(): void {
     this.options = {

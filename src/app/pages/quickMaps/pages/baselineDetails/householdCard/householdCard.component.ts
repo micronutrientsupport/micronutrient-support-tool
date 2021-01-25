@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   Input,
   OnDestroy,
-  ViewEncapsulation,
   ChangeDetectorRef,
 } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -28,25 +27,21 @@ import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/
   templateUrl: './householdCard.component.html',
   styleUrls: ['./householdCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // encapsulation: ViewEncapsulation.None,
 })
 export class HouseholdCardComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   @Input()
   widget;
   @Input()
   resizeEvent: EventEmitter<GridsterItem>;
-
   resizeSub: Subscription;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   public loading = false;
   public error = false;
-
   public chartData: ChartJSObject;
-
   public displayedColumns = ['bin', 'frequency'];
-
   public dataSource = new MatTableDataSource();
 
   constructor(

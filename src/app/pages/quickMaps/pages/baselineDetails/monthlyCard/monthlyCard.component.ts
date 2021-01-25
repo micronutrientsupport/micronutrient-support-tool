@@ -5,7 +5,6 @@ import {
   Component,
   Input,
   OnInit,
-  ViewEncapsulation,
   EventEmitter,
   OnDestroy,
 } from '@angular/core';
@@ -25,7 +24,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './monthlyCard.component.html',
   styleUrls: ['./monthlyCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  //encapsulation: ViewEncapsulation.None,
 })
 export class MonthlyCardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
