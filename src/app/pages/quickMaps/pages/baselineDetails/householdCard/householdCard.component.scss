@@ -13,15 +13,11 @@ mat-tab-group {
   }
 }
 
-
-
 ngx-chartjs {
-  height: 100%;
-  width: 100%;
-}
-
-.example-card {
-  max-width: 900px;
+  display: block;
+  & ::ng-deep > * {
+    height: 100%;
+  }
 }
 
 .example-header-image {
@@ -34,13 +30,13 @@ ngx-chartjs {
 
 table {
   width: 100%;
-  td.mat-cell {
+  & td.mat-cell {
     text-align: center;
     font-size: 12px;
   }
 }
 
-::ng-deep .mat-sort-header-container {
+:host ::ng-deep .mat-sort-header-container {
   display: flex;
   justify-content: center;
 }

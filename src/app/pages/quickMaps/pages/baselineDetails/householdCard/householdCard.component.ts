@@ -122,6 +122,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         legend: {
           display: true,
         },
