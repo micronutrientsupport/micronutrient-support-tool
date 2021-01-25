@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav opened mode="side"
     [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
-    <app-side-nav-content></app-side-nav-content>
+    <app-side-nav-content [showGoButton]="showGoButton"></app-side-nav-content>
   </mat-sidenav>
   <div class="sidenav-content" [class.header-present]="showHeader">
     <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>

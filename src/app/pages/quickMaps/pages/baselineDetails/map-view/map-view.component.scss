@@ -1,8 +1,13 @@
 @import 'src/assets/scss/_colour.scss';
 
-#mapView1,
-#mapView2 {
-  height: 279px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+mat-tab-group {
+  flex: 1 1;
+  & ::ng-deep {
+    & .mat-tab-body-wrapper {
+      flex: 1 1;
+      & .mat-tab-body-content > * {
+        height: 100%;
+      }
+    }
+  }
 }

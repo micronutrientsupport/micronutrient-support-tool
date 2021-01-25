@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import {
-  Component,
-  OnInit,
-  ViewChild,
   ChangeDetectionStrategy,
   EventEmitter,
   Input,
   OnDestroy,
   ViewEncapsulation,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -21,6 +22,8 @@ import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { GridsterItem } from 'angular-gridster2';
+import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -41,11 +44,18 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
-  public chartData;
-  public displayedColumns = ['name', 'value'];
-  public dataSource = new MatTableDataSource();
+  public chartData: ChartJSObject;
+  public displayedColumns = ['foodex2Name', 'value'];
+  public dataSource: MatTableDataSource<TopFoodSource>;
+  public loading = false;
+  public dataError = true;
 
-  constructor(private currentDataService: CurrentDataService, private quickMapsService: QuickMapsService) {}
+  constructor(
+    private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -65,10 +75,23 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
       )
       .then((foodData: Array<TopFoodSource>) => {
         this.dataSource = new MatTableDataSource(foodData);
-        this.initTreemap(foodData);
+        this.dataError = false;
+        this.chartData = null;
+        // force change detection to:
+        // remove chart before re-setting it to stop js error
+        // show table and init paginator and sorter
+        this.cdr.detectChanges();
 
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.initTreemap(foodData);
+      })
+      .catch((err) => {
+        this.dataError = true;
+        console.error(err);
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 
@@ -91,9 +114,9 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
             fontSize: 14,
             fontStyle: 'normal',
             // random shade of color palette purple
-            backgroundColor: (): string => {
+            backgroundColor: () => {
               const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
-              return 'hsl(271, 70%, ' + calculatedHSLValue + '%)';
+              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
             },
           },
         ],
@@ -106,8 +129,8 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
         },
         tooltips: {
           callbacks: {
-            title: (): string => 'Food Item',
-            label: (item: ChartTooltipItem, result: ChartData): string => {
+            title: () => 'Food Item',
+            label: (item: ChartTooltipItem, result: ChartData) => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
               // tslint:disable-next-line: no-string-literal
@@ -129,5 +152,9 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  public openDialog(): void {
+    void this.dialogService.openChartDialog(this.chartData);
   }
 }
