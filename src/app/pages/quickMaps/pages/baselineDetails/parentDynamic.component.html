@@ -6,8 +6,12 @@
 </app-household-card>
 
 <!-- Food composition -->
-<app-food-composition-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetFoodComp'">
-</app-food-composition-view>
+<!-- <app-food-composition-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetFoodComp'">
+</app-food-composition-view> -->
+
+<!-- Monthly Card -->
+<app-monthly-card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMonthly'">
+</app-monthly-card>
 
 <!-- Top 20 -->
 <app-food-items [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">

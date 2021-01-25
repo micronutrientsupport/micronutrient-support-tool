@@ -92,7 +92,7 @@ export class BaselineDetailsComponent implements OnInit {
 
     this.dashboard = [
       { cols: 1, rows: 1, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 1, rows: 1, y: 0, x: 1, type: 'widgetFoodComp' },
+      { cols: 1, rows: 1, y: 0, x: 1, type: 'widgetMonthly' },
       { cols: 1, rows: 1, y: 1, x: 0, type: 'widgetTopFood' },
       { cols: 1, rows: 1, y: 1, x: 1, type: 'widgetMap' },
     ];
