@@ -1,37 +1,48 @@
-.tableFullWidth {
-  width: 100%;
+@import 'src/assets/scss/_colour';
+
+.data-container {
+  width: 700px;
+  max-width: 100%;
+  table {
+    overflow: auto;
+    width: 100%;
+  }
 }
 
-.table-container {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
+// .tableFullWidth {
+//   width: 100%;
+// }
 
-.example-spacer {
-  flex: 1 1 auto;
-  text-align: center;
-  font-size: 17px;
-}
+// .table-container {
+//   display: block;
+//   margin-left: auto;
+//   margin-right: auto;
+//   width: 100%;
+// }
 
-tr.mat-row {
-  height: 30px !important;
-}
+// .example-spacer {
+//   flex: 1 1 auto;
+//   text-align: center;
+//   font-size: 17px;
+// }
 
-td.mat-cell {
-  font-size: 12px;
-}
+// tr.mat-row {
+//   height: 30px !important;
+// }
 
-.chartjs-container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-canvas {
-  height: 100 !important;
-}
+// td.mat-cell {
+//   font-size: 12px;
+// }
+
+// .chartjs-container {
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+// canvas {
+//   height: 100 !important;
+// }
 // #group {
 //   height: 100%; // Whole group height.
 

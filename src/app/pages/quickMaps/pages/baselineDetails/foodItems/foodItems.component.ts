@@ -122,8 +122,8 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
         ],
       },
       options: {
-        maintainAspectRatio: false,
-        responsive: true,
+        // maintainAspectRatio: false,
+        // responsive: true,
         legend: {
           display: false,
         },
