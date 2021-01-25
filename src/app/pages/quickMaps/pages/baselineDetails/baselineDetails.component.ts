@@ -22,7 +22,7 @@ export class BaselineDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.options = {
-      gridType: GridType.Fit,
+      gridType: GridType.ScrollVertical,
       displayGrid: DisplayGrid.Always,
       disableWindowResize: false,
       scrollToNewItems: false,

@@ -2,14 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.flex-container {
-  flex: 1 1;
-  display: flex;
-  flex-flow: row wrap;
-}
-.gridsterContainer {
-  min-height: 1000px;
-  width: 100%;
-  height: 200px;
-}
