@@ -1,24 +1,42 @@
-.tableFullWidth {
-  width: 100%;
+@import 'src/assets/scss/_colour';
+
+mat-tab-group {
+  min-height: 0;
+  flex: 1 1;
+  & ::ng-deep {
+    & .mat-tab-body-wrapper {
+      flex: 1 1;
+      & .mat-tab-body-content > * {
+        height: 100%;
+      }
+    }
+  }
 }
 
-.table-container {
+ngx-chartjs {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
+  & ::ng-deep > * {
+    height: 100%;
+  }
 }
 
-.example-spacer {
-  flex: 1 1 auto;
-  text-align: center;
-  font-size: 17px;
+.example-header-image {
+  background-size: cover;
 }
 
-tr.mat-row {
-  height: 30px !important;
+.tab-element {
+  margin: 5px;
 }
 
-td.mat-cell {
-  font-size: 12px;
+table {
+  width: 100%;
+  & td.mat-cell {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
 }

@@ -1,5 +1,14 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,16 +19,24 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { GridsterItem } from 'angular-gridster2';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
   styleUrls: ['./foodItems.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+export class FoodItemsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Input()
+  widget;
+  @Input()
+  resizeEvent: EventEmitter<GridsterItem>;
+  resizeSub: Subscription;
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
@@ -36,40 +53,48 @@ export class FoodItemsComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) { }
-
+  ) {}
 
   ngOnInit(): void {
+    this.resizeSub = this.resizeEvent.subscribe((widget) => {
+      if (widget === this.widget) {
+        // or check id , type or whatever you have there
+        // resize your widget, chart, map , etc.
+        console.log(widget);
+      }
+    });
 
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loading = true;
-      void this.currentDataService.getTopFood(
+    void this.currentDataService
+      .getTopFood(
         this.quickMapsService.countryId,
         [this.quickMapsService.micronutrientId],
         this.quickMapsService.popGroupId,
         // this.quickMapsService.mndDataIdObs,
       )
-        .then((foodData: Array<TopFoodSource>) => {
-          this.dataSource = new MatTableDataSource(foodData);
-          this.error = false;
-          this.chartData = null;
-          // force change detection to:
-          // remove chart before re-setting it to stop js error
-          // show table and init paginator and sorter
-          this.cdr.detectChanges();
+      .then((foodData: Array<TopFoodSource>) => {
+        this.dataSource = new MatTableDataSource(foodData);
+        this.error = false;
+        this.chartData = null;
+        // force change detection to:
+        // remove chart before re-setting it to stop js error
+        // show table and init paginator and sorter
+        this.cdr.detectChanges();
 
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.initTreemap(foodData);
-        })
-        .catch((err) => {
-          this.error = true;
-          console.error(err);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    });
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.initTreemap(foodData);
+      })
+      .catch((err) => {
+        this.error = true;
+        console.error(err);
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.resizeSub.unsubscribe();
   }
 
   public initTreemap(data: Array<TopFoodSource>): void {
@@ -95,6 +120,7 @@ export class FoodItemsComponent implements OnInit {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         legend: {
           display: false,
         },
@@ -121,6 +147,8 @@ export class FoodItemsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
+    }
+    {
       this.dataSource.paginator.firstPage();
     }
   }

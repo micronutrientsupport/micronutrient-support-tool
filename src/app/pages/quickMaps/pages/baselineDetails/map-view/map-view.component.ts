@@ -4,18 +4,35 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Component, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Input,
+  OnDestroy,
+  EventEmitter,
+  OnInit,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { GridsterItem } from 'angular-gridster2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapViewComponent implements AfterViewInit {
+export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
+  @Input()
+  widget;
+  @Input()
+  resizeEvent: EventEmitter<GridsterItem>;
+
+  resizeSub: Subscription;
   public boundaryGeojson: L.GeoJSON;
   // public map: L.Map;
   public boundaryLayer: any;
@@ -23,13 +40,33 @@ export class MapViewComponent implements AfterViewInit {
   private mapView1: L.Map;
   private mapView2: L.Map;
 
-  constructor(private http: HttpClient, private modalService: DialogService) { }
+  constructor(private http: HttpClient, private modalService: DialogService) {}
+
+  ngOnInit(): void {
+    this.resizeSub = this.resizeEvent.subscribe((widget) => {
+      if (widget === this.widget) {
+        // or check id , type or whatever you have there
+        // resize your widget, chart, map , etc.
+        // console.log(widget);
+        if (this.mapView1) {
+          this.mapView1.invalidateSize();
+        }
+        if (this.mapView2) {
+          this.mapView2.invalidateSize();
+        }
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow
     setTimeout(() => {
       this.mapView1 = this.initialiseMap('mapView1');
     }, 0);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeSub.unsubscribe();
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -87,5 +124,4 @@ export class MapViewComponent implements AfterViewInit {
   public openDialog(): void {
     void this.modalService.openMapDialog('Hello World');
   }
-
 }

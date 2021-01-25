@@ -1,30 +1,47 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Input,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { GridsterItem } from 'angular-gridster2';
+import { Subscription } from 'rxjs';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
-
 @Component({
   selector: 'app-household-card',
   templateUrl: './householdCard.component.html',
   styleUrls: ['./householdCard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HouseholdCardComponent implements OnInit {
+export class HouseholdCardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  @Input()
+  widget;
+  @Input()
+  resizeEvent: EventEmitter<GridsterItem>;
+  resizeSub: Subscription;
+
   public loading = false;
   public error = false;
-
   public chartData: ChartJSObject;
-
   public displayedColumns = ['bin', 'frequency'];
-
   public dataSource = new MatTableDataSource();
 
   constructor(
@@ -32,20 +49,28 @@ export class HouseholdCardComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.resizeSub = this.resizeEvent.subscribe((widget) => {
+      if (widget === this.widget) {
+        // or check id , type or whatever you have there
+        // resize your widget, chart, map , etc.
+        // console.log(widget);
+      }
+    });
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loading = true;
-      this.currentDataService.getHouseholdHistogramData(
-        this.quickMapsService.countryId,
-        [this.quickMapsService.micronutrientId],
-        this.quickMapsService.popGroupId,
-        this.quickMapsService.mndDataId,
-      )
+      this.currentDataService
+        .getHouseholdHistogramData(
+          this.quickMapsService.countryId,
+          [this.quickMapsService.micronutrientId],
+          this.quickMapsService.popGroupId,
+          this.quickMapsService.mndDataId,
+        )
         .then((data: Array<HouseholdHistogramData>) => {
           if (null == data) {
-            throw (new Error('data error'));
+            throw new Error('data error');
           }
           const rawData = data[0].data;
 
@@ -72,6 +97,10 @@ export class HouseholdCardComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.resizeSub.unsubscribe();
+  }
+
   public initialiseGraph(data: Array<HouseholdHistogramData>): void {
     this.chartData = {
       plugins: [ChartAnnotation],
@@ -89,6 +118,7 @@ export class HouseholdCardComponent implements OnInit {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         legend: {
           display: true,
         },
@@ -126,9 +156,7 @@ export class HouseholdCardComponent implements OnInit {
     };
   }
 
-
   public openDialog(): void {
     void this.dialogService.openChartDialog(this.chartData);
   }
-
 }

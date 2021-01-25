@@ -2,10 +2,9 @@
   (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
-      <div class="data-container" *ngIf="null != chartData">
-        <ngx-chartjs id="stacked-chart" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
-        </ngx-chartjs>
-      </div>
+      <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options">
+      </ngx-chartjs>
     </mat-tab>
 
     <mat-tab label="Monthly Summary Data">

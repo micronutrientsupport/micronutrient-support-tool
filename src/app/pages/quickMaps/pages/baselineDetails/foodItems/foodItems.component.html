@@ -1,43 +1,38 @@
-<app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true" (expandTrigger)="openDialog()">
-  <div class="table-container">
-    <mat-tab-group mat-align-tabs="center">
-      <mat-tab label="Tree">
-        <div class="tab-element">
-          <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
-            [options]="chartData.options" [plugins]="chartData.plugins">
-          </ngx-chartjs>
-        </div>
-      </mat-tab>
+<app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true"
+  (expandTrigger)="openDialog()">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Tree">
+      <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options" [plugins]="chartData.plugins">
+      </ngx-chartjs>
+    </mat-tab>
 
-      <mat-tab label="Table">
-        <div class="tab-element">
-          <div class="table-container">
-            <mat-form-field>
-              <mat-label>Filter</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Potato" #input />
-            </mat-form-field>
+    <mat-tab label="Table">
+      <div class="data-container">
+        <!-- <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Potato" #input />
+        </mat-form-field> -->
 
-            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">
-              <ng-container matColumnDef="foodex2Name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Food</th>
-                <td mat-cell *matCellDef="let element">{{ element.foodex2Name }}</td>
-              </ng-container>
-              <ng-container matColumnDef="value">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
-                <td mat-cell *matCellDef="let element">{{ element.value }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
-              </tr>
-            </table>
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
-          </div>
-        </div>
-      </mat-tab>
+        <table class=" bmgf-maps-nice-scrollbar" mat-table [dataSource]="dataSource" matSort
+          class="mat-elevation-z8 tableFullWidth">
+          <ng-container matColumnDef="foodex2Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Food</th>
+            <td mat-cell *matCellDef="let element">{{ element.foodex2Name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+            <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
+      </div>
+    </mat-tab>
 
-
-    </mat-tab-group>
-  </div>
+  </mat-tab-group>
 </app-card>

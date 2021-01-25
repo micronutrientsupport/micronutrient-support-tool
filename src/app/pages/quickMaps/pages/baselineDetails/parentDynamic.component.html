@@ -1,0 +1,18 @@
+<!-- Map View -->
+<app-map-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'"></app-map-view>
+
+<!-- Chart -->
+<app-household-card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
+</app-household-card>
+
+<!-- Food composition -->
+<!-- <app-food-composition-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetFoodComp'">
+</app-food-composition-view> -->
+
+<!-- Monthly Card -->
+<app-monthly-card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMonthly'">
+</app-monthly-card>
+
+<!-- Top 20 -->
+<app-food-items [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
+</app-food-items>

@@ -6,7 +6,7 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { QuickMapsRoutingModule } from './quickMaps-routing.module';
 import { SideNavContentComponent } from './components/sideNavContent/sideNavContent.component';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
-
+import { GridsterModule } from 'angular-gridster2';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickMapsService } from './quickMaps.service';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
@@ -21,6 +21,7 @@ import { FoodItemsComponent } from './pages/baselineDetails/foodItems/foodItems.
 import { HouseholdCardComponent } from './pages/baselineDetails/householdCard/householdCard.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { CardComponent } from './pages/baselineDetails/card/card.component';
+import { ParentDynamicComponent } from './pages/baselineDetails/parentDynamic.component';
 import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthlyCard.component';
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthl
     SideNavContentComponent,
     ProjectionComponent,
     BaselineDetailsComponent,
+    ParentDynamicComponent,
     QuickMapsHeaderComponent,
     MapViewComponent,
     FoodCompositionViewComponent,
@@ -47,6 +49,7 @@ import { MonthlyCardComponent } from './pages/baselineDetails/monthlyCard/monthl
     ReactiveFormsModule,
     ChartjsModule,
     RoutesModule,
+    GridsterModule,
   ],
   providers: [QuickMapsService],
 })
