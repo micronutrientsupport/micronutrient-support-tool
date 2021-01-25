@@ -1,36 +1,45 @@
-ngx-chartjs {
-  height: 100%;
-  width: 100%;
-}
+// ngx-chartjs {
+//   height: 100%;
+//   width: 100%;
+// }
 
-.example-card {
-  max-width: 900px;
-}
+// .example-card {
+//   max-width: 900px;
+// }
 
-.example-header-image {
-  background-size: cover;
-}
+// .example-header-image {
+//   background-size: cover;
+// }
 
-.tab-element {
-  margin: 5px;
-}
+// .tab-element {
+//   margin: 5px;
+// }
 
-table {
-  width: 100%;
-  td.mat-cell {
-    text-align: center;
-    font-size: 12px;
+// table {
+//   width: 100%;
+//   td.mat-cell {
+//     text-align: center;
+//     font-size: 12px;
+//   }
+// }
+
+// ::ng-deep .mat-sort-header-container {
+//   display: flex;
+//   justify-content: center;
+// }
+
+// .chartjs-container {
+//   height: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+.data-container {
+  width: 700px;
+  max-width: 100%;
+  table {
+    overflow: auto;
+    width: 100%;
   }
-}
-
-::ng-deep .mat-sort-header-container {
-  display: flex;
-  justify-content: center;
-}
-
-.chartjs-container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

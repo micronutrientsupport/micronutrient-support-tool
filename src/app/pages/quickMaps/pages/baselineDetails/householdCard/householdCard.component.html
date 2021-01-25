@@ -1,15 +1,15 @@
-<app-card title="Household dietary supply" [showExpand]="true" [loading]="loading" [error]="error"
-  [showSettings]="true" (expandTrigger)="openDialog()">
+<app-card title="Household dietary supply" [showExpand]="true" [loading]="loading" [error]="error" [showSettings]="true"
+  (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Household Histogram">
-      <div *ngIf="null != chartData" class="chartjs-container">
+      <div *ngIf="null != chartData" class="data-container">
         <ngx-chartjs id="histo" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options"
           [plugins]="chartData.plugins"></ngx-chartjs>
       </div>
     </mat-tab>
 
     <mat-tab label="Household Data">
-      <div class="table-container">
+      <div class="data-container">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="bin">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Bin</th>
