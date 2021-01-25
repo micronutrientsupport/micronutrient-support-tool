@@ -28,7 +28,6 @@ import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/
   templateUrl: './householdCard.component.html',
   styleUrls: ['./householdCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class HouseholdCardComponent implements OnInit, OnDestroy {
   @Input()
@@ -54,7 +53,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {

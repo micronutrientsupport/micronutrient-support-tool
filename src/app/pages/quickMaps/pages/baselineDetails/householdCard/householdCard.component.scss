@@ -1,3 +1,20 @@
+
+
+mat-tab-group {
+  min-height: 0;
+  flex: 1 1;
+  & ::ng-deep {
+    & .mat-tab-body-wrapper {
+      flex: 1 1;
+      & .mat-tab-body-content > * {
+        height: 100%;
+      }
+    }
+  }
+}
+
+
+
 ngx-chartjs {
   height: 100%;
   width: 100%;
@@ -28,9 +45,3 @@ table {
   justify-content: center;
 }
 
-.chartjs-container {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
