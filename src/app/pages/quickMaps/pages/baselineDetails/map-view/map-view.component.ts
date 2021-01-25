@@ -26,7 +26,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
@@ -42,7 +41,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   private mapView1: L.Map;
   private mapView2: L.Map;
 
-  constructor(private http: HttpClient, private modalService: DialogService) {}
+  constructor(private http: HttpClient, private modalService: DialogService) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
