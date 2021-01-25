@@ -14,7 +14,7 @@ import {
   templateUrl: './baselineDetails.component.html',
   styleUrls: ['./baselineDetails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  //encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 export class BaselineDetailsComponent implements OnInit {
   public options: GridsterConfig;
@@ -27,21 +27,21 @@ export class BaselineDetailsComponent implements OnInit {
 
   constructor(public quickmapsService: QuickMapsService) {}
 
-  static itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-    console.log('itemChanged', item, itemComponent);
-  }
-  static itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
-    console.log('itemResized', item, itemComponent);
-  }
-  static eventStart(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
-    console.log('eventStart', item, itemComponent, event);
-  }
-  static eventStop(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
-    console.log('eventStop', item, itemComponent, event);
-  }
-  static overlapEvent(source: GridsterItem, target: GridsterItem, grid: GridsterComponent): void {
-    console.log('overlap', source, target, grid);
-  }
+  // static itemChange(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
+  //   console.log('itemChanged', item, itemComponent);
+  // }
+  // static itemResize(item: GridsterItem, itemComponent: GridsterItemComponentInterface): void {
+  //   console.log('itemResized', item, itemComponent);
+  // }
+  // static eventStart(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
+  //   console.log('eventStart', item, itemComponent, event);
+  // }
+  // static eventStop(item: GridsterItem, itemComponent: GridsterItemComponentInterface, event: MouseEvent): void {
+  //   console.log('eventStop', item, itemComponent, event);
+  // }
+  // static overlapEvent(source: GridsterItem, target: GridsterItem, grid: GridsterComponent): void {
+  //   console.log('overlap', source, target, grid);
+  // }
 
   ngOnInit(): void {
     this.options = {

@@ -2,10 +2,8 @@
   (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Household Histogram">
-      <div *ngIf="null != chartData" class="data-container">
-        <ngx-chartjs id="histo" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options"
-          [plugins]="chartData.plugins"></ngx-chartjs>
-      </div>
+      <ngx-chartjs *ngIf="null != chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs>
     </mat-tab>
 
     <mat-tab label="Household Data">
