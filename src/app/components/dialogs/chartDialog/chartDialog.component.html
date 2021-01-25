@@ -8,23 +8,29 @@
     </mat-tab>
 
     <mat-tab label="Monthly Summary Data">
-
-      <table mat-table matSort [dataSource]="dataSource">
-
-        <ng-container *ngFor="let label of displayedColumns; let columnIndex = index;" [matColumnDef]="label">
-
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{label}}</th>
-          <td mat-cell *matCellDef="let rowData">
-            {{rowData[label]}}
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayedColumns; let i = index">
-        </tr>
-
-      </table>
-
+      <div class="data-container">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput #filterInput (keyup)="applyFilter($event)" placeholder="Filter table results...">
+        </mat-form-field>
+        <table mat-table matSort [dataSource]="dataSource">
+          <ng-container *ngFor="let label of displayedColumns; let columnIndex = index;" [matColumnDef]="label">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{label}}</th>
+            <td mat-cell *matCellDef="let rowData">
+              {{rowData[label]}}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns; let i = index">
+          </tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{filterInput.value}}"</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [length]="dataSource?.data.length">
+        </mat-paginator>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </app-base-dialog>

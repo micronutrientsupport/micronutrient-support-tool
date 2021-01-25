@@ -1,6 +1,6 @@
-import { MonthlyFoodGroup } from '../monthlyFoodGroup';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface MatTableObject {
-  data: Array<MonthlyFoodGroup>;
+  datasource: MatTableDataSource<any>;
   columnIdentifiers: Array<string>;
 }

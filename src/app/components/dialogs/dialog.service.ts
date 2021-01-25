@@ -24,8 +24,8 @@ export class DialogService extends BaseDialogService {
   public openChartDialog(graphData: ChartJSObject, tableData?: MatTableObject): Promise<DialogData> {
     return this.openDialog('chartDialog', ChartDialogComponent,
       {
-        graphData: graphData,
-        tableData: tableData,
+        graphData,
+        tableData
       });
   }
   public openShareDialog(shareLink: string): Promise<DialogData> {
