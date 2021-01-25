@@ -77,11 +77,11 @@ export class ChartCardComponent implements OnInit {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        labels: data[0].data.map(item => item.bin),
+        labels: data[0].data.map((item: BinValue) => item.bin),
         datasets: [
           {
             label: 'Frequency',
-            data: data[0].data.map(item => item.frequency),
+            data: data[0].data.map((item: BinValue) => item.frequency),
             borderColor: '#ff6384',
             backgroundColor: () => '#ff6384',
             fill: true,
