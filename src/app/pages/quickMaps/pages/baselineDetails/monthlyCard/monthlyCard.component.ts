@@ -147,10 +147,10 @@ export class MonthlyCardComponent implements OnInit {
   }
 
   public openDialog(): void {
-    const tableData: MatTableObject = {
-      datasource: this.dataSource,
-      columnIdentifiers: this.displayedColumns
-    };
-    void this.dialogService.openChartDialog(this.chartData, tableData);
+    void this.dialogService.openChartDialog(this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns
+      });
   }
 }

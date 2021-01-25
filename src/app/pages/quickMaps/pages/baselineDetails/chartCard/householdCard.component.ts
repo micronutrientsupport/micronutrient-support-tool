@@ -129,7 +129,12 @@ export class ChartCardComponent implements OnInit {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    void this.dialogService.openChartDialog(
+      this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns
+      });
   }
 
 }

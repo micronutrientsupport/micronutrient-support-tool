@@ -12,6 +12,7 @@ import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObject';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -25,7 +26,7 @@ export class FoodItemsComponent implements OnInit {
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData: ChartJSObject;
-  public displayedColumns = ['name', 'value'];
+  public displayedColumns = ['foodex2Name', 'value'];
   public dataSource = new MatTableDataSource();
 
   constructor(
@@ -105,6 +106,12 @@ export class FoodItemsComponent implements OnInit {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    void this.dialogService.openChartDialog(
+      this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns
+      }
+    );
   }
 }

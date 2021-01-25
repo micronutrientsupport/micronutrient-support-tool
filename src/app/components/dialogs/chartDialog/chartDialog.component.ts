@@ -21,7 +21,7 @@ export class ChartDialogComponent implements OnInit {
     this.paginator = mp;
   }
 
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
+  @ViewChild(MatSort, { static: true }) set matSort(ms: MatSort) {
     this.sort = ms;
   }
 
