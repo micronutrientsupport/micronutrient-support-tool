@@ -1,27 +1,16 @@
 <app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true"
   (expandTrigger)="openDialog()">
-  <!-- <div class="table-container"> -->
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Tree">
       <div class="data-container">
-        <!-- <div class="tab-content-container"> -->
-        <!-- <div class="tab-element"> -->
-        <!-- <div style="height: 350px; background-color: red;"> -->
-        <!-- <div class="chart-container" style="position: relative; height:300px; width:100%; margin: auto"> -->
         <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
           [options]="chartData.options" [plugins]="chartData.plugins">
         </ngx-chartjs>
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- </div> -->
       </div>
     </mat-tab>
 
     <mat-tab label="Table">
       <div class="data-container">
-        <!-- <div class="tab-content-container"> -->
-        <!-- <div class="tab-element"> -->
-        <!-- <div class="table-container"> -->
         <!-- <mat-form-field>
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Potato" #input />
@@ -45,13 +34,7 @@
         </table>
         <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
       </div>
-      <!-- </div>
-        </div> -->
-      <!-- </div> -->
-      <!-- </div> -->
     </mat-tab>
 
-
   </mat-tab-group>
-  <!-- </div> -->
 </app-card>
