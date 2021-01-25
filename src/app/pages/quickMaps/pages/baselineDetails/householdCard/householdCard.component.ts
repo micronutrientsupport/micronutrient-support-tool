@@ -28,7 +28,7 @@ import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/
   templateUrl: './householdCard.component.html',
   styleUrls: ['./householdCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 export class HouseholdCardComponent implements OnInit, OnDestroy {
   @Input()

@@ -14,7 +14,7 @@ import {
   templateUrl: './baselineDetails.component.html',
   styleUrls: ['./baselineDetails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  //encapsulation: ViewEncapsulation.None,
 })
 export class BaselineDetailsComponent implements OnInit {
   public options: GridsterConfig;

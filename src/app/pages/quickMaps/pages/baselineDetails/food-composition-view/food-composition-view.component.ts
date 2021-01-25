@@ -17,7 +17,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   templateUrl: './food-composition-view.component.html',
   styleUrls: ['./food-composition-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  //encapsulation: ViewEncapsulation.None,
 })
 export class FoodCompositionViewComponent implements OnInit, OnDestroy {
   @Input()

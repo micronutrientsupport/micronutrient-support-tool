@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './monthlyCard.component.html',
   styleUrls: ['./monthlyCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  //encapsulation: ViewEncapsulation.None,
 })
 export class MonthlyCardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;

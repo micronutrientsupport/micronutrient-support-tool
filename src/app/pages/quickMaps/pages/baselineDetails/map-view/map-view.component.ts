@@ -26,7 +26,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  //encapsulation: ViewEncapsulation.None,
 })
 export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
