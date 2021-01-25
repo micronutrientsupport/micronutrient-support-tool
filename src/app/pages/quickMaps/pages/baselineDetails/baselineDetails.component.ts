@@ -18,7 +18,7 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) {}
+  constructor(public quickmapsService: QuickMapsService) { }
 
   ngOnInit(): void {
     this.options = {
@@ -70,10 +70,10 @@ export class BaselineDetailsComponent implements OnInit {
     };
 
     this.dashboard = [
-      { cols: 1, rows: 1, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 1, rows: 1, y: 0, x: 1, type: 'widgetMonthly' },
-      { cols: 1, rows: 1, y: 1, x: 0, type: 'widgetTopFood' },
-      { cols: 1, rows: 1, y: 1, x: 1, type: 'widgetMap' },
+      { cols: 2, rows: 2, y: 0, x: 0, type: 'widgetChart' },
+      { cols: 2, rows: 2, y: 0, x: 2, type: 'widgetMonthly' },
+      { cols: 2, rows: 2, y: 2, x: 0, type: 'widgetTopFood' },
+      { cols: 2, rows: 2, y: 2, x: 2, type: 'widgetMap' },
     ];
   }
 
