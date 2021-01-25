@@ -6,8 +6,8 @@ router-outlet ::ng-deep + * {
   min-height: 0; // needs this to make the above flex rule work!
 }
 
-mat-drawer {
-  padding: 1em 0;
+.mat-sidenav {
+  border: 0;
 }
 
 .sidenav-container {

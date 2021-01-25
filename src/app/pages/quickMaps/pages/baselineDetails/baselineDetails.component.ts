@@ -23,11 +23,12 @@ export class BaselineDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.options = {
       gridType: GridType.ScrollVertical,
-      displayGrid: DisplayGrid.Always,
+      displayGrid: DisplayGrid.OnDragAndResize,
       disableWindowResize: false,
       scrollToNewItems: false,
       disableWarnings: false,
       ignoreMarginInRow: false,
+      margin: 10,
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
