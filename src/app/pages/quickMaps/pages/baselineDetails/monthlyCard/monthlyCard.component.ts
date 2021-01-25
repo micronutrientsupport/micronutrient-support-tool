@@ -18,7 +18,7 @@ export class MonthlyCardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   public loading = false;
-  public dataError = true;
+  public error = false;
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
@@ -57,7 +57,7 @@ export class MonthlyCardComponent implements OnInit {
       )
         .then((data: MonthlyFoodGroups) => {
           this.dataSource = new MatTableDataSource(data.all);
-          this.dataError = false;
+          this.error = false;
           this.chartData = null;
           // force change detection to:
           // remove chart before re-setting it to stop js error
@@ -69,13 +69,12 @@ export class MonthlyCardComponent implements OnInit {
           this.initialiseGraph(data.all);
         })
         .catch((err) => {
-          this.dataError = true;
+          this.error = true;
           console.error(err);
         })
         .finally(() => {
           this.loading = false;
-        })
-        .catch((err) => console.error(err));
+        });
     });
   }
 

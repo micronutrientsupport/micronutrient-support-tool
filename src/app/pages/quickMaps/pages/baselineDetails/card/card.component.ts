@@ -13,6 +13,7 @@ export class CardComponent implements OnInit {
   @Input() showSettings: boolean;
   @Input() showExpand: boolean;
   @Input() loading = false;
+  @Input() error = false;
 
   constructor() { }
 

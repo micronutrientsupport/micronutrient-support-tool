@@ -1,8 +1,7 @@
-<app-card [title]="'Top 20 food items'" [loading]="loading" [showExpand]="true" (expandTrigger)="openDialog()">
-  <span *ngIf="dataError">Data Error...</span>
-  <div *ngIf="!dataError" class="table-container">
-    <mat-tab-group mat-align-tabs="center" id="group">
-
+<app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true"
+  (expandTrigger)="openDialog()">
+  <div class="table-container">
+    <mat-tab-group mat-align-tabs="center">
       <mat-tab label="Tree">
         <div class="tab-content-container">
           <!-- <div class="tab-element"> -->

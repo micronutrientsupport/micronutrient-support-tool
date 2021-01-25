@@ -10,6 +10,7 @@ import {
   Input,
   OnDestroy,
   ViewEncapsulation,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
@@ -29,27 +30,19 @@ import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ChartCardComponent implements OnInit, OnDestroy {
+export class HouseholdCardComponent implements OnInit, OnDestroy {
   @Input()
   widget;
   @Input()
   resizeEvent: EventEmitter<GridsterItem>;
 
   resizeSub: Subscription;
-  @ViewChild(MatPaginator, { static: true }) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-  }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-  }
+  public loading = false;
+  public error = false;
 
-  public paginator: MatPaginator;
-  public sort: MatSort;
-
-  public bin = Array<number>();
-  public frequency = Array<number>();
-  public threshold: number;
   public chartData: ChartJSObject;
 
   public displayedColumns = ['bin', 'frequency'];
@@ -60,6 +53,7 @@ export class ChartCardComponent implements OnInit, OnDestroy {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +65,7 @@ export class ChartCardComponent implements OnInit, OnDestroy {
       }
     });
     this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.loading = true;
       this.currentDataService
         .getHouseholdHistogramData(
           this.quickMapsService.countryId,
@@ -79,20 +74,31 @@ export class ChartCardComponent implements OnInit, OnDestroy {
           this.quickMapsService.mndDataId,
         )
         .then((data: Array<HouseholdHistogramData>) => {
-          if (null != data) {
-            const rawData = data[0].data;
-            this.threshold = Number(data[0].adequacyThreshold);
-
-            rawData.forEach((item: BinValue) => {
-              this.bin.push(item.bin);
-              this.frequency.push(item.frequency);
-            });
-
-            this.initialiseGraph();
-            this.initialiseTable(rawData);
+          if (null == data) {
+            throw new Error('data error');
           }
+          const rawData = data[0].data;
+
+          this.dataSource = new MatTableDataSource(rawData);
+          this.error = false;
+          this.chartData = null;
+          // force change detection to:
+          // remove chart before re-setting it to stop js error
+          // show table and init paginator and sorter
+          this.cdr.detectChanges();
+
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
+          this.initialiseGraph(data);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          this.error = true;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     });
   }
 
@@ -100,16 +106,16 @@ export class ChartCardComponent implements OnInit, OnDestroy {
     this.resizeSub.unsubscribe();
   }
 
-  public initialiseGraph(): void {
+  public initialiseGraph(data: Array<HouseholdHistogramData>): void {
     this.chartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        labels: this.bin,
+        labels: data[0].data.map((item: BinValue) => item.bin),
         datasets: [
           {
             label: 'Frequency',
-            data: this.frequency,
+            data: data[0].data.map((item: BinValue) => item.frequency),
             borderColor: '#ff6384',
             backgroundColor: () => '#ff6384',
             fill: true,
@@ -140,7 +146,7 @@ export class ChartCardComponent implements OnInit, OnDestroy {
               id: 'hLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
-              value: this.threshold, // data-value at which the line is drawn
+              value: Number(data[0].adequacyThreshold), // data-value at which the line is drawn
               borderWidth: 2.5,
               borderColor: () => 'black',
               label: {
@@ -152,12 +158,6 @@ export class ChartCardComponent implements OnInit, OnDestroy {
         },
       },
     };
-  }
-
-  public initialiseTable(data: Array<any>): void {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   public openDialog(): void {
