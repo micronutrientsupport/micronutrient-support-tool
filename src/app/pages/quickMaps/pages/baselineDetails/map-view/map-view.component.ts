@@ -7,11 +7,11 @@
 import {
   Component,
   AfterViewInit,
-  ChangeDetectionStrategy,
   Input,
   OnDestroy,
   EventEmitter,
   OnInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
@@ -19,28 +19,34 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { QuickMapsService } from '../../../quickMaps.service';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input()
-  widget;
-  @Input()
-  resizeEvent: EventEmitter<GridsterItem>;
+  @Input() widget;
+  @Input() resizeEvent: EventEmitter<GridsterItem>;
 
-  resizeSub: Subscription;
   public boundaryGeojson: L.GeoJSON;
-  // public map: L.Map;
   public boundaryLayer: any;
-  public title: 'Map View';
+  public countryName = '';
+  private resizeSub: Subscription;
   private mapView1: L.Map;
   private mapView2: L.Map;
 
-  constructor(private http: HttpClient, private modalService: DialogService) {}
+  constructor(
+    private http: HttpClient,
+    private modalService: DialogService,
+    private dictionaryService: DictionaryService,
+    private quickMapsService: QuickMapsService,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -56,6 +62,22 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     });
+
+    void this.dictionaryService
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
+      .then((dicts: Array<Dictionary>) => {
+        const countriesDict = dicts.shift();
+        // const regionDictionary = dicts.shift();
+
+        // temporarily feed country name form here, but when this component runs off live
+        // data this will probably be re-worked.
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          const country = countriesDict.getItem(countryId);
+          this.countryName = (null != country) ? country.name : '';
+          // seems to need kicking :-(
+          this.cdr.detectChanges();
+        });
+      });
   }
 
   ngAfterViewInit(): void {
