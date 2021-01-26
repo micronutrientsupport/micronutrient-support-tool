@@ -6,5 +6,49 @@
 }
 
 .content-wrapper {
-  height: 700px; // force scrollbar to test empty page
+  margin: 10px;
+  // height: 700px; // force scrollbar to test empty page
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+.panel {
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  background-color: white;
+  &.panelPageDesciption {
+    background-color: $color_background_form;
+  }
+  &.panelCurrentEstimate {
+    background-color: white;
+    height: 100px;
+  }
+  &.panelCalciumAvailability {
+    height: 100px;
+  }
+  &.panelFoodSources {
+    height: 100px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .contentColumn {
+    flex: 2;
+  }
 }
