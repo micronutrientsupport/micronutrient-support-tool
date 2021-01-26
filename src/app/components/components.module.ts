@@ -9,10 +9,11 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DialogModule } from './dialogs/dialog.module';
 import { FooterLightComponent } from './footerLight/footerLight.component';
 import { LoadingComponent } from './loading/loading.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent],
+  declarations: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent, CardComponent],
   imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, DialogModule],
-  exports: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent],
+  exports: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent, CardComponent],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}
