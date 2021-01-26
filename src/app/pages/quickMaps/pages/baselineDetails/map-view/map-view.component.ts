@@ -30,6 +30,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   public boundaryGeojson: L.GeoJSON;
   public boundaryLayer: any;
   public countryName = '';
+  public subRegionData: Array<SubRegionDataItem>;
   private resizeSub: Subscription;
   private mapView1: L.Map;
   private mapView2: L.Map;
@@ -53,11 +54,11 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           this.quickMapsService.mndDataId,
         )
         .then((data: Array<SubRegionDataItem>) => {
-          console.debug(data);
+          this.subRegionData = data;
+          this.subRegionData.forEach((item: SubRegionDataItem) => {});
+          console.debug(this.subRegionData);
         })
-        .catch((error) => {
-          console.debug(error);
-        });
+        .catch((error) => {});
     });
 
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -116,6 +117,10 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     let map: L.Map;
     map = L.map(mapId, {}).setView([6.6194073, 20.9367017], 3);
 
+    this.subRegionData.forEach((item: SubRegionDataItem) => {
+      // item;
+    });
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
@@ -128,42 +133,42 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       //   fillOpacity: 0.1,
       // };
 
-      const style = (feature) => ({
-        fillColor: this.getColourAbsolute(feature.properties.mn_absolute),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7,
-      });
+      // const style = (feature) => ({
+      //   fillColor: this.getColourAbsolute(feature.properties.mn_absolute),
+      //   weight: 2,
+      //   opacity: 1,
+      //   color: 'white',
+      //   dashArray: '3',
+      //   fillOpacity: 0.7,
+      // });
 
-      L.geoJSON(data, { style: style }).addTo(map);
+      // L.geoJSON(data, { style: style }).addTo(map);
 
-      const legend = new L.Control({ position: 'bottomright' });
+      // const legend = new L.Control({ position: 'bottomright' });
 
-      legend.onAdd = () => {
-        const div = L.DomUtil.create('div', 'info legend');
-        const range = [0, 10, 50, 100, 250, 500, 1000, 1500];
+      // legend.onAdd = () => {
+      //   const div = L.DomUtil.create('div', 'info legend');
+      //   const range = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
-        // loop through our  intervals and generate a label with a colored square for each interval
-        for (let i = 0; i < range.length; i++) {
-          div.innerHTML +=
-            `<span style="display: flex; align-items: center;
-            ">
-            <span style="background-color:${this.getColourAbsolute(
-              range[i] + 1,
-            )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
-            '<span>' +
-            range[i] +
-            (range[i + 1] ? `&ndash;${range[i + 1]} mg` : ' mg+') +
-            '</span>' +
-            '</span>';
-        }
+      //   // loop through our  intervals and generate a label with a colored square for each interval
+      //   for (let i = 0; i < range.length; i++) {
+      //     div.innerHTML +=
+      //       `<span style="display: flex; align-items: center;
+      //       ">
+      //       <span style="background-color:${this.getColourAbsolute(
+      //         range[i] + 1,
+      //       )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
+      //       '<span>' +
+      //       range[i] +
+      //       (range[i + 1] ? `&ndash;${range[i + 1]} mg` : ' mg+') +
+      //       '</span>' +
+      //       '</span>';
+      //   }
 
-        return div;
-      };
+      //   return div;
+      // };
 
-      legend.addTo(map);
+      // legend.addTo(map);
 
       const props = {
         // style: layerStyle,

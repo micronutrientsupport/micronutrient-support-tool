@@ -31,7 +31,7 @@ export class GetSubRegionData extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/sub-region-results_copy.json').toPromise());
+          resolve(httpClient.get('/assets/exampleData/sub-region-results_original.json').toPromise());
         }, 1500);
       }),
     );
