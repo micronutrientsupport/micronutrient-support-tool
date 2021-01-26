@@ -11,7 +11,10 @@ GetMonthlyFoodGroupsParams
   protected getCacheKey(params: GetMonthlyFoodGroupsParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<MonthlyFoodGroups> {
+
+  protected callLive(
+  // params: GetMonthlyFoodGroupsParams,
+  ): Promise<MonthlyFoodGroups> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -19,17 +22,21 @@ GetMonthlyFoodGroupsParams
     //   'poulationGroup-id': params.poulationGroupId,
     // });
 
-    // return this.buildObjectsFromResponse(HouseholdHistogramData, callResponsePromise);
+    // return this.buildObjectFromResponse(MonthlyFoodGroups, callResponsePromise);
   }
 
   protected callMock(
-  // params: GetBaselineDataParams,
+  // params: GetMonthlyFoodGroupsParams,
   ): Promise<MonthlyFoodGroups> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    // return a single random element when specified
     return this.buildObjectFromResponse(
       MonthlyFoodGroups,
-      httpClient.get('/assets/exampleData/monthly-food-groups.json').toPromise(),
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/monthly-food-groups.json').toPromise());
+        }, 1500);
+      }),
     );
   }
 }

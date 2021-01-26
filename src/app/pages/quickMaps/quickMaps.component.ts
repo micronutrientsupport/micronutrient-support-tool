@@ -11,8 +11,13 @@ import { RouteData } from 'src/app/app-routing.module';
 })
 export class QuickMapsComponent implements OnInit {
   public showHeader = false;
+  public showGoButton = false;
 
-  constructor(router: Router, private activatedRoute: ActivatedRoute, public quickMapsService: QuickMapsService) {
+  constructor(
+    router: Router,
+    private activatedRoute: ActivatedRoute,
+    public quickMapsService: QuickMapsService,
+  ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
       if (event instanceof NavigationEnd) {
@@ -23,11 +28,12 @@ export class QuickMapsComponent implements OnInit {
             subs.unsubscribe();
           }
           this.showHeader = true !== data.hideQuickMapsHeader;
+          this.showGoButton = true === data.showQuickMapsGoButton;
           // console.log('this.showHeader, data = ', this.showHeader, data);
         });
       }
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

@@ -72,6 +72,10 @@ h3 {
 .footer-row {
   display: flex;
   justify-content: center;
+  visibility: hidden;
+  &.show {
+    visibility: visible;
+  }
   
   & button {
     margin: 1em 0;

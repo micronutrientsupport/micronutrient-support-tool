@@ -1,0 +1,10 @@
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  height: 700px; // force scrollbar to test empty page
+}
