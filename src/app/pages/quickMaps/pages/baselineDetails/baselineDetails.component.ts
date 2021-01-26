@@ -32,7 +32,9 @@ export class BaselineDetailsComponent implements OnInit {
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
-        window.dispatchEvent(new Event('resize'));
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
       },
       itemChangeCallback: (item) => {
         this.changeEvent.emit(item);
