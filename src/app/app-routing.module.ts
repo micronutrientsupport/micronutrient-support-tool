@@ -13,6 +13,7 @@ export interface RouteData {
   description: string;
   keywords: string;
   hideQuickMapsHeader?: boolean;
+  showQuickMapsGoButton?: boolean;
   showLightFooter?: boolean;
 }
 

@@ -12,6 +12,8 @@ export class CardComponent implements OnInit {
   @Input() title: string;
   @Input() showSettings: boolean;
   @Input() showExpand: boolean;
+  @Input() loading = false;
+  @Input() error = false;
 
   constructor() { }
 
@@ -19,11 +21,11 @@ export class CardComponent implements OnInit {
   }
 
   public functionExpand(): void {
-    this.expandTrigger.emit(null);
+    this.expandTrigger.emit();
   }
 
   public functionSettings(): void {
-    this.settingTrigger.emit(null);
+    this.settingTrigger.emit();
   }
 
 }

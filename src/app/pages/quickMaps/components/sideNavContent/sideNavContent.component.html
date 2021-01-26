@@ -1,8 +1,7 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-    <div></div>
-    <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
-    <button mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
+    <button class="minimize-button" mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
         <i class="fas fa-caret-left"></i></button>
+    <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
 </div>
 
 <div *ngIf="(null != quickMapsForm) && (quickMapsService.slimObservable | async) === (false)"
@@ -15,9 +14,9 @@
                 <h3>Geography of interest</h3>
                 <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"
                     style="color: #828282;"></i>
-                <a mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
+                <a class="map-button" mat-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
                     [queryParams]="route.queryParams | async" routerLinkActive [routerLinkActiveOptions]="{exact: true}"
-                    #rla="routerLinkActive" [disabled]="rla.isActive">Map</a>
+                    #rla="routerLinkActive" [disabled]="rla.isActive"><i class="fas fa-map-marked-alt"></i></a>
             </legend>
 
             <div class="toggle-buttons">
@@ -99,6 +98,7 @@
     </form>
 </div>
 
-<div class="footer-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+<div class="footer-row" [class.show]="showGoButton"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
     <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
 </div>

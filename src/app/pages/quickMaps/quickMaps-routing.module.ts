@@ -15,7 +15,10 @@ const routes: Routes = [
       {
         path: '',
         component: LocationSelectComponent,
-        data: { hideQuickMapsHeader: true },
+        data: {
+          hideQuickMapsHeader: true,
+          showQuickMapsGoButton: true,
+        },
       },
       {
         path: AppRoutes.QUICK_MAPS_BASELINE.segments.valueOf(),

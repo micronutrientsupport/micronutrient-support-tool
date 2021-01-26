@@ -1,10 +1,10 @@
-<app-card [title]="'Monthly Food Card'" [showExpand]="true">
+<app-card title="Monthly Food Card" [showExpand]="true" [loading]="loading" [error]="error"
+  (expandTrigger)="openDialog()">
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
-      <div class="data-container" *ngIf="null != chartData">
-        <ngx-chartjs id="stacked-chart" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
-        </ngx-chartjs>
-      </div>
+      <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options">
+      </ngx-chartjs>
     </mat-tab>
 
     <mat-tab label="Monthly Summary Data">
@@ -65,7 +65,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="rawData?.all.length"> </mat-paginator>
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
       </div>
     </mat-tab>
   </mat-tab-group>

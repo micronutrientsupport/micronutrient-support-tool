@@ -32,6 +32,9 @@ export class AppComponent {
 
           this.showLightFooter = true === data.showLightFooter;
         });
+
+        // now reset the window scroll position
+        window.scrollTo(0, 0);
       }
       if (event instanceof GuardsCheckStart) {
         this.pageLoadingService.showLoading(true);
