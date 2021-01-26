@@ -29,6 +29,7 @@ export class FoodItemsComponent implements OnInit {
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
+  public displayedHeaders = ['Food', 'Value'];
   public dataSource = new MatTableDataSource();
 
   constructor(
@@ -112,7 +113,7 @@ export class FoodItemsComponent implements OnInit {
       this.chartData,
       {
         datasource: this.dataSource,
-        columnIdentifiers: this.displayedColumns
+        columnIdentifiers: this.displayedColumns,
       }
     );
   }

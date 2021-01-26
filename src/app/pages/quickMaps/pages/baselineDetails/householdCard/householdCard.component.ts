@@ -141,7 +141,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
               scaleID: 'y-axis-0',
               value: Number(data[0].adequacyThreshold), // data-value at which the line is drawn
               borderWidth: 2.5,
-              borderColor: () => 'black',
+              borderColor: 'black',
               label: {
                 enabled: true,
                 content: 'Threshold',
