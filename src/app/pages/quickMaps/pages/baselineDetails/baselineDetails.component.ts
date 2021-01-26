@@ -7,7 +7,6 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
   templateUrl: './baselineDetails.component.html',
   styleUrls: ['./baselineDetails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // encapsulation: ViewEncapsulation.None,
 })
 export class BaselineDetailsComponent implements OnInit {
   public options: GridsterConfig;
@@ -18,7 +17,7 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) { }
+  constructor(public quickmapsService: QuickMapsService) {}
 
   ngOnInit(): void {
     this.options = {
