@@ -12,7 +12,6 @@ import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObject';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -21,16 +20,15 @@ import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObjec
 export class FoodItemsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  public loading = false;
-  public error = false;
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
-  public displayedHeaders = ['Food', 'Value'];
-  public dataSource = new MatTableDataSource();
+  public loading = false;
+  public error = false;
+  public dataSource: MatTableDataSource<TopFoodSource>;
 
   constructor(
     private currentDataService: CurrentDataService,
