@@ -12,11 +12,11 @@ export interface CardExpandDialogData {
   tableData: MatTableObject;
 }
 @Component({
-  selector: 'app-chart-dialog',
-  templateUrl: './chartDialog.component.html',
-  styleUrls: ['./chartDialog.component.scss'],
+  selector: 'app-expand-dialog',
+  templateUrl: './expandDialog.component.html',
+  styleUrls: ['./expandDialog.component.scss'],
 })
-export class ChartDialogComponent implements OnInit {
+export class ExpandDialogComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
   }

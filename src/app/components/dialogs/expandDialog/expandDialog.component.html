@@ -7,13 +7,13 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Monthly Summary Data">
+    <mat-tab [disabled]="null == dataSource" label="Monthly Summary Data">
       <div class="data-container bmgf-maps-nice-scrollbar">
         <mat-form-field>
           <mat-label>Filter</mat-label>
           <input matInput #filterInput (keyup)="applyFilter($event)" placeholder="Filter table results...">
         </mat-form-field>
-        <table mat-table matSort [dataSource]="dataSource">
+        <table *ngIf="null != dataSource" mat-table matSort [dataSource]="dataSource">
           <ng-container *ngFor="let label of displayedColumns;" [matColumnDef]="label">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{label}}</th>
             <td mat-cell *matCellDef="let rowData">

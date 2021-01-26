@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObject';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-import { ChartDialogComponent } from './chartDialog/chartDialog.component';
+import { ExpandDialogComponent } from './expandDialog/expandDialog.component';
 import { MapDialogComponent } from './mapDialog/mapDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable({
@@ -22,7 +22,7 @@ export class DialogService extends BaseDialogService {
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
   public openChartDialog(graphData: ChartJSObject, tableData?: MatTableObject): Promise<DialogData> {
-    return this.openDialog('chartDialog', ChartDialogComponent,
+    return this.openDialog('chartDialog', ExpandDialogComponent,
       {
         graphData,
         tableData
