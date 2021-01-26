@@ -53,7 +53,7 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -154,6 +154,12 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    void this.dialogService.openChartDialog(
+      this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns,
+      }
+    );
   }
 }
