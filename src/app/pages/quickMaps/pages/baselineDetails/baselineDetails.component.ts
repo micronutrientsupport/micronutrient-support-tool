@@ -71,10 +71,10 @@ export class BaselineDetailsComponent implements OnInit {
     };
 
     this.dashboard = [
-      { cols: 2, rows: 2, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 2, rows: 2, y: 0, x: 2, type: 'widgetMonthly' },
-      { cols: 2, rows: 2, y: 2, x: 0, type: 'widgetTopFood' },
-      { cols: 2, rows: 2, y: 2, x: 2, type: 'widgetMap' },
+      { cols: 12, rows: 8, y: 0, x: 0, type: 'widgetChart' },
+      { cols: 12, rows: 8, y: 0, x: 12, type: 'widgetMonthly' },
+      { cols: 12, rows: 8, y: 8, x: 0, type: 'widgetTopFood' },
+      { cols: 12, rows: 8, y: 8, x: 12, type: 'widgetMap' },
     ];
   }
 
