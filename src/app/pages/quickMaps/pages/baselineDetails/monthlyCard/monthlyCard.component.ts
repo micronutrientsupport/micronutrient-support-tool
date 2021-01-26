@@ -28,10 +28,8 @@ import { Subscription } from 'rxjs';
 export class MonthlyCardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @Input()
-  widget;
-  @Input()
-  resizeEvent: EventEmitter<GridsterItem>;
+  @Input() widget;
+  @Input() resizeEvent: EventEmitter<GridsterItem>;
   resizeSub: Subscription;
   public loading = false;
   public error = false;
@@ -72,6 +70,7 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
     });
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loading = true;
+      this.cdr.markForCheck();
       void this.currentDataService
         .getMonthlyFoodGroups(
           this.quickMapsService.countryId,
@@ -86,7 +85,7 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
           // force change detection to:
           // remove chart before re-setting it to stop js error
           // show table and init paginator and sorter
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
