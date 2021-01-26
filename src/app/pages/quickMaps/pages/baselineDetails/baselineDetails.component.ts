@@ -7,7 +7,6 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
   templateUrl: './baselineDetails.component.html',
   styleUrls: ['./baselineDetails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // encapsulation: ViewEncapsulation.None,
 })
 export class BaselineDetailsComponent implements OnInit {
   public options: GridsterConfig;
@@ -18,7 +17,7 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) { }
+  constructor(public quickmapsService: QuickMapsService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -32,7 +31,9 @@ export class BaselineDetailsComponent implements OnInit {
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
-        window.dispatchEvent(new Event('resize'));
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
       },
       itemChangeCallback: (item) => {
         this.changeEvent.emit(item);
@@ -70,11 +71,14 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
+    const defaultHeight = 6;
+    const defaultWidth = 4;
+
     this.dashboard = [
-      { cols: 2, rows: 2, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 2, rows: 2, y: 0, x: 2, type: 'widgetMonthly' },
-      { cols: 2, rows: 2, y: 2, x: 0, type: 'widgetTopFood' },
-      { cols: 2, rows: 2, y: 2, x: 2, type: 'widgetMap' },
+      { cols: defaultHeight, rows: defaultWidth, y: 0, x: 0, type: 'widgetChart' },
+      { cols: defaultHeight, rows: defaultWidth, y: 0, x: defaultHeight, type: 'widgetMonthly' },
+      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: 0, type: 'widgetTopFood' },
+      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: defaultHeight, type: 'widgetMap' },
     ];
   }
 

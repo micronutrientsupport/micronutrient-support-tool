@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@ctrl/ngx-chartjs",
+              "moment-es6",
+              "papaparse/papaparse.min.js"
+            ],
             "outputPath": "dist/micronutrient-support-tool",
             "index": "src/index.html",
             "main": "src/main.ts",

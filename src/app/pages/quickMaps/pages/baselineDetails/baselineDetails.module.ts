@@ -13,8 +13,8 @@ import { FoodCompositionViewComponent } from './food-composition-view/food-compo
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdCardComponent } from './householdCard/householdCard.component';
-import { CardComponent } from './card/card.component';
 import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -23,7 +23,6 @@ import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
     SummarisedDataTableComponent,
     FoodItemsComponent,
     HouseholdCardComponent,
-    CardComponent,
     MonthlyCardComponent,
   ],
   imports: [
@@ -35,6 +34,7 @@ import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
     ChartjsModule,
     RoutesModule,
     GridsterModule,
+    ComponentsModule,
   ],
 })
-export class BaselineDetailsModule { }
+export class BaselineDetailsModule {}
