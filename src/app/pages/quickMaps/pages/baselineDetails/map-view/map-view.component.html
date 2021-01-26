@@ -1,4 +1,4 @@
-<app-card [title]="'Map View'">
+<app-card [title]="'Map View' + (('' === countryName) ? '' : ' - ' + countryName)">
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Absolute Values">
       <div class="gridster-no-drag" id="mapView1"></div>
