@@ -82,12 +82,6 @@ const routes: Routes = [
   {
     path: AppRoutes.QUICK_MAPS.segments,
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
-    data: {
-      showLightFooter: true,
-      title: 'Micronutrient Action Policy Support (MAPS): Quick Maps',
-      keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
-      description: 'Quick Maps form for selecting and filtering search criteria'
-    },
   },
   {
     path: '**',

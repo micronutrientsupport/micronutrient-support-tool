@@ -4,7 +4,6 @@ import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, N
 import { Subscription } from 'rxjs';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
-import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,14 +22,21 @@ export class AppComponent {
   ) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
+        const route = this.getActivatedRoute(this.activatedRoute);
         let subs: Subscription;
         // eslint-disable-next-line prefer-const
-        subs = this.activatedRoute.firstChild.data.subscribe((data: RouteData) => {
+        subs = route.data.subscribe((data: RouteData) => {
           if (null != subs) {
             subs.unsubscribe();
           }
-
           this.showLightFooter = true === data.showLightFooter;
+
+          this.updateMetaTag(data.keywords, 'keywords');
+          this.updateMetaTag(data.description, 'description');
+
+          if (data.title) {
+            this.titleService.setTitle(data.title);
+          }
         });
 
         // now reset the window scroll position
@@ -46,50 +52,28 @@ export class AppComponent {
       }
     });
 
-    router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    ).subscribe(() => {
-      const meta = this.getChild(this.activatedRoute);
-      meta.data.subscribe((data: RouteData) => {
-        if (data.keywords) {
-          const keyword = this.metaService.getTag('name=\'keywords\'');
-
-          if (null === keyword) {
-            this.metaService.addTag({ name: 'keywords', content: data.keywords });
-          } else {
-            this.metaService.updateTag({ name: 'keywords', content: data.keywords });
-          }
-        }
-        else {
-          this.metaService.removeTag('name=\'keywords\'');
-        }
-
-        if (data.description) {
-          const description = this.metaService.getTag('name=\'description\'');
-
-          if (null === description) {
-            this.metaService.addTag({ name: 'description', content: data.description });
-          } else {
-            this.metaService.updateTag({ name: 'description', content: data.description });
-          }
-        }
-        else {
-          this.metaService.removeTag('name=\'description\'');
-        }
-
-        if (data.title) {
-          this.titleService.setTitle(data.title);
-        }
-      });
-    });
   }
 
-  public getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
+  private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
     if (activatedRoute.firstChild) {
-      return this.getChild(activatedRoute.firstChild);
+      return this.getActivatedRoute(activatedRoute.firstChild);
     } else {
       return activatedRoute;
     }
   }
 
+  private updateMetaTag(content: string, tagName: string): void {
+    if (null != content) {
+      const tag = this.metaService.getTag(`name='${tagName}'`);
+
+      if (null === tag) {
+        this.metaService.addTag({ name: tagName, content });
+      } else {
+        this.metaService.updateTag({ name: tagName, content });
+      }
+    }
+    else {
+      this.metaService.removeTag(`name='${tagName}'`);
+    }
+  }
 }

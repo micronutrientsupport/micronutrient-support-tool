@@ -17,7 +17,11 @@ const routes: Routes = [
         component: LocationSelectComponent,
         data: {
           hideQuickMapsHeader: true,
+          showLightFooter: true,
           showQuickMapsGoButton: true,
+          title: 'Micronutrient Action Policy Support (MAPS): Quick Maps',
+          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
+          description: 'Quick Maps form for selecting and filtering search criteria'
         },
       },
       {
@@ -27,6 +31,7 @@ const routes: Routes = [
           title: 'Micronutrient Action Policy Support (MAPS): Quick Maps - Baseline',
           keywords: 'Micronutrients, maps, policy, project objectives',
           description: 'Baseline estimates of dietary MN supplies and deficiency risks in the selected country or region.',
+          showLightFooter: true,
         },
         canActivate: [QuickMapsRouteGuardService],
       },
@@ -37,6 +42,7 @@ const routes: Routes = [
           title: 'Micronutrient Action Policy Support (MAPS): Quick Maps - Projections to 2050',
           keywords: 'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
           description: 'Projections of food system changes under various scenarios.',
+          showLightFooter: true,
         },
 
         canActivate: [QuickMapsRouteGuardService],
