@@ -1,14 +1,14 @@
 <app-base-dialog>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
-      <div class="data-container" *ngIf="showChart">
+      <div class="data-container bmgf-maps-nice-scrollbar" *ngIf="showChart">
         <ngx-chartjs id="dialog-chart" [data]="graphData.data" [type]="graphData.type" [options]="graphData.options">
         </ngx-chartjs>
       </div>
     </mat-tab>
 
     <mat-tab label="Monthly Summary Data">
-      <div class="data-container">
+      <div class="data-container bmgf-maps-nice-scrollbar">
         <mat-form-field>
           <mat-label>Filter</mat-label>
           <input matInput #filterInput (keyup)="applyFilter($event)" placeholder="Filter table results...">
@@ -28,7 +28,7 @@
             <td class="mat-cell" colspan="4">No data matching the filter "{{filterInput.value}}"</td>
           </tr>
         </table>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [length]="dataSource?.data.length">
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50, 100]" [length]="dataSource?.data.length">
         </mat-paginator>
       </div>
     </mat-tab>

@@ -1,6 +1,15 @@
+@import 'src/assets/scss/_colour';
+
 .data-container {
   width: 60vw;
-  max-width: 100%;
+  height: 60vh;
+  ngx-chartjs {
+    display: block;
+    height: 100%;
+    & ::ng-deep > * {
+      height: 100%;
+    }
+  }
   table {
     width: 100%;
   }
