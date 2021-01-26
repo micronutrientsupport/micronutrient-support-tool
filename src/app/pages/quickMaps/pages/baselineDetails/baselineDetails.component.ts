@@ -72,11 +72,14 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
+    const defaultHeight = 6;
+    const defaultWidth = 4;
+
     this.dashboard = [
-      { cols: 12, rows: 8, y: 0, x: 0, type: 'widgetChart' },
-      { cols: 12, rows: 8, y: 0, x: 12, type: 'widgetMonthly' },
-      { cols: 12, rows: 8, y: 8, x: 0, type: 'widgetTopFood' },
-      { cols: 12, rows: 8, y: 8, x: 12, type: 'widgetMap' },
+      { cols: defaultHeight, rows: defaultWidth, y: 0, x: 0, type: 'widgetChart' },
+      { cols: defaultHeight, rows: defaultWidth, y: 0, x: defaultHeight, type: 'widgetMonthly' },
+      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: 0, type: 'widgetTopFood' },
+      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: defaultHeight, type: 'widgetMap' },
     ];
   }
 
