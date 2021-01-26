@@ -12,25 +12,45 @@
 }
 
 form {
-  padding: 1em;
+  padding: 0.7em;
   opacity: 1;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   transition: opacity 1s ease;
 
-  & .flex-row {
+  & fieldset {
+
+    border: none;
+    background: #1d355712;
+    border-radius: 2px;
+    padding: 1em 0.4em 0em 0.4em;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: baseline;
-    width: 100%;
+    flex-direction: column;
+
+    & legend {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 100%;
+      border: none;
+      margin: 0em 0em 0.5em 0em;
+      transform: translateY(15px);
+      & .field-title {
+        display: flex;
+        align-items: center;
+        & i {
+          color: $color_grey;
+        }
+      }
+    }
   }
 
 }
 
 i {
-  margin-left: 1em;
+  margin: 0em 1em;
 }
 
 h2 {
@@ -40,7 +60,7 @@ h2 {
 
 h3 {
   color: $color_grey;
-  margin-top: 0.5em;
+  margin: 0em;
 }
 
 .heading-row {
@@ -50,6 +70,7 @@ h3 {
   align-items: center;
   height: 3em;
   cursor: pointer;
+
   &:hover {
     color: $color_blue_form;
   }
@@ -57,6 +78,7 @@ h3 {
   & .minimize-button {
     position: absolute;
     right: 0;
+
     & i {
       font-size: 25px;
       margin: auto;
@@ -67,22 +89,25 @@ h3 {
     width: 100%;
     text-align: center;
   }
- 
+
 }
+
 .footer-row {
   display: flex;
   justify-content: center;
   visibility: hidden;
+
   &.show {
     visibility: visible;
   }
-  
+
   & button {
     margin: 1em 0;
   }
 }
 
 .slim-sidenav {
+
   //// opacity doesnt seem to be affected in form...
   & * {
     opacity: 0;
@@ -106,5 +131,26 @@ h3 {
     width: 2em;
     white-space: nowrap;
     transition: transform 0.4s ease;
+  }
+}
+
+
+.map-button {
+
+  &.mat-button {
+    line-height: 22px;
+    padding: 2px;
+    min-width: 22px;
+  }
+
+  & i {
+    vertical-align: baseline;
+    font-size: 16px;
+    color: $color_blue_form;
+  }
+  &.mat-button-disabled {
+    & i {
+      color: $color_grey;
+    }
   }
 }
