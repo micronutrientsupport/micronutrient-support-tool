@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'micronutrient-support-tool';
   public showLightFooter = false;
 
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public pageLoadingService: PageLoadingService,
     private titleService: Title,
+    private metaService: Meta,
   ) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
@@ -32,7 +33,6 @@ export class AppComponent implements OnInit {
           this.showLightFooter = true === data.showLightFooter;
         });
       }
-
       if (event instanceof GuardsCheckStart) {
         this.pageLoadingService.showLoading(true);
         // console.log('GuardStart');
@@ -41,25 +41,52 @@ export class AppComponent implements OnInit {
         this.pageLoadingService.showLoading(false);
         // console.log('GuardEnd');
       }
+    });
 
+    router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+    ).subscribe(() => {
+      const meta = this.getChild(this.activatedRoute);
+      meta.data.subscribe((data: RouteData) => {
+        if (data.keywords) {
+          const keyword = this.metaService.getTag('name=\'keywords\'');
+
+          if (null === keyword) {
+            this.metaService.addTag({ name: 'keywords', content: data.keywords });
+          } else {
+            this.metaService.updateTag({ name: 'keywords', content: data.keywords });
+          }
+        }
+        else {
+          this.metaService.removeTag('name=\'keywords\'');
+        }
+
+        if (data.description) {
+          const description = this.metaService.getTag('name=\'description\'');
+
+          if (null === description) {
+            this.metaService.addTag({ name: 'description', content: data.description });
+          } else {
+            this.metaService.updateTag({ name: 'description', content: data.description });
+          }
+        }
+        else {
+          this.metaService.removeTag('name=\'description\'');
+        }
+
+        if (data.title) {
+          this.titleService.setTitle(data.title);
+        }
+      });
     });
   }
 
-  ngOnInit(): void {
-    const appTitle = this.titleService.getTitle();
-    this.router
-      .events.pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => {
-          const child = this.activatedRoute.firstChild;
-          if (child.snapshot.data.title) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            return child.snapshot.data.title;
-          }
-          return appTitle;
-        })
-      ).subscribe((ttl: string) => {
-        this.titleService.setTitle(ttl);
-      });
+  public getChild(activatedRoute: ActivatedRoute): ActivatedRoute {
+    if (activatedRoute.firstChild) {
+      return this.getChild(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
+    }
   }
+
 }
