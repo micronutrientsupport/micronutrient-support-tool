@@ -34,9 +34,7 @@ export class AppComponent {
           this.updateMetaTag(data.keywords, 'keywords');
           this.updateMetaTag(data.description, 'description');
 
-          if (data.title) {
-            this.titleService.setTitle(data.title);
-          }
+          this.updateTitle(data.title);
         });
 
         // now reset the window scroll position
@@ -75,5 +73,13 @@ export class AppComponent {
     else {
       this.metaService.removeTag(`name='${tagName}'`);
     }
+  }
+
+  private updateTitle(subTitle: string): void {
+    let title = 'Micronutrient Action Policy Support (MAPS)';
+    if (null != subTitle) {
+      title += `: ${subTitle}`;
+    }
+    this.titleService.setTitle(title);
   }
 }
