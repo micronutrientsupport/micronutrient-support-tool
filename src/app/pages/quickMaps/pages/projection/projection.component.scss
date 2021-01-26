@@ -1,0 +1,22 @@
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+gridster {
+  background-color: #00000000;
+  & ::ng-deep > div {
+    &.gridster-row,
+    &.gridster-column {
+      border-color: $color_grey;
+    }
+  }
+}
+
+gridster-item {
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  overflow: hidden;
+}

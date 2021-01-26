@@ -22,6 +22,8 @@ export interface ChartJSObject {
     }>;
   };
   options?: {
+    maintainAspectRatio?: boolean;
+    responsive?: boolean;
     legend?: {
       display: boolean;
     };
@@ -35,7 +37,7 @@ export interface ChartJSObject {
             display: boolean;
             labelString: string;
           };
-        }
+        },
       ];
       yAxes: [
         {
@@ -48,7 +50,7 @@ export interface ChartJSObject {
           };
           barPercentage?: number;
           categoryPercentage?: number;
-        }
+        },
       ];
     };
     annotation?: {
@@ -65,7 +67,7 @@ export interface ChartJSObject {
             enabled: boolean;
             content?: string;
           };
-        }
+        },
       ];
     };
     tooltips?: {

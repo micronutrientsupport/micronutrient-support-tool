@@ -4,17 +4,15 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 // import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetSubRegionData extends CacheableEndpoint<
-Array<SubRegionDataItem>,
-GetSubRegionDataParams,
-SubRegionDataItem
+  Array<SubRegionDataItem>,
+  GetSubRegionDataParams,
+  SubRegionDataItem
 > {
-
   protected getCacheKey(params: GetSubRegionDataParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(
-  // params: GetSubRegionDataParams,
-  ): Promise<Array<SubRegionDataItem>> {
+  protected callLive(): // params: GetSubRegionDataParams,
+  Promise<Array<SubRegionDataItem>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -25,16 +23,15 @@ SubRegionDataItem
     // return this.buildObjectsFromResponse(SubRegionDataItem, callResponsePromise);
   }
 
-  protected callMock(
-  // params: GetSubRegionDataParams,
-  ): Promise<Array<SubRegionDataItem>> {
+  protected callMock(): // params: GetSubRegionDataParams,
+  Promise<Array<SubRegionDataItem>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       SubRegionDataItem,
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/sub-region-results.json').toPromise());
+          resolve(httpClient.get('/assets/exampleData/sub-region-results_copy.json').toPromise());
         }, 1500);
       }),
     );

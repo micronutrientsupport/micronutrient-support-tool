@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="card-container">
     <mat-toolbar color="primary">
+      <i class="drag-handle fas fa-grip-vertical"></i>
       <button *ngIf="showSettings" (click)="functionSettings()" mat-icon-button class="example-icon"
         aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
@@ -11,9 +12,12 @@
         <mat-icon>launch</mat-icon>
       </button>
     </mat-toolbar>
-    <ng-content></ng-content>
-    <div *ngIf="loading" class="loading-indicator">
-      <mat-spinner [diameter]="90" color='accent'></mat-spinner>
-    </div>
+    <span *ngIf="error">Error...</span>
+    <ng-container *ngIf="!error" mat-align-tabs="center">
+      <ng-content></ng-content>
+      <div *ngIf="loading" class="loading-indicator">
+        <mat-spinner [diameter]="90" color='accent'></mat-spinner>
+      </div>
+    </ng-container>
   </div>
 </div>
