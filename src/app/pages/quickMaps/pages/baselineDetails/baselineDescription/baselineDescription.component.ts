@@ -9,12 +9,12 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 
 @Component({
-  selector: 'app-proj-desc',
-  templateUrl: './projectionDescription.component.html',
-  styleUrls: ['./projectionDescription.component.scss'],
+  selector: 'app-base-desc',
+  templateUrl: './baselineDescription.component.html',
+  styleUrls: ['./baselineDescription.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionDescriptionComponent implements OnInit {
+export class BaselineDescriptionComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
