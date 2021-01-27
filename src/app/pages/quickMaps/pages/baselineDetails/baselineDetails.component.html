@@ -4,8 +4,10 @@
     <app-map-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'"></app-map-view>
 
     <!-- Chart -->
-    <app-household-card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
+    <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
+    <app-household-card [card]="card">
     </app-household-card>
+    </app-card2>
 
     <!-- Food composition -->
     <!-- <app-food-composition-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetFoodComp'">

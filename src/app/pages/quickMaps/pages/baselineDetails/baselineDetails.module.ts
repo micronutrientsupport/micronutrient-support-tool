@@ -15,6 +15,7 @@ import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdCardComponent } from './householdCard/householdCard.component';
 import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -35,6 +36,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     RoutesModule,
     GridsterModule,
     ComponentsModule,
+    DialogModule,
   ],
 })
-export class BaselineDetailsModule {}
+export class BaselineDetailsModule { }
