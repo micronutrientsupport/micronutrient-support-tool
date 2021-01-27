@@ -24,7 +24,7 @@ export function AutoUnsubscribe(blackList: Array<unknown> = []): (constructor: a
     const original: () => void = constructor.prototype.ngOnDestroy;
 
     // tslint:disable-next-line: typedef
-    constructor.prototype.ngOnDestroy = function () {
+    constructor.prototype.ngOnDestroy = function() {
       for (const prop of Object.keys(this)) {
         const property = this[prop];
         if (blackList.indexOf(prop) === -1) {
