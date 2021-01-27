@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /**
  * Attempts to unsubscribe from any subscriptions that have been signed up to
  * when the ngOnDestroy method is called on a object with a lifecycle.
