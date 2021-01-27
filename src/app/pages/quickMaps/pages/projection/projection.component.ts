@@ -29,7 +29,8 @@ export class ProjectionComponent implements OnInit {
       ignoreMarginInRow: false,
       margin: 10,
       keepFixedHeightInMobile: false,
-      // fixedRowHeight: 300,
+      pushItems: true,
+      pushDirections: { north: true, east: true, south: true, west: true },
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
@@ -75,10 +76,9 @@ export class ProjectionComponent implements OnInit {
     const defaultWidth = 8;
 
     this.dashboard = [
-      { cols: defaultWidth, rows: 2, y: 0, x: 0, type: 'widgetProjDesc' },
-      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjCurrentEst' },
-      { cols: defaultWidth, rows: defaultHeight, y: 5, x: 0, type: 'widgetProjAvail' },
-      { cols: defaultWidth, rows: defaultHeight, y: 7, x: 0, type: 'widgetProjFoodSources' },
+      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetProjCurrentEst' },
+      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjAvail' },
+      { cols: defaultWidth, rows: defaultHeight, y: 5, x: 0, type: 'widgetProjFoodSources' },
     ];
   }
 
