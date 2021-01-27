@@ -10,6 +10,7 @@ import { ExpandDialogComponent } from './expandDialog/expandDialog.component';
 @NgModule({
   declarations: [BaseDialogComponent, MapDialogComponent, ShareDialogComponent, ExpandDialogComponent],
   imports: [CommonModule, AppMaterialModule, ShareModule, ChartjsModule],
+  exports: [BaseDialogComponent],
 })
 export class DialogModule {
   // static forRoot(): ModuleWithProviders {

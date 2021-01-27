@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { QuickMapsService } from './quickMaps.service';
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
@@ -20,16 +20,17 @@ export class QuickMapsComponent implements OnInit {
   ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
-      if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
+        const route = this.getActivatedRoute(this.activatedRoute);
         let subs: Subscription;
         // eslint-disable-next-line prefer-const
-        subs = this.activatedRoute.firstChild.data.subscribe((data: RouteData) => {
+        subs = route.data.subscribe((data: RouteData) => {
           if (null != subs) {
             subs.unsubscribe();
           }
           this.showHeader = true !== data.hideQuickMapsHeader;
           this.showGoButton = true === data.showQuickMapsGoButton;
-          // console.log('this.showHeader, data = ', this.showHeader, data);
+          // console.debug('route data', this.showGoButton, route, data);
         });
       }
     });
@@ -39,5 +40,13 @@ export class QuickMapsComponent implements OnInit {
     // ensure values set in query params if we have navigated back to
     // quickmaps having been here before, since the service exists from last time.
     this.quickMapsService.updateQueryParams();
+  }
+
+  private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
+    if (activatedRoute.firstChild) {
+      return this.getActivatedRoute(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
+    }
   }
 }
