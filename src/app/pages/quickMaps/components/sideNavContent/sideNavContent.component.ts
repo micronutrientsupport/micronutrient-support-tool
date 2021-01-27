@@ -42,8 +42,6 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
-  public selectedCountry;
-
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,

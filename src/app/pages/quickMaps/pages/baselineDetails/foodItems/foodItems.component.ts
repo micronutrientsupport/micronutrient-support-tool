@@ -32,10 +32,8 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 export class FoodItemsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @Input()
-  widget;
-  @Input()
-  resizeEvent: EventEmitter<GridsterItem>;
+  @Input() widget;
+  @Input() resizeEvent: EventEmitter<GridsterItem>;
   resizeSub: Subscription;
 
   public countriesDictionary: Dictionary;
@@ -53,7 +51,7 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -63,34 +61,37 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
         console.log(widget);
       }
     });
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.loading = true;
+      this.cdr.markForCheck();
+      void this.currentDataService
+        .getTopFood(
+          this.quickMapsService.countryId,
+          [this.quickMapsService.micronutrientId],
+          this.quickMapsService.popGroupId,
+          // this.quickMapsService.mndDataIdObs,
+        )
+        .then((foodData: Array<TopFoodSource>) => {
+          this.dataSource = new MatTableDataSource(foodData);
+          this.error = false;
+          this.chartData = null;
+          // force change detection to:
+          // remove chart before re-setting it to stop js error
+          // show table and init paginator and sorter
+          this.cdr.markForCheck();
 
-    void this.currentDataService
-      .getTopFood(
-        this.quickMapsService.countryId,
-        [this.quickMapsService.micronutrientId],
-        this.quickMapsService.popGroupId,
-        // this.quickMapsService.mndDataIdObs,
-      )
-      .then((foodData: Array<TopFoodSource>) => {
-        this.dataSource = new MatTableDataSource(foodData);
-        this.error = false;
-        this.chartData = null;
-        // force change detection to:
-        // remove chart before re-setting it to stop js error
-        // show table and init paginator and sorter
-        this.cdr.detectChanges();
-
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.initTreemap(foodData);
-      })
-      .catch((err) => {
-        this.error = true;
-        console.error(err);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.initTreemap(foodData);
+        })
+        .catch((err) => {
+          this.error = true;
+          console.error(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    });
   }
 
   ngOnDestroy(): void {
@@ -154,6 +155,12 @@ export class FoodItemsComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    void this.dialogService.openChartDialog(
+      this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns,
+      }
+    );
   }
 }

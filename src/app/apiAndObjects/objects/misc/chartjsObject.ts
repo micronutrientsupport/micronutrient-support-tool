@@ -62,7 +62,7 @@ export interface ChartJSObject {
           scaleID: string;
           value: number; // data-value at which the line is drawn
           borderWidth: number;
-          borderColor: () => string;
+          borderColor: string;
           label: {
             enabled: boolean;
             content?: string;

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Component,
   OnInit,
@@ -32,10 +29,8 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input()
-  widget;
-  @Input()
-  resizeEvent: EventEmitter<GridsterItem>;
+  @Input() widget;
+  @Input() resizeEvent: EventEmitter<GridsterItem>;
   resizeSub: Subscription;
 
   public loading = false;
@@ -49,7 +44,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -61,6 +56,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
     });
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loading = true;
+      this.cdr.markForCheck();
       this.currentDataService
         .getHouseholdHistogramData(
           this.quickMapsService.countryId,
@@ -80,7 +76,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
           // force change detection to:
           // remove chart before re-setting it to stop js error
           // show table and init paginator and sorter
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -144,7 +140,7 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
               scaleID: 'y-axis-0',
               value: Number(data[0].adequacyThreshold), // data-value at which the line is drawn
               borderWidth: 2.5,
-              borderColor: () => 'black',
+              borderColor: 'black',
               label: {
                 enabled: true,
                 content: 'Threshold',
@@ -157,6 +153,11 @@ export class HouseholdCardComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData);
+    void this.dialogService.openChartDialog(
+      this.chartData,
+      {
+        datasource: this.dataSource,
+        columnIdentifiers: this.displayedColumns
+      });
   }
 }
