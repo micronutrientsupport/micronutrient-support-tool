@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="item">
+    <div class="nation">
+      <span class="estimateHeader">Current Estimate:</span>
+      <span class="estimateValue blue">23123214.21</span>
+      <small>(kg per year)</small>
+    </div>
+  </div>
+  <div class="item">
+    <div class="vitamin">
+      <span class="estimateHeader">Target:</span>
+      <span class="estimateValue green">13553.33</span>
+      <small>(kg per year)</small>
+    </div>
+  </div>
+  <div class="item">
+    <div class="baseline">
+      <span class="estimateHeader">Difference:</span>
+      <span class="estimateValue red">-12.4%</span>
+    </div>
+  </div>
+  <div class="item">
+    <form [formGroup]="projectionEstimateForm">
+      <mat-form-field appearance="fill">
+        <mat-select name="popGroup" formControlName="popGroup" placeholder="kg">
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="item">
+    <form [formGroup]="projectionEstimateForm">
+      <mat-form-field appearance="fill">
+        <mat-select name="popGroup" formControlName="popGroup" placeholder="per nation">
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="item">
+    <form [formGroup]="projectionEstimateForm">
+      <mat-form-field appearance="fill">
+        <mat-select name="popGroup" formControlName="popGroup" placeholder="per year">
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="item wideItem">
+    <div class="summary">
+      Business as usual to reach target
+    </div>
+  </div>
+</div>

@@ -1,10 +1,7 @@
   <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
     <app-proj-desc></app-proj-desc>
+    <app-proj-est></app-proj-est>
     <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-
-      <app-proj-est [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjCurrentEst'">
-      </app-proj-est>
-
       <app-proj-avail [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjAvail'">
       </app-proj-avail>
 

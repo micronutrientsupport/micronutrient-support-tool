@@ -76,9 +76,8 @@ export class ProjectionComponent implements OnInit {
     const defaultWidth = 8;
 
     this.dashboard = [
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetProjCurrentEst' },
-      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjAvail' },
-      { cols: defaultWidth, rows: defaultHeight, y: 5, x: 0, type: 'widgetProjFoodSources' },
+      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetProjAvail' },
+      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjFoodSources' },
     ];
   }
 
