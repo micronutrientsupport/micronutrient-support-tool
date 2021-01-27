@@ -207,7 +207,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
         range.forEach((value: number, i) => {
           div.innerHTML +=
             `<span style="display: flex; align-items: center;">
-            <span style="background-color:${this.getColourAbsolute(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+            <span style="background-color:${this.getColourThreshold(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
             `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + (range[i + 1]).toString() : ''}</span>` +
             '</span>';
