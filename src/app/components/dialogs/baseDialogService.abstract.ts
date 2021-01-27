@@ -44,7 +44,7 @@ export abstract class BaseDialogService {
     let dialogRef = this.dialog.getDialogById(dialogId);
     if (null != dialogRef) {
       console.warn('Dialog already open');
-      return Promise.resolve(null);
+      return Promise.reject(new Error('Dialog already open'));
     } else {
       const dialogData = this.makeDialogData<DataInType, DataOutType>(dialogId, closable, customData);
 
@@ -63,7 +63,7 @@ export abstract class BaseDialogService {
       this.addCustomBackdrop(parentElement);
       dialogRef = this.dialog.open(contentComponent, config);
 
-      void dialogRef.afterClosed().toPromise().then(e => {
+      void dialogRef.afterClosed().toPromise().then(() => {
         if (null != parentElement) {
           this.tryRemoveCustomBackdrop(parentElement);
         }
