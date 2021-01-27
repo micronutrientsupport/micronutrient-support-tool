@@ -36,11 +36,27 @@ export class SubRegionDataItem extends BaseObject {
     this.id = this._getString(SubRegionDataItem.KEYS.ID);
     this.name = this._getString(SubRegionDataItem.KEYS.SUB_REGION_NAME);
     this.type = this._getString(SubRegionDataItem.KEYS.SUB_REGION_TYPE);
-    this.geoFeature = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.Feature;
     this.mnAbsolute = this._getNumber(SubRegionDataItem.KEYS.MN_ABSOLUTE);
     this.mnAbsoluteUnit = this._getString(SubRegionDataItem.KEYS.MN_ABSOLUTE_UNIT);
     this.mnThreshold = this._getNumber(SubRegionDataItem.KEYS.MN_THRESHOLD);
     this.mnThresholdUnit = this._getString(SubRegionDataItem.KEYS.MN_THRESHOLD_UNIT);
     this.householdsSurveyed = this._getNumber(SubRegionDataItem.KEYS.HOUSHOLDS_SURVEYED);
+
+    const geometry = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.Geometry;
+    if (null != geometry) {
+      this.geoFeature = {
+        geometry,
+        type: 'Feature',
+        properties: {
+          mnAbsolute: this.mnAbsolute,
+          mnAbsoluteUnit: this.mnAbsoluteUnit,
+          mnThreshold: this.mnThreshold,
+          mnThresholdUnit: this.mnThresholdUnit,
+          householdsSurveyed: this.householdsSurveyed,
+          subRegionName: this.name,
+        },
+        id: this.id,
+      };
+    }
   }
 }
