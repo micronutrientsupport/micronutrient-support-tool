@@ -22,7 +22,7 @@ export class ProjectionComponent implements OnInit {
   ngOnInit(): void {
     this.options = {
       gridType: GridType.ScrollVertical,
-      displayGrid: DisplayGrid.OnDragAndResize,
+      displayGrid: DisplayGrid.None,
       disableWindowResize: false,
       scrollToNewItems: false,
       disableWarnings: false,
