@@ -12,11 +12,12 @@ import { MapViewComponent } from './map-view/map-view.component';
 import { FoodCompositionViewComponent } from './food-composition-view/food-composition-view.component';
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
-import { HouseholdCardComponent } from './householdCard/householdCard.component';
+import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
+import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -24,7 +25,7 @@ import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.co
     FoodCompositionViewComponent,
     SummarisedDataTableComponent,
     FoodItemsComponent,
-    HouseholdCardComponent,
+    HouseholdSupplyComponent,
     MonthlyCardComponent,
     BaselineDescriptionComponent,
     BaslineEstimateComponent,
@@ -39,6 +40,7 @@ import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.co
     RoutesModule,
     GridsterModule,
     ComponentsModule,
+    DialogModule,
   ],
 })
-export class BaselineDetailsModule {}
+export class BaselineDetailsModule { }

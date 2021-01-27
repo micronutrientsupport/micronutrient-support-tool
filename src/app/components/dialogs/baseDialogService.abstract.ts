@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 export abstract class BaseDialogService {
-  private lastParentElement: HTMLElement;
+  private customBackdropCounts = new Map<HTMLElement, number>();
   private customBackdrop: HTMLElement;
 
   constructor(public dialog: MatDialog) {
@@ -10,8 +10,13 @@ export abstract class BaseDialogService {
     this.customBackdrop.classList.add('dialog-custom-backdrop');
   }
 
-  protected makeDialogData(id: string, dataInput = {}): DialogData {
+  protected makeDialogData<DataInType, DataOutType>(
+    id: string,
+    closable = true,
+    dataIn: Record<string, any> = {},
+  ): DialogData<DataInType, DataOutType> {
     const data = {
+      closable,
       requiresRefreshOnClose: false,
       close: () => {
         const dialogRef = this.dialog.getDialogById(id);
@@ -21,68 +26,77 @@ export abstract class BaseDialogService {
           dialogRef.close(data);
         }
       },
-      dataIn: dataInput,
+      dataIn,
       dataOut: {},
-    };
+    } as DialogData<DataInType, DataOutType>;
     return data;
   }
 
-  protected openDialog(
+  protected openDialog<DataInType = any, DataOutType = any>(
     dialogId: string,
     contentComponent: ComponentType<any>,
-    customData = {},
+    closable = true,
+    customData: Record<string, any> = {},
     configIn: MatDialogConfig = {},
     parentElement?: HTMLElement,
-  ): Promise<DialogData> {
+  ): Promise<DialogData<DataInType, DataOutType>> {
     // don't open if already open
     let dialogRef = this.dialog.getDialogById(dialogId);
     if (null != dialogRef) {
-      return Promise.reject();
+      console.warn('Dialog already open');
+      return Promise.reject(new Error('Dialog already open'));
     } else {
-      const dialogData = this.makeDialogData(dialogId, customData);
-      this.lastParentElement = parentElement;
+      const dialogData = this.makeDialogData<DataInType, DataOutType>(dialogId, closable, customData);
 
       const config = {
-        minHeight: 150,
-        panelClass: 'maps-dialog',
+        maxHeight: '95vh',
+        maxWidth: '90vw',
+        panelClass: 'base-dialog',
         data: dialogData,
         id: dialogId,
-        hasBackdrop: this.lastParentElement == null,
+        hasBackdrop: (null == parentElement),
+        disableClose: !closable,
         ...configIn,
       };
 
-      if (this.dialog.openDialogs.length === 0) {
-        this.addCustomBackdrop();
-      }
+
+      this.addCustomBackdrop(parentElement);
       dialogRef = this.dialog.open(contentComponent, config);
 
-      void dialogRef
-        .afterClosed()
-        .toPromise()
-        .then(() => this.tryRemoveCustomBackdrop());
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return dialogRef.afterClosed().toPromise();
+      void dialogRef.afterClosed().toPromise().then(() => {
+        if (null != parentElement) {
+          this.tryRemoveCustomBackdrop(parentElement);
+        }
+      });
+      return dialogRef.afterClosed().toPromise().then(() => dialogData);
     }
   }
 
-  protected addCustomBackdrop(): void {
-    if (this.lastParentElement != null) {
-      this.lastParentElement.classList.add('dialog-custom-backdrop-wrapper');
-      this.lastParentElement.appendChild(this.customBackdrop);
+  protected addCustomBackdrop(parentElement: HTMLElement): void {
+    if (null != parentElement) {
+      if (this.customBackdropCounts.has(parentElement)) {
+        this.customBackdropCounts.set(parentElement, this.customBackdropCounts.get(parentElement) + 1);
+      } else {
+        this.customBackdropCounts.set(parentElement, 1);
+        parentElement.classList.add('dialog-custom-backdrop-wrapper');
+        parentElement.appendChild(this.customBackdrop);
+      }
     }
   }
-  protected tryRemoveCustomBackdrop(): void {
-    if (this.dialog.openDialogs.length === 0) {
-      const parent = this.customBackdrop.parentElement;
-      if (parent != null) {
-        parent.classList.remove('dialog-custom-backdrop-wrapper');
-        parent.removeChild(this.customBackdrop);
+  protected tryRemoveCustomBackdrop(parentElement: HTMLElement): void {
+    if ((null != parentElement) && (this.customBackdropCounts.has(parentElement))) {
+      this.customBackdropCounts.set(parentElement, this.customBackdropCounts.get(parentElement) - 1);
+      if (0 === this.customBackdropCounts.get(parentElement)) {
+        this.customBackdropCounts.delete(parentElement);
+        parentElement.classList.remove('dialog-custom-backdrop-wrapper');
+        parentElement.removeChild(this.customBackdrop);
       }
     }
   }
 }
 
 export interface DialogData<DataInType = any, DataOutType = any> {
+  closable: boolean;
   requiresRefreshOnClose: boolean;
   // eslint-disable-next-line @typescript-eslint/ban-types
   close: (moreData?: object) => void;

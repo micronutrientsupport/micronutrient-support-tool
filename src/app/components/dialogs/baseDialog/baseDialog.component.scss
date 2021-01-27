@@ -1,28 +1,6 @@
-::ng-deep.maps-dialog {
-  & .mat-button.mat-dialog-close {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
+@import 'src/assets/scss/_colour';
 
-  & .mat-dialog-container {
-    display: block;
-    position: relative;
-
-    & > * {
-      display: block;
-      flex-direction: column;
-      align-items: center;
-    }
-    & [mat-dialog-content] {
-      flex-grow: 1;
-      min-height: 1px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3em;
-    }
-  }
+::ng-deep {
   & .dialog-custom-backdrop-wrapper {
     position: relative;
   }
@@ -34,37 +12,72 @@
     right: 0;
     background: rgba(0, 0, 0, 0.32); // same as .cdk-overlay-dark-backdrop
   }
+}
+::ng-deep .base-dialog {
+  & .mat-dialog-container {
+    padding: 2em;
+  }
+  & .mat-dialog-container,
+  & .mat-dialog-container > *,
+  & .mat-dialog-container > * > app-base-dialog,
+  & .mat-dialog-container > * > app-base-dialog .scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    flex: 1 1;
+    min-height: 0;
+  }
+}
 
-  .scroll-wrapper {
-    max-height: 90vh;
-    overflow-y: auto;
-    margin-top: 15px;
-    &::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-    /* Track */
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-      background: #888;
-    }
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  min-height: 0;
+
+  & h1 {
+    font-size: 1.4em;
   }
 
-  table.sample-modify {
-    td.mat-cell {
-      text-align: center;
-    }
-    th.mat-header-cell {
-      text-align: center;
-      word-wrap: break-word;
-      word-break: break-all;
+  & .header {
+    display: flex;
+    justify-content: center;
+    margin: 0 5em;
+  }
+
+  & .mat-dialog-content {
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 1px;
+    font-size: 1.2em;
+    margin: 0 -10px;
+    padding: 0 10px;
+  }
+  & ::ng-deep {
+    & .buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 5px;
     }
   }
+}
+
+.mat-dialog-close {
+  position: absolute;
+  right: -2em;
+  top: -2em;
+  // background-color: $close_button_background_colour;
+  // color: $close_button_colour;
+  &:hover {
+    // background-color: $close_button_hover_background_colour
+  }
+}
+
+.scroll-wrapper {
+
 }

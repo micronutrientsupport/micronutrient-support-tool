@@ -1,5 +1,4 @@
-<app-card title="Household dietary supply" [showExpand]="true" [loading]="loading" [error]="error" [showSettings]="true"
-  (expandTrigger)="openDialog()">
+<ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Household Histogram">
       <ngx-chartjs *ngIf="null != chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
@@ -24,4 +23,10 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-</app-card>
+</ng-template>
+
+<ng-container *ngIf="(null != data) else componentTemplate">
+  <app-base-dialog [data]="data">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

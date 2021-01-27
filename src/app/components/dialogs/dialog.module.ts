@@ -17,5 +17,6 @@ import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDi
     ScenarioTypeDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, ChartjsModule],
+  exports: [BaseDialogComponent],
 })
 export class DialogModule {}
