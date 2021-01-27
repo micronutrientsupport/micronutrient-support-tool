@@ -42,7 +42,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -56,8 +56,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         .then((data: Array<SubRegionDataItem>) => {
           this.subRegionData = data;
           this.mapView1 = this.initialiseMapAbsolute(data, 'mapView1');
+          this.mapView1 = this.initialiseMapThreshold(data, 'mapView2');
         })
-        .catch((error) => { });
+        .catch((error) => {});
     });
 
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -93,8 +94,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow
-    setTimeout(() => {
-    }, 0);
+    setTimeout(() => {}, 0);
   }
 
   ngOnDestroy(): void {
@@ -104,7 +104,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     // Map container doesn't exist until tab changed...
     if (tabChangeEvent.index === 1 && !this.mapView2) {
-      this.mapView2 = this.initialiseMapThreshold('mapView2');
+      this.mapView2 = this.initialiseMapThreshold(this.subRegionData, 'mapView2');
     } else {
       this.mapView2.invalidateSize();
       this.mapView1.invalidateSize();
@@ -120,11 +120,8 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const featureCollection: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
-      features: data
-        .map((item: SubRegionDataItem) => item.geoFeature)
-        .filter((item) => null != item),
+      features: data.map((item: SubRegionDataItem) => item.geoFeature).filter((item) => null != item),
     };
-
 
     const geoJson = L.geoJSON(featureCollection, {
       style: (feature) => ({
@@ -187,90 +184,77 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     map.fitBounds(this.boundaryLayer.getBounds());
     return map;
   }
-
-  public initialiseMapThreshold(mapId: string): L.Map {
+  public initialiseMapThreshold(data: Array<SubRegionDataItem>, mapId: string): L.Map {
     let map: L.Map;
     map = L.map(mapId, {}).setView([6.6194073, 20.9367017], 3);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    this.http.get('./assets/exampleData/sub-region-results_copy.json').subscribe((data: any) => {
-      // const layerStyle = {
-      //   color: '#703aa3',
-      //   weight: 1,
-      //   opacity: 0.9,
-      //   fillOpacity: 0.1,
-      // };
+    const featureCollection: GeoJSON.FeatureCollection = {
+      type: 'FeatureCollection',
+      features: data.map((item: SubRegionDataItem) => item.geoFeature).filter((item) => null != item),
+    };
 
-      const style = (feature) => ({
-        fillColor: this.getColourThreshold(feature.properties.mn_threshold),
+    const geoJson = L.geoJSON(featureCollection, {
+      style: (feature) => ({
+        fillColor: this.getColourThreshold(feature.properties.mnThreshold),
         weight: 2,
         opacity: 1,
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.7,
-      });
+      }),
+      onEachFeature: (feature: any, layer: any) => {
+        const layerName = feature.properties.subRegionName;
+        const layerValueAbsolute = feature.properties.mnAbsolute;
+        const layerValueThreshold = feature.properties.mnThreshold;
 
-      L.geoJSON(data, { style: style }).addTo(map);
+        const layerCentre = layer.getBounds().getCenter();
 
-      const legend = new L.Control({ position: 'bottomright' });
+        const popup = L.popup()
+          .setLatLng(layerCentre)
+          .setContent(
+            `<div>Region:<b>${layerName}</b><br>Absolute value:${layerValueAbsolute}mg<br>Threshold: ${layerValueThreshold}%</div>`,
+          );
 
-      legend.onAdd = () => {
-        const div = L.DomUtil.create('div', 'info legend');
-        const range = [0, 20, 40, 60, 80, 99];
+        layer.bindPopup(popup);
 
-        // loop through our  intervals and generate a label with a colored square for each interval
-        for (let i = 0; i < range.length; i++) {
-          div.innerHTML +=
-            `<span style="display: flex; align-items: center;
-            ">
-            <span style="background-color:${this.getColourThreshold(
-              range[i] + 1,
-            )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
-            '<span>' +
-            range[i] +
-            (range[i + 1] ? `&ndash;${range[i + 1]}%<br>` : '%+') +
-            '</span>' +
-            '</span>';
-        }
+        layer.on({
+          mouseover: () => layer.openPopup(),
+          mouseout: () => layer.closePopup(),
+          click: (e: any) => console.log('clicked', e),
+        });
+      },
+    }).addTo(map);
 
-        return div;
-      };
+    const legend = new L.Control({ position: 'bottomright' });
 
-      legend.addTo(map);
+    legend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+      const range = [0, 20, 40, 60, 80, 99];
 
-      const props = {
-        // style: layerStyle,
-        onEachFeature: (feature: any, layer: any) => {
-          // console.log(feature, layer);
-          const layerName = feature.properties.subregion_name;
-          const layerValueAbsolute = feature.properties.mn_absolute;
-          const layerValueThreshold = feature.properties.mn_threshold;
+      // loop through our  intervals and generate a label with a colored square for each interval
+      for (let i = 0; i < range.length; i++) {
+        div.innerHTML +=
+          `<span style="display: flex; align-items: center;
+          ">
+          <span style="background-color:${this.getColourThreshold(
+            range[i] + 1,
+          )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
+          '<span>' +
+          range[i] +
+          (range[i + 1] ? `&ndash;${range[i + 1]} %` : ' %+') +
+          '</span>' +
+          '</span>';
+      }
 
-          const layerCentre = layer.getBounds().getCenter();
+      return div;
+    };
 
-          const popup = L.popup()
-            .setLatLng(layerCentre)
-            .setContent(
-              `<div>Region:<b>${layerName}</b><br>Absolute value:${layerValueAbsolute}mg<br>Threshold: ${layerValueThreshold}%</div>`,
-            );
-
-          layer.bindPopup(popup);
-
-          layer.on({
-            mouseover: () => layer.openPopup(),
-            mouseout: () => layer.closePopup(),
-            click: (e: any) => console.log('clicked', e),
-          });
-        },
-      };
-
-      this.boundaryLayer = L.geoJSON(data, props);
-      map.addLayer(this.boundaryLayer);
-      map.fitBounds(this.boundaryLayer.getBounds());
-    });
+    legend.addTo(map);
+    this.boundaryLayer = geoJson;
+    map.fitBounds(this.boundaryLayer.getBounds());
     return map;
   }
 
@@ -278,33 +262,33 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     return absoluteValue > 1500
       ? '#2ca25f'
       : absoluteValue > 1000
-        ? '#addd8e'
-        : absoluteValue > 500
-          ? '#ffeda0'
-          : absoluteValue > 250
-            ? '#feb24c'
-            : absoluteValue > 100
-              ? '#f03b20'
-              : absoluteValue > 50
-                ? '#bd0026'
-                : absoluteValue > 10
-                  ? '#7a0177'
-                  : '#354969';
+      ? '#addd8e'
+      : absoluteValue > 500
+      ? '#ffeda0'
+      : absoluteValue > 250
+      ? '#feb24c'
+      : absoluteValue > 100
+      ? '#f03b20'
+      : absoluteValue > 50
+      ? '#bd0026'
+      : absoluteValue > 10
+      ? '#7a0177'
+      : '#354969';
   }
   public getColourThreshold(thresholdValue: number): string {
     return thresholdValue > 99
       ? '#187026'
       : thresholdValue > 80
-        ? '#22f243'
-        : thresholdValue > 60
-          ? '#f0f01d'
-          : thresholdValue > 40
-            ? '#f08f11'
-            : thresholdValue > 20
-              ? '#e0071c'
-              : thresholdValue > 0
-                ? '#5e1d5c'
-                : '#0f0e0f';
+      ? '#22f243'
+      : thresholdValue > 60
+      ? '#f0f01d'
+      : thresholdValue > 40
+      ? '#f08f11'
+      : thresholdValue > 20
+      ? '#e0071c'
+      : thresholdValue > 0
+      ? '#5e1d5c'
+      : '#0f0e0f';
   }
   public openDialog(): void {
     void this.modalService.openMapDialog('Hello World');
