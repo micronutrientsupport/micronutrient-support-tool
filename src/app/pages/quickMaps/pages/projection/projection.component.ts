@@ -22,12 +22,15 @@ export class ProjectionComponent implements OnInit {
   ngOnInit(): void {
     this.options = {
       gridType: GridType.ScrollVertical,
-      displayGrid: DisplayGrid.OnDragAndResize,
+      displayGrid: DisplayGrid.None,
       disableWindowResize: false,
       scrollToNewItems: false,
       disableWarnings: false,
       ignoreMarginInRow: false,
       margin: 10,
+      keepFixedHeightInMobile: false,
+      pushItems: true,
+      pushDirections: { north: true, east: true, south: true, west: true },
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
@@ -69,11 +72,12 @@ export class ProjectionComponent implements OnInit {
       },
     };
 
+    const defaultHeight = 3;
+    const defaultWidth = 8;
+
     this.dashboard = [
-      { cols: 2, rows: 1, y: 0, x: 0, type: 'widgetProjDesc' },
-      { cols: 2, rows: 1, y: 1, x: 0, type: 'widgetProjCurrentEst' },
-      { cols: 2, rows: 1, y: 2, x: 0, type: 'widgetProjAvail' },
-      { cols: 2, rows: 1, y: 3, x: 0, type: 'widgetProjFoodSources' },
+      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetProjAvail' },
+      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjFoodSources' },
     ];
   }
 

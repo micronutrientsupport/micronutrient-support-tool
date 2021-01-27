@@ -35,5 +35,9 @@ export class QuickMapsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // ensure values set in query params if we have navigated back to
+    // quickmaps having been here before, since the service exists from last time.
+    this.quickMapsService.updateQueryParams();
+  }
 }

@@ -15,6 +15,8 @@ import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdCardComponent } from './householdCard/householdCard.component';
 import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
+import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -24,6 +26,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FoodItemsComponent,
     HouseholdCardComponent,
     MonthlyCardComponent,
+    BaselineDescriptionComponent,
+    BaslineEstimateComponent,
   ],
   imports: [
     CommonModule,

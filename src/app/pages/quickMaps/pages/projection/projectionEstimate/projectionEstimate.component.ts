@@ -5,16 +5,16 @@ import { MatSort } from '@angular/material/sort';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-proj-desc',
-  templateUrl: './projectionDescription.component.html',
-  styleUrls: ['./projectionDescription.component.scss'],
+  selector: 'app-proj-est',
+  templateUrl: './projectionEstimate.component.html',
+  styleUrls: ['./projectionEstimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionDescriptionComponent implements OnInit {
+export class ProjectionEstimateComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -26,32 +26,20 @@ export class ProjectionDescriptionComponent implements OnInit {
   public error = false;
   public countryName = '';
   public vitaminName = '';
+  public projectionEstimateForm: FormGroup;
 
   constructor(
     public quickMapsService: QuickMapsService,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
-      .then((dicts: Array<Dictionary>) => {
-        this.countriesDictionary = dicts.shift();
-        this.regionDictionary = dicts.shift();
-        this.micronutrientsDictionary = dicts.shift();
-
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = this.countriesDictionary.getItem(countryId);
-          this.countryName = null != country ? country.name : '';
-          this.cdr.markForCheck();
-        });
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : '';
-          console.log(this.vitaminName);
-          this.cdr.markForCheck();
-        });
-      });
+    this.projectionEstimateForm = this.fb.group({
+      kg: null,
+      nation: null,
+      year: null,
+    });
   }
 }

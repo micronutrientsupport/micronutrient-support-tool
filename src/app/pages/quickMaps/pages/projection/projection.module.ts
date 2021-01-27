@@ -10,17 +10,17 @@ import { RoutesModule } from 'src/app/routes/routes.module';
 import { ProjectionComponent } from './projection.component';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { ProjectionCurrentEstimateComponent } from './projectionCurrentEstimate/projectionCurrentEstimate.component';
 import { ProjectionAvailabilityComponent } from './projectionAvailability/projectionAvailability.component';
 import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projectionFoodSources.component';
+import { ProjectionEstimateComponent } from './projectionEstimate/projectionEstimate.component';
 
 @NgModule({
   declarations: [
     ProjectionComponent,
     ProjectionDescriptionComponent,
-    ProjectionCurrentEstimateComponent,
     ProjectionAvailabilityComponent,
     ProjectionFoodSourcesComponent,
+    ProjectionEstimateComponent,
   ],
   imports: [
     CommonModule,
