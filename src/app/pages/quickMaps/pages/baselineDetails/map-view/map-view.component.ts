@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Component, AfterViewInit, Input, OnDestroy, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnDestroy, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -17,13 +17,12 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { ComponentsModule } from 'src/app/components/components.module';
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
 })
-export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapViewComponent implements OnInit, OnDestroy {
   @Input() widget;
   @Input() resizeEvent: EventEmitter<GridsterItem>;
 
@@ -57,7 +56,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           this.subRegionData = data;
           this.mapView1 = this.initialiseMapAbsolute(data, 'mapView1');
         })
-        .catch((error) => { });
+        .catch((error) => {
+          console.error(error);
+        });
     });
 
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -89,12 +90,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           this.cdr.detectChanges();
         });
       });
-  }
-
-  ngAfterViewInit(): void {
-    // fails to find element if not taked out of flow
-    setTimeout(() => {
-    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -151,9 +146,9 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         layer.bindPopup(popup);
 
         layer.on({
-          mouseover: () => layer.openPopup(),
-          mouseout: () => layer.closePopup(),
-          click: (e: any) => console.log('clicked', e),
+          click: () => {
+            layer.openPopup();
+          },
         });
       },
     }).addTo(map);
@@ -226,9 +221,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       legend.addTo(map);
 
       const props = {
-        // style: layerStyle,
         onEachFeature: (feature: GeoJSON.Feature, layer: any) => {
-          // console.log(feature, layer);
           const layerName = feature.properties.subregion_name;
           const layerValueAbsolute = feature.properties.mn_absolute;
           const layerValueThreshold = feature.properties.mn_threshold;
@@ -244,8 +237,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           layer.bindPopup(popup);
 
           layer.on({
-            // mouseover: () => layer.openPopup(),
-            // mouseout: () => layer.closePopup(),
             click: () => {
               layer.openPopup();
             },
