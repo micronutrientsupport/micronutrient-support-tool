@@ -7,7 +7,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-proj-est',
@@ -33,27 +33,14 @@ export class ProjectionEstimateComponent implements OnInit {
     public quickMapsService: QuickMapsService,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
-      .then((dicts: Array<Dictionary>) => {
-        this.countriesDictionary = dicts.shift();
-        this.regionDictionary = dicts.shift();
-        this.micronutrientsDictionary = dicts.shift();
-
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = this.countriesDictionary.getItem(countryId);
-          this.countryName = null != country ? country.name : '';
-          this.cdr.markForCheck();
-        });
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : '';
-          console.log(this.vitaminName);
-          this.cdr.markForCheck();
-        });
-      });
+    this.projectionEstimateForm = this.fb.group({
+      kg: null,
+      nation: null,
+      year: null,
+    });
   }
 }
