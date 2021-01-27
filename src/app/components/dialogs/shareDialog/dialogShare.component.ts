@@ -16,11 +16,11 @@ export interface ShareDialogData {
 export class ShareDialogComponent {
   public copyLinkUrl: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<ShareDialogData>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<ShareDialogData>,
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
   ) {
-    this.copyLinkUrl = dialogData.dataIn.shareLink;
+    this.copyLinkUrl = data.dataIn.shareLink;
   }
 
   public copyLink(): void {
