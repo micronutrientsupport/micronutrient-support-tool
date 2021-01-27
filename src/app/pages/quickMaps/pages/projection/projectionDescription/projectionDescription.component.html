@@ -1,3 +1,13 @@
 <app-card title="Projection Description" [loading]="loading" [error]="error" [showExpand]="false">
-  The projections are modelled based on 3 different scenarios
+
+  <div id="projDescPane">
+    <div class="nation">Nation: <strong>{{countryName}}</strong></div>
+    <div class="vitamin">Vitamin: <strong>{{vitaminName}}</strong></div>
+    <div class="baseline">Baseline assumptions: <strong>SSP2</strong></div>
+  </div>
+  <div class="description">The projections are modelled based on 3 different scenarios. Scenario SSP1 is
+    called the
+    Sustainability scenario; scenario SSP2 is the Middle of the Road scenario; scenario SSP3 is the Regional
+    Rivalry Scenario. Learn More</div>
+
 </app-card>

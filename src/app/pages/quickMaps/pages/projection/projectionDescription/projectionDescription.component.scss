@@ -1,1 +1,38 @@
 @import 'src/assets/scss/_colour';
+
+// body {
+//   display: flex;
+//   min-height: 50vh;
+//   flex-direction: column;
+//   margin: 0;
+// }
+#projDescPane {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  background-color: $color_background_form;
+  height: 100px;
+}
+#projDescPane > .nation,
+#projDescPane > .vitamin,
+#projDescPane > .baseline {
+  flex: 1;
+}
+
+.description {
+  display: block;
+  height: 100px;
+  background-color: $color_background_form;
+}
+
+.nation,
+.vitamin,
+.baseline {
+  padding: 5px;
+}
+
+@media only screen and (max-width: 900px) {
+  .description {
+    display: none;
+  }
+}
