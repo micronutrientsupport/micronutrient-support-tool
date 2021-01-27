@@ -1,43 +1,46 @@
 @import 'src/assets/scss/_colour';
 
+.mat-expansion-panel.mat-expanded,
+.mat-expansion-panel-header,
+.mat-expansion-panel-header:hover,
+.mat-expansion-panel.mat-expanded:hover {
+  height: 100% !important;
+  background: $color_background_form;
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled='true']) {
+  background: $color_background_form;
+}
+
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+}
+
 .container {
-  max-height: 300px;
   margin-bottom: 10px;
-  border: 1px solid $color_primary;
-  border-radius: 5px;
-  background-color: $color_background_form;
 }
-#projDescPane {
+
+.content-container {
   display: flex;
-  flex-direction: row;
-  flex: 1;
+  width: 100%;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  font-size: 18px;
 }
-#projDescPane > .nation,
-#projDescPane > .vitamin,
-#projDescPane > .baseline {
+
+.item {
+  flex-grow: 1;
   flex: 1;
+  margin: 5px;
+
+  &.wideItem {
+    flex-grow: 2;
+  }
 }
 
-.description {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-}
-
-.nation,
-.vitamin,
-.baseline {
-  padding: 5px;
-}
-
-@media only screen and (max-width: 900px) {
-  .description {
-    display: none;
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
   }
 }
