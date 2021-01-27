@@ -146,9 +146,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
         layer.bindPopup(popup);
 
         layer.on({
-          click: () => {
-            layer.openPopup();
-          },
+          mouseover: () => layer.openPopup(),
+          mouseout: () => layer.closePopup(),
         });
       },
     }).addTo(map);
@@ -187,7 +186,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }).addTo(map);
 
     this.http.get('./assets/exampleData/sub-region-results_copy.json').subscribe((data: any) => {
-
       const style = (feature) => ({
         fillColor: this.getColourThreshold(feature.properties.mn_threshold),
         weight: 2,
@@ -209,9 +207,9 @@ export class MapViewComponent implements OnInit, OnDestroy {
         range.forEach((value: number, i) => {
           div.innerHTML +=
             `<span style="display: flex; align-items: center;">
-            <span style="background-color:${this.getColourThreshold(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+            <span style="background-color:${this.getColourAbsolute(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
-            `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? '% - ' + (range[i + 1]).toString() + '%' : ''}</span>` +
+            `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + (range[i + 1]).toString() : ''}</span>` +
             '</span>';
         });
 
@@ -221,7 +219,9 @@ export class MapViewComponent implements OnInit, OnDestroy {
       legend.addTo(map);
 
       const props = {
-        onEachFeature: (feature: GeoJSON.Feature, layer: any) => {
+        // style: layerStyle,
+        onEachFeature: (feature: any, layer: any) => {
+          // console.log(feature, layer);
           const layerName = feature.properties.subregion_name;
           const layerValueAbsolute = feature.properties.mn_absolute;
           const layerValueThreshold = feature.properties.mn_threshold;
@@ -237,9 +237,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
           layer.bindPopup(popup);
 
           layer.on({
-            click: () => {
-              layer.openPopup();
-            },
+            mouseover: () => layer.openPopup(),
+            mouseout: () => layer.closePopup(),
           });
         },
       };
@@ -286,8 +285,4 @@ export class MapViewComponent implements OnInit, OnDestroy {
   public openDialog(): void {
     void this.modalService.openMapDialog('Hello World');
   }
-}
-
-interface UnknownLeafletFeatureLayerClass extends L.Path {
-  feature: GeoJSON.Feature;
 }
