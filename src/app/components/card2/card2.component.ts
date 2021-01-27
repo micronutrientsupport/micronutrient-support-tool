@@ -75,8 +75,5 @@ export class Card2Component implements OnInit {
   public functionSettings(): void {
     this.onSettingsClickSrc.next();
   }
-  public detectChanges(): void {
-    this.cdr.detectChanges();
-  }
 
 }

@@ -86,7 +86,7 @@ export class HouseholdSupplyComponent implements OnInit {
           // force change detection to:
           // remove chart before re-setting it to stop js error
           // show table and init paginator and sorter
-          this.detectChanges();
+          this.cdr.detectChanges();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -102,15 +102,6 @@ export class HouseholdSupplyComponent implements OnInit {
         });
     });
   }
-
-  private detectChanges(): void {
-    if (null != this.card) {
-      this.card.detectChanges();
-    } else {
-      this.cdr.detectChanges();
-    }
-  }
-
 
   private initialiseGraph(data: Array<HouseholdHistogramData>): void {
     this.chartData = {
