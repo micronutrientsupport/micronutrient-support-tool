@@ -42,8 +42,6 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
-  public mndsDataToolTip = '';
-
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
@@ -90,8 +88,6 @@ export class SideNavContentComponent implements OnInit {
         });
         this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
           this.quickMapsService.setMndDataId(value);
-          const toolTipSelectedItem = this.micronutrientDataOptions.find((item: MicronutrientDataOption) => item.id === value);
-          this.mndsDataToolTip = (null != toolTipSelectedItem) ? toolTipSelectedItem.name : '';
         });
       });
 
