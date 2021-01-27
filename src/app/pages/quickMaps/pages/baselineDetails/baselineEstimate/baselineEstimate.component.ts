@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 

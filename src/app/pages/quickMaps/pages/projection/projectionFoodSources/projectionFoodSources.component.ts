@@ -16,9 +16,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { Subscription } from 'rxjs';
 import { GridsterItem } from 'angular-gridster2';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 
 @Component({
   selector: 'app-proj-food-sources ',
