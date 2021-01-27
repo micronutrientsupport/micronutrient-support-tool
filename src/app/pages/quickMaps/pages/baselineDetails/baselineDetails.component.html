@@ -19,8 +19,10 @@
     </app-monthly-card>
 
     <!-- Top 20 -->
-    <app-food-items [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
-    </app-food-items>
+    
+    <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
+      <app-food-items [card]="card"></app-food-items>
+    </app-card2>
 
   </gridster-item>
 </gridster>

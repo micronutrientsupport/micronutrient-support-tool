@@ -99,6 +99,7 @@ export class HouseholdSupplyComponent implements OnInit {
         })
         .finally(() => {
           this.loadingSrc.next(false);
+          this.cdr.detectChanges();
         });
     });
   }
