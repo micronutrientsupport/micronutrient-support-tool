@@ -58,7 +58,7 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.resizeSub = this.resizeEvent.subscribe((widget) => {
@@ -183,10 +183,9 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
   }
 
   public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData,
-      {
-        datasource: this.dataSource,
-        columnIdentifiers: this.displayedColumns
-      });
+    void this.dialogService.openChartDialog(this.chartData, {
+      datasource: this.dataSource,
+      columnIdentifiers: this.displayedColumns,
+    });
   }
 }

@@ -6,6 +6,7 @@ import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObjec
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { ExpandDialogComponent } from './expandDialog/expandDialog.component';
 import { MapDialogComponent } from './mapDialog/mapDialog.component';
+import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable({
   providedIn: 'root',
@@ -23,11 +24,10 @@ export class DialogService extends BaseDialogService {
   }
   // eslint-disable-next-line @typescript-eslint/ban-types
   public openChartDialog(graphData: ChartJSObject, tableData?: MatTableObject): Promise<DialogData> {
-    return this.openDialog('chartDialog', ExpandDialogComponent, true,
-      {
-        graphData,
-        tableData
-      });
+    return this.openDialog('chartDialog', ExpandDialogComponent, true, {
+      graphData,
+      tableData,
+    });
   }
   public openShareDialog(shareLink: string): Promise<DialogData> {
     return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
@@ -42,5 +42,8 @@ export class DialogService extends BaseDialogService {
       width,
       height,
     });
+  }
+  public openScenarioTypeDialog(): Promise<DialogData> {
+    return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);
   }
 }
