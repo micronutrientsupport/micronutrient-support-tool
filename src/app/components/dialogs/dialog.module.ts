@@ -7,17 +7,15 @@ import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ExpandDialogComponent } from './expandDialog/expandDialog.component';
+import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 @NgModule({
-  declarations: [BaseDialogComponent, MapDialogComponent, ShareDialogComponent, ExpandDialogComponent],
+  declarations: [
+    BaseDialogComponent,
+    MapDialogComponent,
+    ShareDialogComponent,
+    ExpandDialogComponent,
+    ScenarioTypeDialogComponent,
+  ],
   imports: [CommonModule, AppMaterialModule, ShareModule, ChartjsModule],
 })
-export class DialogModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: DialogModule,
-  //     providers: [
-  //       DialogService,
-  //     ]
-  //   };
-  // }
-}
+export class DialogModule {}
