@@ -13,9 +13,9 @@ export interface MapDialogData {
 })
 export class MapDialogComponent implements OnInit {
   public content = '';
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<MapDialogData>) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<MapDialogData>) {}
 
   ngOnInit(): void {
-    this.content = this.dialogData.dataIn.content;
+    this.content = this.data.dataIn.content;
   }
 }

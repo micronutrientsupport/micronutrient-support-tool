@@ -34,12 +34,12 @@ export class ExpandDialogComponent implements OnInit {
   public displayedColumns: Array<string>;
   private filterTimeout: NodeJS.Timeout;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<CardExpandDialogData>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<CardExpandDialogData>) {
   }
 
   ngOnInit(): void {
-    const chartData: ChartJSObject = this.dialogData.dataIn.graphData;
-    const tableData: MatTableObject = this.dialogData.dataIn.tableData;
+    const chartData: ChartJSObject = this.data.dataIn.graphData;
+    const tableData: MatTableObject = this.data.dataIn.tableData;
     this.initialiseGraph(chartData);
     this.initialiseTable(tableData);
   }
