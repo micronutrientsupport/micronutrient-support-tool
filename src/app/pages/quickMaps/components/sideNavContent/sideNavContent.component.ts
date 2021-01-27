@@ -42,8 +42,6 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
-  public selectedCountry;
-
   public mndsDataToolTip = '';
 
   constructor(
