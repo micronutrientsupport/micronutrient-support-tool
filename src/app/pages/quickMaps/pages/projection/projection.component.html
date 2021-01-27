@@ -1,16 +1,12 @@
-<gridster class="bmgf-maps-nice-scrollbar" [options]="options">
-  <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-    <app-proj-desc [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjDesc'">
-    </app-proj-desc>
+  <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
+    <app-proj-desc></app-proj-desc>
+    <app-proj-est></app-proj-est>
+    <gridster-item [item]="widget" *ngFor="let widget of dashboard">
+      <app-proj-avail [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjAvail'">
+      </app-proj-avail>
 
-    <app-proj-est [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjCurrentEst'">
-    </app-proj-est>
-
-    <app-proj-avail [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjAvail'">
-    </app-proj-avail>
-
-    <app-proj-food-sources [widget]="widget" [resizeEvent]="resizeEvent"
-      *ngIf="widget.type === 'widgetProjFoodSources'">
-    </app-proj-food-sources>
-  </gridster-item>
-</gridster>
+      <app-proj-food-sources [widget]="widget" [resizeEvent]="resizeEvent"
+        *ngIf="widget.type === 'widgetProjFoodSources'">
+      </app-proj-food-sources>
+    </gridster-item>
+  </gridster>

@@ -22,7 +22,7 @@ export class Card2Component implements OnInit {
 
   private onResizeSrc = new Subject<void>();
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public ononResizeObs = this.onResizeSrc.asObservable();
+  public onResizeObs = this.onResizeSrc.asObservable();
 
   private onExpandClickSrc = new Subject<void>();
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -52,7 +52,7 @@ export class Card2Component implements OnInit {
     this.subscriptions.push(
       obs.subscribe((loading: boolean) => {
         this.loading = loading;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       })
     );
     return this;
@@ -62,7 +62,7 @@ export class Card2Component implements OnInit {
     this.subscriptions.push(
       obs.subscribe((error: boolean) => {
         this.error = error;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       })
     );
     return this;
@@ -74,6 +74,9 @@ export class Card2Component implements OnInit {
 
   public functionSettings(): void {
     this.onSettingsClickSrc.next();
+  }
+  public detectChanges(): void {
+    this.cdr.detectChanges();
   }
 
 }

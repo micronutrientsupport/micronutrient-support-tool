@@ -51,6 +51,7 @@ export class HouseholdSupplyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = 'Household Dietary Supply';
       this.card.showExpand = true;
@@ -63,6 +64,7 @@ export class HouseholdSupplyComponent implements OnInit {
       );
     }
 
+    // respond to parameter updates
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loadingSrc.next(true);
       this.currentDataService
@@ -84,7 +86,7 @@ export class HouseholdSupplyComponent implements OnInit {
           // force change detection to:
           // remove chart before re-setting it to stop js error
           // show table and init paginator and sorter
-          this.cdr.markForCheck();
+          this.detectChanges();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -101,8 +103,16 @@ export class HouseholdSupplyComponent implements OnInit {
     });
   }
 
+  private detectChanges(): void {
+    if (null != this.card) {
+      this.card.detectChanges();
+    } else {
+      this.cdr.detectChanges();
+    }
+  }
 
-  public initialiseGraph(data: Array<HouseholdHistogramData>): void {
+
+  private initialiseGraph(data: Array<HouseholdHistogramData>): void {
     this.chartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
@@ -157,7 +167,7 @@ export class HouseholdSupplyComponent implements OnInit {
     };
   }
 
-  public openDialog(): void {
+  private openDialog(): void {
     void this.dialogService.openDialogForComponent(HouseholdSupplyComponent);
   }
 }

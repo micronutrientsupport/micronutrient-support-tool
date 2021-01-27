@@ -1,0 +1,50 @@
+@import 'src/assets/scss/_colour';
+
+.container {
+  display: flex;
+  margin-bottom: 10px;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  flex-flow: row wrap;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+.item {
+  flex-grow: 1;
+  flex: 1;
+  margin: 5px;
+
+  &.wideItem {
+    flex-grow: 2;
+  }
+}
+
+.estimateHeader {
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+}
+.estimateValue {
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+
+  &.blue {
+    color: blue;
+  }
+  &.green {
+    color: green;
+  }
+  &.red {
+    color: red;
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}

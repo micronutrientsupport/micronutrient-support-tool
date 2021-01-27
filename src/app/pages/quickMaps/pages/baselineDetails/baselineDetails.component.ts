@@ -22,12 +22,15 @@ export class BaselineDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.options = {
       gridType: GridType.ScrollVertical,
-      displayGrid: DisplayGrid.OnDragAndResize,
+      displayGrid: DisplayGrid.None,
       disableWindowResize: false,
       scrollToNewItems: false,
       disableWarnings: false,
       ignoreMarginInRow: false,
       margin: 10,
+      keepFixedHeightInMobile: false,
+      pushItems: true,
+      pushDirections: { north: true, east: true, south: true, west: true },
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
@@ -71,14 +74,14 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
-    const defaultHeight = 6;
-    const defaultWidth = 4;
+    const defaultHeight = 4;
+    const defaultWidth = 6;
 
     this.dashboard = [
-      { cols: defaultHeight, rows: defaultWidth, y: 0, x: 0, type: 'widgetChart' },
-      { cols: defaultHeight, rows: defaultWidth, y: 0, x: defaultHeight, type: 'widgetMonthly' },
-      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: 0, type: 'widgetTopFood' },
-      { cols: defaultHeight, rows: defaultWidth, y: defaultWidth, x: defaultHeight, type: 'widgetMap' },
+      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetChart' },
+      { cols: defaultWidth, rows: defaultHeight, y: 0, x: defaultHeight, type: 'widgetMonthly' },
+      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: 0, type: 'widgetTopFood' },
+      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: defaultWidth, type: 'widgetMap' },
     ];
   }
 
