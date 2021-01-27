@@ -100,17 +100,17 @@ export class QuickMapsService {
     }
   }
 
-  private parameterChanged(): void {
-    this.updateQueryParams();
-    this.parameterChangedSrc.next();
-  }
-
-  private updateQueryParams(): void {
+  public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrientId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID] = this.popGroupId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
+  }
+
+  private parameterChanged(): void {
+    this.updateQueryParams();
+    this.parameterChangedSrc.next();
   }
 }
