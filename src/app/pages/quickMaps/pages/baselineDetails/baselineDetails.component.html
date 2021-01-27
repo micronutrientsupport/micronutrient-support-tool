@@ -5,8 +5,7 @@
 
     <!-- Chart -->
     <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
-    <app-household-card [card]="card">
-    </app-household-card>
+      <app-household-supply [card]="card"></app-household-supply>
     </app-card2>
 
     <!-- Food composition -->

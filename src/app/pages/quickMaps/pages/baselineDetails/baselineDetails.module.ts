@@ -12,7 +12,7 @@ import { MapViewComponent } from './map-view/map-view.component';
 import { FoodCompositionViewComponent } from './food-composition-view/food-composition-view.component';
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
-import { HouseholdCardComponent } from './householdSupply/householdCard.component';
+import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
@@ -23,7 +23,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     FoodCompositionViewComponent,
     SummarisedDataTableComponent,
     FoodItemsComponent,
-    HouseholdCardComponent,
+    HouseholdSupplyComponent,
     MonthlyCardComponent,
   ],
   imports: [

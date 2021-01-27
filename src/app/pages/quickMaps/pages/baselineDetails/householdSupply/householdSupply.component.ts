@@ -22,12 +22,12 @@ import { Card2Component } from 'src/app/components/card2/card2.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 @Component({
-  selector: 'app-household-card',
-  templateUrl: './householdCard.component.html',
-  styleUrls: ['./householdCard.component.scss'],
+  selector: 'app-household-supply',
+  templateUrl: './householdSupply.component.html',
+  styleUrls: ['./householdSupply.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HouseholdCardComponent implements OnInit {
+export class HouseholdSupplyComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -158,6 +158,6 @@ export class HouseholdCardComponent implements OnInit {
   }
 
   public openDialog(): void {
-    void this.dialogService.openDialogForComponent(HouseholdCardComponent);
+    void this.dialogService.openDialogForComponent(HouseholdSupplyComponent);
   }
 }
