@@ -165,19 +165,14 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
       const range = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      for (let i = 0; i < range.length; i++) {
+      range.forEach((value: number, i) => {
         div.innerHTML +=
-          `<span style="display: flex; align-items: center;
-          ">
-          <span style="background-color:${this.getColourAbsolute(
-            range[i] + 1,
-          )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
-          '<span>' +
-          range[i] +
-          (range[i + 1] ? `&ndash;${range[i + 1]} mg` : ' mg+') +
-          '</span>' +
+          `<span style="display: flex; align-items: center;">
+          <span style="background-color:${this.getColourAbsolute(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+          </span>` +
+          `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + (range[i + 1]).toString() : ''}</span>` +
           '</span>';
-      }
+      });
 
       return div;
     };
@@ -197,12 +192,6 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
     }).addTo(map);
 
     this.http.get('./assets/exampleData/sub-region-results_copy.json').subscribe((data: any) => {
-      // const layerStyle = {
-      //   color: '#703aa3',
-      //   weight: 1,
-      //   opacity: 0.9,
-      //   fillOpacity: 0.1,
-      // };
 
       const style = (feature) => ({
         fillColor: this.getColourThreshold(feature.properties.mn_threshold),
@@ -222,19 +211,14 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
         const range = [0, 20, 40, 60, 80, 99];
 
         // loop through our  intervals and generate a label with a colored square for each interval
-        for (let i = 0; i < range.length; i++) {
+        range.forEach((value: number, i) => {
           div.innerHTML +=
-            `<span style="display: flex; align-items: center;
-            ">
-            <span style="background-color:${this.getColourThreshold(
-              range[i] + 1,
-            )}; height:10px; width:10px; display:block; margin-right:5px;"> </span>` +
-            '<span>' +
-            range[i] +
-            (range[i + 1] ? `&ndash;${range[i + 1]}%<br>` : '%+') +
-            '</span>' +
+            `<span style="display: flex; align-items: center;">
+            <span style="background-color:${this.getColourThreshold(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+            </span>` +
+            `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? '% - ' + (range[i + 1]).toString() + '%' : ''}</span>` +
             '</span>';
-        }
+        });
 
         return div;
       };
@@ -243,7 +227,7 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const props = {
         // style: layerStyle,
-        onEachFeature: (feature: any, layer: any) => {
+        onEachFeature: (feature: GeoJSON.Feature, layer: any) => {
           // console.log(feature, layer);
           const layerName = feature.properties.subregion_name;
           const layerValueAbsolute = feature.properties.mn_absolute;
@@ -260,9 +244,11 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
           layer.bindPopup(popup);
 
           layer.on({
-            mouseover: () => layer.openPopup(),
-            mouseout: () => layer.closePopup(),
-            click: (e: any) => console.log('clicked', e),
+            // mouseover: () => layer.openPopup(),
+            // mouseout: () => layer.closePopup(),
+            click: () => {
+              layer.openPopup();
+            },
           });
         },
       };
@@ -309,4 +295,8 @@ export class MapViewComponent implements OnInit, AfterViewInit, OnDestroy {
   public openDialog(): void {
     void this.modalService.openMapDialog('Hello World');
   }
+}
+
+interface UnknownLeafletFeatureLayerClass extends L.Path {
+  feature: GeoJSON.Feature;
 }
