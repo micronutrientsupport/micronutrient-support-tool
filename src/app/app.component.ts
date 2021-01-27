@@ -29,6 +29,7 @@ export class AppComponent {
           if (null != subs) {
             subs.unsubscribe();
           }
+          // console.debug('route data', route, data);
           this.showLightFooter = true === data.showLightFooter;
 
           this.updateMetaTag(data.keywords, 'keywords');
