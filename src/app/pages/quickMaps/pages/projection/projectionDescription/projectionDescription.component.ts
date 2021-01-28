@@ -8,6 +8,8 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { MiscApiService } from 'src/app/services/miscApi.service';
+import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 
 @Component({
   selector: 'app-proj-desc',
@@ -33,6 +35,7 @@ export class ProjectionDescriptionComponent implements OnInit {
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
+    private miscApiService: MiscApiService,
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +58,10 @@ export class ProjectionDescriptionComponent implements OnInit {
           this.cdr.markForCheck();
         });
       });
+
+    this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
+      console.log(result);
+    });
   }
 
   public openScenarioTypeDialog(): void {
