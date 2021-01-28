@@ -25,7 +25,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './householdSupply.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

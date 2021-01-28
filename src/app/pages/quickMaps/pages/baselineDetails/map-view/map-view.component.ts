@@ -21,7 +21,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './map-view.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -27,7 +27,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './foodItems.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
