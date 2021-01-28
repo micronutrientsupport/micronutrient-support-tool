@@ -20,12 +20,12 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { GridsterItem } from 'angular-gridster2';
 import { Subscription } from 'rxjs';
 @Component({
-  selector: 'app-monthly-card',
-  templateUrl: './monthlyCard.component.html',
-  styleUrls: ['./monthlyCard.component.scss'],
+  selector: 'app-monthly-food',
+  templateUrl: './monthlyFood.component.html',
+  styleUrls: ['./monthlyFood.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MonthlyCardComponent implements OnInit, OnDestroy {
+export class MonthlyFoodComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() widget;

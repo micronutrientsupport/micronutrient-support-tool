@@ -13,7 +13,7 @@ import { FoodCompositionViewComponent } from './food-composition-view/food-compo
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
-import { MonthlyCardComponent } from './monthlyCard/monthlyCard.component';
+import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
@@ -26,7 +26,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     SummarisedDataTableComponent,
     FoodItemsComponent,
     HouseholdSupplyComponent,
-    MonthlyCardComponent,
+    MonthlyFoodComponent,
     BaselineDescriptionComponent,
     BaslineEstimateComponent,
   ],
