@@ -1,5 +1,4 @@
-<app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true"
-  (expandTrigger)="openDialog()">
+<ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Tree">
       <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
@@ -29,4 +28,10 @@
     </mat-tab>
 
   </mat-tab-group>
-</app-card>
+</ng-template>
+
+<ng-container *ngIf="(null != data) else componentTemplate">
+  <app-base-dialog [data]="data" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

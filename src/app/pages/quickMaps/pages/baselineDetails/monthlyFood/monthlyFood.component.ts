@@ -5,8 +5,8 @@ import {
   Component,
   Input,
   OnInit,
-  EventEmitter,
-  OnDestroy,
+  Optional,
+  Inject,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -17,22 +17,26 @@ import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGrou
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { GridsterItem } from 'angular-gridster2';
-import { Subscription } from 'rxjs';
+import { Card2Component } from 'src/app/components/card2/card2.component';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 @Component({
-  selector: 'app-monthly-card',
-  templateUrl: './monthlyCard.component.html',
-  styleUrls: ['./monthlyCard.component.scss'],
+  selector: 'app-monthly-food',
+  templateUrl: './monthlyFood.component.html',
+  styleUrls: [
+    '../expandableTabGroup.scss',
+    './monthlyFood.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MonthlyCardComponent implements OnInit, OnDestroy {
+export class MonthlyFoodComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @Input() widget;
-  @Input() resizeEvent: EventEmitter<GridsterItem>;
-  resizeSub: Subscription;
-  public loading = false;
-  public error = false;
+
+  @Input() card: Card2Component;
+
+  public title = 'Monthly Food';
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
@@ -53,24 +57,36 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
     // 'supplyUnit',
   ];
 
+  private loadingSrc = new BehaviorSubject<boolean>(false);
+  private errorSrc = new BehaviorSubject<boolean>(false);
+
+  private subscriptions = new Array<Subscription>();
+
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
+  ) { }
 
   ngOnInit(): void {
-    this.resizeSub = this.resizeEvent.subscribe((widget) => {
-      if (widget === this.widget) {
-        // or check id , type or whatever you have there
-        // resize your widget, chart, map , etc.
-        // console.log(widget);
-      }
-    });
+    // if displayed within a card component init interactions with the card
+    if (null != this.card) {
+      this.card.title = this.title;
+      this.card.showExpand = true;
+      this.card
+        .setLoadingObservable(this.loadingSrc.asObservable())
+        .setErrorObservable(this.errorSrc.asObservable());
+
+      this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog())
+      );
+    }
+
+    // respond to parameter updates
     this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loading = true;
-      this.cdr.markForCheck();
+      this.loadingSrc.next(true);
       void this.currentDataService
         .getMonthlyFoodGroups(
           this.quickMapsService.countryId,
@@ -79,30 +95,31 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
           this.quickMapsService.mndDataId,
         )
         .then((data: MonthlyFoodGroups) => {
+          if (null == data) {
+            throw new Error('data error');
+          }
+
           this.dataSource = new MatTableDataSource(data.all);
-          this.error = false;
+          this.errorSrc.next(false);
           this.chartData = null;
           // force change detection to:
           // remove chart before re-setting it to stop js error
           // show table and init paginator and sorter
-          this.cdr.markForCheck();
+          this.cdr.detectChanges();
 
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.initialiseGraph(data.all);
         })
         .catch((err) => {
-          this.error = true;
+          this.errorSrc.next(true);
           console.error(err);
         })
         .finally(() => {
-          this.loading = false;
+          this.loadingSrc.next(false);
+          this.cdr.detectChanges();
         });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.resizeSub.unsubscribe();
   }
 
   public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
@@ -182,10 +199,7 @@ export class MonthlyCardComponent implements OnInit, OnDestroy {
     };
   }
 
-  public openDialog(): void {
-    void this.dialogService.openChartDialog(this.chartData, {
-      datasource: this.dataSource,
-      columnIdentifiers: this.displayedColumns,
-    });
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent(MonthlyFoodComponent);
   }
 }
