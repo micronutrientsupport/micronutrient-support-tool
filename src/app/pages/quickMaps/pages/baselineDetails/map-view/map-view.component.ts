@@ -13,7 +13,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
@@ -30,7 +30,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = '';
 

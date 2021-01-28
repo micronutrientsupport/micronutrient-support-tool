@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef, Optional, Inject, Component } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -17,7 +17,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectionAvailabilityComponent implements OnInit {
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Projection Availability';
 

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -25,7 +25,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectionFoodSourcesComponent implements OnInit {
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Projection Food Sources';
 
