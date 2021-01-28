@@ -7,6 +7,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-base-desc',
@@ -31,6 +32,7 @@ export class BaselineDescriptionComponent implements OnInit {
     public quickMapsService: QuickMapsService,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -53,5 +55,9 @@ export class BaselineDescriptionComponent implements OnInit {
           this.cdr.markForCheck();
         });
       });
+  }
+
+  public openScenarioTypeDialog(): void {
+    void this.dialogService.openScenarioTypeDialog();
   }
 }
