@@ -40,7 +40,7 @@ export class MonthlyFoodComponent implements OnInit {
   public chartData: ChartJSObject;
 
   public displayedColumns = [
-    'month',
+    'monthIndex',
     // 'unitPerc',
     'vegetablesPerc',
     'cerealGrainsPerc',
@@ -123,7 +123,7 @@ export class MonthlyFoodComponent implements OnInit {
     this.chartData = {
       type: 'bar',
       data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: data.map((year) => year.month),
         datasets: [
           {
             label: 'Cereal Grains',

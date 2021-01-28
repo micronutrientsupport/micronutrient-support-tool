@@ -9,7 +9,7 @@
     <mat-tab label="Monthly Summary Data">
       <div class="bmgf-maps-nice-scrollbar">
         <table mat-table [dataSource]="dataSource" matSort>
-          <ng-container matColumnDef="month" sticky>
+          <ng-container matColumnDef="monthIndex" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Month</th>
             <td mat-cell *matCellDef="let element">{{ element.month }}</td>
           </ng-container>
