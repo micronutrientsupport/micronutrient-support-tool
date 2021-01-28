@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 
@@ -139,8 +140,4 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
       }).addTo(this.map);
     });
   }
-}
-
-interface UnknownLeafletFeatureLayerClass extends L.Path {
-  feature: GeoJSON.Feature;
 }

@@ -24,7 +24,10 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
-  styleUrls: ['./householdSupply.component.scss'],
+  styleUrls: [
+    '../expandableTabGroup.scss',
+    './householdSupply.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HouseholdSupplyComponent implements OnInit {
@@ -32,6 +35,8 @@ export class HouseholdSupplyComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: Card2Component;
+
+  public title = 'Household Dietary Supply';
 
   public chartData: ChartJSObject;
   public displayedColumns = ['bin', 'frequency'];
@@ -53,7 +58,7 @@ export class HouseholdSupplyComponent implements OnInit {
   ngOnInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
-      this.card.title = 'Household Dietary Supply';
+      this.card.title = this.title;
       this.card.showExpand = true;
       this.card
         .setLoadingObservable(this.loadingSrc.asObservable())
@@ -99,6 +104,7 @@ export class HouseholdSupplyComponent implements OnInit {
         })
         .finally(() => {
           this.loadingSrc.next(false);
+          this.cdr.detectChanges();
         });
     });
   }

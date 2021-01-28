@@ -1,4 +1,12 @@
-@import 'src/assets/scss/_colour';
+// @import 'src/assets/scss/_colour';
+
+:host {
+  flex: 1 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 
 mat-tab-group {
   min-height: 0;
