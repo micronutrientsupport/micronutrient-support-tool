@@ -32,6 +32,8 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: Card2Component;
 
+  public title = '';
+
   private countryName = new BehaviorSubject('');
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
@@ -78,10 +80,20 @@ export class MapViewComponent implements OnInit, AfterViewInit {
       );
       this.subscriptions.push(
         this.countryName.subscribe((countryName: string) => {
-          this.card.title = 'Map View' + ('' === countryName ? '' : ` - ${countryName}`);
+          this.title = 'Map View' + ('' === countryName ? '' : ` - ${countryName}`);
+          this.card.title = this.title;
         })
       );
     }
+
+    this.subscriptions.push(
+      this.countryName.subscribe((countryName: string) => {
+        this.title = 'Map View' + ('' === countryName ? '' : ` - ${countryName}`);
+        if (null != this.card) {
+          this.card.title = this.title;
+        }
+      })
+    );
 
     void this.dictionaryService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])

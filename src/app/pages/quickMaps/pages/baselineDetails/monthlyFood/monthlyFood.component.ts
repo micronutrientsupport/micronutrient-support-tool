@@ -36,6 +36,8 @@ export class MonthlyFoodComponent implements OnInit {
 
   @Input() card: Card2Component;
 
+  public title = 'Monthly Food';
+
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
 
@@ -71,7 +73,7 @@ export class MonthlyFoodComponent implements OnInit {
   ngOnInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
-      this.card.title = 'Monthly Food Card';
+      this.card.title = this.title;
       this.card.showExpand = true;
       this.card
         .setLoadingObservable(this.loadingSrc.asObservable())

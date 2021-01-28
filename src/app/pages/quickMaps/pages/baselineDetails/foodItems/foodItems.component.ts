@@ -38,6 +38,8 @@ export class FoodItemsComponent implements OnInit {
 
   @Input() card: Card2Component;
 
+  public title = 'Top 20 Food Items';
+
   public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
@@ -58,7 +60,7 @@ export class FoodItemsComponent implements OnInit {
   ngOnInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
-      this.card.title = 'Top 20 Food Items';
+      this.card.title = this.title;
       this.card.showExpand = true;
       this.card
         .setLoadingObservable(this.loadingSrc.asObservable())

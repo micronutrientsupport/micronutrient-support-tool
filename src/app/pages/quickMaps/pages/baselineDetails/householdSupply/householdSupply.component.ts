@@ -36,6 +36,8 @@ export class HouseholdSupplyComponent implements OnInit {
 
   @Input() card: Card2Component;
 
+  public title = 'Household Dietary Supply';
+
   public chartData: ChartJSObject;
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
@@ -56,7 +58,7 @@ export class HouseholdSupplyComponent implements OnInit {
   ngOnInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
-      this.card.title = 'Household Dietary Supply';
+      this.card.title = this.title;
       this.card.showExpand = true;
       this.card
         .setLoadingObservable(this.loadingSrc.asObservable())
