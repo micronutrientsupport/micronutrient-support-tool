@@ -17,7 +17,7 @@ import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGrou
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
@@ -25,7 +25,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './monthlyFood.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +34,7 @@ export class MonthlyFoodComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Monthly Food';
 

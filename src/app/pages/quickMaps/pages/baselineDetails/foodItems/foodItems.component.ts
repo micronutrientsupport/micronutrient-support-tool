@@ -19,7 +19,7 @@ import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
@@ -27,7 +27,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './foodItems.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +36,7 @@ export class FoodItemsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Top 20 Food Items';
 

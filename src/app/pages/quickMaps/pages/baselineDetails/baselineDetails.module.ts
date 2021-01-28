@@ -9,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDetailsComponent } from './baselineDetails.component';
 import { MapViewComponent } from './map-view/map-view.component';
-import { FoodCompositionViewComponent } from './food-composition-view/food-composition-view.component';
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
@@ -22,7 +21,6 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
   declarations: [
     BaselineDetailsComponent,
     MapViewComponent,
-    FoodCompositionViewComponent,
     SummarisedDataTableComponent,
     FoodItemsComponent,
     HouseholdSupplyComponent,

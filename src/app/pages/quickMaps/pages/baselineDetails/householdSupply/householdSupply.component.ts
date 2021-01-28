@@ -18,14 +18,14 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './householdSupply.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +34,7 @@ export class HouseholdSupplyComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Household Dietary Supply';
 

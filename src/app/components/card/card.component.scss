@@ -44,3 +44,10 @@ mat-toolbar {
 .drag-handle {
   cursor: move;
 }
+
+.card-content-wrapper {
+  flex: 1 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
