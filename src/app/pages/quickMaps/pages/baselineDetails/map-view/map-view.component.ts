@@ -1,11 +1,6 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
-  Component, Input, OnInit, ChangeDetectorRef, Optional, Inject,
+  Component, Input, OnInit, Optional, Inject,
   ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef
 } from '@angular/core';
 import * as L from 'leaflet';
@@ -59,15 +54,11 @@ export class MapViewComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService,
     private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
-    private cdr: ChangeDetectorRef,
+    // private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
   ) { }
 
-  ngAfterViewInit(): void {
-    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
-    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-  }
   ngOnInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -92,6 +83,24 @@ export class MapViewComponent implements OnInit, AfterViewInit {
       );
     }
 
+    void this.dictionaryService
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
+      .then((dicts: Array<Dictionary>) => {
+        const countriesDict = dicts.shift();
+        // const regionDictionary = dicts.shift();
+
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          const country = countriesDict.getItem(countryId);
+          this.countryName.next(null != country ? country.name : '');
+          // this.cdr.detectChanges();
+        });
+      });
+  }
+
+  ngAfterViewInit(): void {
+    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
+    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+
     // respond to parameter updates
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loadingSrc.next(true);
@@ -114,7 +123,10 @@ export class MapViewComponent implements OnInit, AfterViewInit {
           // reset visited
           this.tabVisited.clear();
           // trigger current fit bounds
-          this.triggerFitBounds(this.tabGroup.selectedIndex);
+          // seems to need a small delay after page navigation to projections and back to baseline
+          setTimeout(() => {
+            this.triggerFitBounds(this.tabGroup.selectedIndex);
+          }, 0);
         })
         .catch((err) => {
           this.errorSrc.next(true);
@@ -125,19 +137,6 @@ export class MapViewComponent implements OnInit, AfterViewInit {
           // this.cdr.detectChanges();
         });
     });
-
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
-      .then((dicts: Array<Dictionary>) => {
-        const countriesDict = dicts.shift();
-        // const regionDictionary = dicts.shift();
-
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = countriesDict.getItem(countryId);
-          this.countryName.next(null != country ? country.name : '');
-          // this.cdr.detectChanges();
-        });
-      });
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
