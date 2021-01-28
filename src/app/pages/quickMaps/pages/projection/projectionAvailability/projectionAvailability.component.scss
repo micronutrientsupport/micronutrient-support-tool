@@ -1,1 +1,64 @@
 @import 'src/assets/scss/_colour';
+
+::ng-deep {
+  & .mat-tab-body-content {
+    margin: 0em;
+  }
+
+  & .mat-tab-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 1px;
+    max-height: 100%;
+  }
+  & .mat-tab-body-content {
+    height: 100%;
+  }
+
+  & .mat-tab-body.mat-tab-body-active {
+    overflow-y: hidden;
+  }
+
+  & .mat-tab-body-wrapper {
+  }
+}
+.container {
+  background-color: red;
+  height: 100%;
+}
+
+.table-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 1px;
+}
+
+table {
+  width: 95%;
+  align-self: center;
+}
+
+// mat-tab-group {
+//   min-height: 0;
+//   flex: 1 1;
+//   & ::ng-deep {
+//     & .mat-tab-body-wrapper {
+//       flex: 1 1;
+//       & .mat-tab-body-content > * {
+//         height: 100%;
+//       }
+//     }
+//   }
+// }
+
+// ngx-chartjs {
+//   display: block;
+//   & ::ng-deep > * {
+//     height: 100%;
+//   }
+// }
