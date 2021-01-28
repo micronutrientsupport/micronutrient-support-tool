@@ -15,8 +15,9 @@
     </app-food-composition-view> -->
 
     <!-- Monthly Card -->
-    <app-monthly-food [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMonthly'">
-    </app-monthly-food>
+    <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMonthly'">
+      <app-monthly-food [card]="card"></app-monthly-food>
+    </app-card2>
 
     <!-- Top 20 -->
     

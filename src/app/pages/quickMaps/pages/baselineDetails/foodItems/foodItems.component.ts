@@ -26,7 +26,10 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
-  styleUrls: ['./foodItems.component.scss'],
+  styleUrls: [
+    '../expandableTabGroup.scss',
+    './foodItems.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodItemsComponent implements OnInit {

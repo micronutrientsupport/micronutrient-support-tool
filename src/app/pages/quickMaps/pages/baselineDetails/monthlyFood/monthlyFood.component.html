@@ -1,5 +1,4 @@
-<app-card title="Monthly Food Card" [showExpand]="true" [loading]="loading" [error]="error"
-  (expandTrigger)="openDialog()">
+<ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Montly Summary Chart">
       <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
@@ -69,4 +68,10 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-</app-card>
+</ng-template>
+
+<ng-container *ngIf="(null != data) else componentTemplate">
+  <app-base-dialog [data]="data">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>
