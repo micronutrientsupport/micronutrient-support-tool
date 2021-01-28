@@ -1,10 +1,16 @@
-<app-card [title]="'Map View' + (('' === countryName) ? '' : ' - ' + countryName)">
+<ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Absolute Values">
-      <div class="gridster-no-drag" id="mapView1"></div>
+      <div #map1></div>
     </mat-tab>
     <mat-tab label="Variation from Threshold">
-      <div class="gridster-no-drag" id="mapView2"></div>
+      <div #map2></div>
     </mat-tab>
   </mat-tab-group>
-</app-card>
+</ng-template>
+
+<ng-container *ngIf="(null != data) else componentTemplate">
+  <app-base-dialog [data]="data">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

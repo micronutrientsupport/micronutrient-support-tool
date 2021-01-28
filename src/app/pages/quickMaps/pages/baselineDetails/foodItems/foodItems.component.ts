@@ -69,6 +69,7 @@ export class FoodItemsComponent implements OnInit {
       );
     }
 
+    // respond to parameter updates
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loadingSrc.next(true);
       void this.currentDataService

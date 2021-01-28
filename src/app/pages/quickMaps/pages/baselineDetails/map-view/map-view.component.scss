@@ -1,14 +1,1 @@
-@import 'src/assets/scss/_colour.scss';
-
-mat-tab-group {
-  min-height: 0;
-  flex: 1 1;
-  & ::ng-deep {
-    & .mat-tab-body-wrapper {
-      flex: 1 1;
-      & .mat-tab-body-content > * {
-        height: 100%;
-      }
-    }
-  }
-}
+// @import 'src/assets/scss/_colour.scss';

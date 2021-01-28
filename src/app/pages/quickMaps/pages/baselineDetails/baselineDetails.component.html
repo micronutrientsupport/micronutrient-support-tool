@@ -3,8 +3,10 @@
   <app-base-est></app-base-est>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <!-- Map View -->
-    <app-map-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'"></app-map-view>
-
+    <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'">
+      <app-map-view [card]="card"></app-map-view>
+    </app-card2>
+    
     <!-- Chart -->
     <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
       <app-household-supply [card]="card"></app-household-supply>
@@ -20,7 +22,6 @@
     </app-card2>
 
     <!-- Top 20 -->
-    
     <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
       <app-food-items [card]="card"></app-food-items>
     </app-card2>
