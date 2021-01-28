@@ -6,9 +6,11 @@
       <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjAvail'">
         <app-proj-avail [card]="card"></app-proj-avail>
       </app-card2>
+      
+      <!-- Food Sources -->
+      <app-card2 #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjFoodSources'">
+        <app-proj-food-sources [card]="card"></app-proj-food-sources>
+      </app-card2>
 
-      <app-proj-food-sources [widget]="widget" [resizeEvent]="resizeEvent"
-        *ngIf="widget.type === 'widgetProjFoodSources'">
-      </app-proj-food-sources>
     </gridster-item>
   </gridster>

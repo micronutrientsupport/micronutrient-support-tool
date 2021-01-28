@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef, Optional, Inject, Component } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -11,7 +10,10 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
-  styleUrls: ['./projectionAvailability.component.scss'],
+  styleUrls: [
+    '../../expandableTabGroup.scss',
+    './projectionAvailability.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectionAvailabilityComponent implements OnInit {
