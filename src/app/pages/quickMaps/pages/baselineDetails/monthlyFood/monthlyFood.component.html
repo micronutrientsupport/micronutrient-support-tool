@@ -1,6 +1,6 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Montly Summary Chart">
+    <mat-tab label="Monthly Summary Chart">
       <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
         [options]="chartData.options">
       </ngx-chartjs>
