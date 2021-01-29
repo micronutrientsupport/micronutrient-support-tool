@@ -1,61 +1,88 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import {
   ChangeDetectionStrategy,
-  EventEmitter,
   Input,
-  OnDestroy,
   Component,
-  OnInit,
-  ViewChild,
   ChangeDetectorRef,
+  Optional,
+  Inject,
+  AfterViewInit,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { Subscription } from 'rxjs';
-import { GridsterItem } from 'angular-gridster2';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryService } from 'src/app/services/dictionary.service';
+import { CardComponent } from 'src/app/components/card/card.component';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
-  styleUrls: ['./projectionFoodSources.component.scss'],
+  styleUrls: [
+    '../../expandableTabGroup.scss',
+    './projectionFoodSources.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionFoodSourcesComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @Input()
-  widget;
-  @Input()
-  resizeEvent: EventEmitter<GridsterItem>;
-  resizeSub: Subscription;
+export class ProjectionFoodSourcesComponent implements AfterViewInit {
+  @Input() card: CardComponent;
 
-  public countriesDictionary: Dictionary;
-  public regionDictionary: Dictionary;
-  public micronutrientsDictionary: Dictionary;
-  public popGroupOptions = new Array<PopulationGroup>();
-  public loading = false;
-  public error = false;
-  public countryName = '';
-  public vitaminName = '';
+  public title = 'Projection Food Sources';
+
+  private loadingSrc = new BehaviorSubject<boolean>(false);
+  private errorSrc = new BehaviorSubject<boolean>(false);
+
+  private subscriptions = new Array<Subscription>();
 
   constructor(
-    public quickMapsService: QuickMapsService,
-    private dictionaryService: DictionaryService,
+    private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-  ) {}
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData) { }
 
-  ngOnInit(): void {
-    this.resizeSub = this.resizeEvent.subscribe((widget) => {
-      if (widget === this.widget) {
-      }
+  ngAfterViewInit(): void {
+    // if displayed within a card component init interactions with the card
+    if (null != this.card) {
+      this.card.title = this.title;
+      this.card.showExpand = true;
+      this.card
+        .setLoadingObservable(this.loadingSrc.asObservable())
+        .setErrorObservable(this.errorSrc.asObservable());
+
+      this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog())
+      );
+
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          // this.init(this.currentDataService.getMonthlyFoodGroups(
+          //   this.quickMapsService.countryId,
+          //   [this.quickMapsService.micronutrientId],
+          //   this.quickMapsService.popGroupId,
+          //   this.quickMapsService.mndDataId,
+          // ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      // this.init(Promise.resolve(this.dialogData.dataIn.data));
+      // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      // this.cdr.detectChanges();
+    }
+  }
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
+      // data: this.data,
+      // selectedTab: this.tabGroup.selectedIndex,
     });
   }
+}
 
-  ngOnDestroy(): void {
-    this.resizeSub.unsubscribe();
-  }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ProjectionFoodSourcesDialogData {
+  // data: Array<TopFoodSource>;
+  // selectedTab: number;
 }

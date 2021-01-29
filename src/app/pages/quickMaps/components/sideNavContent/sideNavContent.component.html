@@ -94,7 +94,8 @@
                 </div>
             </legend>
             <mat-form-field appearance="fill">
-                <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options">
+                <mat-select name="mndsData" formControlName="mndsData"
+                    placeholder="Click to select options" panelClass="allow-long-text">
                     <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
                     </mat-option>
                 </mat-select>

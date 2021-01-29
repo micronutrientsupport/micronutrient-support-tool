@@ -13,7 +13,7 @@ export abstract class BaseDialogService {
   protected makeDialogData<DataInType, DataOutType>(
     id: string,
     closable = true,
-    dataIn: Record<string, any> = {},
+    dataIn?: DataInType,
   ): DialogData<DataInType, DataOutType> {
     const data = {
       closable,
@@ -36,7 +36,7 @@ export abstract class BaseDialogService {
     dialogId: string,
     contentComponent: ComponentType<any>,
     closable = true,
-    customData: Record<string, any> = {},
+    customData?: DataInType,
     configIn: MatDialogConfig = {},
     parentElement?: HTMLElement,
   ): Promise<DialogData<DataInType, DataOutType>> {

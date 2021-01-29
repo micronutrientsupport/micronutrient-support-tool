@@ -1,4 +1,9 @@
-<app-card title="Projection food sources" [loading]="loading" [error]="error" [showExpand]="false">
+<ng-template #componentTemplate>
+  Ketchup, brown, hollandaise
+</ng-template>
 
-
-</app-card>
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>
