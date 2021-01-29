@@ -19,31 +19,161 @@
 
             <!-- Position Column -->
             <ng-container matColumnDef="country">
-              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <th mat-header-cell *matHeaderCellDef>Country</th>
               <td mat-cell *matCellDef="let element">{{ element.country }}</td>
             </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="year">
-              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <th mat-header-cell *matHeaderCellDef>Year</th>
               <td mat-cell *matCellDef="let element">{{ element.year }}</td>
             </ng-container>
 
             <!-- Weight Column -->
             <ng-container matColumnDef="scenario">
-              <th mat-header-cell *matHeaderCellDef>Weight</th>
+              <th mat-header-cell *matHeaderCellDef>Scenario</th>
               <td mat-cell *matCellDef="let element">{{ element.scenario }}</td>
             </ng-container>
 
             <!-- Symbol Column -->
             <ng-container matColumnDef="ca">
-              <th mat-header-cell *matHeaderCellDef>Symbol</th>
+              <th mat-header-cell *matHeaderCellDef>Ca</th>
               <td mat-cell *matCellDef="let element">{{ element.ca }}</td>
             </ng-container>
 
             <ng-container matColumnDef="caDiff">
-              <th mat-header-cell *matHeaderCellDef>Symbol</th>
+              <th mat-header-cell *matHeaderCellDef>Ca Diff</th>
               <td mat-cell *matCellDef="let element">{{ element.caDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b9">
+              <th mat-header-cell *matHeaderCellDef>B9</th>
+              <td mat-cell *matCellDef="let element">{{ element.b9 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b9Diff">
+              <th mat-header-cell *matHeaderCellDef>B9 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b9Diff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fe">
+              <th mat-header-cell *matHeaderCellDef>Fe</th>
+              <td mat-cell *matCellDef="let element">{{ element.fe }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="feDiff">
+              <th mat-header-cell *matHeaderCellDef>Fe Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.feDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="mg">
+              <th mat-header-cell *matHeaderCellDef>Mg</th>
+              <td mat-cell *matCellDef="let element">{{ element.mg }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="mgDiff">
+              <th mat-header-cell *matHeaderCellDef>Mg Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.mgDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b3">
+              <th mat-header-cell *matHeaderCellDef>B3</th>
+              <td mat-cell *matCellDef="let element">{{ element.b3 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b3Diff">
+              <th mat-header-cell *matHeaderCellDef>B3 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b3Diff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="p">
+              <th mat-header-cell *matHeaderCellDef>P</th>
+              <td mat-cell *matCellDef="let element">{{ element.p }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="pDiff">
+              <th mat-header-cell *matHeaderCellDef>P Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.pDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="k">
+              <th mat-header-cell *matHeaderCellDef>K</th>
+              <td mat-cell *matCellDef="let element">{{ element.k }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="kDiff">
+              <th mat-header-cell *matHeaderCellDef>K Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.kDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="protein">
+              <th mat-header-cell *matHeaderCellDef>Protein</th>
+              <td mat-cell *matCellDef="let element">{{ element.protein }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="proteinDiff">
+              <th mat-header-cell *matHeaderCellDef>Protein Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.proteinDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b2">
+              <th mat-header-cell *matHeaderCellDef>B2</th>
+              <td mat-cell *matCellDef="let element">{{ element.b2 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b2Diff">
+              <th mat-header-cell *matHeaderCellDef>B2 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b2Diff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b1">
+              <th mat-header-cell *matHeaderCellDef>B1 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b1 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b1Diff">
+              <th mat-header-cell *matHeaderCellDef>B1 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b1Diff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="a">
+              <th mat-header-cell *matHeaderCellDef>A</th>
+              <td mat-cell *matCellDef="let element">{{ element.a }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="aDiff">
+              <th mat-header-cell *matHeaderCellDef>A Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.aDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b6">
+              <th mat-header-cell *matHeaderCellDef>B6</th>
+              <td mat-cell *matCellDef="let element">{{ element.b6 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="b6Diff">
+              <th mat-header-cell *matHeaderCellDef>B6 Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.b6Diff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="c">
+              <th mat-header-cell *matHeaderCellDef>C</th>
+              <td mat-cell *matCellDef="let element">{{ element.c }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="cDiff">
+              <th mat-header-cell *matHeaderCellDef>C</th>
+              <td mat-cell *matCellDef="let element">{{ element.cDiff }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="zn">
+              <th mat-header-cell *matHeaderCellDef>Zn</th>
+              <td mat-cell *matCellDef="let element">{{ element.zn }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="znDiff">
+              <th mat-header-cell *matHeaderCellDef>Zn Diff</th>
+              <td mat-cell *matCellDef="let element">{{ element.znDiff }}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>

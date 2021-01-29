@@ -38,7 +38,38 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 
-  public displayedColumns: string[] = ['country', 'year', 'scenario', 'ca', 'caDiff'];
+  public displayedColumns: string[] = [
+    'country',
+    'year',
+    'scenario',
+    'ca',
+    'caDiff',
+    'b9',
+    'b9Diff',
+    'fe',
+    'feDiff',
+    'mg',
+    'mgDiff',
+    'b3',
+    'b3Diff',
+    'p',
+    'pDiff',
+    'k',
+    'kDiff',
+    'protein',
+    'proteinDiff',
+    'b2',
+    'b2Diff',
+    'b1',
+    'b1Diff',
+    'a',
+    'aDiff',
+    'b6',
+    'b6Diff',
+    'c',
+    'cDiff',
+    'zn',
+    'znDiff'];
 
   public chartData: ChartJSObject;
 
@@ -55,7 +86,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -91,7 +122,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.loadingSrc.next(true);
     dataPromise
       .then((data: Array<ProjectedAvailability>) => {
-        console.debug('data', data);
         this.data = data;
         if (null == data) {
           throw new Error('data error');

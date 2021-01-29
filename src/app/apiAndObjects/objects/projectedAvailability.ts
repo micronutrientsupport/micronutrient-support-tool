@@ -11,7 +11,7 @@ export class ProjectedAvailability extends BaseObject {
     CA_DIFF: 'CaDiff',
     B9: 'B9',
     B9_DIFF: 'B9Diff',
-    FE: 'FeDiff',
+    FE: 'Fe',
     FE_DIFF: 'FeDiff',
     MG: 'Mg',
     MG_DIFF: 'MgDiff',
@@ -42,32 +42,32 @@ export class ProjectedAvailability extends BaseObject {
   public scenario: string;
   public ca: number;
   public caDiff: number;
-  public Fe: number;
-  public FeDiff: number;
-  public B9: number;
-  public B9Diff: number;
-  public Mg: number;
-  public MgDiff: number;
-  public B3: number;
-  public B3Diff: number;
-  public P: number;
-  public PDiff: number;
-  public K: number;
-  public KDiff: number;
-  public Protein: number;
-  public ProteinDiff: number;
-  public B2: number;
-  public B2Diff: number;
-  public A: number;
-  public ADiff: number;
-  public B1: number;
-  public B1Diff: number;
-  public B6: number;
-  public B6Diff: number;
-  public C: number;
-  public CDiff: number;
-  public Zn: number;
-  public ZnDiff: number;
+  public fe: number;
+  public feDiff: number;
+  public b9: number;
+  public b9Diff: number;
+  public mg: number;
+  public mgDiff: number;
+  public b3: number;
+  public b3Diff: number;
+  public p: number;
+  public pDiff: number;
+  public k: number;
+  public kDiff: number;
+  public protein: number;
+  public proteinDiff: number;
+  public b2: number;
+  public b2Diff: number;
+  public a: number;
+  public aDiff: number;
+  public b1: number;
+  public b1Diff: number;
+  public b6: number;
+  public b6Diff: number;
+  public c: number;
+  public cDiff: number;
+  public zn: number;
+  public znDiff: number;
 
   public static makeItemFromObject(source: Record<string, unknown>): ProjectedAvailability {
     return super.makeItemFromObject(source) as ProjectedAvailability;
@@ -84,68 +84,68 @@ export class ProjectedAvailability extends BaseObject {
       null == this._getValue(ProjectedAvailability.KEYS.CA_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.CA_DIFF);
-    this.Fe = this._getNumber(ProjectedAvailability.KEYS.FE);
-    this.FeDiff =
+    this.fe = this._getNumber(ProjectedAvailability.KEYS.FE);
+    this.feDiff =
       null == this._getValue(ProjectedAvailability.KEYS.FE_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.FE_DIFF);
-    this.Mg = this._getNumber(ProjectedAvailability.KEYS.MG);
-    this.MgDiff =
+    this.mg = this._getNumber(ProjectedAvailability.KEYS.MG);
+    this.mgDiff =
       null == this._getValue(ProjectedAvailability.KEYS.MG_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.MG_DIFF);
-    this.B1 = this._getNumber(ProjectedAvailability.KEYS.B1);
-    this.B1Diff =
+    this.b1 = this._getNumber(ProjectedAvailability.KEYS.B1);
+    this.b1Diff =
       null == this._getValue(ProjectedAvailability.KEYS.B1_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.B1_DIFF);
-    this.B2 = this._getNumber(ProjectedAvailability.KEYS.B2);
-    this.B2Diff =
+    this.b2 = this._getNumber(ProjectedAvailability.KEYS.B2);
+    this.b2Diff =
       null == this._getValue(ProjectedAvailability.KEYS.B2_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.B2_DIFF);
-    this.B3 = this._getNumber(ProjectedAvailability.KEYS.B3);
-    this.B3Diff =
+    this.b3 = this._getNumber(ProjectedAvailability.KEYS.B3);
+    this.b3Diff =
       null == this._getValue(ProjectedAvailability.KEYS.B3_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.B3_DIFF);
-    this.B6 = this._getNumber(ProjectedAvailability.KEYS.B6);
-    this.B6Diff =
+    this.b6 = this._getNumber(ProjectedAvailability.KEYS.B6);
+    this.b6Diff =
       null == this._getValue(ProjectedAvailability.KEYS.B6_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.B6_DIFF);
-    this.B9 = this._getNumber(ProjectedAvailability.KEYS.B9);
-    this.B9Diff =
+    this.b9 = this._getNumber(ProjectedAvailability.KEYS.B9);
+    this.b9Diff =
       null == this._getValue(ProjectedAvailability.KEYS.B9_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.B9_DIFF);
-    this.A = this._getNumber(ProjectedAvailability.KEYS.A);
-    this.ADiff =
+    this.a = this._getNumber(ProjectedAvailability.KEYS.A);
+    this.aDiff =
       null == this._getValue(ProjectedAvailability.KEYS.A_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.A_DIFF);
-    this.C = this._getNumber(ProjectedAvailability.KEYS.C);
-    this.CDiff =
+    this.c = this._getNumber(ProjectedAvailability.KEYS.C);
+    this.cDiff =
       null == this._getValue(ProjectedAvailability.KEYS.C_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.C_DIFF);
-    this.K = this._getNumber(ProjectedAvailability.KEYS.K);
-    this.KDiff =
+    this.k = this._getNumber(ProjectedAvailability.KEYS.K);
+    this.kDiff =
       null == this._getValue(ProjectedAvailability.KEYS.K_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.K_DIFF);
-    this.P = this._getNumber(ProjectedAvailability.KEYS.P);
-    this.PDiff =
+    this.p = this._getNumber(ProjectedAvailability.KEYS.P);
+    this.pDiff =
       null == this._getValue(ProjectedAvailability.KEYS.P_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.P_DIFF);
-    this.Protein = this._getNumber(ProjectedAvailability.KEYS.PROTEIN);
-    this.ProteinDiff =
+    this.protein = this._getNumber(ProjectedAvailability.KEYS.PROTEIN);
+    this.proteinDiff =
       null == this._getValue(ProjectedAvailability.KEYS.PROTEIN_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.PROTEIN_DIFF);
-    this.Zn = this._getNumber(ProjectedAvailability.KEYS.ZN);
-    this.ZnDiff =
+    this.zn = this._getNumber(ProjectedAvailability.KEYS.ZN);
+    this.znDiff =
       null == this._getValue(ProjectedAvailability.KEYS.ZN_DIFF)
         ? null
         : this._getNumber(ProjectedAvailability.KEYS.ZN_DIFF);
