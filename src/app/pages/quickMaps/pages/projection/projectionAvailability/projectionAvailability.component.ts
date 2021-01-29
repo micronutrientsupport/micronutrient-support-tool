@@ -10,7 +10,6 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTableDataSource } from '@angular/material/table';
 import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAvailability';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { ProjectedAvailabilities } from 'src/app/apiAndObjects/objects/projectedAvailabilities';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 @Component({
@@ -59,7 +58,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
   public chartData: ChartJSObject;
 
-  private data: ProjectedAvailabilities;
+  private data: Array<ProjectedAvailability>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -105,16 +104,17 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     }
   }
 
-  private init(dataPromise: Promise<ProjectedAvailabilities>): void {
+  private init(dataPromise: Promise<Array<ProjectedAvailability>>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: ProjectedAvailabilities) => {
+      .then((data: Array<ProjectedAvailability>) => {
+        // console.debug('data', data);
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
 
-        this.dataSource = new MatTableDataSource(data.all);
+        this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -124,7 +124,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        this.initialiseGraph(data.all);
+        this.initialiseGraph(data);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -140,11 +140,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.chartData = {
       type: 'line',
       data: {
-        labels: ['2010', '2015', '2020', '2025', '2030', '2035', '2040', '2045', '2050'],
+        labels: data.map(item => item.year),
         datasets: [
           {
-            label: 'ZincDiff',
-            data: data.map((year) => year.ZnDiff),
+            label: 'Ca',
+            data: data.map(item => item.ca),
           },
         ],
       },
@@ -161,6 +161,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProjectionAvailabilityDialogData {
-  data: ProjectedAvailabilities;
+  data: Array<ProjectedAvailability>;
   selectedTab: number;
 }

@@ -5,7 +5,7 @@ import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistog
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
-import { ProjectedAvailabilities } from '../apiAndObjects/objects/projectedAvailabilities';
+import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
@@ -111,7 +111,7 @@ export class CurrentDataService {
     micronutrientIds: Array<string>,
     populationGroupId: string,
     mndsDataId: string,
-  ): Promise<ProjectedAvailabilities> {
+  ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroupId,

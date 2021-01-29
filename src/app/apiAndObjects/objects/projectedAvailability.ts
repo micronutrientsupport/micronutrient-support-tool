@@ -1,67 +1,34 @@
-export class ProjectedAvailability {
-  private constructor(
-    public readonly country: string,
-    public readonly year: number,
-    public readonly scenario: string,
-    public readonly Ca: number,
-    public readonly CaDiff: number,
-    public readonly B9: number,
-    public readonly B9Diff: number,
-    public readonly Fe: number,
-    public readonly FeDiff: any,
-    public readonly B3: number,
-    public readonly B3Diff: number,
-    public readonly P: number,
-    public readonly PDiff: number,
-    public readonly K: number,
-    public readonly KDiff: number,
-    public readonly Protein: number,
-    public readonly ProteinDIff: number,
-    public readonly B2: number,
-    public readonly B2Diff: number,
-    public readonly B1: number,
-    public readonly B1Diff: number,
-    public readonly A: number,
-    public readonly ADiff: number,
-    public readonly B6: number,
-    public readonly B6Diff: number,
-    public readonly C: number,
-    public readonly CDiff: number,
-    public readonly Zn: number,
-    public readonly ZnDiff: number,
-  ) { }
+import { BaseObject } from '../_lib_code/objects/baseObject';
 
-  public static makeFromObject(country: string, year: number, obj: Record<string, unknown>): ProjectedAvailability {
-    return new ProjectedAvailability(
-      country,
-      year,
-      obj.scenario as string,
-      obj.Ca as number,
-      obj.CaDiff as number,
-      obj.B9 as number,
-      obj.B9Diff as number,
-      obj.Fe as number,
-      obj.FeDiff as number,
-      obj.B3 as number,
-      obj.B3Diff as number,
-      obj.P as number,
-      obj.PDiff as number,
-      obj.K as number,
-      obj.KDiff as number,
-      obj.Protein as number,
-      obj.ProteinDIff as number,
-      obj.B2 as number,
-      obj.B2Diff as number,
-      obj.B1 as number,
-      obj.B1Diff as number,
-      obj.A as number,
-      obj.ADiff as number,
-      obj.B6 as number,
-      obj.B6Diff as number,
-      obj.C as number,
-      obj.CDiff as number,
-      obj.Zn as number,
-      obj.ZnDiff as number,
-    );
+export class ProjectedAvailability extends BaseObject {
+  public static readonly KEYS = {
+    COUNTRY: 'country',
+    YEAR: 'year',
+    SCENARIO: 'scenario',
+    CA: 'Ca',
+    CA_DIFF: 'CaDiff',
+  };
+
+  public country: string;
+  public year: number;
+  public scenario: string;
+  public ca: number;
+  public caDiff: number;
+
+
+  public static makeItemFromObject(source: Record<string, unknown>): ProjectedAvailability {
+    return super.makeItemFromObject(source) as ProjectedAvailability;
   }
+
+  protected populateValues(): void {
+    void super.populateValues();
+
+    this.country = this._getString(ProjectedAvailability.KEYS.COUNTRY);
+    this.year = this._getNumber(ProjectedAvailability.KEYS.YEAR);
+    this.scenario = this._getString(ProjectedAvailability.KEYS.SCENARIO);
+    this.ca = this._getNumber(ProjectedAvailability.KEYS.CA);
+    this.caDiff = (null == this._getValue(ProjectedAvailability.KEYS.CA_DIFF))
+      ? null : this._getNumber(ProjectedAvailability.KEYS.CA_DIFF);
+  }
+
 }
