@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -41,6 +41,9 @@ export class SideNavContentComponent implements OnInit {
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
   public quickMapsForm: FormGroup;
+
+  public sideNaveToggleLock = new FormControl(false);
+  public lockSideNav = false;
 
   constructor(
     private fb: FormBuilder,
@@ -99,6 +102,16 @@ export class SideNavContentComponent implements OnInit {
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
       .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
+  }
+
+  public sideNavLockChange(): void {
+    this.lockSideNav = (this.sideNaveToggleLock.value === true) ? true : false;
+  }
+
+  public minimiseSideNav(): void {
+    if (this.lockSideNav === false) {
+      this.quickMapsService.sideNavToggle();
+    }
   }
 
   public countryChange(type: GeographyTypes): void {
@@ -167,6 +180,7 @@ export class SideNavContentComponent implements OnInit {
       void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
         queryParams: this.route.snapshot.queryParams,
       });
+      this.minimiseSideNav();
     }
   }
 }
