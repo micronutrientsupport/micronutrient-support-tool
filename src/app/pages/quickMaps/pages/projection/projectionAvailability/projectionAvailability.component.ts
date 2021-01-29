@@ -13,6 +13,7 @@ import { projectedAvailabilities } from 'src/app/apiAndObjects/objects/projected
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { QuickMapsService } from '../../../quickMaps.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -65,6 +66,7 @@ export class ProjectionAvailabilityComponent implements OnInit, OnDestroy {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,11 @@ export class ProjectionAvailabilityComponent implements OnInit, OnDestroy {
       if (widget === this.widget) {
       }
     });
+    // this.http.get('./assets/exampleData/projection-total.json').subscribe((data: any) => {
+    //   console.debug('data', data);
+    //   this.initialiseGraph(data);
+    //   this.dataSource = new MatTableDataSource(data);
+    // });
     this.quickMapsService.parameterChangedObs.subscribe(() => {
       this.loading = true;
       this.cdr.markForCheck();

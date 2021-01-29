@@ -45,7 +45,12 @@ export class projectedAvailabilities extends BaseObject {
   }
 
   private makeProjectedAvailability(key: string): projectedAvailability {
-    const group = projectedAvailability.makeFromObject(key, this._getValue(key) as Record<string, unknown>);
+    const country = 'AGO';
+    const group = projectedAvailability.makeFromObject(
+      country,
+      Number(key),
+      this._getValue(key) as Record<string, unknown>,
+    );
     this.all.push(group);
     return group;
   }

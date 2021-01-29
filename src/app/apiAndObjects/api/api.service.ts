@@ -29,8 +29,8 @@ export class ApiService extends BaseApi<DictionaryType> {
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
-      getProjectedAvailabilities: new GetProjectedAvailabilities(true),
-      // getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
+      // getProjectedAvailabilities: new GetProjectedAvailabilities(true),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),

@@ -112,7 +112,7 @@ export class CurrentDataService {
     micronutrientIds: Array<string>,
     populationGroupId: string,
     mndsDataId: string,
-  ): Promise<projectedAvailabilities> {
+  ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroupId,
