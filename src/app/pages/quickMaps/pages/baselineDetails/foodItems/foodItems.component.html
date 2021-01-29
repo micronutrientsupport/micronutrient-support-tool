@@ -8,8 +8,7 @@
 
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
-        <table class=" bmgf-maps-nice-scrollbar" mat-table [dataSource]="dataSource" matSort
-          class="mat-elevation-z8 tableFullWidth">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">
           <ng-container matColumnDef="foodex2Name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Food</th>
             <td mat-cell *matCellDef="let element">{{ element.foodex2Name }}</td>
