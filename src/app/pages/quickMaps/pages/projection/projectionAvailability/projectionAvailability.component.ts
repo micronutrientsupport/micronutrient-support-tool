@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Input, ChangeDetectorRef, Optional, Inject, Component, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Input,
+  ChangeDetectorRef,
+  Optional,
+  Inject,
+  Component,
+  AfterViewInit,
+  ViewChild,
+} from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -15,10 +24,7 @@ import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './projectionAvailability.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './projectionAvailability.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectionAvailabilityComponent implements AfterViewInit {
@@ -48,31 +54,30 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>) { }
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
       this.card.showExpand = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getProjectedAvailabilities(
-            this.quickMapsService.countryId,
-            [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
-            this.quickMapsService.mndDataId,
-          ));
-        })
+          this.init(
+            this.currentDataService.getProjectedAvailabilities(
+              this.quickMapsService.countryId,
+              [this.quickMapsService.micronutrientId],
+              this.quickMapsService.popGroupId,
+              this.quickMapsService.mndDataId,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -86,7 +91,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.loadingSrc.next(true);
     dataPromise
       .then((data: Array<ProjectedAvailability>) => {
-        // console.debug('data', data);
+        console.debug('data', data);
         this.data = data;
         if (null == data) {
           throw new Error('data error');
@@ -118,11 +123,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.chartData = {
       type: 'line',
       data: {
-        labels: data.map(item => item.year),
+        labels: data.map((item) => item.year),
         datasets: [
           {
             label: 'Ca',
-            data: data.map(item => item.ca),
+            data: data.map((item) => item.ca),
           },
         ],
       },
