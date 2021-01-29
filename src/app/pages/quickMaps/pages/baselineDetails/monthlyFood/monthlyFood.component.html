@@ -69,8 +69,8 @@
   </mat-tab-group>
 </ng-template>
 
-<ng-container *ngIf="(null != data) else componentTemplate">
-  <app-base-dialog [data]="data" [title]="title">
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
     <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
   </app-base-dialog>
 </ng-container>
