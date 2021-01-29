@@ -4,9 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   Optional,
   Inject,
+  AfterViewInit,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -30,7 +30,7 @@ import { MatTabGroup } from '@angular/material/tabs';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MonthlyFoodComponent implements OnInit {
+export class MonthlyFoodComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -72,7 +72,7 @@ export class MonthlyFoodComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
