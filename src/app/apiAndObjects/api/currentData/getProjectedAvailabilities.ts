@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { projectedAvailabilities } from '../../objects/projectedAvailabilities';
-import { projectedAvailability } from '../../objects/projectedAvailability';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
@@ -31,7 +30,7 @@ export class GetProjectedAvailabilities extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('https://api.micronutrient.support/projection-total').toPromise());
+          resolve(httpClient.get('/assets/exampleData/projection-total.json').toPromise());
         }, 1500);
       }),
     );
