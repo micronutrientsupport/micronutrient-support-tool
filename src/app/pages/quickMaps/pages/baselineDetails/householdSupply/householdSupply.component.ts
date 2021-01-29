@@ -1,12 +1,12 @@
 import {
   Component,
-  OnInit,
   ViewChild,
   ChangeDetectionStrategy,
   Input,
   ChangeDetectorRef,
   Inject,
   Optional,
+  AfterViewInit,
 } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
@@ -20,6 +20,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
@@ -29,7 +30,8 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HouseholdSupplyComponent implements OnInit {
+export class HouseholdSupplyComponent implements AfterViewInit {
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
@@ -55,7 +57,7 @@ export class HouseholdSupplyComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
       this.card.title = this.title;
@@ -82,6 +84,8 @@ export class HouseholdSupplyComponent implements OnInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
   }
 
@@ -172,10 +176,14 @@ export class HouseholdSupplyComponent implements OnInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<HouseholdSupplyDialogData>(HouseholdSupplyComponent, { data: this.data });
+    void this.dialogService.openDialogForComponent<HouseholdSupplyDialogData>(HouseholdSupplyComponent, {
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
 }
 
 export interface HouseholdSupplyDialogData {
   data: HouseholdHistogramData;
+  selectedTab: number;
 }

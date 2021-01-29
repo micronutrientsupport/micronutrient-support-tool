@@ -20,6 +20,7 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -30,6 +31,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlyFoodComponent implements OnInit {
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
@@ -97,6 +99,8 @@ export class MonthlyFoodComponent implements OnInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
   }
 
@@ -209,10 +213,14 @@ export class MonthlyFoodComponent implements OnInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<MonthlyFoodDialogData>(MonthlyFoodComponent, { data: this.data });
+    void this.dialogService.openDialogForComponent<MonthlyFoodDialogData>(MonthlyFoodComponent, {
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
 }
 
 export interface MonthlyFoodDialogData {
   data: MonthlyFoodGroups;
+  selectedTab: number;
 }

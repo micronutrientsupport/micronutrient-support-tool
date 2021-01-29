@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
-  Component, Input, OnInit, Optional, Inject,
-  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef
+  Component, Input, Optional, Inject,
+  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef
 } from '@angular/core';
 import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -26,7 +26,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapViewComponent implements OnInit, AfterViewInit {
+export class MapViewComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
@@ -56,12 +56,15 @@ export class MapViewComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService,
     private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
-    // private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
+    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
@@ -94,15 +97,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
             // this.cdr.detectChanges();
           });
         });
-    }
 
-  }
-
-  ngAfterViewInit(): void {
-    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
-    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-
-    if (null != this.card) {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -118,6 +113,8 @@ export class MapViewComponent implements OnInit, AfterViewInit {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
       this.title = this.dialogData.dataIn.title;
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
   }
 
@@ -323,6 +320,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
     void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
       title: this.title,
       data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
     });
   }
 }
@@ -330,4 +328,5 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 export interface MapViewDialogData {
   title: string;
   data: Array<SubRegionDataItem>;
+  selectedTab: number;
 }
