@@ -4,9 +4,8 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 // import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetHouseholdHistogramData extends CacheableEndpoint<
-Array<HouseholdHistogramData>,
-GetHouseholdHistogramDataParams,
-HouseholdHistogramData
+HouseholdHistogramData,
+GetHouseholdHistogramDataParams
 > {
 
   protected getCacheKey(params: GetHouseholdHistogramDataParams): string {
@@ -14,7 +13,7 @@ HouseholdHistogramData
   }
   protected callLive(
   // params: GetHouseholdHistogramDataParams,
-  ): Promise<Array<HouseholdHistogramData>> {
+  ): Promise<HouseholdHistogramData> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -27,9 +26,9 @@ HouseholdHistogramData
 
   protected callMock(
   // params: GetHouseholdHistogramDataParams,
-  ): Promise<Array<HouseholdHistogramData>> {
+  ): Promise<HouseholdHistogramData> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    return this.buildObjectsFromResponse(
+    return this.buildObjectFromResponse(
       HouseholdHistogramData,
       // response after delay
       new Promise((resolve) => {
@@ -37,10 +36,10 @@ HouseholdHistogramData
           resolve(httpClient.get('/assets/exampleData/household_histogram.json').toPromise());
         }, 1500);
       }),
-    ).then((data: Array<HouseholdHistogramData>) => {
-      if (null != data[0]) {
+    ).then((data: HouseholdHistogramData) => {
+      if (null != data.data[0]) {
         // change something so that the display changes a little
-        data[0].data[0].frequency = Math.floor(Math.random() * data[0].adequacyThreshold);
+        data.data[0].frequency = Math.floor(Math.random() * data.adequacyThreshold);
       }
       return data;
     });

@@ -40,7 +40,7 @@ export class HouseholdSupplyComponent implements OnInit {
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
 
-  private data: Array<HouseholdHistogramData>;
+  private data: HouseholdHistogramData;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -85,16 +85,16 @@ export class HouseholdSupplyComponent implements OnInit {
     }
   }
 
-  private init(dataPromise: Promise<Array<HouseholdHistogramData>>): void {
+  private init(dataPromise: Promise<HouseholdHistogramData>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: Array<HouseholdHistogramData>) => {
+      .then((data: HouseholdHistogramData) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
 
-        this.dataSource = new MatTableDataSource(data[0].data);
+        this.dataSource = new MatTableDataSource(data.data);
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -116,16 +116,16 @@ export class HouseholdSupplyComponent implements OnInit {
       });
   }
 
-  private initialiseGraph(data: Array<HouseholdHistogramData>): void {
+  private initialiseGraph(data: HouseholdHistogramData): void {
     this.chartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        labels: data[0].data.map((item: BinValue) => item.bin),
+        labels: data.data.map((item: BinValue) => item.bin),
         datasets: [
           {
             label: 'Frequency',
-            data: data[0].data.map((item: BinValue) => item.frequency),
+            data: data.data.map((item: BinValue) => item.frequency),
             borderColor: '#ff6384',
             backgroundColor: () => '#ff6384',
             fill: true,
@@ -157,7 +157,7 @@ export class HouseholdSupplyComponent implements OnInit {
               id: 'hLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
-              value: Number(data[0].adequacyThreshold), // data-value at which the line is drawn
+              value: Number(data.adequacyThreshold), // data-value at which the line is drawn
               borderWidth: 2.5,
               borderColor: 'black',
               label: {
@@ -176,7 +176,6 @@ export class HouseholdSupplyComponent implements OnInit {
   }
 }
 
-
 export interface HouselholdSupplyDialogData {
-  data: Array<HouseholdHistogramData>;
+  data: HouseholdHistogramData;
 }
