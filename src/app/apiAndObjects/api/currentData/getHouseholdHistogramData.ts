@@ -37,7 +37,13 @@ HouseholdHistogramData
           resolve(httpClient.get('/assets/exampleData/household_histogram.json').toPromise());
         }, 1500);
       }),
-    );
+    ).then((data: Array<HouseholdHistogramData>) => {
+      if (null != data[0]) {
+        // change something so that the display changes a little
+        data[0].data[0].frequency = Math.floor(Math.random() * data[0].adequacyThreshold);
+      }
+      return data;
+    });
   }
 }
 

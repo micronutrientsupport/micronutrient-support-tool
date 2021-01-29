@@ -16,15 +16,17 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
   }
 
-  public openDialogForComponent(
+  public openDialogForComponent<T = any>(
     contentComponent: ComponentType<any>,
+    data?: T,
     width = '80vw',
     height = '80vh',
-  ): Promise<DialogData> {
-    return this.openDialog('anyDialog', contentComponent, true, null, {
+  ): Promise<DialogData<T>> {
+    return this.openDialog('anyDialog', contentComponent, true, data, {
       width,
       height,
-    });
+    },
+    );
   }
   public openScenarioTypeDialog(): Promise<DialogData> {
     return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);

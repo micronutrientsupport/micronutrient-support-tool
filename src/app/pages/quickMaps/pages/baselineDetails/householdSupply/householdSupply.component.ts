@@ -40,6 +40,8 @@ export class HouseholdSupplyComponent implements OnInit {
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
 
+  private data: Array<HouseholdHistogramData>;
+
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
@@ -50,12 +52,12 @@ export class HouseholdSupplyComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouselholdSupplyDialogData>,
   ) { }
 
   ngOnInit(): void {
-    // if displayed within a card component init interactions with the card
     if (null != this.card) {
+      // if displayed within a card component init interactions with the card
       this.card.title = this.title;
       this.card.showExpand = true;
       this.card
@@ -65,45 +67,53 @@ export class HouseholdSupplyComponent implements OnInit {
       this.subscriptions.push(
         this.card.onExpandClickObs.subscribe(() => this.openDialog())
       );
+
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(this.currentDataService.getHouseholdHistogramData(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrientId],
+            this.quickMapsService.popGroupId,
+            this.quickMapsService.mndDataId,
+          ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      this.init(Promise.resolve(this.dialogData.dataIn.data));
     }
+  }
 
-    // respond to parameter updates
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loadingSrc.next(true);
-      this.currentDataService
-        .getHouseholdHistogramData(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
-        .then((data: Array<HouseholdHistogramData>) => {
-          if (null == data) {
-            throw new Error('data error');
-          }
-          const rawData = data[0].data;
+  private init(dataPromise: Promise<Array<HouseholdHistogramData>>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: Array<HouseholdHistogramData>) => {
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
 
-          this.dataSource = new MatTableDataSource(rawData);
-          this.errorSrc.next(false);
-          this.chartData = null;
-          // force change detection to:
-          // remove chart before re-setting it to stop js error
-          // show table and init paginator and sorter
-          this.cdr.detectChanges();
+        this.dataSource = new MatTableDataSource(data[0].data);
+        this.errorSrc.next(false);
+        this.chartData = null;
+        // force change detection to:
+        // remove chart before re-setting it to stop js error
+        // show table and init paginator and sorter
+        this.cdr.detectChanges();
 
-          this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort;
 
-          this.initialiseGraph(data);
-        })
-        .catch((err) => {
-          this.errorSrc.next(true);
-          console.error(err);
-        })
-        .finally(() => {
-          this.loadingSrc.next(false);
-          this.cdr.detectChanges();
-        });
-    });
+        this.initialiseGraph(data);
+      })
+      .catch((err) => {
+        this.errorSrc.next(true);
+        console.error(err);
+      })
+      .finally(() => {
+        this.loadingSrc.next(false);
+        this.cdr.detectChanges();
+      });
   }
 
   private initialiseGraph(data: Array<HouseholdHistogramData>): void {
@@ -162,6 +172,11 @@ export class HouseholdSupplyComponent implements OnInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent(HouseholdSupplyComponent);
+    void this.dialogService.openDialogForComponent<HouselholdSupplyDialogData>(HouseholdSupplyComponent, { data: this.data });
   }
+}
+
+
+export interface HouselholdSupplyDialogData {
+  data: Array<HouseholdHistogramData>;
 }
