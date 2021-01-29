@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   Optional,
   Inject,
-  OnInit,
+  AfterViewInit,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -24,7 +24,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionFoodSourcesComponent implements OnInit {
+export class ProjectionFoodSourcesComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = 'Projection Food Sources';
@@ -39,9 +39,9 @@ export class ProjectionFoodSourcesComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData) { }
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
@@ -53,22 +53,36 @@ export class ProjectionFoodSourcesComponent implements OnInit {
       this.subscriptions.push(
         this.card.onExpandClickObs.subscribe(() => this.openDialog())
       );
+
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          // this.init(this.currentDataService.getMonthlyFoodGroups(
+          //   this.quickMapsService.countryId,
+          //   [this.quickMapsService.micronutrientId],
+          //   this.quickMapsService.popGroupId,
+          //   this.quickMapsService.mndDataId,
+          // ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      // this.init(Promise.resolve(this.dialogData.dataIn.data));
+      // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      // this.cdr.detectChanges();
     }
-
-    // respond to parameter updates
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loadingSrc.next(true);
-      // do stuff here
-
-      // TODO: remove when stuff added
-      setTimeout(() => {
-        this.loadingSrc.next(false);
-      }, 500);
-    });
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent(ProjectionFoodSourcesComponent);
+    void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
+      // data: this.data,
+      // selectedTab: this.tabGroup.selectedIndex,
+    });
   }
+}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ProjectionFoodSourcesDialogData {
+  // data: Array<TopFoodSource>;
+  // selectedTab: number;
 }
