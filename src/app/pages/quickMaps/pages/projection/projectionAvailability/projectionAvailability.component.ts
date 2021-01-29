@@ -21,6 +21,8 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
+import { reduce } from 'cypress/types/bluebird';
+import { isNgTemplate } from '@angular/compiler';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -129,7 +131,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        this.initialiseGraph(data);
+        const malawiData = data.filter((item) => item.country === 'MWI');
+
+        this.initialiseGraph(malawiData);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -144,14 +148,39 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
     this.chartData = {
       type: 'line',
+
       data: {
-        labels: data.map((item) => item.year),
+        labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
         datasets: [
           {
-            label: 'Ca',
-            data: data.map((item) => item.ca),
+            label: 'SSP1',
+            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
+            backgroundColor: () => 'rgba(12, 92, 90, 0.6)',
+          },
+          {
+            label: 'SSP2',
+            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
+            backgroundColor: () => 'rgba(12, 92, 225, 0.6)',
+          },
+          {
+            label: 'SSP3',
+            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
+            backgroundColor: () => 'rgba(225, 92, 90, 0.6)',
           },
         ],
+      },
+      options: {
+        scales: {
+          xAxes: [{}],
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'MN availability in mg/ per Person per Day',
+              },
+            },
+          ],
+        },
       },
     };
   }
@@ -162,6 +191,8 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       selectedTab: this.tabGroup.selectedIndex,
     });
   }
+
+  public returnCountry() {}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
