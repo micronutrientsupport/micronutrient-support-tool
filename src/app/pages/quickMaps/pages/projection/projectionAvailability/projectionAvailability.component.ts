@@ -199,8 +199,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       selectedTab: this.tabGroup.selectedIndex,
     });
   }
-
-  public returnCountry() {}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
