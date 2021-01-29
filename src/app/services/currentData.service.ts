@@ -83,7 +83,7 @@ export class CurrentDataService {
     micronutrientIds: Array<string>,
     populationGroupId: string,
     mndsDataId: string,
-  ): Promise<Array<HouseholdHistogramData>> {
+  ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroupId,
       micronutrientIds,

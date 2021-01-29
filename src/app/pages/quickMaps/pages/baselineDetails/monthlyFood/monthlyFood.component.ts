@@ -4,9 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   Optional,
   Inject,
+  AfterViewInit,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +20,7 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -29,7 +30,8 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MonthlyFoodComponent implements OnInit {
+export class MonthlyFoodComponent implements AfterViewInit {
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
@@ -55,6 +57,8 @@ export class MonthlyFoodComponent implements OnInit {
     // 'supplyUnit',
   ];
 
+  private data: MonthlyFoodGroups;
+
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
@@ -65,10 +69,10 @@ export class MonthlyFoodComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
@@ -80,46 +84,58 @@ export class MonthlyFoodComponent implements OnInit {
       this.subscriptions.push(
         this.card.onExpandClickObs.subscribe(() => this.openDialog())
       );
+
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(this.currentDataService.getMonthlyFoodGroups(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrientId],
+            this.quickMapsService.popGroupId,
+            this.quickMapsService.mndDataId,
+          ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
-
-    // respond to parameter updates
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loadingSrc.next(true);
-      void this.currentDataService
-        .getMonthlyFoodGroups(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
-        .then((data: MonthlyFoodGroups) => {
-          if (null == data) {
-            throw new Error('data error');
-          }
-
-          this.dataSource = new MatTableDataSource(data.all);
-          this.errorSrc.next(false);
-          this.chartData = null;
-          // force change detection to:
-          // remove chart before re-setting it to stop js error
-          // show table and init paginator and sorter
-          this.cdr.detectChanges();
-
-          this.dataSource.sort = this.sort;
-          this.initialiseGraph(data.all);
-        })
-        .catch((err) => {
-          this.errorSrc.next(true);
-          console.error(err);
-        })
-        .finally(() => {
-          this.loadingSrc.next(false);
-          this.cdr.detectChanges();
-        });
-    });
   }
 
-  public initialiseGraph(data: Array<MonthlyFoodGroup>): void {
+  private init(dataPromise: Promise<MonthlyFoodGroups>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: MonthlyFoodGroups) => {
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
+
+        this.dataSource = new MatTableDataSource(data.all);
+        this.errorSrc.next(false);
+        this.chartData = null;
+        // force change detection to:
+        // remove chart before re-setting it to stop js error
+        // show table and init paginator and sorter
+        this.cdr.detectChanges();
+
+        this.dataSource.sort = this.sort;
+
+        this.initialiseGraph(data.all);
+      })
+      .catch((err) => {
+        this.errorSrc.next(true);
+        console.error(err);
+      })
+      .finally(() => {
+        this.loadingSrc.next(false);
+        this.cdr.detectChanges();
+      });
+  }
+
+  private initialiseGraph(data: Array<MonthlyFoodGroup>): void {
     this.chartData = {
       type: 'bar',
       data: {
@@ -197,6 +213,14 @@ export class MonthlyFoodComponent implements OnInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent(MonthlyFoodComponent);
+    void this.dialogService.openDialogForComponent<MonthlyFoodDialogData>(MonthlyFoodComponent, {
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
+}
+
+export interface MonthlyFoodDialogData {
+  data: MonthlyFoodGroups;
+  selectedTab: number;
 }

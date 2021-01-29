@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
-  Component, Input, OnInit, Optional, Inject,
-  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef
+  Component, Input, Optional, Inject,
+  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef
 } from '@angular/core';
 import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -26,15 +26,15 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapViewComponent implements OnInit, AfterViewInit {
+export class MapViewComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
   public title = '';
+  private data: Array<SubRegionDataItem>;
 
-  private countryName = new BehaviorSubject('');
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteLegend: L.Control;
@@ -56,12 +56,15 @@ export class MapViewComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService,
     private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
-    // private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
+    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
@@ -78,77 +81,41 @@ export class MapViewComponent implements OnInit, AfterViewInit {
           this.thresholdMap.invalidateSize();
         })
       );
+
+      void this.dictionaryService
+        .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
+        .then((dicts: Array<Dictionary>) => {
+          const countriesDict = dicts.shift();
+          // const regionDictionary = dicts.shift();
+
+          this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+            const country = countriesDict.getItem(countryId);
+            this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+            if (null != this.card) {
+              this.card.title = this.title;
+            }
+            // this.cdr.detectChanges();
+          });
+        });
+
+      // respond to parameter updates
       this.subscriptions.push(
-        this.countryName.subscribe((countryName: string) => {
-          this.title = 'Map View' + ('' === countryName ? '' : ` - ${countryName}`);
-          this.card.title = this.title;
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(this.currentDataService.getSubRegionData(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrientId],
+            this.quickMapsService.popGroupId,
+            this.quickMapsService.mndDataId,
+          ));
         })
       );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.title = this.dialogData.dataIn.title;
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
-
-    this.subscriptions.push(
-      this.countryName.subscribe((countryName: string) => {
-        this.title = 'Map View' + ('' === countryName ? '' : ` - ${countryName}`);
-        if (null != this.card) {
-          this.card.title = this.title;
-        }
-      })
-    );
-
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
-      .then((dicts: Array<Dictionary>) => {
-        const countriesDict = dicts.shift();
-        // const regionDictionary = dicts.shift();
-
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = countriesDict.getItem(countryId);
-          this.countryName.next(null != country ? country.name : '');
-          // this.cdr.detectChanges();
-        });
-      });
-  }
-
-  ngAfterViewInit(): void {
-    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
-    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-
-    // respond to parameter updates
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loadingSrc.next(true);
-      void this.currentDataService
-        .getSubRegionData(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
-        .then((data: Array<SubRegionDataItem>) => {
-          if (null == data) {
-            throw new Error('data error');
-          }
-          this.errorSrc.next(false);
-          this.populateFeatureCollection(data);
-          this.initialiseMapAbsolute();
-          this.initialiseMapThreshold();
-          this.areaBounds = this.absoluteDataLayer.getBounds();
-          // reset visited
-          this.tabVisited.clear();
-          // trigger current fit bounds
-          // seems to need a small delay after page navigation to projections and back to baseline
-          setTimeout(() => {
-            this.triggerFitBounds(this.tabGroup.selectedIndex);
-          }, 0);
-        })
-        .catch((err) => {
-          this.errorSrc.next(true);
-          console.error(err);
-        })
-        .finally(() => {
-          this.loadingSrc.next(false);
-          // this.cdr.detectChanges();
-        });
-    });
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -159,6 +126,37 @@ export class MapViewComponent implements OnInit, AfterViewInit {
     if (!this.tabVisited.has(tabChangeEvent.index)) {
       this.triggerFitBounds(tabChangeEvent.index);
     }
+  }
+
+  private init(dataPromise: Promise<Array<SubRegionDataItem>>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: Array<SubRegionDataItem>) => {
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
+        this.errorSrc.next(false);
+        this.populateFeatureCollection(data);
+        this.initialiseMapAbsolute();
+        this.initialiseMapThreshold();
+        this.areaBounds = this.absoluteDataLayer.getBounds();
+        // reset visited
+        this.tabVisited.clear();
+        // trigger current fit bounds
+        // seems to need a small delay after page navigation to projections and back to baseline
+        setTimeout(() => {
+          this.triggerFitBounds(this.tabGroup.selectedIndex);
+        }, 0);
+      })
+      .catch((err) => {
+        this.errorSrc.next(true);
+        console.error(err);
+      })
+      .finally(() => {
+        this.loadingSrc.next(false);
+        // this.cdr.detectChanges();
+      });
   }
 
   private triggerFitBounds(index: number): void {
@@ -319,6 +317,16 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent(MapViewComponent);
+    void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
+      title: this.title,
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
+}
+
+export interface MapViewDialogData {
+  title: string;
+  data: Array<SubRegionDataItem>;
+  selectedTab: number;
 }
