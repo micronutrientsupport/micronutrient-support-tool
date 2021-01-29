@@ -1,4 +1,4 @@
-<app-card title="Projection Availability" [loading]="loading" [error]="error" [showExpand]="false">
+<ng-template #componentTemplate>
   Calcium availability under 3 scenarios
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Chart">
@@ -49,4 +49,11 @@
     </mat-tab>
     <mat-tab label="Download"> </mat-tab>
   </mat-tab-group>
-</app-card>
+
+</ng-template>
+
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

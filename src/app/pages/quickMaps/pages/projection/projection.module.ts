@@ -13,6 +13,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { ProjectionAvailabilityComponent } from './projectionAvailability/projectionAvailability.component';
 import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projectionFoodSources.component';
 import { ProjectionEstimateComponent } from './projectionEstimate/projectionEstimate.component';
+import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ProjectionEstimateComponent } from './projectionEstimate/projectionEsti
     RoutesModule,
     GridsterModule,
     ComponentsModule,
+    DialogModule,
   ],
 })
-export class ProjectionModule {}
+export class ProjectionModule { }

@@ -1,7 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
-import { projectedAvailability } from './projectedAvailability';
+import { ProjectedAvailability } from './projectedAvailability';
 
-export class projectedAvailabilities extends BaseObject {
+export class ProjectedAvailabilities extends BaseObject {
   public static readonly KEYS = {
     year2010: '2010',
     year2015: '2015',
@@ -14,39 +14,39 @@ export class projectedAvailabilities extends BaseObject {
     year2050: '2050',
   };
 
-  public year2010: projectedAvailability;
-  public year2015: projectedAvailability;
-  public year2020: projectedAvailability;
-  public year2025: projectedAvailability;
-  public year2030: projectedAvailability;
-  public year2035: projectedAvailability;
-  public year2040: projectedAvailability;
-  public year2045: projectedAvailability;
-  public year2050: projectedAvailability;
+  public year2010: ProjectedAvailability;
+  public year2015: ProjectedAvailability;
+  public year2020: ProjectedAvailability;
+  public year2025: ProjectedAvailability;
+  public year2030: ProjectedAvailability;
+  public year2035: ProjectedAvailability;
+  public year2040: ProjectedAvailability;
+  public year2045: ProjectedAvailability;
+  public year2050: ProjectedAvailability;
 
-  public all = new Array<projectedAvailability>();
+  public all = new Array<ProjectedAvailability>();
 
-  public static makeItemFromObject(source: Record<string, unknown>): projectedAvailabilities {
-    return super.makeItemFromObject(source) as projectedAvailabilities;
+  public static makeItemFromObject(source: Record<string, unknown>): ProjectedAvailabilities {
+    return super.makeItemFromObject(source) as ProjectedAvailabilities;
   }
 
   protected populateValues(): void {
     void super.populateValues();
 
-    this.year2010 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2010);
-    this.year2015 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2015);
-    this.year2020 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2020);
-    this.year2025 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2025);
-    this.year2030 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2030);
-    this.year2035 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2035);
-    this.year2040 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2040);
-    this.year2045 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2045);
-    this.year2050 = this.makeProjectedAvailability(projectedAvailabilities.KEYS.year2050);
+    this.year2010 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2010);
+    this.year2015 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2015);
+    this.year2020 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2020);
+    this.year2025 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2025);
+    this.year2030 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2030);
+    this.year2035 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2035);
+    this.year2040 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2040);
+    this.year2045 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2045);
+    this.year2050 = this.makeProjectedAvailability(ProjectedAvailabilities.KEYS.year2050);
   }
 
-  private makeProjectedAvailability(key: string): projectedAvailability {
+  private makeProjectedAvailability(key: string): ProjectedAvailability {
     const country = 'AGO';
-    const group = projectedAvailability.makeFromObject(
+    const group = ProjectedAvailability.makeFromObject(
       country,
       Number(key),
       this._getValue(key) as Record<string, unknown>,

@@ -1,3 +1,4 @@
+/* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
 import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
@@ -36,7 +37,15 @@ GetMonthlyFoodGroupsParams
         setTimeout(() => {
           resolve(httpClient.get('/assets/exampleData/monthly-food-groups.json').toPromise());
         }, 1500);
-      }),
+      })
+        .then((data: Record<string, unknown>) => {
+          if (null != data) {
+            // change something so that the display changes a little
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            data.jan['mn_cereal_grains_perc'] = Math.floor(Math.random() * 40);
+          }
+          return data;
+        }),
     );
   }
 }

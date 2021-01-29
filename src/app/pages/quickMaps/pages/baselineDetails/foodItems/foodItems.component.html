@@ -1,5 +1,4 @@
-<app-card title="Top 20 food items" [loading]="loading" [error]="error" [showExpand]="true"
-  (expandTrigger)="openDialog()">
+<ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Tree">
       <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
@@ -8,7 +7,7 @@
     </mat-tab>
 
     <mat-tab label="Table">
-      <div class="data-container">
+      <div class="bmgf-maps-nice-scrollbar">
         <table class=" bmgf-maps-nice-scrollbar" mat-table [dataSource]="dataSource" matSort
           class="mat-elevation-z8 tableFullWidth">
           <ng-container matColumnDef="foodex2Name">
@@ -19,14 +18,19 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
             <td mat-cell *matCellDef="let element">{{ element.value }}</td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           <tr class="mat-row" *matNoDataRow>
           </tr>
         </table>
-        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5]" [length]="dataSource?.data.length"> </mat-paginator>
       </div>
     </mat-tab>
 
   </mat-tab-group>
-</app-card>
+</ng-template>
+
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

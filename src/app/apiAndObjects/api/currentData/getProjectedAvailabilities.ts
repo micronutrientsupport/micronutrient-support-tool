@@ -1,32 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { projectedAvailabilities } from '../../objects/projectedAvailabilities';
+import { ProjectedAvailabilities } from '../../objects/projectedAvailabilities';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetProjectedAvailabilities extends CacheableEndpoint<
-  projectedAvailabilities,
-  GetProjectedAvailabilityParams
+ProjectedAvailabilities,
+GetProjectedAvailabilityParams
 > {
   protected getCacheKey(params: GetProjectedAvailabilityParams): string {
     return JSON.stringify(params);
   }
 
   protected callLive(): // params: GetProjectedAvailabilityParams,
-  Promise<projectedAvailabilities> {
+    Promise<ProjectedAvailabilities> {
     const callResponsePromise = this.apiCaller.doCall('projection-total', RequestMethod.GET, {
       // 'country-or-group-id': params.countryOrGroupId,
       // 'micronutrient-id': params.micronutrientId,
       // 'poulationGroup-id': params.poulationGroupId,
     });
 
-    return this.buildObjectFromResponse(projectedAvailabilities, callResponsePromise);
+    return this.buildObjectFromResponse(ProjectedAvailabilities, callResponsePromise);
   }
 
   protected callMock(): // params: GetProjectedAvailabilityParams,
-  Promise<projectedAvailabilities> {
+    Promise<ProjectedAvailabilities> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(
-      projectedAvailabilities,
+      ProjectedAvailabilities,
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {

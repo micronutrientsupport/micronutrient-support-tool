@@ -32,7 +32,13 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
           resolve(httpClient.get('/assets/exampleData/top-foods.json').toPromise());
         }, 1500);
       }),
-    );
+    ).then((data: Array<TopFoodSource>) => {
+      if (null != data[0]) {
+        // change something so that the display changes a little
+        data[0].value = Math.floor(Math.random() * 3);
+      }
+      return data;
+    });
   }
 }
 
