@@ -1,10 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { MatTableObject } from 'src/app/apiAndObjects/objects/misc/matTableObject';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-import { ExpandDialogComponent } from './expandDialog/expandDialog.component';
 import { MapDialogComponent } from './mapDialog/mapDialog.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
@@ -20,13 +17,6 @@ export class DialogService extends BaseDialogService {
   public openMapDialog(contentValue: string): Promise<DialogData> {
     return this.openDialog('mapDialog', MapDialogComponent, true, {
       content: contentValue,
-    });
-  }
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  public openChartDialog(graphData: ChartJSObject, tableData?: MatTableObject): Promise<DialogData> {
-    return this.openDialog('chartDialog', ExpandDialogComponent, true, {
-      graphData,
-      tableData,
     });
   }
   public openShareDialog(shareLink: string): Promise<DialogData> {

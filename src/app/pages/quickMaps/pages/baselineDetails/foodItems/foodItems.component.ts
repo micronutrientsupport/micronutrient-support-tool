@@ -9,7 +9,6 @@ import {
   Inject,
   Optional,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
@@ -33,7 +32,6 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
@@ -93,7 +91,6 @@ export class FoodItemsComponent implements OnInit {
           // show table and init paginator and sorter
           this.cdr.detectChanges();
 
-          this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
           this.initTreemap(data);

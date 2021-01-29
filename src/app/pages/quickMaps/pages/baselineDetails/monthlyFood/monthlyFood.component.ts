@@ -8,7 +8,6 @@ import {
   Optional,
   Inject,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -31,7 +30,6 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthlyFoodComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
@@ -42,7 +40,7 @@ export class MonthlyFoodComponent implements OnInit {
   public chartData: ChartJSObject;
 
   public displayedColumns = [
-    'month',
+    'monthIndex',
     // 'unitPerc',
     'vegetablesPerc',
     'cerealGrainsPerc',
@@ -107,7 +105,6 @@ export class MonthlyFoodComponent implements OnInit {
           // show table and init paginator and sorter
           this.cdr.detectChanges();
 
-          this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.initialiseGraph(data.all);
         })
@@ -126,7 +123,7 @@ export class MonthlyFoodComponent implements OnInit {
     this.chartData = {
       type: 'bar',
       data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: data.map((year) => year.month),
         datasets: [
           {
             label: 'Cereal Grains',
