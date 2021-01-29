@@ -52,7 +52,7 @@ export class HouseholdSupplyComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouselholdSupplyDialogData>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
   ) { }
 
   ngOnInit(): void {
@@ -172,10 +172,10 @@ export class HouseholdSupplyComponent implements OnInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<HouselholdSupplyDialogData>(HouseholdSupplyComponent, { data: this.data });
+    void this.dialogService.openDialogForComponent<HouseholdSupplyDialogData>(HouseholdSupplyComponent, { data: this.data });
   }
 }
 
-export interface HouselholdSupplyDialogData {
+export interface HouseholdSupplyDialogData {
   data: HouseholdHistogramData;
 }
