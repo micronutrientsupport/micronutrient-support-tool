@@ -21,8 +21,6 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { reduce } from 'cypress/types/bluebird';
-import { isNgTemplate } from '@angular/compiler';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -37,6 +35,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public title = 'Projection Availability';
   public headingText = 'Calcium';
   public subtHeadingText = '';
+  public selectedCountry: string;
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 
@@ -100,6 +99,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
+      this.quickMapsService.countryIdObs.subscribe((id: string) => this.selectedCountry = id);
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
@@ -129,19 +129,18 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
-        this.dataSource = new MatTableDataSource(data);
+        const filteredData: Array<ProjectedAvailability> = data.filter(
+          (item: ProjectedAvailability) => item.country === this.selectedCountry
+        );
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
-        // show table and init paginator and sorter
         this.cdr.detectChanges();
+        this.initialiseGraph(filteredData);
 
-        this.dataSource.sort = this.sort;
-
-        const malawiData = data.filter((item) => item.country === 'MWI');
-
-        this.initialiseGraph(malawiData);
+        // show table and init paginator and sorter
+        this.initialiseTable(filteredData);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -153,10 +152,14 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       });
   }
 
+  private initialiseTable(data: Array<ProjectedAvailability>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+  }
+
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
     this.chartData = {
       type: 'line',
-
       data: {
         labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
         datasets: [
@@ -173,7 +176,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           {
             label: 'SSP3',
             data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
-            backgroundColor: () => 'rgba(225, 92, 90, 0.6)',
+            backgroundColor: () => 'rgba(48, 102, 133, 0.6)',
           },
         ],
       },
