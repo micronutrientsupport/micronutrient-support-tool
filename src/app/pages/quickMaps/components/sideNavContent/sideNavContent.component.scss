@@ -41,9 +41,30 @@ form {
       & .field-title {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        width: 100%;
 
         & i {
           color: $color_grey;
+        }
+
+        .map-button {
+
+          line-height: 22px;
+          padding: 2px;
+          min-width: 22px;
+
+          & i {
+            vertical-align: baseline;
+            font-size: 16px;
+            color: $color_blue_form;
+          }
+
+          &.mat-button-disabled {
+            & i {
+              color: $color_grey;
+            }
+          }
         }
       }
     }
@@ -133,28 +154,6 @@ h3 {
     width: 2em;
     white-space: nowrap;
     transition: transform 0.4s ease;
-  }
-}
-
-
-.map-button {
-
-  &.mat-button {
-    line-height: 22px;
-    padding: 2px;
-    min-width: 22px;
-  }
-
-  & i {
-    vertical-align: baseline;
-    font-size: 16px;
-    color: $color_blue_form;
-  }
-
-  &.mat-button-disabled {
-    & i {
-      color: $color_grey;
-    }
   }
 }
 
