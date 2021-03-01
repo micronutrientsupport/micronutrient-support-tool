@@ -1,4 +1,12 @@
-@import 'src/assets/scss/_colour';
+// @import 'src/assets/scss/_colour';
+
+:host {
+  flex: 1 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 
 mat-tab-group {
   min-height: 0;
@@ -18,10 +26,6 @@ ngx-chartjs {
   & ::ng-deep > * {
     height: 100%;
   }
-}
-
-.example-header-image {
-  background-size: cover;
 }
 
 .tab-element {

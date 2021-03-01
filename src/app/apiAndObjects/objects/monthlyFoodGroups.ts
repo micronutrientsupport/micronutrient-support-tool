@@ -2,7 +2,7 @@ import { BaseObject } from '../_lib_code/objects/baseObject';
 import { MonthlyFoodGroup } from './monthlyFoodGroup';
 
 export class MonthlyFoodGroups extends BaseObject {
-  public static readonly KEYS = {
+  public static readonly MONTH_KEYS = {
     JAN: 'jan',
     FEB: 'feb',
     MAR: 'mar',
@@ -15,6 +15,9 @@ export class MonthlyFoodGroups extends BaseObject {
     OCT: 'oct',
     NOV: 'nov',
     DEC: 'dec',
+  };
+  public static readonly KEYS = {
+    ...MonthlyFoodGroups.MONTH_KEYS,
   };
 
   public jan: MonthlyFoodGroup;
@@ -39,23 +42,22 @@ export class MonthlyFoodGroups extends BaseObject {
   protected populateValues(): void {
     void super.populateValues();
 
-    this.jan = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.JAN);
-    this.feb = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.FEB);
-    this.mar = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.MAR);
-    this.apr = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.APR);
-    this.may = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.MAY);
-    this.jun = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.JUN);
-    this.jul = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.JUL);
-    this.aug = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.AUG);
-    this.sep = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.SEP);
-    this.oct = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.OCT);
-    this.nov = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.NOV);
-    this.dec = this.makeMonthlyFoodGroup(MonthlyFoodGroups.KEYS.DEC);
-  }
-
-  private makeMonthlyFoodGroup(key: string): MonthlyFoodGroup {
-    const group = MonthlyFoodGroup.makeFromObject(key, this._getValue(key) as Record<string, unknown>);
-    this.all.push(group);
-    return group;
+    Object.values(MonthlyFoodGroups.MONTH_KEYS).forEach((monthKey: string, index: number) => {
+      const group = MonthlyFoodGroup.makeFromObject(monthKey, index + 1, this._getValue(monthKey) as Record<string, unknown>);
+      this.all.push(group);
+    });
+    const clone = this.all.slice();
+    this.jan = clone.shift();
+    this.feb = clone.shift();
+    this.mar = clone.shift();
+    this.apr = clone.shift();
+    this.may = clone.shift();
+    this.jun = clone.shift();
+    this.jul = clone.shift();
+    this.aug = clone.shift();
+    this.sep = clone.shift();
+    this.oct = clone.shift();
+    this.nov = clone.shift();
+    this.dec = clone.shift();
   }
 }

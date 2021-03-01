@@ -1,159 +1,224 @@
-/* eslint-disable prefer-const */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Component, Input, OnDestroy, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  Component, Input, Optional, Inject,
+  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef
+} from '@angular/core';
 import * as L from 'leaflet';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { GridsterItem } from 'angular-gridster2';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
+import { CardComponent } from 'src/app/components/card/card.component';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
-  styleUrls: ['./map-view.component.scss'],
+  styleUrls: [
+    '../../expandableTabGroup.scss',
+    './map-view.component.scss',
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapViewComponent implements OnInit, OnDestroy {
-  @Input() widget;
-  @Input() resizeEvent: EventEmitter<GridsterItem>;
+export class MapViewComponent implements AfterViewInit {
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild('map1') map1Element: ElementRef;
+  @ViewChild('map2') map2Element: ElementRef;
+  @Input() card: CardComponent;
 
-  public boundaryGeojson: L.GeoJSON;
-  public boundaryLayer: any;
-  public countryName = '';
-  public subRegionData: Array<SubRegionDataItem>;
-  private resizeSub: Subscription;
-  private mapView1: L.Map;
-  private mapView2: L.Map;
+  public title = '';
+  private data: Array<SubRegionDataItem>;
+
+  private absoluteMap: L.Map;
+  private absoluteDataLayer: L.GeoJSON;
+  private absoluteLegend: L.Control;
+  private thresholdMap: L.Map;
+  private thresholdDataLayer: L.GeoJSON;
+  private thresholdLegend: L.Control;
+
+  private areaBounds: L.LatLngBounds;
+  private areaFeatureCollection: GeoJSON.FeatureCollection;
+
+  private loadingSrc = new BehaviorSubject<boolean>(false);
+  private errorSrc = new BehaviorSubject<boolean>(false);
+
+  private subscriptions = new Array<Subscription>();
+
+  private tabVisited = new Map<number, boolean>();
 
   constructor(
-    private http: HttpClient,
-    private modalService: DialogService,
+    private dialogService: DialogService,
     private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) { }
 
-  ngOnInit(): void {
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      void this.currentDataService
-        .getSubRegionData(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          this.quickMapsService.mndDataId,
-        )
-        .then((data: Array<SubRegionDataItem>) => {
-          this.subRegionData = data;
-          this.mapView1 = this.initialiseMapAbsolute(data, 'mapView1');
+  ngAfterViewInit(): void {
+    this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
+    this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+
+    // if displayed within a card component init interactions with the card
+    if (null != this.card) {
+      this.card.showExpand = true;
+      this.card
+        .setLoadingObservable(this.loadingSrc.asObservable())
+        .setErrorObservable(this.errorSrc.asObservable());
+
+      this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog())
+      );
+      this.subscriptions.push(
+        this.card.onResizeObs.subscribe(() => {
+          this.absoluteMap.invalidateSize();
+          this.thresholdMap.invalidateSize();
         })
-        .catch((error) => {
-          console.error(error);
+      );
+
+      void this.dictionaryService
+        .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
+        .then((dicts: Array<Dictionary>) => {
+          const countriesDict = dicts.shift();
+          // const regionDictionary = dicts.shift();
+
+          this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+            const country = countriesDict.getItem(countryId);
+            this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+            if (null != this.card) {
+              this.card.title = this.title;
+            }
+            // this.cdr.detectChanges();
+          });
         });
-    });
 
-    this.resizeSub = this.resizeEvent.subscribe((widget) => {
-      if (widget === this.widget) {
-        // or check id , type or whatever you have there
-        // resize your widget, chart, map , etc.
-        // console.log(widget);
-        if (this.mapView1) {
-          this.mapView1.invalidateSize();
-        }
-        if (this.mapView2) {
-          this.mapView2.invalidateSize();
-        }
-      }
-    });
-
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
-      .then((dicts: Array<Dictionary>) => {
-        const countriesDict = dicts.shift();
-        // const regionDictionary = dicts.shift();
-
-        // temporarily feed country name form here, but when this component runs off live
-        // data this will probably be re-worked.
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = countriesDict.getItem(countryId);
-          this.countryName = null != country ? country.name : '';
-          // seems to need kicking :-(
-          this.cdr.detectChanges();
-        });
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.resizeSub.unsubscribe();
-  }
-
-  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    // Map container doesn't exist until tab changed...
-    if (tabChangeEvent.index === 1 && !this.mapView2) {
-      this.mapView2 = this.initialiseMapThreshold(this.subRegionData, 'mapView2');
-    } else {
-      this.mapView2.invalidateSize();
-      this.mapView1.invalidateSize();
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(this.currentDataService.getSubRegionData(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrientId],
+            this.quickMapsService.popGroupId,
+            this.quickMapsService.mndDataId,
+          ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.title = this.dialogData.dataIn.title;
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
   }
 
-  public initialiseMapAbsolute(data: Array<SubRegionDataItem>, mapId: string): L.Map {
-    let map: L.Map;
-    map = L.map(mapId, {}).setView([6.6194073, 20.9367017], 3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    switch (tabChangeEvent.index) {
+      case (0): this.absoluteMap.invalidateSize(); break;
+      case (1): this.thresholdMap.invalidateSize(); break;
+    }
+    if (!this.tabVisited.has(tabChangeEvent.index)) {
+      this.triggerFitBounds(tabChangeEvent.index);
+    }
+  }
 
-    const featureCollection: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: data
-        .map((item: SubRegionDataItem) => item.geoFeature)
-        .filter((item) => null != item),
-    };
+  private init(dataPromise: Promise<Array<SubRegionDataItem>>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: Array<SubRegionDataItem>) => {
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
+        this.errorSrc.next(false);
+        this.populateFeatureCollection(data);
+        this.initialiseMapAbsolute();
+        this.initialiseMapThreshold();
+        this.areaBounds = this.absoluteDataLayer.getBounds();
+        // reset visited
+        this.tabVisited.clear();
+        // trigger current fit bounds
+        // seems to need a small delay after page navigation to projections and back to baseline
+        setTimeout(() => {
+          this.triggerFitBounds(this.tabGroup.selectedIndex);
+        }, 0);
+      })
+      .catch((err) => {
+        this.errorSrc.next(true);
+        console.error(err);
+      })
+      .finally(() => {
+        this.loadingSrc.next(false);
+        // this.cdr.detectChanges();
+      });
+  }
 
-    const geoJson = L.geoJSON(featureCollection, {
+  private triggerFitBounds(index: number): void {
+    this.tabVisited.set(index, true);
+    switch (index) {
+      case (0): this.absoluteMap.fitBounds(this.areaBounds); break;
+      case (1): this.thresholdMap.fitBounds(this.areaBounds); break;
+    }
+
+  }
+
+  private getTooltip(feature: GeoJSON.Feature): string {
+    return `
+    <div>
+      Region:<b>${feature.properties.subRegionName}</b><br/>
+      Absolute value:${feature.properties.mnAbsolute}mg<br/>
+      Threshold: ${feature.properties.mnThreshold}%<br/>
+    </div>`;
+  }
+
+  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+    return L.geoJSON(this.areaFeatureCollection, {
       style: (feature) => ({
-        fillColor: this.getColourAbsolute(feature.properties.mnAbsolute),
+        fillColor: featureColourFunc(feature),
         weight: 2,
         opacity: 1,
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.7,
       }),
-      onEachFeature: (feature: any, layer: any) => {
-        const layerName = feature.properties.subRegionName;
-        const layerValueAbsolute = feature.properties.mnAbsolute;
-        const layerValueThreshold = feature.properties.mnThreshold;
-
-        const layerCentre = layer.getBounds().getCenter();
-
-        const popup = L.popup()
-          .setLatLng(layerCentre)
-          .setContent(
-            `<div>Region:<b>${layerName}</b><br>Absolute value:${layerValueAbsolute}mg<br>Threshold: ${layerValueThreshold}%</div>`,
-          );
-
-        layer.bindPopup(popup);
-
-        layer.on({
-          mouseover: () => layer.openPopup(),
-          mouseout: () => layer.closePopup(),
-        });
+      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+        layer.bindTooltip(this.getTooltip(feature));
       },
+    });
+  }
+
+  private initialiseMap(mapElement: HTMLElement): L.Map {
+    const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
-    const legend = new L.Control({ position: 'bottomright' });
+    return map;
+  }
 
-    legend.onAdd = () => {
+  private initialiseMapAbsolute(): void {
+    if (null != this.absoluteDataLayer) {
+      this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    }
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
+
+    // eslint-disable-next-line arrow-body-style
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
+      return this.getColourAbsolute(feat.properties.mnAbsolute);
+    }).addTo(this.absoluteMap);
+
+    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+
+    this.absoluteLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
       const range = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
@@ -170,61 +235,25 @@ export class MapViewComponent implements OnInit, OnDestroy {
       return div;
     };
 
-    legend.addTo(map);
-    this.boundaryLayer = geoJson;
-    map.fitBounds(this.boundaryLayer.getBounds());
-    return map;
+    this.absoluteLegend.addTo(this.absoluteMap);
   }
 
-  public initialiseMapThreshold(data: Array<SubRegionDataItem>, mapId: string): L.Map {
-    let map: L.Map;
-    map = L.map(mapId, {}).setView([6.6194073, 20.9367017], 3);
+  private initialiseMapThreshold(): void {
+    if (null != this.thresholdDataLayer) {
+      this.thresholdMap.removeLayer(this.thresholdDataLayer);
+    }
+    if (null != this.thresholdLegend) {
+      this.thresholdMap.removeControl(this.thresholdLegend);
+    }
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    // eslint-disable-next-line arrow-body-style
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
+      return this.getColourThreshold(feat.properties.mnThreshold);
+    }).addTo(this.thresholdMap);
 
-    const featureCollection: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: data
-        .map((item: SubRegionDataItem) => item.geoFeature)
-        .filter((item) => null != item),
-    };
+    this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
-    const geoJson = L.geoJSON(featureCollection, {
-      style: (feature) => ({
-        fillColor: this.getColourThreshold(feature.properties.mnThreshold),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7,
-      }),
-      onEachFeature: (feature: any, layer: any) => {
-        const layerName = feature.properties.subRegionName;
-        const layerValueAbsolute = feature.properties.mnAbsolute;
-        const layerValueThreshold = feature.properties.mnThreshold;
-
-        const layerCentre = layer.getBounds().getCenter();
-
-        const popup = L.popup()
-          .setLatLng(layerCentre)
-          .setContent(
-            `<div>Region:<b>${layerName}</b><br>Absolute value:${layerValueAbsolute}mg<br>Threshold:${layerValueThreshold}%</div>`,
-          );
-
-        layer.bindPopup(popup);
-
-        layer.on({
-          mouseover: () => layer.openPopup(),
-          mouseout: () => layer.closePopup(),
-        });
-      },
-    }).addTo(map);
-
-    const legend = new L.Control({ position: 'bottomright' });
-
-    legend.onAdd = () => {
+    this.thresholdLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
       const range = [0, 20, 40, 60, 80, 99];
 
@@ -241,15 +270,20 @@ export class MapViewComponent implements OnInit, OnDestroy {
       return div;
     };
 
-    legend.addTo(map);
-
-    legend.addTo(map);
-    this.boundaryLayer = geoJson;
-    map.fitBounds(this.boundaryLayer.getBounds());
-    return map;
+    this.thresholdLegend.addTo(this.thresholdMap);
   }
 
-  public getColourAbsolute(absoluteValue: number): string {
+
+  private populateFeatureCollection(data: Array<SubRegionDataItem>): void {
+    this.areaFeatureCollection = {
+      type: 'FeatureCollection',
+      features: data
+        .map((item: SubRegionDataItem) => item.geoFeature)
+        .filter((item) => null != item),
+    };
+  }
+
+  private getColourAbsolute(absoluteValue: number): string {
     return absoluteValue > 1500
       ? '#2ca25f'
       : absoluteValue > 1000
@@ -266,7 +300,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
                   ? '#7a0177'
                   : '#354969';
   }
-  public getColourThreshold(thresholdValue: number): string {
+  private getColourThreshold(thresholdValue: number): string {
     return thresholdValue > 99
       ? '#187026'
       : thresholdValue > 80
@@ -281,7 +315,18 @@ export class MapViewComponent implements OnInit, OnDestroy {
                 ? '#5e1d5c'
                 : '#0f0e0f';
   }
-  public openDialog(): void {
-    void this.modalService.openMapDialog('Hello World');
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
+      title: this.title,
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
+}
+
+export interface MapViewDialogData {
+  title: string;
+  data: Array<SubRegionDataItem>;
+  selectedTab: number;
 }
