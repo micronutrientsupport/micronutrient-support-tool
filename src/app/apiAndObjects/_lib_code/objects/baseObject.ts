@@ -2,6 +2,14 @@ import moment from 'moment-es6';
 import { ObjectAccessor } from './objectAccessor';
 
 export class BaseObject {
+  protected constructor(
+    protected readonly _sourceObject?: Record<string, unknown>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ...otherArgs: Array<any>
+  ) {
+    _sourceObject = (null == _sourceObject) ? {} : _sourceObject;
+  }
+
   /**
    * used by object builder.
    */
@@ -9,13 +17,6 @@ export class BaseObject {
     source?: Record<string, unknown>,
   ): Promise<BaseObject> {
     return Promise.resolve(this.validateObject(source) ? new this(source) : null);
-  }
-
-  protected constructor(
-    protected readonly _sourceObject?: Record<string, unknown>,
-    ...otherArgs: Array<any>
-  ) {
-    _sourceObject = (null == _sourceObject) ? {} : _sourceObject;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
