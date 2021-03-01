@@ -1,9 +1,10 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-    <button class="minimize-button" mat-icon-button type="button" [disabled]="lockSideNav" (click)="minimiseSideNav()">
+    <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
+        (click)="minimiseSideNav()">
         <i class="fas fa-caret-left"></i></button>
     <h2 (click)="minimiseSideNav()">Quick Maps</h2>
-    <mat-slide-toggle matTooltipClass="tooltip" (change)="sideNavLockChange()" [formControl]="sideNaveToggleLock"
-        color="primary" [matTooltip]="(lockSideNav === true) ? 'Unlock Side-Nav': 'Lock Side-Nav'">
+    <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
+        [matTooltip]="(sideNavToggleLock.value === true) ? 'Unlock Side-Nav': 'Lock Side-Nav'">
     </mat-slide-toggle>
 </div>
 
@@ -94,8 +95,8 @@
                 </div>
             </legend>
             <mat-form-field appearance="fill">
-                <mat-select name="mndsData" formControlName="mndsData"
-                    placeholder="Click to select options" panelClass="allow-long-text">
+                <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
+                    panelClass="allow-long-text">
                     <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
                     </mat-option>
                 </mat-select>

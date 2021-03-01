@@ -42,8 +42,7 @@ export class SideNavContentComponent implements OnInit {
 
   public quickMapsForm: FormGroup;
 
-  public sideNaveToggleLock = new FormControl(false);
-  public lockSideNav = false;
+  public sideNavToggleLock = new FormControl(false);
 
   constructor(
     private fb: FormBuilder,
@@ -104,12 +103,9 @@ export class SideNavContentComponent implements OnInit {
       .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
   }
 
-  public sideNavLockChange(): void {
-    this.lockSideNav = (this.sideNaveToggleLock.value === true) ? true : false;
-  }
-
   public minimiseSideNav(): void {
-    if (this.lockSideNav === false) {
+    this.sideNavToggleLock.setValue((this.sideNavToggleLock.value === true) ? true : false);
+    if (this.sideNavToggleLock.value === false) {
       this.quickMapsService.sideNavToggle();
     }
   }
