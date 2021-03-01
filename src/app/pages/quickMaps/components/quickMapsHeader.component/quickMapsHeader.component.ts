@@ -55,13 +55,11 @@ export class QuickMapsHeaderComponent implements OnInit {
         this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
           const mnds = this.micronutrientsDictionary.getItem(mndsId);
           this.vitaminName = null != mnds ? mnds.name : '';
-          console.log(this.vitaminName);
           this.cdr.markForCheck();
         });
       });
 
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      // console.log('GetImpactScenarios: ', result);
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
     });
   }
