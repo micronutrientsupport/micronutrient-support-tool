@@ -1,7 +1,7 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
     <button class="minimize-button" mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
         <i class="fas fa-caret-left"></i></button>
-    <h2 (click)="quickMapsService.sideNavToggle()">Quick Maps</h2>
+    <h2 (click)="quickMapsService.sideNavToggle()">Quick MAPS</h2>
 </div>
 
 <div *ngIf="(null != quickMapsForm) && (quickMapsService.slimObservable | async) === (false)"
@@ -91,8 +91,8 @@
                 </div>
             </legend>
             <mat-form-field appearance="fill">
-                <mat-select name="mndsData" formControlName="mndsData"
-                    placeholder="Click to select options" panelClass="allow-long-text">
+                <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
+                    panelClass="allow-long-text">
                     <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
                     </mat-option>
                 </mat-select>
