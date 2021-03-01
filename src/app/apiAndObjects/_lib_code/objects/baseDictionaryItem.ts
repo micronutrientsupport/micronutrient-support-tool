@@ -7,6 +7,15 @@ export class BaseDictionaryItem extends BaseObject implements DictionaryItem {
   public static readonly NAME_ATTRIBUTE: string = 'translation';
   public static readonly DESC_ATTRIBUTE: string = 'description';
 
+  protected constructor(
+    sourceObject: Record<string, unknown>,
+    public readonly id: string,
+    public readonly name: string,
+    public readonly description: string,
+  ) {
+    super(sourceObject);
+  }
+
   public static constructObject(source: Record<string, unknown>): Promise<BaseDictionaryItem> {
     return Promise.resolve(
       (!this.validateObject(source))
@@ -19,14 +28,4 @@ export class BaseDictionaryItem extends BaseObject implements DictionaryItem {
         )
     );
   }
-
-  protected constructor(
-    sourceObject: Record<string, unknown>,
-    public readonly id: string,
-    public readonly name: string,
-    public readonly description: string,
-  ) {
-    super(sourceObject);
-  }
-
 }

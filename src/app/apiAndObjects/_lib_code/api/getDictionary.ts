@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { CacheableEndpoint } from './cacheableEndpoint.abstract';
 import { DictionaryItem } from '../objects/dictionaryItem.interface';
 import { Dictionary } from '../objects/dictionary';
@@ -17,7 +16,7 @@ export class GetDictionary
   protected mockObjects: Array<Record<string, unknown>>;
 
 
-  constructor(public readonly type: any, isLive?: boolean) {
+  constructor(public readonly type: unknown, isLive?: boolean) {
     super(isLive);
   }
 

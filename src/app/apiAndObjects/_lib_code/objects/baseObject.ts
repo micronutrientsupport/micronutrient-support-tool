@@ -5,7 +5,7 @@ export class BaseObject {
   protected constructor(
     protected readonly _sourceObject?: Record<string, unknown>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ...otherArgs: Array<any>
+    ...otherArgs: Array<unknown>
   ) {
     _sourceObject = (null == _sourceObject) ? {} : _sourceObject;
   }

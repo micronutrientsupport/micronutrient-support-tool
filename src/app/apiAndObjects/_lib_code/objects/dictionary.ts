@@ -8,7 +8,7 @@ export class Dictionary {
   public readonly itemsObs = this.itemsSrc.asObservable();
 
   constructor(
-    public readonly type: any,
+    public readonly type: unknown,
     dictionaryItems: Array<DictionaryItem> = [],
   ) {
     this.setItems(dictionaryItems);

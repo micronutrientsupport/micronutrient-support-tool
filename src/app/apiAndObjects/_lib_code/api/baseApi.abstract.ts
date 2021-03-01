@@ -12,7 +12,7 @@ export abstract class BaseApi {
 
   protected endPointsArray = new Array<Endpoint>();
 
-  protected dictionaries = new Map<any, GetDictionary>();
+  protected dictionaries = new Map<unknown, GetDictionary>();
 
   constructor(
     protected injector: Injector,
@@ -25,18 +25,18 @@ export abstract class BaseApi {
     ObjectBuilder.setApi(this);
   }
 
-  public getDictionaryEndpoint(type: any): GetDictionary {
+  public getDictionaryEndpoint(type: unknown): GetDictionary {
     return this.dictionaries.get(type);
   }
-  public getDictionary(type: any, useCache?: boolean): Promise<Dictionary> {
+  public getDictionary(type: unknown, useCache?: boolean): Promise<Dictionary> {
     const endpoint = this.getDictionaryEndpoint(type);
     return null == endpoint ? Promise.reject() : endpoint.call(null, useCache);
   }
-  public getDictionaryEndpoints(types: Array<any>): Array<GetDictionary> {
-    return types.map((type: any) => this.dictionaries.get(type));
+  public getDictionaryEndpoints(types: Array<unknown>): Array<GetDictionary> {
+    return types.map((type: unknown) => this.dictionaries.get(type));
   }
 
-  public getDictionaries(types: Array<any>, useCache?: boolean): Promise<Array<Dictionary>> {
+  public getDictionaries(types: Array<unknown>, useCache?: boolean): Promise<Array<Dictionary>> {
     const endpoints = this.getDictionaryEndpoints(types);
     return Promise.all(endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache)));
   }
@@ -49,13 +49,13 @@ export abstract class BaseApi {
     return this;
   }
 
-  protected addEndpoint(endpoint: Endpoint<any, any>): this {
+  protected addEndpoint(endpoint: Endpoint<unknown, unknown>): this {
     this.endPointsArray.push(endpoint);
     endpoint.init(this.injector, this.apiCaller);
     return this;
   }
-  protected addEndpoints(endpoints: Array<Endpoint<any, any>>): this {
-    endpoints.forEach((endpoint: Endpoint<any, any>) => {
+  protected addEndpoints(endpoints: Array<Endpoint<unknown, unknown>>): this {
+    endpoints.forEach((endpoint: Endpoint<unknown, unknown>) => {
       this.addEndpoint(endpoint);
     });
     return this;

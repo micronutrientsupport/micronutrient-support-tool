@@ -4,9 +4,9 @@ import { ObjectBuilder } from '../objects/objectBuilder';
 import { BaseObject } from '../objects/baseObject';
 import { Injector } from '@angular/core';
 
-export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE = RETURN_TYPE> {
+export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJECT_TYPE = RETURN_TYPE> {
   protected onSuccessFuncs = new Array<(data: RETURN_TYPE) => void>();
-  protected onFailFuncs = new Array<(error: any) => void>();
+  protected onFailFuncs = new Array<(error: unknown) => void>();
   protected onCompleteFuncs = new Array<() => void>();
 
   protected injector: Injector;
@@ -64,7 +64,7 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
   /**
    * adds a function that will be called from the promise.catch block of the api http call.
    */
-  public addOnFailFunc(onError: (error: any) => void): this {
+  public addOnFailFunc(onError: (error: unknown) => void): this {
     if (null != onError) {
       this.onFailFuncs.push(onError);
     }
@@ -112,7 +112,7 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     } as PARAMS_TYPE;
   }
 
-  protected buildObjectsFromResponse(object: typeof BaseObject, dataProm: Promise<any>): Promise<Array<OBJECT_TYPE>> {
+  protected buildObjectsFromResponse(object: typeof BaseObject, dataProm: Promise<unknown>): Promise<Array<OBJECT_TYPE>> {
     return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
       // console.debug('buildObjectsFromResponse', data);
       // if not an array convert to an array
@@ -123,11 +123,11 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     });
   }
 
-  protected buildObjectFromResponse(object: typeof BaseObject, dataProm: Promise<any>): Promise<OBJECT_TYPE> {
+  protected buildObjectFromResponse(object: typeof BaseObject, dataProm: Promise<unknown>): Promise<OBJECT_TYPE> {
     return this.buildObjectsFromResponse(object, dataProm).then((objectArray: Array<OBJECT_TYPE>) => objectArray[0]); // just the one result
   }
 
-  protected createBodyFormData(bodyData: object): FormData {
+  protected createBodyFormData(bodyData: Record<string, unknown>): FormData {
     // console.debug('createBodyFormData', bodyData);
     const formData = new FormData();
     Object.keys(bodyData).forEach((key: string) => {
@@ -136,13 +136,13 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     return formData;
   }
 
-  protected createFormData(formData: FormData, data: any, key: string): void {
+  protected createFormData(formData: FormData, data: unknown, key: string): void {
     if ((typeof data === 'object' && data !== null) || Array.isArray(data)) {
-      Object.keys(data).forEach((i: any) => {
+      Object.keys(data).forEach((i: string) => {
         this.formDataAppend(formData, key, i, data[i]);
       });
     } else {
-      formData.append(key, data);
+      formData.append(key, data as string);
     }
   }
 
@@ -150,7 +150,7 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     formData: FormData,
     groupKey: string,
     itemKey: string,
-    value: any | File
+    value: unknown | File
   ): void {
     if (null == value) {
       // do nothing
@@ -167,7 +167,7 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     ) {
       this.createFormData(formData, value, groupKey + '[' + itemKey + ']');
     } else {
-      formData.append(groupKey + '[' + itemKey + ']', value);
+      formData.append(groupKey + '[' + itemKey + ']', value as string);
     }
   }
 

@@ -2,10 +2,10 @@ import { Dictionary } from './dictionary';
 import { DictionaryItem } from './dictionaryItem.interface';
 
 export class RequiredDictionaries {
-  protected readonly dictionaries = new Map<any, Dictionary>();
+  protected readonly dictionaries = new Map<unknown, Dictionary>();
 
   public static validateDictionaries(
-    dictionariesTypes: Array<any>,
+    dictionariesTypes: Array<unknown>,
     dictionaries: Array<Dictionary>,
   ): boolean {
     // console.debug('validateDictionaries', dictionariesTypes, dictionaries);
@@ -36,11 +36,11 @@ export class RequiredDictionaries {
    * (Generics for convenience.)
    */
   public getDictionary<DICTIONARY_TYPE = Dictionary>(
-    dictionaryType: any,
+    dictionaryType: unknown,
   ): DICTIONARY_TYPE {
     const requiredDict = this.dictionaries.get(dictionaryType);
     if (null == requiredDict) {
-      console.warn(`Can't get dictionary`, dictionaryType);
+      console.warn('Can\'t get dictionary', dictionaryType);
     }
     return requiredDict as unknown as DICTIONARY_TYPE;
   }
@@ -50,7 +50,7 @@ export class RequiredDictionaries {
    * (Generics for convenience.)
    */
   public getDictionaryItem<ITEM_TYPE = DictionaryItem>(
-    dictionaryType: any,
+    dictionaryType: unknown,
     dictionaryItemId: string,
   ): ITEM_TYPE {
     const dict = this.getDictionary(dictionaryType);
@@ -60,7 +60,7 @@ export class RequiredDictionaries {
       && (null != dictionaryItemId)
       && ('' !== dictionaryItemId)
       && (null == item)) {
-      console.warn(`Can't get item from dict '${dictionaryType}' with id '${dictionaryItemId}'`);
+      console.warn(`Can't get item from dict '${String(dictionaryType).toString()}' with id '${dictionaryItemId}'`);
     }
     return item;
   }

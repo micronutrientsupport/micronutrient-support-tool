@@ -1,4 +1,3 @@
-
 import { BaseObject } from './baseObject';
 import { BaseApi } from '../api/baseApi.abstract';
 import { Dictionary } from './dictionary';
@@ -41,10 +40,9 @@ export class ObjectBuilder {
     return (null == requiredDictTypes)
       ? Promise.resolve((typeObject.constructObject(data) as unknown) as T)
       : this.apiService.getDictionaries(requiredDictTypes)
-        .then((dicts: Array<Dictionary>) => {
-          // console.debug('got dicts', requiredDictTypes, dicts);
-          return ((typeObject as typeof BaseObjectRequiresDictionaries).constructObject(data, dicts) as unknown) as T;
-        });
+        .then((dicts: Array<Dictionary>) =>
+          ((typeObject as typeof BaseObjectRequiresDictionaries).constructObject(data, dicts) as unknown) as T
+        );
 
   }
 

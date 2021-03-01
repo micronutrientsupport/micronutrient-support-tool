@@ -41,7 +41,7 @@ export class ObjectAccessor {
     return this.getEnumFromValue<T>(value, enumerator);
   }
   public static getEnums<T>(key: string, enumerator: Record<string, unknown>, source: Record<string, unknown>): Array<T> {
-    const values = this.getArray<any>(key, source);
+    const values = this.getArray<string | number>(key, source);
     return this.getEnumsFromValues<T>(values, enumerator);
   }
   public static getEnumsFromValues<T>(values: Array<string | number>, enumerator: Record<string, unknown>): Array<T> {

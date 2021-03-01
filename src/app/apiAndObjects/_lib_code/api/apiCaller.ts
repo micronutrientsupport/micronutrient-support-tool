@@ -30,7 +30,7 @@ export class ApiCaller {
     urlSegments: string | Array<string>,
     requestMethod: RequestMethod,
     queryParams: Record<string, string | Array<string>> = {},
-    bodyData: Record<string, unknown> | FormData | Array<any> = {},
+    bodyData: Record<string, unknown> | FormData | Array<unknown> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
@@ -40,7 +40,7 @@ export class ApiCaller {
       params: queryParams,
     };
 
-    let response: Observable<any>;
+    let response: Observable<unknown>;
     switch (requestMethod) {
       case RequestMethod.GET:
         response = this.http.get(url, options);

@@ -4,8 +4,16 @@ import { DictionaryItem } from './dictionaryItem.interface';
 import { RequiredDictionaries } from './requiredDictionaries';
 
 export class BaseObjectRequiresDictionaries extends BaseObject {
-  public static readonly requiredDictionaryTypes: Array<any> = [];
+  public static readonly requiredDictionaryTypes: Array<unknown> = [];
   protected readonly _requiredDictionaries = new RequiredDictionaries();
+
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+    dictionaries?: Array<Dictionary>,
+  ) {
+    super(sourceObject);
+    this._requiredDictionaries.addDictionaries(dictionaries);
+  }
 
   /**
    * used by object builder.
@@ -23,19 +31,11 @@ export class BaseObjectRequiresDictionaries extends BaseObject {
     );
   }
 
-  protected constructor(
-    sourceObject?: Record<string, unknown>,
-    dictionaries?: Array<Dictionary>,
-  ) {
-    super(sourceObject);
-    this._requiredDictionaries.addDictionaries(dictionaries);
-  }
-
   /**
    * Get a dictionary.
    * (Generics for convenience.)
    */
-  protected _getDictionary<DICTIONARY_TYPE = Dictionary>(dictionaryType: any): DICTIONARY_TYPE {
+  protected _getDictionary<DICTIONARY_TYPE = Dictionary>(dictionaryType: unknown): DICTIONARY_TYPE {
     return this._requiredDictionaries.getDictionary<DICTIONARY_TYPE>(dictionaryType);
   }
 
@@ -44,7 +44,7 @@ export class BaseObjectRequiresDictionaries extends BaseObject {
    * (Generics for convenience.)
    */
   protected _getDictionaryItem<ITEM_TYPE = DictionaryItem>(
-    dictionaryType: any,
+    dictionaryType: unknown,
     sourceKey: string,
   ): ITEM_TYPE {
     const dictionaryItemId = this._getString(sourceKey);
