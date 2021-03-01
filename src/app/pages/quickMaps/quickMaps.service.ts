@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 @Injectable()
@@ -26,6 +26,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
 
+  private readonly dataLevelSrc = new BehaviorSubject<string>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public dataLevelObs = this.dataLevelSrc.asObservable();
+
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
@@ -45,11 +49,13 @@ export class QuickMapsService {
     this.setMicronutrientId(QuickMapsQueryParams.getMicronutrientId(route.snapshot));
     this.setPopGroupId(QuickMapsQueryParams.getPopGroupId(route.snapshot));
     this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
+    this.setDataLevel(QuickMapsQueryParams.getDataLevel(route.snapshot));
 
     this.countryIdObs.subscribe(() => this.parameterChanged());
     this.micronutrientIdObs.subscribe(() => this.parameterChanged());
     this.popGroupIdObs.subscribe(() => this.parameterChanged());
     this.mndDataIdObs.subscribe(() => this.parameterChanged());
+    this.dataLevelObs.subscribe(() => this.parameterChanged());
   }
 
   public sideNavToggle(): void {
@@ -68,36 +74,35 @@ export class QuickMapsService {
     return this.countryIdSrc.value;
   }
   public setCountryId(countryId: string, force = false): void {
-    if (force || this.countryId !== countryId) {
-      this.countryIdSrc.next(countryId);
-    }
+    this.setValue(this.countryIdSrc, countryId, force);
   }
 
   public get micronutrientId(): string {
     return this.micronutrientIdSrc.value;
   }
   public setMicronutrientId(micronutrientId: string, force = false): void {
-    if (force || micronutrientId !== this.micronutrientId) {
-      this.micronutrientIdSrc.next(micronutrientId);
-    }
+    this.setValue(this.micronutrientIdSrc, micronutrientId, force);
   }
 
   public get popGroupId(): string {
     return this.popGroupIdSrc.value;
   }
   public setPopGroupId(popGroupId: string, force = false): void {
-    if (force || this.popGroupId !== popGroupId) {
-      this.popGroupIdSrc.next(popGroupId);
-    }
+    this.setValue(this.popGroupIdSrc, popGroupId, force);
   }
 
   public get mndDataId(): string {
     return this.mndDataIdSrc.value;
   }
   public setMndDataId(mndDataId: string, force = false): void {
-    if (force || this.mndDataId !== mndDataId) {
-      this.mndDataIdSrc.next(mndDataId);
-    }
+    this.setValue(this.mndDataIdSrc, mndDataId, force);
+  }
+
+  public get dataLevel(): string {
+    return this.dataLevelSrc.value;
+  }
+  public setDataLevel(dataLevel: string, force = false): void {
+    this.setValue(this.dataLevelSrc, dataLevel, force);
   }
 
   public updateQueryParams(): void {
@@ -106,7 +111,14 @@ export class QuickMapsService {
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrientId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID] = this.popGroupId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
+  }
+
+  protected setValue(srcRef: BehaviorSubject<string>, value: string, force: boolean): void {
+    if (force || srcRef.value !== value) {
+      srcRef.next(value);
+    }
   }
 
   private parameterChanged(): void {

@@ -6,6 +6,7 @@ export class QuickMapsQueryParams {
     MICRONUTRIENT_ID: 'mnd-id',
     POP_GROUP_ID: 'pop-group-id',
     MICRONUTRIENT_DATASET: 'dataset-id',
+    DATA_LEVEL: 'data-level',
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
@@ -24,6 +25,9 @@ export class QuickMapsQueryParams {
     return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET);
   }
 
+  public static getDataLevel(route: ActivatedRouteSnapshot): string {
+    return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL);
+  }
 
   public static setQueryParams(router: Router, activatedRoute: ActivatedRoute, params: Record<string, string | Array<string>>): void {
     // console.debug('setQueryParams', params);
