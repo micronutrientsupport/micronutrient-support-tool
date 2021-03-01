@@ -60,7 +60,7 @@ export class ProjectionDescriptionComponent implements OnInit {
       });
 
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      console.log(result);
+      console.log('GetImpactScenarios: ', result);
     });
   }
 
