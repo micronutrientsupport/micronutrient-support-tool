@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
+import { BaselineBiomarkerComponent } from './pages/biomarkers/baseline/baselineBiomarker.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
@@ -49,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.segments.valueOf(),
-        // component: 'fdsfs',
+        component: BaselineBiomarkerComponent,
         data: {
           title: 'Quick Maps - Projections to 2050',
           keywords: 'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
