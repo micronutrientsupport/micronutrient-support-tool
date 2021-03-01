@@ -64,6 +64,11 @@ export class AppRoutes {
     segments: 'baseline',
     parent: AppRoutes.QUICK_MAPS,
   };
+  public static readonly QUICK_MAPS_BIOMARKER = {
+    ...BASE_ROUTE,
+    segments: 'biomarker',
+    parent: AppRoutes.QUICK_MAPS,
+  };
   public static readonly QUICK_MAPS_PROJECTION = {
     ...BASE_ROUTE,
     segments: 'projection',
