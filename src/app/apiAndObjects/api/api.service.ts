@@ -18,7 +18,7 @@ import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 
 @Injectable()
-export class ApiService extends BaseApi<DictionaryType> {
+export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = false;
 
   public readonly endpoints = {
@@ -29,7 +29,6 @@ export class ApiService extends BaseApi<DictionaryType> {
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
-      // getProjectedAvailabilities: new GetProjectedAvailabilities(true),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
     },
     misc: {
@@ -38,17 +37,14 @@ export class ApiService extends BaseApi<DictionaryType> {
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, true).setDefaultParams({
-      path: 'country',
-      typeObj: CountryDictionaryItem,
-    }),
-    // .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.COUNTRIES)),
+    new GetDictionary(DictionaryType.COUNTRIES, true)
+      .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
+    // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.REGIONS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
-      .setMockObjects(CountryDictionaryItem.createMockItems(20, DictionaryType.REGIONS)),
+      .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
-      // .setMockObjects(MicronutrientDictionaryItem.createMockItems(30, DictionaryType.MICRONUTRIENTS)),
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
   ];
 

@@ -15,23 +15,21 @@ export class SubRegionDataItem extends BaseObject {
     HOUSHOLDS_SURVEYED: 'households_surveyed'
   };
 
-  public id: string;
-  public name: string;
-  public type: string;
-  public countryName: string;
-  public geoFeature: GeoJSON.Feature;
-  public mnAbsolute: number;
-  public mnAbsoluteUnit: string;
-  public mnThreshold: number;
-  public mnThresholdUnit: string;
-  public householdsSurveyed: number;
+  public readonly id: string;
+  public readonly name: string;
+  public readonly type: string;
+  public readonly countryName: string;
+  public readonly geoFeature: GeoJSON.Feature;
+  public readonly mnAbsolute: number;
+  public readonly mnAbsoluteUnit: string;
+  public readonly mnThreshold: number;
+  public readonly mnThresholdUnit: string;
+  public readonly householdsSurveyed: number;
 
-  public static makeItemFromObject(source: Record<string, unknown>): SubRegionDataItem {
-    return super.makeItemFromObject(source) as SubRegionDataItem;
-  }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.id = this._getString(SubRegionDataItem.KEYS.ID);
     this.name = this._getString(SubRegionDataItem.KEYS.SUB_REGION_NAME);

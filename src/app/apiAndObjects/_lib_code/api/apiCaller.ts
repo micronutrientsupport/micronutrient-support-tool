@@ -19,6 +19,7 @@ export class ApiCaller {
 
   /**
    * Does an http call using the parameters given
+   *
    * @param urlSegments The url as a string or arrray of srtrings that will be joined with '/' characters.
    * @param requestMethod The http request method to use.
    * @param queryParams An object containing key-value pairs that make up the query parameters.
@@ -71,6 +72,7 @@ export class ApiCaller {
 
   /**
    * Adds an http header that will be added to every call (unless subsequently filtered)
+   *
    * @param key Header key
    * @param value Header value
    */
@@ -81,6 +83,7 @@ export class ApiCaller {
 
   /**
    * Removed an http header that was previously added
+   *
    * @param key Header key
    */
   public removeDefaultHeader(key: string): this {
