@@ -47,6 +47,18 @@ const routes: Routes = [
 
         canActivate: [QuickMapsRouteGuardService],
       },
+      {
+        path: AppRoutes.QUICK_MAPS_BIOMARKER.segments.valueOf(),
+        // component: 'fdsfs',
+        data: {
+          title: 'Quick Maps - Projections to 2050',
+          keywords: 'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
+          description: 'Projections of food system changes under various scenarios.',
+          showLightFooter: true,
+        },
+
+        canActivate: [QuickMapsRouteGuardService],
+      }
     ],
   },
   {
