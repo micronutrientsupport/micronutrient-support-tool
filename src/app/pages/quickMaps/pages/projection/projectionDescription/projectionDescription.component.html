@@ -1,6 +1,6 @@
   <div class="container">
     <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="descHeader">
         <mat-panel-title>
           <div class="content-container">
             <div class="item">
@@ -15,10 +15,10 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="description">The projections are modelled based on 3 different scenarios. Scenario SSP1 is
-        called the
-        Sustainability scenario; scenario SSP2 is the Middle of the Road scenario; scenario SSP3 is the Regional
-        Rivalry Scenario. <button mat-button (click)="openScenarioTypeDialog()" color="primary">Learn More</button>
+      <div class="description">The projections are modelled based on 3 different scenarios. Scenario
+        <strong>SSP1</strong> is called the Sustainability scenario; scenario <strong>SSP2</strong> is the Middle of the
+        Road scenario; scenario <strong>SSP3</strong> is the Regional Rivalry Scenario. <button mat-button
+          (click)="openScenarioTypeDialog()" color="primary">Learn More</button>
       </div>
     </mat-expansion-panel>
   </div>
