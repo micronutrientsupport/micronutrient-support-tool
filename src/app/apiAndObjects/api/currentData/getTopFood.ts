@@ -35,6 +35,7 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
                   // change something so that the display changes a little
                   objects[0].value = Math.floor(Math.random() * 3);
                 }
+                return objects;
               })
           );
         }, 1500);
