@@ -4,12 +4,11 @@ import {
   Input,
   ChangeDetectorRef,
   Component,
-  OnInit,
   ViewChild,
   Inject,
   Optional,
+  AfterViewInit,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
@@ -19,30 +18,33 @@ import 'chartjs-chart-treemap';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { Card2Component } from 'src/app/components/card2/card2.component';
+import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
   styleUrls: [
-    '../expandableTabGroup.scss',
+    '../../expandableTabGroup.scss',
     './foodItems.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FoodItemsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+export class FoodItemsComponent implements AfterViewInit {
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
-  @Input() card: Card2Component;
+  @Input() card: CardComponent;
 
   public title = 'Top 20 Food Items';
 
   public chartData: ChartJSObject;
   public displayedColumns = ['foodex2Name', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
+
+  private data: Array<TopFoodSource>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -54,10 +56,10 @@ export class FoodItemsComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
@@ -69,47 +71,58 @@ export class FoodItemsComponent implements OnInit {
       this.subscriptions.push(
         this.card.onExpandClickObs.subscribe(() => this.openDialog())
       );
+
+      // respond to parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(this.currentDataService.getTopFood(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrientId],
+            this.quickMapsService.popGroupId,
+            // this.quickMapsService.mndDataId,
+          ));
+        })
+      );
+    } else if (null != this.dialogData) {
+      // if displayed within a dialog use the data passed in
+      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
-
-    // respond to parameter updates
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.loadingSrc.next(true);
-      void this.currentDataService
-        .getTopFood(
-          this.quickMapsService.countryId,
-          [this.quickMapsService.micronutrientId],
-          this.quickMapsService.popGroupId,
-          // this.quickMapsService.mndDataIdObs,
-        )
-        .then((data: Array<TopFoodSource>) => {
-          if (null == data) {
-            throw new Error('data error');
-          }
-          this.dataSource = new MatTableDataSource(data);
-          this.errorSrc.next(false);
-          this.chartData = null;
-          // force change detection to:
-          // remove chart before re-setting it to stop js error
-          // show table and init paginator and sorter
-          this.cdr.detectChanges();
-
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-
-          this.initTreemap(data);
-        })
-        .catch((err) => {
-          this.errorSrc.next(true);
-          console.error(err);
-        })
-        .finally(() => {
-          this.loadingSrc.next(false);
-          this.cdr.detectChanges();
-        });
-    });
   }
 
-  public initTreemap(data: Array<TopFoodSource>): void {
+  private init(dataPromise: Promise<Array<TopFoodSource>>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: Array<TopFoodSource>) => {
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
+
+        this.dataSource = new MatTableDataSource(data);
+        this.errorSrc.next(false);
+        this.chartData = null;
+        // force change detection to:
+        // remove chart before re-setting it to stop js error
+        // show table and init paginator and sorter
+        this.cdr.detectChanges();
+
+        this.dataSource.sort = this.sort;
+
+        this.initTreemap(data);
+      })
+      .catch((err) => {
+        this.errorSrc.next(true);
+        console.error(err);
+      })
+      .finally(() => {
+        this.loadingSrc.next(false);
+        this.cdr.detectChanges();
+      });
+  }
+
+  private initTreemap(data: Array<TopFoodSource>): void {
     this.chartData = {
       type: 'treemap',
       data: {
@@ -165,7 +178,15 @@ export class FoodItemsComponent implements OnInit {
   //   }
   // }
 
-  public openDialog(): void {
-    void this.dialogService.openDialogForComponent(FoodItemsComponent);
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<FoodItemsDialogData>(FoodItemsComponent, {
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
+}
+
+export interface FoodItemsDialogData {
+  data: Array<TopFoodSource>;
+  selectedTab: number;
 }

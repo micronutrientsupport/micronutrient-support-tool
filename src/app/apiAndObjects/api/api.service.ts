@@ -16,6 +16,7 @@ import { GetTopFood } from './currentData/getTopFood';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
+import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 
 @Injectable()
 export class ApiService extends BaseApi<DictionaryType> {
@@ -29,6 +30,8 @@ export class ApiService extends BaseApi<DictionaryType> {
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
+      // getProjectedAvailabilities: new GetProjectedAvailabilities(true),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),

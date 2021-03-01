@@ -1,6 +1,6 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 
-export interface BinValue{
+export interface BinValue {
   bin: number;
   frequency: number;
 }
@@ -11,7 +11,7 @@ export class HouseholdHistogramData extends BaseObject {
     DATA: 'data',
   };
 
-  public adequacyThreshold: string;
+  public adequacyThreshold: number;
   public data: Array<BinValue>;
 
   public static makeItemFromObject(source: Record<string, unknown>): HouseholdHistogramData {
@@ -21,7 +21,7 @@ export class HouseholdHistogramData extends BaseObject {
   protected populateValues(): void {
     void super.populateValues();
 
-    this.adequacyThreshold = this._getString(HouseholdHistogramData.KEYS.ADEQUACY_THRESHOLD);
+    this.adequacyThreshold = this._getNumber(HouseholdHistogramData.KEYS.ADEQUACY_THRESHOLD);
     this.data = this._getArray(HouseholdHistogramData.KEYS.DATA);
   }
 }
