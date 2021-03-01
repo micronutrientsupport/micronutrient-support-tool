@@ -13,6 +13,16 @@ export class BaseDictionaryItemRequiresDictionaries
   public static readonly NAME_ATTRIBUTE = BaseDictionaryItem.NAME_ATTRIBUTE;
   public static readonly DESC_ATTRIBUTE = BaseDictionaryItem.DESC_ATTRIBUTE;
 
+  protected constructor(
+    sourceObject: Record<string, unknown>,
+    public readonly id: string,
+    public readonly name: string,
+    public readonly description: string,
+    dictionaries?: Array<Dictionary>,
+  ) {
+    super(sourceObject, dictionaries);
+  }
+
   /**
    * used by object builder.
    */
@@ -33,15 +43,5 @@ export class BaseDictionaryItemRequiresDictionaries
         dictionaries,
       )
     );
-  }
-
-  protected constructor(
-    sourceObject: Record<string, unknown>,
-    public readonly id: string,
-    public readonly name: string,
-    public readonly description: string,
-    dictionaries?: Array<Dictionary>,
-  ) {
-    super(sourceObject, dictionaries);
   }
 }
