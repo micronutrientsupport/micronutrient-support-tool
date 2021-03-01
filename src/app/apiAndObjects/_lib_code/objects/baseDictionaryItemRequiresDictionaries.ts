@@ -1,26 +1,47 @@
 import { BaseDictionaryItem } from './baseDictionaryItem';
+import { BaseObjectRequiresDictionaries } from './baseObjectRequiresDictionaries';
 import { Dictionary } from './dictionary';
-import { RequiresDictionaries } from './requiresDictionaries.interface';
-import { DictionaryType } from '../../api/dictionaryType.enum';
 import { DictionaryItem } from './dictionaryItem.interface';
+import { ObjectAccessor } from './objectAccessor';
+import { RequiredDictionaries } from './requiredDictionaries';
 
-export class BaseDictionaryItemRequiresDictionaries extends BaseDictionaryItem implements RequiresDictionaries {
-  public readonly requiredDictionaryList: Array<DictionaryType> = [];
-  protected _dictionaries = new Array<Dictionary>();
+export class BaseDictionaryItemRequiresDictionaries
+  extends BaseObjectRequiresDictionaries
+  implements DictionaryItem {
 
-  public setDictionaries(dictionaries: Dictionary | Array<Dictionary>): this {
-    dictionaries = Array.isArray(dictionaries) ? dictionaries : [dictionaries];
-    this._dictionaries = this._dictionaries.concat(dictionaries);
-    return this;
+  public static readonly ID_ATTRIBUTE = BaseDictionaryItem.ID_ATTRIBUTE;
+  public static readonly NAME_ATTRIBUTE = BaseDictionaryItem.NAME_ATTRIBUTE;
+  public static readonly DESC_ATTRIBUTE = BaseDictionaryItem.DESC_ATTRIBUTE;
+
+  /**
+   * used by object builder.
+   */
+  public static constructObject(
+    source?: Record<string, unknown>,
+    dictionaries?: Array<Dictionary>,
+  ): Promise<BaseDictionaryItemRequiresDictionaries> {
+    return Promise.resolve((
+      !RequiredDictionaries.validateDictionaries(this.requiredDictionaryTypes, dictionaries)
+      || !this.validateObject(source)
+    )
+      ? null
+      : new this(
+        source,
+        ObjectAccessor.getString(this.ID_ATTRIBUTE, source),
+        ObjectAccessor.getString(this.NAME_ATTRIBUTE, source),
+        ObjectAccessor.getString(this.DESC_ATTRIBUTE, source),
+        dictionaries,
+      )
+    );
   }
 
-  protected _getDictionary(dictionaryType: DictionaryType): Dictionary {
-    // console.debug('testy', this.dictionaries);
-    return this._dictionaries.find((dictionary: Dictionary) => dictionary.type === dictionaryType);
-  }
-
-  protected _getDictionaryItem(dictionaryType: DictionaryType, attributeId: string): DictionaryItem {
-    const id = this._getString(attributeId);
-    return null == id ? null : this._getDictionary(dictionaryType).getItem(id);
+  protected constructor(
+    sourceObject: Record<string, unknown>,
+    public readonly id: string,
+    public readonly name: string,
+    public readonly description: string,
+    dictionaries?: Array<Dictionary>,
+  ) {
+    super(sourceObject, dictionaries);
   }
 }

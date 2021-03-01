@@ -15,10 +15,10 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
 
   private initialised = new BehaviorSubject<boolean>(false);
 
-  constructor(protected isLive = true) {}
+  constructor(protected isLive = true) { }
 
-  // TODO: can we stop two simultanious calls identical calls here using simpler
-  // caching thab in the cacheable endpoint?:
+  // TODO: can we stop two simultanious, identical calls here using simpler
+  // caching than in the cacheable endpoint?:
   public call(params?: PARAMS_TYPE): Promise<RETURN_TYPE> {
     // console.debug('call', this, params, this.defaultParams, this.mergeParams(params));
     return new Promise((resolve) => {
@@ -53,27 +53,27 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
   }
 
   /**
-   * call to run code on external call success etc (called from promise.then)
+   * adds a function that will be called from the promise.then block of the api http call.
    */
-  public onSuccess(onSuccess: (data: RETURN_TYPE) => void): this {
+  public addOnSuccessFunc(onSuccess: (data: RETURN_TYPE) => void): this {
     if (null != onSuccess) {
       this.onSuccessFuncs.push(onSuccess);
     }
     return this;
   }
   /**
-   * call to run code on external call failure (called from promise.catch)
+   * adds a function that will be called from the promise.catch block of the api http call.
    */
-  public onFail(onError: (error: any) => void): this {
+  public addOnFailFunc(onError: (error: any) => void): this {
     if (null != onError) {
       this.onFailFuncs.push(onError);
     }
     return this;
   }
   /**
-   * call to run code after external call (called from promise.finally)
+   * adds a function that will be called from the promise.finally block of the api http call.
    */
-  public onComplete(onComplete: () => void): this {
+  public addOnCompleteFunc(onComplete: () => void): this {
     if (null != onComplete) {
       this.onCompleteFuncs.push(onComplete);
     }
@@ -127,24 +127,48 @@ export abstract class Endpoint<RETURN_TYPE = any, PARAMS_TYPE = any, OBJECT_TYPE
     return this.buildObjectsFromResponse(object, dataProm).then((objectArray: Array<OBJECT_TYPE>) => objectArray[0]); // just the one result
   }
 
-  protected createBodyFormData(bodyData: Record<string, any>): FormData {
+  protected createBodyFormData(bodyData: object): FormData {
     // console.debug('createBodyFormData', bodyData);
     const formData = new FormData();
     Object.keys(bodyData).forEach((key: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const value = bodyData[key];
-      // if it's an array of files append differently
-      // TODO: check if this was just the way it was for the submission endpoint in eurovolc.
-      // Maybe this should happen for all arrays, not just files
-      if (Array.isArray(value) && value[0] instanceof File) {
-        value.forEach((element: any) => {
-          formData.append(key, element);
-        });
-      } else {
-        formData.append(key, value);
-      }
+      this.createFormData(formData, bodyData[key], key);
     });
     return formData;
+  }
+
+  protected createFormData(formData: FormData, data: any, key: string): void {
+    if ((typeof data === 'object' && data !== null) || Array.isArray(data)) {
+      Object.keys(data).forEach((i: any) => {
+        this.formDataAppend(formData, key, i, data[i]);
+      });
+    } else {
+      formData.append(key, data);
+    }
+  }
+
+  protected formDataAppend(
+    formData: FormData,
+    groupKey: string,
+    itemKey: string,
+    value: any | File
+  ): void {
+    if (null == value) {
+      // do nothing
+    } else if (value instanceof File) {
+      // console.debug('adding file ', fileName, value);
+      formData.append(
+        groupKey + '[' + itemKey + ']',
+        value as Blob,
+        value.name
+      ); // needs the i?
+    } else if (
+      (typeof value === 'object' && value !== null) ||
+      Array.isArray(value)
+    ) {
+      this.createFormData(formData, value, groupKey + '[' + itemKey + ']');
+    } else {
+      formData.append(groupKey + '[' + itemKey + ']', value);
+    }
   }
 
   protected removeNullsFromObject(object: Record<string, unknown>): Record<string, unknown> {

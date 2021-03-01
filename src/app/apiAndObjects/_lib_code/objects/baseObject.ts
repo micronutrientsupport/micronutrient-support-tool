@@ -1,16 +1,21 @@
 import moment from 'moment-es6';
+import { ObjectAccessor } from './objectAccessor';
 
 export class BaseObject {
-  protected constructor(protected _sourceObject?: Record<string, unknown>) {
-    _sourceObject = null == _sourceObject ? {} : _sourceObject;
-  }
-
   /**
    * used by object builder.
-   * Can results in dictionaries being injected if required
    */
-  public static makeItemFromObject(source?: Record<string, unknown>): BaseObject {
-    return this.validateObject(source) ? new this(source) : null;
+  public static constructObject(
+    source?: Record<string, unknown>,
+  ): Promise<BaseObject> {
+    return Promise.resolve(this.validateObject(source) ? new this(source) : null);
+  }
+
+  protected constructor(
+    protected readonly _sourceObject?: Record<string, unknown>,
+    ...otherArgs: Array<any>
+  ) {
+    _sourceObject = (null == _sourceObject) ? {} : _sourceObject;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,63 +23,45 @@ export class BaseObject {
     return true;
   }
 
-  public init(): Promise<this> {
-    const response = this.populateValues();
-    return response instanceof Promise ? response.then(() => this) : Promise.resolve(this);
-  }
   /**
    * Returns the value for the first key in the array that exists.
    *
    * @param keys string or array of strings with the first being the prefered value to retrieve.
    */
-  public _getValue(keys: string | Array<string>, source?: Record<string, unknown>): unknown {
-    source = null == source ? this._sourceObject : source;
-    keys = typeof keys === 'string' ? [keys] : keys;
-    const key = keys.find(
-      (thisKey: string, index: number) =>
-        // return true if the value of this key is not null or it's the last key
-        null != source[thisKey] || index === keys.length - 1,
-    );
-    return source[key];
+  protected _getValue(keys: string | Array<string>, source?: Record<string, unknown>): unknown {
+    return ObjectAccessor.getValue(keys, this._getSource(source));
   }
-
-  // override to do operations when object fully built
-  protected populateValues(): void | Promise<void> {}
 
   protected _getString(keys: string | Array<string>, source?: Record<string, unknown>): string {
-    const value = this._getValue(keys, source);
-    return null == value ? '' : String(value).valueOf();
+    return ObjectAccessor.getString(keys, this._getSource(source));
   }
   protected _getNumber(keys: string | Array<string>, source?: Record<string, unknown>): number {
-    return Number(this._getValue(keys, source)).valueOf();
+    return ObjectAccessor.getNumber(keys, this._getSource(source));
   }
   protected _getArray<T>(keys: string | Array<string>, source?: Record<string, unknown>): Array<T> {
-    const returnValue = this._getValue(keys, source) as Array<T>;
-    return null != returnValue ? returnValue : [];
+    return ObjectAccessor.getArray(keys, this._getSource(source));
   }
   protected _getDate(keys: string | Array<string>, source?: Record<string, unknown>): moment.Moment {
-    const value = this._getValue(keys, source);
-    return null == value ? null : moment(value);
+    return ObjectAccessor.getDate(keys, this._getSource(source));
   }
   protected _getBoolean(keys: string | Array<string>, source?: Record<string, unknown>): boolean {
-    const value = this._getValue(keys, source);
-    return Boolean(value).valueOf();
+    return ObjectAccessor.getBoolean(keys, this._getSource(source));
   }
 
   protected _getEnum<T>(key: string, enumerator: Record<string, string>, source?: Record<string, unknown>): T {
-    const value = this._getValue(key, source) as string | number;
-    return this._getEnumFromValue<T>(value, enumerator);
+    return ObjectAccessor.getEnum<T>(key, enumerator, this._getSource(source));
   }
   protected _getEnums<T>(key: string, enumerator: Record<string, unknown>, source?: Record<string, unknown>): Array<T> {
-    const values = this._getArray<any>(key, source);
-    return this._getEnumsFromValues<T>(values, enumerator);
+    return ObjectAccessor.getEnums<T>(key, enumerator, this._getSource(source));
   }
   protected _getEnumsFromValues<T>(values: Array<string | number>, enumerator: Record<string, unknown>): Array<T> {
-    return values.map((value: string | number) => this._getEnumFromValue<T>(value, enumerator));
+    return ObjectAccessor.getEnumsFromValues<T>(values, enumerator);
   }
   protected _getEnumFromValue<T>(value: string | number, enumerator: Record<string, unknown>): T {
-    // get the string key from the value
-    const key = Object.keys(enumerator).find((thisKey: string | number) => enumerator[thisKey] === value);
-    return enumerator[key] as T;
+    return ObjectAccessor.getEnumFromValue<T>(value, enumerator);
+  }
+
+  private _getSource(source?: Record<string, unknown>): Record<string, unknown> {
+    return (null == source) ? this._sourceObject : source;
   }
 }

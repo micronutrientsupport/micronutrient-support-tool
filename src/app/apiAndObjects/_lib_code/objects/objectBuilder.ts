@@ -1,13 +1,14 @@
-import { RequiresDictionaries } from './requiresDictionaries.interface';
+
 import { BaseObject } from './baseObject';
 import { BaseApi } from '../api/baseApi.abstract';
 import { Dictionary } from './dictionary';
 import { BehaviorSubject } from 'rxjs';
+import { BaseObjectRequiresDictionaries } from './baseObjectRequiresDictionaries';
 
 export class ObjectBuilder {
   private static instanceSource = new BehaviorSubject<ObjectBuilder>(null);
 
-  private constructor(private apiService: BaseApi) {}
+  private constructor(private apiService: BaseApi) { }
 
   public static setApi(apiService: BaseApi): void {
     const builder = new ObjectBuilder(apiService);
@@ -34,26 +35,17 @@ export class ObjectBuilder {
   }
 
   public build<T>(typeObject: typeof BaseObject, data: Record<string, unknown>): Promise<T> {
-    const item = (typeObject.makeItemFromObject(data) as unknown) as T;
-    // if (null == item) {
-    //   console.debug('ObjectBuilder build', typeObject.name, item, data);
-    // }
-    return new Promise((resolve) => {
-      const reqDictionaryItem = (item as unknown) as RequiresDictionaries;
-      if (null == reqDictionaryItem.requiredDictionaryList) {
-        resolve(item);
-      } else {
-        resolve(
-          this.apiService.getDictionaries(reqDictionaryItem.requiredDictionaryList).then((dicts: Array<Dictionary>) => {
-            // console.debug('ObjectBuilder getDictionaries');
-            reqDictionaryItem.setDictionaries(dicts);
-            return item;
-          }),
-        );
-      }
-    }).then(
-      (thisItem: BaseObject) => (('function' === typeof thisItem.init ? thisItem.init() : thisItem) as unknown) as T,
-    );
+    // console.debug('build', typeObject, data);
+    const requiredDictTypes = (typeObject as typeof BaseObjectRequiresDictionaries).requiredDictionaryTypes;
+
+    return (null == requiredDictTypes)
+      ? Promise.resolve((typeObject.constructObject(data) as unknown) as T)
+      : this.apiService.getDictionaries(requiredDictTypes)
+        .then((dicts: Array<Dictionary>) => {
+          // console.debug('got dicts', requiredDictTypes, dicts);
+          return ((typeObject as typeof BaseObjectRequiresDictionaries).constructObject(data, dicts) as unknown) as T;
+        });
+
   }
 
   public buildArray<T>(typeObject: typeof BaseObject, data: Array<Record<string, unknown>>): Promise<Array<T>> {

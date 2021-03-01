@@ -2,18 +2,22 @@
 import { CacheableEndpoint } from './cacheableEndpoint.abstract';
 import { DictionaryItem } from '../objects/dictionaryItem.interface';
 import { Dictionary } from '../objects/dictionary';
-import { RequestMethod } from './apiCaller';
 import { BaseDictionaryItem } from '../objects/baseDictionaryItem';
 import { Injector } from '@angular/core';
+import { RequestMethod } from './requestMethod.enum';
 
-export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
-  extends CacheableEndpoint<Dictionary<DICTIONARY_TYPE_ENUM>, GetDictionaryItemsParams, DictionaryItem> {
+type OBJECT_TYPE = DictionaryItem;
+type RETURN_TYPE = Dictionary;
+
+export class GetDictionary
+  extends CacheableEndpoint<RETURN_TYPE, GetDictionaryItemsParams, OBJECT_TYPE> {
 
   public mockObjectsCreatorFunc: (injector: Injector) => Promise<Array<Record<string, unknown>>>;
   protected mockItemsCount = 20;
   protected mockObjects: Array<Record<string, unknown>>;
 
-  constructor(public readonly type: DICTIONARY_TYPE_ENUM, isLive?: boolean) {
+
+  constructor(public readonly type: any, isLive?: boolean) {
     super(isLive);
   }
 
@@ -38,23 +42,23 @@ export class GetDictionary<DICTIONARY_TYPE_ENUM = any>
     return params.path;
   }
 
-  protected callLive(params: GetDictionaryItemsParams): Promise<Dictionary<DICTIONARY_TYPE_ENUM>> {
+  protected callLive(params: GetDictionaryItemsParams): Promise<RETURN_TYPE> {
     const callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET);
 
     return this.buildObjectsFromResponse(params.typeObj, callResponsePromise).then(
-      (items: Array<DictionaryItem>) =>
-        new Dictionary<DICTIONARY_TYPE_ENUM>(this.type, (items as unknown) as Array<DictionaryItem>),
+      (items: Array<OBJECT_TYPE>) =>
+        new Dictionary(this.type, (items as unknown) as Array<OBJECT_TYPE>),
     );
   }
 
-  protected callMock(params: GetDictionaryItemsParams): Promise<Dictionary<DICTIONARY_TYPE_ENUM>> {
+  protected callMock(params: GetDictionaryItemsParams): Promise<RETURN_TYPE> {
     return this.buildObjectsFromResponse(
       params.typeObj,
       ((null == this.mockObjectsCreatorFunc)
         ? Promise.resolve((null != this.mockObjects) ? this.mockObjects.slice() : [])
         : this.mockObjectsCreatorFunc(this.injector))
     ).then(
-      (items: Array<DictionaryItem>) => new Dictionary(this.type, (items as unknown) as Array<DictionaryItem>),
+      (items: Array<OBJECT_TYPE>) => new Dictionary(this.type, (items as unknown) as Array<OBJECT_TYPE>),
     );
   }
 }

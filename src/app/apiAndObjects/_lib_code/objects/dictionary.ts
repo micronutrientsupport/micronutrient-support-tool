@@ -1,13 +1,16 @@
 import { BehaviorSubject } from 'rxjs';
 import { DictionaryItem } from './dictionaryItem.interface';
 
-export class Dictionary<DICTIONARY_TYPE_ENUM = any> {
+export class Dictionary {
   protected readonly itemsMap = new Map<string, DictionaryItem>();
   protected readonly itemsSrc = new BehaviorSubject<Array<DictionaryItem>>([]);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly itemsObs = this.itemsSrc.asObservable();
 
-  constructor(public readonly type: DICTIONARY_TYPE_ENUM, dictionaryItems: Array<DictionaryItem> = []) {
+  constructor(
+    public readonly type: any,
+    dictionaryItems: Array<DictionaryItem> = [],
+  ) {
     this.setItems(dictionaryItems);
   }
 
@@ -20,6 +23,7 @@ export class Dictionary<DICTIONARY_TYPE_ENUM = any> {
   }
 
   public getItem<T = DictionaryItem>(key: string): T {
+    // console.debug('getItem', key, this.itemsMap);
     return (this.itemsMap.get(key) as unknown) as T;
   }
   public getItems<T = DictionaryItem>(keys?: Array<string>): Array<T> {
