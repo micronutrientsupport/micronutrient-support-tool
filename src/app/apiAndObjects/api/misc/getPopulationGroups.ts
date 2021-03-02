@@ -4,11 +4,10 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 // import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetPopulationGroups extends CacheableEndpoint<
-Array<PopulationGroup>,
-GetPopulationGroupsParams,
-PopulationGroup
+  Array<PopulationGroup>,
+  GetPopulationGroupsParams,
+  PopulationGroup
 > {
-
   protected getCacheKey(params: GetPopulationGroupsParams): string {
     return JSON.stringify(params);
   }
@@ -24,15 +23,13 @@ PopulationGroup
     // return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
 
-  protected callMock(
-    params: GetPopulationGroupsParams,
-  ): Promise<Array<PopulationGroup>> {
+  protected callMock(params: GetPopulationGroupsParams): Promise<Array<PopulationGroup>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return only first item when single option specified
     return this.buildObjectsFromResponse(
       PopulationGroup,
       httpClient.get('/assets/exampleData/population-group-select.json').toPromise(),
-    ).then(data => (params.singleOptionOnly) ? data.slice(0, 1) : data);
+    ).then((data) => (params.singleOptionOnly ? data.slice(0, 1) : data));
   }
 }
 
