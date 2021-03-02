@@ -1,16 +1,21 @@
 <app-base-dialog>
   <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer [opened]="true" mode="side">
-      <mat-selection-list #shoes [multiple]="false">
-        <mat-list-option value="general">General</mat-list-option>
+      <mat-selection-list #list [multiple]="false">
+        <mat-list-option [selected]="true" value="general">General</mat-list-option>
         <mat-list-option value="advanced">Advanced</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
     <div class="example-sidenav-content">
-      <button type="button" mat-button (click)="drawer.toggle()">
-        Toggle sidenav
-      </button>
+      <div *ngIf="list.selectedOptions.selected[0]?.value === 'general'" class="color-box"
+        [ngStyle]="{'background-color': '#f03b20'}">
+        <p>General</p>
+      </div>
+      <div *ngIf="list.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
+        [ngStyle]="{'background-color': '#2ca25f'}">
+        <p>Advanced</p>
+      </div>
     </div>
 
   </mat-drawer-container>

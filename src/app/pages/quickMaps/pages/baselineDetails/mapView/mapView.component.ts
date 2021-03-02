@@ -76,7 +76,7 @@ export class MapViewComponent implements AfterViewInit {
         .setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
-        this.dialogService.openMapSettingsDialog();
+        this.dialogService.openMapSettingsDialog('#354969');
       });
 
       this.subscriptions.push(
