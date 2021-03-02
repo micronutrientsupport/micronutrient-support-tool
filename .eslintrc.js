@@ -35,6 +35,7 @@ module.exports = {
     'eslint-plugin-prefer-arrow',
     '@typescript-eslint',
     '@typescript-eslint/tslint',
+    "prettier",
   ],
   rules: {
     '@angular-eslint/component-class-suffix': 'error',
@@ -105,6 +106,7 @@ module.exports = {
       'error',
       2,
       {
+        ignoredNodes: ['TSTypeParameterInstantiation'],
         FunctionDeclaration: {
           parameters: 'first',
         },
