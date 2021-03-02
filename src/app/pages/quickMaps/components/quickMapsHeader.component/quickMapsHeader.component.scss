@@ -1,17 +1,18 @@
 @import 'src/assets/scss/_colour.scss';
 
-:host {
+.mode-select {
   flex: 0 0;
   display: flex;
   justify-content: center;
-
+  flex-flow: row wrap;
+  margin-bottom: 10px;
   & .active-route {
     background-color: $color_primary;
     color: white;
   }
 }
 
-a {
-  flex-shrink: 0;
-  margin-right: 0.3em;
+.mode-select-button {
+  flex-grow: 1;
+  margin: 5px;
 }

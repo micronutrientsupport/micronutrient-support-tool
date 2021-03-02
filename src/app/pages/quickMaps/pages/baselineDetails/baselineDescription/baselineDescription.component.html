@@ -1,6 +1,6 @@
 <div class="container">
   <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header class="descHeader">
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
@@ -10,7 +10,10 @@
             Vitamin: <strong>{{vitaminName}}</strong>
           </div>
           <div class="item">
-            Baseline assumptions: <strong>SSP2</strong>
+            Baseline assumptions: <strong>{{currentImpactScenario?.name}}</strong>
+          </div>
+          <div class="item">
+            Data level: <strong>Household</strong>
           </div>
         </div>
       </mat-panel-title>
