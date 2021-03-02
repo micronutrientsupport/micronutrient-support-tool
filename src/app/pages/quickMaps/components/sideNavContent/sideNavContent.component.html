@@ -1,7 +1,11 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-    <button class="minimize-button" mat-icon-button type="button" (click)="quickMapsService.sideNavToggle()">
+    <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
+        (click)="minimiseSideNav()">
         <i class="fas fa-caret-left"></i></button>
-    <h2 (click)="quickMapsService.sideNavToggle()">Quick MAPS</h2>
+    <h2 (click)="minimiseSideNav()">Quick Maps</h2>
+    <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
+        [matTooltip]="(sideNavToggleLock.value === true) ? 'Unlock Side-Nav': 'Lock Side-Nav'">
+    </mat-slide-toggle>
 </div>
 
 <div *ngIf="(null != quickMapsForm) && (quickMapsService.slimObservable | async) === (false)"
@@ -106,5 +110,6 @@
 
 <div class="footer-row" [class.show]="showGoButton"
     [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-    <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
+    <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">
+        View results</button>
 </div>

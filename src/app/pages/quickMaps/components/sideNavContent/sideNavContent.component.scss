@@ -150,13 +150,74 @@ h3 {
     display: block;
     transform: rotate(90deg);
     position: absolute;
-    top: 30px;
+    top: 70px;
     width: 2em;
     white-space: nowrap;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, translate 0.4s ease;
+  }
+
+  & .minimize-button {
+    opacity: 1;
+    display: block;
+    transform: rotate(180deg);
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    transition: transform 0.4s ease, translate 0.4s ease;
+
+    & i {
+
+      opacity: 1;
+      display: block;
+    }
   }
 }
 
 ::ng-deep .mat-select-panel.allow-long-text {
   max-width: unset;
+}
+
+mat-slide-toggle {
+  position: absolute;
+  left: 0em;
+  top: 0em;
+}
+
+:host::ng-deep {
+
+  & .mat-tooltip {
+    font-size: 12px;
+  }
+
+  & .mat-slide-toggle-label {
+    padding: 1em;
+  }
+
+  & .mat-slide-toggle-thumb {
+    position: relative;
+    background: $color_blue_form;
+    border-radius: 3px;
+    width: 20px;
+    height: 15px;
+    margin-top: 3px;
+  }
+
+  & .mat-slide-toggle.mat-primary.mat-checked {
+
+    & .mat-slide-toggle-thumb {
+      background: $color_blue_form;
+    }
+  }
+
+  & .mat-slide-toggle-thumb:before {
+    content: "";
+    display: block;
+    position: absolute;
+    border: 3px solid $color_blue_form;
+    top: -10px;
+    left: 1.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 35px 35px 0 0;
+  }
 }
