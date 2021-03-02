@@ -1,1 +1,14 @@
-<p>map-settings-dialog works!</p>
+<app-base-dialog>
+  <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer [opened]="true" class="example-sidenav" mode="side">
+      <p>Settings Go Here</p>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        Toggle sidenav
+      </button>
+    </div>
+
+  </mat-drawer-container>
+</app-base-dialog>
