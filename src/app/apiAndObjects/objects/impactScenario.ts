@@ -9,18 +9,16 @@ export class ImpactScenario extends BaseObject {
     IS_BASELINE: 'isBaseline',
   };
 
-  public id: string;
-  public name: string;
-  public briefDescription: string;
-  public description: string;
-  public isBaseline: boolean;
+  public readonly id: string;
+  public readonly name: string;
+  public readonly briefDescription: string;
+  public readonly description: string;
+  public readonly isBaseline: boolean;
 
-  public static makeItemFromObject(source: Record<string, unknown>): ImpactScenario {
-    return super.makeItemFromObject(source) as ImpactScenario;
-  }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.id = this._getString(ImpactScenario.KEYS.ID);
     this.name = this._getString(ImpactScenario.KEYS.NAME);
