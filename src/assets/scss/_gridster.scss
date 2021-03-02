@@ -1,0 +1,35 @@
+@import "./colour";
+
+.bmgf-maps-body gridster {
+  background: transparent;
+  & > div {
+    &.gridster-row,
+    &.gridster-column {
+      border-color: $color_grey;
+    }
+  }
+  & .gridster-item-resizable-handler {
+    $resize-handle-size: 3px;
+    &.handle-e,
+    &.handle-w {
+      width: $resize-handle-size;
+    }
+    &.handle-n,
+    &.handle-s {
+      height: $resize-handle-size;
+    }
+    &.handle-ne,
+    &.handle-se,
+    &.handle-sw,
+    &.handle-nw {
+      width: $resize-handle-size;
+      height: $resize-handle-size;
+    }
+  }
+}
+
+gridster-item {
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  overflow: hidden;
+}

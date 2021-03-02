@@ -15,6 +15,7 @@ import { GetDietarySources } from './currentData/getDietarySources';
 import { GetTopFood } from './currentData/getTopFood';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
+import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 
 @Injectable()
@@ -33,6 +34,7 @@ export class ApiService extends BaseApi {
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),
+      GetImpactScenarios: new GetImpactScenarios(true),
     },
   };
 
