@@ -21,7 +21,7 @@ export class BaselineDetailsComponent implements OnInit {
 
   public WIDGETS = BaselineWidgets;
   public options: GridsterConfig;
-  public dashboard: Array<GridsterItem>;
+  public dashboard = new Array<GridsterItem>();
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -131,7 +131,34 @@ export class BaselineDetailsComponent implements OnInit {
 
   private setDataLevel(level: DataLevel): void {
     if (null != level) {
-      this.dashboard = this.dataLevelWidgetsMap.get(level);
+      const newWidgets = this.dataLevelWidgetsMap.get(level);
+      // remove any not needed
+
+      this.dashboard.slice().forEach(thisWidget => {
+        if (null == newWidgets.find(testWidget => (testWidget.type === thisWidget.type))) {
+          this.removeItem(thisWidget);
+        }
+      });
+      // set positions of old widgets?
+
+      // add any new widgets
+      newWidgets.forEach(newWidget => {
+        if (null == this.dashboard.find(testWidget => (testWidget.type === newWidget.type))) {
+          this.addItem(newWidget);
+        }
+      });
     }
+  }
+
+  // private changedOptions(): void {
+  //   this.options.api.optionsChanged();
+  // }
+
+  private removeItem(item: GridsterItem): void {
+    this.dashboard.splice(this.dashboard.indexOf(item), 1);
+  }
+
+  private addItem(item: GridsterItem): void {
+    this.dashboard.push(item);
   }
 }

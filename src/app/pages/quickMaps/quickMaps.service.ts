@@ -31,6 +31,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public dataLevelObs = this.dataLevelSrc.asObservable();
 
+  private readonly dataLevelOptionsSrc = new BehaviorSubject<Array<DataLevel>>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public dataLevelOptionsObs = this.dataLevelOptionsSrc.asObservable();
+
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
@@ -99,11 +103,20 @@ export class QuickMapsService {
     this.setValue(this.mndDataIdSrc, mndDataId, force);
   }
 
-  public get dataLevel(): string {
+  public get dataLevel(): DataLevel {
     return this.dataLevelSrc.value;
   }
   public setDataLevel(dataLevel: DataLevel, force = false): void {
     this.setValue(this.dataLevelSrc, dataLevel, force);
+  }
+  public get dataLevelOptions(): Array<DataLevel> {
+    return this.dataLevelOptionsSrc.value;
+  }
+  public setDataLevelOptions(dataLevels: Array<DataLevel>, force = false): void {
+    this.setValue(this.dataLevelOptionsSrc, dataLevels, force);
+    if (!dataLevels.includes(this.dataLevel)) {
+      this.setDataLevel(dataLevels[0]);
+    }
   }
 
   public updateQueryParams(): void {
@@ -116,7 +129,7 @@ export class QuickMapsService {
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
   }
 
-  protected setValue<T = string>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
+  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
     if (force || srcRef.value !== value) {
       srcRef.next(value);
     }
