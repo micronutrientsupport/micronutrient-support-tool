@@ -16,6 +16,7 @@ export class MapSettingsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
   ) {
     this.colour = this.data.dataIn.colour;
+    this.data.dataOut = 'colour';
   }
 
   ngOnInit(): void {
