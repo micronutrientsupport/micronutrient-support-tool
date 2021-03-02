@@ -19,30 +19,26 @@
       <span class="estimateValue red">-12.4%</span>
     </div>
   </div>
-  <div class="item">
-    <form [formGroup]="projectionEstimateForm">
-      <mat-form-field appearance="fill">
-        <mat-select name="kg" formControlName="kg" placeholder="kg">
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
-  <div class="item">
-    <form [formGroup]="projectionEstimateForm">
-      <mat-form-field appearance="fill">
-        <mat-select name="nation" formControlName="nation" placeholder="per nation">
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
-  <div class="item">
-    <form [formGroup]="projectionEstimateForm">
-      <mat-form-field appearance="fill">
-        <mat-select name="year" formControlName="year" placeholder="per year">
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
+  <form [formGroup]="projectionEstimateForm" class="item wideItem">
+
+    <mat-form-field appearance="fill">
+      <mat-select name="mass" formControlName="mass" placeholder="amount">
+        <mat-option *ngFor="let item of massArray" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-select name="timeScale" formControlName="timeScale" placeholder="time scale">
+        <mat-option *ngFor="let item of timeScaleArray" [value]="item.id">
+          per {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
   <div class="item wideItem">
     <div class="summary">
       Business as usual to reach target

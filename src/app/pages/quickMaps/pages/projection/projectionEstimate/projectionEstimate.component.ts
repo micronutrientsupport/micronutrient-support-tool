@@ -27,19 +27,33 @@ export class ProjectionEstimateComponent implements OnInit {
   public countryName = '';
   public vitaminName = '';
   public projectionEstimateForm: FormGroup;
+  public massArray: [
+    { id: '1', name: 'mcg' },
+    { id: '2', name: 'mg' },
+    { id: '3', name: 'g' },
+    { id: '4', name: 'kg' },
+    { id: '5', name: 'mg' },
+  ];
+  public timeScaleArray: [
+    { id: '1', name: 'day' },
+    { id: '2', name: 'week' },
+    { id: '3', name: 'month' },
+    { id: '4', name: 'year' },
+  ];
 
   constructor(
     public quickMapsService: QuickMapsService,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-  ) {}
+  ) {
+    this.projectionEstimateForm = this.fb.group({
+      mass: '3',
+      timeScale: '1',
+    });
+  }
 
   ngOnInit(): void {
-    this.projectionEstimateForm = this.fb.group({
-      kg: null,
-      nation: null,
-      year: null,
-    });
+
   }
 }

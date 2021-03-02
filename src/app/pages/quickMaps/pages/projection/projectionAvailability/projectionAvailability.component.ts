@@ -7,6 +7,7 @@ import {
   Component,
   AfterViewInit,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -21,6 +22,7 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -32,10 +34,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @Input() card: CardComponent;
 
-  public title = 'Projection Availability';
-  public headingText = 'Calcium';
+  public title = 'Projected availability';
+  public headingText = 'Multinutrient';
   public subtHeadingText = '';
   public selectedCountry: string;
+  public selectedTimeScale: string;
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 
@@ -87,6 +90,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
+
   ) { }
 
   ngAfterViewInit(): void {
