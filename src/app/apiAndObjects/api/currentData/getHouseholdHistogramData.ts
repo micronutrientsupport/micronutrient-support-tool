@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { HouseholdHistogramData } from '../../objects/householdHistogramData';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetHouseholdHistogramData extends CacheableEndpoint<
 HouseholdHistogramData,

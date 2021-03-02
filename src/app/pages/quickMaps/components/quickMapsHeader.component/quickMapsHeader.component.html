@@ -6,29 +6,3 @@
   <a class="mode-select-button" mat-raised-button>Explore simple dietary change scenarios</a>
   <a class="mode-select-button" mat-raised-button>Explore cost effectiveness scenarios</a>
 </div>
-
-<div class="container">
-  <mat-expansion-panel [expanded]="false">
-    <mat-expansion-panel-header class="descHeader">
-      <mat-panel-title>
-        <div class="content-container">
-          <div class="item">
-            Nation: <strong>{{countryName}}</strong>
-          </div>
-          <div class="item">
-            Vitamin: <strong>{{vitaminName}}</strong>
-          </div>
-          <div class="item">
-            Baseline assumptions: <strong>{{currentImpactScenario?.name}}</strong>
-          </div>
-        </div>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="description">The projections are modelled based on 3 different scenarios. Scenario <strong>SSP1</strong>
-      is
-      called the
-      Sustainability scenario; scenario <strong>SSP2</strong> is the Middle of the Road scenario; scenario
-      <strong>SSP3</strong> is the Regional
-      Rivalry Scenario. <button mat-button (click)="openScenarioTypeDialog()" color="primary">Learn More</button></div>
-  </mat-expansion-panel>
-</div>

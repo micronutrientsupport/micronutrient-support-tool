@@ -1,36 +1,46 @@
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
-
-// eslint-disable-next-line no-shadow
-export enum RequestMethod {
-  GET,
-  POST,
-  PUT,
-  PATCH,
-  DELETE, // OPTIONS, TRACE, HEAD,
-}
+import { RequestMethod } from './requestMethod.enum';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
 
-  constructor(private http: HttpClient, private httpCallErrorHandler: HttpResponseHandler, private baseUrl: string) {}
+  /**
+   * @param http An HttpClient object used to make the http calls.
+   * @param httpCallErrorHandler A handler for post processing of http responses and errors
+   * @param baseUrl The base url to append any relative url segments to.
+   */
+  constructor(
+    private http: HttpClient,
+    private httpCallErrorHandler: HttpResponseHandler,
+    private baseUrl: string,
+  ) { }
 
+  /**
+   * Does an http call using the parameters given
+   *
+   * @param urlSegments The url as a string or arrray of srtrings that will be joined with '/' characters.
+   * @param requestMethod The http request method to use.
+   * @param queryParams An object containing key-value pairs that make up the query parameters.
+   * @param bodyData The body of the http call.
+   * @param headerFilter A function allowing the filtering out of any http headers set, or adding of them for this call only
+   */
   public doCall(
-    segments: string | Array<string>,
+    urlSegments: string | Array<string>,
     requestMethod: RequestMethod,
-    queryParams = {},
-    bodyData: Record<string, unknown> | FormData = {},
+    queryParams: Record<string, string | Array<string>> = {},
+    bodyData: Record<string, unknown> | FormData | Array<unknown> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
-    const url = this.getUrl(segments);
+    const url = this.getUrl(urlSegments);
     // console.debug('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
       headers: null != headerFilter ? headerFilter(this.headers) : this.headers,
       params: queryParams,
     };
 
-    let response: Observable<any>;
+    let response: Observable<unknown>;
     switch (requestMethod) {
       case RequestMethod.GET:
         response = this.http.get(url, options);
@@ -60,11 +70,22 @@ export class ApiCaller {
     return null;
   }
 
+  /**
+   * Adds an http header that will be added to every call (unless subsequently filtered)
+   *
+   * @param key Header key
+   * @param value Header value
+   */
   public addDefaultHeader(key: string, value: string): this {
     this.headers = this.headers.append(key, value);
     return this;
   }
 
+  /**
+   * Removed an http header that was previously added
+   *
+   * @param key Header key
+   */
   public removeDefaultHeader(key: string): this {
     this.headers = this.headers.delete(key);
     return this;

@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+
 export class GetSubRegionData extends CacheableEndpoint<Array<SubRegionDataItem>, GetSubRegionDataParams, SubRegionDataItem> {
   protected getCacheKey(params: GetSubRegionDataParams): string {
     return JSON.stringify(params);
