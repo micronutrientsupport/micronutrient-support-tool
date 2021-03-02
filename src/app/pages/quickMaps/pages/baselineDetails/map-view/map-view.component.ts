@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
-  Component, Input, Optional, Inject,
-  ChangeDetectionStrategy, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef
+  Component,
+  Input,
+  Optional,
+  Inject,
+  ChangeDetectionStrategy,
+  ViewChild,
+  AfterViewInit,
+  ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -20,10 +27,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './map-view.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './map-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapViewComponent implements AfterViewInit {
@@ -38,6 +42,8 @@ export class MapViewComponent implements AfterViewInit {
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteLegend: L.Control;
+  private absoluteLegendTwo: L.Control;
+
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
   private thresholdLegend: L.Control;
@@ -59,7 +65,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -68,18 +74,14 @@ export class MapViewComponent implements AfterViewInit {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
           this.thresholdMap.invalidateSize();
-        })
+        }),
       );
 
       void this.dictionaryService
@@ -101,13 +103,15 @@ export class MapViewComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getSubRegionData(
-            this.quickMapsService.countryId,
-            [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
-            this.quickMapsService.mndDataId,
-          ));
-        })
+          this.init(
+            this.currentDataService.getSubRegionData(
+              this.quickMapsService.countryId,
+              [this.quickMapsService.micronutrientId],
+              this.quickMapsService.popGroupId,
+              this.quickMapsService.mndDataId,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -117,15 +121,25 @@ export class MapViewComponent implements AfterViewInit {
       this.cdr.detectChanges();
     }
   }
+  initialiseMap(nativeElement: any): L.Map {
+    throw new Error('Method not implemented.');
+  }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     switch (tabChangeEvent.index) {
-      case (0): this.absoluteMap.invalidateSize(); break;
-      case (1): this.thresholdMap.invalidateSize(); break;
+      case 0:
+        this.absoluteMap.invalidateSize();
+        break;
+      case 1:
+        this.thresholdMap.invalidateSize();
+        break;
     }
     if (!this.tabVisited.has(tabChangeEvent.index)) {
       this.triggerFitBounds(tabChangeEvent.index);
     }
+  }
+  triggerFitBounds(index: number) {
+    throw new Error('Method not implemented.');
   }
 
   private init(dataPromise: Promise<Array<SubRegionDataItem>>): void {
@@ -159,13 +173,30 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
+  clickEvent() {
+    this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
+      return this.getColourAbsoluteTwo(feat.properties.mnAbsolute);
+    }).addTo(this.absoluteMap);
+    const absoluteLegendTwo = new L.Control({ position: 'bottomright' });
+  }
+
+  clickEvent2() {
+    this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
+      return this.getColourAbsolute(feat.properties.mnAbsolute);
+    }).addTo(this.absoluteMap);
+  }
   private triggerFitBounds(index: number): void {
     this.tabVisited.set(index, true);
     switch (index) {
-      case (0): this.absoluteMap.fitBounds(this.areaBounds); break;
-      case (1): this.thresholdMap.fitBounds(this.areaBounds); break;
+      case 0:
+        this.absoluteMap.fitBounds(this.areaBounds);
+        break;
+      case 1:
+        this.thresholdMap.fitBounds(this.areaBounds);
+        break;
     }
-
   }
 
   private getTooltip(feature: GeoJSON.Feature): string {
@@ -212,6 +243,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     // eslint-disable-next-line arrow-body-style
+
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
       return this.getColourAbsolute(feat.properties.mnAbsolute);
     }).addTo(this.absoluteMap);
@@ -226,9 +258,11 @@ export class MapViewComponent implements AfterViewInit {
       range.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
-          <span style="background-color:${this.getColourAbsolute(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+          <span style="background-color:${this.getColourAbsolute(
+            value + 1,
+          )}; height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
-          `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + (range[i + 1]).toString() : ''}</span>` +
+          `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
           '</span>';
       });
 
@@ -261,9 +295,11 @@ export class MapViewComponent implements AfterViewInit {
       range.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
-            <span style="background-color:${this.getColourThreshold(value + 1)}; height:10px; width:10px; display:block; margin-right:5px;">
+            <span style="background-color:${this.getColourThreshold(
+              value + 1,
+            )}; height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
-          `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + (range[i + 1]).toString() : ''}</span>` +
+          `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
           '</span>';
       });
 
@@ -273,13 +309,10 @@ export class MapViewComponent implements AfterViewInit {
     this.thresholdLegend.addTo(this.thresholdMap);
   }
 
-
   private populateFeatureCollection(data: Array<SubRegionDataItem>): void {
     this.areaFeatureCollection = {
       type: 'FeatureCollection',
-      features: data
-        .map((item: SubRegionDataItem) => item.geoFeature)
-        .filter((item) => null != item),
+      features: data.map((item: SubRegionDataItem) => item.geoFeature).filter((item) => null != item),
     };
   }
 
@@ -287,33 +320,50 @@ export class MapViewComponent implements AfterViewInit {
     return absoluteValue > 1500
       ? '#2ca25f'
       : absoluteValue > 1000
-        ? '#addd8e'
-        : absoluteValue > 500
-          ? '#ffeda0'
-          : absoluteValue > 250
-            ? '#feb24c'
-            : absoluteValue > 100
-              ? '#f03b20'
-              : absoluteValue > 50
-                ? '#bd0026'
-                : absoluteValue > 10
-                  ? '#7a0177'
-                  : '#354969';
+      ? '#addd8e'
+      : absoluteValue > 500
+      ? '#ffeda0'
+      : absoluteValue > 250
+      ? '#feb24c'
+      : absoluteValue > 100
+      ? '#f03b20'
+      : absoluteValue > 50
+      ? '#bd0026'
+      : absoluteValue > 10
+      ? '#7a0177'
+      : '#354969';
+  }
+  private getColourAbsoluteTwo(absoluteValue: number): string {
+    return absoluteValue > 1500
+      ? '#845EC2'
+      : absoluteValue > 1000
+      ? '#845EC2'
+      : absoluteValue > 500
+      ? '#0081CF'
+      : absoluteValue > 250
+      ? '#0089BA'
+      : absoluteValue > 100
+      ? '#008E9B'
+      : absoluteValue > 50
+      ? '#008F7A'
+      : absoluteValue > 10
+      ? '#00C9A7'
+      : '#C4FCEF';
   }
   private getColourThreshold(thresholdValue: number): string {
     return thresholdValue > 99
       ? '#187026'
       : thresholdValue > 80
-        ? '#22f243'
-        : thresholdValue > 60
-          ? '#f0f01d'
-          : thresholdValue > 40
-            ? '#f08f11'
-            : thresholdValue > 20
-              ? '#e0071c'
-              : thresholdValue > 0
-                ? '#5e1d5c'
-                : '#0f0e0f';
+      ? '#22f243'
+      : thresholdValue > 60
+      ? '#f0f01d'
+      : thresholdValue > 40
+      ? '#f08f11'
+      : thresholdValue > 20
+      ? '#e0071c'
+      : thresholdValue > 0
+      ? '#5e1d5c'
+      : '#0f0e0f';
   }
 
   private openDialog(): void {
