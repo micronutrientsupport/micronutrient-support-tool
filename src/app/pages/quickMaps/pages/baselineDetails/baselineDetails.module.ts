@@ -16,6 +16,7 @@ import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
+import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -25,6 +26,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     HouseholdSupplyComponent,
     MonthlyFoodComponent,
     BaslineEstimateComponent,
+    BaselineDescriptionComponent,
   ],
   imports: [
     CommonModule,
