@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetMicronutrientDataOptions extends CacheableEndpoint<
 Array<MicronutrientDataOption>,

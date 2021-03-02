@@ -2,7 +2,6 @@
 import { HttpClient } from '@angular/common/http';
 import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetMonthlyFoodGroups extends CacheableEndpoint<
 MonthlyFoodGroups,

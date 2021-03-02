@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodParams, TopFoodSource> {
   protected getCacheKey(params: TopFoodParams): string {
@@ -29,16 +28,19 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/top-foods.json').toPromise());
+          resolve(
+            httpClient.get('/assets/exampleData/top-foods.json').toPromise()
+              .then((objects: Array<Record<string, unknown>>) => {
+                if (null != objects[0]) {
+                  // change something so that the display changes a little
+                  objects[0].value = Math.floor(Math.random() * 3);
+                }
+                return objects;
+              })
+          );
         }, 1500);
       }),
-    ).then((data: Array<TopFoodSource>) => {
-      if (null != data[0]) {
-        // change something so that the display changes a little
-        data[0].value = Math.floor(Math.random() * 3);
-      }
-      return data;
-    });
+    );
   }
 }
 

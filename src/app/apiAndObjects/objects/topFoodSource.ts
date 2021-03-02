@@ -6,15 +6,13 @@ export class TopFoodSource extends BaseObject {
     VALUE: 'value',
   };
 
-  public foodex2Name: string;
-  public value: number;
+  public readonly foodex2Name: string;
+  public readonly value: number;
 
-  public static makeItemFromObject(source: Record<string, unknown>): TopFoodSource {
-    return super.makeItemFromObject(source) as TopFoodSource;
-  }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.foodex2Name = this._getString(TopFoodSource.KEYS.FOODEX2_NAME);
     this.value = this._getNumber(TopFoodSource.KEYS.VALUE);
