@@ -1,7 +1,10 @@
 <app-base-dialog>
   <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer [opened]="true" class="example-sidenav" mode="side">
-      <p>Settings Go Here</p>
+    <mat-drawer #drawer [opened]="true" mode="side">
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list-option value="general">General</mat-list-option>
+        <mat-list-option value="advanced">Advanced</mat-list-option>
+      </mat-selection-list>
     </mat-drawer>
 
     <div class="example-sidenav-content">
