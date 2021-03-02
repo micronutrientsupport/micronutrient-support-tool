@@ -6,11 +6,13 @@ import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
+import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
     ShareDialogComponent,
     ScenarioTypeDialogComponent,
+    MapSettingsDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, ChartjsModule],
   exports: [BaseDialogComponent],

@@ -8,7 +8,7 @@ import { GridsterModule } from 'angular-gridster2';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDetailsComponent } from './baselineDetails.component';
-import { MapViewComponent } from './map-view/map-view.component';
+import { MapViewComponent } from './mapView/mapView.component';
 import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
@@ -39,4 +39,4 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     DialogModule,
   ],
 })
-export class BaselineDetailsModule {}
+export class BaselineDetailsModule { }

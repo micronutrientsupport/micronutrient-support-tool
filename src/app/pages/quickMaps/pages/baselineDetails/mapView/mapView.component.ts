@@ -17,12 +17,13 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
+import { MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'app-map-view',
-  templateUrl: './map-view.component.html',
+  templateUrl: './mapView.component.html',
   styleUrls: [
     '../../expandableTabGroup.scss',
-    './map-view.component.scss',
+    './mapView.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,6 +33,7 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+  public menuTrigger: MatMenuTrigger;
   public title = '';
   private data: Array<SubRegionDataItem>;
 
@@ -68,9 +70,14 @@ export class MapViewComponent implements AfterViewInit {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
+      this.card.showSettings = true;
       this.card
         .setLoadingObservable(this.loadingSrc.asObservable())
         .setErrorObservable(this.errorSrc.asObservable());
+
+      this.card.onSettingsClickObs.subscribe(() => {
+        this.dialogService.openMapSettingsDialog();
+      });
 
       this.subscriptions.push(
         this.card.onExpandClickObs.subscribe(() => this.openDialog())
