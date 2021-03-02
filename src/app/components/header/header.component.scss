@@ -11,9 +11,9 @@ mat-toolbar {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   .logo {
-    max-height: 3em;
-    margin-right: 0.5em;
+    height: 1.5em;
   }
 }
 
@@ -31,10 +31,6 @@ a {
 
   & a {
     color: #fff;
-  }
-
-  & div:nth-child(1) {
-    font-size: 17px;
   }
 
   & div:nth-child(2) {
