@@ -24,8 +24,8 @@ export class ImpactScenario extends BaseObject {
 
     this.id = this._getString(ImpactScenario.KEYS.ID);
     this.name = this._getString(ImpactScenario.KEYS.NAME);
-    this.briefDescription = this._getString(ImpactScenario.KEYS.NAME);
-    this.description = this._getString(ImpactScenario.KEYS.NAME);
-    this.isBaseline = this._getBoolean(ImpactScenario.KEYS.NAME);
+    this.briefDescription = this._getString(ImpactScenario.KEYS.BRIEF_DESCRIPTION);
+    this.description = this._getString(ImpactScenario.KEYS.DESCRIPTION);
+    this.isBaseline = this._getBoolean(ImpactScenario.KEYS.IS_BASELINE);
   }
 }
