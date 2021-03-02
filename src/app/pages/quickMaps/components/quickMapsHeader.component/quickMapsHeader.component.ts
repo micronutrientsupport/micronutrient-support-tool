@@ -60,9 +60,7 @@ export class QuickMapsHeaderComponent implements OnInit {
       });
 
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      console.log(result);
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
-      console.log(this.currentImpactScenario);
     });
   }
 
