@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -8,6 +9,7 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { MiscApiService } from 'src/app/services/miscApi.service';
+import { QuickMapsService } from './quickMaps.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -20,6 +22,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private dictionaryService: DictionaryService,
     private miscApiService: MiscApiService,
     private currentDataService: CurrentDataService,
+    private quickMapsService: QuickMapsService,
   ) { }
 
   public canActivate(
@@ -116,7 +119,25 @@ export class QuickMapsRouteGuardService implements CanActivate {
               [QuickMapsQueryParams.getMicronutrientId(route)],
               QuickMapsQueryParams.getPopGroupId(route),
               true,
-            ).then((options: Array<MicronutrientDataOption>) => (null != options.find(item => (item.id === mndsData))));
+            ).then((options: Array<MicronutrientDataOption>) => {
+              const selectedOption = options.find(item => (item.id === mndsData));
+              // while we're here, validate/set the data level
+              if (null != selectedOption) {
+                const selectedDataLevel = QuickMapsQueryParams.getDataLevel(route);
+                // TODO: replace this with the real level options from the "options" variable
+                const availableDataLevels = [
+                  DataLevel.COUNTRY,
+                  DataLevel.HOUSEHOLD,
+                ];
+
+                if (!availableDataLevels.includes(selectedDataLevel)) {
+                  // set it to the only/default
+                  this.quickMapsService.setDataLevel(availableDataLevels[0]);
+                }
+              }
+
+              return (null != selectedOption);
+            });
           }
         });
   }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 
 @Injectable()
 export class QuickMapsService {
@@ -26,7 +27,7 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
 
-  private readonly dataLevelSrc = new BehaviorSubject<string>(null);
+  private readonly dataLevelSrc = new BehaviorSubject<DataLevel>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public dataLevelObs = this.dataLevelSrc.asObservable();
 
@@ -101,7 +102,7 @@ export class QuickMapsService {
   public get dataLevel(): string {
     return this.dataLevelSrc.value;
   }
-  public setDataLevel(dataLevel: string, force = false): void {
+  public setDataLevel(dataLevel: DataLevel, force = false): void {
     this.setValue(this.dataLevelSrc, dataLevel, force);
   }
 
@@ -115,7 +116,7 @@ export class QuickMapsService {
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
   }
 
-  protected setValue(srcRef: BehaviorSubject<string>, value: string, force: boolean): void {
+  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
     if (force || srcRef.value !== value) {
       srcRef.next(value);
     }

@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+
+// eslint-disable-next-line no-shadow
+enum BaselineWidgets {
+  MAP = 'widgetMap',
+  MONTHLY = 'widgetMonthly',
+  TOP_FOOD = 'widgetTopFood',
+  CHART = 'widgetChart',
+}
 
 @Component({
   selector: 'app-baseline-details',
@@ -9,6 +18,8 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaselineDetailsComponent implements OnInit {
+
+  public WIDGETS = BaselineWidgets;
   public options: GridsterConfig;
   public dashboard: Array<GridsterItem>;
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -16,6 +27,40 @@ export class BaselineDetailsComponent implements OnInit {
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+
+  private readonly defaultWidgetHeight = 4;
+  private readonly defaultWidgetWidth = 6;
+
+  private dataLevelWidgetsMap: Map<DataLevel, Array<GridsterItem>> = new Map([
+    [DataLevel.COUNTRY, [
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: 0, x: 0, type: BaselineWidgets.MAP
+      },
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: this.defaultWidgetHeight, x: 0, type: BaselineWidgets.TOP_FOOD
+      },
+    ]],
+    [DataLevel.HOUSEHOLD, [
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: 0, x: 0, type: BaselineWidgets.MAP
+      },
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: 0, x: this.defaultWidgetHeight, type: BaselineWidgets.MONTHLY
+      },
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: this.defaultWidgetHeight, x: 0, type: BaselineWidgets.TOP_FOOD
+      },
+      {
+        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
+        y: this.defaultWidgetHeight, x: this.defaultWidgetWidth, type: BaselineWidgets.CHART
+      },
+    ]],
+  ]);
 
   constructor(public quickmapsService: QuickMapsService) { }
 
@@ -74,26 +119,12 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
-    const defaultHeight = 4;
-    const defaultWidth = 6;
-
-    this.dashboard = [
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetMap' },
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: defaultHeight, type: 'widgetMonthly' },
-      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: 0, type: 'widgetTopFood' },
-      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: defaultWidth, type: 'widgetChart' },
-    ];
+    this.quickmapsService.dataLevelObs.subscribe((level: DataLevel) => {
+      this.setDataLevel(level);
+    });
   }
 
-  public changedOptions(): void {
-    this.options.api.optionsChanged();
-  }
-
-  public removeItem(item: GridsterItem): void {
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
-  }
-
-  public addItem(): void {
-    this.dashboard.push();
+  private setDataLevel(level: DataLevel): void {
+    this.dashboard = this.dataLevelWidgetsMap.get(level);
   }
 }
