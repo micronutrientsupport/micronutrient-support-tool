@@ -125,6 +125,8 @@ export class BaselineDetailsComponent implements OnInit {
   }
 
   private setDataLevel(level: DataLevel): void {
-    this.dashboard = this.dataLevelWidgetsMap.get(level);
+    if (null != level) {
+      this.dashboard = this.dataLevelWidgetsMap.get(level);
+    }
   }
 }

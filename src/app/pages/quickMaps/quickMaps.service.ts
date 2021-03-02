@@ -116,7 +116,7 @@ export class QuickMapsService {
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
   }
 
-  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
+  protected setValue<T = string>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
     if (force || srcRef.value !== value) {
       srcRef.next(value);
     }

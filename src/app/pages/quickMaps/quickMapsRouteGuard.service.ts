@@ -9,7 +9,6 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { MiscApiService } from 'src/app/services/miscApi.service';
-import { QuickMapsService } from './quickMaps.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -22,7 +21,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private dictionaryService: DictionaryService,
     private miscApiService: MiscApiService,
     private currentDataService: CurrentDataService,
-    private quickMapsService: QuickMapsService,
   ) { }
 
   public canActivate(
@@ -39,7 +37,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     promises.push(this.isValidCountry(route));
     promises.push(this.isValidMicronutrients(route));
     promises.push(this.isValidPopGroup(route));
-    promises.push(this.isValidMndsData(route));
+    promises.push(this.isValidMndsDataAndDataLevel(route));
     // break;
     //   default:
     //     promises.push(Promise.resolve(true));
@@ -101,7 +99,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         });
   }
 
-  private isValidMndsData(route: ActivatedRouteSnapshot): Promise<boolean> {
+  private isValidMndsDataAndDataLevel(route: ActivatedRouteSnapshot): Promise<boolean> {
     const mndsData = QuickMapsQueryParams.getMndsDataId(route);
     // console.debug('isValidMndsData', mndsData, route.paramMap);
     return (null == mndsData)
@@ -120,8 +118,9 @@ export class QuickMapsRouteGuardService implements CanActivate {
               QuickMapsQueryParams.getPopGroupId(route),
               true,
             ).then((options: Array<MicronutrientDataOption>) => {
+              let valid = false;
               const selectedOption = options.find(item => (item.id === mndsData));
-              // while we're here, validate/set the data level
+              // while we're here, validate the data level
               if (null != selectedOption) {
                 const selectedDataLevel = QuickMapsQueryParams.getDataLevel(route);
                 // TODO: replace this with the real level options from the "options" variable
@@ -129,14 +128,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
                   DataLevel.COUNTRY,
                   DataLevel.HOUSEHOLD,
                 ];
-
-                if (!availableDataLevels.includes(selectedDataLevel)) {
-                  // set it to the only/default
-                  this.quickMapsService.setDataLevel(availableDataLevels[0]);
-                }
+                valid = availableDataLevels.includes(selectedDataLevel);
               }
 
-              return (null != selectedOption);
+              return valid;
             });
           }
         });
