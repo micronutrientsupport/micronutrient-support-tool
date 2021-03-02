@@ -35,11 +35,13 @@ export class BaselineDetailsComponent implements OnInit {
     [DataLevel.COUNTRY, [
       {
         cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: 0, type: BaselineWidgets.MAP
+        y: 0, x: 0,
+        type: BaselineWidgets.MAP
       },
       {
         cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: this.defaultWidgetHeight, x: 0, type: BaselineWidgets.TOP_FOOD
+        y: 0, x: this.defaultWidgetWidth,
+        type: BaselineWidgets.TOP_FOOD
       },
     ]],
     [DataLevel.HOUSEHOLD, [
@@ -49,15 +51,18 @@ export class BaselineDetailsComponent implements OnInit {
       },
       {
         cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: this.defaultWidgetHeight, type: BaselineWidgets.MONTHLY
+        y: 0, x: this.defaultWidgetWidth,
+        type: BaselineWidgets.MONTHLY
       },
       {
         cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: this.defaultWidgetHeight, x: 0, type: BaselineWidgets.TOP_FOOD
+        y: this.defaultWidgetHeight, x: 0,
+        type: BaselineWidgets.TOP_FOOD
       },
       {
         cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: this.defaultWidgetHeight, x: this.defaultWidgetWidth, type: BaselineWidgets.CHART
+        y: this.defaultWidgetHeight, x: this.defaultWidgetWidth,
+        type: BaselineWidgets.CHART
       },
     ]],
   ]);

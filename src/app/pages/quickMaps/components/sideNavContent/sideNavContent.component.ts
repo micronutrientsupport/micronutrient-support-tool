@@ -91,7 +91,7 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setMndDataId(value);
           // TODO: get data level from option
           // const selectedItem = this.micronutrientDataOptions.find(option => option.id = value);
-          this.quickMapsService.setDataLevel(DataLevel.COUNTRY);
+          this.quickMapsService.setDataLevel(DataLevel.HOUSEHOLD);
         });
       });
 
