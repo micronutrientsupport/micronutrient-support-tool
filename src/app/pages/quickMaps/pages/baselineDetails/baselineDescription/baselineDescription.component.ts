@@ -60,6 +60,7 @@ export class BaselineDescriptionComponent implements OnInit {
       });
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
+      this.cdr.markForCheck();
     });
   }
 
