@@ -31,43 +31,23 @@ export class BaselineDetailsComponent implements OnInit {
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 6;
 
-  private dataLevelWidgetsMap: Map<DataLevel, Array<GridsterItem>> = new Map([
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<BaselineWidgets>> = new Map([
     [DataLevel.COUNTRY, [
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: 0,
-        type: BaselineWidgets.MAP
-      },
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: this.defaultWidgetWidth,
-        type: BaselineWidgets.TOP_FOOD
-      },
+      BaselineWidgets.MAP,
+      BaselineWidgets.TOP_FOOD,
     ]],
     [DataLevel.HOUSEHOLD, [
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: 0, type: BaselineWidgets.MAP
-      },
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: 0, x: this.defaultWidgetWidth,
-        type: BaselineWidgets.MONTHLY
-      },
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: this.defaultWidgetHeight, x: 0,
-        type: BaselineWidgets.TOP_FOOD
-      },
-      {
-        cols: this.defaultWidgetWidth, rows: this.defaultWidgetHeight,
-        y: this.defaultWidgetHeight, x: this.defaultWidgetWidth,
-        type: BaselineWidgets.CHART
-      },
+      BaselineWidgets.MAP,
+      BaselineWidgets.MONTHLY,
+      BaselineWidgets.TOP_FOOD,
+      BaselineWidgets.CHART,
+      BaselineWidgets.CHART,
     ]],
   ]);
 
-  constructor(public quickmapsService: QuickMapsService) { }
+  constructor(
+    public quickmapsService: QuickMapsService,
+  ) { }
 
   ngOnInit(): void {
     this.options = {
@@ -131,34 +111,45 @@ export class BaselineDetailsComponent implements OnInit {
 
   private setDataLevel(level: DataLevel): void {
     if (null != level) {
-      const newWidgets = this.dataLevelWidgetsMap.get(level);
-      // remove any not needed
+      const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
 
+      // remove any not needed
       this.dashboard.slice().forEach(thisWidget => {
-        if (null == newWidgets.find(testWidget => (testWidget.type === thisWidget.type))) {
-          this.removeItem(thisWidget);
+        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
+          this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
         }
       });
-      // set positions of old widgets?
+      // reset size and position of currrent items
+      // Maybe not ideal how this alters the user set size and position of widgets
+      // that have persisted, but what's the alternative?
+      // It does ensure a uniform view at init/data level change.
+      this.dashboard.forEach((thisWidget: GridsterItem, index: number) => {
+        this.resetItemPositionAndSize(thisWidget, index);
+      });
 
       // add any new widgets
-      newWidgets.forEach(newWidget => {
-        if (null == this.dashboard.find(testWidget => (testWidget.type === newWidget.type))) {
-          this.addItem(newWidget);
+      newWidgetsTypes.forEach(widgetType => {
+        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
+          this.dashboard.push(
+            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
+          );
         }
       });
+      this.changedOptions();
     }
   }
 
-  // private changedOptions(): void {
-  //   this.options.api.optionsChanged();
-  // }
-
-  private removeItem(item: GridsterItem): void {
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
+  private resetItemPositionAndSize(item: GridsterItem, index: number): GridsterItem {
+    item.cols = this.defaultWidgetWidth;
+    item.rows = this.defaultWidgetHeight;
+    item.x = (index % 2) * this.defaultWidgetWidth;
+    item.y = Math.floor(index / 2) * this.defaultWidgetHeight;
+    return item;
   }
 
-  private addItem(item: GridsterItem): void {
-    this.dashboard.push(item);
+  private changedOptions(): void {
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }
