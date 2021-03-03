@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 export interface ColourDialogData {
@@ -10,8 +11,12 @@ export interface ColourDialogData {
   styleUrls: ['./mapSettingsDialog.component.scss']
 })
 export class MapSettingsDialogComponent implements OnInit {
+
+  public settingsForm = new FormGroup({
+    generalColourSelection: new FormControl('', [Validators.required]),
+  })
+
   public colour: string;
-  // public generalSelectionList: MatSelectionList;
   public generalSelectionValue: Array<string>;
 
   constructor(
@@ -21,10 +26,6 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  onGroupsChange(event) {
-    console.debug(event);
   }
 
   applyChanges() {

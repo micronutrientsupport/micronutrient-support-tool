@@ -7,10 +7,11 @@
       </mat-selection-list>
     </mat-drawer>
 
-    <div class="example-sidenav-content">
+    <form class="example-sidenav-content" [formGroup]="settingsForm">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>General</p>
-        <mat-selection-list [(ngModel)]="generalSelectionValue" (ngModelChange)="onGroupsChange($event)"
+        <!-- <mat-form-field> -->
+        <mat-selection-list formControlName="generalColourSelection" [(ngModel)]="generalSelectionValue"
           [multiple]="false">
           <mat-list-option [selected] [value]="'redYellowGreen'"><span class="colour-option">RdYGn <span
                 class="colour-sample RdYGn"></span></span>
@@ -20,16 +21,18 @@
           <mat-list-option [value]="'colourblind'"> <span class="colour-option">Colour Blind <span
                 class="colour-sample colourBlind"></span></span></mat-list-option>
         </mat-selection-list>
+        <!-- </mat-form-field> -->
       </div>
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
         [ngStyle]="{'background-color': '#2ca25f'}">
         <p>Advanced</p>
       </div>
       <div class="button-wrapper">
-        <button mat-raised-button (click)="applyChanges()">Apply</button>
+        <button mat-raised-button [disabled]="settingsForm.pristine" (click)="applyChanges()">Apply</button>
         <button mat-raised-button (click)="data.close()">Close</button>
       </div>
-    </div>
+    </form>
+
 
   </mat-drawer-container>
 </app-base-dialog>
