@@ -41,7 +41,7 @@ export function Unsubscriber(unsubscribePropertyNames: string | Array<string> = 
     const original = constructor['prototype'].ngOnDestroy;
 
     // tslint:disable-next-line: no-string-literal
-    constructor['prototype'].ngOnDestroy = function(): void {
+    constructor['prototype'].ngOnDestroy = function(...args): void {
       // console.debug('onDestroy', constructor);
       propNames.forEach((propName: string) => {
         if (undefined === this[propName]) {
@@ -52,7 +52,7 @@ export function Unsubscriber(unsubscribePropertyNames: string | Array<string> = 
       });
 
       if (original && typeof original === 'function') {
-        original.apply(this, arguments);
+        original.apply(this, args);
       }
     };
   };
