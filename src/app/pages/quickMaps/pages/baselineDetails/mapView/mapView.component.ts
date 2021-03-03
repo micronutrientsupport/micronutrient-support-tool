@@ -24,7 +24,7 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { ColourGradient } from 'src/app/apiAndObjects/objects/enums/ColourGradient.enum';
+import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
 
 @Component({
   selector: 'app-map-view',
@@ -42,8 +42,7 @@ export class MapViewComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = '';
-  public defaultColourScheme: string;
-  public colourGradient: ColourGradient;
+  public defaultColourScheme: ColourGradientType;
   private data: Array<SubRegionDataItem>;
 
   private absoluteMap: L.Map;
@@ -81,7 +80,7 @@ export class MapViewComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-    (this.defaultColourScheme == null) ? this.defaultColourScheme = 'redYellowGreen' : null;
+    (this.defaultColourScheme == null) ? this.defaultColourScheme = ColourGradientType.REDYELLOWGREEN : null;
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -194,7 +193,7 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
-  public changeColourRamp(colourGradient: ColourGradient) {
+  public changeColourRamp(colourGradient: ColourGradientType) {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
@@ -323,7 +322,7 @@ export class MapViewComponent implements AfterViewInit {
     // eslint-disable-next-line arrow-body-style
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourRange(feat.properties.mnAbsolute, null, ColourGradient.REDYELLOWGREEN);
+      return this.getColourRange(feat.properties.mnAbsolute, null, ColourGradientType.REDYELLOWGREEN);
     }).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
@@ -339,7 +338,7 @@ export class MapViewComponent implements AfterViewInit {
           <span style="background-color:${this.getColourRange(
             value + 1,
             null,
-            ColourGradient.REDYELLOWGREEN,
+            ColourGradientType.REDYELLOWGREEN,
           )}; height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>${range[i + 1] ? value : '>1500mg'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
@@ -362,7 +361,7 @@ export class MapViewComponent implements AfterViewInit {
 
     // eslint-disable-next-line arrow-body-style
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourRange(null, feat.properties.mnThreshold, ColourGradient.REDYELLOWGREEN);
+      return this.getColourRange(null, feat.properties.mnThreshold, ColourGradientType.REDYELLOWGREEN);
     }).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
@@ -378,7 +377,7 @@ export class MapViewComponent implements AfterViewInit {
             <span style="background-color:${this.getColourRange(
             null,
             value + 1,
-            ColourGradient.REDYELLOWGREEN,
+            ColourGradientType.REDYELLOWGREEN,
           )}; height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
           `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
@@ -398,8 +397,8 @@ export class MapViewComponent implements AfterViewInit {
     };
   }
 
-  private getColourRange(absoluteValue: number, thresholdValue: number, colourGradient: ColourGradient): string {
-    if (colourGradient === ColourGradient.REDYELLOWGREEN) {
+  private getColourRange(absoluteValue: number, thresholdValue: number, colourGradient: ColourGradientType): string {
+    if (colourGradient === ColourGradientType.REDYELLOWGREEN) {
       return absoluteValue > 1500
         ? '#2ca25f'
         : thresholdValue > 99
@@ -430,7 +429,7 @@ export class MapViewComponent implements AfterViewInit {
                                   ? '#7a0177'
                                   : '#354969';
     }
-    if (colourGradient === ColourGradient.COLOURBLIND) {
+    if (colourGradient === ColourGradientType.COLOURBLIND) {
       return absoluteValue > 1500
         ? '#332288'
         : thresholdValue > 99
@@ -461,7 +460,7 @@ export class MapViewComponent implements AfterViewInit {
                                   ? '#AA4499'
                                   : '#882255';
     }
-    if (colourGradient === ColourGradient.PURPLEBLUEGREEN) {
+    if (colourGradient === ColourGradientType.PURPLEBLUEGREEN) {
       return absoluteValue > 1500
         ? '#845E82'
         : thresholdValue > 99
