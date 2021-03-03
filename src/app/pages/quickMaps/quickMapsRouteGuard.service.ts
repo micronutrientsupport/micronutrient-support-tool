@@ -120,15 +120,15 @@ export class QuickMapsRouteGuardService implements CanActivate {
             ).then((options: Array<MicronutrientDataOption>) => {
               let valid = false;
               const selectedOption = options.find(item => (item.id === mndsData));
-              // while we're here, validate the data level
+              // while we're here, validate the data level if set
               if (null != selectedOption) {
                 const selectedDataLevel = QuickMapsQueryParams.getDataLevel(route);
-                // TODO: replace this with the real level options from the "options" variable
-                const availableDataLevels = [
-                  DataLevel.COUNTRY,
-                  DataLevel.HOUSEHOLD,
-                ];
-                valid = availableDataLevels.includes(selectedDataLevel);
+                if (null == selectedDataLevel) {
+                  valid = true;
+                } else {
+                  const availableDataLevels = selectedOption.dataLevelOptions;
+                  valid = availableDataLevels.includes(selectedDataLevel);
+                }
               }
 
               return valid;
