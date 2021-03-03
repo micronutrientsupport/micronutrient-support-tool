@@ -20,6 +20,9 @@ export class MicronutrientDataOption extends BaseObject {
     this.name = this._getString(MicronutrientDataOption.KEYS.NAME);
 
     // TODO: set from data when available
-    this.dataLevelOptions = [DataLevel.HOUSEHOLD, DataLevel.COUNTRY];
+    this.dataLevelOptions = [
+      DataLevel.HOUSEHOLD,
+      // DataLevel.COUNTRY,
+    ];
   }
 }
