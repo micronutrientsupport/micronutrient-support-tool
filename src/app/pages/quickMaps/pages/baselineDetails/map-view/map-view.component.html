@@ -1,9 +1,4 @@
 <ng-template #componentTemplate>
-  <mat-button-toggle-group>
-    <button (click)="changeColourRamp('colourblind')" mat-fab color="secondary">Colourblind</button>
-    <button (click)="changeColourRamp('purpleBlueGreen')" mat-fab color="primary">PurpleBlueGreen</button>
-  </mat-button-toggle-group>
-
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Absolute Values">
       <div #map1></div>
