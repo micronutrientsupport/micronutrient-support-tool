@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { MatSelectionList } from '@angular/material/list';
 import { DialogData } from '../baseDialogService.abstract';
 export interface ColourDialogData {
   colour: string;
 }
 export interface ColourGradientObject {
-
+  colourGradient: string;
+  selected: boolean;
 }
 
 @Component({
@@ -16,6 +17,8 @@ export interface ColourGradientObject {
   styleUrls: ['./mapSettingsDialog.component.scss']
 })
 export class MapSettingsDialogComponent implements OnInit {
+
+  public gradientList: Array<ColourGradientObject>
 
   @ViewChild('colourGradientList') public colourList: MatSelectionList;
 
@@ -29,7 +32,20 @@ export class MapSettingsDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
   ) {
-
+    this.gradientList = [
+      {
+        colourGradient: 'redYellowGreen',
+        selected: true,
+      },
+      {
+        colourGradient: 'purpleBlueGreen',
+        selected: false,
+      },
+      {
+        colourGradient: 'colourblind',
+        selected: false,
+      }
+    ]
   }
 
   ngOnInit(): void {

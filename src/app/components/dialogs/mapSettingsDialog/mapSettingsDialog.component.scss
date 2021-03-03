@@ -23,13 +23,13 @@
     .colour-sample {
       width: 4em;
       height: 2em;
-      &.RdYGn {
+      &.redYellowGreen {
         background: linear-gradient(0.25turn, red, yellow, green);
       }
-      &.PpBlGn {
+      &.purpleBlueGreen {
         background: linear-gradient(0.25turn, purple, blue, green);
       }
-      &.colourBlind {
+      &.colourblind {
         background: linear-gradient(0.25turn, purple, green, blue, yellow, magenta);
       }
     }

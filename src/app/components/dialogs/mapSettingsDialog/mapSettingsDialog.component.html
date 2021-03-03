@@ -10,19 +10,15 @@
     <form class="example-sidenav-content" [formGroup]="settingsForm">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>General</p>
-        <!-- <mat-form-field> -->
         <mat-selection-list #colourGradientList formControlName="generalColourSelection"
           [(ngModel)]="generalSelectionValue" [multiple]="false">
-          <mat-list-option [value]="'redYellowGreen'"><span class="colour-option">RdYGn <span
-                class="colour-sample RdYGn"></span></span>
-          </mat-list-option>
-          <mat-list-option [value]="'purpleBlueGreen'"> <span class="colour-option">PpBlGn <span
-                class="colour-sample PpBlGn"></span></span></mat-list-option>
-          <mat-list-option [value]="'colourblind'"> <span class="colour-option">Colour Blind <span
-                class="colour-sample colourBlind"></span></span>
+
+          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient"
+            [selected]="colourGradientItem.selected">
+            <span class="colour-option">{{colourGradientItem.colourGradient}} <span
+                [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
           </mat-list-option>
         </mat-selection-list>
-        <!-- </mat-form-field> -->
       </div>
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
         [ngStyle]="{'background-color': '#2ca25f'}">
