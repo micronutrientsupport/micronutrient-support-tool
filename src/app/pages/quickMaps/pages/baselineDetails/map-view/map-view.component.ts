@@ -41,8 +41,12 @@ export class MapViewComponent implements AfterViewInit {
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
+  private Legend: L.Control;
+  private LegendAbsolute: L.Control;
+
+  private LegendThreshold: L.Control;
+
   private absoluteLegend: L.Control;
-  private absoluteLegendTwo: L.Control;
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
@@ -121,9 +125,6 @@ export class MapViewComponent implements AfterViewInit {
       this.cdr.detectChanges();
     }
   }
-  initialiseMap(nativeElement: any): L.Map {
-    throw new Error('Method not implemented.');
-  }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     switch (tabChangeEvent.index) {
@@ -137,9 +138,6 @@ export class MapViewComponent implements AfterViewInit {
     if (!this.tabVisited.has(tabChangeEvent.index)) {
       this.triggerFitBounds(tabChangeEvent.index);
     }
-  }
-  triggerFitBounds(index: number) {
-    throw new Error('Method not implemented.');
   }
 
   private init(dataPromise: Promise<Array<SubRegionDataItem>>): void {
@@ -173,20 +171,79 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
-  clickEvent() {
+  public changeColourRamp(colourGradient: string) {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    this.thresholdMap.removeLayer(this.thresholdDataLayer);
+
+    this.absoluteMap.removeControl(this.absoluteLegend);
+    this.thresholdMap.removeControl(this.thresholdLegend);
+    if (null != this.LegendThreshold) {
+      this.thresholdMap.removeControl(this.LegendThreshold);
+    }
+    if (null != this.LegendAbsolute) {
+      this.absoluteMap.removeControl(this.LegendAbsolute);
+    }
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourAbsoluteTwo(feat.properties.mnAbsolute);
+      return this.getColourRange(feat.properties.mnAbsolute, null, colourGradient);
     }).addTo(this.absoluteMap);
-    const absoluteLegendTwo = new L.Control({ position: 'bottomright' });
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
+      return this.getColourRange(null, feat.properties.mnThreshold, colourGradient);
+    }).addTo(this.thresholdMap);
+
+    this.LegendAbsolute = new L.Control({ position: 'bottomright' });
+
+    this.LegendAbsolute.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+      const rangeAbsolute = [0, 10, 50, 100, 250, 500, 1000, 1500];
+      const rangeThreshold = [0, 10, 20, 40, 60, 80, 99];
+
+      // loop through our  intervals and generate a label with a colored square for each interval
+
+      rangeAbsolute.forEach((value: number, i) => {
+        div.innerHTML +=
+          `<span style="display: flex; align-items: center;">
+          <span style="background-color:${this.getColourRange(
+            value + 1,
+            null,
+            colourGradient,
+          )}; height:10px; width:10px; display:block; margin-right:5px;">
+          </span>` +
+          `<span>${rangeAbsolute[i + 1] ? value : '>1500mg'}${
+            rangeAbsolute[i + 1] ? ' - ' + rangeAbsolute[i + 1].toString() : ''
+          }</span>` +
+          '</span>';
+      });
+      return div;
+    };
+    this.LegendThreshold = new L.Control({ position: 'bottomright' });
+
+    this.LegendThreshold.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+      const rangeAbsolute = [0, 10, 50, 100, 250, 500, 1000, 1500];
+      const rangeThreshold = [0, 10, 20, 40, 60, 80, 99];
+
+      // loop through our  intervals and generate a label with a colored square for each interval
+
+      rangeThreshold.forEach((value: number, i) => {
+        div.innerHTML +=
+          `<span style="display: flex; align-items: center;">
+          <span style="background-color:${this.getColourRange(
+            null,
+            value + 1,
+            colourGradient,
+          )}; height:10px; width:10px; display:block; margin-right:5px;">
+          </span>` +
+          `<span>${rangeThreshold[i + 1] ? value : '>99%'}${
+            rangeThreshold[i + 1] ? ' - ' + rangeThreshold[i + 1].toString() : ''
+          }</span>` +
+          '</span>';
+      });
+      return div;
+    };
+    this.LegendAbsolute.addTo(this.absoluteMap);
+    this.LegendThreshold.addTo(this.thresholdMap);
   }
 
-  clickEvent2() {
-    this.absoluteMap.removeLayer(this.absoluteDataLayer);
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourAbsolute(feat.properties.mnAbsolute);
-    }).addTo(this.absoluteMap);
-  }
   private triggerFitBounds(index: number): void {
     this.tabVisited.set(index, true);
     switch (index) {
@@ -245,7 +302,7 @@ export class MapViewComponent implements AfterViewInit {
     // eslint-disable-next-line arrow-body-style
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourAbsolute(feat.properties.mnAbsolute);
+      return this.getColourRange(feat.properties.mnAbsolute, null, 'redYellowGreen');
     }).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
@@ -258,11 +315,13 @@ export class MapViewComponent implements AfterViewInit {
       range.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
-          <span style="background-color:${this.getColourAbsolute(
+          <span style="background-color:${this.getColourRange(
             value + 1,
+            null,
+            'redYellowGreen',
           )}; height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
-          `<span>${range[i + 1] ? value : '>1500'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
+          `<span>${range[i + 1] ? value : '>1500mg'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
           '</span>';
       });
 
@@ -282,21 +341,23 @@ export class MapViewComponent implements AfterViewInit {
 
     // eslint-disable-next-line arrow-body-style
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) => {
-      return this.getColourThreshold(feat.properties.mnThreshold);
+      return this.getColourRange(null, feat.properties.mnThreshold, 'redYellowGreen');
     }).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
     this.thresholdLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const range = [0, 20, 40, 60, 80, 99];
+      const range = [0, 10, 20, 40, 60, 80, 99];
 
       // loop through our  intervals and generate a label with a colored square for each interval
       range.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
-            <span style="background-color:${this.getColourThreshold(
+            <span style="background-color:${this.getColourRange(
+              null,
               value + 1,
+              'redYellowGreen',
             )}; height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
           `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
@@ -316,54 +377,100 @@ export class MapViewComponent implements AfterViewInit {
     };
   }
 
-  private getColourAbsolute(absoluteValue: number): string {
-    return absoluteValue > 1500
-      ? '#2ca25f'
-      : absoluteValue > 1000
-      ? '#addd8e'
-      : absoluteValue > 500
-      ? '#ffeda0'
-      : absoluteValue > 250
-      ? '#feb24c'
-      : absoluteValue > 100
-      ? '#f03b20'
-      : absoluteValue > 50
-      ? '#bd0026'
-      : absoluteValue > 10
-      ? '#7a0177'
-      : '#354969';
-  }
-  private getColourAbsoluteTwo(absoluteValue: number): string {
-    return absoluteValue > 1500
-      ? '#845EC2'
-      : absoluteValue > 1000
-      ? '#845EC2'
-      : absoluteValue > 500
-      ? '#0081CF'
-      : absoluteValue > 250
-      ? '#0089BA'
-      : absoluteValue > 100
-      ? '#008E9B'
-      : absoluteValue > 50
-      ? '#008F7A'
-      : absoluteValue > 10
-      ? '#00C9A7'
-      : '#C4FCEF';
-  }
-  private getColourThreshold(thresholdValue: number): string {
-    return thresholdValue > 99
-      ? '#187026'
-      : thresholdValue > 80
-      ? '#22f243'
-      : thresholdValue > 60
-      ? '#f0f01d'
-      : thresholdValue > 40
-      ? '#f08f11'
-      : thresholdValue > 20
-      ? '#e0071c'
-      : thresholdValue > 0
-      ? '#5e1d5c'
-      : '#0f0e0f';
+  private getColourRange(absoluteValue: number, thresholdValue: number, colourGradient: string): string {
+    if (colourGradient === 'redYellowGreen') {
+      return absoluteValue > 1500
+        ? '#2ca25f'
+        : thresholdValue > 99
+        ? '#2ca25f'
+        : absoluteValue > 1000
+        ? '#addd8e'
+        : thresholdValue > 80
+        ? '#addd8e'
+        : absoluteValue > 500
+        ? '#ffeda0'
+        : thresholdValue > 60
+        ? '#ffeda0'
+        : absoluteValue > 250
+        ? '#feb24c'
+        : thresholdValue > 40
+        ? '#feb24c'
+        : absoluteValue > 100
+        ? '#f03b20'
+        : thresholdValue > 20
+        ? '#f03b20'
+        : absoluteValue > 50
+        ? '#bd0026'
+        : thresholdValue > 10
+        ? '#bd0026'
+        : absoluteValue > 10
+        ? '#7a0177'
+        : thresholdValue > 0
+        ? '#7a0177'
+        : '#354969';
+    }
+    if (colourGradient === 'colourblind') {
+      return absoluteValue > 1500
+        ? '#332288'
+        : thresholdValue > 99
+        ? '#332288'
+        : absoluteValue > 1000
+        ? '#117733'
+        : thresholdValue > 80
+        ? '#117733'
+        : absoluteValue > 500
+        ? '#44AA99'
+        : thresholdValue > 60
+        ? '#44AA99'
+        : absoluteValue > 250
+        ? '#88CCEE'
+        : thresholdValue > 40
+        ? '#88CCEE'
+        : absoluteValue > 100
+        ? '#DDCC77'
+        : thresholdValue > 20
+        ? '#DDCC77'
+        : absoluteValue > 50
+        ? '#CC6677'
+        : thresholdValue > 10
+        ? '#CC6677'
+        : absoluteValue > 10
+        ? '#AA4499'
+        : thresholdValue > 0
+        ? '#AA4499'
+        : '#882255';
+    }
+    if (colourGradient === 'purpleBlueGreen') {
+      return absoluteValue > 1500
+        ? '#845E82'
+        : thresholdValue > 99
+        ? '#845E82'
+        : absoluteValue > 1000
+        ? '#845EC2'
+        : thresholdValue > 80
+        ? '#845EC2'
+        : absoluteValue > 500
+        ? '#0081CF'
+        : thresholdValue > 60
+        ? '#0081CF'
+        : absoluteValue > 250
+        ? '#0089BA'
+        : thresholdValue > 40
+        ? '#0089BA'
+        : absoluteValue > 100
+        ? '#008E9B'
+        : thresholdValue > 20
+        ? '#008E9B'
+        : absoluteValue > 50
+        ? '#008F7A'
+        : thresholdValue > 10
+        ? '#008F7A'
+        : absoluteValue > 10
+        ? '#00C9A7'
+        : thresholdValue > 0
+        ? '#00C9A7'
+        : '#C4FCEF';
+    }
   }
 
   private openDialog(): void {

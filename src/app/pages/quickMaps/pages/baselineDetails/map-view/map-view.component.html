@@ -1,9 +1,7 @@
 <ng-template #componentTemplate>
   <mat-button-toggle-group>
-    <button (click)="clickEvent()" mat-fab color="secondary">Colour1</button>
-    <h2>{{ msg }}</h2>
-
-    <button (click)="clickEvent2()" mat-fab color="primary">Colour2</button>
+    <button (click)="changeColourRamp('colourblind')" mat-fab color="secondary">Colourblind</button>
+    <button (click)="changeColourRamp('purpleBlueGreen')" mat-fab color="primary">PurpleBlueGreen</button>
   </mat-button-toggle-group>
 
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
