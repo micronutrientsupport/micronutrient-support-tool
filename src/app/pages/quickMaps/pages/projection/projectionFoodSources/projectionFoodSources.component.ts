@@ -19,6 +19,7 @@ import {
   ProjectedFoodSourceItem,
   ProjectedFoodSourcesData,
   ProjectedFoodSourcesPeriod,
+  ProjectedFoodSourcesTable,
 } from 'src/app/apiAndObjects/objects/projectedFoodSources';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,6 +27,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-proj-food-sources ',
@@ -42,7 +44,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public title = 'Projection Food Sources';
 
   public chartData: ChartJSObject;
-  public displayedColumns = ['bin', 'frequency'];
+  public displayedColumns = ['2005'];
+  // public displayedColumns = ['2005', '2010', '2015', '2020', '2025', '2030', '2035', '2040', '2045', '2050'];
   public dataSource = new MatTableDataSource();
 
   private data: Array<ProjectedFoodSourcesData>;
@@ -120,8 +123,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
         // Filter by year and populate the array of objects
         const filteredData = new Array<ProjectedFoodSourcesPeriod>();
+        const filteredTableData = new Array<ProjectedFoodSourcesTable>();
         const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
         quinquennialPeriod.forEach((currentYear) => {
+          // Populate data for chart.js
           filteredData.push({
             year: currentYear,
             data: {
@@ -145,13 +150,34 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
                 .filter((item) => item.year === currentYear)
                 .filter((item) => item.commodity === 'Pigeonpeas')
                 .map((item) => item.value)[0],
+              dairy: filteredByScenario
+                .filter((item) => item.year === currentYear)
+                .filter((item) => item.commodity === 'Dairy')
+                .map((item) => item.value)[0],
               other: filteredByScenario
                 .filter((item) => item.year === currentYear)
                 .filter((item) => item.commodity === 'Other')
                 .map((item) => item.value)[0],
             },
           });
+
+          //  Populate data for Tablet
+          const foodTypes = [...new Set(data.map((item) => item.commodity))];
+          // console.log('foodtypes: ', foodTypes);
+          foodTypes.forEach((thing, index) => {
+            // console.log(thing);
+            filteredTableData.push({
+              year: currentYear,
+              foodName: foodTypes[index],
+              value: filteredByScenario
+                .filter((item) => item.year === currentYear)
+                .filter((item) => item.commodity === foodTypes[index])
+                .map((item) => item.value)[0],
+            });
+          });
         });
+
+        // console.log(filteredTableData);
 
         this.errorSrc.next(false);
         this.chartData = null;
@@ -161,7 +187,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.initialiseGraph(filteredData);
 
         // show table and init paginator and sorter
-        this.initialiseTable(filteredData);
+        this.initialiseTable(filteredTableData);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -173,14 +199,14 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       });
   }
 
-  private initialiseTable(data: Array<ProjectedFoodSourcesPeriod>): void {
+  private initialiseTable(data: Array<ProjectedFoodSourcesTable>): void {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
+    console.log(this.dataSource.data);
   }
 
   private initialiseGraph(data: Array<ProjectedFoodSourcesPeriod>): void {
     const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
-    console.log(quinquennialPeriod);
 
     this.chartData = {
       type: 'bar',
@@ -213,6 +239,11 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             backgroundColor: () => 'rgba(238, 130, 238, 0.6)',
           },
           {
+            label: 'Dairy',
+            data: data.map((item) => item.data.dairy),
+            backgroundColor: () => 'rgba(138, 230, 238, 0.6)',
+          },
+          {
             label: 'Other',
             data: data.map((item) => item.data.other),
             backgroundColor: () => 'rgba(100, 181, 220, 0.6)',
@@ -240,44 +271,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       },
     };
   }
-  // private initialiseGraph(data: Array<ProjectedFoodSourcesData>): void {
-  //   this.chartData = {
-  //     type: 'line',
-  //     data: {
-  //       labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
-  //       datasets: [
-  //         {
-  //           label: 'SSP1',
-  //           data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.value),
-  //           backgroundColor: () => 'rgba(12, 92, 90, 0.6)',
-  //         },
-  //         {
-  //           label: 'SSP2',
-  //           data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.value),
-  //           backgroundColor: () => 'rgba(12, 92, 225, 0.6)',
-  //         },
-  //         {
-  //           label: 'SSP3',
-  //           data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.value),
-  //           backgroundColor: () => 'rgba(48, 102, 133, 0.6)',
-  //         },
-  //       ],
-  //     },
-  //     options: {
-  //       scales: {
-  //         xAxes: [{}],
-  //         yAxes: [
-  //           {
-  //             scaleLabel: {
-  //               display: true,
-  //               labelString: 'MN availability in mg/ per Person per Day',
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   };
-  // }
 
   //   private openDialog(): void {
   //     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {

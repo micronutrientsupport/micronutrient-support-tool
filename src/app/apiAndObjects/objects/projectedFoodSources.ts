@@ -35,7 +35,14 @@ export interface ProjectedFoodSourceItem {
   potato: number;
   vegetables: number;
   pigeonpeas: number;
+  dairy: number;
   other: number;
+}
+
+export interface ProjectedFoodSourcesTable {
+  year: number;
+  foodName: string;
+  value: number;
 }
 
 import { BaseObject } from '../_lib_code/objects/baseObject';
