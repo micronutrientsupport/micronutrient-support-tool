@@ -16,25 +16,23 @@ export class DietarySource extends BaseObject {
     PERC_UNIT: 'mn_unit_perc',
   };
 
-  public supplyTotal: number;
-  public supplyUnits: string;
-  public cerealsPerc: number;
-  public tubersPerc: number;
-  public nutsPerc: number;
-  public vegPerc: number;
-  public meatPerc: number;
-  public fruitPerc: number;
-  public dairyPerc: number;
-  public fatPerc: number;
-  public miscPerc: number;
-  public percUnit: string;
+  public readonly supplyTotal: number;
+  public readonly supplyUnits: string;
+  public readonly cerealsPerc: number;
+  public readonly tubersPerc: number;
+  public readonly nutsPerc: number;
+  public readonly vegPerc: number;
+  public readonly meatPerc: number;
+  public readonly fruitPerc: number;
+  public readonly dairyPerc: number;
+  public readonly fatPerc: number;
+  public readonly miscPerc: number;
+  public readonly percUnit: string;
 
-  public static makeItemFromObject(source: Record<string, unknown>): DietarySource {
-    return super.makeItemFromObject(source) as DietarySource;
-  }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.supplyTotal = this._getNumber(DietarySource.KEYS.SUPPLY_TOTAL);
     this.supplyUnits = this._getString(DietarySource.KEYS.SUPPLY_UNIT);

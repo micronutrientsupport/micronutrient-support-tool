@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/apiCaller';
 import { ProjectedAvailability } from '../../objects/projectedAvailability';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetProjectedAvailabilities extends CacheableEndpoint<
 Array<ProjectedAvailability>,
