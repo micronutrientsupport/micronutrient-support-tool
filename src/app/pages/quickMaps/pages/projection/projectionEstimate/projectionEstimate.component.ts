@@ -6,7 +6,7 @@ import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-proj-est',
@@ -24,36 +24,60 @@ export class ProjectionEstimateComponent implements OnInit {
   public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
   public error = false;
-  public countryName = '';
-  public vitaminName = '';
+
   public projectionEstimateForm: FormGroup;
-  public massArray: [
-    { id: '1', name: 'mcg' },
-    { id: '2', name: 'mg' },
-    { id: '3', name: 'g' },
-    { id: '4', name: 'kg' },
-    { id: '5', name: 'mg' },
+
+  public massArray = [
+    { id: '1', name: 'mcg', value: 1000 },
+    { id: '2', name: 'mg', value: 1 },
+    { id: '3', name: 'g', value: 0.001 },
+    { id: '4', name: 'kg', value: 0.00001 },
   ];
-  public timeScaleArray: [
-    { id: '1', name: 'day' },
-    { id: '2', name: 'week' },
-    { id: '3', name: 'month' },
-    { id: '4', name: 'year' },
+  public timeScaleArray = [
+    { id: '1', name: 'day', value: 1 },
+    { id: '2', name: 'week', value: 7 },
+    { id: '3', name: 'month', value: 30.4167 },
+    { id: '4', name: 'year', value: 365 },
   ];
+  apiResponseTarget = 105;
+  apiResponseEstimate = 100;
+  target = this.apiResponseTarget;
+  currentEstimate = this.apiResponseEstimate;
+  targetCalc = this.apiResponseTarget;
+  currentEstimateCalc = this.apiResponseEstimate;
+  mass = 1;
+  timeScale = 1;
+  diferrence = ((this.currentEstimate - this.target) / this.target) * 100;
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private dictionaryService: DictionaryService,
-    private cdr: ChangeDetectorRef,
+    // private dictionaryService: DictionaryService,
+    // private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
   ) {
     this.projectionEstimateForm = this.fb.group({
-      mass: '3',
-      timeScale: '1',
+      mass: this.massArray[2],
+      timeScale: this.timeScaleArray[2],
+    });
+
+    this.projectionEstimateForm.get('mass').valueChanges.subscribe(itemMass => {
+      this.mass = itemMass.value;
+      this.calculate();
+    });
+    this.projectionEstimateForm.get('timeScale').valueChanges.subscribe(itemTime => {
+      this.timeScale = itemTime.value;
+      this.calculate();
     });
   }
 
   ngOnInit(): void {
 
+  }
+
+  public calculate(): void {
+    const totalMultiplier = this.mass * this.timeScale;
+    console.log('multiplier', totalMultiplier);
+    this.targetCalc = totalMultiplier * this.target;
+    this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
   }
 }

@@ -18,6 +18,16 @@
 
   &.wideItem {
     flex-grow: 2;
+
+    & mat-form-field:first-child {
+      margin-right: 0.5em;
+    }
+  }
+}
+
+form::ng-deep {
+  .mat-form-field-wrapper {
+    padding-bottom: 0em;
   }
 }
 
@@ -26,6 +36,7 @@
   font-size: 16px;
   display: block;
 }
+
 .estimateValue {
   font-weight: 700;
   font-size: 16px;
@@ -34,9 +45,11 @@
   &.blue {
     color: blue;
   }
+
   &.green {
     color: green;
   }
+
   &.red {
     color: red;
   }

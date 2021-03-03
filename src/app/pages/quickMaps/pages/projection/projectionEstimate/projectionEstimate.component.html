@@ -2,36 +2,39 @@
   <div class="item">
     <div class="nation">
       <span class="estimateHeader">Current Estimate:</span>
-      <span class="estimateValue blue">23123214.21</span>
+      <span class="estimateValue blue">{{currentEstimateCalc | number: '1.1-5'}}</span>
       <small>(kg per year)</small>
     </div>
   </div>
   <div class="item">
     <div class="vitamin">
       <span class="estimateHeader">Target:</span>
-      <span class="estimateValue green">13553.33</span>
+      <span class="estimateValue green">{{targetCalc | number: '1.1-5'}}</span>
       <small>(kg per year)</small>
     </div>
   </div>
   <div class="item">
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
-      <span class="estimateValue red">-12.4%</span>
+      <span class="estimateValue" [ngClass]="(diferrence < 0)? 'red': 'green'">{{diferrence | number: '1.1-2'}}</span>
     </div>
   </div>
+
   <form [formGroup]="projectionEstimateForm" class="item wideItem">
 
-    <mat-form-field appearance="fill">
-      <mat-select name="mass" formControlName="mass" placeholder="amount">
-        <mat-option *ngFor="let item of massArray" [value]="item.id">
+    <mat-form-field appearance="outline" aria-label="amount">
+      <mat-label>Quantity</mat-label>
+      <mat-select formControlName="mass" placeholder="amount">
+        <mat-option *ngFor="let item of massArray" [value]="item">
           {{item.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-select name="timeScale" formControlName="timeScale" placeholder="time scale">
-        <mat-option *ngFor="let item of timeScaleArray" [value]="item.id">
+    <mat-form-field appearance="outline" aria-label="time scale">
+      <mat-label>Time</mat-label>
+      <mat-select formControlName="timeScale" placeholder="time scale">
+        <mat-option *ngFor="let item of timeScaleArray" [value]="item">
           per {{item.name}}
         </mat-option>
       </mat-select>
