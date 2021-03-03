@@ -33,7 +33,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);
   }
 
-  public openMapSettingsDialog(colour: string): Promise<DialogData> {
-    return this.openDialog('mapSettings', MapSettingsDialogComponent, true, { colour });
+  public openMapSettingsDialog(colourGradient: string): Promise<DialogData> {
+    return this.openDialog('mapSettings', MapSettingsDialogComponent, true, { colourGradient });
   }
 }

@@ -1,10 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { DialogData } from '../baseDialogService.abstract';
 export interface ColourDialogData {
   colour: string;
 }
+export interface ColourGradientObject {
+
+}
+
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
@@ -12,17 +17,19 @@ export interface ColourDialogData {
 })
 export class MapSettingsDialogComponent implements OnInit {
 
+  @ViewChild('colourGradientList') public colourList: MatSelectionList;
+
   public settingsForm = new FormGroup({
     generalColourSelection: new FormControl('', [Validators.required]),
   })
 
-  public colour: string;
+  public selectedValue;
   public generalSelectionValue: Array<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
   ) {
-    this.colour = this.data.dataIn.colour;
+
   }
 
   ngOnInit(): void {

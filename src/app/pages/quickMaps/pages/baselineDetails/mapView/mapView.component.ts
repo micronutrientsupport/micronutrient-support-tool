@@ -42,11 +42,11 @@ export class MapViewComponent implements AfterViewInit {
 
   public menuTrigger: MatMenuTrigger;
   public title = '';
+  public defaultColourScheme: string;
   private data: Array<SubRegionDataItem>;
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
-  private Legend: L.Control;
   private LegendAbsolute: L.Control;
 
   private LegendThreshold: L.Control;
@@ -67,6 +67,7 @@ export class MapViewComponent implements AfterViewInit {
 
   private tabVisited = new Map<number, boolean>();
 
+
   constructor(
     private dialogService: DialogService,
     private dictionaryService: DictionaryService,
@@ -79,6 +80,7 @@ export class MapViewComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+    (this.defaultColourScheme == null) ? this.defaultColourScheme = 'redYellowGreen' : null;
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -89,10 +91,12 @@ export class MapViewComponent implements AfterViewInit {
         .setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
-        this.dialogService.openMapSettingsDialog('#354969')
+        this.dialogService.openMapSettingsDialog(this.defaultColourScheme)
           .then((data: DialogData) => {
-            // this.
-            console.debug('dataout', data.dataOut);
+            if (data.dataOut != {}) {
+              this.changeColourRamp(data.dataOut);
+              this.defaultColourScheme = data.dataOut;
+            }
           })
       });
 
