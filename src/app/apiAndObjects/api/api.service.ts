@@ -34,7 +34,7 @@ export class ApiService extends BaseApi {
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(false),
-      GetImpactScenarios: new GetImpactScenarios(true),
+      getImpactScenarios: new GetImpactScenarios(true),
     },
   };
 

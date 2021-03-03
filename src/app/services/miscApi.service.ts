@@ -6,7 +6,7 @@ import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryIte
 
 @Injectable()
 export class MiscApiService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   public getPopulationGroups(
     countryOrgroup: DictionaryItem | string,
@@ -19,6 +19,6 @@ export class MiscApiService {
   }
 
   public getImpactScenarios(): Promise<Array<ImpactScenario>> {
-    return this.apiService.endpoints.misc.GetImpactScenarios.call();
+    return this.apiService.endpoints.misc.getImpactScenarios.call();
   }
 }
