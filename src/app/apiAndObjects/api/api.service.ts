@@ -17,6 +17,7 @@ import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramDa
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
+import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -29,6 +30,7 @@ export class ApiService extends BaseApi {
       getDietarySources: new GetDietarySources(ApiService.USE_LIVE_API),
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
+      GetProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
     },
@@ -39,8 +41,10 @@ export class ApiService extends BaseApi {
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, true)
-      .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
+    new GetDictionary(DictionaryType.COUNTRIES, true).setDefaultParams({
+      path: 'country',
+      typeObj: CountryDictionaryItem,
+    }),
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.REGIONS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
