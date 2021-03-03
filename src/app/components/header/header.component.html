@@ -1,9 +1,7 @@
 <mat-toolbar color="primary" class="space-between">
-  <div class="header-logo">
-    <a [routerLink]="ROUTES.HOME | route">
-      <img src="../../../assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
-    </a>
-  </div>
+  <a [routerLink]="ROUTES.HOME | route" class="header-logo">
+    <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
+  </a>
   <div class="large">
     <a [routerLink]="ROUTES.MAPS_TOOL | route">MAPS Tools</a>
     <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">Educational Resources</a>
