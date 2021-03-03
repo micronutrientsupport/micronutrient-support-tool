@@ -82,6 +82,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
+// tslint:disable-next-line: no-empty-interface
 export interface ProjectionFoodSourcesDialogData {
   // data: Array<TopFoodSource>;
   // selectedTab: number;
