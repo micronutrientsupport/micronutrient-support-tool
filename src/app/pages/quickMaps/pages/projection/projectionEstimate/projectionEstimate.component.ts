@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./projectionEstimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionEstimateComponent implements OnInit {
+export class ProjectionEstimateComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -60,8 +60,6 @@ export class ProjectionEstimateComponent implements OnInit {
     void this.dictionaryService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
       .then((dicts: Array<Dictionary>) => {
-        this.countriesDictionary = dicts.shift();
-        this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
 
         this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
@@ -80,13 +78,10 @@ export class ProjectionEstimateComponent implements OnInit {
       this.calculate();
     });
     this.projectionEstimateForm.get('timeScale').valueChanges.subscribe(itemTime => {
+      console.log(itemTime);
       this.timeScale = itemTime.value;
       this.calculate();
     });
-
-  }
-
-  ngOnInit(): void {
 
   }
 
