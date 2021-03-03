@@ -1,35 +1,19 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import * as GeoJSON from 'geojson';
-import { DictionaryType } from '../../api/dictionaryType.enum';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class CountryDictionaryItem extends MapsDictionaryItem {
   public static readonly GEOMETRY_ATTRIBUTE = 'geometry';
 
-  public geoFeature: GeoJSON.Feature;
+  public readonly geoFeature: GeoJSON.Feature;
 
-  public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
-    return super.createMockItems(count, type).map((item: Record<string, unknown>, index: number) => {
-      item[this.GEOMETRY_ATTRIBUTE] = {
-        type: 'MultiPolygon',
-        coordinates: [
-          [
-            [
-              [index, index],
-              [index, index + 1],
-              [index + 1, index + 1],
-              [index + 1, index],
-              [index, index],
-            ],
-          ],
-        ],
-      };
-      return item;
-    });
-  }
+  protected constructor(
+    sourceObject: Record<string, unknown>,
+    id: string,
+    name: string,
+    description: string,
+  ) {
+    super(sourceObject, id, name, description);
 
-  protected populateValues(): void {
-    super.populateValues();
     const geometry = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Geometry;
     if (null != geometry) {
       this.geoFeature = {
@@ -39,5 +23,31 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
         id: this.id,
       };
     }
+  }
+
+  public static createMockItems(isCountry: boolean): Array<Record<string, unknown>> {
+    const name = (isCountry) ? 'Country' : 'Region';
+    return new Array(20).fill(null)
+      .map((val, index: number) => {
+        const returnObj = {};
+        returnObj[this.ID_ATTRIBUTE] = `${index}`;
+        returnObj[this.NAME_ATTRIBUTE] = `${name} ${index}`;
+        returnObj[this.DESC_ATTRIBUTE] = `${name} ${index} description`;
+        returnObj[this.GEOMETRY_ATTRIBUTE] = {
+          type: 'MultiPolygon',
+          coordinates: [
+            [
+              [
+                [index, index],
+                [index, index + 1],
+                [index + 1, index + 1],
+                [index + 1, index],
+                [index, index],
+              ],
+            ],
+          ],
+        };
+        return returnObj;
+      });
   }
 }

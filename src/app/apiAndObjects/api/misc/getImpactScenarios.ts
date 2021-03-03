@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { ImpactScenario } from '../../objects/impactScenario';
-import { RequestMethod } from '../../_lib_code/api/apiCaller';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 export class GetImpactScenarios extends CacheableEndpoint<
   Array<ImpactScenario>,
   GetImpactScenarioParams,
   ImpactScenario
-> {
+ > {
   protected getCacheKey(params: GetImpactScenarioParams): string {
     return JSON.stringify(params);
   }

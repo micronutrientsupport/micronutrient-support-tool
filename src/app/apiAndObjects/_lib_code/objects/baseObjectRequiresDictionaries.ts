@@ -1,29 +1,53 @@
 import { BaseObject } from './baseObject';
-import { RequiresDictionaries } from './requiresDictionaries.interface';
 import { Dictionary } from './dictionary';
-import { DictionaryType } from '../../api/dictionaryType.enum';
 import { DictionaryItem } from './dictionaryItem.interface';
+import { RequiredDictionaries } from './requiredDictionaries';
 
-export class BaseObjectRequiresDictionaries extends BaseObject implements RequiresDictionaries {
-  public readonly requiredDictionaryList: Array<DictionaryType> = [];
-  protected _dictionaries = new Array<Dictionary>();
+export class BaseObjectRequiresDictionaries extends BaseObject {
+  public static readonly requiredDictionaryTypes: Array<unknown> = [];
+  protected readonly _requiredDictionaries = new RequiredDictionaries();
 
-  public setDictionaries(dictionaries: Dictionary | Array<Dictionary>): this {
-    dictionaries = Array.isArray(dictionaries) ? dictionaries : [dictionaries];
-    this._dictionaries = this._dictionaries.concat(dictionaries);
-    return this;
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+    dictionaries?: Array<Dictionary>,
+  ) {
+    super(sourceObject);
+    this._requiredDictionaries.addDictionaries(dictionaries);
   }
 
-  protected _getDictionary(dictionaryType: DictionaryType): Dictionary {
-    // console.debug('testy', this.dictionaries);
-    return this._dictionaries.find((dictionary: Dictionary) => dictionary.type === dictionaryType);
+  /**
+   * used by object builder.
+   */
+  public static constructObject(
+    source?: Record<string, unknown>,
+    dictionaries?: Array<Dictionary>,
+  ): Promise<BaseObjectRequiresDictionaries> {
+    return Promise.resolve((
+      RequiredDictionaries.validateDictionaries(this.requiredDictionaryTypes, dictionaries)
+      && this.validateObject(source)
+    )
+      ? new this(source, dictionaries)
+      : null
+    );
   }
 
+  /**
+   * Get a dictionary.
+   * (Generics for convenience.)
+   */
+  protected _getDictionary<DICTIONARY_TYPE = Dictionary>(dictionaryType: unknown): DICTIONARY_TYPE {
+    return this._requiredDictionaries.getDictionary<DICTIONARY_TYPE>(dictionaryType);
+  }
+
+  /**
+   * Get an item from a dictionary.
+   * (Generics for convenience.)
+   */
   protected _getDictionaryItem<ITEM_TYPE = DictionaryItem>(
-    dictionaryType: DictionaryType,
-    attributeId: string,
+    dictionaryType: unknown,
+    sourceKey: string,
   ): ITEM_TYPE {
-    const id = this._getString(attributeId);
-    return null == id ? null : this._getDictionary(dictionaryType).getItem(id);
+    const dictionaryItemId = this._getString(sourceKey);
+    return this._requiredDictionaries.getDictionaryItem<ITEM_TYPE>(dictionaryType, dictionaryItemId);
   }
 }

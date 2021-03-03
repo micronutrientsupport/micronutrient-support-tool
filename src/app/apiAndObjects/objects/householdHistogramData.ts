@@ -11,15 +11,13 @@ export class HouseholdHistogramData extends BaseObject {
     DATA: 'data',
   };
 
-  public adequacyThreshold: number;
-  public data: Array<BinValue>;
+  public readonly adequacyThreshold: number;
+  public readonly data: Array<BinValue>;
 
-  public static makeItemFromObject(source: Record<string, unknown>): HouseholdHistogramData {
-    return super.makeItemFromObject(source) as HouseholdHistogramData;
-  }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.adequacyThreshold = this._getNumber(HouseholdHistogramData.KEYS.ADEQUACY_THRESHOLD);
     this.data = this._getArray(HouseholdHistogramData.KEYS.DATA);

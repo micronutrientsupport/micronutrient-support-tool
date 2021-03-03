@@ -6,24 +6,13 @@ export class PopulationGroup extends BaseObject {
     NAME: 'name',
   };
 
-  public id: string;
-  public name: string;
+  public readonly id: string;
+  public readonly name: string;
 
-  public static makeItemFromObject(source: Record<string, unknown>): PopulationGroup {
-    return super.makeItemFromObject(source) as PopulationGroup;
-  }
-
-  // public static createMockItems(count: number): Array<Record<string, unknown>> {
-  //   return new Array(count).fill(null).map((val, index: number) => {
-  //     const returnObj = {};
-  //     returnObj[PopulationGroup.KEYS.ID] = `${index}`;
-  //     returnObj[PopulationGroup.KEYS.NAME] = `Population Group ${index}`;
-  //     return returnObj;
-  //   });
-  // }
-
-  protected populateValues(): void {
-    void super.populateValues();
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
     this.id = this._getString(PopulationGroup.KEYS.ID);
     this.name = this._getString(PopulationGroup.KEYS.NAME);
