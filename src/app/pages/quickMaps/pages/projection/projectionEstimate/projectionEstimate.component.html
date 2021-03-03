@@ -1,7 +1,7 @@
 <div class="container">
   <div class="item">
     <div class="nation">
-      <span class="estimateHeader">Current Estimate:</span>
+      <span class="estimateHeader">Estimate (2010):</span>
       <span class="estimateValue blue">{{currentEstimateCalc | number: '1.1-5'}}</span>
       <small>(kg per year)</small>
     </div>
@@ -22,7 +22,7 @@
 
   <form [formGroup]="projectionEstimateForm" class="item wideItem">
 
-    <mat-form-field appearance="outline" aria-label="amount">
+    <mat-form-field appearance="outline" aria-label="amount" class="width-quantity">
       <mat-label>Quantity</mat-label>
       <mat-select formControlName="mass" placeholder="amount">
         <mat-option *ngFor="let item of massArray" [value]="item">
@@ -31,7 +31,9 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" aria-label="time scale">
+    <span class="item bold">per person</span>
+
+    <mat-form-field appearance="outline" aria-label="time scale" class="width-time">
       <mat-label>Time</mat-label>
       <mat-select formControlName="timeScale" placeholder="time scale">
         <mat-option *ngFor="let item of timeScaleArray" [value]="item">
@@ -43,8 +45,9 @@
   </form>
 
   <div class="item wideItem">
-    <div class="summary">
-      Business as usual to reach target
-    </div>
+    <span>'Business as usual' to reach target in &nbsp;<strong>2021</strong></span>
+    <i class="fas fa-question-circle margin-left" matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
+      per capita consumption of {{vitaminName}} is expected to reach recommended levels by 2021."
+      style="color: grey;"></i>
   </div>
 </div>

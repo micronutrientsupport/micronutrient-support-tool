@@ -6,6 +6,7 @@ import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -24,6 +25,7 @@ export class ProjectionEstimateComponent implements OnInit {
   public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
   public error = false;
+  public vitaminName = '';
 
   public projectionEstimateForm: FormGroup;
 
@@ -51,10 +53,23 @@ export class ProjectionEstimateComponent implements OnInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
-    // private dictionaryService: DictionaryService,
-    // private cdr: ChangeDetectorRef,
+    private dictionaryService: DictionaryService,
+    private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
   ) {
+    void this.dictionaryService
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
+      .then((dicts: Array<Dictionary>) => {
+        this.countriesDictionary = dicts.shift();
+        this.regionDictionary = dicts.shift();
+        this.micronutrientsDictionary = dicts.shift();
+
+        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
+          const mnds = this.micronutrientsDictionary.getItem(mndsId);
+          this.vitaminName = null != mnds ? mnds.name : 'Micronutrient';
+          this.cdr.markForCheck();
+        });
+      });
     this.projectionEstimateForm = this.fb.group({
       mass: this.massArray[2],
       timeScale: this.timeScaleArray[2],
@@ -68,6 +83,7 @@ export class ProjectionEstimateComponent implements OnInit {
       this.timeScale = itemTime.value;
       this.calculate();
     });
+
   }
 
   ngOnInit(): void {
