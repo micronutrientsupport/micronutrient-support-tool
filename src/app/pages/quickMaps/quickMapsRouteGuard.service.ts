@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';

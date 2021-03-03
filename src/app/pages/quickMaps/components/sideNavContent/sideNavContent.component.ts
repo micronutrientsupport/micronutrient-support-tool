@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
