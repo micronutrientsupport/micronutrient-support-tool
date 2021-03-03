@@ -1,4 +1,11 @@
 <ng-template #componentTemplate>
+  <mat-button-toggle-group>
+    <button (click)="clickEvent()" mat-fab color="secondary">Colour1</button>
+    <h2>{{ msg }}</h2>
+
+    <button (click)="clickEvent2()" mat-fab color="primary">Colour2</button>
+  </mat-button-toggle-group>
+
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Absolute Values">
       <div #map1></div>
@@ -9,7 +16,7 @@
   </mat-tab-group>
 </ng-template>
 
-<ng-container *ngIf="(null != dialogData) else componentTemplate">
+<ng-container *ngIf="null != dialogData; else componentTemplate">
   <app-base-dialog [data]="dialogData" [title]="title">
     <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
   </app-base-dialog>

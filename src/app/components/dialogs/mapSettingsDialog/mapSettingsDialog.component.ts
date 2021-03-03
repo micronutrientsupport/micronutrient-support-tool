@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 export interface ColourDialogData {
@@ -11,15 +11,24 @@ export interface ColourDialogData {
 })
 export class MapSettingsDialogComponent implements OnInit {
   public colour: string;
+  // public generalSelectionList: MatSelectionList;
+  public generalSelectionValue: Array<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
   ) {
     this.colour = this.data.dataIn.colour;
-    this.data.dataOut = 'colour';
   }
 
   ngOnInit(): void {
+  }
+
+  onGroupsChange(event) {
+    console.debug(event);
+  }
+
+  applyChanges() {
+    this.data.dataOut = this.generalSelectionValue[0];
   }
 
 }

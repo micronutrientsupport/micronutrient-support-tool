@@ -1,20 +1,31 @@
 <app-base-dialog>
   <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer [opened]="true" mode="side">
-      <mat-selection-list #list [multiple]="false">
+      <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
         <mat-list-option value="advanced">Advanced</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
     <div class="example-sidenav-content">
-      <div *ngIf="list.selectedOptions.selected[0]?.value === 'general'" class="color-box"
-        [ngStyle]="{'background-color': '#f03b20'}">
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>General</p>
+        <mat-selection-list [(ngModel)]="generalSelectionValue" (ngModelChange)="onGroupsChange($event)"
+          [multiple]="false">
+          <mat-list-option [selected] [value]="'redYellowGreen'"><span class="colour-option">RdYGn <span
+                class="colour-sample RdYGn"></span></span>
+          </mat-list-option>
+          <mat-list-option [value]="'redYellowBlue'"> <span class="colour-option">RdYBl <span
+                class="colour-sample RdYBl"></span></span></mat-list-option>
+        </mat-selection-list>
       </div>
-      <div *ngIf="list.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
         [ngStyle]="{'background-color': '#2ca25f'}">
         <p>Advanced</p>
+      </div>
+      <div class="button-wrapper">
+        <button mat-raised-button (click)="applyChanges()">Apply</button>
+        <button mat-raised-button (click)="data.close()">Close</button>
       </div>
     </div>
 

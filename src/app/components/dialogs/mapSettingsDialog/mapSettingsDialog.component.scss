@@ -6,12 +6,33 @@
 
 .example-sidenav-content {
   display: flex;
+  flex-direction: column;
   height: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   .color-box {
     height: 100px;
-    width: 100px;
+    width: 90%;
     padding: 20px;
+  }
+  .colour-option {
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+    .colour-sample {
+      width: 4em;
+      height: 2em;
+      &.RdYGn {
+        background: linear-gradient(0.25turn, red, yellow, green);
+      }
+      &.RdYBl {
+        background: linear-gradient(0.25turn, red, yellow, blue);
+      }
+    }
+  }
+  .button-wrapper {
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
   }
 }
