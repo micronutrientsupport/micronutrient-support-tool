@@ -25,8 +25,11 @@
       &.RdYGn {
         background: linear-gradient(0.25turn, red, yellow, green);
       }
-      &.RdYBl {
-        background: linear-gradient(0.25turn, red, yellow, blue);
+      &.PpBlGn {
+        background: linear-gradient(0.25turn, purple, blue, green);
+      }
+      &.colourBlind {
+        background: linear-gradient(0.25turn, purple, green, blue, yellow, magenta);
       }
     }
   }
