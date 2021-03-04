@@ -1,4 +1,4 @@
-<app-base-dialog>
+<app-base-dialog [data]="data">
   <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
@@ -14,7 +14,7 @@
           [(ngModel)]="generalSelectionValue" [multiple]="false">
           <!-- [selected]="colourGradientItem.colourGradient.value === currentSelection" -->
           <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
-            <span class="colour-option">{{colourGradientItem.colourGradient}} <span
+            <span class="colour-option">{{colourGradientItem.name}} <span
                 [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
           </mat-list-option>
         </mat-selection-list>

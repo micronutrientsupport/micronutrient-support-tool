@@ -8,6 +8,7 @@ export interface ColourDialogData {
   colourGradient: ColourGradientType;
 }
 export interface ColourGradientObject {
+  name: string;
   colourGradient: ColourGradientType;
 }
 
@@ -21,12 +22,15 @@ export class MapSettingsDialogComponent implements OnInit {
   public gradientList: Array<ColourGradientObject> = [
     {
       colourGradient: ColourGradientType.REDYELLOWGREEN,
+      name: 'RdYGn',
     },
     {
       colourGradient: ColourGradientType.PURPLEBLUEGREEN,
+      name: 'RdYBl',
     },
     {
       colourGradient: ColourGradientType.COLOURBLIND,
+      name: 'Colour Blind',
     }
   ];
 
