@@ -2,15 +2,11 @@
     <app-proj-desc></app-proj-desc>
     <app-proj-est></app-proj-est>
     <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-      <!-- Availability -->
-      <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjAvail'">
-        <app-proj-avail [card]="card"></app-proj-avail>
+      <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+        <!-- Availability -->
+        <app-proj-avail *ngSwitchCase="'widgetProjAvail'" [card]="card"></app-proj-avail>
+        <!-- Food Sources -->
+        <app-proj-food-sources *ngSwitchCase="'widgetProjFoodSources'" [card]="card"></app-proj-food-sources>
       </app-card>
-
-      <!-- Food Sources -->
-      <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetProjFoodSources'">
-        <app-proj-food-sources [card]="card"></app-proj-food-sources>
-      </app-card>
-
     </gridster-item>
   </gridster>
