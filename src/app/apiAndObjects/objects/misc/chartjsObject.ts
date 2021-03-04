@@ -1,4 +1,4 @@
-import { ChartData, ChartTooltipItem } from 'chart.js';
+import { ChartAnimationOptions, ChartData, ChartTooltipItem } from 'chart.js';
 import { TopFoodSource } from '../topFoodSource';
 
 export interface ChartJSObject {
@@ -22,6 +22,7 @@ export interface ChartJSObject {
     }>;
   };
   options?: {
+    animation?: ChartAnimationOptions;
     maintainAspectRatio?: boolean;
     responsive?: boolean;
     legend?: {

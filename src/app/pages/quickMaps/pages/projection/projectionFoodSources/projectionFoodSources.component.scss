@@ -1,6 +1,6 @@
 // @import 'src/assets/scss/_colour';
 
-.yearSelectPanel {
+.container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -17,5 +17,16 @@
     &.wideItem {
       flex-grow: 2;
     }
+
+    &.downloadOption {
+      background-color: white;
+      padding: 10px;
+    }
   }
+}
+.chartRenderScreenshot {
+  display: block;
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: fill;
 }

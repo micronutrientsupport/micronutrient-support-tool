@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   ViewChild,
   OnInit,
+  ElementRef,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -84,6 +85,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   ];
   // tslint:disable-next-line: no-inferrable-types
   public currentYearId: number = 0;
+  public projectedFoodSourceChartImagePNGSrc: string;
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -119,7 +121,12 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // setInterval(() => {
+    //   console.log('checking var: ', this.projectedFoodSourceChartImagePNGSrc);
+    // }, 500);
+  }
+
   ngAfterViewInit(): void {
     void this.miscApiService
       .getImpactScenarios()
@@ -318,6 +325,21 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         ],
       },
       options: {
+        // animation: {
+        //   onComplete(animation): void {
+        //     const imageBase64 = this.toBase64Image();
+        //     console.log('saving base src');
+        //     this.projectedFoodSourceChartImagePNGSrc = imageBase64;
+        //   setTimeout(() => {
+        //     document.querySelector('#imageOfChartPNG').setAttribute('src', imageBase64);
+        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('href', imageBase64);
+        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('download', 'download.png');
+        //     document.querySelector('#imageOfChartSVG').setAttribute('src', imageBase64);
+        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('href', imageBase64);
+        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('download', 'download.svg');
+        //   }, 1000);
+        // },
+        // },
         maintainAspectRatio: false,
         scales: {
           xAxes: [

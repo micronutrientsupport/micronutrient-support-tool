@@ -2,7 +2,7 @@
   <mat-tab-group mat-align-tabs="center">
 
     <mat-tab label="Chart">
-      <div class="yearSelectPanel">
+      <div class="container">
         <div class="item wideItem">
           Food sources for Calcium grouped by
         </div>
@@ -34,7 +34,7 @@
     </mat-tab>
 
     <mat-tab label="Table">
-      <div class="yearSelectPanel">
+      <div class="container">
         <div class="item wideItem">
           Food sources for Calcium grouped by
         </div>
@@ -89,7 +89,21 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Download"></mat-tab>
+    <mat-tab label="Download">
+      <!-- <div class="container">
+        <div class="item downloadOption">
+          <img class="chartRenderScreenshot" id="imageOfChartPNG" [src]="projectedFoodSourceChartImagePNGSrc">
+          <a id="chartRenderDownloadPNGButton" mat-stroked-button [href]="">Download PNG</a>
+        </div>
+        <div class="item downloadOption">
+          <img class="chartRenderScreenshot" id="imageOfChartSVG" [src]="projectedFoodSourceChartImagePNGSrc">
+          <a id="chartRenderDownloadSVGButton" mat-stroked-button [href]="">Download SVG</a>
+        </div>
+        <div class="item downloadOption">
+          image download
+        </div>
+      </div> -->
+    </mat-tab>
   </mat-tab-group>
 </ng-template>
 
