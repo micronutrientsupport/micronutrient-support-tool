@@ -7,9 +7,7 @@ import {
   Component,
   AfterViewInit,
   ViewChild,
-  OnInit,
 } from '@angular/core';
-
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { CurrentDataService } from 'src/app/services/currentData.service';
@@ -22,7 +20,6 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
