@@ -7,7 +7,12 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+interface InterfaceTimeMass {
+  id: string;
+  name: string;
+  value: number;
+}
 
 @Component({
   selector: 'app-proj-est',
@@ -15,12 +20,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./projectionEstimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class ProjectionEstimateComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public countriesDictionary: Dictionary;
-  public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
@@ -29,13 +33,13 @@ export class ProjectionEstimateComponent {
 
   public projectionEstimateForm: FormGroup;
 
-  public massArray = [
+  public massArray: InterfaceTimeMass[] = [
     { id: '1', name: 'mcg', value: 1000 },
     { id: '2', name: 'mg', value: 1 },
     { id: '3', name: 'g', value: 0.001 },
     { id: '4', name: 'kg', value: 0.00001 },
   ];
-  public timeScaleArray = [
+  public timeScaleArray: InterfaceTimeMass[] = [
     { id: '1', name: 'day', value: 1 },
     { id: '2', name: 'week', value: 7 },
     { id: '3', name: 'month', value: 30.4167 },
@@ -73,11 +77,11 @@ export class ProjectionEstimateComponent {
       timeScale: this.timeScaleArray[2],
     });
 
-    this.projectionEstimateForm.get('mass').valueChanges.subscribe(itemMass => {
+    this.projectionEstimateForm.get('mass').valueChanges.subscribe((itemMass: InterfaceTimeMass) => {
       this.mass = itemMass.value;
       this.calculate();
     });
-    this.projectionEstimateForm.get('timeScale').valueChanges.subscribe(itemTime => {
+    this.projectionEstimateForm.get('timeScale').valueChanges.subscribe((itemTime: InterfaceTimeMass) => {
       console.log(itemTime);
       this.timeScale = itemTime.value;
       this.calculate();
