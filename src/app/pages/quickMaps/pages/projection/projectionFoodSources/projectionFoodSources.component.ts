@@ -7,6 +7,7 @@ import {
   Inject,
   AfterViewInit,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -28,6 +29,7 @@ import { MatSort } from '@angular/material/sort';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { isNgTemplate } from '@angular/compiler';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-proj-food-sources ',
@@ -35,19 +37,23 @@ import { isNgTemplate } from '@angular/compiler';
   styleUrls: ['../../expandableTabGroup.scss', './projectionFoodSources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionFoodSourcesComponent implements AfterViewInit {
+export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    if (this.dataSource) {
+      this.dataSource.sort = this.sort;
+    }
+  }
 
   @Input() card: CardComponent;
 
-  public title = 'Projection Food Sources';
+  public title = 'Projection Food Sources for Calcium';
 
   public chartData: ChartJSObject;
-  public displayedColumns = ['2005'];
-  // public displayedColumns = ['2005', '2010', '2015', '2020', '2025', '2030', '2035', '2040', '2045', '2050'];
+  public displayedColumns = ['Name', 'Value'];
   public dataSource = new MatTableDataSource();
-
+  private sort: MatSort;
   private data: Array<ProjectedFoodSourcesData>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -56,6 +62,28 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
   public selectedCountry: string;
   public currentImpactScenario: ImpactScenario;
+  public projectionFoodFormGroup: FormGroup;
+  public groupByOptions = [
+    { id: 'commodity', name: 'commodity' },
+    { id: 'foodGroup', name: 'food group' },
+  ];
+  public scenarioOptions = [
+    { id: 'SSP1', name: 'SSP1' },
+    { id: 'SSP2', name: 'SSP2' },
+    { id: 'SSP3', name: 'SSP3' },
+  ];
+  public yearOptions = [
+    { id: '2005', name: '2005' },
+    { id: '2010', name: '2010' },
+    { id: '2015', name: '2015' },
+    { id: '2020', name: '2020' },
+    { id: '2025', name: '2025' },
+    { id: '2030', name: '2030' },
+    { id: '2035', name: '2035' },
+    { id: '2040', name: '2040' },
+    { id: '2045', name: '2045' },
+    { id: '2050', name: '2050' },
+  ];
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -63,42 +91,67 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
+    private fb: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
   ) {
-    void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      this.currentImpactScenario = result.find((o) => o.isBaseline === true);
+    this.projectionFoodFormGroup = this.fb.group({
+      groupedBy: 'commodity',
+      scenario: 'SSP1',
+      year: '2005',
+    });
+    this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
+      // change
+    });
+    this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
+      // change
+    });
+    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: string) => {
+      // change
     });
   }
 
+  ngOnInit(): void {}
   ngAfterViewInit(): void {
-    // if displayed within a card component init interactions with the card
-    if (null != this.card) {
-      this.card.title = this.title;
-      this.card.showExpand = true;
-      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+    void this.miscApiService
+      .getImpactScenarios()
+      .then((result: Array<ImpactScenario>) => {
+        this.currentImpactScenario = result.find((o) => o.isBaseline === true);
+        this.projectionFoodFormGroup.patchValue({
+          scenario: this.currentImpactScenario.name,
+        });
+      })
+      .then(() => {
+        // if displayed within a card component init interactions with the card
+        if (null != this.card) {
+          this.card.title = this.title;
+          this.card.showExpand = true;
+          this.card
+            .setLoadingObservable(this.loadingSrc.asObservable())
+            .setErrorObservable(this.errorSrc.asObservable());
 
-      // this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+          // this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
-      // respond to parameter updates
-      this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
-      this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(
-            this.currentDataService.getProjectedFoodSourceData(
-              this.quickMapsService.countryId,
-              [this.quickMapsService.micronutrientId],
-              this.quickMapsService.popGroupId,
-              this.quickMapsService.mndDataId,
-            ),
+          // respond to parameter updates
+          this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
+          this.subscriptions.push(
+            this.quickMapsService.parameterChangedObs.subscribe(() => {
+              this.init(
+                this.currentDataService.getProjectedFoodSourceData(
+                  this.quickMapsService.countryId,
+                  [this.quickMapsService.micronutrientId],
+                  this.quickMapsService.popGroupId,
+                  this.quickMapsService.mndDataId,
+                ),
+              );
+            }),
           );
-        }),
-      );
-    } else if (null != this.dialogData) {
-      // if displayed within a dialog use the data passed in
-      // this.init(Promise.resolve(this.dialogData.dataIn.data));
-      // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
-      // this.cdr.detectChanges();
-    }
+        } else if (null != this.dialogData) {
+          // if displayed within a dialog use the data passed in
+          // this.init(Promise.resolve(this.dialogData.dataIn.data));
+          // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+          // this.cdr.detectChanges();
+        }
+      });
   }
 
   private init(dataPromise: Promise<Array<ProjectedFoodSourcesData>>): void {
@@ -123,9 +176,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
         // Filter by year and populate the array of objects
         const filteredData = new Array<ProjectedFoodSourcesPeriod>();
-        const filteredTableData = new Array<ProjectedFoodSourcesTable>();
+        const filteredTableDataArray = [];
+
         const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
         quinquennialPeriod.forEach((currentYear) => {
+          const filteredTableData = new Array<ProjectedFoodSourcesTable>();
+
           // Populate data for chart.js
           filteredData.push({
             year: currentYear,
@@ -163,9 +219,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
           //  Populate data for Tablet
           const foodTypes = [...new Set(data.map((item) => item.commodity))];
-          // console.log('foodtypes: ', foodTypes);
+
           foodTypes.forEach((thing, index) => {
-            // console.log(thing);
             filteredTableData.push({
               year: currentYear,
               foodName: foodTypes[index],
@@ -175,9 +230,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
                 .map((item) => item.value)[0],
             });
           });
+          filteredTableDataArray.push(filteredTableData);
         });
-
-        // console.log(filteredTableData);
 
         this.errorSrc.next(false);
         this.chartData = null;
@@ -187,7 +241,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.initialiseGraph(filteredData);
 
         // show table and init paginator and sorter
-        this.initialiseTable(filteredTableData);
+        this.initialiseTable(filteredTableDataArray);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -200,9 +254,14 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   private initialiseTable(data: Array<ProjectedFoodSourcesTable>): void {
-    this.dataSource = new MatTableDataSource(data);
+    const flatten = (arr) =>
+      arr.reduce((a, b) => {
+        return a.concat(Array.isArray(b) ? flatten(b) : b);
+      }, []);
+    const flattenedData = flatten([data[0]]);
+    console.log('flat data: ', flattenedData);
+    this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource.data);
   }
 
   private initialiseGraph(data: Array<ProjectedFoodSourcesPeriod>): void {

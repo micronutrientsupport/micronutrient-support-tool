@@ -1,1 +1,21 @@
 // @import 'src/assets/scss/_colour';
+
+.yearSelectPanel {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: baseline;
+  height: auto !important;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .item {
+    flex-grow: 1;
+    // flex: 1;
+    margin: 5px;
+
+    &.wideItem {
+      flex-grow: 2;
+    }
+  }
+}

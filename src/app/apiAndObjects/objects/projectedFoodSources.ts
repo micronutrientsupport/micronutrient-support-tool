@@ -45,6 +45,13 @@ export interface ProjectedFoodSourcesTable {
   value: number;
 }
 
+// export interface ProjectedFoodSourcesTable {
+//   [year: number]: {
+//   foodName: string;
+//   value: number;
+//   };
+// }
+
 import { BaseObject } from '../_lib_code/objects/baseObject';
 
 export class ProjectedFoodSourcesData extends BaseObject {
