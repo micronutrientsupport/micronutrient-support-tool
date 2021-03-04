@@ -4,6 +4,10 @@ export class MicronutrientDataOption extends BaseObject {
   public static readonly KEYS = {
     ID: 'id',
     NAME: 'name',
+    // COUNTRY_ID: 'countryId', // needed? if so we might grab the dictionary item.
+    CONSUMPTION_DATA_TYPE: 'consumptionDataType',
+    CONSUMPTION_DATA_ID: 'consumptionDataId',
+    COMPOSITION_DATA_ID: 'compositionDataId',
   };
 
   public readonly id: string;

@@ -1,25 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetMicronutrientDataOptions extends CacheableEndpoint<
-Array<MicronutrientDataOption>,
-GetMicronutrientDataOptionsParams,
-MicronutrientDataOption
-> {
+  Array<MicronutrientDataOption>,
+  GetMicronutrientDataOptionsParams,
+  MicronutrientDataOption
+  > {
 
   protected getCacheKey(params: GetMicronutrientDataOptionsParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<Array<MicronutrientDataOption>> {
-    throw new Error('Method not implemented.');
-    // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
-    //   'country-or-group-id': params.countryOrGroupId,
-    //   'micronutrient-id': params.micronutrientId,
-    //   'poulationGroup-id': params.poulationGroupId,
-    // });
+  protected callLive(
+    params: GetMicronutrientDataOptionsParams,
+  ): Promise<Array<MicronutrientDataOption>> {
+    const callResponsePromise = this.apiCaller.doCall([
+      'data-source',
+      params.countryOrGroupId,
+      (true) ? 'diet' : 'biomarker', //TODO
+    ],
+      RequestMethod.GET,
+    ).then((data: Array<Record<string, unknown>>) => {
+      // returned options don't have ids, so set one here to help internally
+      data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf())
+    });
 
-    // return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
 
   protected callMock(
@@ -39,4 +46,5 @@ export interface GetMicronutrientDataOptionsParams {
   micronutrientIds: Array<string>;
   populationGroupId: string;
   singleOptionOnly: boolean;
+  // dietOrBiomarker?: ????
 }

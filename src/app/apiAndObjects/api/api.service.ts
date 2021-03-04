@@ -24,7 +24,7 @@ export class ApiService extends BaseApi {
 
   public readonly endpoints = {
     currentData: {
-      getMicronutrientDataOptions: new GetMicronutrientDataOptions(false),
+      getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
       getSubRegionData: new GetSubRegionData(false),
       getDietarySources: new GetDietarySources(false),
       getTopFood: new GetTopFood(false),
