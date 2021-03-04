@@ -1,26 +1,29 @@
 <div class="container">
-  <div class="item">
+  <div class="wideItem left-text">
     <div class="nation">
       <span class="estimateHeader">Estimate (2010):</span>
       <span class="estimateValue blue">{{currentEstimateCalc | number: '1.1-5'}}</span>
-      <small>(kg per year)</small>
+      <small>({{massName}} per {{timeScaleName}})</small>
     </div>
-  </div>
-  <div class="item">
+
+
     <div class="vitamin">
       <span class="estimateHeader">Target:</span>
       <span class="estimateValue green">{{targetCalc | number: '1.1-5'}}</span>
-      <small>(kg per year)</small>
+      <small>({{massName}} per {{timeScaleName}})</small>
     </div>
-  </div>
-  <div class="item">
+
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
-      <span class="estimateValue" [ngClass]="(diferrence < 0)? 'red': 'green'">{{diferrence | number: '1.1-2'}}%</span>
+      <span class="estimateValue" [ngClass]="(diferrencePercentage < 0)? 'red': 'green'">{{diferrencePercentage |
+        number:'1.1-2'}}%
+        <i class="fas fa-question-circle margin-left"
+          matTooltip="{{diferrenceQuantity}} {{massName}} per {{timeScaleName}}" style="color: grey;"></i>
+      </span>
     </div>
   </div>
 
-  <form [formGroup]="projectionEstimateForm" class="item wideItem">
+  <form [formGroup]="projectionEstimateForm" class="wideItem form">
 
     <mat-form-field appearance="outline" aria-label="amount" class="width-quantity">
       <mat-label>Quantity</mat-label>
@@ -44,10 +47,13 @@
 
   </form>
 
-  <div class="item wideItem">
-    <span>'Business as usual' to reach target in &nbsp;<strong>2021</strong></span>
-    <i class="fas fa-question-circle margin-left" matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
+  <div class="wideItem right-text">
+    <span>
+      'Business as usual' to reach target in &nbsp;
+      <strong>2021</strong>
+      <i class="fas fa-question-circle margin-left" matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
       per capita consumption of {{vitaminName}} is expected to reach recommended levels by 2021."
-      style="color: grey;"></i>
+        style="color: grey;"></i>
+    </span>
   </div>
 </div>

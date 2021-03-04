@@ -17,6 +17,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -39,6 +40,7 @@ import { BaselineDescriptionComponent } from './baselineDescription/baselineDesc
     GridsterModule,
     ComponentsModule,
     DialogModule,
+    RouterModule,
   ],
 })
-export class BaselineDetailsModule {}
+export class BaselineDetailsModule { }

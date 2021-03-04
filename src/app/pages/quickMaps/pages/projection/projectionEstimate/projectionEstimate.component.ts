@@ -25,12 +25,14 @@ export class ProjectionEstimateComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public countriesDictionary: Dictionary;
+  public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
   public error = false;
+  public countryName = '';
   public vitaminName = '';
-
   public projectionEstimateForm: FormGroup;
 
   public massArray: InterfaceTimeMass[] = [
@@ -53,13 +55,17 @@ export class ProjectionEstimateComponent {
   currentEstimateCalc = this.apiResponseEstimate;
   mass = 1;
   timeScale = 1;
-  diferrence = ((this.currentEstimate - this.target) / this.target) * 100;
+  timeScaleName = 'day';
+  massName = 'mg';
+  diferrencePercentage = ((this.currentEstimate - this.target) / this.target) * 100;
+  diferrenceQuantity = this.currentEstimate - this.target;
 
   constructor(
     public quickMapsService: QuickMapsService,
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
+
   ) {
     void this.dictionaryService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
@@ -79,11 +85,13 @@ export class ProjectionEstimateComponent {
 
     this.projectionEstimateForm.get('mass').valueChanges.subscribe((itemMass: InterfaceTimeMass) => {
       this.mass = itemMass.value;
+      this.massName = itemMass.name;
       this.calculate();
     });
     this.projectionEstimateForm.get('timeScale').valueChanges.subscribe((itemTime: InterfaceTimeMass) => {
       console.log(itemTime);
       this.timeScale = itemTime.value;
+      this.timeScaleName = itemTime.name;
       this.calculate();
     });
 
@@ -91,8 +99,9 @@ export class ProjectionEstimateComponent {
 
   public calculate(): void {
     const totalMultiplier = this.mass * this.timeScale;
-    console.log('multiplier', totalMultiplier);
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
+    this.diferrenceQuantity *= totalMultiplier;
   }
 }
+
