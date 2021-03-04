@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
@@ -142,7 +143,7 @@ export class SideNavContentComponent implements OnInit {
 
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    const microNutrient = this.micronutrientsDictionary.getItem(this.quickMapsService.micronutrientId);
+    const microNutrient = this.micronutrientsDictionary.getItem<MicronutrientDictionaryItem>(this.quickMapsService.micronutrientId);
     const popGroup = this.popGroupOptions.find((item) => item.id === this.quickMapsService.popGroupId);
 
     if ((null != country)
@@ -152,8 +153,7 @@ export class SideNavContentComponent implements OnInit {
       void this.currentDataService
         .getMicronutrientDataOptions(
           country,
-          [microNutrient],
-          popGroup,
+          MicronutrientMeasureType.DIET, //TODO: temp hardcooded, replace after dan code merge
           true,
         )
         .then((options: Array<MicronutrientDataOption>) => {

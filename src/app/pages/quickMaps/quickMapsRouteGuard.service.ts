@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -113,8 +114,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
           } else {
             return this.currentDataService.getMicronutrientDataOptions(
               QuickMapsQueryParams.getCountryId(route),
-              [QuickMapsQueryParams.getMicronutrientId(route)],
-              QuickMapsQueryParams.getPopGroupId(route),
+              MicronutrientMeasureType.DIET, //TODO: temp hardcooded, replace after dan code merge
               true,
             ).then((options: Array<MicronutrientDataOption>) => {
               let valid = false;

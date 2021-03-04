@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -15,15 +16,12 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
   protected callLive(
     params: GetMicronutrientDataOptionsParams,
   ): Promise<Array<MicronutrientDataOption>> {
-    const callResponsePromise = this.apiCaller.doCall([
-      'data-source',
-      params.countryOrGroupId,
-      (true) ? 'diet' : 'biomarker', //TODO
-    ],
+    const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroupId, params.measureType],
       RequestMethod.GET,
     ).then((data: Array<Record<string, unknown>>) => {
       // returned options don't have ids, so set one here to help internally
-      data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf())
+      data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
+      return data;
     });
 
     return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
@@ -43,8 +41,6 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
 
 export interface GetMicronutrientDataOptionsParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
-  populationGroupId: string;
+  measureType: MicronutrientMeasureType;
   singleOptionOnly: boolean;
-  // dietOrBiomarker?: ????
 }
