@@ -1,10 +1,10 @@
-.example-container {
+.settings-container {
   width: 40vw;
   height: 50vh;
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-.example-sidenav-content {
+.sidenav-content {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -38,5 +38,8 @@
     width: 25%;
     display: flex;
     justify-content: space-between;
+    button {
+      margin: 5px;
+    }
   }
 }

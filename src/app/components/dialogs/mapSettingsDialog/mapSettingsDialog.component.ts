@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
 import { DialogData } from '../baseDialogService.abstract';
@@ -26,18 +25,13 @@ export class MapSettingsDialogComponent implements OnInit {
     },
     {
       colourGradient: ColourGradientType.PURPLEBLUEGREEN,
-      name: 'RdYBl',
+      name: 'PpBlGn',
     },
     {
       colourGradient: ColourGradientType.COLOURBLIND,
       name: 'Colour Blind',
     }
   ];
-
-  public settingsForm = new FormGroup({
-    generalColourSelection: new FormControl('',
-      [Validators.required]),
-  });
 
   public generalSelectionValue = new Array<string>();
 
@@ -49,12 +43,11 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.debug(this.createNewArray());
   }
 
   public applyChanges(): void {
     this.data.dataOut = this.generalSelectionValue[0];
-    this.settingsForm.markAsPristine();
+    this.data.close();
   }
 
 }

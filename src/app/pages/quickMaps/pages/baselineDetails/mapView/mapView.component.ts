@@ -267,9 +267,9 @@ export class MapViewComponent implements AfterViewInit {
     this.LegendThreshold.addTo(this.thresholdMap);
   }
 
-  private triggerFitBounds(index: number): void {
-    this.tabVisited.set(index, true);
-    switch (index) {
+  private triggerFitBounds(tabIndex: number): void {
+    this.tabVisited.set(tabIndex, true);
+    switch (tabIndex) {
       case 0:
         this.absoluteMap.fitBounds(this.areaBounds);
         break;
