@@ -57,8 +57,8 @@
         style="color: grey;"></i>
     </span>
     <span>
-      <a [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route" [queryParams]="route.queryParams | async"
-        routerLinkActive="active-route" class="explore-projection-text">
+      <a id="explore-projection-link" [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"
+        [queryParams]="route.queryParams | async" routerLinkActive="active-route" class="explore-projection-text">
         Explore projections <i class="fas fa-arrow-right"></i>
       </a>
     </span>
