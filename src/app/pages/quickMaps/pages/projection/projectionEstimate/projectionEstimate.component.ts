@@ -73,8 +73,8 @@ export class ProjectionEstimateComponent {
         });
       });
     this.projectionEstimateForm = this.fb.group({
-      mass: this.massArray[2],
-      timeScale: this.timeScaleArray[2],
+      mass: this.massArray[1],
+      timeScale: this.timeScaleArray[0],
     });
 
     this.projectionEstimateForm.get('mass').valueChanges.subscribe((itemMass: InterfaceTimeMass) => {
