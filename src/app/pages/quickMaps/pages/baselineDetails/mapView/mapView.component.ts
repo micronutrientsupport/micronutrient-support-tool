@@ -75,11 +75,15 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {
+  }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+
+    const retrievedObject = localStorage.getItem('defaultColourScheme');
+    this.defaultColourScheme = retrievedObject as ColourGradientType;
 
     if (this.defaultColourScheme == null) {
       this.defaultColourScheme = ColourGradientType.REDYELLOWGREEN;
@@ -99,6 +103,7 @@ export class MapViewComponent implements AfterViewInit {
             if (data.dataOut !== {}) {
               this.changeColourRamp(data.dataOut);
               this.defaultColourScheme = data.dataOut as ColourGradientType;
+              localStorage.setItem('defaultColourScheme', this.defaultColourScheme);
             }
           });
       });
@@ -318,7 +323,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(feat.properties.mnAbsolute, null, ColourGradientType.REDYELLOWGREEN)).addTo(this.absoluteMap);
+      this.getColourRange(feat.properties.mnAbsolute, null, this.defaultColourScheme)).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
 
@@ -331,7 +336,7 @@ export class MapViewComponent implements AfterViewInit {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getColourRange(value + 1, null, ColourGradientType.REDYELLOWGREEN)};
+          ${this.getColourRange(value + 1, null, this.defaultColourScheme)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>${range[i + 1] ? value : '>1500mg'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
@@ -353,7 +358,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(null, feat.properties.mnThreshold, ColourGradientType.REDYELLOWGREEN)).addTo(this.thresholdMap);
+      this.getColourRange(null, feat.properties.mnThreshold, this.defaultColourScheme)).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
@@ -366,7 +371,7 @@ export class MapViewComponent implements AfterViewInit {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
             <span style="background-color:
-            ${this.getColourRange(null, value + 1, ColourGradientType.REDYELLOWGREEN)};
+            ${this.getColourRange(null, value + 1, this.defaultColourScheme)};
              height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
           `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
