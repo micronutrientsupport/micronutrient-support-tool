@@ -61,12 +61,17 @@ export class AppRoutes {
   };
   public static readonly QUICK_MAPS_BASELINE = {
     ...BASE_ROUTE,
-    segments: 'baseline',
+    segments: 'diet/baseline',
     parent: AppRoutes.QUICK_MAPS,
   };
   public static readonly QUICK_MAPS_PROJECTION = {
     ...BASE_ROUTE,
-    segments: 'projection',
+    segments: 'diet/projection',
+    parent: AppRoutes.QUICK_MAPS,
+  };
+  public static readonly QUICK_MAPS_BIOMARKER = {
+    ...BASE_ROUTE,
+    segments: 'biomarker',
     parent: AppRoutes.QUICK_MAPS,
   };
   // *** quick maps end ***

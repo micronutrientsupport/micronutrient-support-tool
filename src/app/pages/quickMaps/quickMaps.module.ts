@@ -14,8 +14,14 @@ import { RoutesModule } from 'src/app/routes/routes.module';
 import { QuickMapsComponent } from './quickMaps.component';
 import { BaselineDetailsModule } from './pages/baselineDetails/baselineDetails.module';
 import { ProjectionModule } from './pages/projection/projection.module';
+import { BaselineBiomarkerComponent } from './pages/biomarkers/baseline/baselineBiomarker.component';
 @NgModule({
-  declarations: [QuickMapsComponent, LocationSelectComponent, SideNavContentComponent, QuickMapsHeaderComponent],
+  declarations: [
+    QuickMapsComponent,
+    LocationSelectComponent,
+    SideNavContentComponent,
+    QuickMapsHeaderComponent,
+    BaselineBiomarkerComponent],
   imports: [
     CommonModule,
     QuickMapsRoutingModule,
@@ -30,4 +36,4 @@ import { ProjectionModule } from './pages/projection/projection.module';
   ],
   providers: [QuickMapsService],
 })
-export class QuickMapsModule {}
+export class QuickMapsModule { }
