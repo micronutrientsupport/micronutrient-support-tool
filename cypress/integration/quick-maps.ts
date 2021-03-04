@@ -34,9 +34,9 @@ describe('Quick Map Tests', () => {
     cy.wait(3000);
     populateSelectValues();
 
-    cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true, multiple: true });
+    cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
 
-    cy.get('[ng-reflect-router-link="/quick-maps/projection"]').click({ force: true, multiple: true });
+    cy.get('[ng-reflect-router-link="/quick-maps/projection"]').click({ force: true });
 
     cy.get('app-quickmaps-projection').should('be.visible');
   });
