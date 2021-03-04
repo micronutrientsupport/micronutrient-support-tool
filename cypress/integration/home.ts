@@ -1,10 +1,6 @@
 /// <reference types="Cypress" />
 
 describe('Homepage Tests', () => {
-  it('renders MAPS homepage without crashing', () => {
-    cy.visit('/');
-    cy.get('#headerTitleText').contains('MAPS');
-  });
 
   it('loads the home page sharing dialog', () => {
     cy.visit('/');

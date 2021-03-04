@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+
+// eslint-disable-next-line no-shadow
+enum BaselineWidgets {
+  MAP = 'widgetMap',
+  MONTHLY = 'widgetMonthly',
+  TOP_FOOD = 'widgetTopFood',
+  CHART = 'widgetChart',
+}
 
 @Component({
   selector: 'app-baseline-details',
@@ -9,15 +18,36 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaselineDetailsComponent implements OnInit {
+
+  public WIDGETS = BaselineWidgets;
   public options: GridsterConfig;
-  public dashboard: Array<GridsterItem>;
+  public dashboard = new Array<GridsterItem>();
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickmapsService: QuickMapsService) {}
+  private readonly defaultWidgetHeight = 4;
+  private readonly defaultWidgetWidth = 6;
+
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<BaselineWidgets>> = new Map([
+    [DataLevel.COUNTRY, [
+      BaselineWidgets.MAP,
+      BaselineWidgets.TOP_FOOD,
+    ]],
+    [DataLevel.HOUSEHOLD, [
+      BaselineWidgets.MAP,
+      BaselineWidgets.MONTHLY,
+      BaselineWidgets.TOP_FOOD,
+      BaselineWidgets.CHART,
+      BaselineWidgets.CHART,
+    ]],
+  ]);
+
+  constructor(
+    public quickmapsService: QuickMapsService,
+  ) { }
 
   ngOnInit(): void {
     this.options = {
@@ -74,26 +104,52 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
-    const defaultHeight = 4;
-    const defaultWidth = 6;
-
-    this.dashboard = [
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetChart' },
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: defaultHeight, type: 'widgetMonthly' },
-      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: 0, type: 'widgetTopFood' },
-      { cols: defaultWidth, rows: defaultHeight, y: defaultHeight, x: defaultWidth, type: 'widgetMap' },
-    ];
+    this.quickmapsService.dataLevelObs.subscribe((level: DataLevel) => {
+      this.setDataLevel(level);
+    });
   }
 
-  public changedOptions(): void {
-    this.options.api.optionsChanged();
+  private setDataLevel(level: DataLevel): void {
+    if (null != level) {
+      const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
+
+      // remove any not needed
+      this.dashboard.slice().forEach(thisWidget => {
+        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
+          this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
+        }
+      });
+      // reset size and position of currrent items
+      // Maybe not ideal how this alters the user set size and position of widgets
+      // that have persisted, but what's the alternative?
+      // It does ensure a uniform view at init/data level change.
+      this.dashboard.forEach((thisWidget: GridsterItem, index: number) => {
+        this.resetItemPositionAndSize(thisWidget, index);
+      });
+
+      // add any new widgets
+      newWidgetsTypes.forEach(widgetType => {
+        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
+          this.dashboard.push(
+            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
+          );
+        }
+      });
+      this.changedOptions();
+    }
   }
 
-  public removeItem(item: GridsterItem): void {
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
+  private resetItemPositionAndSize(item: GridsterItem, index: number): GridsterItem {
+    item.cols = this.defaultWidgetWidth;
+    item.rows = this.defaultWidgetHeight;
+    item.x = (index % 2) * this.defaultWidgetWidth;
+    item.y = Math.floor(index / 2) * this.defaultWidgetHeight;
+    return item;
   }
 
-  public addItem(): void {
-    this.dashboard.push();
+  private changedOptions(): void {
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }

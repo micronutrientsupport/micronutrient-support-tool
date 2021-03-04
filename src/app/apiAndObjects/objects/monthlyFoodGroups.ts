@@ -16,36 +16,31 @@ export class MonthlyFoodGroups extends BaseObject {
     NOV: 'nov',
     DEC: 'dec',
   };
-  public static readonly KEYS = {
-    ...MonthlyFoodGroups.MONTH_KEYS,
-  };
 
-  public jan: MonthlyFoodGroup;
-  public feb: MonthlyFoodGroup;
-  public mar: MonthlyFoodGroup;
-  public apr: MonthlyFoodGroup;
-  public may: MonthlyFoodGroup;
-  public jun: MonthlyFoodGroup;
-  public jul: MonthlyFoodGroup;
-  public aug: MonthlyFoodGroup;
-  public sep: MonthlyFoodGroup;
-  public oct: MonthlyFoodGroup;
-  public nov: MonthlyFoodGroup;
-  public dec: MonthlyFoodGroup;
+  public readonly jan: MonthlyFoodGroup;
+  public readonly feb: MonthlyFoodGroup;
+  public readonly mar: MonthlyFoodGroup;
+  public readonly apr: MonthlyFoodGroup;
+  public readonly may: MonthlyFoodGroup;
+  public readonly jun: MonthlyFoodGroup;
+  public readonly jul: MonthlyFoodGroup;
+  public readonly aug: MonthlyFoodGroup;
+  public readonly sep: MonthlyFoodGroup;
+  public readonly oct: MonthlyFoodGroup;
+  public readonly nov: MonthlyFoodGroup;
+  public readonly dec: MonthlyFoodGroup;
 
-  public all = new Array<MonthlyFoodGroup>();
+  public readonly all = new Array<MonthlyFoodGroup>();
 
-  public static makeItemFromObject(source: Record<string, unknown>): MonthlyFoodGroups {
-    return super.makeItemFromObject(source) as MonthlyFoodGroups;
-  }
+  protected constructor(
+    sourceObject?: Record<string, unknown>,
+  ) {
+    super(sourceObject);
 
-  protected populateValues(): void {
-    void super.populateValues();
+    this.all = Object.values(MonthlyFoodGroups.MONTH_KEYS).map((monthKey: string, index: number) =>
+      MonthlyFoodGroup.makeFromObject(monthKey, index + 1, this._getValue(monthKey) as Record<string, unknown>)
+    );
 
-    Object.values(MonthlyFoodGroups.MONTH_KEYS).forEach((monthKey: string, index: number) => {
-      const group = MonthlyFoodGroup.makeFromObject(monthKey, index + 1, this._getValue(monthKey) as Record<string, unknown>);
-      this.all.push(group);
-    });
     const clone = this.all.slice();
     this.jan = clone.shift();
     this.feb = clone.shift();

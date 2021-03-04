@@ -1,4 +1,6 @@
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { EnumTools } from 'src/utility/enumTools';
 
 export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {
@@ -6,6 +8,7 @@ export class QuickMapsQueryParams {
     MICRONUTRIENT_ID: 'mnd-id',
     POP_GROUP_ID: 'pop-group-id',
     MICRONUTRIENT_DATASET: 'dataset-id',
+    DATA_LEVEL: 'data-level',
   };
 
   public static getCountryId(route: ActivatedRouteSnapshot): string {
@@ -24,6 +27,10 @@ export class QuickMapsQueryParams {
     return route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET);
   }
 
+  public static getDataLevel(route: ActivatedRouteSnapshot): DataLevel {
+    const value = route.queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL);
+    return EnumTools.getEnumFromValue<DataLevel>(value, DataLevel);
+  }
 
   public static setQueryParams(router: Router, activatedRoute: ActivatedRoute, params: Record<string, string | Array<string>>): void {
     // console.debug('setQueryParams', params);

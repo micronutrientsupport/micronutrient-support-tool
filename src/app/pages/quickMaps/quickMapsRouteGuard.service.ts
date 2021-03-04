@@ -36,7 +36,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     promises.push(this.isValidCountry(route));
     promises.push(this.isValidMicronutrients(route));
     promises.push(this.isValidPopGroup(route));
-    promises.push(this.isValidMndsData(route));
+    promises.push(this.isValidMndsDataAndDataLevel(route));
     // break;
     //   default:
     //     promises.push(Promise.resolve(true));
@@ -98,7 +98,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         });
   }
 
-  private isValidMndsData(route: ActivatedRouteSnapshot): Promise<boolean> {
+  private isValidMndsDataAndDataLevel(route: ActivatedRouteSnapshot): Promise<boolean> {
     const mndsData = QuickMapsQueryParams.getMndsDataId(route);
     // console.debug('isValidMndsData', mndsData, route.paramMap);
     return (null == mndsData)
@@ -116,7 +116,22 @@ export class QuickMapsRouteGuardService implements CanActivate {
               [QuickMapsQueryParams.getMicronutrientId(route)],
               QuickMapsQueryParams.getPopGroupId(route),
               true,
-            ).then((options: Array<MicronutrientDataOption>) => (null != options.find(item => (item.id === mndsData))));
+            ).then((options: Array<MicronutrientDataOption>) => {
+              let valid = false;
+              const selectedOption = options.find(item => (item.id === mndsData));
+              // while we're here, validate the data level if set
+              if (null != selectedOption) {
+                const selectedDataLevel = QuickMapsQueryParams.getDataLevel(route);
+                if (null == selectedDataLevel) {
+                  valid = true;
+                } else {
+                  const availableDataLevels = selectedOption.dataLevelOptions;
+                  valid = availableDataLevels.includes(selectedDataLevel);
+                }
+              }
+
+              return valid;
+            });
           }
         });
   }

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { DietarySource } from '../../objects/dietarySource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
 
 export class GetDietarySources extends CacheableEndpoint<
 Array<DietarySource>,
