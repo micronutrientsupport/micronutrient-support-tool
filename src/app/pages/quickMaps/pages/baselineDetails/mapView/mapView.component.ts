@@ -91,6 +91,7 @@ export class MapViewComponent implements AfterViewInit {
         .setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
+        console.debug(this.defaultColourScheme);
         this.dialogService.openMapSettingsDialog(this.defaultColourScheme)
           .then((data: DialogData) => {
             if (data.dataOut != {}) {

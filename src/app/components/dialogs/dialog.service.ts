@@ -1,6 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
@@ -33,7 +34,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);
   }
 
-  public openMapSettingsDialog(colourGradient: string): Promise<DialogData> {
-    return this.openDialog('mapSettings', MapSettingsDialogComponent, true, { colourGradient });
+  public openMapSettingsDialog(colourGradient: ColourGradientType): Promise<DialogData> {
+    return this.openDialog('mapSettings', MapSettingsDialogComponent, false, { colourGradient });
   }
 }

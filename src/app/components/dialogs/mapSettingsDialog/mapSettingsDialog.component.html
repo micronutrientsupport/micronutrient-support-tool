@@ -12,9 +12,8 @@
         <p>General</p>
         <mat-selection-list #colourGradientList formControlName="generalColourSelection"
           [(ngModel)]="generalSelectionValue" [multiple]="false">
-
-          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient"
-            [selected]="colourGradientItem.selected">
+          <!-- [selected]="colourGradientItem.colourGradient.value === currentSelection" -->
+          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
             <span class="colour-option">{{colourGradientItem.colourGradient}} <span
                 [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
           </mat-list-option>
