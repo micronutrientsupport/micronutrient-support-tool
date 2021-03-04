@@ -10,25 +10,37 @@
     <form class="example-sidenav-content" [formGroup]="settingsForm">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>General</p>
-        <mat-selection-list #colourGradientList formControlName="generalColourSelection"
-          [(ngModel)]="generalSelectionValue" [multiple]="false">
+        <mat-selection-list
+          #colourGradientList
+          formControlName="generalColourSelection"
+          [(ngModel)]="generalSelectionValue"
+          [multiple]="false"
+        >
           <!-- [selected]="colourGradientItem.colourGradient.value === currentSelection" -->
           <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
-            <span class="colour-option">{{colourGradientItem.name}} <span
-                [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
+            <span class="colour-option"
+              >{{ colourGradientItem.name }}
+              <span [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span
+            ></span>
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
-        [ngStyle]="{'background-color': '#2ca25f'}">
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
         <p>Advanced</p>
+        <div class="color-wrapper">
+          <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
+          <app-color-slider (color)="hue = $event" style="margin-left: 16px"></app-color-slider>
+        </div>
+        <div class="input-wrapper">
+          <span class="text">{{ color }}</span>
+          <div class="color-div" [ngStyle]="{ 'background-color': color || 'white' }"></div>
+        </div>
       </div>
+
       <div class="button-wrapper">
         <button mat-raised-button [disabled]="settingsForm.pristine" (click)="applyChanges()">Apply</button>
         <button mat-raised-button (click)="data.close()">Close</button>
       </div>
     </form>
-
-
   </mat-drawer-container>
 </app-base-dialog>

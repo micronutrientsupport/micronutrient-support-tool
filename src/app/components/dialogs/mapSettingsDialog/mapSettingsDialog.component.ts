@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,10 +16,9 @@ export interface ColourGradientObject {
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
-  styleUrls: ['./mapSettingsDialog.component.scss']
+  styleUrls: ['./mapSettingsDialog.component.scss'],
 })
 export class MapSettingsDialogComponent implements OnInit {
-
   public gradientList: Array<ColourGradientObject> = [
     {
       colourGradient: ColourGradientType.REDYELLOWGREEN,
@@ -26,24 +26,21 @@ export class MapSettingsDialogComponent implements OnInit {
     },
     {
       colourGradient: ColourGradientType.PURPLEBLUEGREEN,
-      name: 'RdYBl',
+      name: 'PpBlGn',
     },
     {
       colourGradient: ColourGradientType.COLOURBLIND,
       name: 'Colour Blind',
-    }
+    },
   ];
 
   public settingsForm = new FormGroup({
-    generalColourSelection: new FormControl('',
-      [Validators.required]),
+    generalColourSelection: new FormControl('', [Validators.required]),
   });
 
   public generalSelectionValue = new Array<string>();
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>) {
     this.generalSelectionValue.push(data.dataIn.colourGradient);
     data.dataOut = this.generalSelectionValue[0];
   }
@@ -57,4 +54,6 @@ export class MapSettingsDialogComponent implements OnInit {
     this.settingsForm.markAsPristine();
   }
 
+  public hue: string;
+  public color: string;
 }
