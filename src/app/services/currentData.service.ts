@@ -96,15 +96,13 @@ export class CurrentDataService {
 
   public getProjectedFoodSourceData(
     countryOrGroupId: string,
-    micronutrientIds: Array<string>,
-    populationGroupId: string,
-    mndsDataId: string,
+    micronutrientId: string,
+    scenarioId: string,
   ): Promise<Array<ProjectedFoodSourcesData>> {
     return this.apiService.endpoints.currentData.GetProjectedFoodSourcesData.call({
       countryOrGroupId,
-      micronutrientIds,
-      populationGroupId,
-      mndsDataId,
+      micronutrientId,
+      scenarioId,
     });
   }
 

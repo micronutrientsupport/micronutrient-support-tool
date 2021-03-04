@@ -17,7 +17,6 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import {
-  ProjectedFoodSourceItem,
   ProjectedFoodSourcesData,
   ProjectedFoodSourcesPeriod,
   ProjectedFoodSourcesTable,
@@ -28,7 +27,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
-import { isNgTemplate } from '@angular/compiler';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -73,17 +71,19 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     { id: 'SSP3', name: 'SSP3' },
   ];
   public yearOptions = [
-    { id: '2005', name: '2005' },
-    { id: '2010', name: '2010' },
-    { id: '2015', name: '2015' },
-    { id: '2020', name: '2020' },
-    { id: '2025', name: '2025' },
-    { id: '2030', name: '2030' },
-    { id: '2035', name: '2035' },
-    { id: '2040', name: '2040' },
-    { id: '2045', name: '2045' },
-    { id: '2050', name: '2050' },
+    { id: 0, name: '2005' },
+    { id: 1, name: '2010' },
+    { id: 2, name: '2015' },
+    { id: 3, name: '2020' },
+    { id: 4, name: '2025' },
+    { id: 5, name: '2030' },
+    { id: 6, name: '2035' },
+    { id: 7, name: '2040' },
+    { id: 8, name: '2045' },
+    { id: 9, name: '2050' },
   ];
+  // tslint:disable-next-line: no-inferrable-types
+  public currentYearId: number = 0;
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -100,13 +100,22 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       year: '2005',
     });
     this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
-      // change
+      // TODO: update with live api endpoint
     });
     this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
-      // change
+      // TODO: update with live api endpoint
     });
-    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: string) => {
-      // change
+    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: number) => {
+      this.currentYearId = value;
+      if (this.currentImpactScenario) {
+        this.init(
+          this.currentDataService.getProjectedFoodSourceData(
+            this.quickMapsService.countryId,
+            this.quickMapsService.micronutrientId,
+            this.currentImpactScenario.id,
+          ),
+        );
+      }
     });
   }
 
@@ -138,9 +147,8 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
               this.init(
                 this.currentDataService.getProjectedFoodSourceData(
                   this.quickMapsService.countryId,
-                  [this.quickMapsService.micronutrientId],
-                  this.quickMapsService.popGroupId,
-                  this.quickMapsService.mndDataId,
+                  this.quickMapsService.micronutrientId,
+                  this.currentImpactScenario.id,
                 ),
               );
             }),
@@ -217,7 +225,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
             },
           });
 
-          //  Populate data for Tablet
+          //  Populate data for Table
           const foodTypes = [...new Set(data.map((item) => item.commodity))];
 
           foodTypes.forEach((thing, index) => {
@@ -241,7 +249,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         this.initialiseGraph(filteredData);
 
         // show table and init paginator and sorter
-        this.initialiseTable(filteredTableDataArray);
+        this.initialiseTable(filteredTableDataArray, this.currentYearId);
       })
       .catch((err) => {
         this.errorSrc.next(true);
@@ -253,13 +261,13 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private initialiseTable(data: Array<ProjectedFoodSourcesTable>): void {
+  private initialiseTable(data: Array<ProjectedFoodSourcesTable>, yearId: number): void {
+    // Data needs to be flattened frmo a nested array as mat-table can't acccess nested data
     const flatten = (arr) =>
       arr.reduce((a, b) => {
         return a.concat(Array.isArray(b) ? flatten(b) : b);
       }, []);
-    const flattenedData = flatten([data[0]]);
-    console.log('Updating Table Data');
+    const flattenedData = flatten([data[yearId]]);
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
   }

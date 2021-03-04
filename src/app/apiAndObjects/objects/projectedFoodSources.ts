@@ -28,7 +28,6 @@ export interface ProjectedFoodSourcesPeriod {
   year: number;
   data: ProjectedFoodSourceItem;
 }
-
 export interface ProjectedFoodSourceItem {
   cassava: number;
   maize: number;
@@ -44,13 +43,6 @@ export interface ProjectedFoodSourcesTable {
   foodName: string;
   value: number;
 }
-
-// export interface ProjectedFoodSourcesTable {
-//   [year: number]: {
-//   foodName: string;
-//   value: number;
-//   };
-// }
 
 import { BaseObject } from '../_lib_code/objects/baseObject';
 

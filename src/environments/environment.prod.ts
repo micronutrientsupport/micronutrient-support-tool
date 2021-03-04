@@ -1,5 +1,3 @@
 import { environment as baseEnvironment } from './environment.base';
 
-export const environment = { ...baseEnvironment,
-  production: true,
-};
+export const environment = { ...baseEnvironment, production: true, apiBaseUrl: 'https://api.micronutrient.support' };

@@ -11,5 +11,6 @@ export const environment = {
   // gitCommitHash: '{GIT-COMMIT-HASH}', // populated during pipeline
   // gitTag: '{GIT-TAG}', // populated during pipeline
   // gitBranchName: '{GIT-BRANCH-NAME}', // populated during pipeline
+  // apiBaseUrl: 'http://bmgf-maps-api-1.bgslcdevops.test:3000',
   apiBaseUrl: 'https://api.micronutrient.support',
 };

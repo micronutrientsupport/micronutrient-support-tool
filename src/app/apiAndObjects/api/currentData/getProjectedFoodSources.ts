@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ProjectedFoodSourcesData } from '../../objects/projectedFoodSources';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetProjectedFoodSourcesData extends CacheableEndpoint<
   Array<ProjectedFoodSourcesData>,
@@ -11,26 +12,14 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
     return JSON.stringify(params);
   }
   protected callLive(): Promise<Array<ProjectedFoodSourcesData>> {
-    throw new Error('Method not implemented.');
+    const callResponsePromise = this.apiCaller.doCall('projections/commodity', RequestMethod.GET, {});
+    console.log('projected food source live');
+    return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);
   }
-
-  //   protected callMock(): // params: GetHouseholdHistogramDataParams,
-  //   Promise<Array<ProjectedFoodSourcesData>> {
-  //     const httpClient = this.injector.get<HttpClient>(HttpClient);
-  //     return this.buildObjectFromResponse(
-  //       ProjectedFoodSourcesData,
-  //       // response after delay
-  //       new Promise((resolve) => {
-  //         setTimeout(() => {
-  //           resolve(httpClient.get('/assets/exampleData/impact_commodity_aggregation.json').toPromise());
-  //         }, 1500);
-  //       }),
-  //     );
-  //   }
-  // }
 
   protected callMock(): // params: GetProjectedAvailabilityParams,
   Promise<Array<ProjectedFoodSourcesData>> {
+    console.log('projected food source mock');
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ProjectedFoodSourcesData,
@@ -46,7 +35,6 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
 
 export interface GetProjectedFoodSourcesParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
-  populationGroupId: string;
-  mndsDataId: string;
+  micronutrientId: string;
+  scenarioId: string;
 }
