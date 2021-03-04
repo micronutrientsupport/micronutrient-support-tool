@@ -24,21 +24,17 @@
   width: 100%;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: 18px;
+  gap: 5px;
 }
 
 .item {
-  flex-grow: 1;
   flex: 1;
-  margin: 5px;
-
-  &.wideItem {
-    flex-grow: 2;
-  }
+  margin: 5px 0;
 }
 
-.descHeader {
+.desc-header {
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -48,4 +44,22 @@
     flex-direction: column;
     text-align: center;
   }
+}
+
+.data-level-select-wrapper ::ng-deep {
+  & .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  & .mat-form-field-underline {
+    bottom: 0;
+  }
+  & .mat-form-field-infix {
+    width: 150px;
+  }
+}
+
+.capitalize-text,
+.data-level-select-wrapper ::ng-deep .mat-select-value,
+::ng-deep .data-level-select .capitalize-text {
+  text-transform: capitalize;
 }

@@ -21,6 +21,7 @@ export class AppComponent {
     private metaService: Meta,
   ) {
     router.events.subscribe((event) => {
+      // console.debug('router event', event);
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
         const route = this.getActivatedRoute(this.activatedRoute);
         let subs: Subscription;
@@ -46,7 +47,7 @@ export class AppComponent {
         // console.log('GuardStart');
       }
       if (event instanceof GuardsCheckEnd) {
-        this.pageLoadingService.showLoading(false);
+        this.pageLoadingService.endLoading();
         // console.log('GuardEnd');
       }
     });

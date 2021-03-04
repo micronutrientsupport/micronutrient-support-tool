@@ -2,29 +2,15 @@
   <app-base-desc></app-base-desc>
   <app-base-est></app-base-est>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-    <!-- Map View -->
-    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMap'">
-      <app-map-view [card]="card"></app-map-view>
+    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+      <!-- Map View -->
+      <app-map-view *ngSwitchCase="WIDGETS.MAP" [card]="card"></app-map-view>
+      <!-- Chart -->
+      <app-household-supply *ngSwitchCase="WIDGETS.CHART" [card]="card"></app-household-supply>
+      <!-- Monthly Card -->
+      <app-monthly-food *ngSwitchCase="WIDGETS.MONTHLY" [card]="card"></app-monthly-food>
+      <!-- Top 20 -->
+      <app-food-items *ngSwitchCase="WIDGETS.TOP_FOOD" [card]="card"></app-food-items>
     </app-card>
-
-    <!-- Chart -->
-    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetChart'">
-      <app-household-supply [card]="card"></app-household-supply>
-    </app-card>
-
-    <!-- Food composition -->
-    <!-- <app-food-composition-view [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetFoodComp'">
-    </app-food-composition-view> -->
-
-    <!-- Monthly Card -->
-    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetMonthly'">
-      <app-monthly-food [card]="card"></app-monthly-food>
-    </app-card>
-
-    <!-- Top 20 -->
-    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" *ngIf="widget.type === 'widgetTopFood'">
-      <app-food-items [card]="card"></app-food-items>
-    </app-card>
-
   </gridster-item>
 </gridster>

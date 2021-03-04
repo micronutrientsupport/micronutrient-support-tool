@@ -10,6 +10,8 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-base-desc',
@@ -21,6 +23,7 @@ export class BaselineDescriptionComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public readonly DATA_LEVEL = DataLevel;
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
@@ -37,7 +40,7 @@ export class BaselineDescriptionComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private miscApiService: MiscApiService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     void this.dictionaryService
@@ -62,9 +65,14 @@ export class BaselineDescriptionComponent implements OnInit {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
       this.cdr.markForCheck();
     });
+
   }
 
   public openScenarioTypeDialog(): void {
     void this.dialogService.openScenarioTypeDialog();
+  }
+
+  public setDataLevel(event: MatSelectChange): void {
+    this.quickMapsService.setDataLevel(event.value);
   }
 }
