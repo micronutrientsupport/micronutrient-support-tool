@@ -59,6 +59,7 @@ export class BaslineEstimateComponent {
   timeScaleName = 'day';
   massName = 'mg';
   diferrencePercentage = ((this.currentEstimate - this.target) / this.target) * 100;
+  diferrenceQuantityOriginal = this.currentEstimate - this.target;
   diferrenceQuantity = this.currentEstimate - this.target;
 
 
@@ -106,7 +107,7 @@ export class BaslineEstimateComponent {
     const totalMultiplier = this.mass * this.timeScale;
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
-    this.diferrenceQuantity *= totalMultiplier;
+    this.diferrenceQuantity = totalMultiplier * this.diferrenceQuantityOriginal;
   }
 }
 

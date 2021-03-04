@@ -59,6 +59,7 @@ export class ProjectionEstimateComponent {
   massName = 'mg';
   diferrencePercentage = ((this.currentEstimate - this.target) / this.target) * 100;
   diferrenceQuantity = this.currentEstimate - this.target;
+  diferrenceQuantityOriginal = this.currentEstimate - this.target;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -102,6 +103,7 @@ export class ProjectionEstimateComponent {
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
     this.diferrenceQuantity *= totalMultiplier;
+    this.diferrenceQuantity = totalMultiplier * this.diferrenceQuantityOriginal;
   }
 }
 
