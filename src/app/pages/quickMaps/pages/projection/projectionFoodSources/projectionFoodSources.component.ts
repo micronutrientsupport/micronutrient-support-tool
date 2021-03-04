@@ -51,7 +51,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   public title = 'Projection Food Sources for Calcium';
 
   public chartData: ChartJSObject;
-  public displayedColumns = ['Name', 'Value'];
+  public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
   private sort: MatSort;
   private data: Array<ProjectedFoodSourcesData>;
@@ -259,7 +259,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         return a.concat(Array.isArray(b) ? flatten(b) : b);
       }, []);
     const flattenedData = flatten([data[0]]);
-    console.log('flat data: ', flattenedData);
+    console.log('Updating Table Data');
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
   }
