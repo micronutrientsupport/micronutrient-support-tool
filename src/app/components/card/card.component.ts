@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { AutoUnsubscribe } from 'src/app/decorators/autoUnsubscribe.decorator';
+import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 
-@AutoUnsubscribe()
+@Unsubscriber('subscriptions')
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',

@@ -27,4 +27,9 @@ export class PageLoadingService {
     this.isLoadingSrc.next(0 < this.loadingCount);
   }
 
+  public endLoading(): void {
+    this.loadingCount = 0;
+    this.isLoadingSrc.next(false);
+  }
+
 }
