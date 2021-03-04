@@ -5,7 +5,6 @@ import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronu
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
-import { PopulationGroup } from '../apiAndObjects/objects/populationGroup';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';

@@ -153,7 +153,7 @@ export class SideNavContentComponent implements OnInit {
       void this.currentDataService
         .getMicronutrientDataOptions(
           country,
-          MicronutrientMeasureType.DIET, //TODO: temp hardcooded, replace after dan code merge
+          MicronutrientMeasureType.DIET, // TODO: JON temp hardcoded, replace after dan code merge
           true,
         )
         .then((options: Array<MicronutrientDataOption>) => {

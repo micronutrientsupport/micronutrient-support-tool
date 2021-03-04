@@ -114,7 +114,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
           } else {
             return this.currentDataService.getMicronutrientDataOptions(
               QuickMapsQueryParams.getCountryId(route),
-              MicronutrientMeasureType.DIET, //TODO: temp hardcooded, replace after dan code merge
+              MicronutrientMeasureType.DIET, // TODO: JON temp hardcooded, replace after dan code merge
               true,
             ).then((options: Array<MicronutrientDataOption>) => {
               let valid = false;
