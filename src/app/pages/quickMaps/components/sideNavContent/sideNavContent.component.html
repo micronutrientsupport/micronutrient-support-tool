@@ -44,8 +44,6 @@
       </mat-form-field>
     </fieldset>
 
-
-
     <fieldset>
       <legend>
         <span class="field-title">
@@ -88,6 +86,7 @@
         <mat-error>{{errorReponse[0]}}</mat-error>
       </mat-form-field>
     </fieldset>
+    
     <fieldset>
       <legend>
         <div class="field-title">
@@ -102,42 +101,13 @@
         </mat-button-toggle-group>
       </div>
     </fieldset>
+
     <fieldset>
       <legend class="flex-row">
         <span class="field-title">
           <h3>Micronutrient data options</h3>
           <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
         </span>
-      </legend>
-      <mat-form-field appearance="fill">
-        <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
-          panelClass="allow-long-text">
-          <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
-          </mat-option>
-        </mat-select>
-        <mat-error>{{errorReponse[0]}}</mat-error>
-      </mat-form-field>
-    </fieldset>
-    <fieldset>
-      <legend>
-        <div class="field-title">
-          <h3>Measure of MND</h3>
-          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
-        </div>
-      </legend>
-      <div class="toggle-buttons">
-        <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="Measure of MNDs" [value]="diet">
-          <mat-button-toggle checked="true" [value]="diet">Diet Data</mat-button-toggle>
-          <mat-button-toggle [value]="biomarker">Biomarker Data</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend class="flex-row">
-        <div class="field-title">
-          <h3>Micronutrient data options</h3>
-          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
-        </div>
       </legend>
       <mat-form-field appearance="fill">
         <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
