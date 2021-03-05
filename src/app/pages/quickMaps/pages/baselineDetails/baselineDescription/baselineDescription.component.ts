@@ -11,6 +11,7 @@ import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MatSelectChange } from '@angular/material/select';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Component({
   selector: 'app-base-desc',
@@ -29,7 +30,6 @@ export class BaselineDescriptionComponent implements OnInit {
   public loading = false;
   public error = false;
   public countryName = '';
-  public vitaminName = '';
   public currentImpactScenario: ImpactScenario;
 
   constructor(
@@ -51,11 +51,6 @@ export class BaselineDescriptionComponent implements OnInit {
         this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
           const country = this.countriesDictionary.getItem(countryId);
           this.countryName = null != country ? country.name : '';
-          this.cdr.markForCheck();
-        });
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : '';
           this.cdr.markForCheck();
         });
       });

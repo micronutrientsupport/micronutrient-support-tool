@@ -103,7 +103,7 @@ export class MapViewComponent implements AfterViewInit {
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(this.currentDataService.getSubRegionData(
             this.quickMapsService.countryId,
-            [this.quickMapsService.micronutrientId],
+            [this.quickMapsService.micronutrient],
             this.quickMapsService.mndDataId,
           ));
         })

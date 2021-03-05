@@ -78,7 +78,7 @@
         </div>
       </legend>
       <div class="toggle-buttons">
-        <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="Measure of MNDs" [value]="diet">
+        <mat-button-toggle-group aria-label="Measure of MNDs" formControlName="measure">
           <mat-button-toggle checked="true" [value]="diet">Diet Data</mat-button-toggle>
           <mat-button-toggle [value]="biomarker">Biomarker Data</mat-button-toggle>
         </mat-button-toggle-group>

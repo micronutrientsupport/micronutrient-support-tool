@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { ProjectedAvailability } from '../../objects/projectedAvailability';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 
 export class GetProjectedAvailabilities extends CacheableEndpoint<
 Array<ProjectedAvailability>,
@@ -44,6 +45,6 @@ ProjectedAvailability
 
 export interface GetProjectedAvailabilityParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
+  micronutrients: Array<MicronutrientDictionaryItem>;
   mndsDataId: string;
 }

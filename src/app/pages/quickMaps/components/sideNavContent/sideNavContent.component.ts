@@ -58,7 +58,8 @@ export class SideNavContentComponent implements OnInit {
 
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.countryId, Validators.required],
-          micronutrient: [this.quickMapsService.micronutrientId, Validators.required],
+          micronutrient: [this.quickMapsService.micronutrient, Validators.required],
+          measure: [null, Validators.required], // to be initialized from service
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
@@ -76,8 +77,9 @@ export class SideNavContentComponent implements OnInit {
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: string) => {
           this.quickMapsService.setCountryId(value);
         });
-        this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: string) => {
-          this.quickMapsService.setMicronutrientId(value);
+        this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
+          this.quickMapsService.setMicronutrient(value);
+          this.updateDataMeasureOptions();
           this.updateMicronutrientDataOptions();
         });
         this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
@@ -116,11 +118,16 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
+  public updateDataMeasureOptions(): void {
+    
+  }
+
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    const microNutrient = this.micronutrientsDictionary.getItem<MicronutrientDictionaryItem>(this.quickMapsService.micronutrientId);
+    // const measure = this.quickMapsService.measure;
+    const measure = true;
 
-    if ((null != country) && (null != microNutrient)) {
+    if ((null != country) && (null != measure)) {
 
       void this.currentDataService
         .getMicronutrientDataOptions(

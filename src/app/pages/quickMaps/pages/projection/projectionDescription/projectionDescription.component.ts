@@ -50,11 +50,6 @@ export class ProjectionDescriptionComponent implements OnInit {
           this.countryName = null != country ? country.name : '';
           this.cdr.markForCheck();
         });
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : '';
-          this.cdr.markForCheck();
-        });
       });
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);

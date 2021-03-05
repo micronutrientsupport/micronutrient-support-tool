@@ -32,12 +32,14 @@ export class QuickMapsQueryParams {
     const stringParams: Record<string, string> = {};
     // convert Array values to strings
     Object.keys(params).forEach((key: string) => {
-      if (Array.isArray(params[key])) {
-        params[key] = (params[key] as Array<string>).join(',');
-      }
-      const trimmedValue = (null == params[key]) ? '' : (params[key] as string).trim();
-      if (trimmedValue.length > 0) {
-        stringParams[key] = trimmedValue;
+      if (null != params[key]) {
+        if (Array.isArray(params[key])) {
+          params[key] = (params[key] as Array<string>).join(',');
+        }
+        const trimmedValue = (null == params[key]) ? '' : (params[key] as string).trim();
+        if (trimmedValue.length > 0) {
+          stringParams[key] = trimmedValue;
+        }
       }
     });
     void router.navigate(
