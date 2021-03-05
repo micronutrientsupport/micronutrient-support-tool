@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import { MicronutrientMeasureType } from '../enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from '../enums/micronutrientType.enum';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
@@ -17,6 +18,7 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
   public readonly isInImpact: boolean;
   public readonly isBiomarker: boolean;
   public readonly isDiet: boolean;
+  public readonly measures = Array<MicronutrientMeasureType>();
 
   protected constructor(
     sourceObject: Record<string, unknown>,
@@ -29,8 +31,16 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
     this.type = this._getEnum(MicronutrientDictionaryItem.KEYS.TYPE, MicronutrientType);
     this.unit = this._getString(MicronutrientDictionaryItem.KEYS.UNIT);
     this.isInImpact = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_IN_IMPACT);
-    this.isBiomarker = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_BIOMARKER);
+
     this.isDiet = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_DIET);
+    if (this.isDiet) {
+      this.measures.push(MicronutrientMeasureType.DIET);
+    }
+
+    this.isBiomarker = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_BIOMARKER);
+    if (this.isBiomarker) {
+      this.measures.push(MicronutrientMeasureType.BIOMARKER);
+    }
   }
 
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { BehaviorSubject } from 'rxjs';
@@ -51,29 +51,31 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
-  constructor(
-    public dictionariesService: DictionaryService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    route: ActivatedRoute,
-  ) {
+  private readonly quickMapsParameters: QuickMapsQueryParams;
+
+  constructor(injector: Injector) {
+    this.quickMapsParameters = new QuickMapsQueryParams(injector);
+
     // set from query params on init
-    this.dictionariesService.getDictionaries([DictionaryType.MICRONUTRIENTS])
-      .then(dicts => {
-        this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
-        this.setMicronutrient(dicts.shift().getItem(QuickMapsQueryParams.getMicronutrientId(route.snapshot)));
-        this.setMeasure(EnumTools.getEnumFromValue(QuickMapsQueryParams.getMeasure(route.snapshot), MicronutrientMeasureType));
-        this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
-        this.setDataLevel(QuickMapsQueryParams.getDataLevel(route.snapshot));
+    const promises = new Array<Promise<unknown>>();
 
-        this.countryIdObs.subscribe(() => this.parameterChanged());
-        this.micronutrientObs.subscribe(() => this.parameterChanged());
-        this.measureObs.subscribe(() => this.parameterChanged());
-        this.mndDataIdObs.subscribe(() => this.parameterChanged());
-        this.dataLevelObs.subscribe(() => this.parameterChanged());
+    this.setCountryId(this.quickMapsParameters.getCountryId());
+    promises.push(
+      this.quickMapsParameters.getMicronutrient().then(micronutrient => this.setMicronutrient(micronutrient))
+    );
+    this.setMeasure(this.quickMapsParameters.getMeasure());
+    this.setMndDataId(this.quickMapsParameters.getMndsDataId());
+    this.setDataLevel(this.quickMapsParameters.getDataLevel());
 
-        this.initSrc.next(true);
-      });
+    Promise.all(promises).then(() => {
+      this.countryIdObs.subscribe(() => this.parameterChanged());
+      this.micronutrientObs.subscribe(() => this.parameterChanged());
+      this.measureObs.subscribe(() => this.parameterChanged());
+      this.mndDataIdObs.subscribe(() => this.parameterChanged());
+      this.dataLevelObs.subscribe(() => this.parameterChanged());
+
+      this.initSrc.next(true);
+    });
 
   }
 
@@ -141,7 +143,7 @@ export class QuickMapsService {
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
-    QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
+    this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
   protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
