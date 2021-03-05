@@ -17,9 +17,7 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
     return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);
   }
 
-  protected callMock(): // params: GetProjectedAvailabilityParams,
-  Promise<Array<ProjectedFoodSourcesData>> {
-    console.log('projected food source mock');
+  protected callMock(): Promise<Array<ProjectedFoodSourcesData>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ProjectedFoodSourcesData,
