@@ -12,6 +12,5 @@ jobs:
         with:
           # build: npm run build
           start: npm run start-prod
-          # timeout-minutes: 10
-          config: responseTimeout=41000
+          config: requestTimeout=41000
           wait-on: http://localhost:8100
