@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import {
   ChangeDetectionStrategy,
   Input,
@@ -8,7 +9,6 @@ import {
   AfterViewInit,
   ViewChild,
   OnInit,
-  ElementRef,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -52,13 +52,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   public chartData: ChartJSObject;
   public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
-  private sort: MatSort;
-  private data: Array<ProjectedFoodSourcesData>;
-
-  private loadingSrc = new BehaviorSubject<boolean>(false);
-  private errorSrc = new BehaviorSubject<boolean>(false);
-
-  private subscriptions = new Array<Subscription>();
   public selectedCountry: string;
   public currentImpactScenario: ImpactScenario;
   public projectionFoodFormGroup: FormGroup;
@@ -83,9 +76,17 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     { id: 8, name: '2045' },
     { id: 9, name: '2050' },
   ];
-  // tslint:disable-next-line: no-inferrable-types
+
   public currentYearId: number = 0;
   public projectedFoodSourceChartImagePNGSrc: string;
+
+  private sort: MatSort;
+  private data: Array<ProjectedFoodSourcesData>;
+
+  private loadingSrc = new BehaviorSubject<boolean>(false);
+  private errorSrc = new BehaviorSubject<boolean>(false);
+
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private currentDataService: CurrentDataService,
@@ -101,12 +102,12 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       scenario: 'SSP1',
       year: '2005',
     });
-    this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
-      // TODO: update with live api endpoint
-    });
-    this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
-      // TODO: update with live api endpoint
-    });
+    // this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
+    // TODO: update with live api endpoint
+    // });
+    // this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
+    // TODO: update with live api endpoint
+    // });
     this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: number) => {
       this.currentYearId = value;
       if (this.currentImpactScenario) {
@@ -270,7 +271,10 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
   private initialiseTable(data: Array<ProjectedFoodSourcesTable>, yearId: number): void {
     // Data needs to be flattened frmo a nested array as mat-table can't acccess nested data
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const flatten = (arr) =>
+      // tslint:disable-next-line: max-line-length
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       arr.reduce((a, b) => {
         return a.concat(Array.isArray(b) ? flatten(b) : b);
       }, []);
