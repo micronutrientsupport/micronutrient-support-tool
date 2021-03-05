@@ -36,7 +36,7 @@ describe('Quick Map Tests', () => {
 
     cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
 
-    cy.get('[ng-reflect-router-link="/quick-maps/projection"]').click({ force: true });
+    cy.get('.mode-select a.quickmaps-projection-link').click({ force: true });
 
     cy.get('app-quickmaps-projection').should('be.visible');
   });

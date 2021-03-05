@@ -1,9 +1,8 @@
 <div class="mode-select">
-  <a class="mode-select-button" mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route"
+  <a class="mode-select-button quickmaps-baseline-link" mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route"
     [queryParams]="route.queryParams | async" routerLinkActive="active-route">Baseline</a>
-  <a id="projections-2050-button" class="mode-select-button" mat-raised-button
-    [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route" [queryParams]="route.queryParams | async"
-    routerLinkActive="active-route">Explore projections to 2050</a>
+  <a class="mode-select-button quickmaps-projection-link" mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"
+    [queryParams]="route.queryParams | async" routerLinkActive="active-route">Explore projections to 2050</a>
   <a class="mode-select-button" mat-raised-button>Explore simple dietary change scenarios</a>
   <a class="mode-select-button" mat-raised-button>Explore cost effectiveness scenarios</a>
 </div>

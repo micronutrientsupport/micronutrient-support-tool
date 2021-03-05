@@ -1,10 +1,9 @@
 [
-    {
-        "id": 1,
-        "name": "Dietary supply estimate (IHS4, Malawi FCT)"
-    },
-    {
-        "id": 2,
-        "name": "Dietary supply estimate (IHS3, Malawi FCT)"
-    }
+  {
+    "countryId": "AGO",
+    "consumptionDataType": "country",
+    "consumptionDataId": 1,
+    "compositionDataId": null,
+    "name": null
+  }
 ]
