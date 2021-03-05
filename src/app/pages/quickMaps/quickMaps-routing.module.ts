@@ -17,12 +17,12 @@ const routes: Routes = [
         path: '',
         component: LocationSelectComponent,
         data: {
+          title: 'Quick MAPS',
+          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
+          description: 'Quick Maps form for selecting and filtering search criteria',
           hideQuickMapsHeader: true,
           showLightFooter: true,
           showQuickMapsGoButton: true,
-          title: 'Quick MAPS',
-          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
-          description: 'Quick Maps form for selecting and filtering search criteria'
         },
       },
       {
@@ -55,6 +55,7 @@ const routes: Routes = [
           title: 'Quick Maps - Biomarker',
           keywords: '',
           description: '',
+          hideQuickMapsHeader: true,
           showLightFooter: true,
         },
 
