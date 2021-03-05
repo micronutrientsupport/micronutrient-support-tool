@@ -11,5 +11,5 @@ jobs:
         uses: cypress-io/github-action@v2.9.1
         with:
           # build: npm run build
-          start: npm start
+          start: npm start --configuration=production
           wait-on: http://localhost:8100

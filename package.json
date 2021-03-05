@@ -11,9 +11,9 @@
     "lint:fix": "eslint '*/**/*.{ts,tsx}' --fix",
     "lint:quiet": "eslint '*/**/*.{ts,tsx}' --quiet --fix",
     "e2e": "ng e2e",
-    "ci:cypress-run": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng run app:cypress-run --configuration=production",
-    "cypress:open": "cypress open --configuration=production",
-    "cypress:run": "cypress run --configuration=production",
+    "ci:cypress-run": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng run app:cypress-run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress ru",
     "build:stats": "ng build --stats-json",
     "analyze": "webpack-bundle-analyzer dist/micronutrient-support-tool/stats.json"
   },
