@@ -63,7 +63,7 @@
         <mat-form-field appearance="fill">
           <mat-select name="micronutrient" formControlName="micronutrient"
             [placeholder]="'Select ' + groupMND?.value + ' options'">
-            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd.id">{{mnd.name}}</mat-option>
+            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
           </mat-select>
           <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
         </mat-form-field>
@@ -79,8 +79,12 @@
       </legend>
       <div class="toggle-buttons">
         <mat-button-toggle-group aria-label="Measure of MNDs" formControlName="measure">
-          <mat-button-toggle checked="true" [value]="diet">Diet Data</mat-button-toggle>
-          <mat-button-toggle [value]="biomarker">Biomarker Data</mat-button-toggle>
+          <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.DIET" [disabled]="!measureDietEnabled">
+            Diet Data
+          </mat-button-toggle>
+          <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" [disabled]="!measureBiomarkerEnabled">
+            Biomarker Data
+          </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </fieldset>

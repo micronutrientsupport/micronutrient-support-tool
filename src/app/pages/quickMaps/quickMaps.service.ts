@@ -6,9 +6,15 @@ import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
+import { EnumTools } from 'src/utility/enumTools';
 
 @Injectable()
 export class QuickMapsService {
+  private initSrc = new BehaviorSubject<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public initObservable = this.initSrc.asObservable();
+
   private slimSubject = new BehaviorSubject<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
@@ -20,6 +26,10 @@ export class QuickMapsService {
   private readonly micronutrientSrc = new BehaviorSubject<MicronutrientDictionaryItem>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public micronutrientObs = this.micronutrientSrc.asObservable();
+
+  private readonly measureSrc = new BehaviorSubject<MicronutrientMeasureType>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public measureObs = this.measureSrc.asObservable();
 
   private readonly mndDataIdSrc = new BehaviorSubject<string>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -48,19 +58,23 @@ export class QuickMapsService {
     route: ActivatedRoute,
   ) {
     // set from query params on init
-    this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
     this.dictionariesService.getDictionaries([DictionaryType.MICRONUTRIENTS])
       .then(dicts => {
-        // populate micronutrient
+        this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
         this.setMicronutrient(dicts.shift().getItem(QuickMapsQueryParams.getMicronutrientId(route.snapshot)));
-      });
-    this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
-    this.setDataLevel(QuickMapsQueryParams.getDataLevel(route.snapshot));
+        this.setMeasure(EnumTools.getEnumFromValue(QuickMapsQueryParams.getMeasure(route.snapshot), MicronutrientMeasureType));
+        this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
+        this.setDataLevel(QuickMapsQueryParams.getDataLevel(route.snapshot));
 
-    this.countryIdObs.subscribe(() => this.parameterChanged());
-    this.micronutrientObs.subscribe(() => this.parameterChanged());
-    this.mndDataIdObs.subscribe(() => this.parameterChanged());
-    this.dataLevelObs.subscribe(() => this.parameterChanged());
+        this.countryIdObs.subscribe(() => this.parameterChanged());
+        this.micronutrientObs.subscribe(() => this.parameterChanged());
+        this.measureObs.subscribe(() => this.parameterChanged());
+        this.mndDataIdObs.subscribe(() => this.parameterChanged());
+        this.dataLevelObs.subscribe(() => this.parameterChanged());
+
+        this.initSrc.next(true);
+      });
+
   }
 
   public sideNavToggle(): void {
@@ -87,6 +101,13 @@ export class QuickMapsService {
   }
   public setMicronutrient(micronutrient: MicronutrientDictionaryItem, force = false): void {
     this.setValue(this.micronutrientSrc, micronutrient, force);
+  }
+
+  public get measure(): MicronutrientMeasureType {
+    return this.measureSrc.value;
+  }
+  public setMeasure(measure: MicronutrientMeasureType, force = false): void {
+    this.setValue(this.measureSrc, measure, force);
   }
 
   public get mndDataId(): string {
@@ -117,6 +138,7 @@ export class QuickMapsService {
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
       (null != this.micronutrient) ? this.micronutrient.id : null;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);
