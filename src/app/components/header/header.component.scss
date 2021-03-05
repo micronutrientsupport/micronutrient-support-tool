@@ -7,6 +7,16 @@ mat-toolbar {
   z-index: 100;
 }
 
+.header-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .logo {
+    height: 1.5em;
+  }
+}
+
 a {
   text-decoration: none;
   font-weight: 500;
@@ -23,12 +33,9 @@ a {
     color: #fff;
   }
 
-  & div:nth-child(1) {
-    font-size: 17px;
-  }
-
   & div:nth-child(2) {
     font-size: 14px;
+
     & a {
       margin-left: 2em;
     }
@@ -39,9 +46,11 @@ a {
   .large {
     display: none;
   }
+
   .small {
     display: block;
   }
+
   .space-between {
     padding: 0em 1em;
   }
@@ -51,6 +60,7 @@ a {
   .small {
     display: none;
   }
+
   .large {
     display: block;
   }
