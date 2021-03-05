@@ -7,13 +7,11 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { GeographyTypes } from './geographyTypes.enum';
 
@@ -35,8 +33,6 @@ export class SideNavContentComponent implements OnInit {
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
 
-  public popGroupOptions = new Array<PopulationGroup>();
-
   public geographyOptionArray: Array<DictionaryItem>;
 
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
@@ -49,7 +45,6 @@ export class SideNavContentComponent implements OnInit {
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
-    private miscApiService: MiscApiService,
     private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
@@ -64,7 +59,6 @@ export class SideNavContentComponent implements OnInit {
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.countryId, Validators.required],
           micronutrient: [this.quickMapsService.micronutrientId, Validators.required],
-          popGroup: [this.quickMapsService.popGroupId, Validators.required],
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
@@ -75,18 +69,11 @@ export class SideNavContentComponent implements OnInit {
         this.countryChange(GeographyTypes.COUNTRY);
         this.mndChange(MicronutrientType.VITAMIN);
 
-        this.updatePopulationGroupOptions();
-
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: string) => {
           this.quickMapsService.setCountryId(value);
-          this.updatePopulationGroupOptions();
         });
         this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: string) => {
           this.quickMapsService.setMicronutrientId(value);
-          this.updateMicronutrientDataOptions();
-        });
-        this.quickMapsForm.get('popGroup').valueChanges.subscribe((value: string) => {
-          this.quickMapsService.setPopGroupId(value);
           this.updateMicronutrientDataOptions();
         });
         this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
@@ -125,30 +112,12 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updatePopulationGroupOptions(): void {
-    const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
-    void (null == country ? Promise.resolve([]) : this.miscApiService.getPopulationGroups(country, true)).then(
-      (options: Array<PopulationGroup>) => {
-        this.popGroupOptions = options;
-        // console.log('popGroupOptions', options);
-        // if only one option, preselect
-        if (1 === options.length) {
-          this.quickMapsForm.get('popGroup').setValue(options[0].id);
-        } else {
-          this.updateMicronutrientDataOptions();
-        }
-      },
-    );
-  }
-
   public updateMicronutrientDataOptions(): void {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     const microNutrient = this.micronutrientsDictionary.getItem<MicronutrientDictionaryItem>(this.quickMapsService.micronutrientId);
-    const popGroup = this.popGroupOptions.find((item) => item.id === this.quickMapsService.popGroupId);
 
     if ((null != country)
-      && (null != microNutrient)
-      && (null != popGroup)) {
+      && (null != microNutrient)) {
 
       void this.currentDataService
         .getMicronutrientDataOptions(

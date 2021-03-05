@@ -39,6 +39,5 @@ DietarySource
 export interface GetDietarySourcesParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
-  populationGroupId: string;
   mndsDataId: string;
 }

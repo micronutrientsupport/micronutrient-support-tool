@@ -91,7 +91,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
           this.init(this.currentDataService.getMonthlyFoodGroups(
             this.quickMapsService.countryId,
             [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
             this.quickMapsService.mndDataId,
           ));
         })

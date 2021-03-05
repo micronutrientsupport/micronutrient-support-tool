@@ -3,12 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/r
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -19,7 +17,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
   constructor(
     private router: Router,
     private dictionaryService: DictionaryService,
-    private miscApiService: MiscApiService,
     private currentDataService: CurrentDataService,
   ) { }
 
@@ -36,7 +33,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
     //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
     promises.push(this.isValidCountry(route));
     promises.push(this.isValidMicronutrients(route));
-    promises.push(this.isValidPopGroup(route));
     promises.push(this.isValidMndsDataAndDataLevel(route));
     // break;
     //   default:
@@ -83,22 +79,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
       : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, [micronutrient]);
   }
 
-  private isValidPopGroup(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const popGroup = QuickMapsQueryParams.getPopGroupId(route);
-    // console.debug('isValidPopGroup', popGroup, route.paramMap);
-    return (null == popGroup)
-      ? Promise.resolve(false)
-      : this.isValidCountry(route)
-        .then((validCountry: boolean) => {
-          if (!validCountry) {
-            return false;
-          } else {
-            return this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route), true)
-              .then((groups: Array<PopulationGroup>) => (null != groups.find(item => (item.id === popGroup))));
-          }
-        });
-  }
-
   private isValidMndsDataAndDataLevel(route: ActivatedRouteSnapshot): Promise<boolean> {
     const mndsData = QuickMapsQueryParams.getMndsDataId(route);
     // console.debug('isValidMndsData', mndsData, route.paramMap);
@@ -106,7 +86,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
       ? Promise.resolve(false)
       : Promise.all([
         this.isValidMicronutrients(route),
-        this.isValidPopGroup(route), // also checks country
+        this.isValidCountry(route),
       ])
         .then((valids: [boolean, boolean]) => {
           if (!valids.every(valid => (true === valid))) {

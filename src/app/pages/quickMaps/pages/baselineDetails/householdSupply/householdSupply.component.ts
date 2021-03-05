@@ -76,7 +76,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           this.init(this.currentDataService.getHouseholdHistogramData(
             this.quickMapsService.countryId,
             [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
             this.quickMapsService.mndDataId,
           ));
         })

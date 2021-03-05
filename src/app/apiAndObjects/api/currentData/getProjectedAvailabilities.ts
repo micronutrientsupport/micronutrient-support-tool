@@ -45,6 +45,5 @@ ProjectedAvailability
 export interface GetProjectedAvailabilityParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
-  populationGroupId: string;
   mndsDataId: string;
 }

@@ -19,10 +19,6 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public micronutrientIdObs = this.micronutrientIdSrc.asObservable();
 
-  private readonly popGroupIdSrc = new BehaviorSubject<string>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public popGroupIdObs = this.popGroupIdSrc.asObservable();
-
   private readonly mndDataIdSrc = new BehaviorSubject<string>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public mndDataIdObs = this.mndDataIdSrc.asObservable();
@@ -52,13 +48,11 @@ export class QuickMapsService {
     // set from query params on init
     this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
     this.setMicronutrientId(QuickMapsQueryParams.getMicronutrientId(route.snapshot));
-    this.setPopGroupId(QuickMapsQueryParams.getPopGroupId(route.snapshot));
     this.setMndDataId(QuickMapsQueryParams.getMndsDataId(route.snapshot));
     this.setDataLevel(QuickMapsQueryParams.getDataLevel(route.snapshot));
 
     this.countryIdObs.subscribe(() => this.parameterChanged());
     this.micronutrientIdObs.subscribe(() => this.parameterChanged());
-    this.popGroupIdObs.subscribe(() => this.parameterChanged());
     this.mndDataIdObs.subscribe(() => this.parameterChanged());
     this.dataLevelObs.subscribe(() => this.parameterChanged());
   }
@@ -89,13 +83,6 @@ export class QuickMapsService {
     this.setValue(this.micronutrientIdSrc, micronutrientId, force);
   }
 
-  public get popGroupId(): string {
-    return this.popGroupIdSrc.value;
-  }
-  public setPopGroupId(popGroupId: string, force = false): void {
-    this.setValue(this.popGroupIdSrc, popGroupId, force);
-  }
-
   public get mndDataId(): string {
     return this.mndDataIdSrc.value;
   }
@@ -123,7 +110,6 @@ export class QuickMapsService {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrientId;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.POP_GROUP_ID] = this.popGroupId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET] = this.mndDataId;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
     QuickMapsQueryParams.setQueryParams(this.router, this.activatedRoute, paramsObj);

@@ -46,6 +46,5 @@ export class GetSubRegionData extends CacheableEndpoint<Array<SubRegionDataItem>
 export interface GetSubRegionDataParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
-  populationGroupId: string;
   mndsDataId: string;
 }

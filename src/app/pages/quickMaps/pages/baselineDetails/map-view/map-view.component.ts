@@ -104,7 +104,6 @@ export class MapViewComponent implements AfterViewInit {
           this.init(this.currentDataService.getSubRegionData(
             this.quickMapsService.countryId,
             [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
             this.quickMapsService.mndDataId,
           ));
         })

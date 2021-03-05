@@ -2,7 +2,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -27,7 +26,6 @@ export class BaselineDescriptionComponent implements OnInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
-  public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
   public error = false;
   public countryName = '';

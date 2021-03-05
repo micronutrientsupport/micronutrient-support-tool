@@ -78,7 +78,6 @@ export class FoodItemsComponent implements AfterViewInit {
           this.init(this.currentDataService.getTopFood(
             this.quickMapsService.countryId,
             [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
             // this.quickMapsService.mndDataId,
           ));
         })

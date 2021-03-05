@@ -47,6 +47,5 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
 export interface TopFoodParams {
   countryOrGroupId: string;
   micronutrientIds: Array<string>;
-  populationGroupId: string;
   // mndsDataId: string;
 }

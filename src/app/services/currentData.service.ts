@@ -13,12 +13,14 @@ import { DictionaryService } from './dictionary.service';
 
 @Injectable()
 export class CurrentDataService {
-  constructor(private apiService: ApiService, private dictService: DictionaryService) {
+  constructor(
+    private apiService: ApiService,
+    private dictService: DictionaryService,
+  ) {
     // TEST
     // void this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
     //   countryOrGroupId: '',
     //   micronutrientIds: [],
-    //   populationGroupId: '',
     //   mndsDataId: '',
     // }).then(data => console.debug(data));
   }
@@ -38,13 +40,11 @@ export class CurrentDataService {
   public getSubRegionData(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     mndsDataId: string,
   ): Promise<Array<SubRegionDataItem>> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       mndsDataId,
     });
   }
@@ -52,13 +52,11 @@ export class CurrentDataService {
   public getDietarySources(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     mndsDataId: string,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       mndsDataId,
     });
   }
@@ -66,13 +64,11 @@ export class CurrentDataService {
   public getTopFood(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     // mndsDataId: string,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFood.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       // mndsDataId,
     });
   }
@@ -80,13 +76,11 @@ export class CurrentDataService {
   public getHouseholdHistogramData(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     mndsDataId: string,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       mndsDataId,
     });
   }
@@ -94,27 +88,23 @@ export class CurrentDataService {
   public getMonthlyFoodGroups(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     mndsDataId: string,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       mndsDataId,
     });
   }
   public getProjectedAvailabilities(
     countryOrGroupId: string,
     micronutrientIds: Array<string>,
-    populationGroupId: string,
     mndsDataId: string,
   ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroupId,
       micronutrientIds,
-      populationGroupId,
       mndsDataId,
     });
   }
