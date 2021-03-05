@@ -29,6 +29,9 @@ import { MatSort } from '@angular/material/sort';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Component({
   selector: 'app-proj-food-sources ',
@@ -47,8 +50,9 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
   @Input() card: CardComponent;
 
-  public title = 'Projection Food Sources for Calcium';
-
+  public title = 'Projection Food Sources for';
+  public micronutrientsDictionary: Dictionary;
+  public micronutrientName = '';
   public chartData: ChartJSObject;
   public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
@@ -91,7 +95,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   constructor(
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
-    private dialogService: DialogService,
+    private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
     private fb: FormBuilder,
@@ -123,9 +127,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // setInterval(() => {
-    //   console.log('checking var: ', this.projectedFoodSourceChartImagePNGSrc);
-    // }, 500);
+    //
   }
 
   ngAfterViewInit(): void {
@@ -150,8 +152,16 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
           // respond to parameter updates
           this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
+          this.quickMapsService.micronutrientIdObs.subscribe((name: string) => {
+            this.micronutrientName = name;
+          });
+
           this.subscriptions.push(
             this.quickMapsService.parameterChangedObs.subscribe(() => {
+              this.micronutrientName = this.quickMapsService.micronutrientIdName;
+              this.title = 'Projection Food Sources for ' + this.micronutrientName;
+              this.card.title = this.title;
+              // this.cdr.detectChanges();
               this.init(
                 this.currentDataService.getProjectedFoodSourceData(
                   this.quickMapsService.countryId,
@@ -249,6 +259,8 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
           filteredTableDataArray.push(filteredTableData);
         });
 
+        console.log('filteredTableDataArray: ', filteredTableDataArray);
+
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -279,6 +291,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       );
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const flattenedData = flatten([data[yearId]]);
+    console.log(flattenedData);
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
   }

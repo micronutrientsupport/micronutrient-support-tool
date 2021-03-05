@@ -4,9 +4,13 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { BehaviorSubject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 
 @Injectable()
 export class QuickMapsService {
+  public micronutrientsDictionary: Dictionary;
+
   private slimSubject = new BehaviorSubject<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
@@ -49,6 +53,9 @@ export class QuickMapsService {
     private activatedRoute: ActivatedRoute,
     route: ActivatedRoute,
   ) {
+    void this.dictionariesService.getDictionaries([DictionaryType.MICRONUTRIENTS]).then((dicts: Array<Dictionary>) => {
+      this.micronutrientsDictionary = dicts.shift();
+    });
     // set from query params on init
     this.setCountryId(QuickMapsQueryParams.getCountryId(route.snapshot));
     this.setMicronutrientId(QuickMapsQueryParams.getMicronutrientId(route.snapshot));
@@ -80,6 +87,12 @@ export class QuickMapsService {
   }
   public setCountryId(countryId: string, force = false): void {
     this.setValue(this.countryIdSrc, countryId, force);
+  }
+
+  public get micronutrientIdName(): string {
+    const mnds = this.micronutrientsDictionary.getItem(this.micronutrientIdSrc.value);
+    console.log('QMS: mineral value - ', mnds.name);
+    return null != mnds ? mnds.name : '';
   }
 
   public get micronutrientId(): string {

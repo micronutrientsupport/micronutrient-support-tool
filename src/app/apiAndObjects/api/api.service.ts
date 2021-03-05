@@ -32,7 +32,7 @@ export class ApiService extends BaseApi {
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
-      getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(false),
+      getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(false),

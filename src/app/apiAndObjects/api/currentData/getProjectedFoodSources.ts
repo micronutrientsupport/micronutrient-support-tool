@@ -11,9 +11,12 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
   protected getCacheKey(params: GetProjectedFoodSourcesParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(): Promise<Array<ProjectedFoodSourcesData>> {
-    const callResponsePromise = this.apiCaller.doCall('projections/commodity', RequestMethod.GET, {});
-    console.log('projected food source live');
+
+  protected callLive(params: GetProjectedFoodSourcesParams): Promise<Array<ProjectedFoodSourcesData>> {
+    const callResponsePromise = this.apiCaller.doCall(
+      ['projections/commodity', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
+      RequestMethod.GET,
+    );
     return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);
   }
 
