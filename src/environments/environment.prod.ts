@@ -4,4 +4,5 @@ export const environment = {
   ...baseEnvironment,
   production: true,
   apiBaseUrl: 'https://api.micronutrient.support',
+  useLiveApi: false,
 };

@@ -20,7 +20,7 @@ import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabili
 
 @Injectable()
 export class ApiService extends BaseApi {
-  private static readonly USE_LIVE_API = true;
+  private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
     currentData: {
@@ -39,7 +39,7 @@ export class ApiService extends BaseApi {
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, ApiService.USE_LIVE_API)
+    new GetDictionary(DictionaryType.COUNTRIES, true)
       .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.REGIONS, false)

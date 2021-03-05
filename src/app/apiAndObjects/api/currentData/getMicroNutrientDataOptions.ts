@@ -18,11 +18,7 @@ MicronutrientDataOption
   ): Promise<Array<MicronutrientDataOption>> {
     const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroupId, params.measureType],
       RequestMethod.GET,
-    ).then((data: Array<Record<string, unknown>>) => {
-      // returned options don't have ids, so set one here to help internally
-      data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
-      return data;
-    });
+    ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
     return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
@@ -31,11 +27,19 @@ MicronutrientDataOption
     params: GetMicronutrientDataOptionsParams,
   ): Promise<Array<MicronutrientDataOption>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
+    const callResponsePromise = httpClient.get('/assets/exampleData/data-options-select.json').toPromise()
+      .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
+
+    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+  }
+
+  private processResponseData(
+    data: Array<Record<string, unknown>>,
+    params: GetMicronutrientDataOptionsParams,
+  ): Array<Record<string, unknown>> {
+    data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
     // return only first item when single option specified
-    return this.buildObjectsFromResponse(
-      MicronutrientDataOption,
-      httpClient.get('/assets/exampleData/data-options-select.json').toPromise(),
-    ).then(data => (params.singleOptionOnly) ? data.slice(0, 1) : data);
+    return (params.singleOptionOnly) ? data.slice(0, 1) : data;
   }
 }
 
