@@ -62,12 +62,16 @@ export class SideNavContentComponent implements OnInit {
           mndsData: [this.quickMapsService.mndDataId, Validators.required],
         });
 
+        // watches changes so that reacts to location component selections
         this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
           this.quickMapsForm.get('nation').setValue(countryId);
         });
 
+        // TODO: should setting these be dependant on query params?
         this.countryChange(GeographyTypes.COUNTRY);
         this.mndChange(MicronutrientType.VITAMIN);
+
+        this.updateMicronutrientDataOptions();
 
         this.quickMapsForm.get('nation').valueChanges.subscribe((value: string) => {
           this.quickMapsService.setCountryId(value);
@@ -116,8 +120,7 @@ export class SideNavContentComponent implements OnInit {
     const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
     const microNutrient = this.micronutrientsDictionary.getItem<MicronutrientDictionaryItem>(this.quickMapsService.micronutrientId);
 
-    if ((null != country)
-      && (null != microNutrient)) {
+    if ((null != country) && (null != microNutrient)) {
 
       void this.currentDataService
         .getMicronutrientDataOptions(
