@@ -3,14 +3,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
 import { DialogData } from '../baseDialogService.abstract';
-export interface ColourDialogData {
-  colourGradient: ColourGradientType;
-}
 export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
 }
-
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
@@ -33,12 +29,12 @@ export class MapSettingsDialogComponent implements OnInit {
     }
   ];
 
-  public generalSelectionValue = new Array<string>();
+  public generalSelectionValue = new Array<ColourGradientType>();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<ColourGradientType, ColourGradientType>,
   ) {
-    this.generalSelectionValue.push(data.dataIn.colourGradient);
+    this.generalSelectionValue.push(data.dataIn);
     data.dataOut = this.generalSelectionValue[0];
   }
 
