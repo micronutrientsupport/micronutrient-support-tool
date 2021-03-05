@@ -16,8 +16,8 @@ export class MapSettingsDialogComponent implements OnInit {
 
   public gradientList: Array<ColourGradientObject> = [
     {
-      colourGradient: ColourGradientType.REDYELLOWGREEN,
-      name: 'RdYlGn',
+      colourGradient: ColourGradientType.BLUEREDYELLOWGREEN,
+      name: 'BlRdYlGn',
     },
     {
       colourGradient: ColourGradientType.PURPLEBLUEGREEN,

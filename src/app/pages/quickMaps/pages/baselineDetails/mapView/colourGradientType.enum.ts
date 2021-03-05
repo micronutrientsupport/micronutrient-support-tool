@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-shadow
 export enum ColourGradientType {
-  REDYELLOWGREEN = 'redYellowGreen',
+  BLUEREDYELLOWGREEN = 'blueRedYellowGreen',
   PURPLEBLUEGREEN = 'purpleBlueGreen',
   COLOURBLIND = 'colourblind',
 }

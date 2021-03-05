@@ -49,14 +49,13 @@ export class MapViewComponent implements AfterViewInit {
   private absoluteDataLayer: L.GeoJSON;
   private LegendAbsolute: L.Control;
   private absoluteLegend: L.Control;
-  private rangeAbsolute = [0, 10, 50, 100, 250, 500, 1000, 1500];
+  private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
   private LegendThreshold: L.Control;
   private thresholdLegend: L.Control;
-  private rangeThreshold = [0, 10, 20, 40, 60, 80, 99];
-
+  private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
 
@@ -66,7 +65,6 @@ export class MapViewComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   private tabVisited = new Map<number, boolean>();
-
 
   constructor(
     private dialogService: DialogService,
@@ -86,7 +84,7 @@ export class MapViewComponent implements AfterViewInit {
     const retrievedObject = localStorage.getItem('defaultColourScheme');
     this.defaultColourScheme = retrievedObject as ColourGradientType;
     if (this.defaultColourScheme == null) {
-      this.defaultColourScheme = ColourGradientType.REDYELLOWGREEN;
+      this.defaultColourScheme = ColourGradientType.BLUEREDYELLOWGREEN;
     }
 
     // if displayed within a card component init interactions with the card
@@ -215,10 +213,10 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(feat.properties.mnAbsolute, null, colourGradient)).addTo(this.absoluteMap);
+      this.getAbsoluteColourRange(feat.properties.mnAbsolute, colourGradient)).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(null, feat.properties.mnThreshold, colourGradient)).addTo(this.thresholdMap);
+      this.getThresholdColourRange(feat.properties.mnThreshold, colourGradient)).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
 
@@ -226,16 +224,16 @@ export class MapViewComponent implements AfterViewInit {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      this.rangeAbsolute.forEach((value: number, i) => {
+      this.absoluteRange.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getColourRange(value + 1, null, colourGradient)};
+          ${this.getAbsoluteColourRange(value + 1, colourGradient)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>
-          ${this.rangeAbsolute[i + 1] ? value : '>1500mg'}
-          ${this.rangeAbsolute[i + 1] ? ' - ' + this.rangeAbsolute[i + 1].toString() : ''}
+          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
+          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
           </span>` +
           '</span>';
       });
@@ -249,16 +247,16 @@ export class MapViewComponent implements AfterViewInit {
 
       // loop through our  intervals and generate a label with a colored square for each interval
 
-      this.rangeThreshold.forEach((value: number, i) => {
+      this.thresholdRange.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getColourRange(null, value + 1, colourGradient)};
+          ${this.getThresholdColourRange(value + 1, colourGradient)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>
-          ${this.rangeThreshold[i + 1] ? value : '>99%'}
-          ${this.rangeThreshold[i + 1] ? ' - ' + this.rangeThreshold[i + 1].toString() : ''}
+          ${this.thresholdRange[i + 1] ? value : '>99%'}
+          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
           </span>` +
           '</span>';
       });
@@ -324,7 +322,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(feat.properties.mnAbsolute, null, this.defaultColourScheme)).addTo(this.absoluteMap);
+      this.getAbsoluteColourRange(feat.properties.mnAbsolute, this.defaultColourScheme)).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
 
@@ -332,16 +330,16 @@ export class MapViewComponent implements AfterViewInit {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      this.rangeAbsolute.forEach((value: number, i) => {
+      this.absoluteRange.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getColourRange(value + 1, null, this.defaultColourScheme)};
+          ${this.getAbsoluteColourRange(value + 1, this.defaultColourScheme)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>
-          ${this.rangeAbsolute[i + 1] ? value : '>1500mg'}
-          ${this.rangeAbsolute[i + 1] ? ' - ' + this.rangeAbsolute[i + 1].toString() : ''}
+          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
+          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
           </span>` +
           '</span>';
       });
@@ -361,7 +359,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getColourRange(null, feat.properties.mnThreshold, this.defaultColourScheme)).addTo(this.thresholdMap);
+      this.getThresholdColourRange(feat.properties.mnThreshold, this.defaultColourScheme)).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
@@ -369,16 +367,16 @@ export class MapViewComponent implements AfterViewInit {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      this.rangeThreshold.forEach((value: number, i) => {
+      this.thresholdRange.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
             <span style="background-color:
-            ${this.getColourRange(null, value + 1, this.defaultColourScheme)};
+            ${this.getThresholdColourRange(value + 1, this.defaultColourScheme)};
              height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
           `<span>
-          ${this.rangeThreshold[i + 1] ? value : '>99%'}
-          ${this.rangeThreshold[i + 1] ? ' - ' + this.rangeThreshold[i + 1].toString() : ''}
+          ${this.thresholdRange[i + 1] ? value : '>99%'}
+          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
           </span>` +
           '</span>';
       });
@@ -396,99 +394,76 @@ export class MapViewComponent implements AfterViewInit {
     };
   }
 
-  private getColourRange(absoluteValue: number, thresholdValue: number, colourGradient: ColourGradientType): string {
-    if (colourGradient === ColourGradientType.REDYELLOWGREEN) {
-      return absoluteValue > 1500
-        ? '#2ca25f'
-        : thresholdValue > 99
-          ? '#2ca25f'
-          : absoluteValue > 1000
-            ? '#addd8e'
-            : thresholdValue > 80
-              ? '#addd8e'
-              : absoluteValue > 500
-                ? '#ffeda0'
-                : thresholdValue > 60
-                  ? '#ffeda0'
-                  : absoluteValue > 250
-                    ? '#feb24c'
-                    : thresholdValue > 40
-                      ? '#feb24c'
-                      : absoluteValue > 100
-                        ? '#f03b20'
-                        : thresholdValue > 20
-                          ? '#f03b20'
-                          : absoluteValue > 50
-                            ? '#bd0026'
-                            : thresholdValue > 10
-                              ? '#bd0026'
-                              : absoluteValue > 10
-                                ? '#7a0177'
-                                : thresholdValue > 0
-                                  ? '#7a0177'
-                                  : '#354969';
+  private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
+    switch (true) {
+      case (absoluteValue > 1500):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#2ca25f'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#332288'; }
+        else { return '#845E82'; };
+      case (absoluteValue > 1000):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#addd8e'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#117733'; }
+        else { return '#845EC2'; }
+      case (absoluteValue > 500):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#ffeda0'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#44AA99'; }
+        else { return '#0081CF'; }
+      case (absoluteValue > 250):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#feb24c'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#88CCEE'; }
+        else { return '#0089BA'; }
+      case (absoluteValue > 100):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#f03b20'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#DDCC77'; }
+        else { return '#008E9B'; }
+      case (absoluteValue > 50):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#bd0026'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#CC6677'; }
+        else { return '#008F7A'; }
+      case (absoluteValue > 10):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#7a0177'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#AA4499'; }
+        else { return '#00C9A7'; }
+      case (absoluteValue > 0):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#354969'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#882255'; }
+        else { return '#C4FCEF'; }
     }
-    if (colourGradient === ColourGradientType.COLOURBLIND) {
-      return absoluteValue > 1500
-        ? '#332288'
-        : thresholdValue > 99
-          ? '#332288'
-          : absoluteValue > 1000
-            ? '#117733'
-            : thresholdValue > 80
-              ? '#117733'
-              : absoluteValue > 500
-                ? '#44AA99'
-                : thresholdValue > 60
-                  ? '#44AA99'
-                  : absoluteValue > 250
-                    ? '#88CCEE'
-                    : thresholdValue > 40
-                      ? '#88CCEE'
-                      : absoluteValue > 100
-                        ? '#DDCC77'
-                        : thresholdValue > 20
-                          ? '#DDCC77'
-                          : absoluteValue > 50
-                            ? '#CC6677'
-                            : thresholdValue > 10
-                              ? '#CC6677'
-                              : absoluteValue > 10
-                                ? '#AA4499'
-                                : thresholdValue > 0
-                                  ? '#AA4499'
-                                  : '#882255';
-    }
-    if (colourGradient === ColourGradientType.PURPLEBLUEGREEN) {
-      return absoluteValue > 1500
-        ? '#845E82'
-        : thresholdValue > 99
-          ? '#845E82'
-          : absoluteValue > 1000
-            ? '#845EC2'
-            : thresholdValue > 80
-              ? '#845EC2'
-              : absoluteValue > 500
-                ? '#0081CF'
-                : thresholdValue > 60
-                  ? '#0081CF'
-                  : absoluteValue > 250
-                    ? '#0089BA'
-                    : thresholdValue > 40
-                      ? '#0089BA'
-                      : absoluteValue > 100
-                        ? '#008E9B'
-                        : thresholdValue > 20
-                          ? '#008E9B'
-                          : absoluteValue > 50
-                            ? '#008F7A'
-                            : thresholdValue > 10
-                              ? '#008F7A'
-                              : absoluteValue > 10
-                                ? '#00C9A7'
-                                : thresholdValue > 0
-                                  ? '#00C9A7'
-                                  : '#C4FCEF';
+  }
+  private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
+    switch (true) {
+      case (thresholdValue > 99):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#2ca25f'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#332288'; }
+        else { return '#845E82'; };
+      case (thresholdValue > 80):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#addd8e'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#117733'; }
+        else { return '#845EC2'; }
+      case (thresholdValue > 60):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#ffeda0'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#44AA99'; }
+        else { return '#0081CF'; }
+      case (thresholdValue > 40):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#feb24c'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#88CCEE'; }
+        else { return '#0089BA'; }
+      case (thresholdValue > 20):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#f03b20'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#DDCC77'; }
+        else { return '#008E9B'; }
+      case (thresholdValue > 10):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#bd0026'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#CC6677'; }
+        else { return '#008F7A'; }
+      case (thresholdValue > 0):
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#7a0177'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#AA4499'; }
+        else { return '#00C9A7'; }
+      default:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#354969'; }
+        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#C4FCEF'; }
+        else { return '#882255'; }
     }
   }
 
