@@ -48,14 +48,14 @@ export class MapViewComponent implements AfterViewInit {
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private LegendAbsolute: L.Control;
-
-  private LegendThreshold: L.Control;
-
   private absoluteLegend: L.Control;
+  private rangeAbsolute = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
+  private LegendThreshold: L.Control;
   private thresholdLegend: L.Control;
+  private rangeThreshold = [0, 10, 20, 40, 60, 80, 99];
 
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
@@ -82,9 +82,9 @@ export class MapViewComponent implements AfterViewInit {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
 
+    // checks if user has defined colour scheme and
     const retrievedObject = localStorage.getItem('defaultColourScheme');
     this.defaultColourScheme = retrievedObject as ColourGradientType;
-
     if (this.defaultColourScheme == null) {
       this.defaultColourScheme = ColourGradientType.REDYELLOWGREEN;
     }
@@ -224,19 +224,19 @@ export class MapViewComponent implements AfterViewInit {
 
     this.LegendAbsolute.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const rangeAbsolute = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
       // loop through our  intervals and generate a label with a colored square for each interval
-
-      rangeAbsolute.forEach((value: number, i) => {
+      this.rangeAbsolute.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
           ${this.getColourRange(value + 1, null, colourGradient)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
-          `<span>${rangeAbsolute[i + 1] ? value : '>1500mg'}${rangeAbsolute[i + 1] ? ' - ' + rangeAbsolute[i + 1].toString() : ''
-          }</span>` +
+          `<span>
+          ${this.rangeAbsolute[i + 1] ? value : '>1500mg'}
+          ${this.rangeAbsolute[i + 1] ? ' - ' + this.rangeAbsolute[i + 1].toString() : ''}
+          </span>` +
           '</span>';
       });
       return div;
@@ -246,19 +246,20 @@ export class MapViewComponent implements AfterViewInit {
 
     this.LegendThreshold.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const rangeThreshold = [0, 10, 20, 40, 60, 80, 99];
 
       // loop through our  intervals and generate a label with a colored square for each interval
 
-      rangeThreshold.forEach((value: number, i) => {
+      this.rangeThreshold.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
           ${this.getColourRange(null, value + 1, colourGradient)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
-          `<span>${rangeThreshold[i + 1] ? value : '>99%'}${rangeThreshold[i + 1] ? ' - ' + rangeThreshold[i + 1].toString() : ''
-          }</span>` +
+          `<span>
+          ${this.rangeThreshold[i + 1] ? value : '>99%'}
+          ${this.rangeThreshold[i + 1] ? ' - ' + this.rangeThreshold[i + 1].toString() : ''}
+          </span>` +
           '</span>';
       });
       return div;
@@ -329,17 +330,19 @@ export class MapViewComponent implements AfterViewInit {
 
     this.absoluteLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const range = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      range.forEach((value: number, i) => {
+      this.rangeAbsolute.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
           ${this.getColourRange(value + 1, null, this.defaultColourScheme)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
-          `<span>${range[i + 1] ? value : '>1500mg'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
+          `<span>
+          ${this.rangeAbsolute[i + 1] ? value : '>1500mg'}
+          ${this.rangeAbsolute[i + 1] ? ' - ' + this.rangeAbsolute[i + 1].toString() : ''}
+          </span>` +
           '</span>';
       });
 
@@ -364,17 +367,19 @@ export class MapViewComponent implements AfterViewInit {
 
     this.thresholdLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
-      const range = [0, 10, 20, 40, 60, 80, 99];
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      range.forEach((value: number, i) => {
+      this.rangeThreshold.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
             <span style="background-color:
             ${this.getColourRange(null, value + 1, this.defaultColourScheme)};
              height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
-          `<span>${range[i + 1] ? value : '>99%'}${range[i + 1] ? ' - ' + range[i + 1].toString() : ''}</span>` +
+          `<span>
+          ${this.rangeThreshold[i + 1] ? value : '>99%'}
+          ${this.rangeThreshold[i + 1] ? ' - ' + this.rangeThreshold[i + 1].toString() : ''}
+          </span>` +
           '</span>';
       });
 
