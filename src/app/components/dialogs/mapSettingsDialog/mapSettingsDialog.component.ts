@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
+import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { DialogData } from '../baseDialogService.abstract';
 export interface ColourGradientObject {
   name: string;
