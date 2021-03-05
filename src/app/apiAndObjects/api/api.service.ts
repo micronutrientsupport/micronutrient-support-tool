@@ -25,15 +25,15 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     currentData: {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
-      getSubRegionData: new GetSubRegionData(!ApiService.USE_LIVE_API),
-      getDietarySources: new GetDietarySources(!ApiService.USE_LIVE_API),
-      getTopFood: new GetTopFood(!ApiService.USE_LIVE_API),
-      getHouseholdHistogramData: new GetHouseholdHistogramData(!ApiService.USE_LIVE_API),
-      getMonthlyFoodGroups: new GetMonthlyFoodGroups(!ApiService.USE_LIVE_API),
-      getProjectedAvailabilities: new GetProjectedAvailabilities(!ApiService.USE_LIVE_API),
+      getSubRegionData: new GetSubRegionData(false),
+      getDietarySources: new GetDietarySources(false),
+      getTopFood: new GetTopFood(false),
+      getHouseholdHistogramData: new GetHouseholdHistogramData(false),
+      getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(false),
     },
     misc: {
-      getPopulationGroups: new GetPopulationGroups(!ApiService.USE_LIVE_API),
+      getPopulationGroups: new GetPopulationGroups(false),
       getImpactScenarios: new GetImpactScenarios(true),
     },
   };
