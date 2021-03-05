@@ -2,7 +2,10 @@ import * as GeoJSON from 'geojson';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class CountryDictionaryItem extends MapsDictionaryItem {
-  public static readonly GEOMETRY_ATTRIBUTE = 'geometry';
+  public static readonly DESC_ATTRIBUTE: string = 'name';
+  public static readonly KEYS = {
+    GEOMETRY: 'geometry',
+  };
 
   public readonly geoFeature: GeoJSON.Feature;
 
@@ -14,7 +17,7 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
   ) {
     super(sourceObject, id, name, description);
 
-    const geometry = this._getValue(CountryDictionaryItem.GEOMETRY_ATTRIBUTE) as GeoJSON.Geometry;
+    const geometry = this._getValue(CountryDictionaryItem.KEYS.GEOMETRY) as GeoJSON.Geometry;
     if (null != geometry) {
       this.geoFeature = {
         geometry,
@@ -33,7 +36,7 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
         returnObj[this.ID_ATTRIBUTE] = `${index}`;
         returnObj[this.NAME_ATTRIBUTE] = `${name} ${index}`;
         returnObj[this.DESC_ATTRIBUTE] = `${name} ${index} description`;
-        returnObj[this.GEOMETRY_ATTRIBUTE] = {
+        returnObj[this.KEYS.GEOMETRY] = {
           type: 'MultiPolygon',
           coordinates: [
             [
