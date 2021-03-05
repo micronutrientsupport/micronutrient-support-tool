@@ -14,7 +14,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import {
@@ -31,7 +30,6 @@ import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Component({
   selector: 'app-proj-food-sources ',
@@ -152,16 +150,13 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
           // respond to parameter updates
           this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
-          this.quickMapsService.micronutrientIdObs.subscribe((name: string) => {
-            this.micronutrientName = name;
-          });
+          // this.quickMapsService.micronutrientIdObs.subscribe((name: string) => (this.micronutrientName = name));
 
           this.subscriptions.push(
             this.quickMapsService.parameterChangedObs.subscribe(() => {
               this.micronutrientName = this.quickMapsService.micronutrientIdName;
               this.title = 'Projection Food Sources for ' + this.micronutrientName;
               this.card.title = this.title;
-              // this.cdr.detectChanges();
               this.init(
                 this.currentDataService.getProjectedFoodSourceData(
                   this.quickMapsService.countryId,
@@ -259,8 +254,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
           filteredTableDataArray.push(filteredTableData);
         });
 
-        console.log('filteredTableDataArray: ', filteredTableDataArray);
-
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -291,7 +284,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       );
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const flattenedData = flatten([data[yearId]]);
-    console.log(flattenedData);
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
   }

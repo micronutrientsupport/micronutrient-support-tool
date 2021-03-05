@@ -91,7 +91,6 @@ export class QuickMapsService {
 
   public get micronutrientIdName(): string {
     const mnds = this.micronutrientsDictionary.getItem(this.micronutrientIdSrc.value);
-    console.log('QMS: mineral value - ', mnds.name);
     return null != mnds ? mnds.name : '';
   }
 
