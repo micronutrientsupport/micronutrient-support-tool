@@ -5,11 +5,17 @@ export class MicronutrientDataOption extends BaseObject {
   public static readonly KEYS = {
     ID: 'id',
     NAME: 'name',
+    // COUNTRY_ID: 'countryId', // needed? if so we might grab the dictionary item.
+    CONSUMPTION_DATA_TYPE: 'consumptionDataType',
+    CONSUMPTION_DATA_ID: 'consumptionDataId',
+    COMPOSITION_DATA_ID: 'compositionDataId',
   };
 
   public readonly id: string;
   public readonly name: string;
   public readonly dataLevelOptions: Array<DataLevel>;
+  public readonly consumptionDataId: string;
+  public readonly compositionDataId: string;
 
   protected constructor(
     sourceObject?: Record<string, unknown>,
@@ -19,10 +25,11 @@ export class MicronutrientDataOption extends BaseObject {
     this.id = this._getString(MicronutrientDataOption.KEYS.ID);
     this.name = this._getString(MicronutrientDataOption.KEYS.NAME);
 
-    // TODO: set from data when available
-    this.dataLevelOptions = [
-      DataLevel.HOUSEHOLD,
-      // DataLevel.COUNTRY,
-    ];
+    // converted to an array as suggested this might be needed,
+    // but api response currently a string, rather than an array of strings
+    this.dataLevelOptions = [this._getEnum(MicronutrientDataOption.KEYS.CONSUMPTION_DATA_TYPE, DataLevel)];
+
+    this.consumptionDataId = this._getString(MicronutrientDataOption.KEYS.CONSUMPTION_DATA_ID);
+    this.compositionDataId = this._getString(MicronutrientDataOption.KEYS.COMPOSITION_DATA_ID);
   }
 }

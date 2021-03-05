@@ -6,7 +6,7 @@ import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryIte
 
 @Injectable()
 export class MiscApiService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   public getPopulationGroups(
     countryOrgroup: DictionaryItem | string,

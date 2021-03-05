@@ -2,7 +2,7 @@
 import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
 
 export class MapsDictionaryItem extends BaseDictionaryItem {
-  public static readonly ID_ATTRIBUTE = 'id';
-  public static readonly NAME_ATTRIBUTE = 'name';
-  public static readonly DESC_ATTRIBUTE = 'name';
+  public static readonly ID_ATTRIBUTE: string = 'id';
+  public static readonly NAME_ATTRIBUTE: string = 'name';
+  public static readonly DESC_ATTRIBUTE: string = 'description';
 }
