@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   ViewChild,
 } from '@angular/core';
+
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { CurrentDataService } from 'src/app/services/currentData.service';

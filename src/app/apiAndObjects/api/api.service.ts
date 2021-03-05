@@ -17,6 +17,7 @@ import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramDa
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
+import { GetProjectionsSummaryCardData } from './currentData/getProjectionsSummaryCardData';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -31,6 +32,7 @@ export class ApiService extends BaseApi {
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
+      getProjectionsSummaryCardData: new GetProjectionsSummaryCardData(false),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(false),

@@ -8,6 +8,8 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CurrentDataService } from 'src/app/services/currentData.service';
+import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
 interface InterfaceTimeMass {
   id: string;
   name: string;
@@ -33,6 +35,7 @@ export class ProjectionEstimateComponent {
   public error = false;
   public countryName = '';
   public vitaminName = '';
+  public scenarioId = 'SSP2';
   public projectionEstimateForm: FormGroup;
 
   public massArray: InterfaceTimeMass[] = [
@@ -66,19 +69,35 @@ export class ProjectionEstimateComponent {
     private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-
+    private currentDataService: CurrentDataService,
   ) {
     void this.dictionaryService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
       .then((dicts: Array<Dictionary>) => {
         this.micronutrientsDictionary = dicts.shift();
+        this.countriesDictionary = dicts.shift();
 
         this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
           const mnds = this.micronutrientsDictionary.getItem(mndsId);
           this.vitaminName = null != mnds ? mnds.name : 'Micronutrient';
           this.cdr.markForCheck();
         });
+        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
+          const country = this.countriesDictionary.getItem(countryId);
+          this.countryName = null != country ? country.name : 'Error';
+          this.cdr.markForCheck();
+        });
       });
+
+    // this.currentDataService.getProjectionsSummaryCardData(this.countryName, ['Ca'], this.scenarioId)
+    this.currentDataService.getProjectionsSummaryCardData('MWI', ['Ca'], 'SSP2')
+      .then((response: any) => {
+        console.log('response', response);
+      })
+      .catch(() => {
+        console.log('error');
+      });
+
     this.projectionEstimateForm = this.fb.group({
       mass: this.massArray[1],
       timeScale: this.timeScaleArray[0],
@@ -95,14 +114,12 @@ export class ProjectionEstimateComponent {
       this.timeScaleName = itemTime.name;
       this.calculate();
     });
-
   }
 
   public calculate(): void {
     const totalMultiplier = this.mass * this.timeScale;
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
-    this.diferrenceQuantity *= totalMultiplier;
     this.diferrenceQuantity = totalMultiplier * this.diferrenceQuantityOriginal;
   }
 }
