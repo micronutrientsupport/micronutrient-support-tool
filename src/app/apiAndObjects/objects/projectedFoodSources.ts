@@ -1,29 +1,4 @@
-// import { BaseObject } from '../_lib_code/objects/baseObject';
-
-// export interface ProjectedFoodSourceItem {
-//   nutrient: string;
-//   country: string;
-//   scenario: string;
-//   commodity: string;
-//   year: number;
-//   value: number;
-//   rank: number;
-// }
-
-// export class ProjectedFoodSourcesData extends BaseObject {
-//   public static readonly KEYS = {
-//     DATA: 'data',
-//   };
-
-//   public readonly data: Array<ProjectedFoodSourceItem>;
-
-//   protected constructor(sourceObject?: Record<string, unknown>) {
-//     super(sourceObject);
-
-//     this.data = this._getArray(ProjectedFoodSourcesData.KEYS.DATA);
-//   }
-// }
-
+import { BaseObject } from '../_lib_code/objects/baseObject';
 export interface ProjectedFoodSourcesPeriod {
   year: number;
   data: ProjectedFoodSourceItem;
@@ -37,15 +12,11 @@ export interface ProjectedFoodSourceItem {
   dairy: number;
   other: number;
 }
-
 export interface ProjectedFoodSourcesTable {
   year: number;
   foodName: string;
   value: number;
 }
-
-import { BaseObject } from '../_lib_code/objects/baseObject';
-
 export class ProjectedFoodSourcesData extends BaseObject {
   public static readonly KEYS = {
     NUTRIENT: 'nutrient',
