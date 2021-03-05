@@ -30,13 +30,13 @@ export class ApiService extends BaseApi {
       getDietarySources: new GetDietarySources(ApiService.USE_LIVE_API),
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
-      GetProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
+      getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
     },
     misc: {
       getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),
-      GetImpactScenarios: new GetImpactScenarios(true),
+      getImpactScenarios: new GetImpactScenarios(true),
     },
   };
 

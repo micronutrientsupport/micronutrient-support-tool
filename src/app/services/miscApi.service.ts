@@ -19,6 +19,6 @@ export class MiscApiService {
   }
 
   public getImpactScenarios(): Promise<Array<ImpactScenario>> {
-    return this.apiService.endpoints.misc.GetImpactScenarios.call();
+    return this.apiService.endpoints.misc.getImpactScenarios.call();
   }
 }
