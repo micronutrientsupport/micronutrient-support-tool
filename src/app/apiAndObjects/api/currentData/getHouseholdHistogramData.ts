@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { HouseholdHistogramData } from '../../objects/householdHistogramData';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
@@ -47,7 +48,6 @@ GetHouseholdHistogramDataParams
 
 export interface GetHouseholdHistogramDataParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
-  populationGroupId: string;
+  micronutrients: Array<MicronutrientDictionaryItem>;
   mndsDataId: string;
 }

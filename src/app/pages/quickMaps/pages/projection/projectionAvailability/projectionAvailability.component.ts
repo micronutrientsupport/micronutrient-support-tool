@@ -71,7 +71,8 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     'c',
     'cDiff',
     'zn',
-    'znDiff'];
+    'znDiff',
+  ];
 
   public chartData: ChartJSObject;
 
@@ -88,8 +89,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
-
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -101,14 +101,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
-      this.quickMapsService.countryIdObs.subscribe((id: string) => this.selectedCountry = id);
+      this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
             this.currentDataService.getProjectedAvailabilities(
               this.quickMapsService.countryId,
-              [this.quickMapsService.micronutrientId],
-              this.quickMapsService.popGroupId,
+              [this.quickMapsService.micronutrient],
               this.quickMapsService.mndDataId,
             ),
           );
@@ -132,7 +131,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         }
 
         const filteredData: Array<ProjectedAvailability> = data.filter(
-          (item: ProjectedAvailability) => item.country === this.selectedCountry
+          (item: ProjectedAvailability) => item.country === this.selectedCountry,
         );
         this.errorSrc.next(false);
         this.chartData = null;
