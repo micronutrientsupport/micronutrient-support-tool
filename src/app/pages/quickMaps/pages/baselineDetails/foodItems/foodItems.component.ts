@@ -77,8 +77,7 @@ export class FoodItemsComponent implements AfterViewInit {
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(this.currentDataService.getTopFood(
             this.quickMapsService.countryId,
-            [this.quickMapsService.micronutrientId],
-            this.quickMapsService.popGroupId,
+            [this.quickMapsService.micronutrient],
             // this.quickMapsService.mndDataId,
           ));
         })

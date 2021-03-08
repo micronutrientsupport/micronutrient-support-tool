@@ -135,15 +135,12 @@ export class MapViewComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(
-            this.currentDataService.getSubRegionData(
-              this.quickMapsService.countryId,
-              [this.quickMapsService.micronutrientId],
-              this.quickMapsService.popGroupId,
-              this.quickMapsService.mndDataId,
-            ),
-          );
-        }),
+          this.init(this.currentDataService.getSubRegionData(
+            this.quickMapsService.countryId,
+            [this.quickMapsService.micronutrient],
+            this.quickMapsService.mndDataId,
+          ));
+        })
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in

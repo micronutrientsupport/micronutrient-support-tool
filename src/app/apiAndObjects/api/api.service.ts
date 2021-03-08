@@ -8,7 +8,6 @@ import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { GetMicronutrientDataOptions } from './currentData/getMicroNutrientDataOptions';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
-import { GetPopulationGroups } from './misc/getPopulationGroups';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
@@ -33,7 +32,6 @@ export class ApiService extends BaseApi {
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
     },
     misc: {
-      getPopulationGroups: new GetPopulationGroups(false),
       getImpactScenarios: new GetImpactScenarios(true),
     },
   };
