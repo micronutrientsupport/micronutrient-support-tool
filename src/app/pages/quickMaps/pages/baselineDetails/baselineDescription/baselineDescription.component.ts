@@ -11,7 +11,6 @@ import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MatSelectChange } from '@angular/material/select';
-import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Component({
   selector: 'app-base-desc',

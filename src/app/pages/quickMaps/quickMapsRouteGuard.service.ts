@@ -1,12 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
@@ -21,7 +17,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
   constructor(
     private router: Router,
-    private dictionaryService: DictionaryService,
     private currentDataService: CurrentDataService,
     injector: Injector,
   ) {
@@ -64,7 +59,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
   }
 
   private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
-    //TODO: ensure data level matches route
+    // TODO: ensure data level matches route
     return Promise.resolve(true);
   }
 

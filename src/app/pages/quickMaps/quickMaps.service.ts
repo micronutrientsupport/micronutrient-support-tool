@@ -1,13 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { BehaviorSubject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { EnumTools } from 'src/utility/enumTools';
 
 @Injectable()
 export class QuickMapsService {
