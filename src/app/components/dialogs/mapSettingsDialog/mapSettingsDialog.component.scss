@@ -1,0 +1,45 @@
+.settings-container {
+  width: 40vw;
+  height: 50vh;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  .color-box {
+    height: 100px;
+    width: 90%;
+    padding: 20px;
+  }
+  .colour-option {
+    display: flex;
+    justify-content: space-between;
+    width: 35%;
+    align-items: center;
+    .colour-sample {
+      width: 4em;
+      height: 2em;
+      &.blueRedYellowGreen {
+        background: linear-gradient(0.25turn, blue, red, yellow, green);
+      }
+      &.purpleBlueGreen {
+        background: linear-gradient(0.25turn, purple, blue, green);
+      }
+      &.colourblind {
+        background: linear-gradient(0.25turn, purple, green, blue, yellow, magenta);
+      }
+    }
+  }
+  .button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button {
+      margin: 5px;
+    }
+  }
+}
