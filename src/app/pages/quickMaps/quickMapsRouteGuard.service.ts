@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
@@ -27,13 +27,13 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route, route.routeConfig.path);
+    // console.debug('canActivate', route.queryParamMap, route.routeConfig.path);
 
     // code for potentially having different validity checks for different routes
     // switch (route.routeConfig.path) {
     //   case AppRoutes.QUICK_MAPS_BASELINE.segments:
     //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
-    promises.push(this.validateParams());
+    promises.push(this.validateParams(route.queryParamMap));
     promises.push(this.validateParamsForRoute(route));
 
     // break;
@@ -63,19 +63,18 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return Promise.resolve(true);
   }
 
-  private validateParams(): Promise<boolean> {
+  private validateParams(queryParamMap: ParamMap): Promise<boolean> {
 
     return Promise.all([
-      this.quickMapsParameters.getCountry(),
-      this.quickMapsParameters.getMicronutrient(),
+      this.quickMapsParameters.getCountry(queryParamMap),
+      this.quickMapsParameters.getMicronutrient(queryParamMap),
     ]).then((values: [
       CountryDictionaryItem,
       MicronutrientDictionaryItem,
     ]) => {
       const country = values.shift();
       const micronutrient = values.shift();
-      const measure = this.quickMapsParameters.getMeasure();
-
+      const measure = this.quickMapsParameters.getMeasure(queryParamMap);
 
       return (
         (null == country)
@@ -85,8 +84,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
         ? false
         : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
           .then((options: Array<MicronutrientDataOption>) => {
-            const mndsDataId = this.quickMapsParameters.getMndsDataId();
-            const dataLevel = this.quickMapsParameters.getDataLevel();
+            const mndsDataId = this.quickMapsParameters.getMndsDataId(queryParamMap);
+            const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
             let valid = false;
             const selectedOption = options.find(item => (item.id === mndsDataId));
