@@ -133,13 +133,27 @@ export class SideNavContentComponent implements OnInit {
     this.measureDietEnabled = ((null != micronutrient) && micronutrient.isDiet);
     this.measureBiomarkerEnabled = ((null != micronutrient) && micronutrient.isBiomarker);
 
-    const initialMeasure = this.quickMapsForm.get('measure').value as MicronutrientMeasureType;
+    const measureControl = this.quickMapsForm.get('measure');
+    const initialMeasure = measureControl.value as MicronutrientMeasureType;
 
-    // if disabled item selected, change it.
-    if (!this.measureDietEnabled && (initialMeasure === MicronutrientMeasureType.DIET)) {
-      this.quickMapsForm.get('measure').setValue(MicronutrientMeasureType.BIOMARKER);
-    } else if (!this.measureBiomarkerEnabled && (initialMeasure === MicronutrientMeasureType.BIOMARKER)) {
-      this.quickMapsForm.get('measure').setValue(MicronutrientMeasureType.DIET);
+    // there's got to be a nicer way to do all of this :-(
+    if (null == initialMeasure) {
+      // if nothing selected, select first enabled one
+      if (this.measureDietEnabled) {
+        measureControl.setValue(MicronutrientMeasureType.DIET);
+      } else if (this.measureBiomarkerEnabled) {
+        measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
+      }
+    } else if ((!this.measureDietEnabled) && (!this.measureBiomarkerEnabled)) {
+      // nothing enabled, set value to null
+      measureControl.setValue(null);
+
+    } else { // if disabled item selected, change it.
+      if (!this.measureDietEnabled && (initialMeasure === MicronutrientMeasureType.DIET)) {
+        measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
+      } else if (!this.measureBiomarkerEnabled && (initialMeasure === MicronutrientMeasureType.BIOMARKER)) {
+        measureControl.setValue(MicronutrientMeasureType.DIET);
+      }
     }
   }
 
