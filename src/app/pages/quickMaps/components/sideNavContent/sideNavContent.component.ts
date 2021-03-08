@@ -64,7 +64,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.countryId, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
-          mndsData: [this.quickMapsService.mndDataId, Validators.required],
+          mndsData: [this.quickMapsService.mndDataOption, Validators.required],
         });
 
         // watches changes so that reacts to location component selections
@@ -91,11 +91,10 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsService.setMeasure(value);
           this.updateMicronutrientDataOptions();
         });
-        this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: string) => {
-          this.quickMapsService.setMndDataId(value);
-          const selectedItem = this.micronutrientDataOptions.find(option => option.id === value);
-          if (null != selectedItem) {
-            this.quickMapsService.setDataLevelOptions(selectedItem.dataLevelOptions);
+        this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
+          this.quickMapsService.setMndDataOption(value);
+          if (null != value) {
+            this.quickMapsService.setDataLevelOptions(value.dataLevelOptions);
           }
         });
       });
@@ -173,7 +172,7 @@ export class SideNavContentComponent implements OnInit {
           this.micronutrientDataOptions = options;
           // if only one option, preselect
           if (1 === options.length) {
-            this.quickMapsForm.get('mndsData').setValue(options[0].id);
+            this.quickMapsForm.get('mndsData').setValue(options[0]);
           }
         });
     } else {
