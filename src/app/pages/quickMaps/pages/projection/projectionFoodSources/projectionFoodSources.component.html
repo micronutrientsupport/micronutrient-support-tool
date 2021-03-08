@@ -65,7 +65,7 @@
         <div class="item">
           <form [formGroup]="projectionFoodFormGroup">
             <mat-form-field appearance="fill">
-              <mat-select name="year" formControlName="year" [(ngModel)]="currentYearId">
+              <mat-select name="year" formControlName="year">
                 <mat-option *ngFor="let option of yearOptions" [value]="option.id">{{ option.name }}</mat-option>
               </mat-select>
             </mat-form-field>

@@ -14,7 +14,7 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
 
   protected callLive(params: GetProjectedFoodSourcesParams): Promise<Array<ProjectedFoodSourcesData>> {
     const callResponsePromise = this.apiCaller.doCall(
-      ['projections/commodity', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
+      ['projections', 'commodity', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
       RequestMethod.GET,
     );
     return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);

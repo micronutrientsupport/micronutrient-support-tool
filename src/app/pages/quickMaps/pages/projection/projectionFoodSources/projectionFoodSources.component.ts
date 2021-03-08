@@ -54,7 +54,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
   public chartData: ChartJSObject;
   public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
-  public selectedCountry: string;
   public currentImpactScenario: ImpactScenario;
   public projectionFoodFormGroup: FormGroup;
   public groupByOptions = [
@@ -79,7 +78,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     { id: 9, name: '2050' },
   ];
 
-  public currentYearId: number = 0;
   public projectedFoodSourceChartImagePNGSrc: string;
 
   private sort: MatSort;
@@ -107,17 +105,24 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     // this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
     // TODO: update with live api endpoint
     // });
-    // this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
-    // TODO: update with live api endpoint
-    // });
-    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: number) => {
-      this.currentYearId = value;
+    this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
       if (this.currentImpactScenario) {
         this.init(
           this.currentDataService.getProjectedFoodSourceData(
             this.quickMapsService.countryId,
             this.quickMapsService.micronutrientId,
-            this.currentImpactScenario.id,
+            this.projectionFoodFormGroup.get('scenario').value,
+          ),
+        );
+      }
+    });
+    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: number) => {
+      if (this.currentImpactScenario) {
+        this.init(
+          this.currentDataService.getProjectedFoodSourceData(
+            this.quickMapsService.countryId,
+            this.quickMapsService.micronutrientId,
+            this.projectionFoodFormGroup.get('scenario').value,
           ),
         );
       }
@@ -149,7 +154,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
           // this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
           // respond to parameter updates
-          this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
+          // this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
           // this.quickMapsService.micronutrientIdObs.subscribe((name: string) => (this.micronutrientName = name));
 
           this.subscriptions.push(
@@ -161,7 +166,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
                 this.currentDataService.getProjectedFoodSourceData(
                   this.quickMapsService.countryId,
                   this.quickMapsService.micronutrientId,
-                  this.currentImpactScenario.id,
+                  this.projectionFoodFormGroup.get('scenario').value,
                 ),
               );
             }),
@@ -187,12 +192,12 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
         // Select current countries
         const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
-          (item: ProjectedFoodSourcesData) => item.country === this.selectedCountry,
+          (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.countryId,
         );
 
         // Filter by current impact scenario
         const filteredByScenario: Array<ProjectedFoodSourcesData> = filteredByCountry.filter(
-          (item: ProjectedFoodSourcesData) => item.scenario === this.currentImpactScenario.name,
+          (item: ProjectedFoodSourcesData) => item.scenario === this.projectionFoodFormGroup.get('scenario').value,
         );
 
         // Filter by year and populate the array of objects
@@ -259,10 +264,9 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         // force change detection to:
         // remove chart before re-setting it to stop js error
         this.cdr.detectChanges();
-        this.initialiseGraph(filteredData);
 
-        // show table and init paginator and sorter
-        this.initialiseTable(filteredTableDataArray, this.currentYearId);
+        this.initialiseGraph(filteredData);
+        this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
       })
       .catch((err) => {
         this.errorSrc.next(true);
