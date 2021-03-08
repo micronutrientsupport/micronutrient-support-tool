@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietarySource } from '../../objects/dietarySource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
@@ -38,7 +39,6 @@ DietarySource
 
 export interface GetDietarySourcesParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
-  populationGroupId: string;
+  micronutrients: Array<MicronutrientDictionaryItem>;
   mndsDataId: string;
 }

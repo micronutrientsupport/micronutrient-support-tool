@@ -105,8 +105,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           this.init(
             this.currentDataService.getProjectedAvailabilities(
               this.quickMapsService.countryId,
-              [this.quickMapsService.micronutrientId],
-              this.quickMapsService.popGroupId,
+              [this.quickMapsService.micronutrient],
               this.quickMapsService.mndDataId,
             ),
           );

@@ -2,7 +2,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -24,7 +23,6 @@ export class ProjectionDescriptionComponent implements OnInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
-  public popGroupOptions = new Array<PopulationGroup>();
   public loading = false;
   public error = false;
   public countryName = '';
@@ -50,11 +48,6 @@ export class ProjectionDescriptionComponent implements OnInit {
         this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
           const country = this.countriesDictionary.getItem(countryId);
           this.countryName = null != country ? country.name : '';
-          this.cdr.markForCheck();
-        });
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : '';
           this.cdr.markForCheck();
         });
       });
