@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
+import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
@@ -16,12 +17,12 @@ const routes: Routes = [
         path: '',
         component: LocationSelectComponent,
         data: {
+          title: 'Quick MAPS',
+          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
+          description: 'Quick Maps form for selecting and filtering search criteria',
           hideQuickMapsHeader: true,
           showLightFooter: true,
           showQuickMapsGoButton: true,
-          title: 'Quick MAPS',
-          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
-          description: 'Quick Maps form for selecting and filtering search criteria'
         },
       },
       {
@@ -47,6 +48,19 @@ const routes: Routes = [
 
         canActivate: [QuickMapsRouteGuardService],
       },
+      {
+        path: AppRoutes.QUICK_MAPS_BIOMARKER.segments.valueOf(),
+        component: BiomarkerComponent,
+        data: {
+          title: 'Quick Maps - Biomarker',
+          keywords: '',
+          description: '',
+          hideQuickMapsHeader: true,
+          showLightFooter: true,
+        },
+
+        canActivate: [QuickMapsRouteGuardService],
+      }
     ],
   },
   {

@@ -1,13 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
-import { PopulationGroup } from 'src/app/apiAndObjects/objects/populationGroup';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { DictionaryService } from 'src/app/services/dictionary.service';
-import { MiscApiService } from 'src/app/services/miscApi.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -15,12 +12,15 @@ import { QuickMapsQueryParams } from './quickMapsQueryParams';
  */
 @Injectable()
 export class QuickMapsRouteGuardService implements CanActivate {
+  private readonly quickMapsParameters: QuickMapsQueryParams;
+
   constructor(
     private router: Router,
-    private dictionaryService: DictionaryService,
-    private miscApiService: MiscApiService,
     private currentDataService: CurrentDataService,
-  ) { }
+    injector: Injector,
+  ) {
+    this.quickMapsParameters = new QuickMapsQueryParams(injector);
+  }
 
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -33,10 +33,9 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // switch (route.routeConfig.path) {
     //   case AppRoutes.QUICK_MAPS_BASELINE.segments:
     //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
-    promises.push(this.isValidCountry(route));
-    promises.push(this.isValidMicronutrients(route));
-    promises.push(this.isValidPopGroup(route));
-    promises.push(this.isValidMndsDataAndDataLevel(route));
+    promises.push(this.validateParams());
+    promises.push(this.validateParamsForRoute(route));
+
     // break;
     //   default:
     //     promises.push(Promise.resolve(true));
@@ -58,81 +57,53 @@ export class QuickMapsRouteGuardService implements CanActivate {
     });
   }
 
-  private isValidDictionaryItems(dictType: DictionaryType, _itemIds: string | Array<string>): Promise<boolean> {
-    const itemIds = Array.isArray(_itemIds) ? _itemIds : [_itemIds];
-    return this.dictionaryService.getDictionary(dictType).then((dict: Dictionary) => {
-      const items = dict.getItems(itemIds);
-      // console.debug('isValidDictionaryItems', itemIds, items);
-
-      return items.length === itemIds.length;
-    });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
+    // TODO: ensure data level matches route
+    return Promise.resolve(true);
   }
 
-  private isValidCountry(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const country = QuickMapsQueryParams.getCountryId(route);
-    // console.debug('isValidCountry', country, route.paramMap);
-    return null == country ? Promise.resolve(false) : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
-  }
+  private validateParams(): Promise<boolean> {
 
-  private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const micronutrient = QuickMapsQueryParams.getMicronutrientId(route);
-    // console.debug('isValidMicronutrients', micronutrients, route.paramMap);
-    return null === micronutrient
-      ? Promise.resolve(false)
-      : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, [micronutrient]);
-  }
+    return Promise.all([
+      this.quickMapsParameters.getCountry(),
+      this.quickMapsParameters.getMicronutrient(),
+    ]).then((values: [
+      CountryDictionaryItem,
+      MicronutrientDictionaryItem,
+    ]) => {
+      const country = values.shift();
+      const micronutrient = values.shift();
+      const measure = this.quickMapsParameters.getMeasure();
 
-  private isValidPopGroup(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const popGroup = QuickMapsQueryParams.getPopGroupId(route);
-    // console.debug('isValidPopGroup', popGroup, route.paramMap);
-    return (null == popGroup)
-      ? Promise.resolve(false)
-      : this.isValidCountry(route)
-        .then((validCountry: boolean) => {
-          if (!validCountry) {
-            return false;
-          } else {
-            return this.miscApiService.getPopulationGroups(QuickMapsQueryParams.getCountryId(route), true)
-              .then((groups: Array<PopulationGroup>) => (null != groups.find(item => (item.id === popGroup))));
-          }
-        });
-  }
 
-  private isValidMndsDataAndDataLevel(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const mndsData = QuickMapsQueryParams.getMndsDataId(route);
-    // console.debug('isValidMndsData', mndsData, route.paramMap);
-    return (null == mndsData)
-      ? Promise.resolve(false)
-      : Promise.all([
-        this.isValidMicronutrients(route),
-        this.isValidPopGroup(route), // also checks country
-      ])
-        .then((valids: [boolean, boolean]) => {
-          if (!valids.every(valid => (true === valid))) {
-            return false;
-          } else {
-            return this.currentDataService.getMicronutrientDataOptions(
-              QuickMapsQueryParams.getCountryId(route),
-              [QuickMapsQueryParams.getMicronutrientId(route)],
-              QuickMapsQueryParams.getPopGroupId(route),
-              true,
-            ).then((options: Array<MicronutrientDataOption>) => {
-              let valid = false;
-              const selectedOption = options.find(item => (item.id === mndsData));
-              // while we're here, validate the data level if set
-              if (null != selectedOption) {
-                const selectedDataLevel = QuickMapsQueryParams.getDataLevel(route);
-                if (null == selectedDataLevel) {
-                  valid = true;
-                } else {
-                  const availableDataLevels = selectedOption.dataLevelOptions;
-                  valid = availableDataLevels.includes(selectedDataLevel);
-                }
+      return (
+        (null == country)
+        || (null == micronutrient)
+        || (null == measure)
+      )
+        ? false
+        : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
+          .then((options: Array<MicronutrientDataOption>) => {
+            const mndsDataId = this.quickMapsParameters.getMndsDataId();
+            const dataLevel = this.quickMapsParameters.getDataLevel();
+
+            let valid = false;
+            const selectedOption = options.find(item => (item.id === mndsDataId));
+            // while we're here, validate the data level if set
+            if (null != selectedOption) {
+              if (null == dataLevel) {
+                valid = true;
+              } else {
+                const availableDataLevels = selectedOption.dataLevelOptions;
+                valid = availableDataLevels.includes(dataLevel);
               }
+            }
 
-              return valid;
-            });
-          }
-        });
+            return valid;
+          });
+    });
+
   }
+
 }

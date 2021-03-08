@@ -1,22 +1,16 @@
 <app-base-dialog [data]="data">
-  <mat-drawer-container class="example-container" autosize>
+  <mat-drawer-container class="settings-container" autosize>
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
-        <mat-list-option value="advanced">Advanced</mat-list-option>
+        <mat-list-option [disabled]="true" value="advanced">Advanced</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
-    <form class="example-sidenav-content" [formGroup]="settingsForm">
+    <div class="sidenav-content">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
-        <p>General</p>
-        <mat-selection-list
-          #colourGradientList
-          formControlName="generalColourSelection"
-          [(ngModel)]="generalSelectionValue"
-          [multiple]="false"
-        >
-          <!-- [selected]="colourGradientItem.colourGradient.value === currentSelection" -->
+        <p>Colour Gradient</p>
+        <mat-selection-list [(ngModel)]="generalSelectionValue" [multiple]="false">
           <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
             <span class="colour-option"
               >{{ colourGradientItem.name }}
@@ -52,9 +46,8 @@
       </div>
 
       <div class="button-wrapper">
-        <button mat-raised-button [disabled]="settingsForm.pristine" (click)="applyChanges()">Apply</button>
-        <button mat-raised-button (click)="data.close()">Close</button>
+        <button mat-raised-button (click)="applyChanges()">Apply Changes</button>
       </div>
-    </form>
+    </div>
   </mat-drawer-container>
 </app-base-dialog>

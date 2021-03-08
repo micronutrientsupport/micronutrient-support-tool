@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
@@ -46,7 +47,6 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
 
 export interface TopFoodParams {
   countryOrGroupId: string;
-  micronutrientIds: Array<string>;
-  populationGroupId: string;
+  micronutrients: Array<MicronutrientDictionaryItem>;
   // mndsDataId: string;
 }

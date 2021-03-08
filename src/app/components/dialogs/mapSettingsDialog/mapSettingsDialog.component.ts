@@ -1,18 +1,13 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ColourGradientType } from 'src/app/apiAndObjects/objects/enums/colourGradientType.enum';
+import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import chroma from 'chroma-js';
-export interface ColourDialogData {
-  colourGradient: ColourGradientType;
-}
 export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
 }
-
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
@@ -26,8 +21,8 @@ export class MapSettingsDialogComponent implements OnInit {
 
   public gradientList: Array<ColourGradientObject> = [
     {
-      colourGradient: ColourGradientType.REDYELLOWGREEN,
-      name: 'RdYGn',
+      colourGradient: ColourGradientType.BLUEREDYELLOWGREEN,
+      name: 'BlRdYlGn',
     },
     {
       colourGradient: ColourGradientType.PURPLEBLUEGREEN,
@@ -38,28 +33,20 @@ export class MapSettingsDialogComponent implements OnInit {
       name: 'Colour Blind',
     },
   ];
-
   public hue: string;
   public color: string;
+  public generalSelectionValue = new Array<ColourGradientType>();
 
-  public settingsForm = new FormGroup({
-    generalColourSelection: new FormControl('', [Validators.required]),
-  });
-
-  public generalSelectionValue = new Array<string>();
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourDialogData>) {
-    this.generalSelectionValue.push(data.dataIn.colourGradient);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourGradientType, ColourGradientType>) {
+    this.generalSelectionValue.push(data.dataIn);
     data.dataOut = this.generalSelectionValue[0];
   }
 
-  ngOnInit(): void {
-    // console.debug(this.createNewArray());
-  }
+  ngOnInit(): void {}
 
   public applyChanges(): void {
     this.data.dataOut = this.generalSelectionValue[0];
-    this.settingsForm.markAsPristine();
+    this.data.close();
   }
 
   public callFunctionOne(): void {

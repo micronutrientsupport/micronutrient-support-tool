@@ -8,7 +8,6 @@ import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { GetMicronutrientDataOptions } from './currentData/getMicroNutrientDataOptions';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
-import { GetPopulationGroups } from './misc/getPopulationGroups';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
@@ -20,21 +19,20 @@ import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabili
 
 @Injectable()
 export class ApiService extends BaseApi {
-  private static readonly USE_LIVE_API = false;
+  private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
     currentData: {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
-      getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
-      getDietarySources: new GetDietarySources(ApiService.USE_LIVE_API),
-      getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
-      getHouseholdHistogramData: new GetHouseholdHistogramData(ApiService.USE_LIVE_API),
-      getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
-      getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
+      getSubRegionData: new GetSubRegionData(false),
+      getDietarySources: new GetDietarySources(false),
+      getTopFood: new GetTopFood(false),
+      getHouseholdHistogramData: new GetHouseholdHistogramData(false),
+      getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(false),
     },
     misc: {
-      getPopulationGroups: new GetPopulationGroups(ApiService.USE_LIVE_API),
-      GetImpactScenarios: new GetImpactScenarios(true),
+      getImpactScenarios: new GetImpactScenarios(true),
     },
   };
 
@@ -42,11 +40,11 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.COUNTRIES, true)
       .setDefaultParams({ path: 'country', typeObj: CountryDictionaryItem }),
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
-    new GetDictionary(DictionaryType.REGIONS, ApiService.USE_LIVE_API)
+    new GetDictionary(DictionaryType.REGIONS, false)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
       .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
-      .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
+      .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
   ];
 
