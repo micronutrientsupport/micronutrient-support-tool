@@ -10,6 +10,12 @@ export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
 }
+export interface CustomGradientObject {
+  customGradientValues: {
+    thresholdValues: Array<string>;
+    absoluteValues: Array<string>;
+  };
+}
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
@@ -18,7 +24,9 @@ export interface ColourGradientObject {
 export class MapSettingsDialogComponent implements OnInit {
   @ViewChild('colorOne') public colorOne: ElementRef;
   @ViewChild('colorTwo') public colorTwo: ElementRef;
-  @ViewChild('container') public colorContainer: ElementRef;
+  @ViewChild('container1') public colorContainer1: ElementRef;
+  @ViewChild('container2') public colorContainer2: ElementRef;
+
   title = 'angular-color-picker';
 
   public gradientList: Array<ColourGradientObject> = [
@@ -35,7 +43,8 @@ export class MapSettingsDialogComponent implements OnInit {
       name: 'Colour Blind',
     },
   ];
-  public hue: string;
+
+  public customColourGradient: CustomGradientObject;
   public color: string;
   public generalSelectionValue = new Array<ColourGradientType>();
 
@@ -65,17 +74,21 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   public generateColors = (color1: string, color2: string): void => {
+    const thresholdValues = [];
+    const absoluteValues = [];
+
     // remove any previous child nodes
-    this.colorContainer.nativeElement.innerHTML = '';
+    this.colorContainer1.nativeElement.innerHTML = '';
+    this.colorContainer2.nativeElement.innerHTML = '';
 
     // get array of colors from chroma.js
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const colorPalette: Array<string> = chroma.scale([color1, color2]).colors(6);
+    const colorPalette1: Array<string> = chroma.scale([color1, color2]).colors(8);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const colorPalette2: Array<string> = chroma.scale([color1, color2]).colors(7);
 
-    colorPalette.forEach((color: string) => {
-      //      console.debug('colour:', color);
+    colorPalette1.forEach((color: string) => {
       // create a div for each color
-      // let colourSample = document.createElement(`<span class="colourSample" style="background-color:${color};"></span>`);
       const colourSample = document.createElement('div');
 
       //   // add a class to each div
@@ -83,12 +96,39 @@ export class MapSettingsDialogComponent implements OnInit {
 
       //   // give each div a background color
       colourSample.style.background = color;
-      colourSample.style.width = '3em';
+      colourSample.style.width = '100%';
       colourSample.style.height = '1.5em';
 
       //   // append the div to the container
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      this.colorContainer.nativeElement.appendChild(colourSample);
+      this.colorContainer1.nativeElement.appendChild(colourSample);
+      absoluteValues.push(color);
     });
+
+    colorPalette2.forEach((color: string) => {
+      // create a div for each color
+      const colourSample = document.createElement('div');
+
+      //   // add a class to each div
+      colourSample.classList.add('colourSample');
+
+      //   // give each div a background color
+      colourSample.style.background = color;
+      colourSample.style.width = '100%';
+      colourSample.style.height = '1.5em';
+
+      //   // append the div to the container
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      this.colorContainer2.nativeElement.appendChild(colourSample);
+      thresholdValues.push(color);
+    });
+    // this.customColourGradient = customObject;
+    this.customColourGradient = {
+      customGradientValues: {
+        thresholdValues: thresholdValues,
+        absoluteValues: absoluteValues,
+      },
+    };
+    console.debug('custom object:', this.customColourGradient);
   };
 }

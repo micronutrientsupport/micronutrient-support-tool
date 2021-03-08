@@ -3,4 +3,5 @@ export enum ColourGradientType {
   BLUEREDYELLOWGREEN = 'blueRedYellowGreen',
   PURPLEBLUEGREEN = 'purpleBlueGreen',
   COLOURBLIND = 'colourblind',
+  CUSTOM = 'custom',
 }
