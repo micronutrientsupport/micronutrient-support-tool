@@ -113,13 +113,13 @@ export class CurrentDataService {
 
   public getProjectionsSummaryCardData(
     countryOrGroupId: string,
-    micronutrientIds: Array<string>,
+    micronutrient: MicronutrientDictionaryItem,
     scenarioId: string,
   ): Promise<Array<ProjectionsSummaryCard>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectionsSummaryCardData.call({
       countryOrGroupId,
-      micronutrientIds,
+      micronutrientId: micronutrient.id,
       scenarioId,
     });
   }

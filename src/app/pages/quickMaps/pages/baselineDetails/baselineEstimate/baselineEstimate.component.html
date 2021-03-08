@@ -15,10 +15,10 @@
 
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
-      <span class="estimateValue" [ngClass]="(diferrencePercentage < 0)? 'red': 'green'">{{diferrencePercentage |
+      <span class="estimateValue" [ngClass]="(differencePercentage < 0)? 'red': 'green'">{{differencePercentage |
         number:'1.1-2'}}%
         <i class="fas fa-question-circle margin-left"
-          matTooltip="{{diferrenceQuantity | number: '1.1-5'}} {{massName}} per {{timeScaleName}}"
+          matTooltip="{{differenceQuantity | number: '1.1-5'}} {{massName}} per {{timeScaleName}}"
           style="color: grey;"></i>
       </span>
     </div>
@@ -52,9 +52,9 @@
     <span>
       'Business as usual' to reach target in &nbsp;
       <strong>2021</strong>
-      <i class="fas fa-question-circle margin-left" matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
-      per capita consumption of {{vitaminName}} is expected to reach recommended levels by 2021."
-        style="color: grey;"></i>
+      <i class="fas fa-question-circle margin-left"
+        matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
+      per capita consumption of {{(quickMapsService.micronutrientObs | async).name}} is expected to reach recommended levels by 2021." style="color: grey;"></i>
     </span>
     <span>
       <a id="explore-projection-link" [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"

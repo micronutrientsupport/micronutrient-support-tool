@@ -4,8 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryService } from 'src/app/services/dictionary.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
@@ -31,8 +29,6 @@ export class ProjectionEstimateComponent {
   public micronutrientsDictionary: Dictionary;
   public loading = false;
   public error = false;
-  public countryName = '';
-  public vitaminName = '';
   public scenarioId = 'SSP2';
   public projectionEstimateForm: FormGroup;
 
@@ -48,52 +44,36 @@ export class ProjectionEstimateComponent {
     { id: '3', name: 'month', value: 30.4167 },
     { id: '4', name: 'year', value: 365 },
   ];
-  apiResponseTarget = 105;
-  apiResponseEstimate = 100;
-  target = this.apiResponseTarget;
-  currentEstimate = this.apiResponseEstimate;
-  targetCalc = this.apiResponseTarget;
-  currentEstimateCalc = this.apiResponseEstimate;
+  target: number;
+  currentEstimate: number;
+  targetCalc: number;
+  currentEstimateCalc: number;
+  differencePercentage: number;
+  differenceQuantity: number;
   mass = 1;
   timeScale = 1;
   timeScaleName = 'day';
   massName = 'mg';
-  diferrencePercentage = ((this.currentEstimate - this.target) / this.target) * 100;
-  diferrenceQuantity = this.currentEstimate - this.target;
-  diferrenceQuantityOriginal = this.currentEstimate - this.target;
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private currentDataService: CurrentDataService,
   ) {
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
-      .then((dicts: Array<Dictionary>) => {
-        this.micronutrientsDictionary = dicts.shift();
-        this.countriesDictionary = dicts.shift();
-
-        this.quickMapsService.micronutrientIdObs.subscribe((mndsId: string) => {
-          const mnds = this.micronutrientsDictionary.getItem(mndsId);
-          this.vitaminName = null != mnds ? mnds.name : 'Micronutrient';
-          this.cdr.markForCheck();
-        });
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = this.countriesDictionary.getItem(countryId);
-          this.countryName = null != country ? country.name : 'Error';
-          this.cdr.markForCheck();
-        });
-      });
-
-    // this.currentDataService.getProjectionsSummaryCardData(this.countryName, ['Ca'], this.scenarioId)
-    void this.currentDataService.getProjectionsSummaryCardData('MWI', ['Ca'], 'SSP2')
-      .then((response: any) => {
-        console.log('response', response);
+    void this.currentDataService.getProjectionsSummaryCardData(
+      this.quickMapsService.countryId,
+      this.quickMapsService.micronutrient,
+      this.scenarioId)
+      .then((response: Array<ProjectionsSummaryCard>) => {
+        this.target = response[0].target;
+        this.currentEstimate = response[0].referenceVal;
+        this.differencePercentage = response[0].difference;
+        this.calculate();
+        this.cdr.markForCheck();
       })
-      .catch(() => {
-        console.log('error');
+      .catch((e: any) => {
+        console.log('error', e);
       });
 
     this.projectionEstimateForm = this.fb.group({
@@ -115,10 +95,12 @@ export class ProjectionEstimateComponent {
   }
 
   public calculate(): void {
+    const diferrenceQuantityOriginal = this.currentEstimate - this.target;
     const totalMultiplier = this.mass * this.timeScale;
+
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
-    this.diferrenceQuantity = totalMultiplier * this.diferrenceQuantityOriginal;
+    this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
 
