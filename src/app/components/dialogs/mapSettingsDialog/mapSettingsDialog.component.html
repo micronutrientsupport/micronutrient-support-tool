@@ -3,13 +3,13 @@
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
-        <mat-list-option value="advanced">Advanced</mat-list-option>
+        <mat-list-option [disabled]="true" value="advanced">Advanced</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
     <div class="sidenav-content">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
-        <p>General</p>
+        <p>Colour Gradient</p>
         <mat-selection-list [(ngModel)]="generalSelectionValue" [multiple]="false">
           <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
             <span class="colour-option">{{colourGradientItem.name}} <span
