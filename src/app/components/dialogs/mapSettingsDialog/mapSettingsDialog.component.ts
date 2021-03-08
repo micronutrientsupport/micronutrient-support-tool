@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -52,7 +54,6 @@ export class MapSettingsDialogComponent implements OnInit {
   public callFunctionOne(): void {
     // console.debug('change detected');
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.generateColors(this.colorOne.nativeElement.value, this.colorTwo.nativeElement.value);
   }
 
@@ -63,21 +64,22 @@ export class MapSettingsDialogComponent implements OnInit {
     //  console.debug('change detected');
   }
 
-  public generateColors = (color1, color2) => {
+  public generateColors = (color1: string, color2: string): void => {
     // remove any previous child nodes
     this.colorContainer.nativeElement.innerHTML = '';
 
     // get array of colors from chroma.js
-    const colorPalette = chroma.scale([color1, color2]).colors(6);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const colorPalette: Array<string> = chroma.scale([color1, color2]).colors(6);
 
     colorPalette.forEach((color: string) => {
       //      console.debug('colour:', color);
       // create a div for each color
       // let colourSample = document.createElement(`<span class="colourSample" style="background-color:${color};"></span>`);
-      const colourSample = <HTMLDivElement>document.createElement('div');
+      const colourSample = document.createElement('div');
 
       //   // add a class to each div
-      (<Element>colourSample).classList.add('colourSample');
+      colourSample.classList.add('colourSample');
 
       //   // give each div a background color
       colourSample.style.background = color;
@@ -85,6 +87,7 @@ export class MapSettingsDialogComponent implements OnInit {
       colourSample.style.height = '1.5em';
 
       //   // append the div to the container
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       this.colorContainer.nativeElement.appendChild(colourSample);
     });
   };
