@@ -133,7 +133,7 @@ export class SideNavContentComponent implements OnInit {
     this.measureDietEnabled = ((null != micronutrient) && micronutrient.isDiet);
     this.measureBiomarkerEnabled = ((null != micronutrient) && micronutrient.isBiomarker);
 
-    const initialMeasure: MicronutrientMeasureType = this.quickMapsForm.get('measure').value;
+    const initialMeasure = this.quickMapsForm.get('measure').value as MicronutrientMeasureType;
 
     // if disabled item selected, change it.
     if (!this.measureDietEnabled && (initialMeasure === MicronutrientMeasureType.DIET)) {

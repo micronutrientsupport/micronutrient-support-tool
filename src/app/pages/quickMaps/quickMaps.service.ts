@@ -63,7 +63,7 @@ export class QuickMapsService {
     this.setMndDataId(this.quickMapsParameters.getMndsDataId());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
 
-    Promise.all(promises).then(() => {
+    void Promise.all(promises).then(() => {
       this.countryIdObs.subscribe(() => this.parameterChanged());
       this.micronutrientObs.subscribe(() => this.parameterChanged());
       this.measureObs.subscribe(() => this.parameterChanged());

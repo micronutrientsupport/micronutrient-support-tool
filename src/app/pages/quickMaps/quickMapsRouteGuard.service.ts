@@ -5,7 +5,6 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -58,6 +57,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
     // TODO: ensure data level matches route
     return Promise.resolve(true);

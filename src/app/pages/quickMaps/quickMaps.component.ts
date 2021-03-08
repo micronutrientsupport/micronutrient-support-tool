@@ -42,6 +42,7 @@ export class QuickMapsComponent implements OnInit {
     // eslint-disable-next-line prefer-const
     let subs: Subscription;
     subs = this.quickMapsService.initObservable.subscribe((initialised) => {
+    // eslint-disable-next-line prefer-const
       if (initialised) {
         if (null != subs) {
           // unsubscribe as only need to do it once.
