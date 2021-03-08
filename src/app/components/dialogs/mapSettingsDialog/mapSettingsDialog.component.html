@@ -26,15 +26,29 @@
         </mat-selection-list>
       </div>
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
-        <p>Advanced</p>
-        <div class="color-wrapper">
+        <!-- <p>Advanced</p> -->
+        <!-- <div class="color-wrapper">
           <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
           <app-color-slider (color)="hue = $event" style="margin-left: 16px"></app-color-slider>
         </div>
         <div class="input-wrapper">
           <span class="text">{{ color }}</span>
           <div class="color-div" [ngStyle]="{ 'background-color': color || 'white' }"></div>
-        </div>
+        </div> -->
+        <header>
+          <p>Color Scale Generator</p>
+          <div class="inputs">
+            <div class="color-input">
+              <input (change)="callFunctionOne()" #colorOne value="#00ff00" type="color" id="color1" />
+            </div>
+            <div class="color-input">
+              <input (change)="callFunctionTwo()" #colorTwo value="#ff0000" type="color" id="color2" />
+            </div>
+          </div>
+        </header>
+
+        <!-- div to hold the color scales -->
+        <div #container class="container" id="container"></div>
       </div>
 
       <div class="button-wrapper">
