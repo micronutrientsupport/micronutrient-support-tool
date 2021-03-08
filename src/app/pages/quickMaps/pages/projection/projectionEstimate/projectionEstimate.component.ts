@@ -90,7 +90,7 @@ export class ProjectionEstimateComponent {
       });
 
     // this.currentDataService.getProjectionsSummaryCardData(this.countryName, ['Ca'], this.scenarioId)
-    this.currentDataService.getProjectionsSummaryCardData('MWI', ['Ca'], 'SSP2')
+    void this.currentDataService.getProjectionsSummaryCardData('MWI', ['Ca'], 'SSP2')
       .then((response: any) => {
         console.log('response', response);
       })
