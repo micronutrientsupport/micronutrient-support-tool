@@ -1,73 +1,116 @@
-<h2>Quick Maps</h2>
-<form *ngIf="quickMapsForm" [formGroup]="quickMapsForm">
-    <div class="flex-row">
-        <h3>Geography of interest</h3>
-        <i class="fas fa-question-circle" [matTooltip]="geoInterest" style="color: #828282;"></i>
-    </div>
+<div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+  <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
+    (click)="minimiseSideNav()">
+    <i class="fas fa-caret-left"></i></button>
+  <h2 (click)="minimiseSideNav()">Quick Maps</h2>
+  <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
+    [matTooltip]="(sideNavToggleLock.value === true) ? 'Unlock Side-Nav': 'Lock Side-Nav'">
+  </mat-slide-toggle>
+</div>
 
-    <!-- NgIf Nation/MultiNation Toggle Buttons -->
-    <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest" aria-label="Geography of interest"
-        value="singleNation">
-        <mat-button-toggle value="singleNation">Single nation</mat-button-toggle>
-        <mat-button-toggle value="multiNation">Multinational area</mat-button-toggle>
-    </mat-button-toggle-group>
+<div *ngIf="(null != quickMapsForm) && ((quickMapsService.slimObservable | async) === false)"
+  class="bmgf-maps-nice-scrollbar scroll-area">
+  <form [formGroup]="quickMapsForm" id="quickMapsForm"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
 
-    <!-- NgIf Nation/MultiNation Selects -->
-    <mat-form-field appearance="fill" *ngIf="group.value === 'singleNation'" aria-label="Geography of interest">
-        <mat-select formControlName="nation" placeholder="select a nation">
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+    <fieldset name="geographyOfInterest">
+      <legend>
+        <span class="field-title">
+          <h3>Geography of interest</h3>
+          <a class="map-button" mat-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
+            [queryParams]="route.queryParams | async" routerLinkActive [routerLinkActiveOptions]="{exact: true}"
+            #rla="routerLinkActive" [disabled]="rla.isActive"><i class="fas fa-map-marked-alt"></i></a>
+          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
+        </span>
+      </legend>
+
+      <div class="toggle-buttons">
+        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
+          (change)="countryChange($event.value)" aria-label="Geography of interest"
+          [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">
+          <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
+          <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <mat-form-field appearance="fill" aria-label="Geography of interest">
+        <mat-select name="nation" formControlName="nation" [placeholder]="'select a ' + group.value">
+          <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
+            {{item.name}}
+          </mat-option>
         </mat-select>
-        <mat-error>Please select a country</mat-error>
-    </mat-form-field>
+        <mat-error>{{errorReponse[1] + ' (' + group.value + ')'}}</mat-error>
+      </mat-form-field>
+    </fieldset>
 
-    <mat-form-field appearance="fill" *ngIf="group.value === 'multiNation'">
-        <mat-select formControlName="multiNation" placeholder="select a multination area">
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
+    <fieldset>
+      <legend>
+        <span class="field-title">
+          <h3>MND(s) to explore or compare</h3>
+          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
+        </span>
+      </legend>
+      <div class="toggle-buttons">
+        <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
+          (change)="mndChange($event.value)" [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">
+          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
+          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
+          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <ng-container>
+        <mat-form-field appearance="fill">
+          <mat-select name="micronutrient" formControlName="micronutrient"
+            [placeholder]="'Select ' + groupMND?.value + ' options'">
+            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
+          </mat-select>
+          <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
+        </mat-form-field>
+      </ng-container>
+    </fieldset>
+    
+    <fieldset>
+      <legend>
+        <div class="field-title">
+          <h3>Measure of MND</h3>
+          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
+        </div>
+      </legend>
+      <div class="toggle-buttons">
+        <mat-button-toggle-group aria-label="Measure of MNDs" formControlName="measure">
+          <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.DIET" [disabled]="!measureDietEnabled">
+            Diet Data
+          </mat-button-toggle>
+          <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" [disabled]="!measureBiomarkerEnabled">
+            Biomarker Data
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend class="flex-row">
+        <span class="field-title">
+          <h3>Micronutrient data options</h3>
+          <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
+        </span>
+      </legend>
+      <mat-form-field appearance="fill">
+        <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
+          panelClass="allow-long-text">
+          <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item">{{item.name}}
+          </mat-option>
         </mat-select>
-        <mat-error>Please select a country</mat-error>
-    </mat-form-field>
+        <mat-error>{{errorReponse[0]}}</mat-error>
+      </mat-form-field>
+    </fieldset>
 
-    <!-- NgIf for MNDs -->
-    <mat-button-toggle-group #groupMND="matButtonToggleGroup" name="geographyInterest" aria-label="MNDs of interest"
-        value="toggleMNDs">
-        <mat-button-toggle value="vitamin">Vitamin</mat-button-toggle>
-        <mat-button-toggle value="mineral">Mineral</mat-button-toggle>
-        <mat-button-toggle value="other">Other</mat-button-toggle>
-    </mat-button-toggle-group>
+  </form>
+</div>
 
-    <div class="flex-row">
-        <h3>MND(s) to explore or compare</h3>
-        <i class="fas fa-question-circle" [matTooltip]="mndsExploreComp" style="color: #828282;"></i>
-    </div>
-    <mat-form-field appearance="fill">
-        <mat-select formControlName="mndsExploreComp" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
-        </mat-select>
-        <mat-error>{{generalResponse}}</mat-error>
-    </mat-form-field>
-
-    <div class="flex-row">
-        <h3>Population group available</h3>
-        <i class="fas fa-question-circle" [matTooltip]="populationGroup" style="color: #828282;"></i>
-    </div>
-    <mat-form-field appearance="fill">
-        <mat-select formControlName="populationGroup" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
-        </mat-select>
-        <mat-error>{{generalResponse}}</mat-error>
-    </mat-form-field>
-
-    <div class="flex-row">
-        <h3>Micronutrient data options</h3>
-        <i class="fas fa-question-circle" [matTooltip]="geoInterestToolTip" style="color: #828282;"></i>
-    </div>
-    <mat-form-field appearance="fill">
-        <mat-select formControlName="microNutrientOptions" multiple>
-            <mat-option *ngFor="let example of examples" [value]="example">{{example}}</mat-option>
-        </mat-select>
-        <mat-error>{{generalResponse}}</mat-error>
-    </mat-form-field>
-
-    <button mat-flat-button color="primary" (click)="submitForm()">View results</button>
-
-</form>
+<div class="footer-row" [class.show]="showGoButton"
+  [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">
+    View results</button>
+</div>

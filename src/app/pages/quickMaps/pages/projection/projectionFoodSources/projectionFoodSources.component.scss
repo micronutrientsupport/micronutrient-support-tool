@@ -1,0 +1,32 @@
+// @import 'src/assets/scss/_colour';
+
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: baseline;
+  height: auto !important;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .item {
+    flex-grow: 1;
+    text-align: center;
+    margin: 5px;
+
+    &.wideItem {
+      flex-grow: 2;
+    }
+
+    &.downloadOption {
+      background-color: white;
+      padding: 10px;
+    }
+  }
+}
+.chartRenderScreenshot {
+  display: block;
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: fill;
+}

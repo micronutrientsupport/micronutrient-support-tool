@@ -7,15 +7,15 @@ import { Dictionary } from '../objects/dictionary';
 import { Injector } from '@angular/core';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 
-export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
+export abstract class BaseApi {
   protected apiCaller: ApiCaller;
 
-  protected endPoints = new Array<Endpoint>();
+  protected endPointsArray = new Array<Endpoint>();
 
-  protected dictionaries = new Map<DICTIONARY_TYPE_ENUM, GetDictionary<DICTIONARY_TYPE_ENUM>>();
+  protected dictionaries = new Map<unknown, GetDictionary>();
 
   constructor(
-    private injector: Injector,
+    protected injector: Injector,
     httpClient: HttpClient,
     httpCallErrorHandler: HttpResponseHandler,
     apiBaseUrl: string,
@@ -25,18 +25,18 @@ export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
     ObjectBuilder.setApi(this);
   }
 
-  public getDictionaryEndpoint(type: DICTIONARY_TYPE_ENUM): GetDictionary {
+  public getDictionaryEndpoint(type: unknown): GetDictionary {
     return this.dictionaries.get(type);
   }
-  public getDictionary(type: DICTIONARY_TYPE_ENUM, useCache?: boolean): Promise<Dictionary> {
+  public getDictionary(type: unknown, useCache?: boolean): Promise<Dictionary> {
     const endpoint = this.getDictionaryEndpoint(type);
     return null == endpoint ? Promise.reject() : endpoint.call(null, useCache);
   }
-  public getDictionaryEndpoints(types: Array<DICTIONARY_TYPE_ENUM>): Array<GetDictionary> {
-    return types.map((type: DICTIONARY_TYPE_ENUM) => this.dictionaries.get(type));
+  public getDictionaryEndpoints(types: Array<unknown>): Array<GetDictionary> {
+    return types.map((type: unknown) => this.dictionaries.get(type));
   }
 
-  public getDictionaries(types: Array<DICTIONARY_TYPE_ENUM>, useCache?: boolean): Promise<Array<Dictionary>> {
+  public getDictionaries(types: Array<unknown>, useCache?: boolean): Promise<Array<Dictionary>> {
     const endpoints = this.getDictionaryEndpoints(types);
     return Promise.all(endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache)));
   }
@@ -49,13 +49,13 @@ export abstract class BaseApi<DICTIONARY_TYPE_ENUM = any> {
     return this;
   }
 
-  protected addEndpoint(endpoint: Endpoint<any, any>): this {
-    this.endPoints.push(endpoint);
+  protected addEndpoint(endpoint: Endpoint<unknown, unknown>): this {
+    this.endPointsArray.push(endpoint);
     endpoint.init(this.injector, this.apiCaller);
     return this;
   }
-  protected addEndpoints(endpoints: Array<Endpoint<any, any>>): this {
-    endpoints.forEach((endpoint: Endpoint<any, any>) => {
+  protected addEndpoints(endpoints: Array<Endpoint<unknown, unknown>>): this {
+    endpoints.forEach((endpoint: Endpoint<unknown, unknown>) => {
       this.addEndpoint(endpoint);
     });
     return this;

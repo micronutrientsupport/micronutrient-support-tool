@@ -1,5 +1,9 @@
-<app-header></app-header>
+<div [class.no-overflow]="pageLoadingService.isLoadingObs | async">
+  <app-header></app-header>
 
-<router-outlet></router-outlet>
+  <app-loading></app-loading>
+  <router-outlet></router-outlet>
 
-<app-footer></app-footer>
+  <app-footer *ngIf="!showLightFooter"></app-footer>
+  <app-footer-light *ngIf="showLightFooter"></app-footer-light>
+</div>

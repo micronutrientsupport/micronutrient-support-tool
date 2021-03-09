@@ -1,0 +1,22 @@
+table {
+  width: 100%;
+}
+
+:host::ng-deep {
+  mat-paginator {
+
+    border-radius: 0px 0px 5px 5px;
+
+    & .mat-paginator-container {
+      min-height: 47px;
+    }
+  }
+}
+
+.table-container {
+  width: 100%;
+}
+
+td.mat-cell {
+  font-size: 12px;
+}

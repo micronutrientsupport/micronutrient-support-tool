@@ -1,5 +1,20 @@
+@import 'src/assets/scss/_layout.scss';
+
 mat-toolbar {
-  height: 2.5em;
+  height: $header_height;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .logo {
+    height: 1.5em;
+  }
 }
 
 a {
@@ -14,18 +29,12 @@ a {
   align-items: center;
   padding: 0em 4em;
 
-  & div:nth-child(1) {
-    font-size: 17px;
-    a {
-      color: #fff;
-    }
+  & a {
+    color: #fff;
   }
 
   & div:nth-child(2) {
     font-size: 14px;
-    a {
-      color: #fff;
-    }
 
     & a {
       margin-left: 2em;
@@ -37,9 +46,11 @@ a {
   .large {
     display: none;
   }
+
   .small {
     display: block;
   }
+
   .space-between {
     padding: 0em 1em;
   }
@@ -49,6 +60,7 @@ a {
   .small {
     display: none;
   }
+
   .large {
     display: block;
   }

@@ -1,0 +1,31 @@
+<ng-template #componentTemplate>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Household Histogram">
+      <ngx-chartjs *ngIf="null != chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs>
+    </mat-tab>
+
+    <mat-tab label="Household Data">
+      <div class="bmgf-maps-nice-scrollbar">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="bin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bin</th>
+            <td mat-cell *matCellDef="let element">{{ element.bin }}</td>
+          </ng-container>
+          <ng-container matColumnDef="frequency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Frequency</th>
+            <td mat-cell *matCellDef="let element">{{ element.frequency }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

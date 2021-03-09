@@ -1,68 +1,155 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Papa } from 'ngx-papaparse';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
+import { QuickMapsService } from '../../quickMaps.service';
+import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+
+// eslint-disable-next-line no-shadow
+enum BaselineWidgets {
+  MAP = 'widgetMap',
+  MONTHLY = 'widgetMonthly',
+  TOP_FOOD = 'widgetTopFood',
+  CHART = 'widgetChart',
+}
 
 @Component({
   selector: 'app-baseline-details',
   templateUrl: './baselineDetails.component.html',
   styleUrls: ['./baselineDetails.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaselineDetailsComponent implements OnInit {
-  public meatva = [];
-  public totalva = [];
-  public labels = [];
 
-  // view: any[] = [1200, 300];
-  // legend: boolean = true;
-  // showYAxisLabel: boolean = true;
-  // showXAxisLabel: boolean = true;
-  // xAxisLabel: string = 'Vitamin A from Meat';
-  // yAxisLabel: string = 'Vitamin A total';
-  public graphStyle = {
-    display: 'block',
-    height: '430px',
-    width: '860px',
-    color: '#254',
-  };
+  public WIDGETS = BaselineWidgets;
+  public options: GridsterConfig;
+  public dashboard = new Array<GridsterItem>();
+  public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+  public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+  public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+  public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+  public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  public data = {
-    labels: this.labels,
-    datasets: [
-      {
-        color: 'blue',
-        label: 'Vitamin A from Meat',
-        data: this.meatva,
-      },
-      {
-        label: 'Total Vitamin A',
-        data: this.totalva,
-      },
-    ],
-  };
-  constructor(private http: HttpClient, private papa: Papa) {}
+  private readonly defaultWidgetHeight = 4;
+  private readonly defaultWidgetWidth = 6;
+
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<BaselineWidgets>> = new Map([
+    [DataLevel.COUNTRY, [
+      BaselineWidgets.MAP,
+      BaselineWidgets.TOP_FOOD,
+    ]],
+    [DataLevel.HOUSEHOLD, [
+      BaselineWidgets.MAP,
+      BaselineWidgets.MONTHLY,
+      BaselineWidgets.TOP_FOOD,
+      BaselineWidgets.CHART,
+      BaselineWidgets.CHART,
+    ]],
+  ]);
+
+  constructor(
+    public quickmapsService: QuickMapsService,
+  ) { }
 
   ngOnInit(): void {
-    void this.http
-      .get('./assets/dummyData/trial_data.csv', { responseType: 'text' })
-      .toPromise()
-      .then((data) => {
-        const rawData = this.papa.parse(data, { header: true });
-        const rawDataArray = rawData.data;
+    this.options = {
+      gridType: GridType.ScrollVertical,
+      displayGrid: DisplayGrid.None,
+      disableWindowResize: false,
+      scrollToNewItems: false,
+      disableWarnings: false,
+      ignoreMarginInRow: false,
+      margin: 10,
+      keepFixedHeightInMobile: false,
+      pushItems: true,
+      pushDirections: { north: true, east: true, south: true, west: true },
+      itemResizeCallback: (item) => {
+        this.resizeEvent.emit(item);
+        // helps some components re-adjust size
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
+      },
+      itemChangeCallback: (item) => {
+        this.changeEvent.emit(item);
+      },
+      draggable: {
+        delayStart: 0,
+        enabled: true,
+        ignoreContentClass: 'gridster-no-drag',
+        ignoreContent: true,
+        dragHandleClass: 'drag-handle',
+        stop: (item) => {
+          this.stopEvent.emit(item);
+        },
+        start: (item) => {
+          this.startEvent.emit(item);
+        },
+        dropOverItems: false,
+        dropOverItemsCallback: (item) => {
+          this.overlapEvent.emit(item);
+        },
+      },
+      resizable: {
+        delayStart: 0,
+        enabled: true,
+        handles: {
+          s: true,
+          e: true,
+          n: true,
+          w: true,
+          se: true,
+          ne: true,
+          sw: true,
+          nw: true,
+        },
+      },
+    };
 
-        rawDataArray.forEach((item) => {
-          this.meatva.push(Number(item['va.meat']));
-        });
+    this.quickmapsService.dataLevelObs.subscribe((level: DataLevel) => {
+      this.setDataLevel(level);
+    });
+  }
 
-        rawDataArray.forEach((item) => {
-          this.totalva.push(Number(item['va.supply']));
-        });
+  private setDataLevel(level: DataLevel): void {
+    if (null != level) {
+      const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
 
-        rawDataArray.forEach((item) => {
-          this.labels.push(item.pc);
-        });
+      // remove any not needed
+      this.dashboard.slice().forEach(thisWidget => {
+        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
+          this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
+        }
       });
+      // reset size and position of currrent items
+      // Maybe not ideal how this alters the user set size and position of widgets
+      // that have persisted, but what's the alternative?
+      // It does ensure a uniform view at init/data level change.
+      this.dashboard.forEach((thisWidget: GridsterItem, index: number) => {
+        this.resetItemPositionAndSize(thisWidget, index);
+      });
+
+      // add any new widgets
+      newWidgetsTypes.forEach(widgetType => {
+        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
+          this.dashboard.push(
+            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
+          );
+        }
+      });
+      this.changedOptions();
+    }
+  }
+
+  private resetItemPositionAndSize(item: GridsterItem, index: number): GridsterItem {
+    item.cols = this.defaultWidgetWidth;
+    item.rows = this.defaultWidgetHeight;
+    item.x = (index % 2) * this.defaultWidgetWidth;
+    item.y = Math.floor(index / 2) * this.defaultWidgetHeight;
+    return item;
+  }
+
+  private changedOptions(): void {
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }

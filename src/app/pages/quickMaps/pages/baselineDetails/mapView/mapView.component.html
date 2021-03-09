@@ -1,0 +1,16 @@
+<ng-template #componentTemplate>
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Absolute Values">
+      <div #map1></div>
+    </mat-tab>
+    <mat-tab label="Variation from Threshold">
+      <div #map2></div>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-container *ngIf="null != dialogData; else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

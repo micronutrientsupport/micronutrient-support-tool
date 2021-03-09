@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Meta, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,9 +10,7 @@ import { ApiModule } from './apiAndObjects/api.module';
 import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuard.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,7 +21,7 @@ import { QuickMapsRouteGuardService } from './pages/quickMaps/quickMapsRouteGuar
     ServicesModule,
   ],
   exports: [],
-  providers: [QuickMapsRouteGuardService],
+  providers: [QuickMapsRouteGuardService, Title, Meta],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

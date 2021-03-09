@@ -1,11 +1,6 @@
-ngx-chartjs {
-  height: 450px;
-  width: 800px;
-}
-.chart-container {
-  display: block;
-  width: 100%;
-}
-app-quick-maps-header {
-  width: 100%;
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
 }

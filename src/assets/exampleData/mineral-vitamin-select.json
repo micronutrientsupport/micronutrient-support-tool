@@ -1,0 +1,352 @@
+[
+	{
+		"id": "A",
+		"name": "Vitamin A",
+		"unit": "mcg",
+		"description": "Description for Vitamin A",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Ash",
+		"name": "Ash",
+		"unit": "g",
+		"description": "Description for Ash",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B1",
+		"name": "Thiamin",
+		"unit": "mg",
+		"description": "Description for Vitamin B1",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B12",
+		"name": "Vitamin B12",
+		"unit": "mcg",
+		"description": "Description for Vitamin B12",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B2",
+		"name": "Riboflavin",
+		"unit": "mg",
+		"description": "Description for Vitamin B2",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B3",
+		"name": "Niacin",
+		"unit": "mg",
+		"description": "Description for Vitamin B3",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B5",
+		"name": "Pantothenate",
+		"unit": "mg",
+		"description": "Description for Vitamin B5",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B6",
+		"name": "Vitamin B6",
+		"unit": "mg",
+		"description": "Description for Vitamin B6",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B7",
+		"name": "Biotin",
+		"unit": "mg",
+		"description": "Description for Vitamin B7",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "B9",
+		"name": "Folate",
+		"unit": "mcg",
+		"description": "Description for Vitamin B9",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": true,
+		"isDiet": true
+	},
+	{
+		"id": "C",
+		"name": "Vitamin C",
+		"unit": "mg",
+		"description": "Description for Vitamin C",
+		"category": "vitamin",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Ca",
+		"name": "Calcium",
+		"unit": "mg",
+		"description": "Description for Calcium",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Carbohydrate",
+		"name": "Carbhohydrate",
+		"unit": "g",
+		"description": "Description for Carbohydrate",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Cholesterol",
+		"name": "Cholestorol",
+		"unit": "mg",
+		"description": "Description for Cholestorol",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Cu",
+		"name": "Copper",
+		"unit": "mg",
+		"description": "Description for Copper",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "D",
+		"name": "Vitamin D",
+		"unit": "mcg",
+		"description": "Description for Vitamin D",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "E",
+		"name": "Vitamin E",
+		"unit": "mg",
+		"description": "Description for Vitamin E",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Energy",
+		"name": "Energy",
+		"unit": "kCal",
+		"description": "Description for Energy",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Fat",
+		"name": "Total Fats",
+		"unit": "g",
+		"description": "Description for Fats",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Fe",
+		"name": "Iron",
+		"unit": "mg",
+		"description": "Description for Iron",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Fibre",
+		"name": "Fibre",
+		"unit": "g",
+		"description": "Description for Fibre",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Folic Acid",
+		"name": "Folic Acid",
+		"unit": "mcg",
+		"description": "Description for Vitamin B9 - Folic Acid",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "I",
+		"name": "Iodine",
+		"unit": "mg",
+		"description": "Description for Iodine",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": true,
+		"isDiet": true
+	},
+	{
+		"id": "IP6",
+		"name": "Phytic Acid",
+		"unit": "mg",
+		"description": "Description for Phytic Acid",
+		"category": "vitamin",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "K",
+		"name": "Potassium",
+		"unit": "mg",
+		"description": "Description for Potassium",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Mg",
+		"name": "Magnesium",
+		"unit": "mg",
+		"description": "Description for Magnesium",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Mn",
+		"name": "Manganese",
+		"unit": "mcg",
+		"description": "Description for Manganese",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Moisture",
+		"name": "Moisture",
+		"unit": "g",
+		"description": "Descriptiom for Moisture",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "N",
+		"name": "Nitrogen",
+		"unit": "g",
+		"description": "Description for Nitrogen",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Na",
+		"name": "Sodium",
+		"unit": "mg",
+		"description": "Description for Sodium",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "P",
+		"name": "Phosphorus",
+		"unit": "mg",
+		"description": "Description for Phosphorus",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Protein",
+		"name": "Total Protein",
+		"unit": "g",
+		"description": "Description for Protetin",
+		"category": "other",
+		"isInImpact": true,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Se",
+		"name": "Selenium",
+		"unit": "mg",
+		"description": "Description for Selenium",
+		"category": "mineral",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Starch",
+		"name": "Starch",
+		"unit": "g",
+		"description": "Description for Starch",
+		"category": "other",
+		"isInImpact": false,
+		"isBiomarker": false,
+		"isDiet": true
+	},
+	{
+		"id": "Zn",
+		"name": "Zinc",
+		"unit": "mg",
+		"description": "Description for Zinc",
+		"category": "mineral",
+		"isInImpact": true,
+		"isBiomarker": true,
+		"isDiet": true
+	}
+]

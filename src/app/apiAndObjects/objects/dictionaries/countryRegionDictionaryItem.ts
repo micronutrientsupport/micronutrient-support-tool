@@ -1,23 +1,56 @@
-import { DictionaryType } from '../../api/dictionaryType.enum';
-import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
+import * as GeoJSON from 'geojson';
+import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
-export class CountryDictionaryItem extends BaseDictionaryItem {
-  public static readonly DESC_ATTRIBUTE = 'name';
-  // public static readonly OUTLINE_ATTRIBUTE = 'outline';
-  protected _sourceAttributeDesc = CountryDictionaryItem.DESC_ATTRIBUTE;
+export class CountryDictionaryItem extends MapsDictionaryItem {
+  public static readonly DESC_ATTRIBUTE: string = 'name';
+  public static readonly KEYS = {
+    GEOMETRY: 'geometry',
+  };
 
-  // public outline: any;
+  public readonly geoFeature: GeoJSON.Feature;
 
-  // protected populateValues(): void {
-  //   super.populateValues();
-  //   this.outline = this._getArray<number>(CountryDictionaryItem.OUTLINE_ATTRIBUTE);
-  // }
+  protected constructor(
+    sourceObject: Record<string, unknown>,
+    id: string,
+    name: string,
+    description: string,
+  ) {
+    super(sourceObject, id, name, description);
 
-  public static createMockItems(count: number, type: DictionaryType): Array<Record<string, unknown>> {
-    return super.createMockItems(count, type).map(
-      (item: Record<string, unknown>) =>
-        // returnObj[this.OUTLINE_ATTRIBUTE] = [0, 10, 20, 0];
-        item,
-    );
+    const geometry = this._getValue(CountryDictionaryItem.KEYS.GEOMETRY) as GeoJSON.Geometry;
+    if (null != geometry) {
+      this.geoFeature = {
+        geometry,
+        type: 'Feature',
+        properties: {},
+        id: this.id,
+      };
+    }
+  }
+
+  public static createMockItems(isCountry: boolean): Array<Record<string, unknown>> {
+    const name = (isCountry) ? 'Country' : 'Region';
+    return new Array(20).fill(null)
+      .map((val, index: number) => {
+        const returnObj = {};
+        returnObj[this.ID_ATTRIBUTE] = `${index}`;
+        returnObj[this.NAME_ATTRIBUTE] = `${name} ${index}`;
+        returnObj[this.DESC_ATTRIBUTE] = `${name} ${index} description`;
+        returnObj[this.KEYS.GEOMETRY] = {
+          type: 'MultiPolygon',
+          coordinates: [
+            [
+              [
+                [index, index],
+                [index, index + 1],
+                [index + 1, index + 1],
+                [index + 1, index],
+                [index, index],
+              ],
+            ],
+          ],
+        };
+        return returnObj;
+      });
   }
 }

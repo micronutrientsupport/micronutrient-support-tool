@@ -5,16 +5,29 @@
 
   // custom scrollbar
   /* width */
-  &::-webkit-scrollbar { width: 10px; height: 10px; }
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
   /* Track */
-  &::-webkit-scrollbar-track { background: #f1f1f1; }
+  &::-webkit-scrollbar-track {
+    background: #d3d3d3;
+  }
   /* Handle */
-  &::-webkit-scrollbar-thumb { background: #888; }
+  &::-webkit-scrollbar-thumb {
+    background: $color_blue;
+  }
   /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover { background: #555; }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
-
 
 .bmgf-maps-nice-scrollbar {
   @include custom-scroll;
 }
+
+html {
+  @include custom-scroll;
+}
+

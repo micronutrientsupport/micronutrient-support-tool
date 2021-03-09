@@ -1,33 +1,123 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
+import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { DietarySource } from '../apiAndObjects/objects/dietarySource';
+import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
+import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
-import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
-import { DictionaryService } from './dictionary.service';
+import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
+import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
+import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
+import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
+import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
 export class CurrentDataService {
-  constructor(private apiService: ApiService, private dictService: DictionaryService) {
-    // test
-    // dictService
-    //   .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.MICRONUTRIENTS, DictionaryType.POPULATION_GROUPS])
-    //   .then((dicts: Array<Dictionary>) => {
-    //     this.getMicronutrientDataOptions(dicts[0].getItems()[0], dicts[1].getItems()[0], dicts[2].getItems()[0]).then(
-    //       (data) => {
-    //         console.debug('data', data);
-    //       },
-    //     );
-    //   });
+  constructor(
+    private apiService: ApiService,
+  ) {
+    // TEST
+    // void this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
+    //   countryOrGroupId: '',
+    //   micronutrientIds: [],
+    //   mndsDataId: '',
+    // }).then(data => console.debug(data));
   }
 
   public getMicronutrientDataOptions(
-    countryOrgroup: DictionaryItem,
-    micronutrient: DictionaryItem,
-    populationGroup: DictionaryItem,
+    countryOrGroup: CountryDictionaryItem,
+    measureType: MicronutrientMeasureType,
+    singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
-    return this.apiService.currentData.getMicronutrientDataOptions.call({
-      countryOrGroupId: countryOrgroup.id,
-      micronutrientId: micronutrient.id,
-      poulationGroupId: populationGroup.id,
+    return this.apiService.endpoints.currentData.getMicronutrientDataOptions.call({
+      countryOrGroup,
+      measureType,
+      singleOptionOnly,
+    });
+  }
+
+  public getSubRegionData(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    mndsDataOption: MicronutrientDataOption,
+  ): Promise<Array<SubRegionDataItem>> {
+    return this.apiService.endpoints.currentData.getSubRegionData.call({
+      countryOrGroup,
+      micronutrients,
+      mndsDataOption,
+    });
+  }
+
+  public getDietarySources(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    mndsDataOption: MicronutrientDataOption,
+  ): Promise<Array<DietarySource>> {
+    return this.apiService.endpoints.currentData.getDietarySources.call({
+      countryOrGroup,
+      micronutrients,
+      mndsDataOption,
+    });
+  }
+
+  public getTopFood(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    // mndsDataId: string,
+  ): Promise<Array<TopFoodSource>> {
+    return this.apiService.endpoints.currentData.getTopFood.call({
+      countryOrGroup,
+      micronutrients,
+      // mndsDataId,
+    });
+  }
+
+  public getHouseholdHistogramData(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    mndsDataOption: MicronutrientDataOption,
+  ): Promise<HouseholdHistogramData> {
+    return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
+      countryOrGroup,
+      micronutrients,
+      mndsDataOption,
+    });
+  }
+
+  public getProjectedFoodSourceData(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    scenarioId: string,
+  ): Promise<Array<ProjectedFoodSourcesData>> {
+    return this.apiService.endpoints.currentData.getProjectedFoodSourcesData.call({
+      countryOrGroup,
+      micronutrients,
+      scenarioId,
+    });
+  }
+
+  public getMonthlyFoodGroups(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    mndsDataOption: MicronutrientDataOption,
+  ): Promise<MonthlyFoodGroups> {
+    return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
+      countryOrGroup,
+      micronutrients,
+      mndsDataOption,
+    });
+  }
+  public getProjectedAvailabilities(
+    countryOrGroup: CountryDictionaryItem,
+    micronutrients: Array<MicronutrientDictionaryItem>,
+    mndsDataOption: MicronutrientDataOption,
+  ): Promise<Array<ProjectedAvailability>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
+      countryOrGroup,
+      micronutrients,
+      mndsDataOption,
     });
   }
 }

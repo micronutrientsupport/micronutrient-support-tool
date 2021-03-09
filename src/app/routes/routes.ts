@@ -1,5 +1,6 @@
-/**
- * example route with variables
+/*
+ example route with variables
+
   public static readonly TEST = {
     ...BASE_ROUTE,
     subsKeys: ['id1', 'id2'],
@@ -9,8 +10,9 @@
       return getRoute(this, [id1, id2]);
     },
   };
- * get route in ts: AppRoutes.QUICK_MAPS_BASELINE.getRoute('11', '12')
- * get route in template: <a [routerLink]="ROUTES.TEST | route: [13,14]">TEST</a>
+
+ get route in ts: AppRoutes.QUICK_MAPS_BASELINE.getRoute('11', '12')
+ get route in template: <a [routerLink]="ROUTES.TEST | route: [13,14]">TEST</a>
  */
 
 const BASE_ROUTE = {
@@ -54,22 +56,26 @@ export class AppRoutes {
   // used in quick maps sub-router
   public static readonly QUICK_MAPS_LOCATION_SELECT = {
     ...BASE_ROUTE,
-    segments: 'location',
+    segments: '',
     parent: AppRoutes.QUICK_MAPS,
   };
   public static readonly QUICK_MAPS_BASELINE = {
     ...BASE_ROUTE,
-    segments: 'baseline',
+    segments: 'diet/baseline',
     parent: AppRoutes.QUICK_MAPS,
   };
   public static readonly QUICK_MAPS_PROJECTION = {
     ...BASE_ROUTE,
-    segments: 'projection',
+    segments: 'diet/projection',
+    parent: AppRoutes.QUICK_MAPS,
+  };
+  public static readonly QUICK_MAPS_BIOMARKER = {
+    ...BASE_ROUTE,
+    segments: 'biomarker',
     parent: AppRoutes.QUICK_MAPS,
   };
   // *** quick maps end ***
 }
-
 
 export interface AppRoute {
   readonly segments: string;
@@ -89,7 +95,7 @@ export interface AppRoute {
  * result is: ['/segment1/segment2/segment3/11/segment4/12']
  */
 export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<string> => {
-  let url = (null != route.parent) ? route.parent.getRoute()[0] : '';
+  let url = null != route.parent ? route.parent.getRoute()[0] : '';
   url = '/' + url + '/' + route.segments;
   url = url.replace(/\/+/g, '/'); // replace multiple '/'
   if (null != subsValues) {
@@ -102,4 +108,3 @@ export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<str
   }
   return [url];
 };
-

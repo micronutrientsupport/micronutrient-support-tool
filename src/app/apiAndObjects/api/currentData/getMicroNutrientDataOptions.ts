@@ -1,33 +1,51 @@
+import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
-// import { RequestMethod } from '../../_lib_code/api/apiCaller';
-import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
+import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetMicronutrientDataOptions extends Endpoint<
+export class GetMicronutrientDataOptions extends CacheableEndpoint<
 Array<MicronutrientDataOption>,
 GetMicronutrientDataOptionsParams,
 MicronutrientDataOption
 > {
-  protected callLive(): Promise<Array<MicronutrientDataOption>> {
-    throw new Error('Method not implemented.');
-    // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
-    //   'country-or-group-id': params.countryOrGroupId,
-    //   'micronutrient-id': params.micronutrientId,
-    //   'poulationGroup-id': params.poulationGroupId,
-    // });
 
-    // return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+  protected getCacheKey(params: GetMicronutrientDataOptionsParams): string {
+    return JSON.stringify(params);
+  }
+  protected callLive(
+    params: GetMicronutrientDataOptionsParams,
+  ): Promise<Array<MicronutrientDataOption>> {
+    const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
+      RequestMethod.GET,
+    ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
+
+    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
   }
 
-  protected callMock(): Promise<Array<MicronutrientDataOption>> {
-    return this.buildObjectsFromResponse(
-      MicronutrientDataOption,
-      Promise.resolve(MicronutrientDataOption.createMockItems(20)),
-    );
+  protected callMock(
+    params: GetMicronutrientDataOptionsParams,
+  ): Promise<Array<MicronutrientDataOption>> {
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
+    const callResponsePromise = httpClient.get('/assets/exampleData/data-options-select.json').toPromise()
+      .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
+
+    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+  }
+
+  private processResponseData(
+    data: Array<Record<string, unknown>>,
+    params: GetMicronutrientDataOptionsParams,
+  ): Array<Record<string, unknown>> {
+    data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
+    // return only first item when single option specified
+    return (params.singleOptionOnly) ? data.slice(0, 1) : data;
   }
 }
 
 export interface GetMicronutrientDataOptionsParams {
-  countryOrGroupId: string;
-  micronutrientId: string;
-  poulationGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
+  measureType: MicronutrientMeasureType;
+  singleOptionOnly: boolean;
 }

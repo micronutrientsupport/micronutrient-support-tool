@@ -1,0 +1,53 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.wrapper {
+  flex: 1 1;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  & .card-container {
+    min-height: 0;
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 17px;
+}
+
+mat-toolbar {
+  height: 40px;
+}
+
+.loading-indicator {
+  z-index: 1000;
+  background-color: #afafaf40;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drag-handle {
+  cursor: move;
+}
+
+.card-content-wrapper {
+  flex: 1 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,42 @@
+<app-base-dialog [data]="data">
+
+  <div id="shareContentPanel" class="shareContentPanel">
+    <h2>Share this page</h2>
+    <div class='row'>
+      <div class='column'>
+        <div>
+          <button class="full-btn" mat-stroked-button shareButton="facebook"><i class="fab fa-facebook"></i>
+            Facebook</button>
+        </div>
+      </div>
+      <div class='column'>
+        <div>
+          <button class="full-btn" mat-stroked-button shareButton="twitter"><i class="fab fa-twitter"></i>
+            Twitter</button>
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='column'>
+        <div>
+          <button class="full-btn" mat-stroked-button shareButton="linkedin"><i class="fab fa-linkedin"></i>
+            LinkedIn</button>
+        </div>
+      </div>
+      <div class='column'>
+        <div>
+          <button class="full-btn" mat-stroked-button shareButton="email"><i class="fas fa-envelope"></i> Email</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="linkPanel">
+      <span class="linkText">{{copyLinkUrl}}</span>
+      <div class="linkAction">
+        <button mat-stroked-button (click)="copyLink()">Copy Link</button>
+      </div>
+    </div>
+
+  </div>
+
+</app-base-dialog>

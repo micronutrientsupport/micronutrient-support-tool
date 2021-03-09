@@ -1,0 +1,52 @@
+@import 'src/assets/scss/_colour.scss';
+@import 'src/assets/scss/_layout.scss';
+
+router-outlet ::ng-deep + * {
+  flex: 1 1;
+  min-height: 0; // needs this to make the above flex rule work!
+}
+
+.mat-sidenav {
+  border: 0;
+}
+
+.sidenav-container {
+  position: absolute;
+  top: $header_height;
+  bottom: $footer_light_height;
+  left: 0;
+  right: 0;
+}
+
+// fix the footer position
+::ng-deep app-footer-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.large-sidenav-mode {
+  background-color: $color_background_form;
+  width: 345px;
+  transition: all 0.4s;
+}
+
+.slim-sidenav-mode {
+  width: 50px;
+  background-color: $color_background_form;
+  transition: all 0.4s;
+}
+
+app-quick-maps-header {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}

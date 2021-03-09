@@ -1,5 +1,12 @@
 # Micronutrient Support Tool
 
+---
+### :globe_with_meridians: [Latest Development Preview](https://develop--micronutrientsupport-tool.netlify.app/) :globe_with_meridians:
+
+---
+
+
+
 #### Branch Pipeline Status
 
 | Branch    | Lint                                                                                                                      | Build                                                                                                                                   |
@@ -9,7 +16,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
-### Development
+### Development Notes
 
 Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode formatter for consistency in code format/style.
 
@@ -46,6 +53,14 @@ Run `ng run micronutrient-support-tool:cypress-open` to execute the Cypress end-
 [Writing your first Cypress test](https://docs.cypress.io/guides/getting-started/writing-your-first-test.html#Add-a-test-file)
 
 [Chrome Extension to scaffold tests](https://chrome.google.com/webstore/detail/cypress-recorder/glcapdcacdfkokcmicllhcjigeodacab)
+
+### Webpack Analysis
+
+Webpack bundle analyzer can generate stats and on the current application bundle size and visualise them in a simple web tool.
+
+Run `npm run build:stats` to build the Angular project and calculate the bundle stats (`dist/stats.json`)
+
+Run `npm run analyze` to use this `stats.json` and load the bundle visualiser at `localhost:8888`
 
 ## Further help
 

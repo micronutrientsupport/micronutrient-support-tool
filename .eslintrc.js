@@ -21,7 +21,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'prettier',
-    'prettier/@typescript-eslint',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -36,6 +35,7 @@ module.exports = {
     'eslint-plugin-prefer-arrow',
     '@typescript-eslint',
     '@typescript-eslint/tslint',
+    "prettier",
   ],
   rules: {
     '@angular-eslint/component-class-suffix': 'error',
@@ -106,6 +106,7 @@ module.exports = {
       'error',
       2,
       {
+        ignoredNodes: ['TSTypeParameterInstantiation'],
         FunctionDeclaration: {
           parameters: 'first',
         },
@@ -140,12 +141,6 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-empty-interface': 'error',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-inferrable-types': [
-      'error',
-      {
-        ignoreParameters: true,
-      },
-    ],
     '@typescript-eslint/no-misused-new': 'error',
     '@typescript-eslint/no-namespace': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',

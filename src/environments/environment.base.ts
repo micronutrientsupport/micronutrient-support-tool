@@ -11,6 +11,6 @@ export const environment = {
   // gitCommitHash: '{GIT-COMMIT-HASH}', // populated during pipeline
   // gitTag: '{GIT-TAG}', // populated during pipeline
   // gitBranchName: '{GIT-BRANCH-NAME}', // populated during pipeline
-  apiBaseUrl: '//bgs-lims-dev2.bgslcdevops.test:3000/lims',
-  // apiBaseUrl: '//10.152.120.35:3000/lims', // when DNS fails
+  apiBaseUrl: 'https://devapi.micronutrient.support',
+  useLiveApi: true,
 };

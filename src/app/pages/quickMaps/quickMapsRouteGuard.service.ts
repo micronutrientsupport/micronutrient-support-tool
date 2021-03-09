@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { Injectable, Injector } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 
 /**
@@ -12,11 +12,14 @@ import { QuickMapsQueryParams } from './quickMapsQueryParams';
  */
 @Injectable()
 export class QuickMapsRouteGuardService implements CanActivate {
+  private readonly quickMapsParameters: QuickMapsQueryParams;
+
   constructor(
     private router: Router,
-    private dictionaryService: DictionaryService,
     private currentDataService: CurrentDataService,
+    injector: Injector,
   ) {
+    this.quickMapsParameters = new QuickMapsQueryParams(injector);
   }
 
   public canActivate(
@@ -24,58 +27,81 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route);
+    // console.debug('canActivate', route.queryParamMap, route.routeConfig.path);
 
-    switch (route.routeConfig.path) {
-      case (AppRoutes.QUICK_MAPS_BASELINE.segments):
-        promises.push(this.isValidCountry(route));
-        promises.push(this.isValidMicronutrients(route));
-        break;
-    }
-    // eslint-disable-next-line arrow-body-style
+    // code for potentially having different validity checks for different routes
+    // switch (route.routeConfig.path) {
+    //   case AppRoutes.QUICK_MAPS_BASELINE.segments:
+    //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
+    promises.push(this.validateParams(route.queryParamMap));
+    promises.push(this.validateParamsForRoute(route));
+
+    // break;
+    //   default:
+    //     promises.push(Promise.resolve(true));
+    // }
     return Promise.all(promises).then((valids: Array<boolean>) => {
-      if (valids.every(value => value)) {
+      // console.debug('canActivate', valids);
+      // if all are true, return true
+      if (valids.every((value) => value)) {
         return true;
       } else {
         // TODO: Show notification of "Params error"?
 
         // redirect to quickmaps map page
         // TODO: Consider redirect to params error page?
-        return this.router.createUrlTree(
-          AppRoutes.QUICK_MAPS.getRoute(),
-          {
-            queryParams: route.queryParams,
-          }
-        );
+        return this.router.createUrlTree(AppRoutes.QUICK_MAPS.getRoute(), {
+          queryParams: route.queryParams,
+        });
       }
     });
   }
 
-  private isValidDictionaryItems(dictType: DictionaryType, _itemIds: string | Array<string>): Promise<boolean> {
-    const itemIds = (Array.isArray(_itemIds)) ? _itemIds : [_itemIds];
-    return this.dictionaryService
-      .getDictionary(dictType)
-      .then((dict: Dictionary) => {
-        const items = dict.getItems(itemIds);
-        // console.debug('isValidDictionaryItems', itemIds, items);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
+    // TODO: ensure meaasure matches route?
+    return Promise.resolve(true);
+  }
 
-        return (items.length === itemIds.length);
-      });
-  };
+  private validateParams(queryParamMap: ParamMap): Promise<boolean> {
 
-  private isValidCountry(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const country = QuickMapsQueryParams.getCountryId(route);
-    // console.debug('isValidCountry', country, route.paramMap);
-    return (null == country)
-      ? Promise.resolve(false)
-      : this.isValidDictionaryItems(DictionaryType.COUNTRIES, [country]);
-  };
-  private isValidMicronutrients(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const micronutrients = QuickMapsQueryParams.getMicronutrientIds(route);
-    // console.debug('isValidMicronutrients', micronutrients, route.paramMap);
-    return (0 === micronutrients.length)
-      ? Promise.resolve(false)
-      : this.isValidDictionaryItems(DictionaryType.MICRONUTRIENTS, micronutrients);
-  };
+    return Promise.all([
+      this.quickMapsParameters.getCountry(queryParamMap),
+      this.quickMapsParameters.getMicronutrient(queryParamMap),
+    ]).then((values: [
+      CountryDictionaryItem,
+      MicronutrientDictionaryItem,
+    ]) => {
+      const country = values.shift() as CountryDictionaryItem;
+      const micronutrient = values.shift() as MicronutrientDictionaryItem;
+      const measure = this.quickMapsParameters.getMeasure(queryParamMap);
+
+      return (
+        (null == country)
+        || (null == micronutrient)
+        || (null == measure)
+      )
+        ? false
+        : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
+          .then((options: Array<MicronutrientDataOption>) => {
+            const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
+
+            let valid = false;
+            const selectedOption = options[0]; // first item
+            // while we're here, validate the data level if set
+            if (null != selectedOption) {
+              if (null == dataLevel) {
+                valid = true;
+              } else {
+                const availableDataLevels = selectedOption.dataLevelOptions;
+                valid = availableDataLevels.includes(dataLevel);
+              }
+            }
+
+            return valid;
+          });
+    });
+
+  }
 
 }

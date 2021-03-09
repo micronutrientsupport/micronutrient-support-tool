@@ -1,3 +1,6 @@
-app-quick-maps-header {
-  width: 100%;
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
 }

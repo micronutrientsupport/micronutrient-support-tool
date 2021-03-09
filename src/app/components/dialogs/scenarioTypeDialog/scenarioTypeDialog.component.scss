@@ -1,0 +1,58 @@
+.shareContentPanel {
+  width: 350px;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  margin-right: 5px;
+}
+.full-btn {
+  width: 100% !important;
+}
+.targets {
+  display: flex;
+  // display: grid;
+  // grid-template-rows: 1fr 1fr;
+  // grid-template-columns: 1fr 1fr;
+  // grid-gap: 5px;
+  margin-bottom: 5px;
+}
+@media (max-width: 400px) {
+  .targets {
+    display: block;
+  }
+}
+.col {
+  flex: 1;
+}
+.linkPanel {
+  flex-direction: row;
+  display: flex;
+  max-width: 490px;
+  background-color: lightgray;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: center;
+  margin-top: 10px;
+}
+.linkText {
+  flex-grow: 1;
+  margin-left: 5px;
+  margin-right: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.linkAction {
+  width: 100px;
+}
