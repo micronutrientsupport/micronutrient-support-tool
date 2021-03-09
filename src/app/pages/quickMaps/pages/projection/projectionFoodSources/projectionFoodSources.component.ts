@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import {
   ChangeDetectionStrategy,
@@ -22,7 +21,7 @@ import {
   ProjectedFoodSourcesData,
   ProjectedFoodSourcesTable,
 } from 'src/app/apiAndObjects/objects/projectedFoodSources';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
@@ -174,7 +173,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     dataPromise
       .then((data: Array<ProjectedFoodSourcesData>) => {
         this.data = data;
-        // console.log('projFoodSource data: ', data);
         if (null == data) {
           throw new Error('data error');
         }
@@ -190,7 +188,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         );
 
         const filteredTableDataArray = [];
-        const listOfFoods = new Array<ProjectedFoodSourcesTable>();
         const foodTypes = [...new Set(data.map((item) => item.commodity))];
         const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
 
@@ -229,13 +226,9 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
         this.errorSrc.next(false);
         this.chartData = null;
-        // force change detection to:
+
         // remove chart before re-setting it to stop js error
         this.cdr.detectChanges();
-
-        console.log('listOfFoods = ', listOfFoods);
-
-        console.log('stackedChartData: ', stackedChartData);
 
         this.initialiseGraph(stackedChartData);
         this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
@@ -264,80 +257,10 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseGraph(stackedChartData): void {
-    // const quinquennialPeriod = [...new Set(graphData.map((item) => item.year))];
-
-    // const barChartData = {
-    //   labels: Object.values(quinquennialPeriod),
-    //   datasets: [],
-    // };
-
-    // graphData.forEach((item: ProjectedFoodSourcesTable) => {
-    //   barChartData.datasets.push({
-    //     label: item.foodName,
-    //     data: item.value,
-    //     stack: item.year,
-    //     backgroundColor: () => 'rgba(255, 165, 0, 0.6)',
-    //   });
-    // });
-
-    // quinquennialPeriod.forEach((year, index) => {
-    //   const dataAtIndex = graphData[index];
-    //   console.log('dataatindex: ', dataAtIndex);
-
-    //   barChartData.datasets.push({
-    //     label: year, //need to be foodName
-    //     data: graphData.filter((item) => item.year === year),
-    //     backgroundColor: () => 'rgba(255, 165, 0, 0.6)',
-    //   });
-    //   // console.log(barChartData);
-    // });
-
-    // console.log(barChartData);
-
+  private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
     this.chartData = {
       type: 'bar',
       data: stackedChartData,
-      // data: {
-      //   labels: barChartData.labels,
-      //   datasets: barChartData.datasets,
-      //   {
-      //     label: 'Millet',
-      //     data: barChartData.datasets.map((item: ProjectedFoodSourcesPeriod) => item.data[0].value),
-      //     backgroundColor: () => 'rgba(255, 165, 0, 0.6)',
-      //   },
-      //   {
-      //     label: 'Cowpeas',
-      //     data: barChartData.datasets.map((item: ProjectedFoodSourcesPeriod) => item.data[1].value),
-      //     backgroundColor: () => 'rgba(248,228,165)',
-      //   },
-      // {
-      //   label: 'Potato',
-      //   data: data.map((item) => item.data.potato),
-      //   backgroundColor: () => 'rgba(0, 0, 255, 0.6)',
-      // },
-      // {
-      //   label: 'Vegetables',
-      //   data: data.map((item) => item.data.vegetables),
-      //   backgroundColor: () => 'rgba(172, 114, 87, 0.6)',
-      // },
-      // {
-      //   label: 'Pigeonpeas',
-      //   data: data.map((item) => item.data.pigeonpeas),
-      //   backgroundColor: () => 'rgba(238, 130, 238, 0.6)',
-      // },
-      // {
-      //   label: 'Dairy',
-      //   data: data.map((item) => item.data.dairy),
-      //   backgroundColor: () => 'rgba(138, 230, 238, 0.6)',
-      // },
-      // {
-      //   label: 'Other',
-      //   data: data.map((item) => item.data.other),
-      //   backgroundColor: () => 'rgba(100, 181, 220, 0.6)',
-      // },
-      // ],
-      // },
       options: {
         // animation: {
         //   onComplete(animation): void {

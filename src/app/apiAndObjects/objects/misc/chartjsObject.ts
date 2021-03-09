@@ -1,26 +1,28 @@
 import { ChartAnimationOptions, ChartData, ChartTooltipItem } from 'chart.js';
 import { TopFoodSource } from '../topFoodSource';
 
+export interface ChartsJSDataObject {
+  labels?: Array<string | number>;
+  datasets: Array<{
+    data?: Array<number | string>;
+    label?: string;
+    backgroundColor?: () => string;
+    borderColor?: string;
+    fill?: boolean;
+    tree?: Array<TopFoodSource>;
+    key?: string;
+    groups?: Array<string>;
+    groupLabels?: boolean;
+    fontColor?: string;
+    fontFamily?: string;
+    fontSize?: number;
+    fontStyle?: string;
+  }>;
+}
+
 export interface ChartJSObject {
   type: string;
-  data: {
-    labels?: Array<string | number>;
-    datasets: Array<{
-      data?: Array<number | string>;
-      label?: string;
-      backgroundColor?: () => string;
-      borderColor?: string;
-      fill?: boolean;
-      tree?: Array<TopFoodSource>;
-      key?: string;
-      groups?: Array<string>;
-      groupLabels?: boolean;
-      fontColor?: string;
-      fontFamily?: string;
-      fontSize?: number;
-      fontStyle?: string;
-    }>;
-  };
+  data: ChartsJSDataObject;
   options?: {
     animation?: ChartAnimationOptions;
     maintainAspectRatio?: boolean;
