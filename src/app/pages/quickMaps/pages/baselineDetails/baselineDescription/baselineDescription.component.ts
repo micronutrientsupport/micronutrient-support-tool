@@ -2,10 +2,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';

@@ -34,24 +34,22 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     // fails to find element if not taked out of flow
     setTimeout(() => {
       void this.initialiseMap().then(() => {
-        this.quickMapsService.countryObs.subscribe(country => {
-          this.selectFeature(this.getLayer(country.id));
-        });
+        this.quickMapsService.countryObs.subscribe(country => this.selectFeature(this.getLayer(country)));
       });
     }, 0);
   }
 
-  public getLayer(countryId: string): UnknownLeafletFeatureLayerClass {
-    let country: UnknownLeafletFeatureLayerClass;
-    if (this.geojson) {
+  public getLayer(country: CountryDictionaryItem): UnknownLeafletFeatureLayerClass {
+    let countryLayer: UnknownLeafletFeatureLayerClass;
+    if ((null != this.geojson) && (null != country)) {
       this.geojson.eachLayer((layer: UnknownLeafletFeatureLayerClass) => {
         // tslint:disable-next-line: no-string-literal
-        if ((null == country) && (layer.feature.id === countryId)) {
-          country = layer;
+        if ((null == countryLayer) && (layer.feature.id === country.id)) {
+          countryLayer = layer;
         }
       });
     }
-    return country;
+    return countryLayer;
   }
 
   private initialiseMap(): Promise<void> {
