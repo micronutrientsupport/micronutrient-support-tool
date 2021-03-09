@@ -1,1 +1,20 @@
-<p>notification works!</p>
+<div class="holding-container {{notificationData.type}}">
+  <span class="notification-symbol {{notificationData.type}}">
+    <ng-container [ngSwitch]="notificationData.type">
+      <i *ngSwitchCase="notificationType.POSITIVE" class="fas fa-check {{notificationData.type}}"></i>
+      <i *ngSwitchCase="notificationType.NEGATIVE" class="fas fa-exclamation {{notificationData.type}}"></i>
+      <i *ngSwitchCase="notificationType.WARNING" class="fas fa-exclamation {{notificationData.type}}"></i>
+    </ng-container>
+  </span>
+  <span class="message-container">
+    <ng-container [ngSwitch]="notificationData.type">
+      <span *ngSwitchCase="notificationType.POSITIVE" class="message-class">Success!</span>
+      <span *ngSwitchCase="notificationType.NEGATIVE" class="message-class">Error!</span>
+      <span *ngSwitchCase="notificationType.WARNING" class="message-class">Warning!</span>
+    </ng-container>
+    <span class="message-emitted">{{notificationString}}</span>
+  </span>
+  <button mat-mini-fab class="mat-snackbar-close {{notificationData.type}}" (click)="snackBarRef.dismiss()">
+    <i class="fas fa-times {{notificationData.type}}"></i>
+  </button>
+</div>

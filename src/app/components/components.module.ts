@@ -10,10 +10,11 @@ import { DialogModule } from './dialogs/dialog.module';
 import { FooterLightComponent } from './footerLight/footerLight.component';
 import { LoadingComponent } from './loading/loading.component';
 import { CardComponent } from './card/card.component';
+import { NotificationModule } from './notifications/notification.module';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent, CardComponent],
-  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, DialogModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, DialogModule, NotificationModule],
   exports: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent, CardComponent],
 })
 export class ComponentsModule { }

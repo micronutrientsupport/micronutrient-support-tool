@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationComponent } from './notification.component';
 import { NotificationType } from './notificationType.enum';
 
 @Injectable()
-export class UserNotificationsService {
+export class NotificationsService {
 
   constructor(private newNotification: MatSnackBar) {
   }
 
-  public sendPositive(message: string, showFor: number = 3000): void {
-    this.sendNotification(message, NotificationType.POSITIVE, showFor);
+  public sendPositive(message: string, duration: number = 3000): void {
+    this.sendNotification(message, NotificationType.POSITIVE, duration);
   }
-  public sendNegative(message: string, showFor: number = 3000): void {
-    this.sendNotification(message, NotificationType.NEGATIVE, showFor);
+  public sendNegative(message: string, duration: number = 3000): void {
+    this.sendNotification(message, NotificationType.NEGATIVE, duration);
   }
-  public sendWarning(message: string, showFor: number = 3000): void {
-    this.sendNotification(message, NotificationType.WARNING, showFor);
+  public sendWarning(message: string, duration: number = 3000): void {
+    this.sendNotification(message, NotificationType.WARNING, duration);
   }
-  public sendNotification(message: string, type: NotificationType, showFor: number = 3000): void {
+  public sendNotification(message: string, type: NotificationType, duration: number = 3000): void {
     this.newNotification.openFromComponent(NotificationComponent, {
-      panelClass: ['myhaz-snackbar'],
-      duration: showFor,
+      panelClass: ['maps-snackbar'],
+      duration: duration,
       data: {
         message,
         type

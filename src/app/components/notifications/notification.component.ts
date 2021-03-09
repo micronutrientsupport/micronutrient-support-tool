@@ -1,7 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material';
+import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { NotificationType } from './notificationType.enum';
 
+export interface NotificationData {
+  message: string;
+  type: NotificationType;
+  duration: number;
+}
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
@@ -13,7 +18,7 @@ export class NotificationComponent implements OnInit {
   public notificationType = NotificationType;
 
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public notificationData: any,
+    @Inject(MAT_SNACK_BAR_DATA) public notificationData: NotificationData,
     public snackBarRef: MatSnackBarRef<NotificationComponent>
   ) { }
 

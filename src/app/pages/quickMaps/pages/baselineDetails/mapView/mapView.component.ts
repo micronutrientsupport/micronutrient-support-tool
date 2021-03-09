@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   Component,
@@ -14,8 +16,6 @@ import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
