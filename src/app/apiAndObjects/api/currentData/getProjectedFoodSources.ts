@@ -1,4 +1,6 @@
 import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { ProjectedFoodSourcesData } from '../../objects/projectedFoodSources';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -14,7 +16,7 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
 
   protected callLive(params: GetProjectedFoodSourcesParams): Promise<Array<ProjectedFoodSourcesData>> {
     const callResponsePromise = this.apiCaller.doCall(
-      ['projections', 'commodity', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
+      ['projections', 'commodity', params.countryOrGroup.id, params.micronutrients[0].id, params.scenarioId],
       RequestMethod.GET,
     );
     return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);
@@ -35,7 +37,7 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
 }
 
 export interface GetProjectedFoodSourcesParams {
-  countryOrGroupId: string;
-  micronutrientId: string;
+  countryOrGroup: CountryDictionaryItem;
+  micronutrients: Array<MicronutrientDictionaryItem>;
   scenarioId: string;
 }
