@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
@@ -61,16 +62,14 @@ export class SideNavContentComponent implements OnInit {
         this.micronutrientsDictionary = dicts.shift();
 
         this.quickMapsForm = this.fb.group({
-          nation: [this.quickMapsService.countryId, Validators.required],
+          nation: [this.quickMapsService.country, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
           mndsData: [this.quickMapsService.mndDataOption, Validators.required],
         });
 
         // watches changes so that reacts to location component selections
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          this.quickMapsForm.get('nation').setValue(countryId);
-        });
+        this.quickMapsService.countryObs.subscribe(country => this.quickMapsForm.get('nation').setValue(country));
 
         // TODO: should setting these be dependant on query params?
         this.countryChange(GeographyTypes.COUNTRY);
@@ -79,8 +78,8 @@ export class SideNavContentComponent implements OnInit {
         this.updateDataMeasureOptions();
         this.updateMicronutrientDataOptions();
 
-        this.quickMapsForm.get('nation').valueChanges.subscribe((value: string) => {
-          this.quickMapsService.setCountryId(value);
+        this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
+          this.quickMapsService.setCountry(value);
           this.updateMicronutrientDataOptions();
         });
         this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
@@ -159,7 +158,7 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public updateMicronutrientDataOptions(): void {
-    const country = this.countriesDictionary.getItem(this.quickMapsService.countryId);
+    const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
 
     if ((null != country) && (null != measure)) {

@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
@@ -16,7 +17,7 @@ MicronutrientDataOption
   protected callLive(
     params: GetMicronutrientDataOptionsParams,
   ): Promise<Array<MicronutrientDataOption>> {
-    const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroupId, params.measureType],
+    const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
       RequestMethod.GET,
     ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
@@ -44,7 +45,7 @@ MicronutrientDataOption
 }
 
 export interface GetMicronutrientDataOptionsParams {
-  countryOrGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
   measureType: MicronutrientMeasureType;
   singleOptionOnly: boolean;
 }

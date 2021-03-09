@@ -35,7 +35,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public title = 'Projection Availability';
   public headingText = 'Calcium';
   public subtHeadingText = '';
-  public selectedCountry: string;
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 
@@ -100,12 +99,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
-      this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
             this.currentDataService.getProjectedAvailabilities(
-              this.quickMapsService.countryId,
+              this.quickMapsService.country,
               [this.quickMapsService.micronutrient],
               this.quickMapsService.mndDataOption,
             ),
@@ -130,7 +128,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         }
 
         const filteredData: Array<ProjectedAvailability> = data.filter(
-          (item: ProjectedAvailability) => item.country === this.selectedCountry,
+          (item: ProjectedAvailability) => item.country === this.quickMapsService.country.id,
         );
         this.errorSrc.next(false);
         this.chartData = null;
