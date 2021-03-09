@@ -1,4 +1,8 @@
-<div class="container">
+<div class="container" *ngIf="loading">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<div class="container" *ngIf="!loading">
   <div class="wideItem left-text">
     <div class="nation">
       <span class="estimateHeader">Estimate (2010):</span>

@@ -28,7 +28,7 @@ export class ProjectionEstimateComponent {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
-  public loading = false;
+  public loading: boolean;
   public error = false;
   public scenarioId = 'SSP2';
   public projectionEstimateForm: FormGroup;
@@ -89,6 +89,7 @@ export class ProjectionEstimateComponent {
   }
 
   public callToApi(): void {
+    this.loading = true;
     void this.currentDataService.getProjectionsSummaryCardData(
       this.quickMapsService.countryId,
       this.quickMapsService.micronutrient,
@@ -99,6 +100,7 @@ export class ProjectionEstimateComponent {
         this.differencePercentage = response[0].difference;
         this.calculate();
         this.cdr.markForCheck();
+        this.loading = false;
       })
       .catch((e: any) => {
         this.targetCalc = null;
@@ -106,6 +108,7 @@ export class ProjectionEstimateComponent {
         this.differencePercentage = null;
         this.differenceQuantity = null;
         this.cdr.markForCheck();
+        this.loading = false;
       });
   }
 
