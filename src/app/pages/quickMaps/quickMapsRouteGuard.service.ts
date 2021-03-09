@@ -87,7 +87,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
             const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
             let valid = false;
-            const selectedOption = options[0];
+            const selectedOption = options[0]; // first item
             // while we're here, validate the data level if set
             if (null != selectedOption) {
               if (null == dataLevel) {

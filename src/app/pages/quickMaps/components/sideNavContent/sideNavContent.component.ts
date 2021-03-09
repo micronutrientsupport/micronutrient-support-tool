@@ -93,9 +93,6 @@ export class SideNavContentComponent implements OnInit {
         });
         this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
           this.quickMapsService.setMndDataOption(value);
-          if (null != value) {
-            this.quickMapsService.setDataLevelOptions(value.dataLevelOptions);
-          }
         });
       });
 

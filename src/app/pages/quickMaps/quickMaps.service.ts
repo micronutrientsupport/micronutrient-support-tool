@@ -5,6 +5,8 @@ import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { CurrentDataService } from 'src/app/services/currentData.service';
 
 @Injectable()
 export class QuickMapsService {
@@ -36,10 +38,6 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public dataLevelObs = this.dataLevelSrc.asObservable();
 
-  private readonly dataLevelOptionsSrc = new BehaviorSubject<Array<DataLevel>>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public dataLevelOptionsObs = this.dataLevelOptionsSrc.asObservable();
-
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
@@ -50,16 +48,19 @@ export class QuickMapsService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector) {
+  constructor(
+    injector: Injector,
+    private currentDataService: CurrentDataService,
+  ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
-    // set from query params on init
+    // set from query params etc. on init
     const promises = new Array<Promise<unknown>>();
 
     this.setCountryId(this.quickMapsParameters.getCountryId());
     promises.push(
       this.quickMapsParameters.getMicronutrient().then(micronutrient => this.setMicronutrient(micronutrient)),
-      this.quickMapsParameters.getMndOption().then(option => this.setMndDataOption(option)),
+      this.getMndOption().then(option => this.setMndDataOption(option)),
     );
     this.setMeasure(this.quickMapsParameters.getMeasure());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
@@ -122,15 +123,6 @@ export class QuickMapsService {
   public setDataLevel(dataLevel: DataLevel, force = false): void {
     this.setValue(this.dataLevelSrc, dataLevel, force);
   }
-  public get dataLevelOptions(): Array<DataLevel> {
-    return this.dataLevelOptionsSrc.value;
-  }
-  public setDataLevelOptions(dataLevels: Array<DataLevel>, force = false): void {
-    this.setValue(this.dataLevelOptionsSrc, dataLevels, force);
-    if (!dataLevels.includes(this.dataLevel)) {
-      this.setDataLevel(dataLevels[0]);
-    }
-  }
 
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
@@ -151,5 +143,19 @@ export class QuickMapsService {
   private parameterChanged(): void {
     this.updateQueryParams();
     this.parameterChangedSrc.next();
+  }
+
+  public getMndOption(): Promise<MicronutrientDataOption> {
+    return Promise.all([
+      this.quickMapsParameters.getCountry(),
+    ]).then((data: [CountryDictionaryItem]) => {
+      return (null == data[0])
+        ? null
+        : this.currentDataService.getMicronutrientDataOptions(
+          data[0],
+          this.quickMapsParameters.getMeasure(),
+          true,
+        ).then(options => options[0]); // first item
+    });
   }
 }

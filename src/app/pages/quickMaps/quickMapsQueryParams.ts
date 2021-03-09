@@ -5,8 +5,6 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { EnumTools } from 'src/utility/enumTools';
 
@@ -18,13 +16,11 @@ export class QuickMapsQueryParams {
     DATA_LEVEL: 'data-level',
   };
 
-  private readonly currentDataService: CurrentDataService;
   private readonly dictionariesService: DictionaryService;
   private readonly router: Router;
   private readonly route: ActivatedRoute;
 
   constructor(injector: Injector) {
-    this.currentDataService = injector.get<CurrentDataService>(CurrentDataService);
     this.dictionariesService = injector.get<DictionaryService>(DictionaryService);
     this.router = injector.get<Router>(Router);
     this.route = injector.get<ActivatedRoute>(ActivatedRoute);
@@ -52,19 +48,6 @@ export class QuickMapsQueryParams {
       MicronutrientMeasureType,
     );
   }
-
-  public getMndOption(queryParamMap?: ParamMap): Promise<MicronutrientDataOption> {
-    return Promise.all([
-      this.getCountry(queryParamMap),
-    ]).then((data: [CountryDictionaryItem]) => {
-      return this.currentDataService.getMicronutrientDataOptions(
-        data[0],
-        this.getMeasure(queryParamMap),
-        true,
-      ).then(options => options[0]);
-    });
-  }
-
 
   public getDataLevel(queryParamMap?: ParamMap): DataLevel {
     return EnumTools.getEnumFromValue(
@@ -119,6 +102,7 @@ export class QuickMapsQueryParams {
   // }
 
   private params(queryParamMap?: ParamMap): ParamMap {
+    // console.debug('this.route.snapshot.queryParamMap', this.route.snapshot);
     return (null != queryParamMap) ? queryParamMap : this.route.snapshot.queryParamMap;
   }
 }
