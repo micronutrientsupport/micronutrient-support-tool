@@ -59,7 +59,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
-    // TODO: ensure data level matches route
+    // TODO: ensure meaasure matches route?
     return Promise.resolve(true);
   }
 
@@ -72,8 +72,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
       CountryDictionaryItem,
       MicronutrientDictionaryItem,
     ]) => {
-      const country = values.shift();
-      const micronutrient = values.shift();
+      const country = values.shift() as CountryDictionaryItem;
+      const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
 
       return (
@@ -84,11 +84,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
         ? false
         : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
           .then((options: Array<MicronutrientDataOption>) => {
-            const mndsDataId = this.quickMapsParameters.getMndsDataId(queryParamMap);
             const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
             let valid = false;
-            const selectedOption = options.find(item => (item.id === mndsDataId));
+            const selectedOption = options[0]; // first item
             // while we're here, validate the data level if set
             if (null != selectedOption) {
               if (null == dataLevel) {
