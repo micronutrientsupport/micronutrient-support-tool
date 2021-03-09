@@ -33,10 +33,12 @@
         </header>
 
         <!-- div to hold the color scales -->
-        <p>Absolute Values Gradient:</p>
-        <div #container1 class="container"></div>
-        <p>Threshold Values Gradient:</p>
-        <div #container2 class="container"></div>
+        <div [hidden]="!customColourGradient">
+          <p>Absolute Values Gradient:</p>
+          <div #container1 class="container"></div>
+          <p>Threshold Values Gradient:</p>
+          <div #container2 class="container"></div>
+        </div>
       </div>
 
       <div class="button-wrapper">
