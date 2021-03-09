@@ -138,7 +138,7 @@ export class MapViewComponent implements AfterViewInit {
           this.init(this.currentDataService.getSubRegionData(
             this.quickMapsService.countryId,
             [this.quickMapsService.micronutrient],
-            this.quickMapsService.mndDataId,
+            this.quickMapsService.mndDataOption,
           ));
         })
       );
