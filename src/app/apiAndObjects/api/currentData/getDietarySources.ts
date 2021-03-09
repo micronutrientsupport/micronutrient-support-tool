@@ -41,5 +41,5 @@ DietarySource
 export interface GetDietarySourcesParams {
   countryOrGroupId: string;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption,
+  mndsDataOption: MicronutrientDataOption;
 }

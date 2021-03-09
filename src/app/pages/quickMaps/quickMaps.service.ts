@@ -145,17 +145,17 @@ export class QuickMapsService {
     this.parameterChangedSrc.next();
   }
 
-  public getMndOption(): Promise<MicronutrientDataOption> {
+  private getMndOption(): Promise<MicronutrientDataOption> {
     return Promise.all([
       this.quickMapsParameters.getCountry(),
-    ]).then((data: [CountryDictionaryItem]) => {
-      return (null == data[0])
+    ]).then((data: [CountryDictionaryItem]) =>
+      (null == data[0])
         ? null
         : this.currentDataService.getMicronutrientDataOptions(
           data[0],
           this.quickMapsParameters.getMeasure(),
           true,
-        ).then(options => options[0]); // first item
-    });
+        ).then(options => options[0]) // first item
+    );
   }
 }

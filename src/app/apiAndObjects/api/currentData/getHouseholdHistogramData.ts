@@ -50,5 +50,5 @@ GetHouseholdHistogramDataParams
 export interface GetHouseholdHistogramDataParams {
   countryOrGroupId: string;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption,
+  mndsDataOption: MicronutrientDataOption;
 }

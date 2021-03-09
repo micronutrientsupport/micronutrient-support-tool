@@ -54,5 +54,5 @@ GetMonthlyFoodGroupsParams
 export interface GetMonthlyFoodGroupsParams {
   countryOrGroupId: string;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption,
+  mndsDataOption: MicronutrientDataOption;
 }
