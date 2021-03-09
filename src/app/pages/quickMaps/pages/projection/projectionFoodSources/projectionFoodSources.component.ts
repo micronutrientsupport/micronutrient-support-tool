@@ -19,9 +19,7 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import {
-  ProjectedFoodSourceItem2,
   ProjectedFoodSourcesData,
-  ProjectedFoodSourcesPeriod,
   ProjectedFoodSourcesTable,
 } from 'src/app/apiAndObjects/objects/projectedFoodSources';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -107,7 +105,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
     // this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
     // TODO: update with live api endpoint
     // });
-    this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe((value: string) => {
+    this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe(() => {
       if (this.currentImpactScenario) {
         this.init(
           this.currentDataService.getProjectedFoodSourceData(
@@ -118,7 +116,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         );
       }
     });
-    this.projectionFoodFormGroup.get('year').valueChanges.subscribe((value: number) => {
+    this.projectionFoodFormGroup.get('year').valueChanges.subscribe(() => {
       if (this.currentImpactScenario) {
         this.init(
           this.currentDataService.getProjectedFoodSourceData(
@@ -145,19 +143,12 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         });
       })
       .then(() => {
-        // if displayed within a card component init interactions with the card
         if (null != this.card) {
           this.card.title = this.title;
           this.card.showExpand = true;
           this.card
             .setLoadingObservable(this.loadingSrc.asObservable())
             .setErrorObservable(this.errorSrc.asObservable());
-
-          // this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-
-          // respond to parameter updates
-          // this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
-          // this.quickMapsService.micronutrientIdObs.subscribe((name: string) => (this.micronutrientName = name));
 
           this.subscriptions.push(
             this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -174,10 +165,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
             }),
           );
         } else if (null != this.dialogData) {
-          // if displayed within a dialog use the data passed in
-          // this.init(Promise.resolve(this.dialogData.dataIn.data));
-          // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
-          // this.cdr.detectChanges();
         }
       });
   }
