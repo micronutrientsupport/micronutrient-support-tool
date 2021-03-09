@@ -1,22 +1,5 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
-export interface ProjectedFoodSourcesPeriod {
-  year: number;
-  data: Array<ProjectedFoodSourceItem2>;
-}
 
-export interface ProjectedFoodSourceItem2 {
-  foodName: string;
-  value: number;
-}
-export interface ProjectedFoodSourceItem {
-  cassava: number;
-  maize: number;
-  potato: number;
-  vegetables: number;
-  pigeonpeas: number;
-  dairy: number;
-  other: number;
-}
 export interface ProjectedFoodSourcesTable {
   year: number;
   foodName: string;
