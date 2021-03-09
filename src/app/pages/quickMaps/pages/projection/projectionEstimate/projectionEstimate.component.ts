@@ -7,6 +7,7 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
+import { Subscription } from 'rxjs';
 interface InterfaceTimeMass {
   id: string;
   name: string;
@@ -55,26 +56,19 @@ export class ProjectionEstimateComponent {
   timeScaleName = 'day';
   massName = 'mg';
 
+  private subscriptions = new Array<Subscription>();
+
   constructor(
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private currentDataService: CurrentDataService,
   ) {
-    void this.currentDataService.getProjectionsSummaryCardData(
-      this.quickMapsService.countryId,
-      this.quickMapsService.micronutrient,
-      this.scenarioId)
-      .then((response: Array<ProjectionsSummaryCard>) => {
-        this.target = response[0].target;
-        this.currentEstimate = response[0].referenceVal;
-        this.differencePercentage = response[0].difference;
-        this.calculate();
-        this.cdr.markForCheck();
+    this.subscriptions.push(
+      this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.callToApi();
       })
-      .catch((e: any) => {
-        console.log('error', e);
-      });
+    );
 
     this.projectionEstimateForm = this.fb.group({
       mass: this.massArray[1],
@@ -92,6 +86,27 @@ export class ProjectionEstimateComponent {
       this.timeScaleName = itemTime.name;
       this.calculate();
     });
+  }
+
+  public callToApi(): void {
+    void this.currentDataService.getProjectionsSummaryCardData(
+      this.quickMapsService.countryId,
+      this.quickMapsService.micronutrient,
+      this.scenarioId)
+      .then((response: Array<ProjectionsSummaryCard>) => {
+        this.target = response[0].target;
+        this.currentEstimate = response[0].referenceVal;
+        this.differencePercentage = response[0].difference;
+        this.calculate();
+        this.cdr.markForCheck();
+      })
+      .catch((e: any) => {
+        this.targetCalc = null;
+        this.currentEstimateCalc = null;
+        this.differencePercentage = null;
+        this.differenceQuantity = null;
+        this.cdr.markForCheck();
+      });
   }
 
   public calculate(): void {

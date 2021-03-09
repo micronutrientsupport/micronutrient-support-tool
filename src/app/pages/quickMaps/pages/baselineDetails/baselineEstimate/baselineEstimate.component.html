@@ -2,24 +2,27 @@
   <div class="wideItem left-text">
     <div class="nation">
       <span class="estimateHeader">Estimate (2010):</span>
-      <span class="estimateValue blue">{{currentEstimateCalc | number: '1.1-5'}}</span>
+      <span class="estimateValue blue">
+        {{(null === currentEstimateCalc ? 'n/a' : currentEstimateCalc | number: '1.1-5')}}
+      </span>
       <small>({{massName}} per {{timeScaleName}})</small>
     </div>
 
 
     <div class="vitamin">
       <span class="estimateHeader">Target:</span>
-      <span class="estimateValue green">{{targetCalc | number: '1.1-5'}}</span>
+      <span class="estimateValue green">
+        {{(null === targetCalc ? 'n/a' : targetCalc | number: '1.1-5')}}
+      </span>
       <small>({{massName}} per {{timeScaleName}})</small>
     </div>
 
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
-      <span class="estimateValue" [ngClass]="(differencePercentage < 0)? 'red': 'green'">{{differencePercentage |
-        number:'1.1-2'}}%
-        <i class="fas fa-question-circle margin-left"
-          matTooltip="{{differenceQuantity | number: '1.1-5'}} {{massName}} per {{timeScaleName}}"
-          style="color: grey;"></i>
+      <span class="estimateValue" [ngClass]="(differencePercentage < 0)? 'red': 'green'">
+        {{(null === differencePercentage ? 'n/a ' : differencePercentage | number:'1.1-2')}}%
+        <i class="fas fa-question-circle margin-left" matTooltip="{{(null === differenceQuantity ? 'n/a' : differenceQuantity | number: '1.1-5')}}
+           {{massName}} per {{timeScaleName}}" style="color: grey;"></i>
       </span>
     </div>
   </div>
