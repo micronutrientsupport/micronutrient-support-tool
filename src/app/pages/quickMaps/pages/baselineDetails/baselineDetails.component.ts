@@ -110,7 +110,6 @@ export class BaselineDetailsComponent implements OnInit {
   }
 
   private setDataLevel(level: DataLevel): void {
-    console.debug('setDataLevel', level);
     if (null != level) {
       const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
 
