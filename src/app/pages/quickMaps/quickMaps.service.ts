@@ -18,9 +18,9 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public slimObservable = this.slimSubject.asObservable();
 
-  private readonly countryIdSrc = new BehaviorSubject<string>(null);
+  private readonly countrySrc = new BehaviorSubject<CountryDictionaryItem>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public countryIdObs = this.countryIdSrc.asObservable();
+  public countryObs = this.countrySrc.asObservable();
 
   private readonly micronutrientSrc = new BehaviorSubject<MicronutrientDictionaryItem>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -54,8 +54,8 @@ export class QuickMapsService {
     // set from query params etc. on init
     const promises = new Array<Promise<unknown>>();
 
-    this.setCountryId(this.quickMapsParameters.getCountryId());
     promises.push(
+      this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
       this.getMndOption().then((option) => this.setMndDataOption(option)),
     );
@@ -63,7 +63,7 @@ export class QuickMapsService {
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
 
     void Promise.all(promises).then(() => {
-      this.countryIdObs.subscribe(() => this.parameterChanged());
+      this.countryObs.subscribe(() => this.parameterChanged());
       this.micronutrientObs.subscribe(() => this.parameterChanged());
       this.measureObs.subscribe(() => this.parameterChanged());
       this.mndDataOptionObs.subscribe(() => this.parameterChanged());
@@ -85,11 +85,11 @@ export class QuickMapsService {
     }, 10);
   }
 
-  public get countryId(): string {
-    return this.countryIdSrc.value;
+  public get country(): CountryDictionaryItem {
+    return this.countrySrc.value;
   }
-  public setCountryId(countryId: string, force = false): void {
-    this.setValue(this.countryIdSrc, countryId, force);
+  public setCountry(country: CountryDictionaryItem, force = false): void {
+    this.setValue(this.countrySrc, country, force);
   }
 
   public get micronutrient(): MicronutrientDictionaryItem {
@@ -122,7 +122,7 @@ export class QuickMapsService {
 
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.countryId;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
       null != this.micronutrient ? this.micronutrient.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;

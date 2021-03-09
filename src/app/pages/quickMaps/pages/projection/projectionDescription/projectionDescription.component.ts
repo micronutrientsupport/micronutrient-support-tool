@@ -45,9 +45,8 @@ export class ProjectionDescriptionComponent implements OnInit {
         this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
 
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = this.countriesDictionary.getItem(countryId);
-          this.countryName = null != country ? country.name : '';
+        this.quickMapsService.countryObs.subscribe(country => {
+          this.countryName = country.name;
           this.cdr.markForCheck();
         });
       });

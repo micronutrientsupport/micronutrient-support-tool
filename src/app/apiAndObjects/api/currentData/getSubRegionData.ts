@@ -1,5 +1,6 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
@@ -46,7 +47,7 @@ export class GetSubRegionData extends CacheableEndpoint<Array<SubRegionDataItem>
 }
 
 export interface GetSubRegionDataParams {
-  countryOrGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
   mndsDataOption: MicronutrientDataOption;
 }

@@ -72,8 +72,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
       CountryDictionaryItem,
       MicronutrientDictionaryItem,
     ]) => {
-      const country = values.shift();
-      const micronutrient = values.shift();
+      const country = values.shift() as CountryDictionaryItem;
+      const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
 
       return (

@@ -116,27 +116,21 @@ export class MapViewComponent implements AfterViewInit {
         }),
       );
 
-      void this.dictionaryService
-        .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS])
-        .then((dicts: Array<Dictionary>) => {
-          const countriesDict = dicts.shift();
-          // const regionDictionary = dicts.shift();
-
-          this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-            const country = countriesDict.getItem(countryId);
-            this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
-            if (null != this.card) {
-              this.card.title = this.title;
-            }
-            // this.cdr.detectChanges();
-          });
-        });
+      this.subscriptions.push(
+        this.quickMapsService.countryObs.subscribe(country => {
+          this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+          if (null != this.card) {
+            this.card.title = this.title;
+          }
+          // this.cdr.detectChanges();
+        })
+      );
 
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(this.currentDataService.getSubRegionData(
-            this.quickMapsService.countryId,
+            this.quickMapsService.country,
             [this.quickMapsService.micronutrient],
             this.quickMapsService.mndDataOption,
           ));
