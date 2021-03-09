@@ -42,8 +42,8 @@ export class MapViewComponent implements AfterViewInit {
   public title = '';
   public defaultColourScheme: CustomColourObject = {
     type: null,
+    customObject: null,
   };
-  public customGradientValues: CustomGradientObject;
   private data: Array<SubRegionDataItem>;
 
   private absoluteMap: L.Map;
@@ -81,12 +81,15 @@ export class MapViewComponent implements AfterViewInit {
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
 
     // checks if user has defined colour scheme and
-    const retrievedObject = localStorage.getItem('defaultColourScheme');
-    this.defaultColourScheme.type = retrievedObject as ColourGradientType;
+    const retrievedType = localStorage.getItem('defaultColourScheme');
+    this.defaultColourScheme.type = retrievedType as ColourGradientType;
     if (this.defaultColourScheme.type == null) {
       this.defaultColourScheme.type = ColourGradientType.BLUEREDYELLOWGREEN;
     }
-
+    const retrievedObject = localStorage.getItem('customColourScheme');
+    if (null != retrievedObject) {
+      this.defaultColourScheme.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
+    }
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
@@ -99,7 +102,8 @@ export class MapViewComponent implements AfterViewInit {
           .then((data: DialogData<CustomColourObject, CustomColourObject>) => {
             if (data.dataOut.type !== null) {
               if (data.dataOut.type === ColourGradientType.CUSTOM) {
-                this.customGradientValues = data.dataOut.customObject;
+                this.defaultColourScheme.customObject = data.dataOut.customObject;
+                localStorage.setItem('customColourScheme', JSON.stringify(this.defaultColourScheme.customObject));
               }
               this.changeColourRamp(data.dataOut.type);
               this.defaultColourScheme.type = data.dataOut.type;
@@ -192,7 +196,7 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
-  private changeColourRamp(colourGradient: ColourGradientType, customColourGradient?: CustomGradientObject): void {
+  private changeColourRamp(colourGradient: ColourGradientType): void {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
@@ -392,6 +396,9 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
+    if (null == this.defaultColourScheme.customObject) {
+      colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
+    }
     switch (true) {
       case absoluteValue > 1500:
         if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
@@ -399,7 +406,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#332288';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[0];
+          return this.defaultColourScheme.customObject.absoluteValues[0];
         } else {
           return '#845E82';
         }
@@ -409,7 +416,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#117733';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[1];
+          return this.defaultColourScheme.customObject.absoluteValues[1];
         } else {
           return '#845EC2';
         }
@@ -419,7 +426,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#44AA99';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[2];
+          return this.defaultColourScheme.customObject.absoluteValues[2];
         } else {
           return '#0081CF';
         }
@@ -429,7 +436,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#88CCEE';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[3];
+          return this.defaultColourScheme.customObject.absoluteValues[3];
         } else {
           return '#0089BA';
         }
@@ -439,7 +446,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#DDCC77';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[4];
+          return this.defaultColourScheme.customObject.absoluteValues[4];
         } else {
           return '#008E9B';
         }
@@ -449,7 +456,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#CC6677';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[5];
+          return this.defaultColourScheme.customObject.absoluteValues[5];
         } else {
           return '#008F7A';
         }
@@ -459,7 +466,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#AA4499';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[6];
+          return this.defaultColourScheme.customObject.absoluteValues[6];
         } else {
           return '#00C9A7';
         }
@@ -469,13 +476,16 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#882255';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.absoluteValues[7];
+          return this.defaultColourScheme.customObject.absoluteValues[7];
         } else {
           return '#C4FCEF';
         }
     }
   }
   private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
+    if (null == this.defaultColourScheme.customObject) {
+      colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
+    }
     switch (true) {
       case thresholdValue > 99:
         if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
@@ -483,7 +493,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#332288';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[0];
+          return this.defaultColourScheme.customObject.thresholdValues[0];
         } else {
           return '#845E82';
         }
@@ -493,7 +503,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#117733';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[1];
+          return this.defaultColourScheme.customObject.thresholdValues[1];
         } else {
           return '#845EC2';
         }
@@ -503,7 +513,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#44AA99';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[2];
+          return this.defaultColourScheme.customObject.thresholdValues[2];
         } else {
           return '#0081CF';
         }
@@ -513,7 +523,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#88CCEE';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[3];
+          return this.defaultColourScheme.customObject.thresholdValues[3];
         } else {
           return '#0089BA';
         }
@@ -523,7 +533,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#DDCC77';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[4];
+          return this.defaultColourScheme.customObject.thresholdValues[4];
         } else {
           return '#008E9B';
         }
@@ -533,7 +543,7 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#CC6677';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[5];
+          return this.defaultColourScheme.customObject.thresholdValues[5];
         } else {
           return '#008F7A';
         }
@@ -543,19 +553,9 @@ export class MapViewComponent implements AfterViewInit {
         } else if (colourGradient === ColourGradientType.COLOURBLIND) {
           return '#AA4499';
         } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[6];
+          return this.defaultColourScheme.customObject.thresholdValues[6];
         } else {
           return '#00C9A7';
-        }
-      default:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#354969';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#C4FCEF';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.customGradientValues.thresholdValues[0];
-        } else {
-          return '#882255';
         }
     }
   }
