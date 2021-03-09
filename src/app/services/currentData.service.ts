@@ -10,7 +10,6 @@ import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-import { DictionaryItem } from '../apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 
 @Injectable()
 export class CurrentDataService {
