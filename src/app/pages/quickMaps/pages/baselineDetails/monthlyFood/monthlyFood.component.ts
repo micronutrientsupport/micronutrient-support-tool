@@ -85,7 +85,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
             this.currentDataService.getMonthlyFoodGroups(
               this.quickMapsService.countryId,
               [this.quickMapsService.micronutrient],
-              this.quickMapsService.mndDataId,
+              this.quickMapsService.mndDataOption,
             ),
           );
         }),

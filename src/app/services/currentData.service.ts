@@ -42,24 +42,24 @@ export class CurrentDataService {
   public getSubRegionData(
     countryOrGroupId: string,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataId: string,
+    mndsDataOption: MicronutrientDataOption,
   ): Promise<Array<SubRegionDataItem>> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroupId,
       micronutrients,
-      mndsDataId,
+      mndsDataOption,
     });
   }
 
   public getDietarySources(
     countryOrGroupId: string,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataId: string,
+    mndsDataOption: MicronutrientDataOption,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroupId,
       micronutrients,
-      mndsDataId,
+      mndsDataOption,
     });
   }
 
@@ -78,12 +78,12 @@ export class CurrentDataService {
   public getHouseholdHistogramData(
     countryOrGroupId: string,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataId: string,
+    mndsDataOption: MicronutrientDataOption,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroupId,
       micronutrients,
-      mndsDataId,
+      mndsDataOption,
     });
   }
 
@@ -102,24 +102,24 @@ export class CurrentDataService {
   public getMonthlyFoodGroups(
     countryOrGroupId: string,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataId: string,
+    mndsDataOption: MicronutrientDataOption,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroupId,
       micronutrients,
-      mndsDataId,
+      mndsDataOption,
     });
   }
   public getProjectedAvailabilities(
     countryOrGroupId: string,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataId: string,
+    mndsDataOption: MicronutrientDataOption,
   ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroupId,
       micronutrients,
-      mndsDataId,
+      mndsDataOption,
     });
   }
 }
