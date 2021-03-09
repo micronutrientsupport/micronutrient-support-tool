@@ -53,7 +53,12 @@ export class MapSettingsDialogComponent implements OnInit {
 
   public applyChanges(): void {
     this.data.dataOut.type = this.generalSelectionValue[0];
+    if (null != this.customColourGradient) {
+      this.data.dataOut.type = ColourGradientType.CUSTOM;
+      this.data.dataOut.customObject = this.customColourGradient;
+    }
     this.data.close();
+    console.log(this.customColourGradient);
   }
 
   public callFunctionOne(): void {

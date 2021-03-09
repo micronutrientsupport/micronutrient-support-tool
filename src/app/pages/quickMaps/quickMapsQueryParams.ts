@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -13,7 +13,6 @@ export class QuickMapsQueryParams {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
-    MICRONUTRIENT_DATASET: 'dataset-id',
     DATA_LEVEL: 'data-level',
   };
 
@@ -27,36 +26,32 @@ export class QuickMapsQueryParams {
     this.route = injector.get<ActivatedRoute>(ActivatedRoute);
   }
 
-  public getCountryId(): string {
-    return this.snapshot().queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
+  public getCountryId(queryParamMap?: ParamMap): string {
+    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
   }
-  public getCountry(): Promise<CountryDictionaryItem> {
+  public getCountry(queryParamMap?: ParamMap): Promise<CountryDictionaryItem> {
     return this.dictionariesService.getDictionary(DictionaryType.COUNTRIES)
-      .then(dict => dict.getItem(this.getCountryId()));
+      .then(dict => dict.getItem(this.getCountryId(queryParamMap)));
   }
 
-  public getMicronutrientId(): string {
-    return this.snapshot().queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID);
+  public getMicronutrientId(queryParamMap?: ParamMap): string {
+    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID);
   }
-  public getMicronutrient(): Promise<MicronutrientDictionaryItem> {
+  public getMicronutrient(queryParamMap?: ParamMap): Promise<MicronutrientDictionaryItem> {
     return this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS)
-      .then(dict => dict.getItem(this.getMicronutrientId()));
+      .then(dict => dict.getItem(this.getMicronutrientId(queryParamMap)));
   }
 
-  public getMeasure(): MicronutrientMeasureType {
+  public getMeasure(queryParamMap?: ParamMap): MicronutrientMeasureType {
     return EnumTools.getEnumFromValue(
-      this.snapshot().queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE),
+      this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE),
       MicronutrientMeasureType,
     );
   }
 
-  public getMndsDataId(): string {
-    return this.snapshot().queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET);
-  }
-
-  public getDataLevel(): DataLevel {
+  public getDataLevel(queryParamMap?: ParamMap): DataLevel {
     return EnumTools.getEnumFromValue(
-      this.snapshot().queryParamMap.get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL),
+      this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL),
       DataLevel,
     );
   }
@@ -106,7 +101,8 @@ export class QuickMapsQueryParams {
   //     .sort();
   // }
 
-  private snapshot(): ActivatedRouteSnapshot {
-    return this.route.snapshot;
+  private params(queryParamMap?: ParamMap): ParamMap {
+    // console.debug('this.route.snapshot.queryParamMap', this.route.snapshot);
+    return (null != queryParamMap) ? queryParamMap : this.route.snapshot.queryParamMap;
   }
 }
