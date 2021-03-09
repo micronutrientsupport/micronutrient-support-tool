@@ -1,6 +1,8 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
@@ -51,7 +53,7 @@ GetMonthlyFoodGroupsParams
 }
 
 export interface GetMonthlyFoodGroupsParams {
-  countryOrGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataId: string;
+  mndsDataOption: MicronutrientDataOption;
 }

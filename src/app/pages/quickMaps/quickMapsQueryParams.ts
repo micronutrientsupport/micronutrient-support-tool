@@ -13,7 +13,6 @@ export class QuickMapsQueryParams {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
-    MICRONUTRIENT_DATASET: 'dataset-id',
     DATA_LEVEL: 'data-level',
   };
 
@@ -48,10 +47,6 @@ export class QuickMapsQueryParams {
       this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE),
       MicronutrientMeasureType,
     );
-  }
-
-  public getMndsDataId(queryParamMap?: ParamMap): string {
-    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_DATASET);
   }
 
   public getDataLevel(queryParamMap?: ParamMap): DataLevel {
@@ -107,6 +102,7 @@ export class QuickMapsQueryParams {
   // }
 
   private params(queryParamMap?: ParamMap): ParamMap {
+    // console.debug('this.route.snapshot.queryParamMap', this.route.snapshot);
     return (null != queryParamMap) ? queryParamMap : this.route.snapshot.queryParamMap;
   }
 }

@@ -4,7 +4,7 @@
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
-            Nation: <strong>{{countryName}}</strong>
+            Nation: <strong>{{(quickMapsService.countryObs | async)?.name}}</strong>
           </div>
           <div class="item">
             Vitamin: <strong>{{(quickMapsService.micronutrientObs | async)?.name}}</strong>
@@ -14,15 +14,16 @@
           </div>
           <div class="item">
             Data level:
-            <strong *ngIf="(1 === (quickMapsService.dataLevelOptionsObs | async)?.length)" class="capitalize-text">
-              {{(quickMapsService.dataLevelOptionsObs | async)[0]}}
+            <strong *ngIf="(1 === (quickMapsService.mndDataOptionObs | async).dataLevelOptions.length)" class="capitalize-text">
+              {{(quickMapsService.mndDataOptionObs | async).dataLevelOptions[0]}}
             </strong>
-            <mat-form-field *ngIf="(1 < (quickMapsService.dataLevelOptionsObs | async)?.length)"
+            <mat-form-field *ngIf="(1 < (quickMapsService.mndDataOptionObs | async).dataLevelOptions.length)"
               appearance="fill" class="data-level-select-wrapper">
               <mat-select panelClass="data-level-select"
                 name="data-level" placeholder="Data Level" [value]="quickMapsService.dataLevelObs | async"
                 (selectionChange)="setDataLevel($event)" (click)="$event.stopPropagation()">
-                <mat-option *ngFor="let option of quickMapsService.dataLevelOptionsObs | async" [value]="option" class="capitalize-text">
+                <mat-option *ngFor="let option of (quickMapsService.mndDataOptionObs | async).dataLevelOptions"
+                  [value]="option" class="capitalize-text">
                   {{option}}
                 </mat-option>
               </mat-select>

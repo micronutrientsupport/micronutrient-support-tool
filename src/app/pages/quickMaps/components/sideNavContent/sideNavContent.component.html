@@ -8,7 +8,7 @@
   </mat-slide-toggle>
 </div>
 
-<div *ngIf="(null != quickMapsForm) && (quickMapsService.slimObservable | async) === (false)"
+<div *ngIf="(null != quickMapsForm) && ((quickMapsService.slimObservable | async) === false)"
   class="bmgf-maps-nice-scrollbar scroll-area">
   <form [formGroup]="quickMapsForm" id="quickMapsForm"
     [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
@@ -36,7 +36,7 @@
 
       <mat-form-field appearance="fill" aria-label="Geography of interest">
         <mat-select name="nation" formControlName="nation" [placeholder]="'select a ' + group.value">
-          <mat-option *ngFor="let item of geographyOptionArray" [value]="item.id">
+          <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
             {{item.name}}
           </mat-option>
         </mat-select>
@@ -99,7 +99,7 @@
       <mat-form-field appearance="fill">
         <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
           panelClass="allow-long-text">
-          <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item.id">{{item.name}}
+          <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item">{{item.name}}
           </mat-option>
         </mat-select>
         <mat-error>{{errorReponse[0]}}</mat-error>
