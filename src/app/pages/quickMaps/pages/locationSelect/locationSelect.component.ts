@@ -34,8 +34,8 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     // fails to find element if not taked out of flow
     setTimeout(() => {
       void this.initialiseMap().then(() => {
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          this.selectFeature(this.getLayer(countryId));
+        this.quickMapsService.countryObs.subscribe(country => {
+          this.selectFeature(this.getLayer(country.id));
         });
       });
     }, 0);
@@ -133,7 +133,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
               this.resetHighlight(singleFeatureLayer);
             },
             click: () => {
-              this.quickMapsService.setCountryId(`${feature.id}`);
+              this.quickMapsService.setCountry(dict.getItem(String(feature.id).valueOf()));
             },
           });
         },

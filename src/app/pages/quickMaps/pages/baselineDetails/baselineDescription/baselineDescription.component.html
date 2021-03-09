@@ -4,7 +4,7 @@
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
-            Nation: <strong>{{countryName}}</strong>
+            Nation: <strong>{{quickMapsService.countryObs | async)?.name}}</strong>
           </div>
           <div class="item">
             Vitamin: <strong>{{(quickMapsService.micronutrientObs | async)?.name}}</strong>

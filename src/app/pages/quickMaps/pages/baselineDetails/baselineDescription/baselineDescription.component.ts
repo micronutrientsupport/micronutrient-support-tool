@@ -23,36 +23,18 @@ export class BaselineDescriptionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   public readonly DATA_LEVEL = DataLevel;
-  public countriesDictionary: Dictionary;
-  public regionDictionary: Dictionary;
-  public micronutrientsDictionary: Dictionary;
   public loading = false;
   public error = false;
-  public countryName = '';
   public currentImpactScenario: ImpactScenario;
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private miscApiService: MiscApiService,
   ) { }
 
   ngOnInit(): void {
-    void this.dictionaryService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
-      .then((dicts: Array<Dictionary>) => {
-        this.countriesDictionary = dicts.shift();
-        this.regionDictionary = dicts.shift();
-        this.micronutrientsDictionary = dicts.shift();
-
-        this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-          const country = this.countriesDictionary.getItem(countryId);
-          this.countryName = null != country ? country.name : '';
-          this.cdr.markForCheck();
-        });
-      });
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
       this.cdr.markForCheck();

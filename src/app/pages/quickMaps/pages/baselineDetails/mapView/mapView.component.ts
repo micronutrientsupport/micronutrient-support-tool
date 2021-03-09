@@ -122,8 +122,7 @@ export class MapViewComponent implements AfterViewInit {
           const countriesDict = dicts.shift();
           // const regionDictionary = dicts.shift();
 
-          this.quickMapsService.countryIdObs.subscribe((countryId: string) => {
-            const country = countriesDict.getItem(countryId);
+          this.quickMapsService.countryObs.subscribe(country => {
             this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
             if (null != this.card) {
               this.card.title = this.title;
@@ -136,7 +135,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(this.currentDataService.getSubRegionData(
-            this.quickMapsService.countryId,
+            this.quickMapsService.country,
             [this.quickMapsService.micronutrient],
             this.quickMapsService.mndDataOption,
           ));

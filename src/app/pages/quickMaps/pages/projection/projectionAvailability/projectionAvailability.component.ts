@@ -21,6 +21,7 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -35,7 +36,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public title = 'Projection Availability';
   public headingText = 'Calcium';
   public subtHeadingText = '';
-  public selectedCountry: string;
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 
@@ -100,12 +100,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
-      this.quickMapsService.countryIdObs.subscribe((id: string) => (this.selectedCountry = id));
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
             this.currentDataService.getProjectedAvailabilities(
-              this.quickMapsService.countryId,
+              this.quickMapsService.country,
               [this.quickMapsService.micronutrient],
               this.quickMapsService.mndDataOption,
             ),
@@ -130,7 +129,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         }
 
         const filteredData: Array<ProjectedAvailability> = data.filter(
-          (item: ProjectedAvailability) => item.country === this.selectedCountry,
+          (item: ProjectedAvailability) => item.country === this.quickMapsService.country.id,
         );
         this.errorSrc.next(false);
         this.chartData = null;
