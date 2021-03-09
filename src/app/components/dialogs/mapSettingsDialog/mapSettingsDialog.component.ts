@@ -6,15 +6,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import chroma from 'chroma-js';
+import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
+import { CustomColourObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourObject';
 export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
-}
-export interface CustomGradientObject {
-  customGradientValues: {
-    thresholdValues: Array<string>;
-    absoluteValues: Array<string>;
-  };
 }
 @Component({
   selector: 'app-map-settings-dialog',
@@ -48,15 +44,15 @@ export class MapSettingsDialogComponent implements OnInit {
   public color: string;
   public generalSelectionValue = new Array<ColourGradientType>();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourGradientType, ColourGradientType>) {
-    this.generalSelectionValue.push(data.dataIn);
-    data.dataOut = this.generalSelectionValue[0];
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<CustomColourObject, CustomColourObject>) {
+    this.generalSelectionValue.push(data.dataIn.type);
+    data.dataOut.type = this.generalSelectionValue[0];
   }
 
   ngOnInit(): void {}
 
   public applyChanges(): void {
-    this.data.dataOut = this.generalSelectionValue[0];
+    this.data.dataOut.type = this.generalSelectionValue[0];
     this.data.close();
   }
 
@@ -124,11 +120,9 @@ export class MapSettingsDialogComponent implements OnInit {
     });
     // this.customColourGradient = customObject;
     this.customColourGradient = {
-      customGradientValues: {
-        thresholdValues: thresholdValues,
-        absoluteValues: absoluteValues,
-      },
+      thresholdValues: thresholdValues,
+      absoluteValues: absoluteValues,
     };
-    console.debug('custom object:', this.customColourGradient);
+    // console.debug('custom object:', this.customColourGradient);
   };
 }

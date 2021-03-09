@@ -25,14 +25,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
+import { CustomColourObject } from './colourObject';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './mapView.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './mapView.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapViewComponent implements AfterViewInit {
@@ -42,7 +40,10 @@ export class MapViewComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = '';
-  public defaultColourScheme: ColourGradientType;
+  public defaultColourScheme: CustomColourObject = {
+    type: null,
+  };
+  public defaultColourType: ColourGradientType;
   private data: Array<SubRegionDataItem>;
 
   private absoluteMap: L.Map;
@@ -73,8 +74,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) {
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -82,33 +82,30 @@ export class MapViewComponent implements AfterViewInit {
 
     // checks if user has defined colour scheme and
     const retrievedObject = localStorage.getItem('defaultColourScheme');
-    this.defaultColourScheme = retrievedObject as ColourGradientType;
-    if (this.defaultColourScheme == null) {
-      this.defaultColourScheme = ColourGradientType.BLUEREDYELLOWGREEN;
+    this.defaultColourScheme.type = retrievedObject as ColourGradientType;
+    if (this.defaultColourScheme.type == null) {
+      this.defaultColourScheme.type = ColourGradientType.BLUEREDYELLOWGREEN;
     }
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
       this.card.showSettings = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
-        void this.dialogService.openMapSettingsDialog(this.defaultColourScheme)
-          .then((data: DialogData) => {
-            if (data.dataOut !== {}) {
-              this.changeColourRamp(data.dataOut);
-              this.defaultColourScheme = data.dataOut as ColourGradientType;
-              localStorage.setItem('defaultColourScheme', this.defaultColourScheme);
+        void this.dialogService
+          .openMapSettingsDialog(this.defaultColourScheme)
+          .then((data: DialogData<CustomColourObject, CustomColourObject>) => {
+            if (data.dataOut.type !== null) {
+              this.changeColourRamp(data.dataOut.type);
+              this.defaultColourScheme.type = data.dataOut.type;
+              localStorage.setItem('defaultColourScheme', this.defaultColourScheme.type);
             }
           });
       });
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
@@ -135,12 +132,14 @@ export class MapViewComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getSubRegionData(
-            this.quickMapsService.countryId,
-            [this.quickMapsService.micronutrient],
-            this.quickMapsService.mndDataId,
-          ));
-        })
+          this.init(
+            this.currentDataService.getSubRegionData(
+              this.quickMapsService.countryId,
+              [this.quickMapsService.micronutrient],
+              this.quickMapsService.mndDataId,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -210,10 +209,12 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(feat.properties.mnAbsolute, colourGradient)).addTo(this.absoluteMap);
+      this.getAbsoluteColourRange(feat.properties.mnAbsolute, colourGradient),
+    ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(feat.properties.mnThreshold, colourGradient)).addTo(this.thresholdMap);
+      this.getThresholdColourRange(feat.properties.mnThreshold, colourGradient),
+    ).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
 
@@ -319,7 +320,8 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(feat.properties.mnAbsolute, this.defaultColourScheme)).addTo(this.absoluteMap);
+      this.getAbsoluteColourRange(feat.properties.mnAbsolute, this.defaultColourScheme.type),
+    ).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
 
@@ -331,7 +333,7 @@ export class MapViewComponent implements AfterViewInit {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getAbsoluteColourRange(value + 1, this.defaultColourScheme)};
+          ${this.getAbsoluteColourRange(value + 1, this.defaultColourScheme.type)};
           height:10px; width:10px; display:block; margin-right:5px;">
           </span>` +
           `<span>
@@ -356,7 +358,8 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(feat.properties.mnThreshold, this.defaultColourScheme)).addTo(this.thresholdMap);
+      this.getThresholdColourRange(feat.properties.mnThreshold, this.defaultColourScheme.type),
+    ).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
@@ -368,7 +371,7 @@ export class MapViewComponent implements AfterViewInit {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
             <span style="background-color:
-            ${this.getThresholdColourRange(value + 1, this.defaultColourScheme)};
+            ${this.getThresholdColourRange(value + 1, this.defaultColourScheme.type)};
              height:10px; width:10px; display:block; margin-right:5px;">
             </span>` +
           `<span>
@@ -393,74 +396,138 @@ export class MapViewComponent implements AfterViewInit {
 
   private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
     switch (true) {
-      case (absoluteValue > 1500):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#2ca25f'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#332288'; }
-        else { return '#845E82'; };
-      case (absoluteValue > 1000):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#addd8e'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#117733'; }
-        else { return '#845EC2'; }
-      case (absoluteValue > 500):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#ffeda0'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#44AA99'; }
-        else { return '#0081CF'; }
-      case (absoluteValue > 250):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#feb24c'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#88CCEE'; }
-        else { return '#0089BA'; }
-      case (absoluteValue > 100):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#f03b20'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#DDCC77'; }
-        else { return '#008E9B'; }
-      case (absoluteValue > 50):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#bd0026'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#CC6677'; }
-        else { return '#008F7A'; }
-      case (absoluteValue > 10):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#7a0177'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#AA4499'; }
-        else { return '#00C9A7'; }
-      case (absoluteValue > 0):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#354969'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#882255'; }
-        else { return '#C4FCEF'; }
+      case absoluteValue > 1500:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#2ca25f';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#332288';
+        } else {
+          return '#845E82';
+        }
+      case absoluteValue > 1000:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#addd8e';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#117733';
+        } else {
+          return '#845EC2';
+        }
+      case absoluteValue > 500:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#ffeda0';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#44AA99';
+        } else {
+          return '#0081CF';
+        }
+      case absoluteValue > 250:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#feb24c';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#88CCEE';
+        } else {
+          return '#0089BA';
+        }
+      case absoluteValue > 100:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#f03b20';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#DDCC77';
+        } else {
+          return '#008E9B';
+        }
+      case absoluteValue > 50:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#bd0026';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#CC6677';
+        } else {
+          return '#008F7A';
+        }
+      case absoluteValue > 10:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#7a0177';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#AA4499';
+        } else {
+          return '#00C9A7';
+        }
+      case absoluteValue > 0:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#354969';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#882255';
+        } else {
+          return '#C4FCEF';
+        }
     }
   }
   private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
     switch (true) {
-      case (thresholdValue > 99):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#2ca25f'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#332288'; }
-        else { return '#845E82'; };
-      case (thresholdValue > 80):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#addd8e'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#117733'; }
-        else { return '#845EC2'; }
-      case (thresholdValue > 60):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#ffeda0'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#44AA99'; }
-        else { return '#0081CF'; }
-      case (thresholdValue > 40):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#feb24c'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#88CCEE'; }
-        else { return '#0089BA'; }
-      case (thresholdValue > 20):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#f03b20'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#DDCC77'; }
-        else { return '#008E9B'; }
-      case (thresholdValue > 10):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#bd0026'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#CC6677'; }
-        else { return '#008F7A'; }
-      case (thresholdValue > 0):
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#7a0177'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#AA4499'; }
-        else { return '#00C9A7'; }
+      case thresholdValue > 99:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#2ca25f';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#332288';
+        } else {
+          return '#845E82';
+        }
+      case thresholdValue > 80:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#addd8e';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#117733';
+        } else {
+          return '#845EC2';
+        }
+      case thresholdValue > 60:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#ffeda0';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#44AA99';
+        } else {
+          return '#0081CF';
+        }
+      case thresholdValue > 40:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#feb24c';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#88CCEE';
+        } else {
+          return '#0089BA';
+        }
+      case thresholdValue > 20:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#f03b20';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#DDCC77';
+        } else {
+          return '#008E9B';
+        }
+      case thresholdValue > 10:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#bd0026';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#CC6677';
+        } else {
+          return '#008F7A';
+        }
+      case thresholdValue > 0:
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#7a0177';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#AA4499';
+        } else {
+          return '#00C9A7';
+        }
       default:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) { return '#354969'; }
-        else if (colourGradient === ColourGradientType.COLOURBLIND) { return '#C4FCEF'; }
-        else { return '#882255'; }
+        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+          return '#354969';
+        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+          return '#C4FCEF';
+        } else {
+          return '#882255';
+        }
     }
   }
 
