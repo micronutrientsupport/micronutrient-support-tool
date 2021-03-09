@@ -1,5 +1,110 @@
 <ng-template #componentTemplate>
-  Ketchup, brown, hollandaise
+  <mat-tab-group mat-align-tabs="center">
+
+    <mat-tab label="Chart">
+      <div class="container">
+        <div class="item wideItem">
+          Food sources for {{micronutrientName}} grouped by
+        </div>
+        <div class="item">
+          <form [formGroup]="projectionFoodFormGroup">
+            <mat-form-field appearance="fill">
+              <mat-select name="groupedBy" formControlName="groupedBy">
+                <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="item">
+          under scenario
+        </div>
+        <div class="item">
+          <form [formGroup]="projectionFoodFormGroup">
+            <mat-form-field appearance="fill">
+              <mat-select name="scenario" formControlName="scenario">
+                <mat-option *ngFor="let option of scenarioOptions" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+      <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
+        [options]="chartData.options">
+      </ngx-chartjs>
+    </mat-tab>
+
+    <mat-tab label="Table">
+      <div class="container">
+        <div class="item wideItem">
+          Food sources for Calcium grouped by
+        </div>
+        <div class="item">
+          <form [formGroup]="projectionFoodFormGroup">
+            <mat-form-field appearance="fill">
+              <mat-select name="groupedBy" formControlName="groupedBy">
+                <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="item">
+          under scenario
+        </div>
+        <div class="item">
+          <form [formGroup]="projectionFoodFormGroup">
+            <mat-form-field appearance="fill">
+              <mat-select name="scenario" formControlName="scenario">
+                <mat-option *ngFor="let option of scenarioOptions" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="item">
+          for year
+        </div>
+        <div class="item">
+          <form [formGroup]="projectionFoodFormGroup">
+            <mat-form-field appearance="fill">
+              <mat-select name="year" formControlName="year">
+                <mat-option *ngFor="let option of yearOptions" [value]="option.id">{{ option.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+      <div class="bmgf-maps-nice-scrollbar">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="foodName" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let element; let i = index;">{{ element?.foodName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="value" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+            <td mat-cell *matCellDef="let element; let i = index;">{{ element?.value }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Download">
+      <!-- <div class="container">
+        <div class="item downloadOption">
+          <img class="chartRenderScreenshot" id="imageOfChartPNG" [src]="projectedFoodSourceChartImagePNGSrc">
+          <a id="chartRenderDownloadPNGButton" mat-stroked-button [href]="">Download PNG</a>
+        </div>
+        <div class="item downloadOption">
+          <img class="chartRenderScreenshot" id="imageOfChartSVG" [src]="projectedFoodSourceChartImagePNGSrc">
+          <a id="chartRenderDownloadSVGButton" mat-stroked-button [href]="">Download SVG</a>
+        </div>
+        <div class="item downloadOption">
+          image download
+        </div>
+      </div> -->
+    </mat-tab>
+  </mat-tab-group>
 </ng-template>
 
 <ng-container *ngIf="(null != dialogData) else componentTemplate">
