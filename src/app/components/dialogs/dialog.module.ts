@@ -8,12 +8,15 @@ import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDi
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { InvalidParametersComponent } from './invalidParametersDialog/invalidParametersDialog.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     BaseDialogComponent,
     ShareDialogComponent,
     ScenarioTypeDialogComponent,
     MapSettingsDialogComponent,
+    InvalidParametersComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
     FormsModule,
     MatFormFieldModule,
+    RouterModule,
   ],
   exports: [BaseDialogComponent],
 })
