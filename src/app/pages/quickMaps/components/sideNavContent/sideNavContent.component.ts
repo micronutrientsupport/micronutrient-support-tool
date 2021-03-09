@@ -190,10 +190,18 @@ export class SideNavContentComponent implements OnInit {
     // console.warn(this.quickMapsForm.value);
 
     if (this.quickMapsForm.valid) {
-      void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
-        queryParams: this.route.snapshot.queryParams,
-      });
-      this.minimiseSideNav();
+      this.navigate();
     }
+  }
+
+  private navigate(): void {
+    const route = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+      ? AppRoutes.QUICK_MAPS_BASELINE
+      : AppRoutes.QUICK_MAPS_BIOMARKER;
+
+    void this.router.navigate(route.getRoute(), {
+      queryParams: this.route.snapshot.queryParams,
+    });
+    this.minimiseSideNav();
   }
 }
