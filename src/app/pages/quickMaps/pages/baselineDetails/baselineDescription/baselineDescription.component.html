@@ -7,7 +7,7 @@
             Nation: <strong>{{countryName}}</strong>
           </div>
           <div class="item">
-            Vitamin: <strong>{{vitaminName}}</strong>
+            Vitamin: <strong>{{(quickMapsService.micronutrientObs | async)?.name}}</strong>
           </div>
           <div class="item">
             Baseline assumptions: <strong>{{currentImpactScenario?.name}}</strong>

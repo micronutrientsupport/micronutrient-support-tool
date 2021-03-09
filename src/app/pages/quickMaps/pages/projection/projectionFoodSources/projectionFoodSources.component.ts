@@ -110,7 +110,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         this.init(
           this.currentDataService.getProjectedFoodSourceData(
             this.quickMapsService.countryId,
-            this.quickMapsService.micronutrientId,
+            this.quickMapsService.micronutrient.id,
             this.projectionFoodFormGroup.get('scenario').value,
           ),
         );
@@ -121,7 +121,7 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         this.init(
           this.currentDataService.getProjectedFoodSourceData(
             this.quickMapsService.countryId,
-            this.quickMapsService.micronutrientId,
+            this.quickMapsService.micronutrient.id,
             this.projectionFoodFormGroup.get('scenario').value,
           ),
         );
@@ -152,13 +152,13 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
           this.subscriptions.push(
             this.quickMapsService.parameterChangedObs.subscribe(() => {
-              this.micronutrientName = this.quickMapsService.micronutrientIdName;
+              this.micronutrientName = this.quickMapsService.micronutrient.name;
               this.title = 'Projection Food Sources for ' + this.micronutrientName;
               this.card.title = this.title;
               this.init(
                 this.currentDataService.getProjectedFoodSourceData(
                   this.quickMapsService.countryId,
-                  this.quickMapsService.micronutrientId,
+                  this.quickMapsService.micronutrient.id,
                   this.projectionFoodFormGroup.get('scenario').value,
                 ),
               );

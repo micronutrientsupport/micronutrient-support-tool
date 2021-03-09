@@ -1,0 +1,30 @@
+<app-base-dialog [data]="data">
+  <mat-drawer-container class="settings-container" autosize>
+    <mat-drawer #drawer [opened]="true" mode="side">
+      <mat-selection-list #optionList [multiple]="false">
+        <mat-list-option [selected]="true" value="general">General</mat-list-option>
+        <mat-list-option [disabled]="true" value="advanced">Advanced</mat-list-option>
+      </mat-selection-list>
+    </mat-drawer>
+
+    <div class="sidenav-content">
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
+        <p>Colour Gradient</p>
+        <mat-selection-list [(ngModel)]="generalSelectionValue" [multiple]="false">
+          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
+            <span class="colour-option">{{colourGradientItem.name}} <span
+                [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
+        [ngStyle]="{'background-color': '#2ca25f'}">
+        <p>Advanced</p>
+      </div>
+      <div class="button-wrapper">
+        <button mat-raised-button (click)="applyChanges()">Apply Changes</button>
+      </div>
+    </div>
+
+  </mat-drawer-container>
+</app-base-dialog>
