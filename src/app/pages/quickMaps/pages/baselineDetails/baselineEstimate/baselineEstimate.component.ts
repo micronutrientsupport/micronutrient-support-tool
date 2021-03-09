@@ -98,7 +98,7 @@ export class BaslineEstimateComponent {
   public callToApi(): void {
     this.loading = true;
     void this.currentDataService.getProjectionsSummaryCardData(
-      this.quickMapsService.countryId,
+      this.quickMapsService.country.id,
       this.quickMapsService.micronutrient,
       this.scenarioId)
       .then((response: Array<ProjectionsSummaryCard>) => {
