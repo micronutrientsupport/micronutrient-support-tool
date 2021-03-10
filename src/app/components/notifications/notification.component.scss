@@ -9,14 +9,6 @@
   & .mat-snackbar-close {
     margin-right: 2em;
     box-shadow: none;
-    &.negative {
-      background-color: #fdefef;
-    }
-    & i.fas {
-      &.negative {
-        color: #ed6a6a;
-      }
-    }
   }
 }
 .positive {
@@ -36,9 +28,17 @@
     background-color: #fdefef;
     // border: 10px solid #fdefef;
   }
-
+  &.mat-snackbar-close {
+    background-color: #fdefef;
+    & i.fas {
+      color: #ed6a6a;
+    }
+  }
   & .notification-symbol {
     border: 1px solid #ed6a6a;
+    & i.fas {
+      color: #ed6a6a;
+    }
   }
 }
 .warning {
@@ -62,11 +62,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  i.fas {
-    &.negative {
-      color: #ed6a6a;
-    }
-  }
 }
 
 .message-container {
