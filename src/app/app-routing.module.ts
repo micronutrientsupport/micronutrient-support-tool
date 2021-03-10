@@ -20,7 +20,7 @@ export interface RouteData extends Data {
 
 const routes: Routes = [
   {
-    path: AppRoutes.HOME.segments,
+    path: AppRoutes.HOME.getRouterPath(),
     component: HomeComponent,
     data: {
       appRoute: AppRoutes.HOME,
@@ -35,7 +35,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.MAPS_TOOL.segments,
+    path: AppRoutes.MAPS_TOOL.getRouterPath(),
     component: MapsToolComponent,
     data: {
       appRoute: AppRoutes.MAPS_TOOL,
@@ -47,7 +47,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.EDUCATIONAL_RESOURCES.segments,
+    path: AppRoutes.EDUCATIONAL_RESOURCES.getRouterPath(),
     component: EducationalResourcesComponent,
     data: {
       appRoute: AppRoutes.EDUCATIONAL_RESOURCES,
@@ -57,7 +57,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.HELP.segments,
+    path: AppRoutes.HELP.getRouterPath(),
     component: HelpComponent,
     data: {
       appRoute: AppRoutes.HELP,
@@ -67,7 +67,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.PROJECT_OBJECTIVES.segments,
+    path: AppRoutes.PROJECT_OBJECTIVES.getRouterPath(),
     component: ProjectObjectivesComponent,
     data: {
       appRoute: AppRoutes.PROJECT_OBJECTIVES,
@@ -77,7 +77,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.STYLE_GUIDE.segments,
+    path: AppRoutes.STYLE_GUIDE.getRouterPath(),
     component: StyleGuideComponent,
     data: {
       appRoute: AppRoutes.STYLE_GUIDE,
@@ -87,7 +87,7 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.QUICK_MAPS.segments,
+    path: AppRoutes.QUICK_MAPS.getRouterPath(),
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
   {

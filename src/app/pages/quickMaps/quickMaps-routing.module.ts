@@ -15,7 +15,7 @@ const routes: Routes = [
     component: QuickMapsComponent,
     children: [
       {
-        path: '',
+        path: AppRoutes.QUICK_MAPS_LOCATION_SELECT.getRouterPath(),
         component: LocationSelectComponent,
         data: {
           appRoute: AppRoutes.QUICK_MAPS_LOCATION_SELECT,
@@ -40,7 +40,7 @@ const routes: Routes = [
         canActivate: [QuickMapsRouteGuardService],
       },
       {
-        path: AppRoutes.QUICK_MAPS_PROJECTION.segments,
+        path: AppRoutes.QUICK_MAPS_PROJECTION.getRouterPath(),
         component: ProjectionComponent,
         data: {
           appRoute: AppRoutes.QUICK_MAPS_PROJECTION,
@@ -52,7 +52,7 @@ const routes: Routes = [
         canActivate: [QuickMapsRouteGuardService],
       },
       {
-        path: AppRoutes.QUICK_MAPS_BIOMARKER.segments,
+        path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
         component: BiomarkerComponent,
         data: {
           appRoute: AppRoutes.QUICK_MAPS_BIOMARKER,

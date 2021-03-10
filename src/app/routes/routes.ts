@@ -37,6 +37,7 @@ export class AppRoutes {
   public static readonly HOME = {
     ...BASE_ROUTE,
     segments: '',
+    routerRoot: true,
   };
   public static readonly MAPS_TOOL = {
     ...BASE_ROUTE,
@@ -131,8 +132,11 @@ export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<str
 
 export const getRouterPath = (route: AppRoute): string => {
   const pathSegments = new Array<string>();
-  while ((null != route) && (!route.routerRoot)) {
-    pathSegments.push(route.segments);
+  // always first route
+  pathSegments.push(route.segments);
+  // stop if parent is null or parent is the root of a (sub)router
+  while ((null != route.parent) && (!route.parent.routerRoot)) {
+    pathSegments.push(route.parent.segments);
     route = route.parent;
   }
   return pathSegments.reverse().join('/');
