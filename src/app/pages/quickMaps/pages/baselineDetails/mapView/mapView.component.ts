@@ -23,6 +23,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
+import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 
 @Component({
   selector: 'app-map-view',
@@ -38,7 +39,7 @@ export class MapViewComponent implements AfterViewInit {
 
   public title = '';
   public defaultColourScheme: ColourGradientType;
-  private data: Array<SubRegionDataItem>;
+  private data: SubRegionDataItem;
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
@@ -68,7 +69,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -121,7 +122,7 @@ export class MapViewComponent implements AfterViewInit {
           this.init(
             this.currentDataService.getSubRegionData(
               this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
+              this.quickMapsService.micronutrient,
               this.quickMapsService.mndDataOption,
             ),
           );
@@ -150,16 +151,16 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  private init(dataPromise: Promise<Array<SubRegionDataItem>>): void {
+  private init(dataPromise: Promise<SubRegionDataItem>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: Array<SubRegionDataItem>) => {
+      .then((data: SubRegionDataItem) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
         this.errorSrc.next(false);
-        this.populateFeatureCollection(data);
+        this.areaFeatureCollection = data.geoJson;
         this.initialiseMapAbsolute();
         this.initialiseMapThreshold();
         this.areaBounds = this.absoluteDataLayer.getBounds();
@@ -181,6 +182,10 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
+  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
+    return feat.properties as SubRegionDataItemFeatureProperties;
+  }
+
   private changeColourRamp(colourGradient: ColourGradientType): void {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
@@ -195,11 +200,17 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(feat.properties.mnAbsolute, colourGradient),
+      this.getAbsoluteColourRange(
+        this.getFeatProps(feat).mn_absolute,
+        colourGradient,
+      ),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(feat.properties.mnThreshold, colourGradient),
+      this.getThresholdColourRange(
+        this.getFeatProps(feat).mn_threshold,
+        colourGradient,
+      ),
     ).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
@@ -263,11 +274,12 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private getTooltip(feature: GeoJSON.Feature): string {
+    const props = this.getFeatProps(feature);
     return `
     <div>
-      Region:<b>${feature.properties.subRegionName}</b><br/>
-      Absolute value:${feature.properties.mnAbsolute}mg<br/>
-      Threshold: ${feature.properties.mnThreshold}%<br/>
+      Region:<b>${props.subregion_name}</b><br/>
+      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
+      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
     </div>`;
   }
 
@@ -306,7 +318,10 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(feat.properties.mnAbsolute, this.defaultColourScheme),
+      this.getAbsoluteColourRange(
+        this.getFeatProps(feat).mn_absolute,
+        this.defaultColourScheme,
+      ),
     ).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
@@ -344,7 +359,10 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(feat.properties.mnThreshold, this.defaultColourScheme),
+      this.getThresholdColourRange(
+        this.getFeatProps(feat).mn_threshold,
+        this.defaultColourScheme,
+      ),
     ).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
@@ -371,13 +389,6 @@ export class MapViewComponent implements AfterViewInit {
     };
 
     this.thresholdLegend.addTo(this.thresholdMap);
-  }
-
-  private populateFeatureCollection(data: Array<SubRegionDataItem>): void {
-    this.areaFeatureCollection = {
-      type: 'FeatureCollection',
-      features: data.map((item: SubRegionDataItem) => item.geoFeature).filter((item) => null != item),
-    };
   }
 
   private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
@@ -528,6 +539,6 @@ export class MapViewComponent implements AfterViewInit {
 
 export interface MapViewDialogData {
   title: string;
-  data: Array<SubRegionDataItem>;
+  data: SubRegionDataItem;
   selectedTab: number;
 }
