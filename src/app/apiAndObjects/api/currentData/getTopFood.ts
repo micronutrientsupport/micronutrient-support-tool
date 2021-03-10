@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
@@ -63,7 +64,7 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
 }
 
 export interface TopFoodParams {
-  countryOrGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
   // mndsDataId: string;
 }

@@ -3,6 +3,8 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 import { ProjectedAvailability } from '../../objects/projectedAvailability';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 
 export class GetProjectedAvailabilities extends CacheableEndpoint<
 Array<ProjectedAvailability>,
@@ -44,7 +46,7 @@ ProjectedAvailability
 }
 
 export interface GetProjectedAvailabilityParams {
-  countryOrGroupId: string;
+  countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataId: string;
+  mndsDataOption: MicronutrientDataOption;
 }

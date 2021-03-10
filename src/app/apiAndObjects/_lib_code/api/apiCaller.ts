@@ -11,11 +11,7 @@ export class ApiCaller {
    * @param httpCallErrorHandler A handler for post processing of http responses and errors
    * @param baseUrl The base url to append any relative url segments to.
    */
-  constructor(
-    private http: HttpClient,
-    private httpCallErrorHandler: HttpResponseHandler,
-    private baseUrl: string,
-  ) { }
+  constructor(private http: HttpClient, private httpCallErrorHandler: HttpResponseHandler, private baseUrl: string) {}
 
   /**
    * Does an http call using the parameters given
@@ -34,7 +30,7 @@ export class ApiCaller {
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
-    // console.debug('doCall', url, requestMethod, queryParams, bodyData);
+    // console.log('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
       headers: null != headerFilter ? headerFilter(this.headers) : this.headers,
       params: queryParams,

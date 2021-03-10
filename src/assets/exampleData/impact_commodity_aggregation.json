@@ -1,0 +1,1621 @@
+[{
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": 30666.8010000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": 22402.7410000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": 10757.5350000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2005,
+    "value": 6725.3470000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Pigeonpeas",
+    "year": 2005,
+    "value": 5857.3220000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2005,
+    "value": 28383.8040000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": 31447.8510000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": 22686.9350000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": 11024.7770000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2010,
+    "value": 7279.7700000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Pigeonpeas",
+    "year": 2010,
+    "value": 5714.4080000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2010,
+    "value": 30042.7940000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": 31523.3640000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": 22796.6210000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": 10992.5560000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2015,
+    "value": 7583.1940000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2015,
+    "value": 5704.9090000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2015,
+    "value": 30759.5660000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": 31767.3570000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": 22889.7050000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": 11075.9380000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2020,
+    "value": 8230.2130000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2020,
+    "value": 6305.8810000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2020,
+    "value": 31923.9200000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": 31665.3150000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": 22804.5080000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": 11313.8890000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2025,
+    "value": 9217.9450000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2025,
+    "value": 7276.3990000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2025,
+    "value": 33769.0920000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": 31779.9720000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": 22749.2570000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": 11559.5740000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2030,
+    "value": 10564.6670000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2030,
+    "value": 8645.1850000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2030,
+    "value": 36183.9420000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": 31594.6840000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": 22638.8980000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2035,
+    "value": 12211.1020000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": 11716.1550000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2035,
+    "value": 10412.9990000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2035,
+    "value": 38944.5180000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": 31387.9360000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": 22488.9630000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2040,
+    "value": 14092.2700000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2040,
+    "value": 12584.2620000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": 11768.8410000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2040,
+    "value": 42018.2250000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": 30948.6620000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": 22253.7530000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2045,
+    "value": 16169.4930000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2045,
+    "value": 15212.6720000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": 11775.0230000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2045,
+    "value": 45376.7550000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": 30563.8990000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": 21989.4280000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Vegetables",
+    "year": 2050,
+    "value": 18413.6090000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Dairy",
+    "year": 2050,
+    "value": 18278.5640000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": 11698.1800000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2050,
+    "value": 49037.4700000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": 30666.8010000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": 22402.7410000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": 10757.5350000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2005,
+    "value": 6725.3470000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Pigeonpeas",
+    "year": 2005,
+    "value": 5857.3220000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2005,
+    "value": 28383.8040000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": 31447.8500000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": 22686.9340000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": 11024.7770000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2010,
+    "value": 7279.7700000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Pigeonpeas",
+    "year": 2010,
+    "value": 5714.4080000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2010,
+    "value": 30042.7940000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": 31419.3050000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": 22798.9290000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": 10974.2900000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2015,
+    "value": 7581.0170000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2015,
+    "value": 5697.2310000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2015,
+    "value": 30704.2340000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": 31483.5060000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": 22863.4090000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": 11005.0340000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2020,
+    "value": 8149.2680000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2020,
+    "value": 6210.2170000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2020,
+    "value": 31642.0790000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": 31164.0090000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": 22710.8170000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": 11151.4010000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2025,
+    "value": 8863.5710000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2025,
+    "value": 6893.3890000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2025,
+    "value": 32921.7480000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": 31053.1170000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": 22574.5250000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": 11284.9150000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2030,
+    "value": 9679.2880000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2030,
+    "value": 7695.3760000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2030,
+    "value": 34364.4170000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": 30723.7090000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": 22393.8820000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": 11348.0830000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2035,
+    "value": 10544.9900000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2035,
+    "value": 8592.4370000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2035,
+    "value": 35822.3650000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": 30443.2280000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": 22205.7550000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2040,
+    "value": 11516.1830000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": 11354.1590000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2040,
+    "value": 9666.0290000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2040,
+    "value": 37452.2040000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": 29951.5870000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": 21964.6460000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2045,
+    "value": 12611.4260000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": 11342.5900000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2045,
+    "value": 10974.2560000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2045,
+    "value": 39286.1690000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": 29533.6270000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": 21718.2980000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Vegetables",
+    "year": 2050,
+    "value": 13834.8180000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Dairy",
+    "year": 2050,
+    "value": 12515.3500000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": 11282.4770000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2050,
+    "value": 41362.3000000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": 30666.8010000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": 22402.7410000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": 10757.5350000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2005,
+    "value": 6725.3470000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Pigeonpeas",
+    "year": 2005,
+    "value": 5857.3220000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2005,
+    "value": 28383.8040000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": 31447.8550000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": 22686.9360000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": 11024.7780000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2010,
+    "value": 7279.7720000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Pigeonpeas",
+    "year": 2010,
+    "value": 5714.4080000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2010,
+    "value": 30042.8000000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": 31342.3780000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": 22808.0300000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": 10967.8340000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2015,
+    "value": 7580.7020000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2015,
+    "value": 5696.0290000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2015,
+    "value": 30667.2700000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": 31278.3110000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": 22879.4140000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": 10981.9700000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2020,
+    "value": 8128.0100000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2020,
+    "value": 6186.0650000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2020,
+    "value": 31504.0010000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": 30774.5260000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": 22701.8110000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": 11086.9770000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2025,
+    "value": 8686.5380000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2025,
+    "value": 6713.1720000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2025,
+    "value": 32436.3470000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": 30452.6590000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": 22539.7170000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": 11167.7430000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2030,
+    "value": 9210.5780000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2030,
+    "value": 7217.5780000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2030,
+    "value": 33302.6110000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": 29963.9380000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": 22338.5270000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": 11190.1940000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2035,
+    "value": 9659.4650000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2035,
+    "value": 7676.4580000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2035,
+    "value": 34008.5460000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": 29564.3220000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": 22144.1260000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": 11178.5370000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2040,
+    "value": 10122.2480000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2040,
+    "value": 8183.4440000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2040,
+    "value": 34752.4490000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": 28969.0150000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": 21912.8070000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": 11162.6560000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2045,
+    "value": 10622.8510000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2045,
+    "value": 8772.9630000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2045,
+    "value": 35562.3650000000,
+    "rank": 6
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": 28473.7460000000,
+    "rank": 1
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": 21691.8280000000,
+    "rank": 2
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Vegetables",
+    "year": 2050,
+    "value": 11175.5630000000,
+    "rank": 3
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": 11121.9860000000,
+    "rank": 4
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Dairy",
+    "year": 2050,
+    "value": 9437.1260000000,
+    "rank": 5
+  },
+  {
+    "nutrient": "calcium",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2050,
+    "value": 36481.6550000000,
+    "rank": 6
+  }
+]
