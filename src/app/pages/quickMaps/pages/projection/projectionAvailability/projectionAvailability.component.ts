@@ -32,9 +32,10 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @Input() card: CardComponent;
 
-  public title = 'Projection Availability';
-  public headingText = 'Calcium';
+  public title = 'Projected availability';
+  public headingText = 'Multinutrient';
   public subtHeadingText = '';
+  public selectedTimeScale: string;
 
   public dataSource: MatTableDataSource<ProjectedAvailability>;
 

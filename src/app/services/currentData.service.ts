@@ -10,6 +10,7 @@ import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
+import { ProjectionsSummaryCard } from '../apiAndObjects/objects/projectionsSummaryCard';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
@@ -118,6 +119,19 @@ export class CurrentDataService {
       countryOrGroup,
       micronutrients,
       mndsDataOption,
+    });
+  }
+
+  public getProjectionsSummaryCardData(
+    countryOrGroupId: string,
+    micronutrient: MicronutrientDictionaryItem,
+    scenarioId: string,
+  ): Promise<Array<ProjectionsSummaryCard>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.apiService.endpoints.currentData.getProjectionsSummaryCardData.call({
+      countryOrGroupId,
+      micronutrientId: micronutrient.id,
+      scenarioId,
     });
   }
 }
