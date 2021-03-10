@@ -30,18 +30,19 @@ export class SideNavContentComponent implements OnInit {
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
-  public selectMNDsFiltered = new Array<DictionaryItem>();
-  public searchByCountry: boolean;
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
 
+  public searchByCountry: boolean;
   public measureDietEnabled = false;
   public measureBiomarkerEnabled = false;
 
-  public geographyOptionArray: Array<DictionaryItem>;
+  public selectedMndType = MicronutrientType.MINERAL;
 
+  public geographyOptionArray: Array<DictionaryItem>;
+  public selectMNDsFiltered = new Array<DictionaryItem>();
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
   public quickMapsForm: FormGroup;
@@ -74,12 +75,19 @@ export class SideNavContentComponent implements OnInit {
 
         // watches changes so that reacts to location component selections
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe(country => this.quickMapsForm.get('nation').setValue(country))
+          this.quickMapsService.countryObs.subscribe(value => {
+            const GeographyType = (null == this.regionDictionary.getItems().includes(value))
+              ? GeographyTypes.COUNTRY
+              : GeographyTypes.REGION;
+            this.geographyTypeChange(GeographyType);
+            this.quickMapsForm.get('nation').setValue(value);
+          })
         );
-
-        // TODO: should setting these be dependant on query params?
-        this.countryChange(GeographyTypes.COUNTRY);
-        this.mndChange(MicronutrientType.VITAMIN);
+        this.subscriptions.push(
+          this.quickMapsService.micronutrientObs.subscribe(value => {
+            this.mndChange((null != value) ? value.type : MicronutrientType.MINERAL);
+          })
+        );
 
         this.updateDataMeasureOptions();
         this.updateMicronutrientDataOptions();
@@ -130,6 +138,8 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public mndChange(type: MicronutrientType): void {
+    this.selectedMndType = type;
+
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
       .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
@@ -143,7 +153,7 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public countryChange(type: GeographyTypes): void {
+  public geographyTypeChange(type: GeographyTypes): void {
     this.searchByCountry = (type === GeographyTypes.COUNTRY);
 
     this.geographyOptionArray = (
