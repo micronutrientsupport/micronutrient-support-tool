@@ -82,7 +82,6 @@ export interface AppRoute {
   readonly parent?: AppRoute;
   readonly subsKeys: Array<string>;
   getRoute(): Array<string>;
-  getSegments(): Array<string>;
 }
 
 /**
