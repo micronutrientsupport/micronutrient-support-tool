@@ -36,4 +36,4 @@ import { ProjectionDescriptionComponent } from './projectionDescription/projecti
     DialogModule,
   ],
 })
-export class ProjectionModule {}
+export class ProjectionModule { }

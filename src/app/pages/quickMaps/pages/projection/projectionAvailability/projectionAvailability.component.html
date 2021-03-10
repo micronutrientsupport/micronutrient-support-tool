@@ -3,6 +3,10 @@
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Chart">
       <div class="bmgf-maps-nice-scrollbar">
+        <div class="heading">
+          <h2>{{ headingText }} availability</h2>
+          <h4>The data shows the projected MN availability per person {{selectedTimeScale}} {{ subtHeadingText }}</h4>
+        </div>
         <ngx-chartjs *ngIf="chartData" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
         </ngx-chartjs>
       </div>
@@ -12,7 +16,7 @@
       <div class="bmgf-maps-nice-scrollbar">
         <div class="heading">
           <h2>{{ headingText }} availability</h2>
-          <h4>The data shows the projected MN availability per person per day {{ subtHeadingText }}</h4>
+          <h4>The data shows the projected MN availability per person {{selectedTimeScale}} {{ subtHeadingText }}</h4>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>
 
@@ -176,7 +180,9 @@
         </table>
       </div>
     </mat-tab>
+
     <mat-tab label="Download"> </mat-tab>
+
   </mat-tab-group>
 </ng-template>
 
