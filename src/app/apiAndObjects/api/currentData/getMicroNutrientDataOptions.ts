@@ -6,10 +6,10 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetMicronutrientDataOptions extends CacheableEndpoint<
-Array<MicronutrientDataOption>,
-GetMicronutrientDataOptionsParams,
-MicronutrientDataOption
-> {
+  Array<MicronutrientDataOption>,
+  GetMicronutrientDataOptionsParams,
+  MicronutrientDataOption
+  > {
 
   protected getCacheKey(params: GetMicronutrientDataOptionsParams): string {
     return JSON.stringify(params);

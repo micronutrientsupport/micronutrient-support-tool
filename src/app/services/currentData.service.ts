@@ -3,6 +3,7 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietarySource } from '../apiAndObjects/objects/dietarySource';
+import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
@@ -64,13 +65,15 @@ export class CurrentDataService {
 
   public getTopFood(
     countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    // mndsDataId: string,
+    micronutrient: MicronutrientDictionaryItem,
+    micronutrientDataOption: MicronutrientDataOption,
+    dataLevel: DataLevel,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFood.call({
       countryOrGroup,
-      micronutrients,
-      // mndsDataId,
+      micronutrient,
+      micronutrientDataOption,
+      dataLevel,
     });
   }
 
