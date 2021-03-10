@@ -14,7 +14,7 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
   protected callLive(params: GetSubRegionDataParams): Promise<SubRegionDataItem> {
     const callResponsePromise = this.apiCaller.doCall([
       'diet',
-      'country',
+      params.mndsDataOption.dataLevelOptions[0],
       'geojson',
       params.countryOrGroup.id,
       params.micronutrient.id,
