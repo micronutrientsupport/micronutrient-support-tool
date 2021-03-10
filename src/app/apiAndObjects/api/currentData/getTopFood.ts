@@ -5,6 +5,8 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DataLevel } from '../../objects/enums/dataLevel.enum';
+import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -18,19 +20,20 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   ): Promise<Array<TopFoodSource>> {
     // throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall([
+      'diet',
       'country',
       'top20',
-      params.countryOrGroupId,
-      params.micronutrients[0].id,
-      // compositionId,
-      // consumptionId,
-    ], RequestMethod.GET).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
+      params.countryOrGroup.id,
+      params.micronutrient.id,
+      params.micronutrientDataOption.compositionDataId,
+      params.micronutrientDataOption.consumptionDataId,
+    ], RequestMethod.GET);
 
     return this.buildObjectsFromResponse(TopFoodSource, callResponsePromise);
   }
 
   protected callMock(
-    // params: TopFoodParams,
+  // params: TopFoodParams,
   ): Promise<Array<TopFoodSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
@@ -53,18 +56,11 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
     );
   }
 
-  private processResponseData(
-    data: Array<Record<string, unknown>>,
-    params: TopFoodParams,
-  ): Array<Record<string, unknown>> {
-    data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
-    // return only first item when single option specified
-    return (params.countryOrGroupId, params.micronutrients[0].id) ? data.slice(0, 1) : data;
-  }
 }
 
 export interface TopFoodParams {
   countryOrGroup: CountryDictionaryItem;
-  micronutrients: Array<MicronutrientDictionaryItem>;
-  // mndsDataId: string;
+  micronutrient: MicronutrientDictionaryItem;
+  micronutrientDataOption: MicronutrientDataOption;
+  dataLevel: DataLevel;
 }
