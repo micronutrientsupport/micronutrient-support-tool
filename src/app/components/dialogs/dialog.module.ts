@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { InvalidParametersComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { RouterModule } from '@angular/router';
+import { RoutesModule } from 'src/app/routes/routes.module';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -26,6 +27,7 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     MatFormFieldModule,
     RouterModule,
+    RoutesModule,
   ],
   exports: [BaseDialogComponent],
 })

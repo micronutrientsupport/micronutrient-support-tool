@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DialogService } from './components/dialogs/dialog.service';
+import { InvalidParametersComponent } from './components/dialogs/invalidParametersDialog/invalidParametersDialog.component';
 import { EducationalResourcesComponent } from './pages/educationalResources/educationalResources.component';
 import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -83,14 +85,42 @@ const routes: Routes = [
     path: AppRoutes.QUICK_MAPS.segments,
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
-  {
-    path: '**',
-    redirectTo: '',
-  },
+  // {
+  //   path: '**',
+  //   // redirectTo: '',
+  //   // redirectTo: '',
+  //   children: [
+  //     {
+  //       path: 'dialog',
+  //       component: InvalidParametersComponent
+  //     }
+  //   ]
+  // },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes),
+    RouterModule.forRoot([
+      {
+        path: '**',
+        children: [
+          {
+            path: 'dialog',
+            component: InvalidParametersComponent
+          }
+        ]
+      }
+    ])
+  ],
+  declarations: [InvalidParametersComponent],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+  constructor(
+    private dialogService: DialogService,
+  ) {
+
+  }
+}
