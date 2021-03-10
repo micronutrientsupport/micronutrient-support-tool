@@ -14,9 +14,7 @@ import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
 export class CurrentDataService {
-  constructor(
-    private apiService: ApiService,
-  ) {
+  constructor(private apiService: ApiService) {
     // TEST
     // void this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
     //   countryOrGroupId: '',
@@ -86,11 +84,13 @@ export class CurrentDataService {
   }
 
   public getProjectedFoodSourceData(
+    commodityOrFoodGroup: string,
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
     scenarioId: string,
   ): Promise<Array<ProjectedFoodSourcesData>> {
     return this.apiService.endpoints.currentData.getProjectedFoodSourcesData.call({
+      commodityOrFoodGroup,
       countryOrGroup,
       micronutrients,
       scenarioId,

@@ -15,8 +15,9 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
   }
 
   protected callLive(params: GetProjectedFoodSourcesParams): Promise<Array<ProjectedFoodSourcesData>> {
+    const grouoCallReplacement = params.commodityOrFoodGroup === 'commodity' ? 'commodity' : 'food-group';
     const callResponsePromise = this.apiCaller.doCall(
-      ['projections', 'commodity', params.countryOrGroup.id, params.micronutrients[0].id, params.scenarioId],
+      ['projections', grouoCallReplacement, params.countryOrGroup.id, params.micronutrients[0].id, params.scenarioId],
       RequestMethod.GET,
     );
     return this.buildObjectsFromResponse(ProjectedFoodSourcesData, callResponsePromise);
@@ -37,6 +38,7 @@ export class GetProjectedFoodSourcesData extends CacheableEndpoint<
 }
 
 export interface GetProjectedFoodSourcesParams {
+  commodityOrFoodGroup: string;
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
   scenarioId: string;
