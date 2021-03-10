@@ -20,6 +20,7 @@ export interface ColourGradientObject {
 export class MapSettingsDialogComponent implements OnInit {
   @ViewChild('colorOne') public colorOne: ElementRef;
   @ViewChild('colorTwo') public colorTwo: ElementRef;
+  @ViewChild('colorThree') public colorThree: ElementRef;
   @ViewChild('container1') public colorContainer1: ElementRef;
   @ViewChild('container2') public colorContainer2: ElementRef;
 
@@ -66,20 +67,18 @@ export class MapSettingsDialogComponent implements OnInit {
     console.log(this.customColourGradient);
   }
 
-  public callFunctionOne(): void {
+  public callCustomColourInput(): void {
     // console.debug('change detected');
 
-    this.generateColors(this.colorOne.nativeElement.value, this.colorTwo.nativeElement.value);
-  }
-
-  public callFunctionTwo(): void {
-    // console.debug('change detected');
-
-    this.generateColors(this.colorOne.nativeElement.value, this.colorTwo.nativeElement.value);
+    this.generateColors(
+      this.colorOne.nativeElement.value,
+      this.colorTwo.nativeElement.value,
+      this.colorThree.nativeElement.value,
+    );
     //  console.debug('change detected');
   }
 
-  public generateColors = (color1: string, color2: string): void => {
+  public generateColors = (color1: string, color2: string, color3: string): void => {
     const thresholdValues = [];
     const absoluteValues = [];
 
@@ -89,9 +88,9 @@ export class MapSettingsDialogComponent implements OnInit {
 
     // get array of colors from chroma.js
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const colorPalette1: Array<string> = chroma.scale([color1, color2]).colors(8);
+    const colorPalette1: Array<string> = chroma.scale([color1, color2, color3]).colors(8);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const colorPalette2: Array<string> = chroma.scale([color1, color2]).colors(7);
+    const colorPalette2: Array<string> = chroma.scale([color1, color2, color3]).colors(7);
 
     colorPalette1.forEach((color: string) => {
       // create a div for each color

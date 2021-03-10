@@ -24,10 +24,13 @@
           <p>Generate Custom Colour Range</p>
           <div class="inputs">
             <div class="color-input">
-              <input (change)="callFunctionOne()" #colorOne value="#00ff00" type="color" id="color1" />
+              <input (change)="callCustomColourInput()" #colorOne value="#00ff00" type="color" id="color1" />
             </div>
             <div class="color-input">
-              <input (change)="callFunctionTwo()" #colorTwo value="#ff0000" type="color" id="color2" />
+              <input (change)="callCustomColourInput()" #colorTwo value="#F5F5F5" type="color" id="color2" />
+            </div>
+            <div class="color-input">
+              <input (change)="callCustomColourInput()" #colorThree value="#ff0000" type="color" id="color3" />
             </div>
           </div>
         </header>
