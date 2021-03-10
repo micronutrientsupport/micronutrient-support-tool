@@ -2,6 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -10,12 +11,13 @@ import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutr
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { GeographyTypes } from './geographyTypes.enum';
-
+@Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
   templateUrl: './sideNavContent.component.html',
@@ -46,6 +48,8 @@ export class SideNavContentComponent implements OnInit {
 
   public sideNavToggleLock = new FormControl(false);
 
+  private subscriptions = new Array<Subscription>();
+
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
@@ -69,7 +73,9 @@ export class SideNavContentComponent implements OnInit {
         });
 
         // watches changes so that reacts to location component selections
-        this.quickMapsService.countryObs.subscribe(country => this.quickMapsForm.get('nation').setValue(country));
+        this.subscriptions.push(
+          this.quickMapsService.countryObs.subscribe(country => this.quickMapsForm.get('nation').setValue(country))
+        );
 
         // TODO: should setting these be dependant on query params?
         this.countryChange(GeographyTypes.COUNTRY);
@@ -78,31 +84,50 @@ export class SideNavContentComponent implements OnInit {
         this.updateDataMeasureOptions();
         this.updateMicronutrientDataOptions();
 
-        this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
-          this.quickMapsService.setCountry(value);
-          this.updateMicronutrientDataOptions();
-        });
-        this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
-          this.quickMapsService.setMicronutrient(value);
-          this.updateDataMeasureOptions();
-        });
-        this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
-          this.quickMapsService.setMeasure(value);
-          this.updateMicronutrientDataOptions();
-        });
-        this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
-          this.quickMapsService.setMndDataOption(value);
-          if (null != value) {
-            if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
-              this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
+        this.subscriptions.push(
+          this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
+            this.quickMapsService.setCountry(value);
+            this.updateMicronutrientDataOptions();
+          })
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
+            this.quickMapsService.setMicronutrient(value);
+            this.updateDataMeasureOptions();
+          })
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
+            this.quickMapsService.setMeasure(value);
+            this.updateMicronutrientDataOptions();
+          })
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
+            this.quickMapsService.setMndDataOption(value);
+            if (null != value) {
+              if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
+                this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
+              }
             }
-          }
-        });
+          })
+        );
       });
-
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.quickMapsService.measureObs.subscribe(() => {
+        if (!this.showGoButton) {
+          // delay to let the query params update first, otherwise
+          // the navigation gets cancelled
+          setTimeout(() => {
+            this.navigate();
+          }, 100);
+        }
+      })
+    );
+  }
 
   public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
@@ -190,9 +215,20 @@ export class SideNavContentComponent implements OnInit {
     // console.warn(this.quickMapsForm.value);
 
     if (this.quickMapsForm.valid) {
-      void this.router.navigate(AppRoutes.QUICK_MAPS_BASELINE.getRoute(), {
-        queryParams: this.route.snapshot.queryParams,
-      });
+      this.navigate(true);
+    }
+  }
+
+  private navigate(minimiseSideNav = false): void {
+    const route = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+      ? AppRoutes.QUICK_MAPS_BASELINE
+      : AppRoutes.QUICK_MAPS_BIOMARKER;
+
+    // console.debug('navigate', this.quickMapsService.measure, route);
+    void this.router.navigate(route.getRoute(), {
+      queryParams: this.route.snapshot.queryParams,
+    });
+    if (minimiseSideNav) {
       this.minimiseSideNav();
     }
   }
