@@ -109,5 +109,3 @@ export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<str
   }
   return [url];
 };
-
-export const getSegments = (route: AppRoute): Array<string> => ['bing'];
