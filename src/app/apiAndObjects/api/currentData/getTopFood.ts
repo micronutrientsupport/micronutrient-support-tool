@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
@@ -33,7 +29,6 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   }
 
   protected callMock(
-  // params: TopFoodParams,
   ): Promise<Array<TopFoodSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
@@ -57,7 +52,6 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   }
 
 }
-
 export interface TopFoodParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
