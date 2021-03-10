@@ -26,10 +26,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './foodItems.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './foodItems.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodItemsComponent implements AfterViewInit {
@@ -41,7 +38,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
 
   public chartData: ChartJSObject;
-  public displayedColumns = ['foodex2Name', 'value'];
+  public displayedColumns = ['foodName', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
 
   private data: Array<TopFoodSource>;
@@ -57,30 +54,29 @@ export class FoodItemsComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.title = this.title;
       this.card.showExpand = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getTopFood(
-            this.quickMapsService.country,
-            [this.quickMapsService.micronutrient],
-            // this.quickMapsService.mndDataId,
-          ));
-        })
+          this.init(
+            this.currentDataService.getTopFood(
+              this.quickMapsService.country,
+              this.quickMapsService.micronutrient,
+              this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataLevel,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -129,7 +125,7 @@ export class FoodItemsComponent implements AfterViewInit {
           {
             tree: data,
             key: 'value',
-            groups: ['foodex2Name'],
+            groups: ['foodName'],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',
