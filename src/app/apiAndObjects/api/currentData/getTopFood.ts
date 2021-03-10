@@ -17,7 +17,7 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
     // throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall([
       'diet',
-      'country',
+      this.getDataLevelString(params.dataLevel),
       'top20',
       params.countryOrGroup.id,
       params.micronutrient.id,
@@ -49,6 +49,13 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
         }, 1500);
       }),
     );
+  }
+
+  private getDataLevelString(dataLevel: DataLevel): string {
+    switch (dataLevel) {
+      case (DataLevel.COUNTRY): return 'country';
+      case (DataLevel.HOUSEHOLD): return 'household';
+    }
   }
 
 }
