@@ -28,6 +28,21 @@
     }
   }
 }
+.positive {
+  &.holding-container {
+    background-color: #f1fbf5;
+  }
+  & .mat-snackbar-close {
+    background-color: #f1fbf5;
+  }
+  & .notification-symbol {
+    background-color: #6fcf97;
+    & i.fas {
+      color: white;
+      font-size: 1em;
+    }
+  }
+}
 .negative {
   &.holding-container {
     background-color: #fdefef;

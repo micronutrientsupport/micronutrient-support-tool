@@ -20,6 +20,9 @@ export class HeaderComponent {
     this.notificationService.sendInformative('Measure of MND changed to', 'Biomarker Data');
   }
   public testNegative(): void {
-    this.notificationService.sendNegative('An error occurred:', 'data could not be loaded', 10000000);
+    this.notificationService.sendNegative('An error occurred:', 'data could not be loaded');
+  }
+  public testPositive(): void {
+    this.notificationService.sendPositive('Map successfully saved');
   }
 }
