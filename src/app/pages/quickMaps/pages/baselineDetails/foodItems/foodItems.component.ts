@@ -38,7 +38,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
 
   public chartData: ChartJSObject;
-  public displayedColumns = ['foodex2Name', 'value'];
+  public displayedColumns = ['foodName', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
 
   private data: Array<TopFoodSource>;
@@ -71,8 +71,9 @@ export class FoodItemsComponent implements AfterViewInit {
           this.init(
             this.currentDataService.getTopFood(
               this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
-              // this.quickMapsService.mndDataId,
+              this.quickMapsService.micronutrient,
+              this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataLevel,
             ),
           );
         }),
@@ -124,7 +125,7 @@ export class FoodItemsComponent implements AfterViewInit {
           {
             tree: data,
             key: 'value',
-            groups: ['foodex2Name'],
+            groups: ['foodName'],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',

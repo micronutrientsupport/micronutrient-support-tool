@@ -1,28 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DataLevel } from '../../objects/enums/dataLevel.enum';
+import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodParams, TopFoodSource> {
   protected getCacheKey(params: TopFoodParams): string {
     return JSON.stringify(params);
   }
   protected callLive(
-  // params: TopFoodParams,
+    params: TopFoodParams,
   ): Promise<Array<TopFoodSource>> {
-    throw new Error('Method not implemented.');
-    // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
-    //   'country-or-group-id': params.countryOrGroupId,
-    //   'micronutrient-id': params.micronutrientId,
-    //   'poulationGroup-id': params.poulationGroupId,
-    // });
+    // throw new Error('Method not implemented.');
+    const callResponsePromise = this.apiCaller.doCall([
+      'diet',
+      'country',
+      'top20',
+      params.countryOrGroup.id,
+      params.micronutrient.id,
+      params.micronutrientDataOption.compositionDataId,
+      params.micronutrientDataOption.consumptionDataId,
+    ], RequestMethod.GET);
 
-    // return this.buildObjectsFromResponse(TopFoodSource, callResponsePromise);
+    return this.buildObjectsFromResponse(TopFoodSource, callResponsePromise);
   }
 
   protected callMock(
-  // params: TopFoodParams,
   ): Promise<Array<TopFoodSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
@@ -44,10 +50,11 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       }),
     );
   }
-}
 
+}
 export interface TopFoodParams {
   countryOrGroup: CountryDictionaryItem;
-  micronutrients: Array<MicronutrientDictionaryItem>;
-  // mndsDataId: string;
+  micronutrient: MicronutrientDictionaryItem;
+  micronutrientDataOption: MicronutrientDataOption;
+  dataLevel: DataLevel;
 }

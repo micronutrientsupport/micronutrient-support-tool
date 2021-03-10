@@ -9,15 +9,55 @@
   background-color: white;
   align-items: center;
   justify-content: center;
+
+  & .wideItem {
+    flex-grow: 1;
+    display: flex;
+    margin: 1em 0.5em;
+  }
+
+  & .right-text {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  & :is(form, .left-text) {
+    flex-flow: row wrap;
+  }
+
+  & form {
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  & .left-text {
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  & .left-text>div {
+    margin: 0em 0.5em;
+  }
 }
 
-.item {
-  flex-grow: 1;
-  flex: 1;
-  margin: 5px;
+.bold {
+  font-weight: 700;
+}
 
-  &.wideItem {
-    flex-grow: 2;
+form::ng-deep {
+  .mat-form-field-wrapper {
+    padding-bottom: 0em;
+  }
+
+  .width-quantity {
+    width: 5em;
+    margin-right: 0.5em;
+  }
+
+  .width-time {
+    width: 8em;
+    margin-left: 0.5em;
   }
 }
 
@@ -26,6 +66,7 @@
   font-size: 16px;
   display: block;
 }
+
 .estimateValue {
   font-weight: 700;
   font-size: 16px;
@@ -34,15 +75,21 @@
   &.blue {
     color: blue;
   }
+
   &.green {
     color: green;
   }
+
   &.red {
     color: red;
   }
 }
 
-@media (max-width: 800px) {
+.margin-left {
+  margin-left: 0.5em;
+}
+
+@media (max-width: 920px) {
   .container {
     flex-direction: column;
     text-align: center;

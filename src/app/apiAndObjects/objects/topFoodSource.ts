@@ -2,11 +2,11 @@ import { BaseObject } from '../_lib_code/objects/baseObject';
 
 export class TopFoodSource extends BaseObject {
   public static readonly KEYS = {
-    FOODEX2_NAME: 'foodex2_name',
-    VALUE: 'value',
+    FOOD_NAME: 'foodName',
+    VALUE: 'mnConsumedPerDay',
   };
 
-  public readonly foodex2Name: string;
+  public readonly foodName: string;
   public readonly value: number;
 
   protected constructor(
@@ -14,7 +14,7 @@ export class TopFoodSource extends BaseObject {
   ) {
     super(sourceObject);
 
-    this.foodex2Name = this._getString(TopFoodSource.KEYS.FOODEX2_NAME);
+    this.foodName = this._getString(TopFoodSource.KEYS.FOOD_NAME);
     this.value = this._getNumber(TopFoodSource.KEYS.VALUE);
   }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import {
@@ -9,7 +11,6 @@ import {
   Inject,
   AfterViewInit,
   ViewChild,
-  OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -37,7 +38,7 @@ import ColorHash from 'color-hash-ts';
   styleUrls: ['../../expandableTabGroup.scss', './projectionFoodSources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
+export class ProjectionFoodSourcesComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
@@ -101,9 +102,11 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
       scenario: 'SSP1',
       year: '2005',
     });
-    // this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value: string) => {
-    // TODO: update with live api endpoint
-    // });
+    this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe(() => {
+      if (this.currentImpactScenario) {
+        this.init();
+      }
+    });
     this.projectionFoodFormGroup.get('scenario').valueChanges.subscribe(() => {
       if (this.currentImpactScenario) {
         this.init();
@@ -114,10 +117,6 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
         this.init();
       }
     });
-  }
-
-  ngOnInit(): void {
-    //
   }
 
   ngAfterViewInit(): void {
@@ -152,72 +151,79 @@ export class ProjectionFoodSourcesComponent implements OnInit, AfterViewInit {
 
   private init(): void {
     this.loadingSrc.next(true);
-    this.currentDataService.getProjectedFoodSourceData(
-      this.quickMapsService.country,
-      [this.quickMapsService.micronutrient],
-      this.projectionFoodFormGroup.get('scenario').value,
-    ).then((data: Array<ProjectedFoodSourcesData>) => {
-      this.data = data;
-      if (null == data) {
-        throw new Error('data error');
-      }
+    this.currentDataService
+      .getProjectedFoodSourceData(
+        this.projectionFoodFormGroup.get('groupedBy').value,
+        this.quickMapsService.country,
+        [this.quickMapsService.micronutrient],
+        this.projectionFoodFormGroup.get('scenario').value,
+      )
+      .then((data: Array<ProjectedFoodSourcesData>) => {
+        const goodOrCommodity: string = this.projectionFoodFormGroup.get('groupedBy').value as string;
 
-      // Select current countries
-      const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
-        (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.country.id,
-      );
+        this.data = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
 
-      // Filter by current impact scenario
-      const filteredByScenario: Array<ProjectedFoodSourcesData> = filteredByCountry.filter(
-        (item: ProjectedFoodSourcesData) => item.scenario === this.projectionFoodFormGroup.get('scenario').value,
-      );
+        // Select current countries
+        const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
+          (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.country.id,
+        );
 
-      const filteredTableDataArray = [];
-      const foodTypes = [...new Set(data.map((item) => item.commodity))];
-      const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
+        // Filter by current impact scenario
+        const filteredByScenario: Array<ProjectedFoodSourcesData> = filteredByCountry.filter(
+          (item: ProjectedFoodSourcesData) => item.scenario === this.projectionFoodFormGroup.get('scenario').value,
+        );
 
-      // Generate the stacked chart
-      const stackedChartData = {
-        labels: quinquennialPeriod,
-        datasets: [],
-      };
-      foodTypes.forEach((thing, index) => {
-        stackedChartData.datasets.push({
-          label: foodTypes[index],
-          data: filteredByScenario.filter((item) => item.commodity === foodTypes[index]).map((item) => item.value),
-          backgroundColor: () => {
-            const colorHash = new ColorHash();
-            return colorHash.hex(foodTypes[index]);
-          },
-        });
-      });
+        const filteredTableDataArray = [];
+        const foodTypes = [...new Set(data.map((item) => item[goodOrCommodity]))];
+        const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
 
-      // Generate the table
-      quinquennialPeriod.forEach((currentYear) => {
-        const filteredTableData = new Array<ProjectedFoodSourcesTable>();
-
+        // Generate the stacked chart
+        const stackedChartData = {
+          labels: quinquennialPeriod,
+          datasets: [],
+        };
         foodTypes.forEach((thing, index) => {
-          filteredTableData.push({
-            year: currentYear,
-            foodName: foodTypes[index],
-            value: filteredByScenario
-              .filter((item) => item.year === currentYear)
-              .filter((item) => item.commodity === foodTypes[index])
-              .map((item) => item.value)[0],
+          stackedChartData.datasets.push({
+            label: foodTypes[index],
+            data: filteredByScenario
+              .filter((item) => item[goodOrCommodity] === foodTypes[index])
+              .map((item) => item.value),
+            backgroundColor: () => {
+              const colorHash = new ColorHash();
+              return colorHash.hex(foodTypes[index]);
+            },
           });
         });
-        filteredTableDataArray.push(filteredTableData);
-      });
 
-      this.errorSrc.next(false);
-      this.chartData = null;
+        // Generate the table
+        quinquennialPeriod.forEach((currentYear) => {
+          const filteredTableData = new Array<ProjectedFoodSourcesTable>();
 
-      // remove chart before re-setting it to stop js error
-      this.cdr.detectChanges();
+          foodTypes.forEach((thing, index) => {
+            filteredTableData.push({
+              year: currentYear,
+              foodName: foodTypes[index],
+              value: filteredByScenario
+                .filter((item) => item.year === currentYear)
+                .filter((item) => item[goodOrCommodity] === foodTypes[index])
+                .map((item) => item.value)[0],
+            });
+          });
+          filteredTableDataArray.push(filteredTableData);
+        });
 
-      this.initialiseGraph(stackedChartData);
-      this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
-    })
+        this.errorSrc.next(false);
+        this.chartData = null;
+
+        // remove chart before re-setting it to stop js error
+        this.cdr.detectChanges();
+
+        this.initialiseGraph(stackedChartData);
+        this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
+      })
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NotFoundComponent } from './components/notFound/notFound.component';
 import { EducationalResourcesComponent } from './pages/educationalResources/educationalResources.component';
 import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -7,6 +8,7 @@ import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObjectives.component';
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
+import { PathResolveService } from './services/pathResolve.service';
 
 export interface RouteData {
   title: string;
@@ -30,7 +32,7 @@ const routes: Routes = [
       and dietary MN supply estimates derived from nationa-scale (Food Balance Sheets)
       or sub-national (House-hold Consumption and Expenditure Survey) data,
       presenting the user with multiple perspectives on MN deficiency risks and highlighting where there are major data gaps.`,
-    }
+    },
   },
   {
     path: AppRoutes.MAPS_TOOL.segments,
@@ -40,8 +42,10 @@ const routes: Routes = [
       keywords: `Micronutrients, maps, tools, data, interventions, projections,
       deficiency risks, food fortification, food system changes, national, sub-national`,
       // eslint-disable-next-line max-len
-      description: 'Various tools to explore micronutrient deficiencies in your geography of interest and possible interventions to mitigate the micro-nutrient deficiencies.',
-    }
+      description:
+        'Various tools to explore micronutrient deficiencies in your geography of interest and possible interventions ' +
+        'to mitigate the micro-nutrient deficiencies.',
+    },
   },
   {
     path: AppRoutes.EDUCATIONAL_RESOURCES.segments,
@@ -50,7 +54,7 @@ const routes: Routes = [
       title: 'Educational Resources',
       keywords: 'Micronutrients, maps, policy, education resources',
       description: 'Various education resources to exapnd knowledge related to this topic.',
-    }
+    },
   },
   {
     path: AppRoutes.HELP.segments,
@@ -58,8 +62,9 @@ const routes: Routes = [
     data: {
       title: 'Help',
       keywords: 'Micronutrients, maps, policy, help',
-      description: 'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it has to offer.',
-    }
+      description:
+        'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it has to offer.',
+    },
   },
   {
     path: AppRoutes.PROJECT_OBJECTIVES.segments,
@@ -67,8 +72,9 @@ const routes: Routes = [
     data: {
       title: 'Project Objectives',
       keywords: 'Micronutrients, maps, policy, project objectives',
-      description: 'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it aims to achieve.',
-    }
+      description:
+        'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it aims to achieve.',
+    },
   },
   {
     path: AppRoutes.STYLE_GUIDE.segments,
@@ -77,7 +83,7 @@ const routes: Routes = [
       title: 'Style Guide',
       keywords: 'Micronutrients, maps, policy, style guide',
       description: 'General website style guide',
-    }
+    },
   },
   {
     path: AppRoutes.QUICK_MAPS.segments,
@@ -85,7 +91,10 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    resolve: {
+      path: PathResolveService,
+    },
+    component: NotFoundComponent,
   },
 ];
 
@@ -93,4 +102,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -15,6 +15,7 @@ import { QuickMapsComponent } from './quickMaps.component';
 import { BaselineDetailsModule } from './pages/baselineDetails/baselineDetails.module';
 import { ProjectionModule } from './pages/projection/projection.module';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     QuickMapsComponent,
@@ -34,6 +35,7 @@ import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
     RoutesModule,
     BaselineDetailsModule,
     ProjectionModule,
+    MatProgressSpinnerModule,
   ],
   providers: [QuickMapsService],
 })

@@ -16,6 +16,7 @@ import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramDa
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
+import { GetProjectionsSummaryCardData } from './currentData/getProjectionsSummaryCardData';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 
 @Injectable()
@@ -25,12 +26,13 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     currentData: {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
-      getSubRegionData: new GetSubRegionData(false),
+      getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
-      getTopFood: new GetTopFood(false),
+      getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
+      getProjectionsSummaryCardData: new GetProjectionsSummaryCardData(ApiService.USE_LIVE_API),
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
     },
     misc: {
