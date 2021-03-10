@@ -132,7 +132,8 @@ export class SideNavContentComponent implements OnInit {
   public mndChange(type: MicronutrientType): void {
     this.selectMNDsFiltered = this.micronutrientsDictionary
       .getItems()
-      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
+      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
+      .sort((a, b) => (a.name < b.name) ? -1 : 1);
   }
 
   public minimiseSideNav(): void {
@@ -143,13 +144,12 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public countryChange(type: GeographyTypes): void {
-    if (type === GeographyTypes.COUNTRY) {
-      this.searchByCountry = true;
-      this.geographyOptionArray = this.countriesDictionary.getItems();
-    } else {
-      this.searchByCountry = false;
-      this.geographyOptionArray = this.regionDictionary.getItems();
-    }
+    this.searchByCountry = (type === GeographyTypes.COUNTRY);
+
+    this.geographyOptionArray = (
+      (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
+      .getItems()
+      .sort((a, b) => (a.name < b.name) ? -1 : 1);
   }
 
   public updateDataMeasureOptions(): void {
@@ -195,7 +195,8 @@ export class SideNavContentComponent implements OnInit {
           true,
         )
         .then((options: Array<MicronutrientDataOption>) => {
-          this.micronutrientDataOptions = options;
+          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
+
           // if only one option, preselect
           if (1 === options.length) {
             this.quickMapsForm.get('mndsData').setValue(options[0]);
