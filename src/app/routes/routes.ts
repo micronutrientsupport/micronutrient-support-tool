@@ -152,10 +152,7 @@ export const getDescendents = (route: AppRoute): Array<AppRoute> => {
   return descendents;
 };
 
-export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean => {
-  return route.getDescendents().includes(parentTest);
-  // return true;
-};
+export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean => route.getDescendents().includes(parentTest);
 
 // Needs work
 // export const routeFromPath = (path: string): AppRoute => {
