@@ -16,9 +16,20 @@
  */
 
 const BASE_ROUTE = {
+  parent: null,
   subsKeys: [] as Array<string>,
+  routerRoot: false,
   getRoute(): Array<string> {
     return getRoute(this);
+  },
+  getRouterPath(): string {
+    return getRouterPath(this);
+  },
+  getDescendents(): Array<AppRoute> {
+    return getDescendents(this);
+  },
+  hasDescendent(parentRoute: AppRoute): boolean {
+    return hasDescendent(this, parentRoute);
   },
 };
 
@@ -34,6 +45,7 @@ export class AppRoutes {
   public static readonly QUICK_MAPS = {
     ...BASE_ROUTE,
     segments: 'quick-maps',
+    routerRoot: true,
   };
   public static readonly EDUCATIONAL_RESOURCES = {
     ...BASE_ROUTE,
@@ -59,15 +71,20 @@ export class AppRoutes {
     segments: '',
     parent: AppRoutes.QUICK_MAPS,
   };
+  public static readonly QUICK_MAPS_DIET = {
+    ...BASE_ROUTE,
+    segments: 'diet',
+    parent: AppRoutes.QUICK_MAPS,
+  };
   public static readonly QUICK_MAPS_BASELINE = {
     ...BASE_ROUTE,
-    segments: 'diet/baseline',
-    parent: AppRoutes.QUICK_MAPS,
+    segments: 'baseline',
+    parent: AppRoutes.QUICK_MAPS_DIET,
   };
   public static readonly QUICK_MAPS_PROJECTION = {
     ...BASE_ROUTE,
-    segments: 'diet/projection',
-    parent: AppRoutes.QUICK_MAPS,
+    segments: 'projection',
+    parent: AppRoutes.QUICK_MAPS_DIET,
   };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,
@@ -81,7 +98,10 @@ export interface AppRoute {
   readonly segments: string;
   readonly parent?: AppRoute;
   readonly subsKeys: Array<string>;
+  readonly routerRoot: boolean;
   getRoute(): Array<string>;
+  getDescendents(): Array<AppRoute>;
+  hasDescendent(parentRoute: AppRoute): boolean;
 }
 
 /**
@@ -108,3 +128,38 @@ export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<str
   }
   return [url];
 };
+
+export const getRouterPath = (route: AppRoute): string => {
+  const pathSegments = new Array<string>();
+  while ((null != route) && (!route.routerRoot)) {
+    pathSegments.push(route.segments);
+    route = route.parent;
+  }
+  return pathSegments.reverse().join('/');
+};
+
+
+export const getDescendents = (route: AppRoute): Array<AppRoute> => {
+  const descendents = new Array<AppRoute>();
+  while (null != route) {
+    descendents.push(route);
+    route = route.parent;
+  }
+  return descendents;
+};
+
+export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean => {
+  return route.getDescendents().includes(parentTest);
+  // return true;
+};
+
+// Needs work
+// export const routeFromPath = (path: string): AppRoute => {
+//   const routeKey = Object.keys(AppRoutes).find((key: string) => {
+//     const appRoutePath = (AppRoutes[key] as AppRoute).getRoute().join('/');
+//     console.debug('routeFromPath', path, appRoutePath);
+//     return (appRoutePath === path);
+//   });
+//   return AppRoutes[routeKey];
+// };
+
