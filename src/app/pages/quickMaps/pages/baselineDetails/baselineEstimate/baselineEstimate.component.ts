@@ -51,6 +51,8 @@ export class BaslineEstimateComponent {
   currentEstimateCalc: number;
   differencePercentage: number;
   differenceQuantity: number;
+  referenceYear: string;
+  intersectYear: string;
   mass = 1;
   timeScale = 1;
   timeScaleName = 'day';
@@ -105,15 +107,19 @@ export class BaslineEstimateComponent {
         this.target = response[0].target;
         this.currentEstimate = response[0].referenceVal;
         this.differencePercentage = response[0].difference;
+        this.referenceYear = response[0].referenceYear.toString();
+        this.intersectYear = response[0].intersectYear.toString();
         this.calculate();
-        this.cdr.markForCheck();
-        this.loading = false;
       })
       .catch((e: any) => {
         this.targetCalc = null;
         this.currentEstimateCalc = null;
         this.differencePercentage = null;
         this.differenceQuantity = null;
+        this.referenceYear = null;
+        this.intersectYear = null;
+      })
+      .finally(() => {
         this.cdr.markForCheck();
         this.loading = false;
       });
