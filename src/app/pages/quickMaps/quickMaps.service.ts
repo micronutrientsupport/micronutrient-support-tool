@@ -48,19 +48,16 @@ export class QuickMapsService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(
-    injector: Injector,
-    private currentDataService: CurrentDataService,
-  ) {
+  constructor(injector: Injector, private currentDataService: CurrentDataService) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
     const promises = new Array<Promise<unknown>>();
 
     promises.push(
-      this.quickMapsParameters.getCountry().then(country => this.setCountry(country)),
-      this.quickMapsParameters.getMicronutrient().then(micronutrient => this.setMicronutrient(micronutrient)),
-      this.getMndOption().then(option => this.setMndDataOption(option)),
+      this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
+      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
+      this.getMndOption().then((option) => this.setMndDataOption(option)),
     );
     this.setMeasure(this.quickMapsParameters.getMeasure());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
@@ -74,7 +71,6 @@ export class QuickMapsService {
 
       this.initSrc.next(true);
     });
-
   }
 
   public sideNavToggle(): void {
@@ -126,10 +122,9 @@ export class QuickMapsService {
 
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] =
-      (null != this.country) ? this.country.id : null;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
-      (null != this.micronutrient) ? this.micronutrient.id : null;
+      null != this.micronutrient ? this.micronutrient.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
     this.quickMapsParameters.setQueryParams(paramsObj);
@@ -147,16 +142,13 @@ export class QuickMapsService {
   }
 
   private getMndOption(): Promise<MicronutrientDataOption> {
-    return Promise.all([
-      this.quickMapsParameters.getCountry(),
-    ]).then((data: [CountryDictionaryItem]) =>
-      (null == data[0])
-        ? null
-        : this.currentDataService.getMicronutrientDataOptions(
-          data[0],
-          this.quickMapsParameters.getMeasure(),
-          true,
-        ).then(options => options[0]) // first item
+    return Promise.all([this.quickMapsParameters.getCountry()]).then(
+      (data: [CountryDictionaryItem]) =>
+        null == data[0]
+          ? null
+          : this.currentDataService
+            .getMicronutrientDataOptions(data[0], this.quickMapsParameters.getMeasure(), true)
+            .then((options) => options[0]), // first item
     );
   }
 }
