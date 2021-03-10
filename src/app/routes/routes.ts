@@ -82,6 +82,7 @@ export interface AppRoute {
   readonly parent?: AppRoute;
   readonly subsKeys: Array<string>;
   getRoute(): Array<string>;
+  getSegments(): Array<string>;
 }
 
 /**
@@ -108,3 +109,5 @@ export const getRoute = (route: AppRoute, subsValues?: Array<string>): Array<str
   }
   return [url];
 };
+
+export const getSegments = (route: AppRoute): Array<string> => ['bing'];

@@ -1,10 +1,11 @@
 @import 'src/assets/scss/_colour.scss';
 
-.center-me {
+.centredContent {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  height: 50vh;
+  padding: 40px;
+  text-align: center;
+  height: 100%;
 }

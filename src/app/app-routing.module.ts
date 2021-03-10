@@ -8,6 +8,7 @@ import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObjectives.component';
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoutes } from './routes/routes';
+import { PathResolveService } from './services/pathResolve.service';
 
 export interface RouteData {
   title: string;
@@ -90,6 +91,9 @@ const routes: Routes = [
   },
   {
     path: '**',
+    resolve: {
+      path: PathResolveService,
+    },
     component: NotFoundComponent,
   },
 ];
