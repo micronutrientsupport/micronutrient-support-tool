@@ -2,7 +2,9 @@ import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
@@ -59,8 +61,17 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
-    // TODO: ensure meaasure matches route?
-    return Promise.resolve(true);
+    const measure = this.quickMapsParameters.getMeasure(route.queryParamMap);
+
+    // eslint-disable-next-line prefer-const
+    const appRoute = (route.data as RouteData).appRoute;
+    // console.debug('path', appRoute);
+    const correctPage = (
+      ((MicronutrientMeasureType.DIET === measure) && appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET))
+      || ((MicronutrientMeasureType.BIOMARKER === measure) && appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER))
+    );
+
+    return Promise.resolve(correctPage);
   }
 
   private validateParams(queryParamMap: ParamMap): Promise<boolean> {

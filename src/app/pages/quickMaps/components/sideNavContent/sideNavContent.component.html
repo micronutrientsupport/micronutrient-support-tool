@@ -26,8 +26,8 @@
 
       <div class="toggle-buttons">
         <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
-          (change)="countryChange($event.value)" aria-label="Geography of interest"
-          [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">
+          (change)="geographyTypeChange($event.value)" aria-label="Geography of interest"
+          [value]="selectedGeographyType">
           <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
           <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area
           </mat-button-toggle>
@@ -53,7 +53,7 @@
       </legend>
       <div class="toggle-buttons">
         <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
-          (change)="mndChange($event.value)" [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">
+          (change)="mndChange($event.value)" [value]="selectedMndType">
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
@@ -62,7 +62,7 @@
       <ng-container>
         <mat-form-field appearance="fill">
           <mat-select name="micronutrient" formControlName="micronutrient"
-            [placeholder]="'Select ' + groupMND?.value + ' options'">
+            [placeholder]="'Select ' + groupMND?.value + ' option'">
             <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
           </mat-select>
           <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
@@ -97,7 +97,7 @@
         </span>
       </legend>
       <mat-form-field appearance="fill">
-        <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select options"
+        <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select option"
           panelClass="allow-long-text">
           <mat-option *ngFor="let item of micronutrientDataOptions" [value]="item">{{item.name}}
           </mat-option>

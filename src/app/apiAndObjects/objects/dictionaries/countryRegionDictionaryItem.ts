@@ -28,9 +28,9 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
     }
   }
 
-  public static createMockItems(isCountry: boolean): Array<Record<string, unknown>> {
+  public static createMockItems(isCountry: boolean, count = 20): Array<Record<string, unknown>> {
     const name = (isCountry) ? 'Country' : 'Region';
-    return new Array(20).fill(null)
+    return new Array(count).fill(null)
       .map((val, index: number) => {
         const returnObj = {};
         returnObj[this.ID_ATTRIBUTE] = `${index}`;
