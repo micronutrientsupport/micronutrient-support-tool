@@ -28,11 +28,11 @@ export class MapSettingsDialogComponent implements OnInit {
   public gradientList: Array<ColourGradientObject> = [
     {
       colourGradient: ColourGradientType.BLUEREDYELLOWGREEN,
-      name: 'BlRdYlGn',
+      name: 'Blue-Red-Yellow-Green',
     },
     {
-      colourGradient: ColourGradientType.PURPLEBLUEGREEN,
-      name: 'PpBlGn',
+      colourGradient: ColourGradientType.DIVERGINGCOLORS,
+      name: 'Red-Light-Green',
     },
     {
       colourGradient: ColourGradientType.COLOURBLIND,
@@ -41,15 +41,20 @@ export class MapSettingsDialogComponent implements OnInit {
   ];
 
   public customColourGradient: CustomGradientObject;
-  public color: string;
+  public initialGradient: CustomColourObject;
   public generalSelectionValue = new Array<ColourGradientType>();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<CustomColourObject, CustomColourObject>) {
     this.generalSelectionValue.push(data.dataIn.type);
+    this.initialGradient = data.dataIn;
     data.dataOut.type = this.generalSelectionValue[0];
   }
 
   ngOnInit(): void {}
+  public cancel(): void {
+    this.data.dataOut = this.initialGradient;
+    this.data.close();
+  }
 
   public applyChanges(): void {
     this.data.dataOut.type = this.generalSelectionValue[0];

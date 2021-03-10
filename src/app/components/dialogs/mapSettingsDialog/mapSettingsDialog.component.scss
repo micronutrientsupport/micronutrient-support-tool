@@ -18,7 +18,7 @@
   .colour-option {
     display: flex;
     justify-content: space-between;
-    width: 35%;
+    width: 100%;
     align-items: center;
     .colour-sample {
       width: 4em;
@@ -26,8 +26,8 @@
       &.blueRedYellowGreen {
         background: linear-gradient(0.25turn, blue, red, yellow, green);
       }
-      &.purpleBlueGreen {
-        background: linear-gradient(0.25turn, purple, blue, green);
+      &.divergingColors {
+        background: linear-gradient(0.25turn, darkred, beige, teal);
       }
       &.colourblind {
         background: linear-gradient(0.25turn, purple, green, blue, yellow, magenta);
