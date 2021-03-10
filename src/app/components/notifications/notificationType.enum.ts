@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-shadow
 export enum NotificationType {
-  POSITIVE = 'positive',
+  INFORMATION = 'information',
   NEGATIVE = 'negative',
-  WARNING = 'warning'
 }

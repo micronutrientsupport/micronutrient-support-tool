@@ -16,16 +16,10 @@ export class HeaderComponent {
 
   }
 
-  public testPostitive(): void {
-    this.notificationService.sendPositive('TEST');
+  public testInformative(): void {
+    this.notificationService.sendInformative('Measure of MND changed to', 'Biomarker Data');
   }
   public testNegative(): void {
-    this.notificationService.sendNegative('TEST NEGATIVE', 100000000);
-  }
-  public testWarning(): void {
-    this.notificationService.sendWarning('TEST WARNING');
-  }
-  public testCustom(): void {
-
+    this.notificationService.sendNegative('An error occurred:', 'data could not be loaded');
   }
 }

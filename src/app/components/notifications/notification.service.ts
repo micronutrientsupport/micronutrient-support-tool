@@ -9,21 +9,22 @@ export class NotificationsService {
   constructor(private newNotification: MatSnackBar) {
   }
 
-  public sendPositive(message: string, duration: number = 3000): void {
-    this.sendNotification(message, NotificationType.POSITIVE, duration);
+  public sendInformative(message: string, boldMessage: string, duration = 3000): void {
+    this.sendNotification(message, boldMessage, NotificationType.INFORMATION, duration);
   }
-  public sendNegative(message: string, duration: number = 3000): void {
-    this.sendNotification(message, NotificationType.NEGATIVE, duration);
+  public sendNegative(message: string, boldMessage: string, duration = 3000): void {
+    this.sendNotification(message, boldMessage, NotificationType.NEGATIVE, duration);
   }
-  public sendWarning(message: string, duration: number = 3000): void {
-    this.sendNotification(message, NotificationType.WARNING, duration);
-  }
-  public sendNotification(message: string, type: NotificationType, duration: number = 3000): void {
+  // public sendWarning(message: string, boldMessage: string, duration = 3000): void {
+  //   this.sendNotification(message, boldMessage, NotificationType.WARNING, duration);
+  // }
+  public sendNotification(message: string, boldMessage: string, type: NotificationType, duration = 3000): void {
     this.newNotification.openFromComponent(NotificationComponent, {
       panelClass: ['maps-snackbar'],
       duration: duration,
       data: {
         message,
+        boldMessage,
         type
       }
     });

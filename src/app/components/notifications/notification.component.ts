@@ -4,8 +4,9 @@ import { NotificationType } from './notificationType.enum';
 
 export interface NotificationData {
   message: string;
-  type: NotificationType;
+  boldMessage: string;
   duration: number;
+  type?: NotificationType;
 }
 @Component({
   selector: 'app-notification',
@@ -23,7 +24,6 @@ export class NotificationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.notificationString = this.notificationData.message;
   }
 
 }
