@@ -35,11 +35,11 @@ export class SideNavContentComponent implements OnInit {
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
 
-  public searchByCountry: boolean;
   public measureDietEnabled = false;
   public measureBiomarkerEnabled = false;
 
-  public selectedMndType = MicronutrientType.MINERAL;
+  public selectedGeographyType: GeographyTypes;
+  public selectedMndType: MicronutrientType;
 
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
@@ -73,19 +73,22 @@ export class SideNavContentComponent implements OnInit {
           mndsData: [this.quickMapsService.mndDataOption, Validators.required],
         });
 
-        // watches changes so that reacts to location component selections
         this.subscriptions.push(
           this.quickMapsService.countryObs.subscribe(value => {
-            const GeographyType = (null == this.regionDictionary.getItems().includes(value))
-              ? GeographyTypes.COUNTRY
-              : GeographyTypes.REGION;
-            this.geographyTypeChange(GeographyType);
+            const geographyType = (this.regionDictionary.getItems().includes(value))
+              ? GeographyTypes.REGION
+              : GeographyTypes.COUNTRY;
+            // really only used on first load to pre-select correct type
+            this.geographyTypeChange(geographyType);
+            // reacts to changes from location component selections
             this.quickMapsForm.get('nation').setValue(value);
           })
         );
         this.subscriptions.push(
           this.quickMapsService.micronutrientObs.subscribe(value => {
-            this.mndChange((null != value) ? value.type : MicronutrientType.MINERAL);
+            // really only used on first load to pre-select correct type
+            const mndType = (null != value) ? value.type : MicronutrientType.VITAMIN;
+            this.mndChange(mndType);
           })
         );
 
@@ -138,12 +141,14 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public mndChange(type: MicronutrientType): void {
-    this.selectedMndType = type;
+    if (type !== this.selectedMndType) {
+      this.selectedMndType = type;
 
-    this.selectMNDsFiltered = this.micronutrientsDictionary
-      .getItems()
-      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
-      .sort((a, b) => (a.name < b.name) ? -1 : 1);
+      this.selectMNDsFiltered = this.micronutrientsDictionary
+        .getItems()
+        .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
+        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+    }
   }
 
   public minimiseSideNav(): void {
@@ -154,12 +159,14 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public geographyTypeChange(type: GeographyTypes): void {
-    this.searchByCountry = (type === GeographyTypes.COUNTRY);
+    if (type !== this.selectedGeographyType) {
+      this.selectedGeographyType = type;
 
-    this.geographyOptionArray = (
-      (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
-      .getItems()
-      .sort((a, b) => (a.name < b.name) ? -1 : 1);
+      this.geographyOptionArray = (
+        (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
+        .getItems()
+        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+    }
   }
 
   public updateDataMeasureOptions(): void {
