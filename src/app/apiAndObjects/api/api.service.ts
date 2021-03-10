@@ -48,7 +48,7 @@ export class ApiService extends BaseApi {
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.REGIONS, false)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
-      .setMockObjects(CountryDictionaryItem.createMockItems(false)),
+      .setMockObjects(CountryDictionaryItem.createMockItems(false, 0)),
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
