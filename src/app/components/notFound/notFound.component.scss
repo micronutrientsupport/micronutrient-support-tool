@@ -1,0 +1,10 @@
+@import 'src/assets/scss/_colour.scss';
+
+.center-me {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  height: 50vh;
+}
