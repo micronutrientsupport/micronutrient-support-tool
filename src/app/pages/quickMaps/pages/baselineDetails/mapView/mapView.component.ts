@@ -26,6 +26,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-map-view',
@@ -65,8 +66,8 @@ export class MapViewComponent implements AfterViewInit {
   private tabVisited = new Map<number, boolean>();
 
   constructor(
+    private notificationService: NotificationsService,
     private dialogService: DialogService,
-    private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
@@ -159,6 +160,7 @@ export class MapViewComponent implements AfterViewInit {
       .then((data: SubRegionDataItem) => {
         this.data = data;
         if (null == data) {
+          this.notificationService.sendNegative('An error occured', 'data could not be loaded');
           throw new Error('data error');
         }
         this.errorSrc.next(false);
@@ -177,6 +179,7 @@ export class MapViewComponent implements AfterViewInit {
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);
+        this.notificationService.sendNegative('An error occured', 'data could not be loaded');
       })
       .finally(() => {
         this.loadingSrc.next(false);

@@ -9,6 +9,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-proj-desc',
@@ -35,7 +36,8 @@ export class ProjectionDescriptionComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private miscApiService: MiscApiService,
-  ) {}
+    private notificationService: NotificationsService,
+  ) { }
 
   ngOnInit(): void {
     void this.dictionaryService
@@ -49,6 +51,8 @@ export class ProjectionDescriptionComponent implements OnInit {
           this.countryName = country.name;
           this.cdr.markForCheck();
         });
+      }).catch(() => {
+        this.notificationService.sendNegative('An error occured', 'data could not be loaded');
       });
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
