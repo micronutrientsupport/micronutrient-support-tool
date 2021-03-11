@@ -41,11 +41,13 @@ export class CurrentDataService {
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
     mndsDataOption: MicronutrientDataOption,
+    dataLevel: DataLevel,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroup,
       micronutrient,
       mndsDataOption,
+      dataLevel,
     });
   }
 

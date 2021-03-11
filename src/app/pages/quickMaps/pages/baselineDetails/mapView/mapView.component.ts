@@ -127,6 +127,7 @@ export class MapViewComponent implements AfterViewInit {
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
               this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataLevel,
             ),
           );
         }),
