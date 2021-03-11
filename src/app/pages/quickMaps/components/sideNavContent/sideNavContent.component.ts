@@ -11,6 +11,7 @@ import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutr
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { RouteData } from 'src/app/app-routing.module';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
@@ -130,11 +131,19 @@ export class SideNavContentComponent implements OnInit {
     this.subscriptions.push(
       this.quickMapsService.measureObs.subscribe(() => {
         if (!this.showGoButton) {
-          // delay to let the query params update first, otherwise
-          // the navigation gets cancelled
-          setTimeout(() => {
-            this.navigate();
-          }, 100);
+          const appRoute = (this.getActivatedRoute(this.route).snapshot.data as RouteData).appRoute;
+          const measure = this.quickMapsService.measure;
+          // only navigate if not on the right measure path
+          if (
+            ((MicronutrientMeasureType.DIET === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)))
+            || ((MicronutrientMeasureType.BIOMARKER === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)))
+          ) {
+            // delay to let the query params update first, otherwise
+            // the navigation gets cancelled
+            setTimeout(() => {
+              this.navigate();
+            }, 100);
+          }
         }
       })
     );
@@ -238,16 +247,24 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private navigate(minimiseSideNav = false): void {
-    const route = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+    const requiredRoute = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
       ? AppRoutes.QUICK_MAPS_BASELINE
       : AppRoutes.QUICK_MAPS_BIOMARKER;
 
     // console.debug('navigate', this.quickMapsService.measure, route);
-    void this.router.navigate(route.getRoute(), {
+    void this.router.navigate(requiredRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });
     if (minimiseSideNav) {
       this.minimiseSideNav();
+    }
+  }
+
+  private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
+    if (activatedRoute.firstChild) {
+      return this.getActivatedRoute(activatedRoute.firstChild);
+    } else {
+      return activatedRoute;
     }
   }
 }
