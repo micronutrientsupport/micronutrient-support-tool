@@ -28,6 +28,8 @@ import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetail
 import { CustomColourObject } from './colourObject';
 import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
+import { ColourGradientObject } from './colourGradient';
 
 @Component({
   selector: 'app-map-view',
@@ -60,9 +62,12 @@ export class MapViewComponent implements AfterViewInit {
   private thresholdDataLayer: L.GeoJSON;
   private LegendThreshold: L.Control;
   private thresholdLegend: L.Control;
-  private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
+  // private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
+
+  private thresholdGradients = DEFAULT_THRESHOLD_COLOUR_GRADIENTS;
+  private selectedThresholdGradient = this.thresholdGradients[0];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -210,10 +215,7 @@ export class MapViewComponent implements AfterViewInit {
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
     this.absoluteMap.removeControl(this.absoluteLegend);
-    this.thresholdMap.removeControl(this.thresholdLegend);
-    if (null != this.LegendThreshold) {
-      this.thresholdMap.removeControl(this.LegendThreshold);
-    }
+
     if (null != this.LegendAbsolute) {
       this.absoluteMap.removeControl(this.LegendAbsolute);
     }
@@ -226,10 +228,7 @@ export class MapViewComponent implements AfterViewInit {
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        colourGradient,
-      ),
+      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold)
     ).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
@@ -254,29 +253,43 @@ export class MapViewComponent implements AfterViewInit {
       return div;
     };
 
+    this.LegendAbsolute.addTo(this.absoluteMap);
+
+    this.refreshThresholdLegend();
+  }
+
+  private refreshThresholdLegend(): void {
+    if (null != this.LegendThreshold) {
+      this.thresholdMap.removeControl(this.LegendThreshold);
+    }
+
     this.LegendThreshold = new L.Control({ position: 'bottomright' });
 
     this.LegendThreshold.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
+      let previousGradObj: ColourGradientObject;
+      this.selectedThresholdGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+        let text = '';
+        if (index + 1 === this.selectedThresholdGradient.gradientObjects.length) {
+          text = `>${previousGradObj.lessThanTestValue}%`;
+        } else if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
 
-      this.thresholdRange.forEach((value: number, i) => {
         div.innerHTML +=
           `<span style="display: flex; align-items: center;">
           <span style="background-color:
-          ${this.getThresholdColourRange(value + 1, colourGradient)};
+          ${gradObj.hexString};
           height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.thresholdRange[i + 1] ? value : '>99%'}
-          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
+          </span><span>${text}</span>`;
+        previousGradObj = gradObj;
       });
       return div;
     };
-    this.LegendAbsolute.addTo(this.absoluteMap);
     this.LegendThreshold.addTo(this.thresholdMap);
   }
 
@@ -380,36 +393,10 @@ export class MapViewComponent implements AfterViewInit {
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        this.defaultColourScheme,
-      ),
+      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
 
-    this.thresholdLegend = new L.Control({ position: 'bottomright' });
-
-    this.thresholdLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-
-      // loop through our  intervals and generate a label with a colored square for each interval
-      this.thresholdRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-            <span style="background-color:
-            ${this.getThresholdColourRange(value + 1, this.ColourObject.type)};
-             height:10px; width:10px; display:block; margin-right:5px;">
-            </span>` +
-          `<span>
-          ${this.thresholdRange[i + 1] ? value : '>99%'}
-          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
-      });
-
-      return div;
-    };
-
-    this.thresholdLegend.addTo(this.thresholdMap);
+    this.refreshThresholdLegend();
   }
 
   private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
@@ -499,83 +486,83 @@ export class MapViewComponent implements AfterViewInit {
         }
     }
   }
-  private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
-    if (null == this.ColourObject.customObject) {
-      colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
-    }
-    switch (true) {
-      case thresholdValue > 99:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#2ca25f';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#332288';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[0];
-        } else {
-          return '#045E56';
-        }
-      case thresholdValue > 80:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#addd8e';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#117733';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[1];
-        } else {
-          return '#237E64';
-        }
-      case thresholdValue > 60:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#ffeda0';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#44AA99';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[2];
-        } else {
-          return '#8ADABB';
-        }
-      case thresholdValue > 40:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#feb24c';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#88CCEE';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[3];
-        } else {
-          return '#F6F2DC';
-        }
-      case thresholdValue > 20:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#f03b20';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#DDCC77';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[4];
-        } else {
-          return '#E7B8B0';
-        }
-      case thresholdValue > 10:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#bd0026';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#CC6677';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[5];
-        } else {
-          return '#CF8174';
-        }
-      case thresholdValue > 0:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#7a0177';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#AA4499';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.thresholdValues[6];
-        } else {
-          return '#A26157';
-        }
-    }
-  }
+  // private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
+  //   if (null == this.ColourObject.customObject) {
+  //     colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
+  //   }
+  //   switch (true) {
+  //     case thresholdValue > 99:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#2ca25f';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#332288';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[0];
+  //       } else {
+  //         return '#045E56';
+  //       }
+  //     case thresholdValue > 80:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#addd8e';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#117733';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[1];
+  //       } else {
+  //         return '#237E64';
+  //       }
+  //     case thresholdValue > 60:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#ffeda0';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#44AA99';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[2];
+  //       } else {
+  //         return '#8ADABB';
+  //       }
+  //     case thresholdValue > 40:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#feb24c';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#88CCEE';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[3];
+  //       } else {
+  //         return '#F6F2DC';
+  //       }
+  //     case thresholdValue > 20:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#f03b20';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#DDCC77';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[4];
+  //       } else {
+  //         return '#E7B8B0';
+  //       }
+  //     case thresholdValue > 10:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#bd0026';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#CC6677';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[5];
+  //       } else {
+  //         return '#CF8174';
+  //       }
+  //     case thresholdValue > 0:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#7a0177';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#AA4499';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.thresholdValues[6];
+  //       } else {
+  //         return '#A26157';
+  //       }
+  //   }
+  // }
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
