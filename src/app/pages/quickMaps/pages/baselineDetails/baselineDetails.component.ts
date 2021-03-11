@@ -46,7 +46,7 @@ export class BaselineDetailsComponent implements OnInit {
   ]);
 
   constructor(
-    public quickmapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
   ) { }
 
   ngOnInit(): void {
@@ -104,7 +104,7 @@ export class BaselineDetailsComponent implements OnInit {
       },
     };
 
-    this.quickmapsService.dataLevelObs.subscribe((level: DataLevel) => {
+    this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
       this.setDataLevel(level);
     });
   }
