@@ -30,8 +30,6 @@ export class SideNavContentComponent implements OnInit {
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
   public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
-  public selectMNDsFiltered = new Array<DictionaryItem>();
-  public searchByCountry: boolean;
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
@@ -40,8 +38,11 @@ export class SideNavContentComponent implements OnInit {
   public measureDietEnabled = false;
   public measureBiomarkerEnabled = false;
 
-  public geographyOptionArray: Array<DictionaryItem>;
+  public selectedGeographyType: GeographyTypes;
+  public selectedMndType: MicronutrientType;
 
+  public geographyOptionArray: Array<DictionaryItem>;
+  public selectMNDsFiltered = new Array<DictionaryItem>();
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
 
   public quickMapsForm: FormGroup;
@@ -72,14 +73,24 @@ export class SideNavContentComponent implements OnInit {
           mndsData: [this.quickMapsService.mndDataOption, Validators.required],
         });
 
-        // watches changes so that reacts to location component selections
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe(country => this.quickMapsForm.get('nation').setValue(country))
+          this.quickMapsService.countryObs.subscribe(value => {
+            const geographyType = (this.regionDictionary.getItems().includes(value))
+              ? GeographyTypes.REGION
+              : GeographyTypes.COUNTRY;
+            // really only used on first load to pre-select correct type
+            this.geographyTypeChange(geographyType);
+            // reacts to changes from location component selections
+            this.quickMapsForm.get('nation').setValue(value);
+          })
         );
-
-        // TODO: should setting these be dependant on query params?
-        this.countryChange(GeographyTypes.COUNTRY);
-        this.mndChange(MicronutrientType.VITAMIN);
+        this.subscriptions.push(
+          this.quickMapsService.micronutrientObs.subscribe(value => {
+            // really only used on first load to pre-select correct type
+            const mndType = (null != value) ? value.type : MicronutrientType.VITAMIN;
+            this.mndChange(mndType);
+          })
+        );
 
         this.updateDataMeasureOptions();
         this.updateMicronutrientDataOptions();
@@ -130,9 +141,14 @@ export class SideNavContentComponent implements OnInit {
   }
 
   public mndChange(type: MicronutrientType): void {
-    this.selectMNDsFiltered = this.micronutrientsDictionary
-      .getItems()
-      .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type);
+    if (type !== this.selectedMndType) {
+      this.selectedMndType = type;
+
+      this.selectMNDsFiltered = this.micronutrientsDictionary
+        .getItems()
+        .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
+        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+    }
   }
 
   public minimiseSideNav(): void {
@@ -142,13 +158,14 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public countryChange(type: GeographyTypes): void {
-    if (type === GeographyTypes.COUNTRY) {
-      this.searchByCountry = true;
-      this.geographyOptionArray = this.countriesDictionary.getItems();
-    } else {
-      this.searchByCountry = false;
-      this.geographyOptionArray = this.regionDictionary.getItems();
+  public geographyTypeChange(type: GeographyTypes): void {
+    if (type !== this.selectedGeographyType) {
+      this.selectedGeographyType = type;
+
+      this.geographyOptionArray = (
+        (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
+        .getItems()
+        .sort((a, b) => (a.name < b.name) ? -1 : 1);
     }
   }
 
@@ -195,7 +212,8 @@ export class SideNavContentComponent implements OnInit {
           true,
         )
         .then((options: Array<MicronutrientDataOption>) => {
-          this.micronutrientDataOptions = options;
+          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
+
           // if only one option, preselect
           if (1 === options.length) {
             this.quickMapsForm.get('mndsData').setValue(options[0]);
