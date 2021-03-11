@@ -21,6 +21,7 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
@@ -50,6 +51,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -94,6 +96,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       .then((data: HouseholdHistogramData) => {
         this.data = data;
         if (null == data) {
+          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
 
@@ -112,6 +115,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.loadingSrc.next(false);

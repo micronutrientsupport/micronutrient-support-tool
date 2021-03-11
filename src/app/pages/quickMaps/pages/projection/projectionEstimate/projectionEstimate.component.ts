@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
 import { Subscription } from 'rxjs';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 interface InterfaceTimeMass {
   id: string;
   name: string;
@@ -65,6 +66,7 @@ export class ProjectionEstimateComponent {
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private currentDataService: CurrentDataService,
+    private notificationService: NotificationsService,
   ) {
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -111,6 +113,7 @@ export class ProjectionEstimateComponent {
         this.differenceQuantity = null;
         this.referenceYear = null;
         this.intersectYear = null;
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.cdr.markForCheck();

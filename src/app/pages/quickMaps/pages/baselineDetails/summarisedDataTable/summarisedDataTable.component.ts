@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -36,7 +34,7 @@ export class SummarisedDataTableComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public rawData;
 
-  constructor(private http: HttpClient, private papa: Papa) {}
+  constructor(private http: HttpClient, private papa: Papa) { }
 
   ngOnInit(): void {
     void this.http

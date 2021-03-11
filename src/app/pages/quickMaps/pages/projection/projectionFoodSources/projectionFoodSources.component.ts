@@ -32,6 +32,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import ColorHash from 'color-hash-ts';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -89,9 +90,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
-    private dictionaryService: DictionaryService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
     private fb: FormBuilder,
@@ -164,6 +165,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
+          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
         }
 
         // Select current countries
@@ -227,6 +229,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.loadingSrc.next(false);
