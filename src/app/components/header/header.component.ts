@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
-import { NotificationsService } from '../notifications/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -9,20 +8,4 @@ import { NotificationsService } from '../notifications/notification.service';
 })
 export class HeaderComponent {
   public ROUTES = AppRoutes;
-
-  constructor(
-    private notificationService: NotificationsService
-  ) {
-
-  }
-
-  public testInformative(): void {
-    this.notificationService.sendInformative('Measure of MND changed to', 'Biomarker Data');
-  }
-  public testNegative(): void {
-    this.notificationService.sendNegative('An error occurred:', 'data could not be loaded');
-  }
-  public testPositive(): void {
-    this.notificationService.sendPositive('Map successfully saved');
-  }
 }
