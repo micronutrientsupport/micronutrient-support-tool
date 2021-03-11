@@ -21,7 +21,6 @@ interface InterfaceTimeMass {
   styleUrls: ['./projectionEstimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class ProjectionEstimateComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -71,7 +70,7 @@ export class ProjectionEstimateComponent {
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
         this.callToApi();
-      })
+      }),
     );
 
     this.projectionEstimateForm = this.fb.group({
@@ -94,10 +93,12 @@ export class ProjectionEstimateComponent {
 
   public callToApi(): void {
     this.loading = true;
-    void this.currentDataService.getProjectionsSummaryCardData(
-      this.quickMapsService.country.id,
-      this.quickMapsService.micronutrient,
-      this.scenarioId)
+    void this.currentDataService
+      .getProjectionsSummaryCardData(
+        this.quickMapsService.country.id,
+        this.quickMapsService.micronutrient,
+        this.scenarioId,
+      )
       .then((response: Array<ProjectionsSummaryCard>) => {
         this.target = response[0].target;
         this.currentEstimate = response[0].referenceVal;
@@ -106,7 +107,7 @@ export class ProjectionEstimateComponent {
         this.intersectYear = response[0].intersectYear.toString();
         this.calculate();
       })
-      .catch((e: any) => {
+      .catch(() => {
         this.targetCalc = null;
         this.currentEstimateCalc = null;
         this.differencePercentage = null;
@@ -130,4 +131,3 @@ export class ProjectionEstimateComponent {
     this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
-

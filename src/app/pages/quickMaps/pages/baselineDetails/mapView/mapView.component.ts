@@ -16,7 +16,6 @@ import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
@@ -72,7 +71,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -206,17 +205,11 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        colourGradient,
-      ),
+      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, colourGradient),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        colourGradient,
-      ),
+      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, colourGradient),
     ).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
@@ -324,10 +317,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        this.defaultColourScheme,
-      ),
+      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, this.defaultColourScheme),
     ).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
@@ -365,10 +355,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        this.defaultColourScheme,
-      ),
+      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, this.defaultColourScheme),
     ).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });

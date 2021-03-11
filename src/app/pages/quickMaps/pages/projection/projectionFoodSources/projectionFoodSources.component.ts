@@ -30,7 +30,6 @@ import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
@@ -240,12 +239,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private initialiseTable(data: Array<ProjectedFoodSourcesTable>, yearId: number): void {
     // Data needs to be flattened frmo a nested array as mat-table can't acccess nested data
     const flatten = (arr: Array<ProjectedFoodSourcesTable>) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       arr.reduce(
         (a: ProjectedFoodSourcesTable[], b: ProjectedFoodSourcesTable) => a.concat(Array.isArray(b) ? flatten(b) : b),
         [],
       );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const flattenedData = flatten([data[yearId]]);
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
