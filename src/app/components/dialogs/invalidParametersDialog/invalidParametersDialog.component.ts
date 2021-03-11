@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppRoutes } from 'src/app/routes/routes';
+import { DialogData } from '../baseDialogService.abstract';
 export interface ShareDialogData {
   shareLink: string;
 }
@@ -9,14 +10,17 @@ export interface ShareDialogData {
   templateUrl: './invalidParametersDialog.component.html',
   styleUrls: ['./invalidParametersDialog.component.scss'],
 })
-export class InvalidParametersComponent {
+export class InvalidParametersDialogComponent {
 
   public ROUTES = AppRoutes;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private dialogRef: MatDialogRef<InvalidParametersDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<ShareDialogData>,
 
   ) {
+    dialogRef.disableClose = true;
   }
 
   public closeDialog(): void {
