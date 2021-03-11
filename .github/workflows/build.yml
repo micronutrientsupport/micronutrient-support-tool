@@ -8,17 +8,6 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - uses: actions/checkout@v2.3.4
-
-      - name: start deployment
-        uses: bobheadxi/deployments@v0.5.2
-        id: deployment
-        if: github.event_name == 'pull_request'
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: release
-
       - name: Cache node modules
         uses: actions/cache@v2.1.4
         with:
@@ -45,15 +34,6 @@ jobs:
           PR: preview${{ github.event.number }}
         with:
           args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
-
-      - name: update deployment status
-        uses: bobheadxi/deployments@v0.5.2
-        if: github.event_name == 'pull_request'
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Netlify Preview URL
         uses: unsplash/comment-on-pr@master
