@@ -30,7 +30,6 @@ import { MiscApiService } from 'src/app/services/miscApi.service';
 import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({

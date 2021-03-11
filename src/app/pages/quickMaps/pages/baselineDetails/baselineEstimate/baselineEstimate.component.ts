@@ -58,8 +58,6 @@ export class BaslineEstimateComponent {
   timeScaleName = 'day';
   massName = 'mg';
 
-
-
   public ROUTES = AppRoutes;
 
   private subscriptions = new Array<Subscription>();
@@ -70,13 +68,11 @@ export class BaslineEstimateComponent {
     private fb: FormBuilder,
     public route: ActivatedRoute,
     private currentDataService: CurrentDataService,
-
   ) {
-
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
         this.callToApi();
-      })
+      }),
     );
 
     this.projectionEstimateForm = this.fb.group({
@@ -99,10 +95,12 @@ export class BaslineEstimateComponent {
 
   public callToApi(): void {
     this.loading = true;
-    void this.currentDataService.getProjectionsSummaryCardData(
-      this.quickMapsService.country.id,
-      this.quickMapsService.micronutrient,
-      this.scenarioId)
+    void this.currentDataService
+      .getProjectionsSummaryCardData(
+        this.quickMapsService.country.id,
+        this.quickMapsService.micronutrient,
+        this.scenarioId,
+      )
       .then((response: Array<ProjectionsSummaryCard>) => {
         this.target = response[0].target;
         this.currentEstimate = response[0].referenceVal;
@@ -111,7 +109,7 @@ export class BaslineEstimateComponent {
         this.intersectYear = response[0].intersectYear.toString();
         this.calculate();
       })
-      .catch((e: any) => {
+      .catch(() => {
         this.targetCalc = null;
         this.currentEstimateCalc = null;
         this.differencePercentage = null;
@@ -134,4 +132,3 @@ export class BaslineEstimateComponent {
     this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
-
