@@ -16,13 +16,8 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "build:stats": "ng build --stats-json",
-    "analyze": "webpack-bundle-analyzer dist/micronutrient-support-tool/stats.json"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint --color --env HUSKY_GIT_PARAMS",
-      "pre-push": "npm run lint:fix"
-    }
+    "analyze": "webpack-bundle-analyzer dist/micronutrient-support-tool/stats.json",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
