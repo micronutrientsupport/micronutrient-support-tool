@@ -26,9 +26,9 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     currentData: {
       getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
-      getSubRegionData: new GetSubRegionData(false),
+      getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
-      getTopFood: new GetTopFood(false),
+      getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
@@ -48,7 +48,7 @@ export class ApiService extends BaseApi {
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
     new GetDictionary(DictionaryType.REGIONS, false)
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
-      .setMockObjects(CountryDictionaryItem.createMockItems(false)),
+      .setMockObjects(CountryDictionaryItem.createMockItems(false, 0)),
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
