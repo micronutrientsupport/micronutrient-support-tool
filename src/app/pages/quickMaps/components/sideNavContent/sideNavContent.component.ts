@@ -13,7 +13,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { RouteData } from 'src/app/app-routing.module';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
@@ -128,25 +128,7 @@ export class SideNavContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      this.quickMapsService.measureObs.subscribe(() => {
-        if (!this.showGoButton) {
-          const appRoute = (this.getActivatedRoute(this.route).snapshot.data as RouteData).appRoute;
-          const measure = this.quickMapsService.measure;
-          // only navigate if not on the right measure path
-          if (
-            ((MicronutrientMeasureType.DIET === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)))
-            || ((MicronutrientMeasureType.BIOMARKER === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)))
-          ) {
-            // delay to let the query params update first, otherwise
-            // the navigation gets cancelled
-            setTimeout(() => {
-              this.navigate();
-            }, 100);
-          }
-        }
-      })
-    );
+    this.initForceNavOnInvalidSelectionsForPage();
   }
 
   public mndChange(type: MicronutrientType): void {
@@ -234,30 +216,21 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  // public closeSideNav(): void {
-  //   this.quickMapsService.closeSideNav();
-  // }
-
   public submitForm(): void {
-    // console.warn(this.quickMapsForm.value);
-
     if (this.quickMapsForm.valid) {
-      this.navigate(true);
+      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+        ? AppRoutes.QUICK_MAPS_BASELINE
+        : AppRoutes.QUICK_MAPS_BIOMARKER
+      );
+      this.minimiseSideNav();
     }
   }
 
-  private navigate(minimiseSideNav = false): void {
-    const requiredRoute = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
-      ? AppRoutes.QUICK_MAPS_BASELINE
-      : AppRoutes.QUICK_MAPS_BIOMARKER;
-
+  private navigate(appRoute: AppRoute): void {
     // console.debug('navigate', this.quickMapsService.measure, route);
-    void this.router.navigate(requiredRoute.getRoute(), {
+    void this.router.navigate(appRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });
-    if (minimiseSideNav) {
-      this.minimiseSideNav();
-    }
   }
 
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
@@ -266,5 +239,39 @@ export class SideNavContentComponent implements OnInit {
     } else {
       return activatedRoute;
     }
+  }
+
+  // not completely sure if this is the best place for this logic
+  // If selections are made that invalidates the current page, navigate
+  private initForceNavOnInvalidSelectionsForPage(): void {
+    this.subscriptions.push(
+      this.quickMapsService.measureObs.subscribe(() => {
+        if (!this.showGoButton) {
+          const appRoute = (this.getActivatedRoute(this.route).snapshot.data as RouteData).appRoute;
+          const measure = this.quickMapsService.measure;
+          // only navigate if not on the right measure path
+          let correctMeasureRoute: AppRoute;
+          let navRoute: AppRoute;
+          switch (measure) {
+            case (MicronutrientMeasureType.DIET):
+              correctMeasureRoute = AppRoutes.QUICK_MAPS_DIET;
+              navRoute = AppRoutes.QUICK_MAPS_BASELINE;
+              break;
+            case (MicronutrientMeasureType.BIOMARKER):
+              correctMeasureRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
+              navRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
+              break;
+          }
+
+          if ((null != correctMeasureRoute) && (null != navRoute) && (!appRoute.hasDescendent(correctMeasureRoute))) {
+            // delay to let the query params update first, otherwise
+            // the navigation gets cancelled
+            setTimeout(() => {
+              this.navigate(navRoute);
+            }, 100);
+          }
+        }
+      })
+    );
   }
 }
