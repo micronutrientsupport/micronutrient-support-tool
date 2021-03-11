@@ -1,6 +1,7 @@
 /* tslint:disable: no-string-literal */
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DataLevel } from '../../objects/enums/dataLevel.enum';
 import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
@@ -14,7 +15,7 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
   protected callLive(params: GetSubRegionDataParams): Promise<SubRegionDataItem> {
     const callResponsePromise = this.apiCaller.doCall([
       'diet',
-      params.mndsDataOption.dataLevelOptions[0],
+      this.getDataLevelString(params.dataLevel),
       'geojson',
       params.countryOrGroup.id,
       params.micronutrient.id,
@@ -30,6 +31,7 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
   protected callMock(params?: GetSubRegionDataParams): Promise<SubRegionDataItem> {
     throw new Error('Method not implemented.');
   }
+  // response format changed so commented out old mock code
   // protected callMock(): Promise<Array<SubRegionDataItem>> { // params: GetSubRegionDataParams,
   //   const httpClient = this.injector.get<HttpClient>(HttpClient);
   //   return this.buildObjectsFromResponse(
@@ -53,10 +55,18 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
   //     }),
   //   );
   // }
+
+  private getDataLevelString(dataLevel: DataLevel): string {
+    switch (dataLevel) {
+      case (DataLevel.COUNTRY): return 'country';
+      case (DataLevel.HOUSEHOLD): return 'household';
+    }
+  }
 }
 
 export interface GetSubRegionDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
   mndsDataOption: MicronutrientDataOption;
+  dataLevel: DataLevel;
 }
