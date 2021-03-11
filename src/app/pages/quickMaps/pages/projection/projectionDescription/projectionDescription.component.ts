@@ -52,7 +52,7 @@ export class ProjectionDescriptionComponent implements OnInit {
           this.cdr.markForCheck();
         });
       }).catch(() => {
-        this.notificationService.sendNegative('An error occured', 'data could not be loaded');
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       });
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);

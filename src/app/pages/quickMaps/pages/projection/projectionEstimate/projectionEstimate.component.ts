@@ -113,7 +113,7 @@ export class ProjectionEstimateComponent {
         this.differenceQuantity = null;
         this.referenceYear = null;
         this.intersectYear = null;
-        this.notificationService.sendNegative('An error occured', 'data could not be loaded');
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.cdr.markForCheck();

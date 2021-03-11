@@ -165,7 +165,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
-          this.notificationService.sendNegative('An error occured', 'data could not be loaded');
+          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
         }
 
         // Select current countries
@@ -229,7 +229,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);
-        this.notificationService.sendNegative('An error occured', 'data could not be loaded');
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.loadingSrc.next(false);
