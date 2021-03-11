@@ -239,12 +239,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private initialiseTable(data: Array<ProjectedFoodSourcesTable>, yearId: number): void {
     // Data needs to be flattened frmo a nested array as mat-table can't acccess nested data
     const flatten = (arr: Array<ProjectedFoodSourcesTable>) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       arr.reduce(
         (a: ProjectedFoodSourcesTable[], b: ProjectedFoodSourcesTable) => a.concat(Array.isArray(b) ? flatten(b) : b),
         [],
       );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const flattenedData = flatten([data[yearId]]);
     this.dataSource = new MatTableDataSource(flattenedData);
     this.dataSource.sort = this.sort;
