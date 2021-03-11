@@ -36,7 +36,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
     //   case AppRoutes.QUICK_MAPS_BASELINE.segments:
     //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
     promises.push(this.validateParams(route.queryParamMap));
-    promises.push(this.validateParamsForRoute(route));
+    promises.push(this.validateMeasureForRoute(route));
+    promises.push(this.validateMicronutrientForRoute(route));
 
     // break;
     //   default:
@@ -59,11 +60,22 @@ export class QuickMapsRouteGuardService implements CanActivate {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private validateParamsForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
+
+  private validateMicronutrientForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
+    return this.quickMapsParameters.getMicronutrient(route.queryParamMap)
+      .then((micronutrient: MicronutrientDictionaryItem) => {
+        const appRoute = (route.data as RouteData).appRoute;
+
+        // don't allow diet projection page access if not in IMPACT model
+        return (
+          (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION)
+          || (appRoute === AppRoutes.QUICK_MAPS_PROJECTION) && (micronutrient.isInImpact));
+      });
+  }
+
+  private validateMeasureForRoute(route: ActivatedRouteSnapshot): Promise<boolean> {
     const measure = this.quickMapsParameters.getMeasure(route.queryParamMap);
 
-    // eslint-disable-next-line prefer-const
     const appRoute = (route.data as RouteData).appRoute;
     // console.debug('path', appRoute);
     const correctPage = (
