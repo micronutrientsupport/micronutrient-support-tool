@@ -105,12 +105,12 @@ export class MapViewComponent implements AfterViewInit {
           .openMapSettingsDialog(this.ColourObject)
           .then((data: DialogData<CustomColourObject, CustomColourObject>) => {
             if (data.dataOut.type !== null) {
-              if (data.dataOut.type === ColourGradientType.CUSTOM) {
-                this.ColourObject.customObject = data.dataOut.customObject;
-                localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
-              }
+              // if (data.dataOut.type === ColourGradientType.CUSTOM) {
+              // }
               this.changeColourRamp(data.dataOut.type);
+              this.ColourObject.customObject = data.dataOut.customObject;
               this.ColourObject.type = data.dataOut.type;
+              localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
               localStorage.setItem('ColourObject', this.ColourObject.type);
             }
           });

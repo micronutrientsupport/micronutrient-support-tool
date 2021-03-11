@@ -11,11 +11,21 @@
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>Colour Gradient</p>
         <mat-selection-list [(ngModel)]="generalSelectionValue" [multiple]="false">
-          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
-            <span class="colour-option"
-              >{{ colourGradientItem.name }}
-              <span [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span
-            ></span>
+          <mat-list-option [value]="colourGradientType.BLUEREDYELLOWGREEN">
+            <span class="colour-option">Blue-Red-Yellow-Green
+              <span class="colour-sample blueRedYellowGreen"></span></span>
+          </mat-list-option>
+          <mat-list-option [value]="colourGradientType.DIVERGINGCOLORS">
+            <span class="colour-option">Red-Light-Green
+              <span class="colour-sample divergingColors"></span></span>
+          </mat-list-option>
+          <mat-list-option [value]="colourGradientType.COLOURBLIND">
+            <span class="colour-option">Colour Blind
+              <span class="colour-sample colourblind"></span></span>
+          </mat-list-option>
+          <mat-list-option [disabled]="null == customColourGradient" [value]="colourGradientType.CUSTOM">
+            <span class="colour-option colourblind">Custom Gradient
+              <span class="colour-sample" [style.background]="customColourGradientColours"></span></span>
           </mat-list-option>
         </mat-selection-list>
       </div>
