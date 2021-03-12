@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppRoutes } from 'src/app/routes/routes';
 import { DialogData } from '../baseDialogService.abstract';
@@ -11,7 +11,7 @@ export interface ShareDialogData {
   styleUrls: ['./invalidParametersDialog.component.scss'],
 })
 export class InvalidParametersDialogComponent {
-
+  public title = 'The data could not be loaded';
   public ROUTES = AppRoutes;
 
   constructor(

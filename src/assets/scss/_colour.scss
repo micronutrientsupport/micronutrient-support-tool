@@ -62,7 +62,7 @@ $_accent_pallete: (50: #ffebef,
 
 $color_primary: map_get($_primary_pallete, A700);
 $color_primary_dark: map_get($_primary_pallete, A500);
-$color_accent: map_get($_accent_pallete, 900);
+$color_accent: #bf1f34;
 $color_grey: #4f4f4f;
 $color_blue: #1d3557;
 $color_blue_form: #013171;
