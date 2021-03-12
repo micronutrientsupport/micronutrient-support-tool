@@ -2,7 +2,7 @@ import { ColourGradient } from './colourGradient';
 import { ColourGradientType } from './colourGradientType.enum';
 
 const thresholdRange = [10, 20, 40, 60, 80, 99, 101];
-const absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
+const absoluteRange = [10, 50, 100, 250, 500, 1000, 1500, 2000];
 
 export const DEFAULT_THRESHOLD_COLOUR_GRADIENTS = [
   new ColourGradient(ColourGradientType.BLUEREDYELLOWGREEN, 'Blue-Red-Yellow-Green', thresholdRange, [
