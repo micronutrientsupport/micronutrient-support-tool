@@ -1,3 +1,4 @@
+import { ColourGradientType } from './colourGradientType.enum';
 
 export interface ColourGradientObject {
   lessThanTestValue: number;
@@ -8,7 +9,7 @@ export class ColourGradient {
   public readonly gradientObjects = new Array<ColourGradientObject>();
 
   constructor(
-    public readonly id: string,
+    public readonly id: ColourGradientType,
     public readonly name: string,
     public readonly lessThanTestValues: Array<number>,
     public readonly colors: Array<string>,
@@ -25,17 +26,16 @@ export class ColourGradient {
           hexString: colors[index],
         };
       })
-      .filter(thisColGradObj => (null != thisColGradObj.lessThanTestValue) && (null != thisColGradObj.hexString))
-      .sort((a, b) => (a.lessThanTestValue < b.lessThanTestValue) ? -1 : 1);
-
+      .filter((thisColGradObj) => null != thisColGradObj.lessThanTestValue && null != thisColGradObj.hexString)
+      .sort((a, b) => (a.lessThanTestValue < b.lessThanTestValue ? -1 : 1));
   }
 
   public getColour(value: number): string {
-    const colGradObj = this.gradientObjects.find(thisColGradObj => {
+    const colGradObj = this.gradientObjects.find((thisColGradObj) => {
       // console.debug('getColour test', value, thisColGradObj);
-      return (value < thisColGradObj.lessThanTestValue);
+      return value < thisColGradObj.lessThanTestValue;
     });
     // console.debug('getColour', value, colGradObj);
-    return (null != colGradObj) ? colGradObj.hexString : '';
+    return null != colGradObj ? colGradObj.hexString : '';
   }
 }
