@@ -25,7 +25,7 @@ import { GeographyTypes } from './geographyTypes.enum';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
-  @Input() showGoButton: boolean;
+  @Input() showGoButton: boolean; // indicates if we're on the location select page or not
   public readonly ROUTES = AppRoutes;
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
@@ -245,10 +245,9 @@ export class SideNavContentComponent implements OnInit {
   // If selections are made that invalidates the current page, navigate
   private initForceNavOnInvalidSelectionsForPage(): void {
     this.subscriptions.push(
-      this.quickMapsService.measureObs.subscribe(() => {
+      this.quickMapsService.measureObs.subscribe(measure => {
         if (!this.showGoButton) {
           const appRoute = (this.getActivatedRoute(this.route).snapshot.data as RouteData).appRoute;
-          const measure = this.quickMapsService.measure;
           // only navigate if not on the right measure path
           let correctMeasureRoute: AppRoute;
           let navRoute: AppRoute;
@@ -268,6 +267,23 @@ export class SideNavContentComponent implements OnInit {
             // the navigation gets cancelled
             setTimeout(() => {
               this.navigate(navRoute);
+            }, 100);
+          }
+        }
+      })
+    );
+    this.subscriptions.push(
+      this.quickMapsService.micronutrientObs.subscribe(micronutrient => {
+        if (!this.showGoButton) {
+          // navigate away from the diet projection page if micronutrient not in IMPACT model
+          const appRoute = (this.getActivatedRoute(this.route).snapshot.data as RouteData).appRoute;
+
+          // don't allow diet projection page access if not in IMPACT model
+          if ((appRoute === AppRoutes.QUICK_MAPS_PROJECTION) && (!micronutrient.isInImpact)) {
+            // delay to let the query params update first, otherwise
+            // the navigation gets cancelled
+            setTimeout(() => {
+              this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
             }, 100);
           }
         }
