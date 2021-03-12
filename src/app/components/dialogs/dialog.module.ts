@@ -6,8 +6,6 @@ import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -19,9 +17,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     AppMaterialModule,
     ShareModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatFormFieldModule,
   ],
   exports: [BaseDialogComponent],
 })
