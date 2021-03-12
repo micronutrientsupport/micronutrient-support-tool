@@ -96,7 +96,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       .then((data: HouseholdHistogramData) => {
         this.data = data;
         if (null == data) {
-          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
 
@@ -112,11 +111,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
         this.initialiseGraph(data);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();

@@ -2,10 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injector } from '@angular/core';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { ApiResponse } from './apiResponse.interface';
 
 export class MapsHttpResponseHandler {
-  constructor(private injector: Injector) { }
+  private readonly notificationsService: NotificationsService;
+  constructor(private injector: Injector) {
+    this.notificationsService = injector.get<NotificationsService>(NotificationsService);
+  }
+
   public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -65,7 +70,8 @@ export class MapsHttpResponseHandler {
     // console.debug('error message', errorMessage, returnValue, res);
 
     if (errorMessage) {
-      console.warn('An error occurred - ', errorMessage);
+      console.error('API access error - ', errorMessage);
+      this.notificationsService.sendNegative('API Error - ', 'A call to retrieve data failed');
       return Promise.reject(errorMessage);
     } else {
       return Promise.resolve(returnValue);
