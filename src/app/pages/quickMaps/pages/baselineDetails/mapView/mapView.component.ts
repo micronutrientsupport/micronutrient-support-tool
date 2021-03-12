@@ -28,7 +28,7 @@ import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetail
 import { CustomColourObject } from './colourObject';
 import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
-import { DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
+import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
 import { ColourGradientObject } from './colourGradient';
 
 @Component({
@@ -56,7 +56,7 @@ export class MapViewComponent implements AfterViewInit {
   private absoluteDataLayer: L.GeoJSON;
   private LegendAbsolute: L.Control;
   private absoluteLegend: L.Control;
-  private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
+  // private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
@@ -67,7 +67,9 @@ export class MapViewComponent implements AfterViewInit {
   private areaFeatureCollection: GeoJSON.FeatureCollection;
 
   private thresholdGradients = DEFAULT_THRESHOLD_COLOUR_GRADIENTS;
+  private absoluteGradients = DEFAULT_ABSOLUTE_COLOUR_GRADIENTS;
   private selectedThresholdGradient = this.thresholdGradients[0];
+  private selectedAbsoluteGradient = this.absoluteGradients[0];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -83,7 +85,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -112,7 +114,7 @@ export class MapViewComponent implements AfterViewInit {
             if (data.dataOut.type !== null) {
               // if (data.dataOut.type === ColourGradientType.CUSTOM) {
               // }
-              this.changeColourRamp(data.dataOut.type);
+              this.changeColourRamp();
               this.ColourObject.customObject = data.dataOut.customObject;
               this.ColourObject.type = data.dataOut.type;
               localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
@@ -210,7 +212,8 @@ export class MapViewComponent implements AfterViewInit {
     return feat.properties as SubRegionDataItemFeatureProperties;
   }
 
-  private changeColourRamp(colourGradient: ColourGradientType): void {
+  // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
+  private changeColourRamp(): void {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
@@ -221,40 +224,14 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        colourGradient,
-      ),
+      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold)
+      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
 
-    this.LegendAbsolute = new L.Control({ position: 'bottomright' });
-
-    this.LegendAbsolute.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-
-      // loop through our  intervals and generate a label with a colored square for each interval
-      this.absoluteRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${this.getAbsoluteColourRange(value + 1, colourGradient)};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
-          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
-      });
-      return div;
-    };
-
-    this.LegendAbsolute.addTo(this.absoluteMap);
-
+    this.refreshAbsoluteLegend();
     this.refreshThresholdLegend();
   }
 
@@ -280,8 +257,7 @@ export class MapViewComponent implements AfterViewInit {
           text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
         }
 
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
+        div.innerHTML += `<span style="display: flex; align-items: center;">
           <span style="background-color:
           ${gradObj.hexString};
           height:10px; width:10px; display:block; margin-right:5px;">
@@ -291,6 +267,42 @@ export class MapViewComponent implements AfterViewInit {
       return div;
     };
     this.LegendThreshold.addTo(this.thresholdMap);
+  }
+
+  private refreshAbsoluteLegend(): void {
+    if (null != this.LegendAbsolute) {
+      this.absoluteMap.removeControl(this.LegendThreshold);
+    }
+
+    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+
+    this.absoluteLegend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+
+      // loop through our  intervals and generate a label with a colored square for each interval
+      let previousGradObj: ColourGradientObject;
+      this.selectedAbsoluteGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+        let text = '';
+        if (index + 1 === this.selectedAbsoluteGradient.gradientObjects.length) {
+          text = `>${previousGradObj.lessThanTestValue}mg`;
+        } else if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
+
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+          <span style="background-color:
+          ${gradObj.hexString};
+          height:10px; width:10px; display:block; margin-right:5px;">
+          </span><span>${text}</span>`;
+        previousGradObj = gradObj;
+      });
+
+      return div;
+    };
+
+    this.absoluteLegend.addTo(this.absoluteMap);
   }
 
   private triggerFitBounds(tabIndex: number): void {
@@ -350,37 +362,10 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      // this.getAbsoluteColourRange(feat.properties.mnAbsolute, this.ColourObject.type),
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        this.defaultColourScheme,
-      ),
+      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.absoluteMap);
 
-    this.absoluteLegend = new L.Control({ position: 'bottomright' });
-
-    this.absoluteLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-
-      // loop through our  intervals and generate a label with a colored square for each interval
-      this.absoluteRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${this.getAbsoluteColourRange(value + 1, this.ColourObject.type)};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
-          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
-      });
-
-      return div;
-    };
-
-    this.absoluteLegend.addTo(this.absoluteMap);
+    this.refreshAbsoluteLegend();
   }
 
   private initialiseMapThreshold(): void {
@@ -399,93 +384,93 @@ export class MapViewComponent implements AfterViewInit {
     this.refreshThresholdLegend();
   }
 
-  private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
-    if (null == this.ColourObject.customObject) {
-      colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
-    }
-    switch (true) {
-      case absoluteValue > 1500:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#2ca25f';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#332288';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[0];
-        } else {
-          return '#045E56';
-        }
-      case absoluteValue > 1000:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#addd8e';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#117733';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[1];
-        } else {
-          return '#237E64';
-        }
-      case absoluteValue > 500:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#ffeda0';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#44AA99';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[2];
-        } else {
-          return '#8ADABB';
-        }
-      case absoluteValue > 250:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#feb24c';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#88CCEE';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[3];
-        } else {
-          return '#F6F2DC';
-        }
-      case absoluteValue > 100:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#f03b20';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#DDCC77';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[4];
-        } else {
-          return '#E7B8B0';
-        }
-      case absoluteValue > 50:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#bd0026';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#CC6677';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[5];
-        } else {
-          return '#CF8174';
-        }
-      case absoluteValue > 10:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#7a0177';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#AA4499';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[6];
-        } else {
-          return '#A26157';
-        }
-      case absoluteValue > 0:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#354969';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#882255';
-        } else if (colourGradient === ColourGradientType.CUSTOM) {
-          return this.ColourObject.customObject.absoluteValues[7];
-        } else {
-          return '#762418';
-        }
-    }
-  }
+  // private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
+  //   if (null == this.ColourObject.customObject) {
+  //     colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
+  //   }
+  //   switch (true) {
+  //     case absoluteValue > 1500:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#2ca25f';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#332288';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[0];
+  //       } else {
+  //         return '#045E56';
+  //       }
+  //     case absoluteValue > 1000:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#addd8e';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#117733';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[1];
+  //       } else {
+  //         return '#237E64';
+  //       }
+  //     case absoluteValue > 500:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#ffeda0';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#44AA99';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[2];
+  //       } else {
+  //         return '#8ADABB';
+  //       }
+  //     case absoluteValue > 250:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#feb24c';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#88CCEE';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[3];
+  //       } else {
+  //         return '#F6F2DC';
+  //       }
+  //     case absoluteValue > 100:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#f03b20';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#DDCC77';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[4];
+  //       } else {
+  //         return '#E7B8B0';
+  //       }
+  //     case absoluteValue > 50:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#bd0026';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#CC6677';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[5];
+  //       } else {
+  //         return '#CF8174';
+  //       }
+  //     case absoluteValue > 10:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#7a0177';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#AA4499';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[6];
+  //       } else {
+  //         return '#A26157';
+  //       }
+  //     case absoluteValue > 0:
+  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
+  //         return '#354969';
+  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
+  //         return '#882255';
+  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
+  //         return this.ColourObject.customObject.absoluteValues[7];
+  //       } else {
+  //         return '#762418';
+  //       }
+  //   }
+  // }
   // private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
   //   if (null == this.ColourObject.customObject) {
   //     colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
