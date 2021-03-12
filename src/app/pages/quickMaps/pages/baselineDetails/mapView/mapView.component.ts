@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   Component,
@@ -14,7 +16,6 @@ import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
@@ -24,6 +25,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-map-view',
@@ -63,13 +65,13 @@ export class MapViewComponent implements AfterViewInit {
   private tabVisited = new Map<number, boolean>();
 
   constructor(
+    private notificationService: NotificationsService,
     private dialogService: DialogService,
-    private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -158,6 +160,7 @@ export class MapViewComponent implements AfterViewInit {
       .then((data: SubRegionDataItem) => {
         this.data = data;
         if (null == data) {
+          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
         this.errorSrc.next(false);
@@ -176,6 +179,7 @@ export class MapViewComponent implements AfterViewInit {
       .catch((err) => {
         this.errorSrc.next(true);
         console.error(err);
+        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -201,17 +205,11 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        colourGradient,
-      ),
+      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, colourGradient),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        colourGradient,
-      ),
+      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, colourGradient),
     ).addTo(this.thresholdMap);
 
     this.LegendAbsolute = new L.Control({ position: 'bottomright' });
@@ -319,10 +317,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(
-        this.getFeatProps(feat).mn_absolute,
-        this.defaultColourScheme,
-      ),
+      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, this.defaultColourScheme),
     ).addTo(this.absoluteMap);
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
@@ -360,10 +355,7 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(
-        this.getFeatProps(feat).mn_threshold,
-        this.defaultColourScheme,
-      ),
+      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, this.defaultColourScheme),
     ).addTo(this.thresholdMap);
 
     this.thresholdLegend = new L.Control({ position: 'bottomright' });
