@@ -6,17 +6,23 @@ import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
+import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
+import { RouterModule } from '@angular/router';
+import { RoutesModule } from 'src/app/routes/routes.module';
 @NgModule({
   declarations: [
     BaseDialogComponent,
     ShareDialogComponent,
     ScenarioTypeDialogComponent,
     MapSettingsDialogComponent,
+    InvalidParametersDialogComponent,
   ],
   imports: [
     CommonModule,
     AppMaterialModule,
     ShareModule,
+    RouterModule,
+    RoutesModule,
   ],
   exports: [BaseDialogComponent],
 })

@@ -4,6 +4,7 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
@@ -20,6 +21,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private router: Router,
     private currentDataService: CurrentDataService,
     injector: Injector,
+    private dialogService: DialogService,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
   }
@@ -49,7 +51,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         return true;
       } else {
         // TODO: Show notification of "Params error"?
-
+        void this.dialogService.openInvalidParametersDialog();
         // redirect to quickmaps map page
         // TODO: Consider redirect to params error page?
         return this.router.createUrlTree(AppRoutes.QUICK_MAPS.getRoute(), {

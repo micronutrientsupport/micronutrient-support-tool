@@ -1,0 +1,63 @@
+@import 'src/assets/scss/_colour.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+}
+
+:host::ng-deep h1 {
+  color: $color_accent;
+}
+
+
+.margin-bottom-big {
+  margin-bottom: 2.5em;
+}
+
+a {
+  font-size: 20px;
+  color: $color_primary;
+}
+
+a:hover {
+  color: $color_accent;
+}
+
+.margin-text {
+  margin: 0em 5em 1.5em 5em
+}
+
+p {
+  text-align: center;
+}
+
+
+
+@media (max-width: 820px) {
+
+  .margin-text {
+    margin: 0em 2em 1.5em 2em
+  }
+
+}
+
+@media (max-width: 540px) {
+
+
+  .margin-text {
+    margin: 0em 0.5em 1.5em 0.5em
+  }
+
+}
+
+@media (max-width: 440px) {
+
+
+  .margin-text {
+    margin: 0em 0.2em 1.5em 0.2em
+  }
+
+}

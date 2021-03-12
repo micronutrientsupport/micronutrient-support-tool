@@ -1,0 +1,18 @@
+<app-base-dialog [data]="data" [title]="title">
+
+  <div class="container">
+    <!-- <h1>The data could not be loaded</h1> -->
+
+    <img src="/assets/images/computer-error-icon.svg" alt="Computer Error Image" class="margin-bottom-big" />
+
+    <p class="margin-text">
+      You have been redirected to the Quick Maps page. <br />
+      Invalid parameters were detected in your url. If you are copying and
+      pasting the URL from
+      an email or website, check to see that you haven’t also copied additional punctuation or other text.</p>
+
+    <a (click)="closeDialog()" [routerLink]="ROUTES.HOME | route">Go to Maps Home page</a>
+
+  </div>
+
+</app-base-dialog>
