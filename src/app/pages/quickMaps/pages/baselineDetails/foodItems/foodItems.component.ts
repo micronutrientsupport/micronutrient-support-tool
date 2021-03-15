@@ -94,7 +94,7 @@ export class FoodItemsComponent implements AfterViewInit {
       .then((data: Array<TopFoodSource>) => {
         this.data = data;
         if (null == data) {
-          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
+          // this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
 
@@ -110,11 +110,7 @@ export class FoodItemsComponent implements AfterViewInit {
 
         this.initTreemap(data);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();

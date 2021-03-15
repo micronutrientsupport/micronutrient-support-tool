@@ -164,7 +164,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
-          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
         }
 
         // Select current countries
@@ -225,11 +224,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.initialiseGraph(stackedChartData);
         this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();

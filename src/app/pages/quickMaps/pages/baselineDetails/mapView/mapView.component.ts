@@ -160,7 +160,6 @@ export class MapViewComponent implements AfterViewInit {
       .then((data: SubRegionDataItem) => {
         this.data = data;
         if (null == data) {
-          this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
         this.errorSrc.next(false);
@@ -176,11 +175,7 @@ export class MapViewComponent implements AfterViewInit {
           this.triggerFitBounds(this.tabGroup.selectedIndex);
         }, 0);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-        this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         // this.cdr.detectChanges();
