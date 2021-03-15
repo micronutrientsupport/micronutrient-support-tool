@@ -12,10 +12,11 @@ import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutr
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
+import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
 @Unsubscriber('subscriptions')
 @Component({
@@ -24,7 +25,7 @@ import { GeographyTypes } from './geographyTypes.enum';
   styleUrls: ['./sideNavContent.component.scss'],
 })
 export class SideNavContentComponent implements OnInit {
-  @Input() showGoButton: boolean;
+  @Input() showGoButton: boolean; // indicates if we're on the location select page or not
   public readonly ROUTES = AppRoutes;
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
@@ -58,6 +59,7 @@ export class SideNavContentComponent implements OnInit {
     private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
+    public routeGuardService: QuickMapsRouteGuardService,
   ) {
     void dictionariesService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
@@ -127,17 +129,16 @@ export class SideNavContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // If selections are made that invalidates the current page, navigate
     this.subscriptions.push(
-      this.quickMapsService.measureObs.subscribe(() => {
+      this.quickMapsService.parameterChangedObs.subscribe(() => {
+        // only if not showing the "view results" button (on location select page)
         if (!this.showGoButton) {
-          // delay to let the query params update first, otherwise
-          // the navigation gets cancelled
-          setTimeout(() => {
-            this.navigate();
-          }, 100);
+          this.checkCurrentRouteValid();
         }
       })
     );
+
   }
 
   public mndChange(type: MicronutrientType): void {
@@ -225,29 +226,34 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  // public closeSideNav(): void {
-  //   this.quickMapsService.closeSideNav();
-  // }
-
   public submitForm(): void {
-    // console.warn(this.quickMapsForm.value);
-
     if (this.quickMapsForm.valid) {
-      this.navigate(true);
+      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+        ? AppRoutes.QUICK_MAPS_BASELINE
+        : AppRoutes.QUICK_MAPS_BIOMARKER
+      );
+      this.minimiseSideNav();
     }
   }
 
-  private navigate(minimiseSideNav = false): void {
-    const route = (this.quickMapsService.measure === MicronutrientMeasureType.DIET)
-      ? AppRoutes.QUICK_MAPS_BASELINE
-      : AppRoutes.QUICK_MAPS_BIOMARKER;
-
+  private navigate(appRoute: AppRoute): void {
     // console.debug('navigate', this.quickMapsService.measure, route);
-    void this.router.navigate(route.getRoute(), {
+    void this.router.navigate(appRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });
-    if (minimiseSideNav) {
-      this.minimiseSideNav();
-    }
+  }
+
+  private checkCurrentRouteValid(): void {
+    // delay to let the query params update first, otherwise
+    // the navigation gets cancelled
+    setTimeout(() => {
+      void this.routeGuardService.getRequiredNavRoute()
+        .then((requiredRoute: AppRoute) => {
+          if (null != requiredRoute) {
+            // console.debug('Should Nav', requiredRoute);
+            this.navigate(requiredRoute);
+          }
+        });
+    }, 100);
   }
 }

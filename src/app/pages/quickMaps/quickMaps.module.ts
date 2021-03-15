@@ -16,6 +16,7 @@ import { BaselineDetailsModule } from './pages/baselineDetails/baselineDetails.m
 import { ProjectionModule } from './pages/projection/projection.module';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 @NgModule({
   declarations: [
     QuickMapsComponent,
@@ -37,6 +38,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ProjectionModule,
     MatProgressSpinnerModule,
   ],
-  providers: [QuickMapsService],
+  providers: [QuickMapsService, QuickMapsRouteGuardService],
 })
 export class QuickMapsModule { }

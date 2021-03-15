@@ -4,3 +4,14 @@
   display: flex;
   flex-direction: column;
 }
+
+
+.details-panel {
+  display: block;
+  overflow-y: hidden;
+  max-height: 400px;
+  transition: max-height 0.5s ease-out;
+  &.details-panel-hidden {
+  max-height: 0;
+  }
+}

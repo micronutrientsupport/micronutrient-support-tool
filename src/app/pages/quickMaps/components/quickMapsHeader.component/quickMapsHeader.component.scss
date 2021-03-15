@@ -6,7 +6,7 @@
   justify-content: center;
   flex-flow: row wrap;
   margin-bottom: 10px;
-  & .active-route {
+  & .active-route:not(.mat-button-disabled) {
     background-color: $color_primary;
     color: white;
   }
