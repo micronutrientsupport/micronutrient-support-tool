@@ -1,26 +1,11 @@
 .container-row {
-    // display: grid;
-    // grid-template-rows: 1fr 1fr 1fr;
-    // grid-template-columns: auto;
-    // grid-template-areas: "png svg csv";
     display: flex;
     flex-flow: row wrap;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
+    text-align: center;
 
 }
-
-// .element-container:nth-child(1) {
-//     grid-area: png;
-// }
-
-// .element-container:nth-child(2) {
-//     grid-area: svg;
-// }
-
-// .element-container:nth-child(3) {
-//     grid-area: csv;
-// }
 
 .element-container {
     display: flex;
