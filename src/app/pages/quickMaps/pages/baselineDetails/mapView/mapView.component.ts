@@ -54,13 +54,11 @@ export class MapViewComponent implements AfterViewInit {
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
-  private LegendAbsolute: L.Control;
   private absoluteLegend: L.Control;
   // private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
-  private LegendThreshold: L.Control;
   private thresholdLegend: L.Control;
   // private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
   private areaBounds: L.LatLngBounds;
@@ -85,7 +83,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -217,10 +215,11 @@ export class MapViewComponent implements AfterViewInit {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
-    this.absoluteMap.removeControl(this.absoluteLegend);
-
-    if (null != this.LegendAbsolute) {
-      this.absoluteMap.removeControl(this.LegendAbsolute);
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
+    if (null != this.thresholdLegend) {
+      this.absoluteMap.removeControl(this.thresholdLegend);
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
@@ -236,13 +235,13 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private refreshThresholdLegend(): void {
-    if (null != this.LegendThreshold) {
-      this.thresholdMap.removeControl(this.LegendThreshold);
+    if (null != this.thresholdLegend) {
+      this.thresholdMap.removeControl(this.thresholdLegend);
     }
 
-    this.LegendThreshold = new L.Control({ position: 'bottomright' });
+    this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
-    this.LegendThreshold.onAdd = () => {
+    this.thresholdLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
@@ -266,12 +265,12 @@ export class MapViewComponent implements AfterViewInit {
       });
       return div;
     };
-    this.LegendThreshold.addTo(this.thresholdMap);
+    this.thresholdLegend.addTo(this.thresholdMap);
   }
 
   private refreshAbsoluteLegend(): void {
-    if (null != this.LegendAbsolute) {
-      this.absoluteMap.removeControl(this.LegendThreshold);
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
     }
 
     this.absoluteLegend = new L.Control({ position: 'bottomright' });
