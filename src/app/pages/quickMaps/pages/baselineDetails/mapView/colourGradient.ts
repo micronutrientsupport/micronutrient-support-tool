@@ -28,14 +28,18 @@ export class ColourGradient {
       })
       .filter((thisColGradObj) => null != thisColGradObj.lessThanTestValue && null != thisColGradObj.hexString)
       .sort((a, b) => (a.lessThanTestValue < b.lessThanTestValue ? -1 : 1));
+
+    // console.debug(this.gradientObjects);
   }
 
   public getColour(value: number): string {
+    const intValue = Number(value);
     const colGradObj = this.gradientObjects.find((thisColGradObj) => {
-      // console.debug('getColour test', value, thisColGradObj);
-      return value < thisColGradObj.lessThanTestValue;
+      // console.debug('getColour 1', value, thisColGradObj);
+      // console.debug('value', intValue < thisColGradObj.lessThanTestValue);dd
+      return intValue < thisColGradObj.lessThanTestValue;
     });
-    // console.debug('getColour', value, colGradObj);
+    // console.debug('getColour', intValue, colGradObj);
     return null != colGradObj ? colGradObj.hexString : '';
   }
 }

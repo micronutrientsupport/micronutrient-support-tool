@@ -16,7 +16,6 @@ import * as L from 'leaflet';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
@@ -29,7 +28,7 @@ import { CustomColourObject } from './colourObject';
 import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
-import { ColourGradientObject } from './colourGradient';
+import { ColourGradient, ColourGradientObject } from './colourGradient';
 
 @Component({
   selector: 'app-map-view',
@@ -46,7 +45,7 @@ export class MapViewComponent implements AfterViewInit {
   public title = '';
   public ColourObject: CustomColourObject = {
     type: null,
-    customObject: null,
+    customColourGradient: null,
   };
   // private data: Array<SubRegionDataItem>;
   public defaultColourScheme: ColourGradientType;
@@ -66,8 +65,8 @@ export class MapViewComponent implements AfterViewInit {
 
   private thresholdGradients = DEFAULT_THRESHOLD_COLOUR_GRADIENTS;
   private absoluteGradients = DEFAULT_ABSOLUTE_COLOUR_GRADIENTS;
-  private selectedThresholdGradient = this.thresholdGradients[0];
-  private selectedAbsoluteGradient = this.absoluteGradients[0];
+  private selectedThresholdGradient = this.thresholdGradients[1];
+  private selectedAbsoluteGradient = this.absoluteGradients[1];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -78,7 +77,6 @@ export class MapViewComponent implements AfterViewInit {
 
   constructor(
     private dialogService: DialogService,
-    private dictionaryService: DictionaryService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
@@ -97,7 +95,7 @@ export class MapViewComponent implements AfterViewInit {
     }
     const retrievedObject = localStorage.getItem('customColourScheme');
     if (null != retrievedObject) {
-      this.ColourObject.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
+      // this.ColourObject.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
     }
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -112,10 +110,13 @@ export class MapViewComponent implements AfterViewInit {
             if (data.dataOut.type !== null) {
               // if (data.dataOut.type === ColourGradientType.CUSTOM) {
               // }
-              this.changeColourRamp();
-              this.ColourObject.customObject = data.dataOut.customObject;
+              const absoluteGrad = this.absoluteGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
+              const thresholdGrad = this.thresholdGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
+              // console.debug(absoluteGrad, thresholdGrad);
+              this.changeColourRamp(thresholdGrad, absoluteGrad);
+              // this.ColourObject.customObject = data.dataOut.customObject;
               this.ColourObject.type = data.dataOut.type;
-              localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
+              // localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
               localStorage.setItem('ColourObject', this.ColourObject.type);
             }
           });
@@ -207,11 +208,12 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
+    // console.debug(feat.properties);
     return feat.properties as SubRegionDataItemFeatureProperties;
   }
 
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
-  private changeColourRamp(): void {
+  private changeColourRamp(thresholdGradient: ColourGradient, absoluteGradient: ColourGradient): void {
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
@@ -223,18 +225,18 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
 
-    this.refreshAbsoluteLegend();
-    this.refreshThresholdLegend();
+    this.refreshAbsoluteLegend(absoluteGradient);
+    this.refreshThresholdLegend(thresholdGradient);
   }
 
-  private refreshThresholdLegend(): void {
+  private refreshThresholdLegend(colourGradient: ColourGradient): void {
     if (null != this.thresholdLegend) {
       this.thresholdMap.removeControl(this.thresholdLegend);
     }
@@ -246,7 +248,7 @@ export class MapViewComponent implements AfterViewInit {
 
       // loop through our  intervals and generate a label with a colored square for each interval
       let previousGradObj: ColourGradientObject;
-      this.selectedThresholdGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
         let text = '';
         if (index + 1 === this.selectedThresholdGradient.gradientObjects.length) {
           text = `>${previousGradObj.lessThanTestValue}%`;
@@ -268,7 +270,7 @@ export class MapViewComponent implements AfterViewInit {
     this.thresholdLegend.addTo(this.thresholdMap);
   }
 
-  private refreshAbsoluteLegend(): void {
+  private refreshAbsoluteLegend(colourGradient: ColourGradient): void {
     if (null != this.absoluteLegend) {
       this.absoluteMap.removeControl(this.absoluteLegend);
     }
@@ -280,7 +282,7 @@ export class MapViewComponent implements AfterViewInit {
 
       // loop through our  intervals and generate a label with a colored square for each interval
       let previousGradObj: ColourGradientObject;
-      this.selectedAbsoluteGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
         let text = '';
         if (index + 1 === this.selectedAbsoluteGradient.gradientObjects.length) {
           text = `>${previousGradObj.lessThanTestValue}mg`;
@@ -361,10 +363,11 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_threshold),
+      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
+    // console.debug('absolute', this.absoluteDataLayer);
 
-    this.refreshAbsoluteLegend();
+    this.refreshAbsoluteLegend(this.selectedAbsoluteGradient);
   }
 
   private initialiseMapThreshold(): void {
@@ -379,8 +382,9 @@ export class MapViewComponent implements AfterViewInit {
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
       this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
+    // console.debug('threshold', this.thresholdDataLayer);
 
-    this.refreshThresholdLegend();
+    this.refreshThresholdLegend(this.selectedThresholdGradient);
   }
 
   // private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {

@@ -8,6 +8,7 @@ import { DialogData } from '../baseDialogService.abstract';
 import chroma from 'chroma-js';
 import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { CustomColourObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourObject';
+import { ColourGradient } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradient';
 export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
@@ -26,7 +27,7 @@ export class MapSettingsDialogComponent implements OnInit {
 
   public customColourGradientColours = '';
 
-  public customColourGradient: CustomGradientObject;
+  public customColourGradient: ColourGradient;
   public initialGradient: CustomColourObject;
   public generalSelectionValue = new Array<ColourGradientType>();
   public colourGradientType = ColourGradientType;
@@ -35,12 +36,12 @@ export class MapSettingsDialogComponent implements OnInit {
     this.generalSelectionValue.push(data.dataIn.type);
     this.initialGradient = data.dataIn;
     this.data.dataOut.type = this.generalSelectionValue[0];
-    this.data.dataOut.customObject = this.customColourGradient;
-    this.customColourGradient = this.data.dataIn.customObject;
+    // this.data.dataOut.customObject = this.customColourGradient;
+    this.customColourGradient = this.data.dataIn.customColourGradient;
     if (this.customColourGradient) {
       const customColourOne = this.data.dataIn.customObject.thresholdValues[0];
       const customColourTwo = this.data.dataIn.customObject.thresholdValues[3];
-      const customColourThree = this.data.dataIn.customObject.thresholdValues.pop();
+      const customColourThree = this.data.dataIn.customObject.thresholdValues[6];
       this.customColourGradientColours = `linear-gradient(0.25turn, ${customColourOne}, ${customColourTwo}, ${customColourThree})`;
     }
   }
@@ -57,7 +58,7 @@ export class MapSettingsDialogComponent implements OnInit {
     this.data.dataOut.type = this.generalSelectionValue[0];
     // if (null != this.customColourGradient) {
     // this.data.dataOut.type = ColourGradientType.CUSTOM;
-    this.data.dataOut.customObject = this.customColourGradient;
+    this.data.dataOut.customColourGradient = this.customColourGradient;
     // }
     this.data.close();
     // console.log(this.customColourGradient);
@@ -125,8 +126,9 @@ export class MapSettingsDialogComponent implements OnInit {
     });
     // this.customColourGradient = customObject;
     this.customColourGradient = {
-      thresholdValues: thresholdValues,
-      absoluteValues: absoluteValues,
+      id: ColourGradientType.CUSTOM,
+      name: 'Custom-Range',
+      lessThanTestValues:
     };
     // console.debug('custom object:', this.customColourGradient);
   };
