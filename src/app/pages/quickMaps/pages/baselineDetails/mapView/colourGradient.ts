@@ -1,4 +1,5 @@
 import { ColourGradientType } from './colourGradientType.enum';
+import { ColourPallette } from './colourPallette';
 
 export interface ColourGradientObject {
   lessThanTestValue: number;
@@ -9,21 +10,17 @@ export class ColourGradient {
   public readonly gradientObjects = new Array<ColourGradientObject>();
 
   constructor(
-    public readonly id: ColourGradientType,
-    public readonly name: string,
     public readonly lessThanTestValues: Array<number>,
-    public readonly colors: Array<string>,
+    public readonly colors: ColourPallette,
   ) {
-    if (lessThanTestValues.length !== colors.length) {
-      throw new Error('Error');
-    }
+    const colorArray = colors.generateColors(lessThanTestValues.length);
 
     this.gradientObjects = lessThanTestValues
       // eslint-disable-next-line arrow-body-style
       .map((val: number, index: number) => {
         return {
           lessThanTestValue: val,
-          hexString: colors[index],
+          hexString: colorArray[index],
         };
       })
       .filter((thisColGradObj) => null != thisColGradObj.lessThanTestValue && null != thisColGradObj.hexString)
