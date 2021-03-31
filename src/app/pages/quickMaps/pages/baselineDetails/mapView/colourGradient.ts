@@ -1,5 +1,5 @@
 import { ColourGradientType } from './colourGradientType.enum';
-import { ColourPallette } from './colourPallette';
+import { ColourPalette } from './colourPalette';
 
 export interface ColourGradientObject {
   lessThanTestValue: number;
@@ -11,7 +11,7 @@ export class ColourGradient {
 
   constructor(
     public readonly lessThanTestValues: Array<number>,
-    public readonly colors: ColourPallette,
+    public readonly colors: ColourPalette,
   ) {
     const colorArray = colors.generateColors(lessThanTestValues.length);
 

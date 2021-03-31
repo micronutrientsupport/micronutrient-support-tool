@@ -3,8 +3,8 @@
 
 import chroma from 'chroma-js';
 
-export const readonly CUSTOM_PALLETTE_NAME = 'Custom Pallette';
-export class ColourPallette {
+export const CUSTOM_PALETTE_NAME = 'Custom palette';
+export class ColourPalette {
   constructor(
     public readonly name: string,
     public readonly colourHex: Array<string>,
@@ -22,7 +22,7 @@ export class ColourPallette {
 
   };
 
-  public generateColorsForDisplay(count = 8): Array<HTMLElement> {
+  public generateColorsForDisplay(count = 8): Array<HTMLDivElement> {
 
     return this.generateColors(count).map((color: string) => {
       // create a div for each color

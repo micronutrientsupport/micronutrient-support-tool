@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -9,6 +10,7 @@ import chroma from 'chroma-js';
 import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { CustomColourObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourObject';
 import { ColourGradient } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradient';
+import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
 export interface ColourGradientObject {
   name: string;
   colourGradient: ColourGradientType;
@@ -31,6 +33,8 @@ export class MapSettingsDialogComponent implements OnInit {
   public initialGradient: CustomColourObject;
   public generalSelectionValue = new Array<ColourGradientType>();
   public colourGradientType = ColourGradientType;
+  public colourPalette: ColourPalette;
+  public showCustomGradient = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<CustomColourObject, CustomColourObject>) {
     this.generalSelectionValue.push(data.dataIn.type);
@@ -39,10 +43,10 @@ export class MapSettingsDialogComponent implements OnInit {
     // this.data.dataOut.customObject = this.customColourGradient;
     this.customColourGradient = this.data.dataIn.customColourGradient;
     if (this.customColourGradient) {
-      const customColourOne = this.data.dataIn.customObject.thresholdValues[0];
-      const customColourTwo = this.data.dataIn.customObject.thresholdValues[3];
-      const customColourThree = this.data.dataIn.customObject.thresholdValues[6];
-      this.customColourGradientColours = `linear-gradient(0.25turn, ${customColourOne}, ${customColourTwo}, ${customColourThree})`;
+      // const customColourOne = this.data.dataIn.customObject.thresholdValues[0];
+      // const customColourTwo = this.data.dataIn.customObject.thresholdValues[3];
+      // const customColourThree = this.data.dataIn.customObject.thresholdValues[6];
+      // this.customColourGradientColours = `linear-gradient(0.25turn, ${customColourOne}, ${customColourTwo}, ${customColourThree})`;
     }
   }
 
@@ -65,14 +69,22 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   public callCustomColourInput(): void {
-    // console.debug('change detected');
+    this.colorContainer1.nativeElement.innerHTML = '';
+    this.colourPalette = new ColourPalette('Custom',
+      [
+        this.colorOne.nativeElement.value,
+        this.colorTwo.nativeElement.value,
+        this.colorThree.nativeElement.value
+      ]);
 
-    this.generateColors(
-      this.colorOne.nativeElement.value,
-      this.colorTwo.nativeElement.value,
-      this.colorThree.nativeElement.value,
-    );
-    //  console.debug('change detected');
+    this.colourPalette.generateColorsForDisplay().forEach((element: HTMLDivElement) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      this.colorContainer1.nativeElement.appendChild(element);
+    });
+
+    this.customColourGradientColours = `linear-gradient(0.25turn,
+      ${this.colorOne.nativeElement.value},${this.colorTwo.nativeElement.value},${this.colorThree.nativeElement.value})`;
+    this.showCustomGradient = true;
   }
 
   public generateColors = (color1: string, color2: string, color3: string): void => {
@@ -125,11 +137,11 @@ export class MapSettingsDialogComponent implements OnInit {
       thresholdValues.push(color);
     });
     // this.customColourGradient = customObject;
-    this.customColourGradient = {
-      id: ColourGradientType.CUSTOM,
-      name: 'Custom-Range',
-      lessThanTestValues:
-    };
+    // this.customColourGradient = {
+    //   id: ColourGradientType.CUSTOM,
+    //   name: 'Custom-Range',
+    //   lessThanTestValues:
+    // };
     // console.debug('custom object:', this.customColourGradient);
   };
 }

@@ -25,10 +25,10 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { CustomColourObject } from './colourObject';
-import { CustomGradientObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/customGradientObject';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
 import { ColourGradient, ColourGradientObject } from './colourGradient';
+import { ColourPalette } from './colourPalette';
 
 @Component({
   selector: 'app-map-view',
@@ -65,8 +65,8 @@ export class MapViewComponent implements AfterViewInit {
 
   private thresholdGradients = DEFAULT_THRESHOLD_COLOUR_GRADIENTS;
   private absoluteGradients = DEFAULT_ABSOLUTE_COLOUR_GRADIENTS;
-  private selectedThresholdGradient = this.thresholdGradients[1];
-  private selectedAbsoluteGradient = this.absoluteGradients[1];
+  private selectedThresholdGradient = this.thresholdGradients[2];
+  private selectedAbsoluteGradient = this.absoluteGradients[2];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -74,6 +74,7 @@ export class MapViewComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   private tabVisited = new Map<number, boolean>();
+  private colourPalette: ColourPalette;
 
   constructor(
     private dialogService: DialogService,
@@ -110,10 +111,10 @@ export class MapViewComponent implements AfterViewInit {
             if (data.dataOut.type !== null) {
               // if (data.dataOut.type === ColourGradientType.CUSTOM) {
               // }
-              const absoluteGrad = this.absoluteGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
-              const thresholdGrad = this.thresholdGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
+              // const absoluteGrad = this.absoluteGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
+              // const thresholdGrad = this.thresholdGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
               // console.debug(absoluteGrad, thresholdGrad);
-              this.changeColourRamp(thresholdGrad, absoluteGrad);
+              // this.changeColourRamp(thresholdGrad, absoluteGrad);
               // this.ColourObject.customObject = data.dataOut.customObject;
               this.ColourObject.type = data.dataOut.type;
               // localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));

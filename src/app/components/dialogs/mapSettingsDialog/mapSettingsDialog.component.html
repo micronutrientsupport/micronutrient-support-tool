@@ -46,11 +46,9 @@
         </header>
 
         <!-- div to hold the color scales -->
-        <div [hidden]="!customColourGradient">
-          <p>Absolute Values Gradient:</p>
+        <div [hidden]="!showCustomGradient">
+          <p>Custom Gradient:</p>
           <div #container1 class="container"></div>
-          <p>Threshold Values Gradient:</p>
-          <div #container2 class="container"></div>
         </div>
       </div>
 
