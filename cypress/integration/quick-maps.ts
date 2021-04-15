@@ -16,6 +16,7 @@ export const populateSelectValues = (): void => {
 describe('Quick Map Tests', () => {
   it('load leaflet map', () => {
     cy.visit('/quick-maps');
+    cy.wait(3000);
     cy.get('#map').should('be.visible');
   });
 
