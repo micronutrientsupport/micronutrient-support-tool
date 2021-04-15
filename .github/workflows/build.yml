@@ -39,7 +39,7 @@ jobs:
 
       - name: Netlify Preview URL
         uses: unsplash/comment-on-pr@master
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
