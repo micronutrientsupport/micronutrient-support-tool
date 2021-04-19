@@ -86,7 +86,7 @@ export class MapViewComponent implements AfterViewInit {
     console.debug('colourPalette', retrievedType);
     if (null == this.colourPalette) {
       // Set default palette to BRGY
-      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.COLOURBLIND);
+      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.BLUEREDYELLOWGREEN);
     }
   }
 
@@ -123,6 +123,7 @@ export class MapViewComponent implements AfterViewInit {
               // this.ColourObject.type = data.dataOut.type;
               // localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
               // localStorage.setItem('ColourObject', this.ColourObject.type);
+              console.debug(data.dataOut);
               localStorage.setItem('colourPalette', JSON.stringify(data.dataOut));
             }
           });
@@ -192,9 +193,11 @@ export class MapViewComponent implements AfterViewInit {
         }
         this.errorSrc.next(false);
         this.areaFeatureCollection = data.geoJson;
+
         this.initialiseMapAbsolute(this.colourPalette);
         this.initialiseMapThreshold(this.colourPalette);
         this.areaBounds = this.absoluteDataLayer.getBounds();
+
         // reset visited
         this.tabVisited.clear();
         // trigger current fit bounds
@@ -373,12 +376,14 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
     // console.debug('absolute', this.absoluteDataLayer);
 
     this.refreshAbsoluteLegend(absoluteGradient);
+
   }
 
   private initialiseMapThreshold(colourPalette: ColourPalette): void {

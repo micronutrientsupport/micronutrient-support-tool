@@ -10,8 +10,9 @@ export class ColourGradient {
 
   constructor(
     public readonly lessThanTestValues: Array<number>,
-    public readonly colors: ColourPalette,
+    public colors: ColourPalette,
   ) {
+    console.debug('colors:', colors);
     const colorArray = colors.generateColors(lessThanTestValues.length);
 
     this.gradientObjects = lessThanTestValues
