@@ -26,7 +26,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { CustomColourObject } from './colourObject';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
-import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS } from './colourGradients';
+import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS, PALETTES } from './colourGradients';
 import { ColourGradient, ColourGradientObject } from './colourGradient';
 import { ColourPalette } from './colourPalette';
 
@@ -42,24 +42,22 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+  public colourPalette: ColourPalette;
   public title = '';
-  public ColourObject: CustomColourObject = {
-    type: null,
-    customColourGradient: null,
-  };
   // private data: Array<SubRegionDataItem>;
   public defaultColourScheme: ColourGradientType;
   private data: SubRegionDataItem;
 
+
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
+  private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500, 2000];
   private absoluteLegend: L.Control;
-  // private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
+  private thresholdRange = [10, 20, 40, 60, 80, 99, 101];
   private thresholdLegend: L.Control;
-  // private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
 
@@ -74,7 +72,6 @@ export class MapViewComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   private tabVisited = new Map<number, boolean>();
-  private colourPalette: ColourPalette;
 
   constructor(
     private dialogService: DialogService,
@@ -82,22 +79,25 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {
+    // checks if user has defined colour scheme and
+    const retrievedType = localStorage.getItem('colourPalette');
+    this.colourPalette = JSON.parse(retrievedType) as ColourPalette;
+    console.debug('colourPalette', retrievedType);
+    if (null == this.colourPalette) {
+      // Set default palette to BRGY
+      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.COLOURBLIND);
+    }
+  }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
 
-    // checks if user has defined colour scheme and
-    const retrievedType = localStorage.getItem('ColourObject');
-    this.ColourObject.type = retrievedType as ColourGradientType;
-    if (this.ColourObject.type == null) {
-      this.ColourObject.type = ColourGradientType.BLUEREDYELLOWGREEN;
-    }
-    const retrievedObject = localStorage.getItem('customColourScheme');
-    if (null != retrievedObject) {
-      // this.ColourObject.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
-    }
+    // const retrievedObject = localStorage.getItem('customColourScheme');
+    // if (null != retrievedObject) {
+    //   // this.ColourObject.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
+    // }
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
@@ -106,19 +106,24 @@ export class MapViewComponent implements AfterViewInit {
 
       this.card.onSettingsClickObs.subscribe(() => {
         void this.dialogService
-          .openMapSettingsDialog(this.ColourObject)
-          .then((data: DialogData<CustomColourObject, CustomColourObject>) => {
-            if (data.dataOut.type !== null) {
+          .openMapSettingsDialog(this.colourPalette)
+          .then((data: DialogData<ColourPalette, ColourPalette>) => {
+            if (data.dataOut !== null) {
               // if (data.dataOut.type === ColourGradientType.CUSTOM) {
               // }
-              // const absoluteGrad = this.absoluteGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
-              // const thresholdGrad = this.thresholdGradients.find((value: ColourGradient) => value.id === data.dataOut.type);
               // console.debug(absoluteGrad, thresholdGrad);
-              // this.changeColourRamp(thresholdGrad, absoluteGrad);
+              // const colourPalette = new ColourPalette(ColourGradientType.CUSTOM,
+              //   [
+              //     '#2ca25f',
+              //     '#eb5757',
+              //     '#497ea7'
+              //   ]);
+              this.changeColourRamp(data.dataOut);
               // this.ColourObject.customObject = data.dataOut.customObject;
-              this.ColourObject.type = data.dataOut.type;
+              // this.ColourObject.type = data.dataOut.type;
               // localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
-              localStorage.setItem('ColourObject', this.ColourObject.type);
+              // localStorage.setItem('ColourObject', this.ColourObject.type);
+              localStorage.setItem('colourPalette', JSON.stringify(data.dataOut));
             }
           });
       });
@@ -187,8 +192,8 @@ export class MapViewComponent implements AfterViewInit {
         }
         this.errorSrc.next(false);
         this.areaFeatureCollection = data.geoJson;
-        this.initialiseMapAbsolute();
-        this.initialiseMapThreshold();
+        this.initialiseMapAbsolute(this.colourPalette);
+        this.initialiseMapThreshold(this.colourPalette);
         this.areaBounds = this.absoluteDataLayer.getBounds();
         // reset visited
         this.tabVisited.clear();
@@ -214,7 +219,11 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
-  private changeColourRamp(thresholdGradient: ColourGradient, absoluteGradient: ColourGradient): void {
+  private changeColourRamp(colourPalette: ColourPalette): void {
+
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
@@ -355,7 +364,7 @@ export class MapViewComponent implements AfterViewInit {
     return map;
   }
 
-  private initialiseMapAbsolute(): void {
+  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
     if (null != this.absoluteDataLayer) {
       this.absoluteMap.removeLayer(this.absoluteDataLayer);
     }
@@ -363,15 +372,16 @@ export class MapViewComponent implements AfterViewInit {
       this.absoluteMap.removeControl(this.absoluteLegend);
     }
 
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.selectedAbsoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
     // console.debug('absolute', this.absoluteDataLayer);
 
-    this.refreshAbsoluteLegend(this.selectedAbsoluteGradient);
+    this.refreshAbsoluteLegend(absoluteGradient);
   }
 
-  private initialiseMapThreshold(): void {
+  private initialiseMapThreshold(colourPalette: ColourPalette): void {
     if (null != this.thresholdDataLayer) {
       this.thresholdMap.removeLayer(this.thresholdDataLayer);
     }
@@ -379,13 +389,15 @@ export class MapViewComponent implements AfterViewInit {
       this.thresholdMap.removeControl(this.thresholdLegend);
     }
 
+    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
-      this.selectedThresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
     // console.debug('threshold', this.thresholdDataLayer);
 
-    this.refreshThresholdLegend(this.selectedThresholdGradient);
+    this.refreshThresholdLegend(thresholdGradient);
   }
 
   // private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {

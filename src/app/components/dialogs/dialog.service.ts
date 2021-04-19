@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { CustomColourObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourObject';
+import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
@@ -36,8 +37,8 @@ export class DialogService extends BaseDialogService {
   }
 
   public openMapSettingsDialog(
-    colourObject: CustomColourObject,
-  ): Promise<DialogData<CustomColourObject, CustomColourObject>> {
+    colourObject: ColourPalette,
+  ): Promise<DialogData<ColourPalette, ColourPalette>> {
     return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourObject);
   }
 }

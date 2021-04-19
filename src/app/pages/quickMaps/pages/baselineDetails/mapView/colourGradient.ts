@@ -1,4 +1,3 @@
-import { ColourGradientType } from './colourGradientType.enum';
 import { ColourPalette } from './colourPalette';
 
 export interface ColourGradientObject {

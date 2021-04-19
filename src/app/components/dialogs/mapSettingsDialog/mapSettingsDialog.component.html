@@ -23,7 +23,7 @@
             <span class="colour-option">Colour Blind
               <span class="colour-sample colourblind"></span></span>
           </mat-list-option>
-          <mat-list-option [disabled]="null == customColourGradient" [value]="colourGradientType.CUSTOM">
+          <mat-list-option [disabled]="!customGradientDefined" [value]="colourGradientType.CUSTOM">
             <span class="colour-option colourblind">Custom Gradient
               <span class="colour-sample" [style.background]="customColourGradientColours"></span></span>
           </mat-list-option>

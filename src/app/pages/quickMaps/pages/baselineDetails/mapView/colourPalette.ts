@@ -2,24 +2,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import chroma from 'chroma-js';
+import { ColourGradientType } from './colourGradientType.enum';
 
 export const CUSTOM_PALETTE_NAME = 'Custom palette';
 export class ColourPalette {
   constructor(
-    public readonly name: string,
+    public readonly name: ColourGradientType,
     public readonly colourHex: Array<string>,
-  ) {
-
-  }
-
+  ) { }
 
   public generateColors(count: number): Array<string> {
     // get array of colors from chroma.js
-
     return chroma
       .scale(this.colourHex)
       .colors(count) as Array<string>;
-
   };
 
   public generateColorsForDisplay(count = 8): Array<HTMLDivElement> {
