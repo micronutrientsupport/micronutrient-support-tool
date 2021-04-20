@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { QuickMapsService } from '../../quickMaps.service';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
-  MAP = 'widgetMap',
-  MONTHLY = 'widgetMonthly',
-  TOP_FOOD = 'widgetTopFood',
-  CHART = 'widgetChart',
+  MNEXCESS = 'mnExcess',
 }
 @Component({
   selector: 'app-biomarker',
@@ -25,7 +24,21 @@ export class BiomarkerComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor() { }
+  private readonly defaultWidgetHeight = 4;
+  private readonly defaultWidgetWidth = 6;
+
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<BiomarkerWidgets>> = new Map([
+    [DataLevel.COUNTRY, [
+      BiomarkerWidgets.MNEXCESS
+    ]],
+    [DataLevel.HOUSEHOLD, [
+      BiomarkerWidgets.MNEXCESS
+    ]],
+  ]);
+
+  constructor(
+    public quickMapsService: QuickMapsService,
+  ) { }
 
   ngOnInit(): void {
     this.options = {
@@ -81,6 +94,53 @@ export class BiomarkerComponent implements OnInit {
         },
       },
     };
+    this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
+      this.setDataLevel(level);
+    });
+  }
+
+  private setDataLevel(level: DataLevel): void {
+    if (null != level) {
+      const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
+
+      // remove any not needed
+      this.dashboard.slice().forEach(thisWidget => {
+        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
+          this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
+        }
+      });
+      // reset size and position of currrent items
+      // Maybe not ideal how this alters the user set size and position of widgets
+      // that have persisted, but what's the alternative?
+      // It does ensure a uniform view at init/data level change.
+      this.dashboard.forEach((thisWidget: GridsterItem, index: number) => {
+        this.resetItemPositionAndSize(thisWidget, index);
+      });
+
+      // add any new widgets
+      newWidgetsTypes.forEach(widgetType => {
+        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
+          this.dashboard.push(
+            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
+          );
+        }
+      });
+      this.changedOptions();
+    }
+  }
+
+  private resetItemPositionAndSize(item: GridsterItem, index: number): GridsterItem {
+    item.cols = this.defaultWidgetWidth;
+    item.rows = this.defaultWidgetHeight;
+    item.x = (index % 2) * this.defaultWidgetWidth;
+    item.y = Math.floor(index / 2) * this.defaultWidgetHeight;
+    return item;
+  }
+
+  private changedOptions(): void {
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 
 }

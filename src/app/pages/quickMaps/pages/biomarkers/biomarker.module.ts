@@ -12,6 +12,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { RouterModule } from '@angular/router';
 import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
+import { MnExcessComponent } from './mnExcess/mnExcess.component';
 
 
 
@@ -19,6 +20,7 @@ import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerD
   declarations: [
     BiomarkerComponent,
     BiomarkerDescriptionComponent,
+    MnExcessComponent,
   ],
   imports: [
     CommonModule,
