@@ -3,7 +3,7 @@
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
-        <mat-list-option value="advanced">Advanced</mat-list-option>
+        <mat-list-option value="advanced">Create Gradient</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
@@ -31,7 +31,8 @@
       </div>
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
         <header>
-          <p>Generate Custom Colour Range</p>
+          <p>Generate Custom Colour Range <i class="fas fa-question-circle"
+              matTooltip="Click on the boxes to create your own custom gradient." matTooltipPosition="after"></i></p>
           <div class="inputs">
             <div class="color-input">
               <input (change)="callCustomColourInput([colorOne.value, colorTwo.value, colorThree.value])" #colorOne
@@ -55,7 +56,7 @@
         </div>
       </div>
 
-      <div class="button-wrapper">
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="button-wrapper">
         <button mat-raised-button (click)="applyChanges()">Apply Changes</button>
         <button mat-raised-button (click)="cancel()">Cancel</button>
       </div>

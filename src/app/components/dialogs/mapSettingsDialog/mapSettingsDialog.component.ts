@@ -34,13 +34,13 @@ export class MapSettingsDialogComponent implements OnInit {
   public customGradientDefined = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourPalette, ColourPalette>) {
-    console.debug('data in', data.dataIn);
     this.generalSelectionValue.push(data.dataIn.name);
     this.colourPalette = data.dataIn;
     this.initialPalette = data.dataIn;
     if (data.dataIn.name === ColourGradientType.CUSTOM) {
       this.setCustomGradientColours(data.dataIn.colourHex);
     }
+    this.retrieveCustomGradient()
   }
 
   ngOnInit(): void {
@@ -55,17 +55,17 @@ export class MapSettingsDialogComponent implements OnInit {
 
     if (this.generalSelectionValue[0] !== ColourGradientType.CUSTOM) {
       this.colourPalette = PALETTES.find((palette: ColourPalette) => palette.name === this.generalSelectionValue[0]);
+    } else {
+      this.colourPalette = this.retrieveCustomGradient();
     }
 
     this.data.dataOut = this.colourPalette;
     localStorage.setItem('colourPalette', JSON.stringify(this.data.dataOut));
-    console.debug('apply changes', this.colourPalette);
+    // console.debug('apply changes', this.colourPalette);
     this.data.close();
   }
 
   public callCustomColourInput(colours: Array<string>): void {
-    console.debug('call');
-    this.customGradientDefined = true;
     if (null != this.colorContainer1) {
       this.colorContainer1.nativeElement.innerHTML = '';
     }
@@ -78,11 +78,21 @@ export class MapSettingsDialogComponent implements OnInit {
 
     this.setCustomGradientColours(colours)
     this.showCustomGradient = true;
+    localStorage.setItem('customPalette', JSON.stringify(this.colourPalette));
   }
 
-  public setCustomGradientColours(colours: Array<string>) {
+  private setCustomGradientColours(colours: Array<string>): void {
     this.customColourGradientColours = `linear-gradient(0.25turn,
       ${colours[0]},${colours[1]},${colours[2]})`;
-    this.showCustomGradient = true;
+    this.customGradientDefined = true;
+  }
+
+  private retrieveCustomGradient(): ColourPalette {
+    const retievedPalette = JSON.parse(localStorage.getItem('customPalette')) as ColourPalette;
+    if (null != retievedPalette) {
+      const customPalette = new ColourPalette(retievedPalette.name, retievedPalette.colourHex);
+      this.setCustomGradientColours(customPalette.colourHex);
+      return customPalette;
+    }
   }
 }
