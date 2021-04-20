@@ -22,6 +22,7 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -75,6 +76,8 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   ];
 
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
 
   private data: Array<ProjectedAvailability>;
 
@@ -89,8 +92,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
+    private qcService: QuickchartService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -193,6 +197,38 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
       },
     };
+
+    const chartForRender: ChartJSObject = {
+      type: 'line',
+      data: {
+        labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
+        datasets: [
+          {
+            label: 'SSP1',
+            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
+            backgroundColor: () => 'rgba(12, 92, 90, 0.6)',
+          },
+          {
+            label: 'SSP2',
+            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
+            backgroundColor: () => 'rgba(12, 92, 225, 0.6)',
+          },
+          {
+            label: 'SSP3',
+            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
+            backgroundColor: () => 'rgba(48, 102, 133, 0.6)',
+          },
+        ],
+      },
+      options: {
+        scales: {
+          xAxes: [{}],
+          yAxes: [{}],
+        },
+      },
+    };
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {
