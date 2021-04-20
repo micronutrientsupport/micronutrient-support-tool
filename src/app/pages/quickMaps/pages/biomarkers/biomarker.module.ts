@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
 import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.component';
-
+import 'chartjs-chart-box-and-violin-plot';
 
 
 @NgModule({

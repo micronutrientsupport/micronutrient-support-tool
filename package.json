@@ -38,6 +38,7 @@
     "@types/chart.js": "^2.9.31",
     "angular-gridster2": "^10.1.7",
     "chart.js": "^2.9.4",
+    "chartjs-chart-box-and-violin-plot": "^2.4.0",
     "chartjs-chart-treemap": "^0.2.3",
     "chartjs-plugin-annotation": "^0.5.7",
     "color-hash-ts": "0.0.7",
