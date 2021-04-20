@@ -14,6 +14,7 @@ import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projecti
 import { ProjectionEstimateComponent } from './projectionEstimate/projectionEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
+import { DownloadComponent } from './download/download.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ProjectionDescriptionComponent } from './projectionDescription/projecti
     ProjectionFoodSourcesComponent,
     ProjectionEstimateComponent,
     ProjectionDescriptionComponent,
+    DownloadComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   Component,
@@ -24,11 +26,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
-import { CustomColourObject } from './colourObject';
-import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS, PALETTES } from './colourGradients';
 import { ColourGradient, ColourGradientObject } from './colourGradient';
 import { ColourPalette } from './colourPalette';
+import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-map-view',
@@ -47,7 +49,6 @@ export class MapViewComponent implements AfterViewInit {
   // private data: Array<SubRegionDataItem>;
   public defaultColourScheme: ColourGradientType;
   private data: SubRegionDataItem;
-
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
@@ -74,6 +75,7 @@ export class MapViewComponent implements AfterViewInit {
   private tabVisited = new Map<number, boolean>();
 
   constructor(
+    private notificationService: NotificationsService,
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
@@ -185,10 +187,7 @@ export class MapViewComponent implements AfterViewInit {
           this.triggerFitBounds(this.tabGroup.selectedIndex);
         }, 0);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         // this.cdr.detectChanges();

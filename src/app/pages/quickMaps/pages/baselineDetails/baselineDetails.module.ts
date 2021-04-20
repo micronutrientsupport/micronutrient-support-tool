@@ -9,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDetailsComponent } from './baselineDetails.component';
 import { MapViewComponent } from './mapView/mapView.component';
-import { SummarisedDataTableComponent } from './summarisedDataTable/summarisedDataTable.component';
 import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
@@ -22,7 +21,6 @@ import { RouterModule } from '@angular/router';
   declarations: [
     BaselineDetailsComponent,
     MapViewComponent,
-    SummarisedDataTableComponent,
     FoodItemsComponent,
     HouseholdSupplyComponent,
     MonthlyFoodComponent,

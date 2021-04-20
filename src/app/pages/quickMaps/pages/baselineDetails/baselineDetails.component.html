@@ -1,6 +1,7 @@
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
   <app-base-desc></app-base-desc>
-  <app-base-est></app-base-est>
+  <app-base-est class="details-panel"
+    [class.details-panel-hidden]="!(quickMapsService.micronutrientObs | async).isInImpact"></app-base-est>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
       <!-- Map View -->

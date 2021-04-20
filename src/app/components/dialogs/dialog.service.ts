@@ -5,6 +5,7 @@ import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetail
 import { CustomColourObject } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourObject';
 import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
+import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
@@ -40,5 +41,9 @@ export class DialogService extends BaseDialogService {
     colourObject: ColourPalette,
   ): Promise<DialogData<ColourPalette, ColourPalette>> {
     return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourObject);
+  }
+
+  public openInvalidParametersDialog(): Promise<DialogData> {
+    return this.openDialog('invalidParametersDialog', InvalidParametersDialogComponent);
   }
 }

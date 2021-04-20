@@ -21,6 +21,7 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -83,12 +84,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -125,6 +127,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       .then((data: Array<ProjectedAvailability>) => {
         this.data = data;
         if (null == data) {
+          // this.notificationService.sendNegative('An error occurred -', 'data could not be loaded');
           throw new Error('data error');
         }
 
@@ -141,10 +144,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         // show table and init paginator and sorter
         this.initialiseTable(filteredData);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();

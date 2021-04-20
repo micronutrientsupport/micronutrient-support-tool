@@ -14,15 +14,15 @@ import { RoutesModule } from 'src/app/routes/routes.module';
 import { QuickMapsComponent } from './quickMaps.component';
 import { BaselineDetailsModule } from './pages/baselineDetails/baselineDetails.module';
 import { ProjectionModule } from './pages/projection/projection.module';
-import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
+import { BiomarkerModule } from './pages/biomarkers/biomarker.module';
 @NgModule({
   declarations: [
     QuickMapsComponent,
     LocationSelectComponent,
     SideNavContentComponent,
     QuickMapsHeaderComponent,
-    BiomarkerComponent,
   ],
   imports: [
     CommonModule,
@@ -34,9 +34,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ChartjsModule,
     RoutesModule,
     BaselineDetailsModule,
+    BiomarkerModule,
     ProjectionModule,
     MatProgressSpinnerModule,
   ],
-  providers: [QuickMapsService],
+  providers: [QuickMapsService, QuickMapsRouteGuardService],
 })
 export class QuickMapsModule { }

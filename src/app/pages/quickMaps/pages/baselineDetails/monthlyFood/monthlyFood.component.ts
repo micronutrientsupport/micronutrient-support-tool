@@ -21,6 +21,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -62,12 +63,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -119,10 +121,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
         this.initialiseGraph(data.all);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();

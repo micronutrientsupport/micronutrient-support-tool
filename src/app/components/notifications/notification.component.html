@@ -1,0 +1,15 @@
+<div class="holding-container {{notificationData.type}}">
+  <span class="notification-symbol {{notificationData.type}}">
+    <ng-container [ngSwitch]="notificationData.type">
+      <i *ngSwitchCase="notificationType.INFORMATION" class="fas fa-info-circle {{notificationData.type}}"></i>
+      <i *ngSwitchCase="notificationType.NEGATIVE" class="fas fa-exclamation {{notificationData.type}}"></i>
+      <i *ngSwitchCase="notificationType.POSITIVE" class="fas fa-check {{notificationData.type}}"></i>
+    </ng-container>
+  </span>
+  <span class="message-container">
+    <span class="message-emitted">{{notificationData.message}} <strong>{{notificationData.boldMessage}}</strong></span>
+  </span>
+  <button mat-mini-fab class="mat-snackbar-close  {{notificationData.type}}" (click)="snackBarRef.dismiss()">
+    <i class="fas fa-times {{notificationData.type}}"></i>
+  </button>
+</div>

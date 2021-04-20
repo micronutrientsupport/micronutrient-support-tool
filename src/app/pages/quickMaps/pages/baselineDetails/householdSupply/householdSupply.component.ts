@@ -21,6 +21,7 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
@@ -50,6 +51,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -109,10 +111,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
         this.initialiseGraph(data);
       })
-      .catch((err) => {
-        this.errorSrc.next(true);
-        console.error(err);
-      })
+      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();
