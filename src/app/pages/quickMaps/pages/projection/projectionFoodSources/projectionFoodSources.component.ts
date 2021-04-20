@@ -32,6 +32,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 const QuickChart = require('quickchart-js');
 @Component({
   selector: 'app-proj-food-sources ',
@@ -80,6 +81,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     { id: 9, name: '2050' },
   ];
   public projectedFoodSourceChartImagePNGSrc: string;
+  public renderChart: any;
 
   private sort: MatSort;
   private data: Array<ProjectedFoodSourcesData>;
@@ -95,6 +97,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
+    private qcService: QuickchartService,
     private fb: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
   ) {
@@ -266,16 +269,11 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       },
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const myChart = new QuickChart();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    myChart.setConfig({
+    const chartForRender: ChartJSObject = {
       type: 'bar',
-      data: {
-        labels: stackedChartData.labels,
-        datasets: stackedChartData.datasets,
-      },
+      data: stackedChartData,
       options: {
+        maintainAspectRatio: false,
         scales: {
           xAxes: [
             {
@@ -289,9 +287,37 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           ],
         },
       },
-    });
+    };
+    this.qcService.getChartAsImageUrl(chartForRender);
+
+    // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    // const tmpChart = new QuickChart();
+    // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    // tmpChart.setConfig({
+    //   type: 'bar',
+    //   data: {
+    //     labels: stackedChartData.labels,
+    //     datasets: stackedChartData.datasets,
+    //   },
+    //   options: {
+    //     scales: {
+    //       xAxes: [
+    //         {
+    //           stacked: true,
+    //         },
+    //       ],
+    //       yAxes: [
+    //         {
+    //           stacked: true,
+    //         },
+    //       ],
+    //     },
+    //   },
+    // });
+    // this.renderChart = tmpChart;
+    // console.log('renderChart = ', this.renderChart);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    console.log(myChart.getUrl());
+    // console.log(myChart.getUrl());
   }
 
   private genColorHex(foodTypeIndex: string) {
