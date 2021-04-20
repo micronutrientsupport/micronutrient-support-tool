@@ -9,10 +9,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DownloadComponent implements OnInit {
+  @Input() chartDownloadPNG: string;
+  @Input() chartDownloadPDF: string;
   constructor() {}
-  ngOnInit(): void {
-    // const myChart = new QuickChart();
-    // myChart.setConfig(this.chartToRender);
-    // console.log(myChart.getUrl());
-  }
+  ngOnInit(): void {}
 }

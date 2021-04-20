@@ -8,12 +8,18 @@ const QuickChart = require('quickchart-js');
 @Injectable()
 export class QuickchartService {
   constructor() {}
-
-  public getChartAsImageUrl(chartData: ChartJSObject): string {
+  /**
+   *
+   * @param chartData - object containing type, data, labels and options for your chart
+   * @param format - png or pdf
+   * @returns
+   */
+  public getChartAsImageUrl(chartData: ChartJSObject, format: string): string {
     const tmpChart = new QuickChart();
     tmpChart.setConfig(chartData);
+    tmpChart.setFormat(format);
     const chartUrl: string = tmpChart.getUrl();
-    console.log(chartUrl);
+
     return chartUrl;
   }
 }

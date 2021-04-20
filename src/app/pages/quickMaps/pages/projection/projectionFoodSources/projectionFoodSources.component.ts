@@ -33,7 +33,6 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-const QuickChart = require('quickchart-js');
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -80,8 +79,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     { id: 8, name: '2045' },
     { id: 9, name: '2050' },
   ];
-  public projectedFoodSourceChartImagePNGSrc: string;
-  public renderChart: any;
+  public chartPNG: string;
+  public chartPDF: string;
 
   private sort: MatSort;
   private data: Array<ProjectedFoodSourcesData>;
@@ -288,36 +287,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
       },
     };
-    this.qcService.getChartAsImageUrl(chartForRender);
-
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    // const tmpChart = new QuickChart();
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    // tmpChart.setConfig({
-    //   type: 'bar',
-    //   data: {
-    //     labels: stackedChartData.labels,
-    //     datasets: stackedChartData.datasets,
-    //   },
-    //   options: {
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           stacked: true,
-    //         },
-    //       ],
-    //       yAxes: [
-    //         {
-    //           stacked: true,
-    //         },
-    //       ],
-    //     },
-    //   },
-    // });
-    // this.renderChart = tmpChart;
-    // console.log('renderChart = ', this.renderChart);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    // console.log(myChart.getUrl());
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private genColorHex(foodTypeIndex: string) {
