@@ -49,7 +49,7 @@ export class SideNavContentComponent implements OnInit {
   public quickMapsForm: FormGroup;
 
   public sideNavToggleLock = new FormControl(false);
-
+  public ageGender = [{ value: 'All' }, { value: 'Adult men' }, { value: 'Adult women' }, { value: 'Children' }];
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -76,22 +76,22 @@ export class SideNavContentComponent implements OnInit {
         });
 
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe(value => {
-            const geographyType = (this.regionDictionary.getItems().includes(value))
+          this.quickMapsService.countryObs.subscribe((value) => {
+            const geographyType = this.regionDictionary.getItems().includes(value)
               ? GeographyTypes.REGION
               : GeographyTypes.COUNTRY;
             // really only used on first load to pre-select correct type
             this.geographyTypeChange(geographyType);
             // reacts to changes from location component selections
             this.quickMapsForm.get('nation').setValue(value);
-          })
+          }),
         );
         this.subscriptions.push(
-          this.quickMapsService.micronutrientObs.subscribe(value => {
+          this.quickMapsService.micronutrientObs.subscribe((value) => {
             // really only used on first load to pre-select correct type
-            const mndType = (null != value) ? value.type : MicronutrientType.VITAMIN;
+            const mndType = null != value ? value.type : MicronutrientType.VITAMIN;
             this.mndChange(mndType);
-          })
+          }),
         );
 
         this.updateDataMeasureOptions();
@@ -101,19 +101,19 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.setCountry(value);
             this.updateMicronutrientDataOptions();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
             this.quickMapsService.setMicronutrient(value);
             this.updateDataMeasureOptions();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
             this.updateMicronutrientDataOptions();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
@@ -123,7 +123,7 @@ export class SideNavContentComponent implements OnInit {
                 this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
               }
             }
-          })
+          }),
         );
       });
   }
@@ -136,9 +136,8 @@ export class SideNavContentComponent implements OnInit {
         if (!this.showGoButton) {
           this.checkCurrentRouteValid();
         }
-      })
+      }),
     );
-
   }
 
   public mndChange(type: MicronutrientType): void {
@@ -148,12 +147,12 @@ export class SideNavContentComponent implements OnInit {
       this.selectMNDsFiltered = this.micronutrientsDictionary
         .getItems()
         .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
-        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
     }
   }
 
   public minimiseSideNav(): void {
-    this.sideNavToggleLock.setValue((this.sideNavToggleLock.value === true) ? true : false);
+    this.sideNavToggleLock.setValue(this.sideNavToggleLock.value === true ? true : false);
     if (this.sideNavToggleLock.value === false) {
       this.quickMapsService.sideNavToggle();
     }
@@ -163,18 +162,17 @@ export class SideNavContentComponent implements OnInit {
     if (type !== this.selectedGeographyType) {
       this.selectedGeographyType = type;
 
-      this.geographyOptionArray = (
-        (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
+      this.geographyOptionArray = (type === GeographyTypes.COUNTRY ? this.countriesDictionary : this.regionDictionary)
         .getItems()
-        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
     }
   }
 
   public updateDataMeasureOptions(): void {
     const micronutrient = this.quickMapsService.micronutrient;
 
-    this.measureDietEnabled = ((null != micronutrient) && micronutrient.isDiet);
-    this.measureBiomarkerEnabled = ((null != micronutrient) && micronutrient.isBiomarker);
+    this.measureDietEnabled = null != micronutrient && micronutrient.isDiet;
+    this.measureBiomarkerEnabled = null != micronutrient && micronutrient.isBiomarker;
 
     const measureControl = this.quickMapsForm.get('measure');
     const initialMeasure = measureControl.value as MicronutrientMeasureType;
@@ -187,14 +185,14 @@ export class SideNavContentComponent implements OnInit {
       } else if (this.measureBiomarkerEnabled) {
         measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
       }
-    } else if ((!this.measureDietEnabled) && (!this.measureBiomarkerEnabled)) {
+    } else if (!this.measureDietEnabled && !this.measureBiomarkerEnabled) {
       // nothing enabled, set value to null
       measureControl.setValue(null);
-
-    } else { // if disabled item selected, change it.
-      if (!this.measureDietEnabled && (initialMeasure === MicronutrientMeasureType.DIET)) {
+    } else {
+      // if disabled item selected, change it.
+      if (!this.measureDietEnabled && initialMeasure === MicronutrientMeasureType.DIET) {
         measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
-      } else if (!this.measureBiomarkerEnabled && (initialMeasure === MicronutrientMeasureType.BIOMARKER)) {
+      } else if (!this.measureBiomarkerEnabled && initialMeasure === MicronutrientMeasureType.BIOMARKER) {
         measureControl.setValue(MicronutrientMeasureType.DIET);
       }
     }
@@ -204,16 +202,11 @@ export class SideNavContentComponent implements OnInit {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
 
-    if ((null != country) && (null != measure)) {
-
+    if (null != country && null != measure) {
       void this.currentDataService
-        .getMicronutrientDataOptions(
-          country,
-          measure,
-          true,
-        )
+        .getMicronutrientDataOptions(country, measure, true)
         .then((options: Array<MicronutrientDataOption>) => {
-          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
+          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name ? -1 : 1));
 
           // if only one option, preselect
           if (1 === options.length) {
@@ -228,9 +221,10 @@ export class SideNavContentComponent implements OnInit {
 
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
-      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
-        ? AppRoutes.QUICK_MAPS_BASELINE
-        : AppRoutes.QUICK_MAPS_BIOMARKER
+      this.navigate(
+        this.quickMapsService.measure === MicronutrientMeasureType.DIET
+          ? AppRoutes.QUICK_MAPS_BASELINE
+          : AppRoutes.QUICK_MAPS_BIOMARKER,
       );
       this.minimiseSideNav();
     }
@@ -247,13 +241,12 @@ export class SideNavContentComponent implements OnInit {
     // delay to let the query params update first, otherwise
     // the navigation gets cancelled
     setTimeout(() => {
-      void this.routeGuardService.getRequiredNavRoute()
-        .then((requiredRoute: AppRoute) => {
-          if (null != requiredRoute) {
-            // console.debug('Should Nav', requiredRoute);
-            this.navigate(requiredRoute);
-          }
-        });
+      void this.routeGuardService.getRequiredNavRoute().then((requiredRoute: AppRoute) => {
+        if (null != requiredRoute) {
+          // console.debug('Should Nav', requiredRoute);
+          this.navigate(requiredRoute);
+        }
+      });
     }, 100);
   }
 }
