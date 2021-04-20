@@ -25,10 +25,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './householdSupply.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './householdSupply.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HouseholdSupplyComponent implements AfterViewInit {
@@ -57,30 +54,28 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
       this.card.title = this.title;
       this.card.showExpand = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getHouseholdHistogramData(
-            this.quickMapsService.country,
-            [this.quickMapsService.micronutrient],
-            this.quickMapsService.mndDataOption,
-          ));
-        })
+          this.init(
+            this.currentDataService.getHouseholdHistogramData(
+              this.quickMapsService.country,
+              [this.quickMapsService.micronutrient],
+              this.quickMapsService.mndDataOption,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -138,6 +133,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         maintainAspectRatio: false,
         legend: {
           display: true,
+          position: 'bottom',
+          align: 'center',
         },
         scales: {
           xAxes: [

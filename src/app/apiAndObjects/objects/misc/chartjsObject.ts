@@ -24,11 +24,17 @@ export interface ChartJSObject {
   type: string;
   data: ChartsJSDataObject;
   options?: {
+    title?: {
+      display: boolean;
+      text: string;
+    };
     animation?: ChartAnimationOptions;
     maintainAspectRatio?: boolean;
     responsive?: boolean;
     legend?: {
       display: boolean;
+      position?: string;
+      align?: string;
     };
     scales?: {
       xAxes: [

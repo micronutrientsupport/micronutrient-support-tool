@@ -272,6 +272,15 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       type: 'bar',
       data: stackedChartData,
       options: {
+        title: {
+          display: true,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [

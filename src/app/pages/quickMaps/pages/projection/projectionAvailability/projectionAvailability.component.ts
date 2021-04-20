@@ -221,6 +221,15 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         ],
       },
       options: {
+        title: {
+          display: true,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         scales: {
           xAxes: [{}],
           yAxes: [{}],
