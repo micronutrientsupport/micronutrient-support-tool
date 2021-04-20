@@ -135,8 +135,26 @@
         </legend>
         <mat-form-field appearance="fill">
           <mat-select placeholder="Click to select option">
-            <mat-option *ngFor="let ageGender of ageGender" [value]="ageGender.value">
+            <!-- <mat-option *ngFor="let ageGender of ageGender" [value]="ageGender.value">
               {{ ageGender.value }}
+            </mat-option> -->
+            <!-- <mat-option *ngif="ageGender.value === 'children'" [value]="children.value">
+              {{ children.value }}
+            </mat-option> -->
+
+            <mat-option [matMenuTriggerFor]="groupSelection"
+              >Click to select option
+              <mat-menu #groupSelection="matMenu">
+                <button mat-menu-item>All</button>
+                <button mat-menu-item>Adult Men</button>
+                <button mat-menu-item>Adult Women</button>
+                <button mat-menu-item [matMenuTriggerFor]="children">Children</button>
+              </mat-menu>
+              <mat-menu #children="matMenu">
+                <button mat-menu-item>Toddlers</button>
+                <button mat-menu-item>Primary School Children</button>
+                <button mat-menu-item>Secondary School Children</button>
+              </mat-menu>
             </mat-option>
           </mat-select>
         </mat-form-field>

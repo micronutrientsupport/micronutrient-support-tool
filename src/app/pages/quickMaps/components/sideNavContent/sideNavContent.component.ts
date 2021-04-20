@@ -50,6 +50,12 @@ export class SideNavContentComponent implements OnInit {
 
   public sideNavToggleLock = new FormControl(false);
   public ageGender = [{ value: 'All' }, { value: 'Adult men' }, { value: 'Adult women' }, { value: 'Children' }];
+  public children = [
+    { value: 'Toddlers' },
+    { value: 'Primary SchooL Children' },
+    { value: 'Secondary School Children' },
+  ];
+
   private subscriptions = new Array<Subscription>();
 
   constructor(
