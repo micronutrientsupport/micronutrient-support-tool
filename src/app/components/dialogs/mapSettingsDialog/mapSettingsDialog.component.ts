@@ -34,11 +34,12 @@ export class MapSettingsDialogComponent implements OnInit {
   public customGradientDefined = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourPalette, ColourPalette>) {
+    console.debug('data in', data.dataIn);
     this.generalSelectionValue.push(data.dataIn.name);
     this.colourPalette = data.dataIn;
     this.initialPalette = data.dataIn;
     if (data.dataIn.name === ColourGradientType.CUSTOM) {
-      this.customGradientDefined = true;
+      this.setCustomGradientColours(data.dataIn.colourHex);
     }
   }
 
@@ -57,26 +58,31 @@ export class MapSettingsDialogComponent implements OnInit {
     }
 
     this.data.dataOut = this.colourPalette;
+    localStorage.setItem('colourPalette', JSON.stringify(this.data.dataOut));
+    console.debug('apply changes', this.colourPalette);
     this.data.close();
   }
 
-  public callCustomColourInput(): void {
+  public callCustomColourInput(colours: Array<string>): void {
+    console.debug('call');
     this.customGradientDefined = true;
-    this.colorContainer1.nativeElement.innerHTML = '';
-    this.colourPalette = new ColourPalette(ColourGradientType.CUSTOM,
-      [
-        this.colorOne.nativeElement.value,
-        this.colorTwo.nativeElement.value,
-        this.colorThree.nativeElement.value
-      ]);
+    if (null != this.colorContainer1) {
+      this.colorContainer1.nativeElement.innerHTML = '';
+    }
+    this.colourPalette = new ColourPalette(ColourGradientType.CUSTOM, colours);
 
     this.colourPalette.generateColorsForDisplay().forEach((element: HTMLDivElement) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       this.colorContainer1.nativeElement.appendChild(element);
     });
 
+    this.setCustomGradientColours(colours)
+    this.showCustomGradient = true;
+  }
+
+  public setCustomGradientColours(colours: Array<string>) {
     this.customColourGradientColours = `linear-gradient(0.25turn,
-      ${this.colorOne.nativeElement.value},${this.colorTwo.nativeElement.value},${this.colorThree.nativeElement.value})`;
+      ${colours[0]},${colours[1]},${colours[2]})`;
     this.showCustomGradient = true;
   }
 }

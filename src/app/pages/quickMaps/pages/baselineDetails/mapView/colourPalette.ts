@@ -12,7 +12,6 @@ export class ColourPalette {
   ) { }
 
   public generateColors(count: number): Array<string> {
-    console.debug('call generate colours');
     // get array of colors from chroma.js
     return chroma
       .scale(this.colourHex)

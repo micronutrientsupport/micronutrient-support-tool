@@ -80,14 +80,7 @@ export class MapViewComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
-    // checks if user has defined colour scheme and
-    const retrievedType = localStorage.getItem('colourPalette');
-    this.colourPalette = JSON.parse(retrievedType) as ColourPalette;
-    console.debug('colourPalette', retrievedType);
-    if (null == this.colourPalette) {
-      // Set default palette to BRGY
-      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.BLUEREDYELLOWGREEN);
-    }
+    this.retrieveColourPalette()
   }
 
   ngAfterViewInit(): void {
@@ -109,22 +102,8 @@ export class MapViewComponent implements AfterViewInit {
           .openMapSettingsDialog(this.colourPalette)
           .then((data: DialogData<ColourPalette, ColourPalette>) => {
             if (data.dataOut !== null) {
-              // if (data.dataOut.type === ColourGradientType.CUSTOM) {
-              // }
-              // console.debug(absoluteGrad, thresholdGrad);
-              // const colourPalette = new ColourPalette(ColourGradientType.CUSTOM,
-              //   [
-              //     '#2ca25f',
-              //     '#eb5757',
-              //     '#497ea7'
-              //   ]);
-              this.changeColourRamp(data.dataOut);
-              // this.ColourObject.customObject = data.dataOut.customObject;
-              // this.ColourObject.type = data.dataOut.type;
-              // localStorage.setItem('customColourScheme', JSON.stringify(this.ColourObject.customObject));
-              // localStorage.setItem('ColourObject', this.ColourObject.type);
-              console.debug(data.dataOut);
-              localStorage.setItem('colourPalette', JSON.stringify(data.dataOut));
+              this.retrieveColourPalette()
+              this.changeColourRamp(this.colourPalette);
             }
           });
       });
@@ -405,177 +384,24 @@ export class MapViewComponent implements AfterViewInit {
     this.refreshThresholdLegend(thresholdGradient);
   }
 
-  // private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
-  //   if (null == this.ColourObject.customObject) {
-  //     colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
-  //   }
-  //   switch (true) {
-  //     case absoluteValue > 1500:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#2ca25f';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#332288';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[0];
-  //       } else {
-  //         return '#045E56';
-  //       }
-  //     case absoluteValue > 1000:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#addd8e';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#117733';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[1];
-  //       } else {
-  //         return '#237E64';
-  //       }
-  //     case absoluteValue > 500:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#ffeda0';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#44AA99';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[2];
-  //       } else {
-  //         return '#8ADABB';
-  //       }
-  //     case absoluteValue > 250:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#feb24c';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#88CCEE';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[3];
-  //       } else {
-  //         return '#F6F2DC';
-  //       }
-  //     case absoluteValue > 100:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#f03b20';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#DDCC77';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[4];
-  //       } else {
-  //         return '#E7B8B0';
-  //       }
-  //     case absoluteValue > 50:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#bd0026';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#CC6677';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[5];
-  //       } else {
-  //         return '#CF8174';
-  //       }
-  //     case absoluteValue > 10:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#7a0177';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#AA4499';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[6];
-  //       } else {
-  //         return '#A26157';
-  //       }
-  //     case absoluteValue > 0:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#354969';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#882255';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.absoluteValues[7];
-  //       } else {
-  //         return '#762418';
-  //       }
-  //   }
-  // }
-  // private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
-  //   if (null == this.ColourObject.customObject) {
-  //     colourGradient = ColourGradientType.BLUEREDYELLOWGREEN;
-  //   }
-  //   switch (true) {
-  //     case thresholdValue > 99:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#2ca25f';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#332288';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[0];
-  //       } else {
-  //         return '#045E56';
-  //       }
-  //     case thresholdValue > 80:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#addd8e';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#117733';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[1];
-  //       } else {
-  //         return '#237E64';
-  //       }
-  //     case thresholdValue > 60:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#ffeda0';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#44AA99';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[2];
-  //       } else {
-  //         return '#8ADABB';
-  //       }
-  //     case thresholdValue > 40:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#feb24c';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#88CCEE';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[3];
-  //       } else {
-  //         return '#F6F2DC';
-  //       }
-  //     case thresholdValue > 20:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#f03b20';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#DDCC77';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[4];
-  //       } else {
-  //         return '#E7B8B0';
-  //       }
-  //     case thresholdValue > 10:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#bd0026';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#CC6677';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[5];
-  //       } else {
-  //         return '#CF8174';
-  //       }
-  //     case thresholdValue > 0:
-  //       if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-  //         return '#7a0177';
-  //       } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-  //         return '#AA4499';
-  //       } else if (colourGradient === ColourGradientType.CUSTOM) {
-  //         return this.ColourObject.customObject.thresholdValues[6];
-  //       } else {
-  //         return '#A26157';
-  //       }
-  //   }
-  // }
-
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
       title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
+  }
+
+  private retrieveColourPalette(): void {
+    // checks if user has defined colour scheme and
+    const retievedPalette = JSON.parse(localStorage.getItem('colourPalette')) as ColourPalette;
+    if (null == retievedPalette) {
+      // Set default palette to BRGY
+      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.BLUEREDYELLOWGREEN);
+    } else {
+      const paletteToDisplay = new ColourPalette(retievedPalette.name, retievedPalette.colourHex);
+      this.colourPalette = paletteToDisplay;
+    }
   }
 }
 
