@@ -32,6 +32,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+const QuickChart = require('quickchart-js');
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -191,10 +192,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             data: filteredByScenario
               .filter((item) => item[goodOrCommodity] === foodTypes[index])
               .map((item) => item.value),
-            backgroundColor: () => {
-              const colorHash = new ColorHash();
-              return colorHash.hex(foodTypes[index]);
-            },
+            backgroundColor: this.genColorHex(foodTypes[index]),
           });
         });
 
@@ -248,21 +246,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       type: 'bar',
       data: stackedChartData,
       options: {
-        // animation: {
-        //   onComplete(animation): void {
-        //     const imageBase64 = this.toBase64Image();
-        //     console.log('saving base src');
-        //     this.projectedFoodSourceChartImagePNGSrc = imageBase64;
-        //   setTimeout(() => {
-        //     document.querySelector('#imageOfChartPNG').setAttribute('src', imageBase64);
-        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('href', imageBase64);
-        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('download', 'download.png');
-        //     document.querySelector('#imageOfChartSVG').setAttribute('src', imageBase64);
-        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('href', imageBase64);
-        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('download', 'download.svg');
-        //   }, 1000);
-        // },
-        // },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -282,6 +265,38 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
       },
     };
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const myChart = new QuickChart();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    myChart.setConfig({
+      type: 'bar',
+      data: {
+        labels: stackedChartData.labels,
+        datasets: stackedChartData.datasets,
+      },
+      options: {
+        scales: {
+          xAxes: [
+            {
+              stacked: true,
+            },
+          ],
+          yAxes: [
+            {
+              stacked: true,
+            },
+          ],
+        },
+      },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    console.log(myChart.getUrl());
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 
   //   private openDialog(): void {
