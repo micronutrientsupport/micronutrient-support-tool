@@ -18,6 +18,7 @@ import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 import { GetProjectionsSummaryCardData } from './currentData/getProjectionsSummaryCardData';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
+import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -34,6 +35,7 @@ export class ApiService extends BaseApi {
       getProjectedAvailabilities: new GetProjectedAvailabilities(false),
       getProjectionsSummaryCardData: new GetProjectionsSummaryCardData(ApiService.USE_LIVE_API),
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
+      getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
     misc: {
       getImpactScenarios: new GetImpactScenarios(true),
