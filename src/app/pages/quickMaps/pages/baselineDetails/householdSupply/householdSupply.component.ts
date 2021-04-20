@@ -22,6 +22,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
@@ -37,6 +38,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public title = 'Household Dietary Supply';
 
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
 
@@ -52,6 +55,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
   ) {}
@@ -168,6 +172,66 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         },
       },
     };
+
+    const chartForRender: ChartJSObject = {
+      type: 'bar',
+      data: {
+        labels: data.data.map((item: BinValue) => item.bin),
+        datasets: [
+          {
+            label: 'Frequency',
+            data: data.data.map((item: BinValue) => item.frequency),
+            borderColor: '#ff6384',
+            backgroundColor: () => '#ff6384',
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
+        scales: {
+          xAxes: [
+            {
+              display: true,
+            },
+          ],
+          yAxes: [
+            {
+              display: true,
+              id: 'y-axis-0',
+            },
+          ],
+        },
+        annotation: {
+          annotations: [
+            {
+              type: 'line',
+              id: 'hLine',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: Number(data.adequacyThreshold), // data-value at which the line is drawn
+              borderWidth: 2.5,
+              borderColor: 'black',
+              label: {
+                enabled: true,
+                content: 'Threshold',
+              },
+            },
+          ],
+        },
+      },
+    };
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {

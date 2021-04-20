@@ -12,7 +12,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { CardComponent } from './card/card.component';
 import { NotificationModule } from './notifications/notification.module';
 import { NotFoundComponent } from './notFound/notFound.component';
-import { DownloadComponent } from './download/download.component';
+import { DownloadComponent } from '../pages/quickMaps/components/download/download.component';
 
 @NgModule({
   declarations: [
