@@ -7,12 +7,14 @@ export interface ColourGradientObject {
 
 export class ColourGradient {
   public readonly gradientObjects = new Array<ColourGradientObject>();
+  public readonly moreThanHex: string;
 
   constructor(
     public readonly lessThanTestValues: Array<number>,
     public colors: ColourPalette,
   ) {
-    const colorArray = colors.generateColors(lessThanTestValues.length);
+    const colorArray = colors.generateColors(lessThanTestValues.length + 1);
+    this.moreThanHex = colorArray.pop();
 
     this.gradientObjects = lessThanTestValues
       // eslint-disable-next-line arrow-body-style
@@ -36,6 +38,6 @@ export class ColourGradient {
       return intValue < thisColGradObj.lessThanTestValue;
     });
     // console.debug('getColour', intValue, colGradObj);
-    return null != colGradObj ? colGradObj.hexString : '';
+    return null == colGradObj ? this.moreThanHex : colGradObj.hexString;
   }
 }
