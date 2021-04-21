@@ -5,17 +5,17 @@ import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetMicronutrientDataOptions extends CacheableEndpoint<
+export class GetDataSources extends CacheableEndpoint<
   Array<MicronutrientDataOption>,
-  GetMicronutrientDataOptionsParams,
+  GetDataSourcesParams,
   MicronutrientDataOption
-  > {
+> {
 
-  protected getCacheKey(params: GetMicronutrientDataOptionsParams): string {
+  protected getCacheKey(params: GetDataSourcesParams): string {
     return JSON.stringify(params);
   }
   protected callLive(
-    params: GetMicronutrientDataOptionsParams,
+    params: GetDataSourcesParams,
   ): Promise<Array<MicronutrientDataOption>> {
     const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
       RequestMethod.GET,
@@ -25,7 +25,7 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
   }
 
   protected callMock(
-    params: GetMicronutrientDataOptionsParams,
+    params: GetDataSourcesParams,
   ): Promise<Array<MicronutrientDataOption>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     const callResponsePromise = httpClient.get('/assets/exampleData/data-options-select.json').toPromise()
@@ -36,7 +36,7 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
 
   private processResponseData(
     data: Array<Record<string, unknown>>,
-    params: GetMicronutrientDataOptionsParams,
+    params: GetDataSourcesParams,
   ): Array<Record<string, unknown>> {
     data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
     // return only first item when single option specified
@@ -44,7 +44,7 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
   }
 }
 
-export interface GetMicronutrientDataOptionsParams {
+export interface GetDataSourcesParams {
   countryOrGroup: CountryDictionaryItem;
   measureType: MicronutrientMeasureType;
   singleOptionOnly: boolean;

@@ -25,12 +25,12 @@ export class CurrentDataService {
     // }).then(data => console.debug(data));
   }
 
-  public getMicronutrientDataOptions(
+  public getDataSources(
     countryOrGroup: CountryDictionaryItem,
     measureType: MicronutrientMeasureType,
     singleOptionOnly: boolean,
   ): Promise<Array<MicronutrientDataOption>> {
-    return this.apiService.endpoints.currentData.getMicronutrientDataOptions.call({
+    return this.apiService.endpoints.currentData.getDataSources.call({
       countryOrGroup,
       measureType,
       singleOptionOnly,

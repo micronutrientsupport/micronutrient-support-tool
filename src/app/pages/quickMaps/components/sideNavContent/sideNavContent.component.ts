@@ -207,7 +207,7 @@ export class SideNavContentComponent implements OnInit {
     if ((null != country) && (null != measure)) {
 
       void this.currentDataService
-        .getMicronutrientDataOptions(
+        .getDataSources(
           country,
           measure,
           true,

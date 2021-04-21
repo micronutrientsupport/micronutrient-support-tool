@@ -131,7 +131,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         || (null == measure)
       )
         ? false
-        : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
+        : this.currentDataService.getDataSources(country, measure, true)
           .then((options: Array<MicronutrientDataOption>) => {
             const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 

@@ -147,7 +147,7 @@ export class QuickMapsService {
         null == data[0]
           ? null
           : this.currentDataService
-            .getMicronutrientDataOptions(data[0], this.quickMapsParameters.getMeasure(), true)
+            .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
             .then((options) => options[0]), // first item
     );
   }
