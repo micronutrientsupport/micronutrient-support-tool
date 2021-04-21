@@ -206,7 +206,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
             {
               stacked: true,
               barPercentage: 0.9,
-              // categoryPercentage: 1.0,
+              categoryPercentage: 1.0,
               scaleLabel: {
                 display: true,
                 labelString: 'percentage',
