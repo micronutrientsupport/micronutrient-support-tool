@@ -1,16 +1,13 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/unbound-method */
+
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
+import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
-import { PALETTES } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradients';
 export interface ColourGradientObject {
   name: string;
-  colourGradient: ColourGradientType;
+  colourGradient: ColourPaletteType;
 }
 @Component({
   selector: 'app-map-settings-dialog',
@@ -26,22 +23,24 @@ export class MapSettingsDialogComponent implements OnInit {
 
   public customColourGradientColours = '';
 
-  public generalSelectionValue = new Array<ColourGradientType>();
-  public colourGradientType = ColourGradientType;
-  public colourPalette: ColourPalette;
+  public generalSelectionValue = new Array<ColourPaletteType>();
+  public colourGradientType = ColourPaletteType;
+  public selectedPalette: ColourPalette;
   public initialPalette: ColourPalette;
   public showCustomGradient = false;
   public customGradientDefined = false;
+  private colourPaletteId: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourPalette, ColourPalette>) {
-    this.generalSelectionValue.push(data.dataIn.name);
-    // console.debug('selection value on dialog open', this.generalSelectionValue[0]);
-    this.colourPalette = data.dataIn;
-    this.initialPalette = data.dataIn;
-    if (data.dataIn.name === ColourGradientType.CUSTOM) {
-      this.setCustomGradientColours(data.dataIn.colourHex);
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<string>) {
+    this.colourPaletteId = data.dataIn;
+    this.selectedPalette = ColourPalette.getSelectedPalette(this.colourPaletteId);
+    this.generalSelectionValue.push(this.selectedPalette.name);
+    this.initialPalette = this.selectedPalette;
+
+    const customPalette = ColourPalette.getCustomPalette(this.colourPaletteId);
+    if (null != customPalette) {
+      this.setCustomGradientColours(customPalette.colourHexArray);
     }
-    this.retrieveCustomGradient();
   }
 
   ngOnInit(): void {
@@ -53,18 +52,13 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   public applyChanges(): void {
-
-    if (this.generalSelectionValue[0] !== ColourGradientType.CUSTOM) {
-      this.colourPalette = PALETTES.find((palette: ColourPalette) => palette.name === this.generalSelectionValue[0]);
+    if (this.generalSelectionValue[0] !== ColourPaletteType.CUSTOM) {
+      this.selectedPalette = ColourPalette.PALETTES.find((palette: ColourPalette) => palette.name === this.generalSelectionValue[0]);
     } else {
-      this.colourPalette = this.retrieveCustomGradient();
+      this.selectedPalette = ColourPalette.getCustomPalette(this.colourPaletteId);
     }
 
-    // console.debug('selection value on dialog close', this.generalSelectionValue[0]);
-
-    localStorage.setItem('colourPalette', JSON.stringify(this.data.dataOut));
-    this.data.dataOut = this.colourPalette;
-    // console.debug('apply changes', this.colourPalette);
+    ColourPalette.setSelectedPalette(this.colourPaletteId, this.selectedPalette);
     this.data.close();
   }
 
@@ -72,16 +66,16 @@ export class MapSettingsDialogComponent implements OnInit {
     if (null != this.colorContainer1) {
       this.colorContainer1.nativeElement.innerHTML = '';
     }
-    this.colourPalette = new ColourPalette(ColourGradientType.CUSTOM, colours);
+    this.selectedPalette = new ColourPalette(ColourPaletteType.CUSTOM, colours);
 
-    this.colourPalette.generateColorsForDisplay().forEach((element: HTMLDivElement) => {
+    this.selectedPalette.generateColorsForDisplay().forEach((element: HTMLDivElement) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       this.colorContainer1.nativeElement.appendChild(element);
     });
 
     this.setCustomGradientColours(colours);
     this.showCustomGradient = true;
-    localStorage.setItem('customPalette', JSON.stringify(this.colourPalette));
+    ColourPalette.setCustomPalette(this.colourPaletteId, this.selectedPalette);
   }
 
   private setCustomGradientColours(colours: Array<string>): void {
@@ -90,12 +84,4 @@ export class MapSettingsDialogComponent implements OnInit {
     this.customGradientDefined = true;
   }
 
-  private retrieveCustomGradient(): ColourPalette {
-    const retievedPalette = JSON.parse(localStorage.getItem('customPalette') || 'null') as ColourPalette;
-    if (null != retievedPalette) {
-      const customPalette = new ColourPalette(retievedPalette.name, retievedPalette.colourHex);
-      this.setCustomGradientColours(customPalette.colourHex);
-      return customPalette;
-    }
-  }
 }

@@ -1,7 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
@@ -36,9 +35,9 @@ export class DialogService extends BaseDialogService {
   }
 
   public openMapSettingsDialog(
-    colourObject: ColourPalette,
-  ): Promise<DialogData<ColourPalette, ColourPalette>> {
-    return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourObject);
+    colourPaletteId: string,
+  ): Promise<DialogData<string>> {
+    return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourPaletteId);
   }
 
   public openInvalidParametersDialog(): Promise<DialogData> {

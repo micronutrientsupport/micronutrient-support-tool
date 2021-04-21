@@ -25,13 +25,10 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
-import { DEFAULT_ABSOLUTE_COLOUR_GRADIENTS, DEFAULT_THRESHOLD_COLOUR_GRADIENTS, PALETTES } from './colourGradients';
+import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
+import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { ColourGradient, ColourGradientObject } from './colourGradient';
 import { ColourPalette } from './colourPalette';
-import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
-
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -39,33 +36,32 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapViewComponent implements AfterViewInit {
+  public static readonly COLOUR_PALETTE_ID = 'map-view';
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
-  public colourPalette: ColourPalette;
+
   public title = '';
   // private data: Array<SubRegionDataItem>;
-  public defaultColourScheme: ColourGradientType;
+  public defaultColourScheme: ColourPaletteType;
   private data: SubRegionDataItem;
+
+  private defaultPalette = ColourPalette.PALETTES.find((value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN);
+  private colourPalette: ColourPalette;
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
-  private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500, 2000];
+  private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
-  private thresholdRange = [10, 20, 40, 60, 80, 99, 101];
+  private thresholdRange = [10, 20, 40, 60, 80, 99];
   private thresholdLegend: L.Control;
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
-
-  private thresholdGradients = DEFAULT_THRESHOLD_COLOUR_GRADIENTS;
-  private absoluteGradients = DEFAULT_ABSOLUTE_COLOUR_GRADIENTS;
-  private selectedThresholdGradient = this.thresholdGradients[2];
-  private selectedAbsoluteGradient = this.absoluteGradients[2];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -75,14 +71,18 @@ export class MapViewComponent implements AfterViewInit {
   private tabVisited = new Map<number, boolean>();
 
   constructor(
-    private notificationService: NotificationsService,
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
-    this.retrieveColourPalette();
+
+    this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
+    if (null == this.colourPalette) {
+      ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
+      this.colourPalette = this.defaultPalette;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -98,13 +98,13 @@ export class MapViewComponent implements AfterViewInit {
       this.card.onSettingsClickObs.subscribe(() => {
         // console.debug('palette on dialog open:', this.colourPalette);
         void this.dialogService
-          .openMapSettingsDialog(this.colourPalette)
-          .then((data: DialogData<ColourPalette, ColourPalette>) => {
-            if (data.dataOut !== null) {
-              this.retrieveColourPalette();
-              // console.debug('palette on dialog close:', this.colourPalette);
-              this.changeColourRamp(this.colourPalette);
+          .openMapSettingsDialog(MapViewComponent.COLOUR_PALETTE_ID)
+          .then(() => {
+            this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
+            if (null == this.colourPalette) {
+              this.colourPalette = this.defaultPalette;
             }
+            this.changeColourRamp(this.colourPalette);
           });
       });
 
@@ -199,7 +199,6 @@ export class MapViewComponent implements AfterViewInit {
 
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
   private changeColourRamp(colourPalette: ColourPalette): void {
-
     const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
     const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
 
@@ -236,24 +235,28 @@ export class MapViewComponent implements AfterViewInit {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
+
       let previousGradObj: ColourGradientObject;
-      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
         let text = '';
-        if (index + 1 === this.selectedThresholdGradient.gradientObjects.length) {
-          text = `>${previousGradObj.lessThanTestValue}%`;
-        } else if (null == previousGradObj) {
+        if (null == previousGradObj) {
           text = `0 - ${gradObj.lessThanTestValue}`;
         } else {
           text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
         }
 
-        div.innerHTML += `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${gradObj.hexString};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span><span>${text}</span>`;
+        addItemToHtml(gradObj.hexString, text);
         previousGradObj = gradObj;
       });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}%`);
+
       return div;
     };
     this.thresholdLegend.addTo(this.thresholdMap);
@@ -270,24 +273,27 @@ export class MapViewComponent implements AfterViewInit {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
+
+
       let previousGradObj: ColourGradientObject;
-      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject, index: number) => {
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
         let text = '';
-        if (index + 1 === this.selectedAbsoluteGradient.gradientObjects.length) {
-          text = `>${previousGradObj.lessThanTestValue}mg`;
-        } else if (null == previousGradObj) {
+        if (null == previousGradObj) {
           text = `0 - ${gradObj.lessThanTestValue}`;
         } else {
           text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
         }
-
-        div.innerHTML += `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${gradObj.hexString};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span><span>${text}</span>`;
+        addItemToHtml(gradObj.hexString, text);
         previousGradObj = gradObj;
       });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
 
       return div;
     };
@@ -387,18 +393,6 @@ export class MapViewComponent implements AfterViewInit {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
-  }
-
-  private retrieveColourPalette(): void {
-    // checks if user has defined colour scheme and
-    const retievedPalette = JSON.parse(localStorage.getItem('colourPalette') || 'null') as ColourPalette;
-    if (null == retievedPalette) {
-      // Set default palette to BRGY
-      this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.BLUEREDYELLOWGREEN);
-    } else {
-      const paletteToDisplay = new ColourPalette(retievedPalette.name, retievedPalette.colourHex);
-      this.colourPalette = paletteToDisplay;
-    }
   }
 }
 
