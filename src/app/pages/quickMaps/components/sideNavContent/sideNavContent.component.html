@@ -40,7 +40,7 @@
             {{item.name}}
           </mat-option>
         </mat-select>
-        <mat-error>{{errorReponse[1] + ' (' + group.value + ')'}}</mat-error>
+        <mat-error>Please select a ({{group.value}})</mat-error>
       </mat-form-field>
     </fieldset>
 
@@ -65,7 +65,7 @@
             [placeholder]="'Select ' + groupMND?.value + ' option'">
             <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
           </mat-select>
-          <mat-error>{{errorReponse[2] + ' ('+groupMND.value+')'}}</mat-error>
+          <mat-error>Please select MND ({{groupMND.value}})</mat-error>
         </mat-form-field>
       </ng-container>
     </fieldset>
@@ -97,12 +97,12 @@
         </span>
       </legend>
       <mat-form-field appearance="fill">
-        <mat-select name="mndsData" formControlName="mndsData" placeholder="Click to select option"
-          panelClass="allow-long-text">
+        <mat-select #dataSourceSelect name="dataSource" formControlName="dataSource"
+          [placeholder]="(0 < dataSource) ? 'Click to select option' : 'None available'" panelClass="allow-long-text">
           <mat-option *ngFor="let item of dataSources" [value]="item">{{item.name}}
           </mat-option>
         </mat-select>
-        <mat-error>{{errorReponse[0]}}</mat-error>
+        <mat-error>{{(0 < dataSource) ? 'Please select a data source' : '*No data source available for this selection'}}</mat-error>
       </mat-form-field>
     </fieldset>
 

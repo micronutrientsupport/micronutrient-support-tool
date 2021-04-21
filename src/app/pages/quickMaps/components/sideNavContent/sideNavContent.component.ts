@@ -30,7 +30,6 @@ export class SideNavContentComponent implements OnInit {
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
-  public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
@@ -72,7 +71,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.country, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
-          mndsData: [this.quickMapsService.mndDataOption, Validators.required],
+          dataSource: [this.quickMapsService.mndDataOption, Validators.required],
         });
 
         this.subscriptions.push(
@@ -116,7 +115,7 @@ export class SideNavContentComponent implements OnInit {
           })
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DataSource) => {
+          this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
             this.quickMapsService.setMndDataOption(value);
             if (null != value) {
               if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
@@ -227,7 +226,7 @@ export class SideNavContentComponent implements OnInit {
 
           // if only one option, preselect
           if (1 === options.length) {
-            this.quickMapsForm.get('mndsData').setValue(options[0]);
+            this.quickMapsForm.get('dataSource').setValue(options[0]);
           }
         });
     } else {
