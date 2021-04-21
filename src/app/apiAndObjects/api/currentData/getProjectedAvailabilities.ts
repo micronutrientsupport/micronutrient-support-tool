@@ -16,9 +16,8 @@ export class GetProjectedAvailabilities extends CacheableEndpoint<
   }
 
   protected callLive(
-    // params: GetProjectedAvailabilityParams,
-  ):
-    Promise<Array<ProjectedAvailability>> {
+  // params: GetProjectedAvailabilityParams,
+  ): Promise<Array<ProjectedAvailability>> {
     const callResponsePromise = this.apiCaller.doCall('projection-total', RequestMethod.GET, {
       // 'country-or-group-id': params.countryOrGroupId,
       // 'micronutrient-id': params.micronutrientId,
@@ -29,9 +28,8 @@ export class GetProjectedAvailabilities extends CacheableEndpoint<
   }
 
   protected callMock(
-    // params: GetProjectedAvailabilityParams,
-  ):
-    Promise<Array<ProjectedAvailability>> {
+  // params: GetProjectedAvailabilityParams,
+  ): Promise<Array<ProjectedAvailability>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ProjectedAvailability,

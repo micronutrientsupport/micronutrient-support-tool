@@ -16,7 +16,7 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<
   }
 
   protected callLive(
-    // params: GetMonthlyFoodGroupsParams,
+  // params: GetMonthlyFoodGroupsParams,
   ): Promise<MonthlyFoodGroups> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
@@ -29,7 +29,7 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<
   }
 
   protected callMock(
-    // params: GetMonthlyFoodGroupsParams,
+  // params: GetMonthlyFoodGroupsParams,
   ): Promise<MonthlyFoodGroups> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(

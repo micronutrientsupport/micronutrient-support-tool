@@ -14,7 +14,7 @@ export class GetHouseholdHistogramData extends CacheableEndpoint<
     return JSON.stringify(params);
   }
   protected callLive(
-    // params: GetHouseholdHistogramDataParams,
+  // params: GetHouseholdHistogramDataParams,
   ): Promise<HouseholdHistogramData> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
@@ -27,7 +27,7 @@ export class GetHouseholdHistogramData extends CacheableEndpoint<
   }
 
   protected callMock(
-    // params: GetHouseholdHistogramDataParams,
+  // params: GetHouseholdHistogramDataParams,
   ): Promise<HouseholdHistogramData> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(

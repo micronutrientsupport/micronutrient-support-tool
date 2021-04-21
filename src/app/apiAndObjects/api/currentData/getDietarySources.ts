@@ -15,7 +15,7 @@ export class GetDietarySources extends CacheableEndpoint<
     return JSON.stringify(params);
   }
   protected callLive(
-    // params: GetDietarySourcesParams,
+  // params: GetDietarySourcesParams,
   ): Promise<Array<DietarySource>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
@@ -28,7 +28,7 @@ export class GetDietarySources extends CacheableEndpoint<
   }
 
   protected callMock(
-    // params: GetDietarySourcesParams,
+  // params: GetDietarySourcesParams,
   ): Promise<Array<DietarySource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
