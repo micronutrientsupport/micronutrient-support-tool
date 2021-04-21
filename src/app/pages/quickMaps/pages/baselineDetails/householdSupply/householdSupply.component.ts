@@ -22,13 +22,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
-  styleUrls: [
-    '../../expandableTabGroup.scss',
-    './householdSupply.component.scss',
-  ],
+  styleUrls: ['../../expandableTabGroup.scss', './householdSupply.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HouseholdSupplyComponent implements AfterViewInit {
@@ -40,6 +38,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public title = 'Household Dietary Supply';
 
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
 
@@ -55,32 +55,31 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
       this.card.title = this.title;
       this.card.showExpand = true;
-      this.card
-        .setLoadingObservable(this.loadingSrc.asObservable())
-        .setErrorObservable(this.errorSrc.asObservable());
+      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog())
-      );
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.init(this.currentDataService.getHouseholdHistogramData(
-            this.quickMapsService.country,
-            [this.quickMapsService.micronutrient],
-            this.quickMapsService.mndDataOption,
-          ));
-        })
+          this.init(
+            this.currentDataService.getHouseholdHistogramData(
+              this.quickMapsService.country,
+              [this.quickMapsService.micronutrient],
+              this.quickMapsService.mndDataOption,
+            ),
+          );
+        }),
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
@@ -119,7 +118,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: HouseholdHistogramData): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
@@ -129,15 +128,21 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             label: 'Frequency',
             data: data.data.map((item: BinValue) => item.frequency),
             borderColor: '#ff6384',
-            backgroundColor: () => '#ff6384',
+            backgroundColor: '#ff6384',
             fill: true,
           },
         ],
       },
       options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
         maintainAspectRatio: false,
         legend: {
           display: true,
+          position: 'bottom',
+          align: 'center',
         },
         scales: {
           xAxes: [
@@ -171,6 +176,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         },
       },
     };
+
+    this.chartData = generatedChart;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {

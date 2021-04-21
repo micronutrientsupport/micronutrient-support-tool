@@ -22,6 +22,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -38,6 +39,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
 
   public displayedColumns = [
     'monthIndex',
@@ -67,9 +70,10 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -129,7 +133,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: Array<MonthlyFoodGroup>): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       type: 'bar',
       data: {
         labels: data.map((year) => year.month),
@@ -137,51 +141,60 @@ export class MonthlyFoodComponent implements AfterViewInit {
           {
             label: 'Cereal Grains',
             data: data.map((year) => year.cerealGrainsPerc),
-            backgroundColor: () => 'rgba(255, 165, 0, 0.6)',
+            backgroundColor: 'rgba(255, 165, 0, 0.6)',
           },
           {
             label: 'Dairy',
             data: data.map((year) => year.dairyPerc),
-            backgroundColor: () => 'rgba(248,228,165)',
+            backgroundColor: 'rgba(248,228,165)',
           },
           {
             label: 'Fat',
             data: data.map((year) => year.fatPerc),
-            backgroundColor: () => 'rgba(0, 0, 255, 0.6)',
+            backgroundColor: 'rgba(0, 0, 255, 0.6)',
           },
           {
             label: 'Nuts',
             data: data.map((year) => year.nutsPerc),
-            backgroundColor: () => 'rgba(172, 114, 87, 0.6)',
+            backgroundColor: 'rgba(172, 114, 87, 0.6)',
           },
           {
             label: 'Misc',
             data: data.map((year) => year.miscPerc),
-            backgroundColor: () => 'rgba(238, 130, 238, 0.6)',
+            backgroundColor: 'rgba(238, 130, 238, 0.6)',
           },
           {
             label: 'Fruit',
             data: data.map((year) => year.fruitPerc),
-            backgroundColor: () => 'rgba(100, 181, 220, 0.6)',
+            backgroundColor: 'rgba(100, 181, 220, 0.6)',
           },
           {
             label: 'Meat',
             data: data.map((year) => year.meatPerc),
-            backgroundColor: () => 'rgba(255, 0, 0, 0.6)',
+            backgroundColor: 'rgba(255, 0, 0, 0.6)',
           },
           {
             label: 'Tubers',
             data: data.map((year) => year.tubersPerc),
-            backgroundColor: () => 'rgba(255, 235, 59, 0.6)',
+            backgroundColor: 'rgba(255, 235, 59, 0.6)',
           },
           {
             label: 'Vegetables',
             data: data.map((year) => year.vegetablesPerc),
-            backgroundColor: () => 'rgba(60, 179, 113, 0.6)',
+            backgroundColor: 'rgba(60, 179, 113, 0.6)',
           },
         ],
       },
       options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -203,6 +216,12 @@ export class MonthlyFoodComponent implements AfterViewInit {
         },
       },
     };
+
+    this.chartData = generatedChart;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {

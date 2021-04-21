@@ -1,4 +1,4 @@
-import { Component, Inject, Output } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppRoutes } from 'src/app/routes/routes';
 import { DialogData } from '../baseDialogService.abstract';
@@ -18,7 +18,6 @@ export class InvalidParametersDialogComponent {
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<InvalidParametersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ShareDialogData>,
-
   ) {
     dialogRef.disableClose = true;
   }
