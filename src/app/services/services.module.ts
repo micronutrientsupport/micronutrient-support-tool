@@ -7,6 +7,7 @@ import { SnackbarService } from './snackbar.service';
 import { SharingService } from './sharing.service';
 import { MiscApiService } from './miscApi.service';
 import { PageLoadingService } from './pageLoadingService.service';
+import { QuickchartService } from './quickChart.service';
 
 @NgModule({
   declarations: [],
@@ -19,6 +20,7 @@ import { PageLoadingService } from './pageLoadingService.service';
     SnackbarService,
     SharingService,
     PageLoadingService,
+    QuickchartService,
   ],
 })
-export class ServicesModule { }
+export class ServicesModule {}

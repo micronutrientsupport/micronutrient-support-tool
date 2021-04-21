@@ -32,6 +32,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -78,7 +79,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     { id: 8, name: '2045' },
     { id: 9, name: '2050' },
   ];
-  public projectedFoodSourceChartImagePNGSrc: string;
+  public chartPNG: string;
+  public chartPDF: string;
 
   private sort: MatSort;
   private data: Array<ProjectedFoodSourcesData>;
@@ -94,6 +96,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
+    private qcService: QuickchartService,
     private fb: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
   ) {
@@ -191,10 +194,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             data: filteredByScenario
               .filter((item) => item[goodOrCommodity] === foodTypes[index])
               .map((item) => item.value),
-            backgroundColor: () => {
-              const colorHash = new ColorHash();
-              return colorHash.hex(foodTypes[index]);
-            },
+            backgroundColor: this.genColorHex(foodTypes[index]),
           });
         });
 
@@ -244,25 +244,19 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       type: 'bar',
       data: stackedChartData,
       options: {
-        // animation: {
-        //   onComplete(animation): void {
-        //     const imageBase64 = this.toBase64Image();
-        //     console.log('saving base src');
-        //     this.projectedFoodSourceChartImagePNGSrc = imageBase64;
-        //   setTimeout(() => {
-        //     document.querySelector('#imageOfChartPNG').setAttribute('src', imageBase64);
-        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('href', imageBase64);
-        //     document.querySelector('#chartRenderDownloadPNGButton').setAttribute('download', 'download.png');
-        //     document.querySelector('#imageOfChartSVG').setAttribute('src', imageBase64);
-        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('href', imageBase64);
-        //     document.querySelector('#chartRenderDownloadSVGButton').setAttribute('download', 'download.svg');
-        //   }, 1000);
-        // },
-        // },
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -282,19 +276,15 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
       },
     };
+
+    this.chartData = generatedChart;
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
-  //   private openDialog(): void {
-  //     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
-  //       data: this.data,
-  //       selectedTab: this.tabGroup.selectedIndex,
-  //     });
-  //   }
-  // }
-
-  // // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  // export interface ProjectionFoodSourcesDialogData {
-  //   data: ProjectedFoodSourcesData;
-  //   selectedTab: number;
-  // }
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
+  }
 }

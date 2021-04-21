@@ -12,6 +12,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { CardComponent } from './card/card.component';
 import { NotificationModule } from './notifications/notification.module';
 import { NotFoundComponent } from './notFound/notFound.component';
+import { DownloadComponent } from '../pages/quickMaps/components/download/download.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,25 @@ import { NotFoundComponent } from './notFound/notFound.component';
     LoadingComponent,
     CardComponent,
     NotFoundComponent,
+    DownloadComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, RoutesModule, ClipboardModule, DialogModule, NotificationModule],
-  exports: [HeaderComponent, FooterComponent, FooterLightComponent, LoadingComponent, CardComponent, NotFoundComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AppMaterialModule,
+    RoutesModule,
+    ClipboardModule,
+    DialogModule,
+    NotificationModule,
+  ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    FooterLightComponent,
+    LoadingComponent,
+    CardComponent,
+    NotFoundComponent,
+    DownloadComponent,
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

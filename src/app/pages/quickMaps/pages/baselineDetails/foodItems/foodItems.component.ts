@@ -24,6 +24,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -39,6 +40,8 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
 
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
   public displayedColumns = ['foodName', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
 
@@ -54,9 +57,10 @@ export class FoodItemsComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -129,13 +133,9 @@ export class FoodItemsComponent implements AfterViewInit {
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',
-            fontSize: 14,
+            fontSize: 12,
             fontStyle: 'normal',
-            // random shade of color palette purple
-            backgroundColor: () => {
-              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
-              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
-            },
+            backgroundColor: '#703aa3',
           },
         ],
       },
@@ -161,17 +161,6 @@ export class FoodItemsComponent implements AfterViewInit {
       },
     };
   }
-
-  // public applyFilter(event: Event): void {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-
-  //   if (this.dataSource.paginator) {
-  //   }
-  //   {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<FoodItemsDialogData>(FoodItemsComponent, {
