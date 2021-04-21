@@ -82,17 +82,13 @@ export class MapViewComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
-    this.retrieveColourPalette()
+    this.retrieveColourPalette();
   }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
 
-    // const retrievedObject = localStorage.getItem('customColourScheme');
-    // if (null != retrievedObject) {
-    //   // this.ColourObject.customObject = JSON.parse(retrievedObject) as CustomGradientObject;
-    // }
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
       this.card.showExpand = true;
@@ -100,11 +96,13 @@ export class MapViewComponent implements AfterViewInit {
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
+        // console.debug('palette on dialog open:', this.colourPalette);
         void this.dialogService
           .openMapSettingsDialog(this.colourPalette)
           .then((data: DialogData<ColourPalette, ColourPalette>) => {
             if (data.dataOut !== null) {
-              this.retrieveColourPalette()
+              this.retrieveColourPalette();
+              // console.debug('palette on dialog close:', this.colourPalette);
               this.changeColourRamp(this.colourPalette);
             }
           });
@@ -393,7 +391,7 @@ export class MapViewComponent implements AfterViewInit {
 
   private retrieveColourPalette(): void {
     // checks if user has defined colour scheme and
-    const retievedPalette = JSON.parse(localStorage.getItem('colourPalette')) as ColourPalette;
+    const retievedPalette = JSON.parse(localStorage.getItem('colourPalette') || 'null') as ColourPalette;
     if (null == retievedPalette) {
       // Set default palette to BRGY
       this.colourPalette = PALETTES.find((value: ColourPalette) => value.name === ColourGradientType.BLUEREDYELLOWGREEN);

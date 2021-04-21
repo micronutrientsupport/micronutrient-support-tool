@@ -30,11 +30,11 @@ export class ColourGradient {
 
   public getColour(value: number): string {
     const intValue = Number(value);
-    const colGradObj = this.gradientObjects.find((thisColGradObj) => {
+    const colGradObj = this.gradientObjects.find((thisColGradObj) =>
       // console.debug('getColour 1', value, thisColGradObj);
       // console.debug('value', intValue < thisColGradObj.lessThanTestValue);dd
-      return intValue < thisColGradObj.lessThanTestValue;
-    });
+      intValue < thisColGradObj.lessThanTestValue
+    );
     // console.debug('getColour', intValue, colGradObj);
     return null != colGradObj ? colGradObj.hexString : '';
   }

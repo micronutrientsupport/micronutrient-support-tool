@@ -35,12 +35,13 @@ export class MapSettingsDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ColourPalette, ColourPalette>) {
     this.generalSelectionValue.push(data.dataIn.name);
+    // console.debug('selection value on dialog open', this.generalSelectionValue[0]);
     this.colourPalette = data.dataIn;
     this.initialPalette = data.dataIn;
     if (data.dataIn.name === ColourGradientType.CUSTOM) {
       this.setCustomGradientColours(data.dataIn.colourHex);
     }
-    this.retrieveCustomGradient()
+    this.retrieveCustomGradient();
   }
 
   ngOnInit(): void {
@@ -59,8 +60,10 @@ export class MapSettingsDialogComponent implements OnInit {
       this.colourPalette = this.retrieveCustomGradient();
     }
 
-    this.data.dataOut = this.colourPalette;
+    // console.debug('selection value on dialog close', this.generalSelectionValue[0]);
+
     localStorage.setItem('colourPalette', JSON.stringify(this.data.dataOut));
+    this.data.dataOut = this.colourPalette;
     // console.debug('apply changes', this.colourPalette);
     this.data.close();
   }
@@ -76,7 +79,7 @@ export class MapSettingsDialogComponent implements OnInit {
       this.colorContainer1.nativeElement.appendChild(element);
     });
 
-    this.setCustomGradientColours(colours)
+    this.setCustomGradientColours(colours);
     this.showCustomGradient = true;
     localStorage.setItem('customPalette', JSON.stringify(this.colourPalette));
   }
@@ -88,7 +91,7 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   private retrieveCustomGradient(): ColourPalette {
-    const retievedPalette = JSON.parse(localStorage.getItem('customPalette')) as ColourPalette;
+    const retievedPalette = JSON.parse(localStorage.getItem('customPalette') || 'null') as ColourPalette;
     if (null != retievedPalette) {
       const customPalette = new ColourPalette(retievedPalette.name, retievedPalette.colourHex);
       this.setCustomGradientColours(customPalette.colourHex);
