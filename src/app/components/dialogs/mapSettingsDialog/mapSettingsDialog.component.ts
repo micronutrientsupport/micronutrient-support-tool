@@ -2,29 +2,21 @@
 
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
-export interface ColourGradientObject {
-  name: string;
-  colourGradient: ColourPaletteType;
-}
+import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
   styleUrls: ['./mapSettingsDialog.component.scss'],
 })
 export class MapSettingsDialogComponent implements OnInit {
-  @ViewChild('colorOne') public colorOne: ElementRef;
-  @ViewChild('colorTwo') public colorTwo: ElementRef;
-  @ViewChild('colorThree') public colorThree: ElementRef;
-  @ViewChild('container1') public colorContainer1: ElementRef;
-  @ViewChild('container2') public colorContainer2: ElementRef;
+  @ViewChild('container1') public colorContainer: ElementRef;
 
   public customColourGradientColours = '';
 
   public generalSelectionValue = new Array<ColourPaletteType>();
-  public colourGradientType = ColourPaletteType;
+  public colourPaletteType = ColourPaletteType;
   public selectedPalette: ColourPalette;
   public initialPalette: ColourPalette;
   public showCustomGradient = false;
@@ -63,14 +55,14 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   public callCustomColourInput(colours: Array<string>): void {
-    if (null != this.colorContainer1) {
-      this.colorContainer1.nativeElement.innerHTML = '';
+    if (null != this.colorContainer) {
+      this.colorContainer.nativeElement.innerHTML = '';
     }
     this.selectedPalette = new ColourPalette(ColourPaletteType.CUSTOM, colours);
 
     this.selectedPalette.generateColorsForDisplay().forEach((element: HTMLDivElement) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      this.colorContainer1.nativeElement.appendChild(element);
+      this.colorContainer.nativeElement.appendChild(element);
     });
 
     this.setCustomGradientColours(colours);
