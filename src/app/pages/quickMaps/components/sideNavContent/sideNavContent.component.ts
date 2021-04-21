@@ -44,7 +44,7 @@ export class SideNavContentComponent implements OnInit {
 
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public micronutrientDataOptions = new Array<DataSource>();
+  public dataSources = new Array<DataSource>();
 
   public quickMapsForm: FormGroup;
 
@@ -95,12 +95,12 @@ export class SideNavContentComponent implements OnInit {
         );
 
         this.updateDataMeasureOptions();
-        this.updateMicronutrientDataOptions();
+        this.updateDataSources();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.setCountry(value);
-            this.updateMicronutrientDataOptions();
+            this.updateDataSources();
           })
         );
         this.subscriptions.push(
@@ -112,7 +112,7 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
-            this.updateMicronutrientDataOptions();
+            this.updateDataSources();
           })
         );
         this.subscriptions.push(
@@ -170,7 +170,17 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updateDataMeasureOptions(): void {
+  public submitForm(): void {
+    if (this.quickMapsForm.valid) {
+      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+        ? AppRoutes.QUICK_MAPS_BASELINE
+        : AppRoutes.QUICK_MAPS_BIOMARKER
+      );
+      this.minimiseSideNav();
+    }
+  }
+
+  private updateDataMeasureOptions(): void {
     const micronutrient = this.quickMapsService.micronutrient;
 
     this.measureDietEnabled = ((null != micronutrient) && micronutrient.isDiet);
@@ -200,7 +210,7 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updateMicronutrientDataOptions(): void {
+  private updateDataSources(): void {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
 
@@ -213,7 +223,7 @@ export class SideNavContentComponent implements OnInit {
           true,
         )
         .then((options: Array<DataSource>) => {
-          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
+          this.dataSources = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
 
           // if only one option, preselect
           if (1 === options.length) {
@@ -222,20 +232,9 @@ export class SideNavContentComponent implements OnInit {
         });
     } else {
       // clear
-      this.micronutrientDataOptions = [];
+      this.dataSources = [];
     }
   }
-
-  public submitForm(): void {
-    if (this.quickMapsForm.valid) {
-      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
-        ? AppRoutes.QUICK_MAPS_BASELINE
-        : AppRoutes.QUICK_MAPS_BIOMARKER
-      );
-      this.minimiseSideNav();
-    }
-  }
-
   private navigate(appRoute: AppRoute): void {
     // console.debug('navigate', this.quickMapsService.measure, route);
     void this.router.navigate(appRoute.getRoute(), {
