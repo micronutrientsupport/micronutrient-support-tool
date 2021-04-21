@@ -71,7 +71,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -125,7 +125,7 @@ export class MapViewComponent implements AfterViewInit {
             this.currentDataService.getSubRegionData(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataSource,
               this.quickMapsService.dataLevel,
             ),
           );

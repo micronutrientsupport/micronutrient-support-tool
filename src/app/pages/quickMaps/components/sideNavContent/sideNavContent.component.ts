@@ -71,7 +71,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.country, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
-          dataSource: [this.quickMapsService.mndDataOption, Validators.required],
+          dataSource: [this.quickMapsService.dataSource, Validators.required],
         });
 
         this.subscriptions.push(
@@ -116,7 +116,7 @@ export class SideNavContentComponent implements OnInit {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
-            this.quickMapsService.setMndDataOption(value);
+            this.quickMapsService.setDataSource(value);
             if (null != value) {
               if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
                 this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);

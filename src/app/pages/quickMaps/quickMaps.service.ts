@@ -57,7 +57,7 @@ export class QuickMapsService {
     promises.push(
       this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
-      this.getDataSource().then((option) => this.setMndDataOption(option)),
+      this.getDataSource().then((option) => this.setDataSource(option)),
     );
     this.setMeasure(this.quickMapsParameters.getMeasure());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
@@ -106,11 +106,11 @@ export class QuickMapsService {
     this.setValue(this.measureSrc, measure, force);
   }
 
-  public get mndDataOption(): DataSource {
+  public get dataSource(): DataSource {
     return this.dataSourceSrc.value;
   }
-  public setMndDataOption(mndDataOption: DataSource, force = false): void {
-    this.setValue(this.dataSourceSrc, mndDataOption, force);
+  public setDataSource(dataSource: DataSource, force = false): void {
+    this.setValue(this.dataSourceSrc, dataSource, force);
   }
 
   public get dataLevel(): DataLevel {
