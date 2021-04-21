@@ -1,7 +1,7 @@
 <ng-template #componentTemplate>
     <mat-tab-group mat-align-tabs="center">
         <mat-tab label="Map">
-
+            <div #map1></div>
         </mat-tab>
 
         <mat-tab label="Table">
@@ -54,10 +54,18 @@
         </mat-tab>
 
         <mat-tab label="Chart">
+
             <ngx-chartjs id="box-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
                 [options]="chartData.options">
             </ngx-chartjs>
         </mat-tab>
+
+        <mat-tab label="Descriptive Statistics">
+        </mat-tab>
+
+        <mat-tab label="Download">
+        </mat-tab>
+
     </mat-tab-group>
 </ng-template>
 
