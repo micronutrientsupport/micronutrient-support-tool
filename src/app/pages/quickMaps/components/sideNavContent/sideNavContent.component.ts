@@ -8,7 +8,7 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
-import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -44,7 +44,7 @@ export class SideNavContentComponent implements OnInit {
 
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public micronutrientDataOptions = new Array<MicronutrientDataOption>();
+  public micronutrientDataOptions = new Array<DataSource>();
 
   public quickMapsForm: FormGroup;
 
@@ -116,7 +116,7 @@ export class SideNavContentComponent implements OnInit {
           })
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
+          this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: DataSource) => {
             this.quickMapsService.setMndDataOption(value);
             if (null != value) {
               if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
@@ -212,7 +212,7 @@ export class SideNavContentComponent implements OnInit {
           measure,
           true,
         )
-        .then((options: Array<MicronutrientDataOption>) => {
+        .then((options: Array<DataSource>) => {
           this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
 
           // if only one option, preselect

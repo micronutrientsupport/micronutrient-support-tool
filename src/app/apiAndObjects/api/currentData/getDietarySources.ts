@@ -2,20 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietarySource } from '../../objects/dietarySource';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetDietarySources extends CacheableEndpoint<
-Array<DietarySource>,
-GetDietarySourcesParams,
-DietarySource
+  Array<DietarySource>,
+  GetDietarySourcesParams,
+  DietarySource
 > {
 
   protected getCacheKey(params: GetDietarySourcesParams): string {
     return JSON.stringify(params);
   }
   protected callLive(
-  // params: GetDietarySourcesParams,
+    // params: GetDietarySourcesParams,
   ): Promise<Array<DietarySource>> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
@@ -28,7 +28,7 @@ DietarySource
   }
 
   protected callMock(
-  // params: GetDietarySourcesParams,
+    // params: GetDietarySourcesParams,
   ): Promise<Array<DietarySource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
@@ -42,5 +42,5 @@ DietarySource
 export interface GetDietarySourcesParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption;
+  mndsDataOption: DataSource;
 }

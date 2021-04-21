@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
 export class GetDataSources extends CacheableEndpoint<
-  Array<MicronutrientDataOption>,
+  Array<DataSource>,
   GetDataSourcesParams,
-  MicronutrientDataOption
+  DataSource
 > {
 
   protected getCacheKey(params: GetDataSourcesParams): string {
@@ -16,22 +16,22 @@ export class GetDataSources extends CacheableEndpoint<
   }
   protected callLive(
     params: GetDataSourcesParams,
-  ): Promise<Array<MicronutrientDataOption>> {
+  ): Promise<Array<DataSource>> {
     const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
       RequestMethod.GET,
     ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
-    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+    return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
   protected callMock(
     params: GetDataSourcesParams,
-  ): Promise<Array<MicronutrientDataOption>> {
+  ): Promise<Array<DataSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     const callResponsePromise = httpClient.get('/assets/exampleData/data-options-select.json').toPromise()
       .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
-    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+    return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
   private processResponseData(

@@ -2,13 +2,13 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetMonthlyFoodGroups extends CacheableEndpoint<
-MonthlyFoodGroups,
-GetMonthlyFoodGroupsParams
+  MonthlyFoodGroups,
+  GetMonthlyFoodGroupsParams
 > {
 
   protected getCacheKey(params: GetMonthlyFoodGroupsParams): string {
@@ -16,7 +16,7 @@ GetMonthlyFoodGroupsParams
   }
 
   protected callLive(
-  // params: GetMonthlyFoodGroupsParams,
+    // params: GetMonthlyFoodGroupsParams,
   ): Promise<MonthlyFoodGroups> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
@@ -29,7 +29,7 @@ GetMonthlyFoodGroupsParams
   }
 
   protected callMock(
-  // params: GetMonthlyFoodGroupsParams,
+    // params: GetMonthlyFoodGroupsParams,
   ): Promise<MonthlyFoodGroups> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(
@@ -55,5 +55,5 @@ GetMonthlyFoodGroupsParams
 export interface GetMonthlyFoodGroupsParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption;
+  mndsDataOption: DataSource;
 }

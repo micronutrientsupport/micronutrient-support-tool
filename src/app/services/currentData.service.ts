@@ -6,7 +6,7 @@ import { DietarySource } from '../apiAndObjects/objects/dietarySource';
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
-import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
+import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
@@ -29,7 +29,7 @@ export class CurrentDataService {
     countryOrGroup: CountryDictionaryItem,
     measureType: MicronutrientMeasureType,
     singleOptionOnly: boolean,
-  ): Promise<Array<MicronutrientDataOption>> {
+  ): Promise<Array<DataSource>> {
     return this.apiService.endpoints.currentData.getDataSources.call({
       countryOrGroup,
       measureType,
@@ -40,7 +40,7 @@ export class CurrentDataService {
   public getSubRegionData(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    mndsDataOption: MicronutrientDataOption,
+    mndsDataOption: DataSource,
     dataLevel: DataLevel,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
@@ -54,7 +54,7 @@ export class CurrentDataService {
   public getDietarySources(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    mndsDataOption: DataSource,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroup,
@@ -66,7 +66,7 @@ export class CurrentDataService {
   public getTopFood(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    micronutrientDataOption: MicronutrientDataOption,
+    micronutrientDataOption: DataSource,
     dataLevel: DataLevel,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFood.call({
@@ -80,7 +80,7 @@ export class CurrentDataService {
   public getHouseholdHistogramData(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    mndsDataOption: DataSource,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroup,
@@ -106,7 +106,7 @@ export class CurrentDataService {
   public getMonthlyFoodGroups(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    mndsDataOption: DataSource,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroup,
@@ -117,7 +117,7 @@ export class CurrentDataService {
   public getProjectedAvailabilities(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    mndsDataOption: DataSource,
   ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
