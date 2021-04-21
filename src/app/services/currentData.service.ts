@@ -13,16 +13,19 @@ import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFood
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { ProjectionsSummaryCard } from '../apiAndObjects/objects/projectionsSummaryCard';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
+import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 
 @Injectable()
 export class CurrentDataService {
   constructor(private apiService: ApiService) {
     // TEST
-    // void this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
-    //   countryOrGroupId: '',
-    //   micronutrientIds: [],
-    //   mndsDataId: '',
-    // }).then(data => console.debug(data));
+    // void MicronutrientDictionaryItem.constructObject({ id: 'A' })
+    //   .then((item: MicronutrientDictionaryItem) => {
+    //     void this.apiService.endpoints.currentData.getAgeGenderGroups.call({
+    //       micronutrients: [item],
+    //     }).then(data => console.debug(data));
+    //   });
+
   }
 
   public getMicronutrientDataOptions(
@@ -137,6 +140,14 @@ export class CurrentDataService {
       countryOrGroupId,
       micronutrientId: micronutrient.id,
       scenarioId,
+    });
+  }
+
+  public getAgeGenderGroups(
+    micronutrients: Array<MicronutrientDictionaryItem>,
+  ): Promise<Array<AgeGenderGroup>> {
+    return this.apiService.endpoints.currentData.getAgeGenderGroups.call({
+      micronutrients,
     });
   }
 }
