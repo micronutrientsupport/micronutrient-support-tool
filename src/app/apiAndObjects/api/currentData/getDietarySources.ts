@@ -42,5 +42,5 @@ export class GetDietarySources extends CacheableEndpoint<
 export interface GetDietarySourcesParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: DataSource;
+  dataSource: DataSource;
 }

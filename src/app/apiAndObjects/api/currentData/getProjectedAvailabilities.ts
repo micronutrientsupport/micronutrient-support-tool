@@ -46,5 +46,5 @@ export class GetProjectedAvailabilities extends CacheableEndpoint<
 export interface GetProjectedAvailabilityParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: DataSource;
+  dataSource: DataSource;
 }

@@ -19,8 +19,8 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
       'geojson',
       params.countryOrGroup.id,
       params.micronutrient.id,
-      params.mndsDataOption.compositionDataId,
-      params.mndsDataOption.consumptionDataId,
+      params.dataSource.compositionDataId,
+      params.dataSource.consumptionDataId,
     ], RequestMethod.GET,
     );
 
@@ -67,6 +67,6 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
 export interface GetSubRegionDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  mndsDataOption: DataSource;
+  dataSource: DataSource;
   dataLevel: DataLevel;
 }

@@ -43,13 +43,13 @@ export class CurrentDataService {
   public getSubRegionData(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    mndsDataOption: DataSource,
+    dataSource: DataSource,
     dataLevel: DataLevel,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroup,
       micronutrient,
-      mndsDataOption,
+      dataSource,
       dataLevel,
     });
   }
@@ -57,12 +57,12 @@ export class CurrentDataService {
   public getDietarySources(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: DataSource,
+    dataSource: DataSource,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 
@@ -83,12 +83,12 @@ export class CurrentDataService {
   public getHouseholdHistogramData(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: DataSource,
+    dataSource: DataSource,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 
@@ -109,24 +109,24 @@ export class CurrentDataService {
   public getMonthlyFoodGroups(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: DataSource,
+    dataSource: DataSource,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
   public getProjectedAvailabilities(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: DataSource,
+    dataSource: DataSource,
   ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 

@@ -51,5 +51,5 @@ export class GetHouseholdHistogramData extends CacheableEndpoint<
 export interface GetHouseholdHistogramDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: DataSource;
+  dataSource: DataSource;
 }

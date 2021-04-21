@@ -55,5 +55,5 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<
 export interface GetMonthlyFoodGroupsParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: DataSource;
+  dataSource: DataSource;
 }
