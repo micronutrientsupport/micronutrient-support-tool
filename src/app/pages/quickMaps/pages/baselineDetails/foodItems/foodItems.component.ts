@@ -24,6 +24,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -39,6 +40,8 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
 
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
   public displayedColumns = ['foodName', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
 
@@ -54,9 +57,10 @@ export class FoodItemsComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
+    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -160,6 +164,51 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
+
+    const chartForRender: ChartJSObject = {
+      type: 'treemap',
+      data: {
+        datasets: [
+          {
+            tree: data,
+            key: 'value',
+            groups: ['foodName'],
+            groupLabels: true,
+            fontColor: '#ffffff',
+            fontFamily: 'Quicksand',
+            fontSize: 14,
+            fontStyle: 'normal',
+            // random shade of color palette purple
+            backgroundColor: () => {
+              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
+              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
+            },
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          callbacks: {
+            title: () => 'Food Item',
+            label: (item: ChartTooltipItem, result: ChartData) => {
+              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+              // tslint:disable-next-line: no-string-literal
+              const label: string = dataItem['g'] as string;
+              // tslint:disable-next-line: no-string-literal
+              const value: string = dataItem['v'] as string;
+              return label + ': ' + value;
+            },
+          },
+        },
+      },
+    };
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   // public applyFilter(event: Event): void {
