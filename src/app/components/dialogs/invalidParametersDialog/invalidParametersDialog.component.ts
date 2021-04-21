@@ -18,7 +18,6 @@ export class InvalidParametersDialogComponent {
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<InvalidParametersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ShareDialogData>,
-
   ) {
     dialogRef.disableClose = true;
   }

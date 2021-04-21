@@ -41,4 +41,4 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
 })
-export class BaselineDetailsModule { }
+export class BaselineDetailsModule {}

@@ -1,0 +1,21 @@
+<div class="container-row">
+  <div class="element-container">
+    <i class="fas fa-file-image"></i>
+    <a [href]="chartDownloadPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+      <button [disabled]="!chartDownloadPNG ? true : null" mat-raised-button color="primary">Save as .png</button>
+    </a>
+    <p>PNG image of the visualisation that can be used in reports and presentations</p>
+  </div>
+  <div class="element-container">
+    <i class="fas fa-file-image"></i>
+    <a [href]="chartDownloadPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+      <button [disabled]="!chartDownloadPDF ? true : null" mat-raised-button color="primary">Save as .pdf</button>
+    </a>
+    <p>Adobe PDF document of the visualisation that can be used for editing and redesigning the chart</p>
+  </div>
+  <div class="element-container">
+    <i class="fas fa-file-csv"></i>
+    <button mat-raised-button color="primary" disabled>Save as .csv</button>
+    <p>CSV File containing the data used in this visualisation</p>
+  </div>
+</div>

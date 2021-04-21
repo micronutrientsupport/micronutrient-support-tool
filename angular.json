@@ -20,7 +20,10 @@
             "allowedCommonJsDependencies": [
               "@ctrl/ngx-chartjs",
               "moment-es6",
-              "papaparse/papaparse.min.js"
+              "papaparse/papaparse.min.js",
+              "chartjs-chart-treemap",
+              "chartjs-plugin-annotation",
+              "color-hash-ts"
             ],
             "outputPath": "dist/micronutrient-support-tool",
             "index": "src/index.html",
@@ -52,7 +55,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
