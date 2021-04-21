@@ -133,13 +133,9 @@ export class FoodItemsComponent implements AfterViewInit {
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',
-            fontSize: 14,
+            fontSize: 12,
             fontStyle: 'normal',
-            // random shade of color palette purple
-            backgroundColor: () => {
-              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
-              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
-            },
+            backgroundColor: '#703aa3',
           },
         ],
       },
@@ -164,63 +160,7 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
-
-    const chartForRender: ChartJSObject = {
-      type: 'treemap',
-      data: {
-        datasets: [
-          {
-            tree: data,
-            key: 'value',
-            groups: ['foodName'],
-            groupLabels: true,
-            fontColor: '#ffffff',
-            fontFamily: 'Quicksand',
-            fontSize: 14,
-            fontStyle: 'normal',
-            // random shade of color palette purple
-            backgroundColor: () => {
-              const calculatedHSLValue = Math.floor(Math.random() * (70 - 10 + 1) + 10).toString();
-              return `hsl(271, 70%, ${calculatedHSLValue}%)`;
-            },
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          callbacks: {
-            title: () => 'Food Item',
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              // tslint:disable-next-line: no-string-literal
-              const label: string = dataItem['g'] as string;
-              // tslint:disable-next-line: no-string-literal
-              const value: string = dataItem['v'] as string;
-              return label + ': ' + value;
-            },
-          },
-        },
-      },
-    };
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
-
-  // public applyFilter(event: Event): void {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-
-  //   if (this.dataSource.paginator) {
-  //   }
-  //   {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<FoodItemsDialogData>(FoodItemsComponent, {

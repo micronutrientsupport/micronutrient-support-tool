@@ -161,7 +161,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       type: 'line',
       data: {
         labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
@@ -169,21 +169,30 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           {
             label: 'SSP1',
             data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
-            backgroundColor: () => 'rgba(12, 92, 90, 0.6)',
+            backgroundColor: 'rgba(12, 92, 90, 0.6)',
           },
           {
             label: 'SSP2',
             data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
-            backgroundColor: () => 'rgba(12, 92, 225, 0.6)',
+            backgroundColor: 'rgba(12, 92, 225, 0.6)',
           },
           {
             label: 'SSP3',
             data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
-            backgroundColor: () => 'rgba(48, 102, 133, 0.6)',
+            backgroundColor: 'rgba(48, 102, 133, 0.6)',
           },
         ],
       },
       options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         scales: {
           xAxes: [{}],
           yAxes: [
@@ -198,44 +207,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       },
     };
 
-    const chartForRender: ChartJSObject = {
-      type: 'line',
-      data: {
-        labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
-        datasets: [
-          {
-            label: 'SSP1',
-            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
-            backgroundColor: () => 'rgba(12, 92, 90, 0.6)',
-          },
-          {
-            label: 'SSP2',
-            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
-            backgroundColor: () => 'rgba(12, 92, 225, 0.6)',
-          },
-          {
-            label: 'SSP3',
-            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
-            backgroundColor: () => 'rgba(48, 102, 133, 0.6)',
-          },
-        ],
-      },
-      options: {
-        title: {
-          display: true,
-          text: this.title,
-        },
-        legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center',
-        },
-        scales: {
-          xAxes: [{}],
-          yAxes: [{}],
-        },
-      },
-    };
+    this.chartData = generatedChart;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }

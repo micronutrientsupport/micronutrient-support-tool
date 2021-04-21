@@ -6,7 +6,7 @@ export interface ChartsJSDataObject {
   datasets: Array<{
     data?: Array<number | string>;
     label?: string;
-    backgroundColor?: () => string;
+    backgroundColor?: string;
     borderColor?: string;
     fill?: boolean;
     tree?: Array<TopFoodSource>;

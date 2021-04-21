@@ -16,6 +16,7 @@ export class QuickchartService {
    */
   public getChartAsImageUrl(chartData: ChartJSObject, format: string): string {
     const tmpChart = new QuickChart();
+    chartData.options.title.display = true;
     tmpChart.setConfig(chartData);
     tmpChart.setFormat(format);
     const chartUrl: string = tmpChart.getUrl();

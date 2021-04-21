@@ -244,10 +244,19 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       type: 'bar',
       data: stackedChartData,
       options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -268,34 +277,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       },
     };
 
-    const chartForRender: ChartJSObject = {
-      type: 'bar',
-      data: stackedChartData,
-      options: {
-        title: {
-          display: true,
-          text: this.title,
-        },
-        legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center',
-        },
-        maintainAspectRatio: false,
-        scales: {
-          xAxes: [
-            {
-              stacked: true,
-            },
-          ],
-          yAxes: [
-            {
-              stacked: true,
-            },
-          ],
-        },
-      },
-    };
+    this.chartData = generatedChart;
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
@@ -304,18 +287,4 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     const colorHash = new ColorHash();
     return colorHash.hex(foodTypeIndex);
   }
-
-  //   private openDialog(): void {
-  //     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
-  //       data: this.data,
-  //       selectedTab: this.tabGroup.selectedIndex,
-  //     });
-  //   }
-  // }
-
-  // // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  // export interface ProjectionFoodSourcesDialogData {
-  //   data: ProjectedFoodSourcesData;
-  //   selectedTab: number;
-  // }
 }
