@@ -20,6 +20,9 @@
     "prepare": "husky install"
   },
   "private": true,
+  "browser": {
+    "fs": false
+  },
   "dependencies": {
     "@angular/animations": "~10.2.0",
     "@angular/cdk": "^10.2.7",
@@ -48,6 +51,7 @@
     "ng-navigator-share": "^1.0.4",
     "ngx-papaparse": "^5.0.0",
     "ngx-sharebuttons": "^8.0.5",
+    "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
     "rxjs": "~6.6.7",
     "save": "^2.4.0",
     "zone.js": "~0.10.2"
