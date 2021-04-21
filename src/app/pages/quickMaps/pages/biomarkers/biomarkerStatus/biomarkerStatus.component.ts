@@ -41,7 +41,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         datasets: [
           {
             label: 'Dataset 1',
-            backgroundColor: () => 'rgba(220,0,255,0.5)',
+            backgroundColor: 'rgba(220,0,255,0.5)',
             borderColor: 'rgba(220,0,255,0.5)',
             data: [
               this.randomValues(100, 0, 100),
@@ -54,7 +54,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           },
           {
             label: 'Dataset 2',
-            backgroundColor: () => 'rgba(0,220,255,0.5)',
+            backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             data: [
               this.randomValues(100, 60, 100),
