@@ -6,7 +6,7 @@ import { DietarySource } from '../apiAndObjects/objects/dietarySource';
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
-import { MicronutrientDataOption } from '../apiAndObjects/objects/micronutrientDataOption';
+import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
@@ -28,12 +28,12 @@ export class CurrentDataService {
 
   }
 
-  public getMicronutrientDataOptions(
+  public getDataSources(
     countryOrGroup: CountryDictionaryItem,
     measureType: MicronutrientMeasureType,
     singleOptionOnly: boolean,
-  ): Promise<Array<MicronutrientDataOption>> {
-    return this.apiService.endpoints.currentData.getMicronutrientDataOptions.call({
+  ): Promise<Array<DataSource>> {
+    return this.apiService.endpoints.currentData.getDataSources.call({
       countryOrGroup,
       measureType,
       singleOptionOnly,
@@ -43,13 +43,13 @@ export class CurrentDataService {
   public getSubRegionData(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    mndsDataOption: MicronutrientDataOption,
+    dataSource: DataSource,
     dataLevel: DataLevel,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.currentData.getSubRegionData.call({
       countryOrGroup,
       micronutrient,
-      mndsDataOption,
+      dataSource,
       dataLevel,
     });
   }
@@ -57,19 +57,19 @@ export class CurrentDataService {
   public getDietarySources(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    dataSource: DataSource,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 
   public getTopFood(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    micronutrientDataOption: MicronutrientDataOption,
+    micronutrientDataOption: DataSource,
     dataLevel: DataLevel,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFood.call({
@@ -83,12 +83,12 @@ export class CurrentDataService {
   public getHouseholdHistogramData(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    dataSource: DataSource,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 
@@ -109,24 +109,24 @@ export class CurrentDataService {
   public getMonthlyFoodGroups(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    dataSource: DataSource,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
   public getProjectedAvailabilities(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    mndsDataOption: MicronutrientDataOption,
+    dataSource: DataSource,
   ): Promise<Array<ProjectedAvailability>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
       countryOrGroup,
       micronutrients,
-      mndsDataOption,
+      dataSource,
     });
   }
 
