@@ -5,7 +5,7 @@ import { DictionaryType } from './dictionaryType.enum';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
-import { GetMicronutrientDataOptions } from './currentData/getMicroNutrientDataOptions';
+import { GetDataSources } from './currentData/getDataSources';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
 import { GetSubRegionData } from './currentData/getSubRegionData';
@@ -26,7 +26,7 @@ export class ApiService extends BaseApi {
 
   public readonly endpoints = {
     currentData: {
-      getMicronutrientDataOptions: new GetMicronutrientDataOptions(ApiService.USE_LIVE_API),
+      getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),

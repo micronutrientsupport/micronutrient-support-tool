@@ -1,42 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetMicronutrientDataOptions extends CacheableEndpoint<
-  Array<MicronutrientDataOption>,
-  GetMicronutrientDataOptionsParams,
-  MicronutrientDataOption
-  > {
+export class GetDataSources extends CacheableEndpoint<
+  Array<DataSource>,
+  GetDataSourcesParams,
+  DataSource
+> {
 
-  protected getCacheKey(params: GetMicronutrientDataOptionsParams): string {
+  protected getCacheKey(params: GetDataSourcesParams): string {
     return JSON.stringify(params);
   }
   protected callLive(
-    params: GetMicronutrientDataOptionsParams,
-  ): Promise<Array<MicronutrientDataOption>> {
+    params: GetDataSourcesParams,
+  ): Promise<Array<DataSource>> {
     const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
       RequestMethod.GET,
     ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
-    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+    return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
   protected callMock(
-    params: GetMicronutrientDataOptionsParams,
-  ): Promise<Array<MicronutrientDataOption>> {
+    params: GetDataSourcesParams,
+  ): Promise<Array<DataSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     const callResponsePromise = httpClient.get('/assets/exampleData/data-options-select.json').toPromise()
       .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
-    return this.buildObjectsFromResponse(MicronutrientDataOption, callResponsePromise);
+    return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
   private processResponseData(
     data: Array<Record<string, unknown>>,
-    params: GetMicronutrientDataOptionsParams,
+    params: GetDataSourcesParams,
   ): Array<Record<string, unknown>> {
     data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
     // return only first item when single option specified
@@ -44,7 +44,7 @@ export class GetMicronutrientDataOptions extends CacheableEndpoint<
   }
 }
 
-export interface GetMicronutrientDataOptionsParams {
+export interface GetDataSourcesParams {
   countryOrGroup: CountryDictionaryItem;
   measureType: MicronutrientMeasureType;
   singleOptionOnly: boolean;

@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { HouseholdHistogramData } from '../../objects/householdHistogramData';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetHouseholdHistogramData extends CacheableEndpoint<
-HouseholdHistogramData,
-GetHouseholdHistogramDataParams
+  HouseholdHistogramData,
+  GetHouseholdHistogramDataParams
 > {
 
   protected getCacheKey(params: GetHouseholdHistogramDataParams): string {
@@ -51,5 +51,5 @@ GetHouseholdHistogramDataParams
 export interface GetHouseholdHistogramDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption;
+  dataSource: DataSource;
 }

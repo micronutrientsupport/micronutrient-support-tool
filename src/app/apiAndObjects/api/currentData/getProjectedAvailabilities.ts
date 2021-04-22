@@ -3,13 +3,13 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 import { ProjectedAvailability } from '../../objects/projectedAvailability';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 
 export class GetProjectedAvailabilities extends CacheableEndpoint<
-Array<ProjectedAvailability>,
-GetProjectedAvailabilityParams,
-ProjectedAvailability
+  Array<ProjectedAvailability>,
+  GetProjectedAvailabilityParams,
+  ProjectedAvailability
 > {
   protected getCacheKey(params: GetProjectedAvailabilityParams): string {
     return JSON.stringify(params);
@@ -17,8 +17,7 @@ ProjectedAvailability
 
   protected callLive(
   // params: GetProjectedAvailabilityParams,
-  ):
-  Promise<Array<ProjectedAvailability>> {
+  ): Promise<Array<ProjectedAvailability>> {
     const callResponsePromise = this.apiCaller.doCall('projection-total', RequestMethod.GET, {
       // 'country-or-group-id': params.countryOrGroupId,
       // 'micronutrient-id': params.micronutrientId,
@@ -30,8 +29,7 @@ ProjectedAvailability
 
   protected callMock(
   // params: GetProjectedAvailabilityParams,
-  ):
-  Promise<Array<ProjectedAvailability>> {
+  ): Promise<Array<ProjectedAvailability>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ProjectedAvailability,
@@ -48,5 +46,5 @@ ProjectedAvailability
 export interface GetProjectedAvailabilityParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption;
+  dataSource: DataSource;
 }

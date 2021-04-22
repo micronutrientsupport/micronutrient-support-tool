@@ -60,7 +60,7 @@ export class FoodItemsComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -78,7 +78,7 @@ export class FoodItemsComponent implements AfterViewInit {
             this.currentDataService.getTopFood(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataSource,
               this.quickMapsService.dataLevel,
             ),
           );
