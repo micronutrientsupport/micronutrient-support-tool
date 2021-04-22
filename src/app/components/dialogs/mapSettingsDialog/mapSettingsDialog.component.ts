@@ -1,21 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
+import { MatSelectionList } from '@angular/material/list';
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
   styleUrls: ['./mapSettingsDialog.component.scss'],
 })
-export class MapSettingsDialogComponent implements OnInit {
+export class MapSettingsDialogComponent implements AfterViewInit {
   @ViewChild('container1') public colorContainer: ElementRef;
+  @ViewChild('selectionList') public selectionList: MatSelectionList;
 
   public customColourGradientColours = '';
 
-  public generalSelectionValue = new Array<ColourPaletteType>();
   public colourPaletteType = ColourPaletteType;
   public selectedPalette: ColourPalette;
   public initialPalette: ColourPalette;
@@ -26,7 +27,6 @@ export class MapSettingsDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<string>) {
     this.colourPaletteId = data.dataIn;
     this.selectedPalette = ColourPalette.getSelectedPalette(this.colourPaletteId);
-    this.generalSelectionValue.push(this.selectedPalette.name);
     this.initialPalette = this.selectedPalette;
 
     const customPalette = ColourPalette.getCustomPalette(this.colourPaletteId);
@@ -35,7 +35,14 @@ export class MapSettingsDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    const preSelectItem = this.selectionList.options.find((item) => item.value === this.selectedPalette.name);
+    if ((null != preSelectItem) && (!preSelectItem.selected)) {
+      // fixes ExpressionChangedAfterItHasBeenCheckedError
+      setTimeout(() => {
+        preSelectItem.toggle();
+      }, 0);
+    }
   }
 
   public cancel(): void {
@@ -44,8 +51,9 @@ export class MapSettingsDialogComponent implements OnInit {
   }
 
   public applyChanges(): void {
-    if (this.generalSelectionValue[0] !== ColourPaletteType.CUSTOM) {
-      this.selectedPalette = ColourPalette.PALETTES.find((palette: ColourPalette) => palette.name === this.generalSelectionValue[0]);
+    const selectedName = this.selectionList.selectedOptions.selected[0].value as string;
+    if (selectedName !== ColourPaletteType.CUSTOM) {
+      this.selectedPalette = ColourPalette.PALETTES.find((palette: ColourPalette) => palette.name === selectedName);
     } else {
       this.selectedPalette = ColourPalette.getCustomPalette(this.colourPaletteId);
     }

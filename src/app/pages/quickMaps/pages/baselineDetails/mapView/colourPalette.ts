@@ -5,6 +5,11 @@ import chroma from 'chroma-js';
 import { ColourPaletteType } from './colourPaletteType.enum';
 
 export const CUSTOM_PALETTE_NAME = 'Custom palette';
+interface StoredPalette {
+  name: ColourPaletteType;
+  coloursArray: Array<string>;
+};
+
 export class ColourPalette {
   public static readonly PALETTES = [
     new ColourPalette(ColourPaletteType.BLUEREDYELLOWGREEN, ['#7a0177', '#feb24c', '#2ca25f']),
@@ -36,13 +41,18 @@ export class ColourPalette {
     return `${id}-${paletteType}-colour-palette`;
   }
   private static getPalette(id: string, paletteType: string): ColourPalette {
-    const retievedPalette = JSON.parse(localStorage.getItem(this.getPaletteKey(id, paletteType))) as ColourPalette; // not really
-    return (null != retievedPalette)
-      ? new ColourPalette(retievedPalette.name, retievedPalette.colourHexArray)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const retievedObject = JSON.parse(localStorage.getItem(this.getPaletteKey(id, paletteType))) as StoredPalette;
+    return (null != retievedObject)
+      ? new ColourPalette(retievedObject.name, retievedObject.coloursArray)
       : null;
   }
   private static setPalette(id: string, paletteType: string, palette: ColourPalette): void {
-    localStorage.setItem(this.getPaletteKey(id, paletteType), JSON.stringify(palette));
+    const storeObject = {
+      name: palette.name,
+      coloursArray: palette.colourHexArray,
+    } as StoredPalette;
+    localStorage.setItem(this.getPaletteKey(id, paletteType), JSON.stringify(storeObject));
   }
 
   public generateColors(count: number): Array<string> {
