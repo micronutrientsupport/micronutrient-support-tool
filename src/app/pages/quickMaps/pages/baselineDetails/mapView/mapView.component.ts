@@ -75,7 +75,6 @@ export class MapViewComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
-
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
     if (null == this.colourPalette) {
       ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
@@ -131,7 +130,7 @@ export class MapViewComponent implements AfterViewInit {
             this.currentDataService.getSubRegionData(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.mndDataOption,
+              this.quickMapsService.dataSource,
               this.quickMapsService.dataLevel,
             ),
           );

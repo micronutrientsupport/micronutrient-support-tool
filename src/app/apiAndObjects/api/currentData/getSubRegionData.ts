@@ -2,7 +2,7 @@
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -19,8 +19,8 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
       'geojson',
       params.countryOrGroup.id,
       params.micronutrient.id,
-      params.mndsDataOption.compositionDataId,
-      params.mndsDataOption.consumptionDataId,
+      params.dataSource.compositionDataId,
+      params.dataSource.consumptionDataId,
     ], RequestMethod.GET,
     );
 
@@ -67,6 +67,6 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
 export interface GetSubRegionDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  mndsDataOption: MicronutrientDataOption;
+  dataSource: DataSource;
   dataLevel: DataLevel;
 }
