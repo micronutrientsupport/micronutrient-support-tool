@@ -53,7 +53,7 @@
     "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
     "rxjs": "~6.6.7",
     "save": "^2.4.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.9",
