@@ -62,7 +62,8 @@ export class QuickMapsService {
     promises.push(
       this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
-      this.getDataSource().then((option) => this.setDataSource(option)),
+      this.getInitialAgeGender().then((option) => this.setAgeGenderGroup(option)),
+      this.getInitialDataSource().then((option) => this.setDataSource(option)),
     );
     this.setMeasure(this.quickMapsParameters.getMeasure());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
@@ -155,15 +156,30 @@ export class QuickMapsService {
     this.parameterChangedSrc.next();
   }
 
-  private getDataSource(): Promise<DataSource> {
+  private getInitialAgeGender(): Promise<AgeGenderGroup> {
+    if (this.quickMapsParameters.getMeasure() === MicronutrientMeasureType.DIET) {
+      return Promise.resolve(null) as Promise<AgeGenderGroup>;
+    } else {
+      return Promise.all([this.quickMapsParameters.getMicronutrient()]).then(
+        (data: [MicronutrientDictionaryItem]) =>
+          null == data[0]
+            ? null
+            : // eslint-disable-next-line max-len
+            this.currentDataService
+              .getAgeGenderGroups([data[0]])
+              .then((options) => options.find(option => (option.id === this.quickMapsParameters.getAgeGenderGroupId()))),
+      );
+    }
+  }
+  private getInitialDataSource(): Promise<DataSource> {
     return Promise.all([this.quickMapsParameters.getCountry()]).then(
       (data: [CountryDictionaryItem]) =>
         null == data[0]
           ? null
           : // eslint-disable-next-line max-len
-            this.currentDataService
+          this.currentDataService
             .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
-              .then((options) => options[0]), // first item
+            .then((options) => options[0]), // first item
     );
   }
 }

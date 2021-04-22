@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -46,7 +46,7 @@ export class SideNavContentComponent implements OnInit {
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<DataSource>();
-  public AgeGenderGroups = new Array<AgeGenderGroup>();
+  public ageGenderGroups = new Array<AgeGenderGroup>();
 
   public quickMapsForm: FormGroup;
 
@@ -75,7 +75,7 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
           dataSource: [this.quickMapsService.dataSource, Validators.required],
-          ageGenderData: [this.quickMapsService.ageGenderGroup],
+          ageGenderData: [this.quickMapsService.ageGenderGroup, (control: AbstractControl) => this.ageGenderRequiredValidator(control)],
         });
 
         this.subscriptions.push(
@@ -98,8 +98,6 @@ export class SideNavContentComponent implements OnInit {
         );
 
         this.updateDataMeasureOptions();
-        this.updateDataSources();
-        this.updateAgeGenderOptions();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
@@ -114,14 +112,14 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderGroup) => {
-            this.quickMapsService.setAgeGenderGroup(value);
+          this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
+            this.quickMapsService.setMeasure(value);
             this.updateAgeGenderOptions();
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
-            this.quickMapsService.setMeasure(value);
+          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderGroup) => {
+            this.quickMapsService.setAgeGenderGroup(value);
             this.updateDataSources();
           }),
         );
@@ -188,6 +186,16 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
+  private ageGenderRequiredValidator(ageGenderControl: AbstractControl): boolean {
+    let valid = true;
+    if (null != this.quickMapsForm) {
+      const measureControl = this.quickMapsForm.get('measure');
+      valid = ((measureControl.value === MicronutrientMeasureType.DIET) || (null != ageGenderControl.value));
+    }
+    return valid;
+
+  }
+
   private updateDataMeasureOptions(): void {
     const micronutrient = this.quickMapsService.micronutrient;
 
@@ -216,11 +224,14 @@ export class SideNavContentComponent implements OnInit {
         measureControl.setValue(MicronutrientMeasureType.DIET);
       }
     }
+
+    this.updateAgeGenderOptions();
   }
 
   private updateDataSources(): void {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
+    // const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 
     if (null != country && null != measure) {
       void this.currentDataService
@@ -248,17 +259,13 @@ export class SideNavContentComponent implements OnInit {
 
     if (null != micronutrients) {
       void this.currentDataService.getAgeGenderGroups([micronutrients]).then((options: Array<AgeGenderGroup>) => {
-        this.AgeGenderGroups = options.sort((a, b) => (a.name < b.name ? -1 : 1));
-
-        // if only one option, preselect
-        if (1 === options.length) {
-          this.quickMapsForm.get('ageGenderData').setValue(options[0]);
-        }
+        this.ageGenderGroups = options;
       });
     } else {
       // clear
-      this.AgeGenderGroups = [];
+      this.ageGenderGroups = [];
     }
+    this.updateDataSources();
   }
 
   private navigate(appRoute: AppRoute): void {
