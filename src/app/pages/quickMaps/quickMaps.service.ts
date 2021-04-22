@@ -7,6 +7,7 @@ import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/mi
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 
 @Injectable()
 export class QuickMapsService {
@@ -38,6 +39,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public dataLevelObs = this.dataLevelSrc.asObservable();
 
+  private readonly ageGenderGroupSrc = new BehaviorSubject<AgeGenderGroup>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public ageGenderObs = this.ageGenderGroupSrc.asObservable();
+
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
@@ -68,7 +73,7 @@ export class QuickMapsService {
       this.measureObs.subscribe(() => this.parameterChanged());
       this.mndDataOptionObs.subscribe(() => this.parameterChanged());
       this.dataLevelObs.subscribe(() => this.parameterChanged());
-
+      this.ageGenderObs.subscribe(() => this.parameterChanged());
       this.initSrc.next(true);
     });
   }
@@ -120,6 +125,13 @@ export class QuickMapsService {
     this.setValue(this.dataLevelSrc, dataLevel, force);
   }
 
+  public get ageGenderGroup(): AgeGenderGroup {
+    return this.ageGenderGroupSrc.value;
+  }
+  public setAgeGenderGroup(ageGenderGroup: AgeGenderGroup, force = false): void {
+    this.setValue(this.ageGenderGroupSrc, ageGenderGroup, force);
+  }
+
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
@@ -127,6 +139,8 @@ export class QuickMapsService {
       null != this.micronutrient ? this.micronutrient.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP] =
+      null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
     this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
@@ -146,9 +160,10 @@ export class QuickMapsService {
       (data: [CountryDictionaryItem]) =>
         null == data[0]
           ? null
-          : this.currentDataService
-            .getMicronutrientDataOptions(data[0], this.quickMapsParameters.getMeasure(), true)
-            .then((options) => options[0]), // first item
+          : // eslint-disable-next-line max-len
+            this.currentDataService
+              .getMicronutrientDataOptions(data[0], this.quickMapsParameters.getMeasure(), true)
+              .then((options) => options[0]), // first item
     );
   }
 }

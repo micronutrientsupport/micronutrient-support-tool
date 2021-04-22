@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
@@ -68,11 +69,11 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return Promise.all([
       this.getRequiredNavForMeasureValidation(snapshot),
       this.getRequiredNavForMicronutrientValidation(snapshot),
-    ]).then((navRoutes: Array<AppRoute>) => navRoutes.find(navRoute => (null != navRoute)));
+    ]).then((navRoutes: Array<AppRoute>) => navRoutes.find((navRoute) => null != navRoute));
   }
 
   private validateMicronutrientForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
-    return this.getRequiredNavForMicronutrientValidation(snapshot).then(route => (null == route));
+    return this.getRequiredNavForMicronutrientValidation(snapshot).then((route) => null == route);
   }
   /**
    * validates selected micronutrient against current page.
@@ -81,17 +82,17 @@ export class QuickMapsRouteGuardService implements CanActivate {
   private getRequiredNavForMicronutrientValidation(snapshot: ActivatedRouteSnapshot): Promise<AppRoute> {
     const appRoute = (snapshot.data as RouteData).appRoute;
     // don't allow diet projection page access if micronutrient not in IMPACT model
-    return (
-      (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION)
-        ? Promise.resolve(null)
-        : this.quickMapsParameters.getMicronutrient(snapshot.queryParamMap)
-          .then((micronutrient: MicronutrientDictionaryItem) => (micronutrient.isInImpact) ? null : AppRoutes.QUICK_MAPS_BASELINE)
-    ) as Promise<AppRoute>;
-
+    return (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
+      ? Promise.resolve(null)
+      : this.quickMapsParameters
+          .getMicronutrient(snapshot.queryParamMap)
+          .then((micronutrient: MicronutrientDictionaryItem) =>
+            micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
+          )) as Promise<AppRoute>;
   }
 
   private validateMeasureForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
-    return this.getRequiredNavForMeasureValidation(snapshot).then(route => (null == route));
+    return this.getRequiredNavForMeasureValidation(snapshot).then((route) => null == route);
   }
   /**
    * validates selected measure against current page.
@@ -103,9 +104,12 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // console.debug('validateMeasureForRoute', measure, snapshot);
 
     let navRoute: AppRoute; // route to navigate to
-    if ((MicronutrientMeasureType.DIET === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET))) {
+    if (MicronutrientMeasureType.DIET === measure && !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)) {
       navRoute = AppRoutes.QUICK_MAPS_BASELINE;
-    } else if ((MicronutrientMeasureType.BIOMARKER === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER))) {
+    } else if (
+      MicronutrientMeasureType.BIOMARKER === measure &&
+      !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)
+    ) {
       navRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
     }
 
@@ -113,48 +117,41 @@ export class QuickMapsRouteGuardService implements CanActivate {
   }
 
   private validateParamsConsistency(queryParamMap: ParamMap): Promise<boolean> {
-
     return Promise.all([
       this.quickMapsParameters.getCountry(queryParamMap),
       this.quickMapsParameters.getMicronutrient(queryParamMap),
-    ]).then((values: [
-      CountryDictionaryItem,
-      MicronutrientDictionaryItem,
-    ]) => {
+    ]).then((values: [CountryDictionaryItem, MicronutrientDictionaryItem]) => {
       const country = values.shift() as CountryDictionaryItem;
       const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
+      const ageGenderGroup = this.quickMapsParameters.getAgeGenderGroupId(queryParamMap);
 
-      return (
-        (null == country)
-        || (null == micronutrient)
-        || (null == measure)
-      )
+      return null == country || null == micronutrient || null == measure || null == ageGenderGroup
         ? false
-        : this.currentDataService.getMicronutrientDataOptions(country, measure, true)
-          .then((options: Array<MicronutrientDataOption>) => {
-            const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
+        : this.currentDataService
+            .getMicronutrientDataOptions(country, measure, true)
+            .then((options: Array<MicronutrientDataOption>) => {
+              const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
-            let valid = false;
-            const selectedOption = options[0]; // first item
-            // while we're here, validate the data level if set
-            if (null != selectedOption) {
-              if (null == dataLevel) {
-                valid = true;
-              } else {
-                const availableDataLevels = selectedOption.dataLevelOptions;
-                valid = availableDataLevels.includes(dataLevel);
+              let valid = false;
+              const selectedOption = options[0]; // first item
+              // while we're here, validate the data level if set
+              if (null != selectedOption) {
+                if (null == dataLevel) {
+                  valid = true;
+                } else {
+                  const availableDataLevels = selectedOption.dataLevelOptions;
+                  valid = availableDataLevels.includes(dataLevel);
+                }
               }
-            }
 
-            return valid;
-          });
+              return valid;
+            });
     });
-
   }
 
   private getActivatedRouteSnapshot(snapshot?: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
-    return (null != snapshot) ? snapshot : this.getActivatedRoute(this.route).snapshot;
+    return null != snapshot ? snapshot : this.getActivatedRoute(this.route).snapshot;
   }
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
     if (activatedRoute.firstChild) {
@@ -163,5 +160,4 @@ export class QuickMapsRouteGuardService implements CanActivate {
       return activatedRoute;
     }
   }
-
 }

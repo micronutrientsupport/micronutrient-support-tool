@@ -9,6 +9,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/AgeGenderGroup';
+
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -45,16 +47,11 @@ export class SideNavContentComponent implements OnInit {
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public micronutrientDataOptions = new Array<MicronutrientDataOption>();
+  public AgeGenderGroups = new Array<AgeGenderGroup>();
 
   public quickMapsForm: FormGroup;
 
   public sideNavToggleLock = new FormControl(false);
-  public ageGender = [{ value: 'All' }, { value: 'Adult men' }, { value: 'Adult women' }, { value: 'Children' }];
-  public children = [
-    { value: 'Toddlers' },
-    { value: 'Primary SchooL Children' },
-    { value: 'Secondary School Children' },
-  ];
 
   private subscriptions = new Array<Subscription>();
 
@@ -79,6 +76,7 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
           mndsData: [this.quickMapsService.mndDataOption, Validators.required],
+          ageGenderData: [this.quickMapsService.ageGenderGroup],
         });
 
         this.subscriptions.push(
@@ -102,6 +100,7 @@ export class SideNavContentComponent implements OnInit {
 
         this.updateDataMeasureOptions();
         this.updateMicronutrientDataOptions();
+        this.updateAgeGenderOptions();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
@@ -113,6 +112,12 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
             this.quickMapsService.setMicronutrient(value);
             this.updateDataMeasureOptions();
+          }),
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderGroup) => {
+            this.quickMapsService.setAgeGenderGroup(value);
+            this.updateAgeGenderOptions();
           }),
         );
         this.subscriptions.push(
@@ -222,6 +227,24 @@ export class SideNavContentComponent implements OnInit {
     } else {
       // clear
       this.micronutrientDataOptions = [];
+    }
+  }
+
+  public updateAgeGenderOptions(): void {
+    const micronutrients = this.quickMapsService.micronutrient;
+
+    if (null != micronutrients) {
+      void this.currentDataService.getAgeGenderGroups([micronutrients]).then((options: Array<AgeGenderGroup>) => {
+        this.AgeGenderGroups = options.sort((a, b) => (a.name < b.name ? -1 : 1));
+
+        // if only one option, preselect
+        if (1 === options.length) {
+          this.quickMapsForm.get('ageGenderData').setValue(options[0]);
+        }
+      });
+    } else {
+      // clear
+      this.AgeGenderGroups = [];
     }
   }
 
