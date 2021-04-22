@@ -114,6 +114,8 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
+            // trigger re-evaluation since it's validity is also dependant on measure value
+            this.quickMapsForm.get('ageGenderData').updateValueAndValidity();
             this.updateAgeGenderOptions();
           }),
         );
