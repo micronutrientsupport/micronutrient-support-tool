@@ -54,13 +54,25 @@
         </mat-tab>
 
         <mat-tab label="Chart">
-
+            <div class="status-chart-header">
+                Vulputate mi sit amet mauris commodo quis imperdiet massa. Suspendisse ultrices gravida dictum fusce ut
+                placerat orci. Dictumst quisque sagittis purus sit amet
+            </div>
             <ngx-chartjs id="box-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
-                [options]="chartData.options">
+                [options]="chartData.options" [plugins]="chartData.plugins">
             </ngx-chartjs>
-        </mat-tab>
 
-        <mat-tab label="Descriptive Statistics">
+            <div class="status-chart-data data-grid">
+                <span class="right">Deficiency threshold</span>
+                <span class="left"> {{ defThreshold }} &micro;g/dL</span>
+                <span class="right">Threshold for abnormal values</span>
+                <span class="left"> {{ abnThreshold }} &micro;g/dL</span>
+                <span class="right">Outliers</span>
+                <span class="left">
+                    <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()"></mat-slide-toggle>
+                </span>
+            </div>
+
         </mat-tab>
 
         <mat-tab label="Download">

@@ -63,7 +63,7 @@ export interface ChartJSObject {
       ];
     };
     annotation?: {
-      annotations: [
+      annotations: Array<
         {
           type: string;
           id: string;
@@ -72,12 +72,15 @@ export interface ChartJSObject {
           value: number; // data-value at which the line is drawn
           borderWidth: number;
           borderColor: string;
+          outlierColor?: string;
+          outlierRadius?: number;
           label: {
             enabled: boolean;
             content?: string;
+            backgroundColor?: string;
           };
-        },
-      ];
+        }
+      >;
     };
     tooltips?: {
       callbacks?: {
