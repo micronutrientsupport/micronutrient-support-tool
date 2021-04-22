@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -62,6 +62,6 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
 export interface TopFoodParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  micronutrientDataOption: MicronutrientDataOption;
+  micronutrientDataOption: DataSource;
   dataLevel: DataLevel;
 }

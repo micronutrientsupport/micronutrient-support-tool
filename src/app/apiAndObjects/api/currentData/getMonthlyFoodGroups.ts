@@ -2,13 +2,13 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { MicronutrientDataOption } from '../../objects/micronutrientDataOption';
+import { DataSource } from '../../objects/dataSource';
 import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetMonthlyFoodGroups extends CacheableEndpoint<
-MonthlyFoodGroups,
-GetMonthlyFoodGroupsParams
+  MonthlyFoodGroups,
+  GetMonthlyFoodGroupsParams
 > {
 
   protected getCacheKey(params: GetMonthlyFoodGroupsParams): string {
@@ -55,5 +55,5 @@ GetMonthlyFoodGroupsParams
 export interface GetMonthlyFoodGroupsParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  mndsDataOption: MicronutrientDataOption;
+  dataSource: DataSource;
 }

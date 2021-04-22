@@ -4,7 +4,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, 
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
@@ -128,9 +128,8 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
       return null == country || null == micronutrient || null == measure || null == ageGenderGroup
         ? false
-        : this.currentDataService
-            .getMicronutrientDataOptions(country, measure, true)
-            .then((options: Array<MicronutrientDataOption>) => {
+        : this.currentDataService.getDataSources(country, measure, true)
+          .then((options: Array<DataSource>) => {
               const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
               let valid = false;

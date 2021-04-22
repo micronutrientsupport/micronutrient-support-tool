@@ -8,7 +8,7 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
-import { MicronutrientDataOption } from 'src/app/apiAndObjects/objects/micronutrientDataOption';
+import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/AgeGenderGroup';
 
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -32,7 +32,6 @@ export class SideNavContentComponent implements OnInit {
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
-  public errorReponse = ['Please select somthing', 'Please select a', 'Please select MND(s)'];
 
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
@@ -46,7 +45,7 @@ export class SideNavContentComponent implements OnInit {
 
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public micronutrientDataOptions = new Array<MicronutrientDataOption>();
+  public dataSources = new Array<DataSource>();
   public AgeGenderGroups = new Array<AgeGenderGroup>();
 
   public quickMapsForm: FormGroup;
@@ -75,7 +74,7 @@ export class SideNavContentComponent implements OnInit {
           nation: [this.quickMapsService.country, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
-          mndsData: [this.quickMapsService.mndDataOption, Validators.required],
+          dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderData: [this.quickMapsService.ageGenderGroup],
         });
 
@@ -99,13 +98,13 @@ export class SideNavContentComponent implements OnInit {
         );
 
         this.updateDataMeasureOptions();
-        this.updateMicronutrientDataOptions();
+        this.updateDataSources();
         this.updateAgeGenderOptions();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.setCountry(value);
-            this.updateMicronutrientDataOptions();
+            this.updateDataSources();
           }),
         );
         this.subscriptions.push(
@@ -123,12 +122,12 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
-            this.updateMicronutrientDataOptions();
+            this.updateDataSources();
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('mndsData').valueChanges.subscribe((value: MicronutrientDataOption) => {
-            this.quickMapsService.setMndDataOption(value);
+          this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
+            this.quickMapsService.setDataSource(value);
             if (null != value) {
               if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
                 this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
@@ -179,7 +178,17 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updateDataMeasureOptions(): void {
+  public submitForm(): void {
+    if (this.quickMapsForm.valid) {
+      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
+        ? AppRoutes.QUICK_MAPS_BASELINE
+        : AppRoutes.QUICK_MAPS_BIOMARKER
+      );
+      this.minimiseSideNav();
+    }
+  }
+
+  private updateDataMeasureOptions(): void {
     const micronutrient = this.quickMapsService.micronutrient;
 
     this.measureDietEnabled = null != micronutrient && micronutrient.isDiet;
@@ -209,28 +218,32 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  public updateMicronutrientDataOptions(): void {
+  private updateDataSources(): void {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
 
     if (null != country && null != measure) {
       void this.currentDataService
-        .getMicronutrientDataOptions(country, measure, true)
-        .then((options: Array<MicronutrientDataOption>) => {
-          this.micronutrientDataOptions = options.sort((a, b) => (a.name < b.name ? -1 : 1));
+        .getDataSources(
+          country,
+          measure,
+          true,
+        )
+        .then((options: Array<DataSource>) => {
+          this.dataSources = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
 
           // if only one option, preselect
           if (1 === options.length) {
-            this.quickMapsForm.get('mndsData').setValue(options[0]);
+            this.quickMapsForm.get('dataSource').setValue(options[0]);
           }
         });
     } else {
       // clear
-      this.micronutrientDataOptions = [];
+      this.dataSources = [];
     }
   }
 
-  public updateAgeGenderOptions(): void {
+  private updateAgeGenderOptions(): void {
     const micronutrients = this.quickMapsService.micronutrient;
 
     if (null != micronutrients) {
@@ -245,17 +258,6 @@ export class SideNavContentComponent implements OnInit {
     } else {
       // clear
       this.AgeGenderGroups = [];
-    }
-  }
-
-  public submitForm(): void {
-    if (this.quickMapsForm.valid) {
-      this.navigate(
-        this.quickMapsService.measure === MicronutrientMeasureType.DIET
-          ? AppRoutes.QUICK_MAPS_BASELINE
-          : AppRoutes.QUICK_MAPS_BIOMARKER,
-      );
-      this.minimiseSideNav();
     }
   }
 
