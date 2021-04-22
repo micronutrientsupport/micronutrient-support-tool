@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -186,13 +186,13 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
-  private ageGenderRequiredValidator(ageGenderControl: AbstractControl): boolean {
+  private ageGenderRequiredValidator(ageGenderControl: AbstractControl): ValidationErrors {
     let valid = true;
     if (null != this.quickMapsForm) {
       const measureControl = this.quickMapsForm.get('measure');
       valid = ((measureControl.value === MicronutrientMeasureType.DIET) || (null != ageGenderControl.value));
     }
-    return valid;
+    return valid ? null : { ageGender: 'required' };
 
   }
 
