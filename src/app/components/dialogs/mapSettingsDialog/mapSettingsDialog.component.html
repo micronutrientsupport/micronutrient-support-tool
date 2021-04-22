@@ -35,7 +35,7 @@
       </div>
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
         <header>
-          <p>Generate Custom Colour Range <i class="fas fa-question-circle"
+          <p>Generate Custom Colour Gradient <i class="fas fa-question-circle"
               matTooltip="Click on the boxes to create your own custom gradient." matTooltipPosition="after"></i></p>
           <div class="inputs">
             <div class="color-input">
@@ -56,12 +56,14 @@
         <!-- div to hold the color scales -->
         <div [hidden]="!showCustomGradient">
           <p>Custom Gradient:</p>
-          <div #container1 class="container"></div>
+          <div #container class="container"></div>
         </div>
       </div>
 
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="button-wrapper">
-        <button mat-raised-button (click)="applyChanges()">Apply Changes</button>
+        <button mat-raised-button [disabled]="selectionList?.selectedOptions.selected[0] == null"
+          (click)="applyChanges()">Apply
+          Changes</button>
         <button mat-raised-button (click)="cancel()">Cancel</button>
       </div>
     </div>

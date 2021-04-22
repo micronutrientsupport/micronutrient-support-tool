@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
-import { ColourPalette } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPalette';
-import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
 import { MatSelectionList } from '@angular/material/list';
+import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
+import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
 @Component({
   selector: 'app-map-settings-dialog',
   templateUrl: './mapSettingsDialog.component.html',
   styleUrls: ['./mapSettingsDialog.component.scss'],
 })
 export class MapSettingsDialogComponent implements AfterViewInit {
-  @ViewChild('container1') public colorContainer: ElementRef;
+  @ViewChild('container') public colorContainer: ElementRef;
   @ViewChild('selectionList') public selectionList: MatSelectionList;
 
   public customColourGradientColours = '';

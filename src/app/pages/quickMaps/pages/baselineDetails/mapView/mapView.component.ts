@@ -25,10 +25,10 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { ColourPaletteType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourPaletteType.enum';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
-import { ColourGradient, ColourGradientObject } from './colourGradient';
-import { ColourPalette } from './colourPalette';
+import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
+import { ColourPalette } from '../../../components/colourObjects/colourPalette';
+import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -44,8 +44,6 @@ export class MapViewComponent implements AfterViewInit {
 
 
   public title = '';
-  // private data: Array<SubRegionDataItem>;
-  public defaultColourScheme: ColourPaletteType;
   private data: SubRegionDataItem;
 
   private defaultPalette = ColourPalette.PALETTES.find((value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN);
