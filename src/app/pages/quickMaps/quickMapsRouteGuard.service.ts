@@ -34,7 +34,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route.queryParamMap, route.routeConfig.path);
+    // console.debug('canActivate', snapshot);
 
     // code for potentially having different validity checks for different routes
     // switch (route.routeConfig.path) {
@@ -86,10 +86,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
       ? Promise.resolve(null)
       : this.quickMapsParameters
-          .getMicronutrient(snapshot.queryParamMap)
-          .then((micronutrient: MicronutrientDictionaryItem) =>
-            micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
-          )) as Promise<AppRoute>;
+        .getMicronutrient(snapshot.queryParamMap)
+        .then((micronutrient: MicronutrientDictionaryItem) =>
+          micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
+        )) as Promise<AppRoute>;
   }
 
   private validateMeasureForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
@@ -133,33 +133,33 @@ export class QuickMapsRouteGuardService implements CanActivate {
         (measure === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroupId)
         ? false
         : Promise.all([
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            this.currentDataService.getDataSources(country, measure, true).then((options: Array<DataSource>) => {
-              const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          this.currentDataService.getDataSources(country, measure, true).then((options: Array<DataSource>) => {
+            const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
-              let valid = false;
-              const selectedOption = options[0]; // first item
-              // while we're here, validate the data level if set
-              if (null != selectedOption) {
-                if (null == dataLevel) {
-                  valid = true;
-                } else {
-                  const availableDataLevels = selectedOption.dataLevelOptions;
-                  valid = availableDataLevels.includes(dataLevel);
-                }
+            let valid = false;
+            const selectedOption = options[0]; // first item
+            // while we're here, validate the data level if set
+            if (null != selectedOption) {
+              if (null == dataLevel) {
+                valid = true;
+              } else {
+                const availableDataLevels = selectedOption.dataLevelOptions;
+                valid = availableDataLevels.includes(dataLevel);
               }
+            }
 
-              return valid;
-            }),
-            measure === MicronutrientMeasureType.DIET
-              ? Promise.resolve(true)
-              : this.currentDataService
-                  .getAgeGenderGroups([micronutrient])
-                  .then((ageGenderGroups: Array<AgeGenderGroup>) => {
-                    const selectedAgeGenderGroup = ageGenderGroups.find((group) => group.id === ageGenderGroupId);
-                    return null != selectedAgeGenderGroup;
-                  }),
-          ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid));
+            return valid;
+          }),
+          measure === MicronutrientMeasureType.DIET
+            ? Promise.resolve(true)
+            : this.currentDataService
+              .getAgeGenderGroups([micronutrient])
+              .then((ageGenderGroups: Array<AgeGenderGroup>) => {
+                const selectedAgeGenderGroup = ageGenderGroups.find((group) => group.id === ageGenderGroupId);
+                return null != selectedAgeGenderGroup;
+              }),
+        ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid));
     });
   }
 

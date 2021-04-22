@@ -51,6 +51,8 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
+  private parameterChangeTimeout: NodeJS.Timeout;
+
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
   constructor(injector: Injector, private currentDataService: CurrentDataService) {
@@ -153,7 +155,11 @@ export class QuickMapsService {
 
   private parameterChanged(): void {
     this.updateQueryParams();
-    this.parameterChangedSrc.next();
+    // ensure not triggered too many times in quick succession
+    clearTimeout(this.parameterChangeTimeout);
+    this.parameterChangeTimeout = setTimeout(() => {
+      this.parameterChangedSrc.next();
+    }, 100);
   }
 
   private getInitialAgeGender(): Promise<AgeGenderGroup> {
