@@ -9,7 +9,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/AgeGenderGroup';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
