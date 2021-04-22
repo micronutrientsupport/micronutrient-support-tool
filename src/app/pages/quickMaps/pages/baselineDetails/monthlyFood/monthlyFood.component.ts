@@ -73,7 +73,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -91,7 +91,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
             this.currentDataService.getMonthlyFoodGroups(
               this.quickMapsService.country,
               [this.quickMapsService.micronutrient],
-              this.quickMapsService.dataLevel,
+              this.quickMapsService.dataSource,
             ),
           );
         }),
