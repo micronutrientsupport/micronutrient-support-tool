@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -23,10 +25,10 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { ColourGradientType } from 'src/app/pages/quickMaps/pages/baselineDetails/mapView/colourGradientType.enum';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
-
+import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
+import { ColourPalette } from '../../../components/colourObjects/colourPalette';
+import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -34,26 +36,28 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapViewComponent implements AfterViewInit {
+  public static readonly COLOUR_PALETTE_ID = 'map-view';
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+
   public title = '';
-  public defaultColourScheme: ColourGradientType;
   private data: SubRegionDataItem;
+
+  private defaultPalette = ColourPalette.PALETTES.find((value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN);
+  private colourPalette: ColourPalette;
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
-  private LegendAbsolute: L.Control;
+  private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
-  private absoluteRange = [0, 10, 50, 100, 250, 500, 1000, 1500];
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
-  private LegendThreshold: L.Control;
+  private thresholdRange = [10, 20, 40, 60, 80, 99];
   private thresholdLegend: L.Control;
-  private thresholdRange = [0, 10, 20, 40, 60, 80, 99];
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
 
@@ -65,24 +69,22 @@ export class MapViewComponent implements AfterViewInit {
   private tabVisited = new Map<number, boolean>();
 
   constructor(
-    private notificationService: NotificationsService,
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
-  ) { }
+  ) {
+    this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
+    if (null == this.colourPalette) {
+      ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
+      this.colourPalette = this.defaultPalette;
+    }
+  }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-
-    // checks if user has defined colour scheme and
-    const retrievedObject = localStorage.getItem('defaultColourScheme');
-    this.defaultColourScheme = retrievedObject as ColourGradientType;
-    if (this.defaultColourScheme == null) {
-      this.defaultColourScheme = ColourGradientType.BLUEREDYELLOWGREEN;
-    }
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -91,13 +93,16 @@ export class MapViewComponent implements AfterViewInit {
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.card.onSettingsClickObs.subscribe(() => {
-        void this.dialogService.openMapSettingsDialog(this.defaultColourScheme).then((data: DialogData) => {
-          if (data.dataOut !== {}) {
-            this.changeColourRamp(data.dataOut);
-            this.defaultColourScheme = data.dataOut as ColourGradientType;
-            localStorage.setItem('defaultColourScheme', this.defaultColourScheme);
-          }
-        });
+        // console.debug('palette on dialog open:', this.colourPalette);
+        void this.dialogService
+          .openMapSettingsDialog(MapViewComponent.COLOUR_PALETTE_ID)
+          .then(() => {
+            this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
+            if (null == this.colourPalette) {
+              this.colourPalette = this.defaultPalette;
+            }
+            this.changeColourRamp(this.colourPalette);
+          });
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
@@ -164,9 +169,11 @@ export class MapViewComponent implements AfterViewInit {
         }
         this.errorSrc.next(false);
         this.areaFeatureCollection = data.geoJson;
-        this.initialiseMapAbsolute();
-        this.initialiseMapThreshold();
+
+        this.initialiseMapAbsolute(this.colourPalette);
+        this.initialiseMapThreshold(this.colourPalette);
         this.areaBounds = this.absoluteDataLayer.getBounds();
+
         // reset visited
         this.tabVisited.clear();
         // trigger current fit bounds
@@ -183,76 +190,112 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
+    // console.debug(feat.properties);
     return feat.properties as SubRegionDataItemFeatureProperties;
   }
 
-  private changeColourRamp(colourGradient: ColourGradientType): void {
+  // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
+  private changeColourRamp(colourPalette: ColourPalette): void {
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
     this.absoluteMap.removeLayer(this.absoluteDataLayer);
     this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
-    this.absoluteMap.removeControl(this.absoluteLegend);
-    this.thresholdMap.removeControl(this.thresholdLegend);
-    if (null != this.LegendThreshold) {
-      this.thresholdMap.removeControl(this.LegendThreshold);
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
     }
-    if (null != this.LegendAbsolute) {
-      this.absoluteMap.removeControl(this.LegendAbsolute);
+    if (null != this.thresholdLegend) {
+      this.absoluteMap.removeControl(this.thresholdLegend);
     }
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, colourGradient),
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, colourGradient),
+      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
 
-    this.LegendAbsolute = new L.Control({ position: 'bottomright' });
+    this.refreshAbsoluteLegend(absoluteGradient);
+    this.refreshThresholdLegend(thresholdGradient);
+  }
 
-    this.LegendAbsolute.onAdd = () => {
+  private refreshThresholdLegend(colourGradient: ColourGradient): void {
+    if (null != this.thresholdLegend) {
+      this.thresholdMap.removeControl(this.thresholdLegend);
+    }
+
+    this.thresholdLegend = new L.Control({ position: 'bottomright' });
+
+    this.thresholdLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
-      this.absoluteRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${this.getAbsoluteColourRange(value + 1, colourGradient)};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
-          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
+
+      let previousGradObj: ColourGradientObject;
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+        let text = '';
+        if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
+
+        addItemToHtml(gradObj.hexString, text);
+        previousGradObj = gradObj;
       });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}%`);
+
       return div;
     };
+    this.thresholdLegend.addTo(this.thresholdMap);
+  }
 
-    this.LegendThreshold = new L.Control({ position: 'bottomright' });
+  private refreshAbsoluteLegend(colourGradient: ColourGradient): void {
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
 
-    this.LegendThreshold.onAdd = () => {
+    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+
+    this.absoluteLegend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
 
-      this.thresholdRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${this.getThresholdColourRange(value + 1, colourGradient)};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.thresholdRange[i + 1] ? value : '>99%'}
-          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
+
+      let previousGradObj: ColourGradientObject;
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+        let text = '';
+        if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
+        addItemToHtml(gradObj.hexString, text);
+        previousGradObj = gradObj;
       });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
+
       return div;
     };
-    this.LegendAbsolute.addTo(this.absoluteMap);
-    this.LegendThreshold.addTo(this.thresholdMap);
+
+    this.absoluteLegend.addTo(this.absoluteMap);
   }
 
   private triggerFitBounds(tabIndex: number): void {
@@ -303,7 +346,7 @@ export class MapViewComponent implements AfterViewInit {
     return map;
   }
 
-  private initialiseMapAbsolute(): void {
+  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
     if (null != this.absoluteDataLayer) {
       this.absoluteMap.removeLayer(this.absoluteDataLayer);
     }
@@ -311,37 +354,18 @@ export class MapViewComponent implements AfterViewInit {
       this.absoluteMap.removeControl(this.absoluteLegend);
     }
 
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getAbsoluteColourRange(this.getFeatProps(feat).mn_absolute, this.defaultColourScheme),
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.absoluteMap);
+    // console.debug('absolute', this.absoluteDataLayer);
 
-    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+    this.refreshAbsoluteLegend(absoluteGradient);
 
-    this.absoluteLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-
-      // loop through our  intervals and generate a label with a colored square for each interval
-      this.absoluteRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-          <span style="background-color:
-          ${this.getAbsoluteColourRange(value + 1, this.defaultColourScheme)};
-          height:10px; width:10px; display:block; margin-right:5px;">
-          </span>` +
-          `<span>
-          ${this.absoluteRange[i + 1] ? value : '>1500mg'}
-          ${this.absoluteRange[i + 1] ? ' - ' + this.absoluteRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
-      });
-
-      return div;
-    };
-
-    this.absoluteLegend.addTo(this.absoluteMap);
   }
 
-  private initialiseMapThreshold(): void {
+  private initialiseMapThreshold(colourPalette: ColourPalette): void {
     if (null != this.thresholdDataLayer) {
       this.thresholdMap.removeLayer(this.thresholdDataLayer);
     }
@@ -349,171 +373,15 @@ export class MapViewComponent implements AfterViewInit {
       this.thresholdMap.removeControl(this.thresholdLegend);
     }
 
+    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      this.getThresholdColourRange(this.getFeatProps(feat).mn_threshold, this.defaultColourScheme),
+      // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
+      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
     ).addTo(this.thresholdMap);
+    // console.debug('threshold', this.thresholdDataLayer);
 
-    this.thresholdLegend = new L.Control({ position: 'bottomright' });
-
-    this.thresholdLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
-
-      // loop through our  intervals and generate a label with a colored square for each interval
-      this.thresholdRange.forEach((value: number, i) => {
-        div.innerHTML +=
-          `<span style="display: flex; align-items: center;">
-            <span style="background-color:
-            ${this.getThresholdColourRange(value + 1, this.defaultColourScheme)};
-             height:10px; width:10px; display:block; margin-right:5px;">
-            </span>` +
-          `<span>
-          ${this.thresholdRange[i + 1] ? value : '>99%'}
-          ${this.thresholdRange[i + 1] ? ' - ' + this.thresholdRange[i + 1].toString() : ''}
-          </span>` +
-          '</span>';
-      });
-
-      return div;
-    };
-
-    this.thresholdLegend.addTo(this.thresholdMap);
-  }
-
-  private getAbsoluteColourRange(absoluteValue: number, colourGradient: ColourGradientType): string {
-    switch (true) {
-      case absoluteValue > 1500:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#2ca25f';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#332288';
-        } else {
-          return '#845E82';
-        }
-      case absoluteValue > 1000:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#addd8e';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#117733';
-        } else {
-          return '#845EC2';
-        }
-      case absoluteValue > 500:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#ffeda0';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#44AA99';
-        } else {
-          return '#0081CF';
-        }
-      case absoluteValue > 250:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#feb24c';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#88CCEE';
-        } else {
-          return '#0089BA';
-        }
-      case absoluteValue > 100:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#f03b20';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#DDCC77';
-        } else {
-          return '#008E9B';
-        }
-      case absoluteValue > 50:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#bd0026';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#CC6677';
-        } else {
-          return '#008F7A';
-        }
-      case absoluteValue > 10:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#7a0177';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#AA4499';
-        } else {
-          return '#00C9A7';
-        }
-      case absoluteValue > 0:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#354969';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#882255';
-        } else {
-          return '#C4FCEF';
-        }
-    }
-  }
-  private getThresholdColourRange(thresholdValue: number, colourGradient: ColourGradientType): string {
-    switch (true) {
-      case thresholdValue > 99:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#2ca25f';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#332288';
-        } else {
-          return '#845E82';
-        }
-      case thresholdValue > 80:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#addd8e';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#117733';
-        } else {
-          return '#845EC2';
-        }
-      case thresholdValue > 60:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#ffeda0';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#44AA99';
-        } else {
-          return '#0081CF';
-        }
-      case thresholdValue > 40:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#feb24c';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#88CCEE';
-        } else {
-          return '#0089BA';
-        }
-      case thresholdValue > 20:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#f03b20';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#DDCC77';
-        } else {
-          return '#008E9B';
-        }
-      case thresholdValue > 10:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#bd0026';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#CC6677';
-        } else {
-          return '#008F7A';
-        }
-      case thresholdValue > 0:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#7a0177';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#AA4499';
-        } else {
-          return '#00C9A7';
-        }
-      default:
-        if (colourGradient === ColourGradientType.BLUEREDYELLOWGREEN) {
-          return '#354969';
-        } else if (colourGradient === ColourGradientType.COLOURBLIND) {
-          return '#C4FCEF';
-        } else {
-          return '#882255';
-        }
-    }
+    this.refreshThresholdLegend(thresholdGradient);
   }
 
   private openDialog(): void {

@@ -11,14 +11,13 @@
   align-items: center;
   justify-content: space-evenly;
   .color-box {
-    height: 100px;
-    width: 90%;
+    width: 89%;
     padding: 20px;
   }
   .colour-option {
     display: flex;
     justify-content: space-between;
-    width: 35%;
+    width: 100%;
     align-items: center;
     .colour-sample {
       width: 4em;
@@ -26,8 +25,8 @@
       &.blueRedYellowGreen {
         background: linear-gradient(0.25turn, blue, red, yellow, green);
       }
-      &.purpleBlueGreen {
-        background: linear-gradient(0.25turn, purple, blue, green);
+      &.divergingColors {
+        background: linear-gradient(0.25turn, darkred, beige, teal);
       }
       &.colourblind {
         background: linear-gradient(0.25turn, purple, green, blue, yellow, magenta);
@@ -41,5 +40,50 @@
     button {
       margin: 5px;
     }
+  }
+
+  .color-wrapper {
+    display: flex;
+    height: 250px;
+  }
+
+  .input-wrapper {
+    margin-top: 16px;
+    display: flex;
+    border-radius: 1px;
+    border: 1px solid rgb(220, 220, 220);
+    padding: 8px;
+    height: 32px;
+    justify-content: center;
+  }
+
+  .text {
+    flex: 1;
+    font-family: 'Helvetica';
+    line-height: 32px;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+  }
+
+  .inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .color-input {
+    margin: 5px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    // height: 100%;
   }
 }

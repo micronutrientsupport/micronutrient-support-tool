@@ -1,0 +1,75 @@
+<ng-template #componentTemplate>
+    <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
+        <mat-tab label="Map">
+            <div #map1></div>
+        </mat-tab>
+
+        <mat-tab label="Table">
+            <div class="bmgf-maps-nice-scrollbar">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Select a table</mat-label>
+                    <mat-select [formControl]="tables">
+                        <mat-option *ngFor="let table of tableList" [value]="table">{{table}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="a" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Regions</th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="b">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N</th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="c">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Mean Zinc mg/dl</th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="d">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Standard deviation</th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Chart">
+            <div class="status-chart-header">
+                Vulputate mi sit amet mauris commodo quis imperdiet massa. Suspendisse ultrices gravida dictum fusce ut
+                placerat orci. Dictumst quisque sagittis purus sit amet
+            </div>
+            <ngx-chartjs id="box-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
+                [options]="chartData.options" [plugins]="chartData.plugins">
+            </ngx-chartjs>
+
+            <div class="status-chart-data data-grid">
+                <span class="pull-right">Deficiency threshold</span>
+                <span class="pull-left"> {{ defThreshold }} &micro;g/dL</span>
+                <span class="pull-right">Threshold for abnormal values</span>
+                <span class="pull-left"> {{ abnThreshold }} &micro;g/dL</span>
+                <span class="pull-right">Outliers</span>
+                <span class="pull-left">
+                    <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()"></mat-slide-toggle>
+                    <span *ngIf="showOutliers; else dontShow"> Shown</span>
+                    <ng-template #dontShow> Hidden</ng-template>
+                </span>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Download">
+        </mat-tab>
+
+    </mat-tab-group>
+</ng-template>
+
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+    <app-base-dialog [data]="dialogData" [title]="title">
+        <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+    </app-base-dialog>
+</ng-container>
