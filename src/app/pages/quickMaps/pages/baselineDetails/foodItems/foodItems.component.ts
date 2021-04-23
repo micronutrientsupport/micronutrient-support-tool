@@ -122,7 +122,7 @@ export class FoodItemsComponent implements AfterViewInit {
   }
 
   private initTreemap(data: Array<TopFoodSource>): void {
-    this.chartData = {
+    const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
         datasets: [
@@ -140,6 +140,10 @@ export class FoodItemsComponent implements AfterViewInit {
         ],
       },
       options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
         maintainAspectRatio: false,
         legend: {
           display: false,
@@ -160,6 +164,12 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
+
+    this.chartData = generatedChart;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {
