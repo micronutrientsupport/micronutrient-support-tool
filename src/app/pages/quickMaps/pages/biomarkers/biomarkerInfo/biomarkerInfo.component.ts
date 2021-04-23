@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import * as L from 'leaflet';
+
 import { Component, AfterViewInit, ViewChild, ElementRef, Input, Inject, Optional } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+// import * as ChartAnnotation from 'chartjs-plugin-annotation';
+// import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
-import { FormControl } from '@angular/forms';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
@@ -154,8 +155,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
         blob.forEach((simpleData) => {
           const additionalData: AdditionalInformationData = {
-            ageGenderGroup: simpleData['DemoGpN'],
-            zincLevelOne: simpleData['ZnAdj_gdL'],
+            ageGenderGroup: simpleData.DemoGpN,
+            zincLevelOne: simpleData.ZnAdj_gdL,
           };
           dataArray.push(additionalData);
         });
