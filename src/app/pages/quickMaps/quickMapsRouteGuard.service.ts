@@ -11,6 +11,7 @@ import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -126,6 +127,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
       const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
       const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId(queryParamMap);
+      const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
 
       return null == country ||
@@ -134,31 +136,26 @@ export class QuickMapsRouteGuardService implements CanActivate {
         (measure === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroupId)
         ? false
         : Promise.all([
-          this.validateDataLevel(queryParamMap, country, measure),
+          this.validateDataLevel(country, measure, dataLevel),
           this.validateAgeGenderGroup(measure, micronutrient, ageGenderGroupId),
-        ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid));
+        ])
+          .then((valids: Array<boolean>) => valids.every((valid) => true === valid));
     });
   }
 
   private validateDataLevel(
-    queryParamMap: ParamMap,
     country: CountryDictionaryItem,
     measure: MicronutrientMeasureType,
+    dataLevel: DataLevel,
   ): Promise<boolean> {
     return this.currentDataService.getDataSources(country, measure, true)
       .then((options: Array<DataSource>) => {
-        const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
         let valid = false;
-        const selectedOption = options[0]; // first item
-        // while we're here, validate the data level if set
-        if (null != selectedOption) {
-          if (null == dataLevel) {
-            valid = true;
-          } else {
-            const availableDataLevels = selectedOption.dataLevelOptions;
-            valid = availableDataLevels.includes(dataLevel);
-          }
+        const selectedDataSource = options[0]; // always first item
+        if (null != selectedDataSource) {
+          const availableDataLevels = selectedDataSource.dataLevelOptions;
+          valid = availableDataLevels.includes(dataLevel);
         }
 
         return valid;
