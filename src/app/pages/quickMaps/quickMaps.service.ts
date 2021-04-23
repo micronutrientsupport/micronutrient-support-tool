@@ -163,27 +163,31 @@ export class QuickMapsService {
   }
 
   private getInitialAgeGender(): Promise<AgeGenderGroup> {
-    if (this.quickMapsParameters.getMeasure() === MicronutrientMeasureType.DIET) {
+    // if age-gender query param is set, then find the corresponding AgeGenderGroup
+    const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId();
+    if (null == ageGenderGroupId) {
       return Promise.resolve(null) as Promise<AgeGenderGroup>;
     } else {
-      return Promise.all([this.quickMapsParameters.getMicronutrient()]).then(
+      return Promise.all([
+        this.quickMapsParameters.getMicronutrient(),
+      ]).then(
         (data: [MicronutrientDictionaryItem]) =>
-          null == data[0]
+          null == data[0] // we don't have a micronutrient set so can't get available age gender groups
             ? null
-            : // eslint-disable-next-line max-len
-            this.currentDataService
+            : this.currentDataService
               .getAgeGenderGroups([data[0]])
-              .then((options) => options.find(option => (option.id === this.quickMapsParameters.getAgeGenderGroupId()))),
+              .then((options) => options.find(option => (option.id === ageGenderGroupId))),
       );
     }
   }
   private getInitialDataSource(): Promise<DataSource> {
-    return Promise.all([this.quickMapsParameters.getCountry()]).then(
+    return Promise.all([
+      this.quickMapsParameters.getCountry(),
+    ]).then(
       (data: [CountryDictionaryItem]) =>
-        null == data[0]
+        null == data[0] // we don't have a country set so can't get available measures
           ? null
-          : // eslint-disable-next-line max-len
-          this.currentDataService
+          : this.currentDataService
             .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
             .then((options) => options[0]), // first item
     );
