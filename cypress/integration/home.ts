@@ -2,6 +2,10 @@
 
 describe('Homepage Tests', () => {
 
+  it('wakes up', () => {
+    cy.visit('/');
+  });
+
   it('loads the home page sharing dialog', () => {
     cy.visit('/', { timeout: 20000 });
     cy.get('#sharePageButton').click();
