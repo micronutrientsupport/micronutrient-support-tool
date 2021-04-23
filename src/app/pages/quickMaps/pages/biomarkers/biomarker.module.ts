@@ -14,14 +14,10 @@ import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
 import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.component';
 import 'chartjs-chart-box-and-violin-plot';
-
+import { BiomarkerInfoComponent } from './biomarkerInfo/biomarkerInfo.component';
 
 @NgModule({
-  declarations: [
-    BiomarkerComponent,
-    BiomarkerDescriptionComponent,
-    BiomarkerStatusComponent,
-  ],
+  declarations: [BiomarkerComponent, BiomarkerDescriptionComponent, BiomarkerStatusComponent, BiomarkerInfoComponent],
   imports: [
     CommonModule,
     LeafletModule,
@@ -34,6 +30,6 @@ import 'chartjs-chart-box-and-violin-plot';
     ComponentsModule,
     DialogModule,
     RouterModule,
-  ]
+  ],
 })
-export class BiomarkerModule { }
+export class BiomarkerModule {}

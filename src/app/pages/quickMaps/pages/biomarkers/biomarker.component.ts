@@ -5,7 +5,8 @@ import { QuickMapsService } from '../../quickMaps.service';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
-  STATUS = 'widgetStatus'
+  STATUS = 'widgetStatus',
+  INFO = 'widgetInfo',
 }
 @Component({
   selector: 'app-biomarker',
@@ -13,7 +14,6 @@ enum BiomarkerWidgets {
   styleUrls: ['./biomarker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class BiomarkerComponent implements OnInit {
   public WIDGETS = BiomarkerWidgets;
   public options: GridsterConfig;
@@ -28,15 +28,11 @@ export class BiomarkerComponent implements OnInit {
   private readonly defaultWidgetWidth = 6;
 
   private dataLevelWidgetTypesMap: Map<DataLevel, Array<BiomarkerWidgets>> = new Map([
-    [DataLevel.COUNTRY, [
-      BiomarkerWidgets.STATUS
-    ]],
-    [DataLevel.HOUSEHOLD, [
-      BiomarkerWidgets.STATUS
-    ]],
+    [DataLevel.COUNTRY, [BiomarkerWidgets.STATUS, BiomarkerWidgets.INFO]],
+    [DataLevel.HOUSEHOLD, [BiomarkerWidgets.STATUS, BiomarkerWidgets.INFO]],
   ]);
 
-  constructor(public quickMapsService: QuickMapsService) { }
+  constructor(public quickMapsService: QuickMapsService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -103,8 +99,8 @@ export class BiomarkerComponent implements OnInit {
       const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
 
       // remove any not needed
-      this.dashboard.slice().forEach(thisWidget => {
-        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
+      this.dashboard.slice().forEach((thisWidget) => {
+        if (null == newWidgetsTypes.find((widgetType) => widgetType === thisWidget.type)) {
           this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
         }
       });
@@ -117,10 +113,10 @@ export class BiomarkerComponent implements OnInit {
       });
 
       // add any new widgets
-      newWidgetsTypes.forEach(widgetType => {
-        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
+      newWidgetsTypes.forEach((widgetType) => {
+        if (null == this.dashboard.find((testWidget) => testWidget.type === widgetType)) {
           this.dashboard.push(
-            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
+            this.resetItemPositionAndSize(({ type: widgetType } as unknown) as GridsterItem, this.dashboard.length),
           );
         }
       });
@@ -141,5 +137,4 @@ export class BiomarkerComponent implements OnInit {
       this.options.api.optionsChanged();
     }
   }
-
 }
