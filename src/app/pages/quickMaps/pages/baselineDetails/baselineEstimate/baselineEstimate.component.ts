@@ -132,3 +132,4 @@ export class BaslineEstimateComponent {
     this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
+

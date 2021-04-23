@@ -2,7 +2,8 @@
   <app-biomarker-description></app-biomarker-description>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
-      Add cards here ...
+
+      <app-biomarker-status *ngSwitchCase="WIDGETS.STATUS" [card]="card"></app-biomarker-status>
       <!-- eg: -->
       <!-- Map View -->
       <!-- <app-map-view *ngSwitchCase="WIDGETS.MAP" [card]="card"></app-map-view> -->

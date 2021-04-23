@@ -12,13 +12,15 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { RouterModule } from '@angular/router';
 import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
-
+import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.component';
+import 'chartjs-chart-box-and-violin-plot';
 
 
 @NgModule({
   declarations: [
     BiomarkerComponent,
     BiomarkerDescriptionComponent,
+    BiomarkerStatusComponent,
   ],
   imports: [
     CommonModule,
