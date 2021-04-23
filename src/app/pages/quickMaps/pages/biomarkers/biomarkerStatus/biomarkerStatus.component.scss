@@ -8,8 +8,9 @@
 
 .status-map-select {
   position: absolute;
-  left: 30%;
+  left: 50%;
   top: 10px;
+  transform: translate(-50%);
   z-index: 999;
 }
 
@@ -38,4 +39,11 @@ mat-form-field {
 .spacer {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.vertical-divider {
+  position: relative;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  margin-right: 50px;
+  margin-left: 50px;
 }

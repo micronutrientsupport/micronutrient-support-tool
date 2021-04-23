@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as L from 'leaflet';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -28,11 +28,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public abnThreshold = 60;
   public showOutliers = false;
   public outlierControl = new FormControl(false);
-  public tables = new FormControl();
-  public charactersitics = new FormControl();
-  public tableList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
-  public CharactersiticTableList: string[] = ['Regions', 'Residence', 'Age group', 'Wealth Quintiles', 'All characteristics', 'Total'];
+  public dataTypes = new FormControl();
+  public characteristics = new FormControl();
+  public dataList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
+  public characteristicList: string[] = ['Regions', 'Residence', 'Age group', 'Wealth Quintiles', 'All characteristics', 'Total'];
   public totalSamples = 6587;
+  public selectedOption: any;
+  public selectedCharacteristic: any;
 
   private biomarkerMap: L.Map;
 
@@ -104,14 +106,29 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   }
 
+  // Show/remove outlier data on boxplot.
   public toggleShowOutlier(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.showOutliers = this.outlierControl.value;
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 0) {
       this.biomarkerMap.invalidateSize();
+    }
+  }
+
+  // Capture value from data select dropdown.
+  private dataSelected(value: any) {
+    this.selectedOption = value;
+    console.log(value);
+  }
+
+  // Capture value from characteristic select dropdown in table tab.
+  private charactersiticSelected(value: any) {
+    this.selectedCharacteristic = value;
+    console.log(value);
+    if (this.selectedOption) {
+      // do something
     }
   }
 
