@@ -24,13 +24,16 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public title = 'Zinc Status - Adult Women';
   public displayedColumns = ['a', 'b', 'c', 'd'];
   public displayedColumns2 = ['a', 'b', 'c'];
-
   public defThreshold = 20;
   public abnThreshold = 60;
   public showOutliers = false;
   public outlierControl = new FormControl(false);
   public tables = new FormControl();
+  public charactersitics = new FormControl();
   public tableList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
+  public CharactersiticTableList: string[] = ['Regions', 'Residence', 'Age group', 'Wealth Quintiles', 'All characteristics', 'Total'];
+  public totalSamples = 6587;
+
   private biomarkerMap: L.Map;
 
   constructor() { }
