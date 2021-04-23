@@ -1,7 +1,6 @@
 import { Injector } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
