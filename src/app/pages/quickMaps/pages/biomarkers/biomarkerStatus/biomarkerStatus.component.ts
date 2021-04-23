@@ -5,8 +5,6 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
 @Component({
@@ -24,7 +22,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public dialogData: any;
   public title = 'Zinc Status - Adult Women';
-  public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public displayedColumns = ['a', 'b', 'c', 'd'];
   public displayedColumns2 = ['a', 'b', 'c'];
 
