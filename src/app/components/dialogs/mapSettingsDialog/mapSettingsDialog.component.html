@@ -3,28 +3,69 @@
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
-        <mat-list-option [disabled]="true" value="advanced">Advanced</mat-list-option>
+        <mat-list-option value="advanced">Create Gradient</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
     <div class="sidenav-content">
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="color-box">
         <p>Colour Gradient</p>
-        <mat-selection-list [(ngModel)]="generalSelectionValue" [multiple]="false">
-          <mat-list-option *ngFor="let colourGradientItem of gradientList" [value]="colourGradientItem.colourGradient">
-            <span class="colour-option">{{colourGradientItem.name}} <span
-                [ngClass]="['colour-sample', colourGradientItem.colourGradient]"></span></span>
+        <mat-selection-list #selectionList [multiple]="false">
+          <mat-list-option [value]="colourPaletteType.BLUEREDYELLOWGREEN">
+            <span class="colour-option">Blue-Red-Yellow-Green
+              <span class="colour-sample blueRedYellowGreen"></span>
+            </span>
+          </mat-list-option>
+          <mat-list-option [value]="colourPaletteType.DIVERGINGCOLORS">
+            <span class="colour-option">Red-Light-Green
+              <span class="colour-sample divergingColors"></span>
+            </span>
+          </mat-list-option>
+          <mat-list-option [value]="colourPaletteType.COLOURBLIND">
+            <span class="colour-option">Colour Blind
+              <span class="colour-sample colourblind"></span>
+            </span>
+          </mat-list-option>
+          <mat-list-option [disabled]="!customGradientDefined" [value]="colourPaletteType.CUSTOM">
+            <span class="colour-option colourblind">Custom Gradient
+              <span class="colour-sample" [style.background]="customColourGradientColours"></span>
+            </span>
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'" class="color-box"
-        [ngStyle]="{'background-color': '#2ca25f'}">
-        <p>Advanced</p>
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
+        <header>
+          <p>Generate Custom Colour Gradient <i class="fas fa-question-circle"
+              matTooltip="Click on the boxes to create your own custom gradient." matTooltipPosition="after"></i></p>
+          <div class="inputs">
+            <div class="color-input">
+              <input (change)="callCustomColourInput([colorOne.value, colorTwo.value, colorThree.value])" #colorOne
+                value="#00ff00" type="color" id="color1" />
+            </div>
+            <div class="color-input">
+              <input (change)="callCustomColourInput([colorOne.value, colorTwo.value, colorThree.value])" #colorTwo
+                value="#F5F5F5" type="color" id="color2" />
+            </div>
+            <div class="color-input">
+              <input (change)="callCustomColourInput([colorOne.value, colorTwo.value, colorThree.value])" #colorThree
+                value="#ff0000" type="color" id="color3" />
+            </div>
+          </div>
+        </header>
+
+        <!-- div to hold the color scales -->
+        <div [hidden]="!showCustomGradient">
+          <p>Custom Gradient:</p>
+          <div #container class="container"></div>
+        </div>
       </div>
-      <div class="button-wrapper">
-        <button mat-raised-button (click)="applyChanges()">Apply Changes</button>
+
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="button-wrapper">
+        <button mat-raised-button [disabled]="selectionList?.selectedOptions.selected[0] == null"
+          (click)="applyChanges()">Apply
+          Changes</button>
+        <button mat-raised-button (click)="cancel()">Cancel</button>
       </div>
     </div>
-
   </mat-drawer-container>
 </app-base-dialog>

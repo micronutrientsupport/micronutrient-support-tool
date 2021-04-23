@@ -1,5 +1,44 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": false
+  "editor.formatOnPaste": false,
+  // "workbench.colorCustomizations": {
+  //   "activityBar.activeBackground": "#ae8fad",
+  //   "activityBar.activeBorder": "#e4e4da",
+  //   "activityBar.background": "#ae8fad",
+  //   "activityBar.foreground": "#15202b",
+  //   "activityBar.inactiveForeground": "#15202b99",
+  //   "activityBarBadge.background": "#e4e4da",
+  //   "activityBarBadge.foreground": "#15202b",
+  //   "editorGroup.border": "#ae8fad",
+  //   "panel.border": "#ae8fad",
+  //   "sideBar.border": "#ae8fad",
+  //   "statusBar.background": "#997197",
+  //   "statusBar.border": "#997197",
+  //   "statusBar.foreground": "#15202b",
+  //   "statusBarItem.hoverBackground": "#7d5a7b",
+  //   "tab.activeBorder": "#ae8fad",
+  //   "titleBar.activeBackground": "#997197",
+  //   "titleBar.activeForeground": "#15202b",
+  //   "titleBar.border": "#997197",
+  //   "titleBar.inactiveBackground": "#99719799",
+  //   "titleBar.inactiveForeground": "#15202b99"
+  // },
+  "peacock.color": "#997197",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#ae8fad",
+    "activityBar.activeBorder": "#e4e4da",
+    "activityBar.background": "#ae8fad",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#e4e4da",
+    "activityBarBadge.foreground": "#15202b",
+    "statusBar.background": "#997197",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#7d5a7b",
+    "titleBar.activeBackground": "#997197",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#99719799",
+    "titleBar.inactiveForeground": "#15202b99"
+  }
 }
