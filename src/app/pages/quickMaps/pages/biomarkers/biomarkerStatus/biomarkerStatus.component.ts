@@ -56,14 +56,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
             label: 'Zinc',
             backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
-            outlierColor: 'rgba(0,0,0,0.5)',
-            outlierRadius: 4,
+            outlierColor: 'rgba(0,0,0,0.2)',
+            outlierRadius: 3,
             data: [
-              [40, 50, 60, 70, 80],
-              [0, 10, 20, 30, 40],
-              [20, 30, 40, 50, 60],
-              [60, 70, 80, 90, 100],
-              [20, 40, 60, 80, 100]
+              this.randomBoxPlot(0, 100),
+              this.randomBoxPlot(0, 20),
+              this.randomBoxPlot(20, 70),
+              this.randomBoxPlot(60, 100),
+              this.randomBoxPlot(50, 100),
             ],
           }
         ]
@@ -104,6 +104,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
+    console.log(this.chartData.data.datasets[0].data[0]);
+
   }
 
   // Show/remove outlier data on boxplot.
@@ -130,6 +132,25 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (this.selectedOption) {
       // do something
     }
+  }
+
+  private randomValues(count: number, min: number, max: number) {
+    const delta = max - min;
+    return Array.from({ length: count }).map(() => Math.random() * delta + min);
+  }
+
+  // Return the correct interface to dislpay outliers
+  private randomBoxPlot(min: any, max: any) {
+    const values = this.randomValues(6, min, max).sort((a, b) => a - b);
+
+    return {
+      min: values[0],
+      q1: values[1],
+      median: values[2],
+      q3: values[3],
+      max: values[4],
+      outliers: Array(20).fill(1).map(() => Math.round(Math.random() * 120))
+    };
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
