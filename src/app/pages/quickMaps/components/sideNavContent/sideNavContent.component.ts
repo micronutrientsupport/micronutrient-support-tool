@@ -212,6 +212,7 @@ export class SideNavContentComponent implements OnInit {
   private updateDataSources(): void {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
+    // const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 
     if ((null != country) && (null != measure)) {
 

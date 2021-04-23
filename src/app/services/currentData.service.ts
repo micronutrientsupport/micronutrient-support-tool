@@ -31,11 +31,13 @@ export class CurrentDataService {
   public getDataSources(
     countryOrGroup: CountryDictionaryItem,
     measureType: MicronutrientMeasureType,
-    singleOptionOnly: boolean,
+    ageGenderGroup?: AgeGenderGroup,
+    singleOptionOnly = false,
   ): Promise<Array<DataSource>> {
     return this.apiService.endpoints.currentData.getDataSources.call({
       countryOrGroup,
       measureType,
+      ageGenderGroup,
       singleOptionOnly,
     });
   }

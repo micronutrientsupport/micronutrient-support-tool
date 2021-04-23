@@ -23,7 +23,7 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     // console.debug('call', this, params, this.defaultParams, this.mergeParams(params));
     return new Promise((resolve) => {
       const resolveFunc = () => {
-        const mergedParams = this.mergeParams(params);
+        const mergedParams = this.validateAndMergeParams(params);
 
         return (this.isLive ? this.callLive(mergedParams) : this.callMock(mergedParams))
           .then((data: RETURN_TYPE) => {
@@ -101,9 +101,11 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     // console.debug('endpoint init', this);
   }
 
-  protected mergeParams(params: PARAMS_TYPE): PARAMS_TYPE {
+  protected validateAndMergeParams(params: PARAMS_TYPE): PARAMS_TYPE {
     const overrideParams = null == params ? {} : params;
     const defaultParams = null == this.defaultParams ? {} : this.defaultParams;
+
+    this.validateParams(mergedParams, overrideParams, defaultParams);
 
     // merge them
     return {
@@ -183,6 +185,12 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     }
     return returnObj;
   }
+
+  /**
+   * Override and throw a new Error('my error') if invalid
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected validateParams(mergedParams: PARAMS_TYPE, overrideParams: PARAMS_TYPE, defaultParams: PARAMS_TYPE): void { }
 
   protected abstract callLive(params?: PARAMS_TYPE): Promise<RETURN_TYPE>;
   protected abstract callMock(params?: PARAMS_TYPE): Promise<RETURN_TYPE>;

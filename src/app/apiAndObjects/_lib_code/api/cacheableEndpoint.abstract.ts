@@ -11,7 +11,7 @@ OBJECT_TYPE
   protected currentCallPromise: Promise<RETURN_TYPE>;
 
   public call(params?: PARAMS_TYPE, useCache?: boolean): Promise<RETURN_TYPE> {
-    const cacheKey = this.getCacheKey(this.mergeParams(params));
+    const cacheKey = this.getCacheKey(this.validateAndMergeParams(params));
     const cacheValue = this.getCacheValue(cacheKey);
     useCache = null == useCache ? this.useCacheByDefault : useCache;
     if (null != cacheValue && useCache) {
