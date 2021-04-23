@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import * as L from 'leaflet';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -29,7 +29,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public abnThreshold = 60;
   public showOutliers = false;
   public outlierControl = new FormControl(false);
-
+  public tables = new FormControl();
+  public tableList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
   private biomarkerMap: L.Map;
 
   constructor() { }
@@ -101,8 +102,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   public toggleShowOutlier(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.showOutliers = this.outlierControl.value;
-    console.log(this.showOutliers);
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
