@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
@@ -28,7 +28,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public displayedColumns = ['a', 'b', 'c', 'd'];
   public displayedColumns2 = ['a', 'b', 'c'];
 
-  // Temporary data:
   public defThreshold = 20;
   public abnThreshold = 60;
   public showOutliers = false;
@@ -39,7 +38,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   constructor() { }
   ngAfterViewInit(): void {
 
-    console.log(this.randomValues(100, 0, 100));
     this.card.title = this.title;
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -52,16 +50,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         labels: ['Central', 'North', 'South', 'South East', 'West'],
         datasets: [
           {
-            label: 'Dataset 1',
+            label: 'Zinc',
             backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
+            outlierColor: 'rgba(0,0,0,0.5)',
+            outlierRadius: 4,
             data: [
-              [10, 20, 30, 40, 50, 15, 25, 35, 45, 55],
-              this.randomValues(100, 0, 20),
-              this.randomValues(100, 20, 70),
-              this.randomValues(100, 60, 100),
-              this.randomValues(40, 50, 100),
-              this.randomValues(100, 60, 120)
+              [40, 50, 60, 70, 80],
+              [0, 10, 20, 30, 40],
+              [20, 30, 40, 50, 60],
+              [60, 70, 80, 90, 100],
+              [20, 40, 60, 80, 100]
             ],
           }
         ]
@@ -77,8 +76,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               value: this.defThreshold,
               borderWidth: 2.0,
               borderColor: 'rgba(255,0,0,0.5)',
-              outlierColor: 'rgba(0,0,0,0.3)',
-              outlierRadius: 3,
               label: {
                 enabled: true,
                 content: 'Deficiency threshold',
@@ -93,8 +90,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               value: this.abnThreshold,
               borderWidth: 2.0,
               borderColor: 'rgba(0,0,255,0.5)',
-              outlierColor: 'rgba(0,0,0,0.3)',
-              outlierRadius: 3,
               label: {
                 enabled: true,
                 content: 'Threshold for abnormal values',
@@ -113,6 +108,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     console.log(this.showOutliers);
   }
 
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    if (tabChangeEvent.index === 0) {
+      this.biomarkerMap.invalidateSize();
+    }
+  }
+
   private initialiseMap(mapElement: HTMLElement): L.Map {
     const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -122,9 +123,5 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     return map;
   }
 
-  private randomValues(count: number, min: number, max: number): any {
-    const delta = max - min;
-    return Array.from({ length: count }).map(() => Math.random() * delta + min);
-  }
 
 }

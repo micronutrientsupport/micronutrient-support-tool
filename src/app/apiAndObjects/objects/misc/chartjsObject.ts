@@ -4,10 +4,12 @@ import { TopFoodSource } from '../topFoodSource';
 export interface ChartsJSDataObject {
   labels?: Array<string | number>;
   datasets: Array<{
-    data?: Array<number | string>;
+    data?: Array<any | string>;
     label?: string;
     backgroundColor?: string;
     borderColor?: string;
+    outlierColor?: string;
+    outlierRadius?: number;
     fill?: boolean;
     tree?: Array<TopFoodSource>;
     key?: string;
@@ -72,8 +74,6 @@ export interface ChartJSObject {
           value: number; // data-value at which the line is drawn
           borderWidth: number;
           borderColor: string;
-          outlierColor?: string;
-          outlierRadius?: number;
           label: {
             enabled: boolean;
             content?: string;
