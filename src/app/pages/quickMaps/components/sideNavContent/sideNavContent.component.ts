@@ -261,7 +261,20 @@ export class SideNavContentComponent implements OnInit {
 
     if (null != micronutrients) {
       void this.currentDataService.getAgeGenderGroups([micronutrients]).then((options: Array<AgeGenderGroup>) => {
+        let newSelection: AgeGenderGroup;
+
+        const currentSelection = this.quickMapsForm.get('ageGenderData').value as AgeGenderGroup;
+        // re-select the previously selected group
+        if (null != currentSelection) {
+          newSelection = options.find(option => option.id === currentSelection.id);
+        }
+        // if no previous selection or previous selection not available, default to first option
+        if (null == newSelection) {
+          newSelection = options[0];
+        }
         this.ageGenderGroups = options;
+
+        this.quickMapsForm.get('ageGenderData').setValue(newSelection);
       });
     } else {
       // clear
