@@ -142,13 +142,12 @@ export class QuickMapsService {
   }
 
   private getDataSource(): Promise<DataSource> {
-    return Promise.all([this.quickMapsParameters.getCountry()]).then(
-      (data: [CountryDictionaryItem]) =>
-        null == data[0]
-          ? null
-          : this.currentDataService
-              .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
-              .then((options) => options[0]), // first item
+    return Promise.all([this.quickMapsParameters.getCountry()]).then((data: [CountryDictionaryItem]) =>
+      null == data[0]
+        ? null
+        : this.currentDataService
+            .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
+            .then((options) => options[0]),
     );
   }
 }
