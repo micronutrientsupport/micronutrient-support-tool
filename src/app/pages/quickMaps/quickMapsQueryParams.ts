@@ -14,6 +14,7 @@ export class QuickMapsQueryParams {
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
     DATA_LEVEL: 'data-level',
+    AGE_GENDER_GROUP: 'age-gender-group',
   };
 
   private readonly dictionariesService: DictionaryService;
@@ -29,17 +30,22 @@ export class QuickMapsQueryParams {
   public getCountryId(queryParamMap?: ParamMap): string {
     return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
   }
+  public getAgeGenderGroupId(queryParamMap?: ParamMap): string {
+    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP);
+  }
   public getCountry(queryParamMap?: ParamMap): Promise<CountryDictionaryItem> {
-    return this.dictionariesService.getDictionary(DictionaryType.COUNTRIES)
-      .then(dict => dict.getItem(this.getCountryId(queryParamMap)));
+    return this.dictionariesService
+      .getDictionary(DictionaryType.COUNTRIES)
+      .then((dict) => dict.getItem(this.getCountryId(queryParamMap)));
   }
 
   public getMicronutrientId(queryParamMap?: ParamMap): string {
     return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID);
   }
   public getMicronutrient(queryParamMap?: ParamMap): Promise<MicronutrientDictionaryItem> {
-    return this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS)
-      .then(dict => dict.getItem(this.getMicronutrientId(queryParamMap)));
+    return this.dictionariesService
+      .getDictionary(DictionaryType.MICRONUTRIENTS)
+      .then((dict) => dict.getItem(this.getMicronutrientId(queryParamMap)));
   }
 
   public getMeasure(queryParamMap?: ParamMap): MicronutrientMeasureType {
@@ -64,23 +70,19 @@ export class QuickMapsQueryParams {
         if (Array.isArray(params[key])) {
           params[key] = (params[key] as Array<string>).join(',');
         }
-        const trimmedValue = (null == params[key]) ? '' : (params[key] as string).trim();
+        const trimmedValue = null == params[key] ? '' : (params[key] as string).trim();
         if (trimmedValue.length > 0) {
           stringParams[key] = trimmedValue;
         }
       }
     });
-    void this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        replaceUrl: true, // replace in history
-        queryParams: stringParams,
-        // queryParamsHandling: 'merge', // merges with what's already there, but unused params are removed
-      }
-    );
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      replaceUrl: true, // replace in history
+      queryParams: stringParams,
+      // queryParamsHandling: 'merge', // merges with what's already there, but unused params are removed
+    });
   }
-
 
   // public static arrayValuesSame(array1: Array<string>, array2: Array<string>): boolean {
   //   array1 = this.filterAndSortArray(array1);
@@ -103,6 +105,6 @@ export class QuickMapsQueryParams {
 
   private params(queryParamMap?: ParamMap): ParamMap {
     // console.debug('this.route.snapshot.queryParamMap', this.route.snapshot);
-    return (null != queryParamMap) ? queryParamMap : this.route.snapshot.queryParamMap;
+    return null != queryParamMap ? queryParamMap : this.route.snapshot.queryParamMap;
   }
 }

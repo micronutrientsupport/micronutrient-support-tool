@@ -2,8 +2,12 @@
 
 describe('Homepage Tests', () => {
 
-  it('loads the home page sharing dialog', () => {
+  it('wakes up', () => {
     cy.visit('/');
+  });
+
+  it('loads the home page sharing dialog', () => {
+    cy.visit('/', { timeout: 20000 });
     cy.get('#sharePageButton').click();
     cy.get('#shareContentPanel').should('be.visible');
     cy.get('#shareContentPanel > h2').contains('Share this page');

@@ -77,7 +77,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "micronutrient-support-tool:build",
-            "port": 8100
+            "port": 8100,
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
