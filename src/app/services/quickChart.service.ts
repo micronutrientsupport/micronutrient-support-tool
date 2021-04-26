@@ -18,6 +18,8 @@ export class QuickchartService {
     const tmpChart = new QuickChart();
     chartData.options.title.display = true;
     tmpChart.setConfig(chartData);
+    tmpChart.setWidth(700);
+    tmpChart.setHeight(450);
     tmpChart.setFormat(format);
     const chartUrl: string = tmpChart.getUrl();
 

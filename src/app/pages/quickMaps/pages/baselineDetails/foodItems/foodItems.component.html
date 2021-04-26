@@ -1,11 +1,9 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Tree">
-      <!-- <div class="bmgf-maps-nice-scrollbar"> -->
       <ngx-chartjs *ngIf="chartData" id="treemap" [data]="chartData.data" [type]="chartData.type"
         [options]="chartData.options" [plugins]="chartData.plugins">
       </ngx-chartjs>
-      <!-- </div> -->
     </mat-tab>
 
     <mat-tab label="Table">
@@ -27,9 +25,9 @@
       </div>
     </mat-tab>
 
-    <!-- <mat-tab label="Download">
+    <mat-tab label="Download">
       <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF"></app-download>
-    </mat-tab> -->
+    </mat-tab>
 
   </mat-tab-group>
 </ng-template>

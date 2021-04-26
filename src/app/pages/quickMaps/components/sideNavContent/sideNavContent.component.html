@@ -1,43 +1,68 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-  <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
-    (click)="minimiseSideNav()">
-    <i class="fas fa-caret-left"></i></button>
+  <button
+    class="minimize-button"
+    mat-icon-button
+    type="button"
+    [disabled]="sideNavToggleLock.value"
+    (click)="minimiseSideNav()"
+  >
+    <i class="fas fa-caret-left"></i>
+  </button>
   <h2 (click)="minimiseSideNav()">Quick Maps</h2>
-  <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
-    [matTooltip]="(sideNavToggleLock.value === true) ? 'Unlock Side-Nav': 'Lock Side-Nav'">
+  <mat-slide-toggle
+    matTooltipClass="tooltip"
+    [formControl]="sideNavToggleLock"
+    color="primary"
+    [matTooltip]="sideNavToggleLock.value === true ? 'Unlock Side-Nav' : 'Lock Side-Nav'"
+  >
   </mat-slide-toggle>
 </div>
 
-<div *ngIf="(null != quickMapsForm) && ((quickMapsService.slimObservable | async) === false)"
-  class="bmgf-maps-nice-scrollbar scroll-area">
-  <form [formGroup]="quickMapsForm" id="quickMapsForm"
-    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
-
+<div
+  *ngIf="null != quickMapsForm && (quickMapsService.slimObservable | async) === false"
+  class="bmgf-maps-nice-scrollbar scroll-area"
+>
+  <form
+    [formGroup]="quickMapsForm"
+    id="quickMapsForm"
+    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''"
+  >
     <fieldset name="geographyOfInterest">
       <legend>
         <span class="field-title">
           <h3>Geography of interest</h3>
-          <a class="map-button" mat-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
-            [queryParams]="route.queryParams | async" routerLinkActive [routerLinkActiveOptions]="{exact: true}"
-            #rla="routerLinkActive" [disabled]="rla.isActive"><i class="fas fa-map-marked-alt"></i></a>
+          <a
+            class="map-button"
+            mat-button
+            [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
+            [queryParams]="route.queryParams | async"
+            routerLinkActive
+            [routerLinkActiveOptions]="{ exact: true }"
+            #rla="routerLinkActive"
+            [disabled]="rla.isActive"
+            ><i class="fas fa-map-marked-alt"></i
+          ></a>
           <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
         </span>
       </legend>
 
       <div class="toggle-buttons">
-        <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
-          (change)="geographyTypeChange($event.value)" aria-label="Geography of interest"
-          [value]="selectedGeographyType">
+        <mat-button-toggle-group
+          #group="matButtonToggleGroup"
+          name="geographyInterest"
+          (change)="geographyTypeChange($event.value)"
+          aria-label="Geography of interest"
+          [value]="selectedGeographyType"
+        >
           <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
-          <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area
-          </mat-button-toggle>
+          <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
       <mat-form-field appearance="fill" aria-label="Geography of interest">
         <mat-select name="nation" formControlName="nation" [placeholder]="'select a ' + group.value">
           <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
-            {{item.name}}
+            {{ item.name }}
           </mat-option>
         </mat-select>
         <mat-error>Please select a ({{group.value}})</mat-error>
@@ -52,8 +77,12 @@
         </span>
       </legend>
       <div class="toggle-buttons">
-        <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
-          (change)="mndChange($event.value)" [value]="selectedMndType">
+        <mat-button-toggle-group
+          #groupMND="matButtonToggleGroup"
+          aria-label="MNDs of interest"
+          (change)="mndChange($event.value)"
+          [value]="selectedMndType"
+        >
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
           <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
@@ -61,15 +90,18 @@
       </div>
       <ng-container>
         <mat-form-field appearance="fill">
-          <mat-select name="micronutrient" formControlName="micronutrient"
-            [placeholder]="'Select ' + groupMND?.value + ' option'">
-            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{mnd.name}}</mat-option>
+          <mat-select
+            name="micronutrient"
+            formControlName="micronutrient"
+            [placeholder]="'Select ' + groupMND?.value + ' option'"
+          >
+            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{ mnd.name }}</mat-option>
           </mat-select>
           <mat-error>Please select MND ({{groupMND.value}})</mat-error>
         </mat-form-field>
       </ng-container>
     </fieldset>
-    
+
     <fieldset>
       <legend>
         <div class="field-title">
@@ -82,12 +114,37 @@
           <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.DIET" [disabled]="!measureDietEnabled">
             Diet Data
           </mat-button-toggle>
-          <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" [disabled]="!measureBiomarkerEnabled">
+          <mat-button-toggle
+            #biomarkerToggle
+            [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
+            [disabled]="!measureBiomarkerEnabled"
+          >
             Biomarker Data
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </fieldset>
+
+    <div [hidden]="!biomarkerToggle.checked">
+      <fieldset>
+        <legend>
+          <div class="field-title">
+            <h3>Age-gender-group</h3>
+            <i class="fas fa-question-circle" matTooltip="some text exaplaining this form field"></i>
+          </div>
+        </legend>
+        <mat-form-field appearance="fill">
+          <mat-select
+            name="ageGenderData"
+            formControlName="ageGenderData"
+            placeholder="Click to select option"
+            panelClass="allow-long-text"
+          >
+            <mat-option *ngFor="let item of ageGenderGroups" [value]="item">{{ item.name }} </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </fieldset>
+    </div>
 
     <fieldset>
       <legend class="flex-row">
@@ -105,12 +162,13 @@
         <mat-error>{{(0 < dataSource) ? 'Please select a data source' : '*No data source available for this selection'}}</mat-error>
       </mat-form-field>
     </fieldset>
-
   </form>
 </div>
 
-<div class="footer-row" [class.show]="showGoButton"
-  [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
-  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">
-    View results</button>
+<div
+  class="footer-row"
+  [class.show]="showGoButton"
+  [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''"
+>
+  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
 </div>

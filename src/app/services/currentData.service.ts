@@ -25,7 +25,6 @@ export class CurrentDataService {
     //       micronutrients: [item],
     //     }).then(data => console.debug(data));
     //   });
-
   }
 
   public getDataSources(
@@ -145,9 +144,7 @@ export class CurrentDataService {
     });
   }
 
-  public getAgeGenderGroups(
-    micronutrients: Array<MicronutrientDictionaryItem>,
-  ): Promise<Array<AgeGenderGroup>> {
+  public getAgeGenderGroups(micronutrients: Array<MicronutrientDictionaryItem>): Promise<Array<AgeGenderGroup>> {
     return this.apiService.endpoints.currentData.getAgeGenderGroups.call({
       micronutrients,
     });

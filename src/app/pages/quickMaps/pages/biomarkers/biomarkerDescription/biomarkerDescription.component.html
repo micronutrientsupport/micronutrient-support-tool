@@ -4,10 +4,10 @@
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
-            Nation: <strong>{{(quickMapsService.countryObs | async)?.name}}</strong>
+            Nation: <strong>{{ (quickMapsService.countryObs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Vitamin: <strong>{{(quickMapsService.micronutrientObs | async)?.name}}</strong>
+            Vitamin: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
           </div>
           <div class="item">
             Data level:
@@ -22,23 +22,17 @@
                 (click)="$event.stopPropagation()">
                 <mat-option *ngFor="let option of (quickMapsService.dataSourceObs | async).dataLevelOptions"
                   [value]="option" class="capitalize-text">
-                  {{option}}
+                  {{ option }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
+          <div class="item">Measure of MN: <strong>Biomarker</strong></div>
           <div class="item">
-            Measure of MN: <strong>Biomarker</strong>
+            Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async)?.name }}</strong>
           </div>
-          <div class="item">
-            Age-gender group: <strong>Adult women</strong>
-          </div>
-          <div class="item">
-            Data Source: <strong>Ethiopia National Micronutirent Data Survey</strong>
-          </div>
-          <div class="item">
-            Year: <strong>2014</strong>
-          </div>
+          <div class="item">Data Source: <strong>Ethiopia National Micronutirent Data Survey</strong></div>
+          <div class="item">Year: <strong>2014</strong></div>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>

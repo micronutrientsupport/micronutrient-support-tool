@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-prod": "ng serve --configuration=production",
+    "start-prod": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng serve --prod",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
@@ -13,8 +13,8 @@
     "lint:quiet": "eslint \"*/**/*.{ts,tsx}\" --quiet --fix",
     "e2e": "ng e2e",
     "ci:cypress-run": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng run app:cypress-run",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:open": "cypress open --browser chrome",
+    "cypress:run": "cypress run --browser chrome --headless",
     "build:stats": "ng build --stats-json",
     "analyze": "webpack-bundle-analyzer dist/micronutrient-support-tool/stats.json",
     "prepare": "husky install"
@@ -41,6 +41,7 @@
     "@types/chart.js": "^2.9.31",
     "angular-gridster2": "^11.1.5",
     "chart.js": "^2.9.4",
+    "chartjs-chart-box-and-violin-plot": "^2.4.0",
     "chartjs-chart-treemap": "^0.2.3",
     "chartjs-plugin-annotation": "^0.5.7",
     "chroma-js": "^2.1.1",
