@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as L from 'leaflet';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
@@ -7,6 +8,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
+import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
@@ -16,6 +18,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('map1') map1Element: ElementRef;
+  @ViewChild('boxplot') boxplot: ChartjsComponent;
 
   @Input() card: CardComponent;
 
@@ -26,8 +29,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public displayedColumns2 = ['a', 'b', 'c'];
   public defThreshold = 20;
   public abnThreshold = 60;
-  public showOutliers = false;
-  public outlierControl = new FormControl(false);
+  public showOutliers = true;
+  public outlierControl = new FormControl(true);
   public dataTypes = new FormControl();
   public characteristics = new FormControl();
   public dataList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
@@ -37,6 +40,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public selectedCharacteristic: any;
 
   private biomarkerMap: L.Map;
+  private currentChartData: ChartJSObject;
 
   constructor() { }
   ngAfterViewInit(): void {
@@ -104,13 +108,27 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
-    console.log(this.chartData.data.datasets[0].data[0]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.currentChartData = this.chartData;
 
   }
 
   // Show/remove outlier data on boxplot.
   public toggleShowOutlier(): void {
     this.showOutliers = this.outlierControl.value;
+    if (!this.showOutliers) {
+      this.chartData.data.datasets[0].data.forEach((chart: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        chart.outliers.pop();
+        console.log('remove');
+        this.boxplot.updateChart();
+      });
+    } else {
+      this.currentChartData.data.datasets[0].data.forEach((x: any, idx: number) => {
+        console.log('put back', x, idx);
+        this.boxplot.updateChart();
+      });
+    }
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {

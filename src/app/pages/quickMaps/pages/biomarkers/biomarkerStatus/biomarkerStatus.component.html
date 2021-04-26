@@ -84,8 +84,8 @@
                     placerat orci. Dictumst quisque sagittis purus sit amet
                 </div>
                 <div class="status-element">
-                    <ngx-chartjs id="box-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
-                        [options]="chartData.options" [plugins]="chartData.plugins">
+                    <ngx-chartjs #boxplot id="box-chart" *ngIf="chartData" [data]="chartData.data"
+                        [type]="chartData.type" [options]="chartData.options" [plugins]="chartData.plugins">
                     </ngx-chartjs>
                 </div>
                 <div class="status-element data-grid">
