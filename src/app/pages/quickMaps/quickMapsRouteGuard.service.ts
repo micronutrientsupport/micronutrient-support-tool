@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
@@ -9,6 +10,8 @@ import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -32,7 +35,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', route.queryParamMap, route.routeConfig.path);
+    // console.debug('canActivate', snapshot);
 
     // code for potentially having different validity checks for different routes
     // switch (route.routeConfig.path) {
@@ -68,11 +71,11 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return Promise.all([
       this.getRequiredNavForMeasureValidation(snapshot),
       this.getRequiredNavForMicronutrientValidation(snapshot),
-    ]).then((navRoutes: Array<AppRoute>) => navRoutes.find(navRoute => (null != navRoute)));
+    ]).then((navRoutes: Array<AppRoute>) => navRoutes.find((navRoute) => null != navRoute));
   }
 
   private validateMicronutrientForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
-    return this.getRequiredNavForMicronutrientValidation(snapshot).then(route => (null == route));
+    return this.getRequiredNavForMicronutrientValidation(snapshot).then((route) => null == route);
   }
   /**
    * validates selected micronutrient against current page.
@@ -81,17 +84,17 @@ export class QuickMapsRouteGuardService implements CanActivate {
   private getRequiredNavForMicronutrientValidation(snapshot: ActivatedRouteSnapshot): Promise<AppRoute> {
     const appRoute = (snapshot.data as RouteData).appRoute;
     // don't allow diet projection page access if micronutrient not in IMPACT model
-    return (
-      (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION)
-        ? Promise.resolve(null)
-        : this.quickMapsParameters.getMicronutrient(snapshot.queryParamMap)
-          .then((micronutrient: MicronutrientDictionaryItem) => (micronutrient.isInImpact) ? null : AppRoutes.QUICK_MAPS_BASELINE)
-    ) as Promise<AppRoute>;
-
+    return (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
+      ? Promise.resolve(null)
+      : this.quickMapsParameters
+        .getMicronutrient(snapshot.queryParamMap)
+        .then((micronutrient: MicronutrientDictionaryItem) =>
+          micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
+        )) as Promise<AppRoute>;
   }
 
   private validateMeasureForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
-    return this.getRequiredNavForMeasureValidation(snapshot).then(route => (null == route));
+    return this.getRequiredNavForMeasureValidation(snapshot).then((route) => null == route);
   }
   /**
    * validates selected measure against current page.
@@ -103,9 +106,12 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // console.debug('validateMeasureForRoute', measure, snapshot);
 
     let navRoute: AppRoute; // route to navigate to
-    if ((MicronutrientMeasureType.DIET === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET))) {
+    if (MicronutrientMeasureType.DIET === measure && !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)) {
       navRoute = AppRoutes.QUICK_MAPS_BASELINE;
-    } else if ((MicronutrientMeasureType.BIOMARKER === measure) && (!appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER))) {
+    } else if (
+      MicronutrientMeasureType.BIOMARKER === measure &&
+      !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)
+    ) {
       navRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
     }
 
@@ -113,48 +119,66 @@ export class QuickMapsRouteGuardService implements CanActivate {
   }
 
   private validateParamsConsistency(queryParamMap: ParamMap): Promise<boolean> {
-
     return Promise.all([
       this.quickMapsParameters.getCountry(queryParamMap),
       this.quickMapsParameters.getMicronutrient(queryParamMap),
-    ]).then((values: [
-      CountryDictionaryItem,
-      MicronutrientDictionaryItem,
-    ]) => {
+    ]).then((values: [CountryDictionaryItem, MicronutrientDictionaryItem]) => {
       const country = values.shift() as CountryDictionaryItem;
       const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
+      const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId(queryParamMap);
+      const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
-      return (
-        (null == country)
-        || (null == micronutrient)
-        || (null == measure)
-      )
+
+      return null == country ||
+        null == micronutrient ||
+        null == measure ||
+        (measure === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroupId)
         ? false
-        : this.currentDataService.getDataSources(country, measure, true)
-          .then((options: Array<DataSource>) => {
-            const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
-
-            let valid = false;
-            const selectedOption = options[0]; // first item
-            // while we're here, validate the data level if set
-            if (null != selectedOption) {
-              if (null == dataLevel) {
-                valid = true;
-              } else {
-                const availableDataLevels = selectedOption.dataLevelOptions;
-                valid = availableDataLevels.includes(dataLevel);
-              }
-            }
-
-            return valid;
-          });
+        : Promise.all([
+          this.validateDataLevel(country, measure, dataLevel),
+          this.validateAgeGenderGroup(measure, micronutrient, ageGenderGroupId),
+        ])
+          .then((valids: Array<boolean>) => valids.every((valid) => true === valid));
     });
+  }
 
+  private validateDataLevel(
+    country: CountryDictionaryItem,
+    measure: MicronutrientMeasureType,
+    dataLevel: DataLevel,
+  ): Promise<boolean> {
+    return this.currentDataService.getDataSources(country, measure, true)
+      .then((options: Array<DataSource>) => {
+
+        let valid = false;
+        const selectedDataSource = options[0]; // always first item
+        if (null != selectedDataSource) {
+          const availableDataLevels = selectedDataSource.dataLevelOptions;
+          valid = availableDataLevels.includes(dataLevel);
+        }
+
+        return valid;
+      });
+  }
+
+  private validateAgeGenderGroup(
+    measure: MicronutrientMeasureType,
+    micronutrient: MicronutrientDictionaryItem,
+    ageGenderGroupId: string,
+  ): Promise<boolean> {
+    return (measure === MicronutrientMeasureType.DIET)
+      ? Promise.resolve(true)
+      : this.currentDataService
+        .getAgeGenderGroups([micronutrient])
+        .then((ageGenderGroups: Array<AgeGenderGroup>) => {
+          const selectedAgeGenderGroup = ageGenderGroups.find((group) => group.id === ageGenderGroupId);
+          return null != selectedAgeGenderGroup;
+        });
   }
 
   private getActivatedRouteSnapshot(snapshot?: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
-    return (null != snapshot) ? snapshot : this.getActivatedRoute(this.route).snapshot;
+    return null != snapshot ? snapshot : this.getActivatedRoute(this.route).snapshot;
   }
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
     if (activatedRoute.firstChild) {
@@ -163,5 +187,4 @@ export class QuickMapsRouteGuardService implements CanActivate {
       return activatedRoute;
     }
   }
-
 }
