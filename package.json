@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start-prod": "ng serve --configuration=production",
+    "start-prod": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng serve --prod",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
