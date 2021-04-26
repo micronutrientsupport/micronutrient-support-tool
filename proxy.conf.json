@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://devapi.micronutrient.support",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
