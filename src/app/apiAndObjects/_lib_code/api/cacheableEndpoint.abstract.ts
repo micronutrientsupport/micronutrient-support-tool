@@ -1,9 +1,9 @@
 import { Endpoint } from './endpoint.abstract';
 
 export abstract class CacheableEndpoint<RETURN_TYPE, PARAMS_TYPE, OBJECT_TYPE = RETURN_TYPE> extends Endpoint<
-RETURN_TYPE,
-PARAMS_TYPE,
-OBJECT_TYPE
+  RETURN_TYPE,
+  PARAMS_TYPE,
+  OBJECT_TYPE
 > {
   protected useCacheByDefault = true;
 

@@ -102,17 +102,24 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
   }
 
   protected validateAndMergeParams(params: PARAMS_TYPE): PARAMS_TYPE {
-    const overrideParams = null == params ? {} : params;
-    const defaultParams = null == this.defaultParams ? {} : this.defaultParams;
+    const defaultParams = (null == this.defaultParams ? {} : this.defaultParams) as PARAMS_TYPE;
+    const overrideParams = (null == params ? {} : params) as PARAMS_TYPE;
+    // merge them
+    const mergedParams = {
+      ...defaultParams,
+      ...overrideParams,
+    };
 
     this.validateParams(mergedParams, overrideParams, defaultParams);
 
-    // merge them
-    return {
-      ...defaultParams,
-      ...overrideParams,
-    } as PARAMS_TYPE;
+    return mergedParams;
   }
+
+  /**
+   * Override and throw a new Error('my error') if invalid
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected validateParams(mergedParams: PARAMS_TYPE, overrideParams: PARAMS_TYPE, defaultParams: PARAMS_TYPE): void { }
 
   protected buildObjectsFromResponse(object: typeof BaseObject, dataProm: Promise<unknown>): Promise<Array<OBJECT_TYPE>> {
     return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
@@ -185,12 +192,6 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     }
     return returnObj;
   }
-
-  /**
-   * Override and throw a new Error('my error') if invalid
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected validateParams(mergedParams: PARAMS_TYPE, overrideParams: PARAMS_TYPE, defaultParams: PARAMS_TYPE): void { }
 
   protected abstract callLive(params?: PARAMS_TYPE): Promise<RETURN_TYPE>;
   protected abstract callMock(params?: PARAMS_TYPE): Promise<RETURN_TYPE>;
