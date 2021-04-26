@@ -168,28 +168,22 @@ export class QuickMapsService {
     if (null == ageGenderGroupId) {
       return Promise.resolve(null) as Promise<AgeGenderGroup>;
     } else {
-      return Promise.all([
-        this.quickMapsParameters.getMicronutrient(),
-      ]).then(
-        (data: [MicronutrientDictionaryItem]) =>
-          null == data[0] // we don't have a micronutrient set so can't get available age gender groups
-            ? null
-            : this.currentDataService
+      return Promise.all([this.quickMapsParameters.getMicronutrient()]).then((data: [MicronutrientDictionaryItem]) =>
+        null == data[0] // we don't have a micronutrient set so can't get available age gender groups
+          ? null
+          : this.currentDataService
               .getAgeGenderGroups([data[0]])
-              .then((options) => options.find(option => (option.id === ageGenderGroupId))),
+              .then((options) => options.find((option) => option.id === ageGenderGroupId)),
       );
     }
   }
   private getInitialDataSource(): Promise<DataSource> {
-    return Promise.all([
-      this.quickMapsParameters.getCountry(),
-    ]).then(
-      (data: [CountryDictionaryItem]) =>
-        null == data[0] // we don't have a country set so can't get available measures
-          ? null
-          : this.currentDataService
+    return Promise.all([this.quickMapsParameters.getCountry()]).then((data: [CountryDictionaryItem]) =>
+      null == data[0] // we don't have a country set so can't get available measures
+        ? null
+        : this.currentDataService
             .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
-            .then((options) => options[0]), // first item
+            .then((options) => options[0]),
     );
   }
 }
