@@ -18,7 +18,6 @@ export class GetDataSources extends CacheableEndpoint<
   protected callLive(
     params: GetDataSourcesParams,
   ): Promise<Array<DataSource>> {
-    this.validateParams(params);
     const callResponsePromise = this.apiCaller.doCall(['data-source', params.countryOrGroup.id, params.measureType],
       RequestMethod.GET,
     ).then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
