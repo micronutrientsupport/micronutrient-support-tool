@@ -36,9 +36,16 @@ export class GetDataSources extends CacheableEndpoint<
     return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
+  /**
+   * Throws parameter validation errors for the developer
+   * Logic written in the calling code should prevent these exceptions
+   */
   protected validateParams(params: GetDataSourcesParams): void {
-    if ((params.measureType === MicronutrientMeasureType.BIOMARKER) && (null == params.ageGenderGroup)) {
-      throw new Error('ageGenderGroup parameter must be set when measureType is BIOMARKER');
+    switch (true) {
+      case (null == params.countryOrGroup): throw new Error('countryOrGroup parameter must be set');
+      case (null == params.measureType): throw new Error('measureType parameter must be set');
+      case ((params.measureType === MicronutrientMeasureType.BIOMARKER) && (null == params.ageGenderGroup)):
+        throw new Error('ageGenderGroup parameter must be set when measureType is BIOMARKER');
     }
   }
 

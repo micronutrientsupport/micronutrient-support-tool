@@ -33,11 +33,22 @@ export class CurrentDataService {
     ageGenderGroup?: AgeGenderGroup,
     singleOptionOnly = false,
   ): Promise<Array<DataSource>> {
-    return this.apiService.endpoints.currentData.getDataSources.call({
-      countryOrGroup,
-      measureType,
-      ageGenderGroup,
-      singleOptionOnly,
+    return new Promise((resolve) => {
+      // no point in calling API if parameters selections aren't valid
+      if (
+        null == countryOrGroup
+        || null == measureType
+        || (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
+      ) {
+        resolve([]); // no data sources
+      } else {
+        resolve(this.apiService.endpoints.currentData.getDataSources.call({
+          countryOrGroup,
+          measureType,
+          ageGenderGroup,
+          singleOptionOnly,
+        }));
+      }
     });
   }
 
