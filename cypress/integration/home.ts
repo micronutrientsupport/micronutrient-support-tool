@@ -1,6 +1,10 @@
 /// <reference types="Cypress" />
 
 describe('Homepage Tests', () => {
+  it('wakes up', () => {
+    cy.visit('/');
+    cy.title().should('include', 'Micronutrient Action Policy Support (MAPS)');
+  });
 
   it('loads the home page sharing dialog', () => {
     cy.visit('/');

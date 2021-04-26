@@ -101,22 +101,6 @@ Happy linting! 💖
     ],
     "@typescript-eslint/consistent-type-assertions": "error",
     "@typescript-eslint/dot-notation": "error",
-    "@typescript-eslint/indent": [
-      "error",
-      2,
-      {
-        "ignoredNodes": [
-          "TSTypeParameterInstantiation"
-        ],
-        "FunctionDeclaration": {
-          "parameters": "first"
-        },
-        "FunctionExpression": {
-          "parameters": "first"
-        },
-        "SwitchCase": 1
-      }
-    ],
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {

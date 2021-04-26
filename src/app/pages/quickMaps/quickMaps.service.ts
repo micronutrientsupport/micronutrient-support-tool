@@ -7,6 +7,7 @@ import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/mi
 import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 
 @Injectable()
 export class QuickMapsService {
@@ -38,6 +39,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public dataLevelObs = this.dataLevelSrc.asObservable();
 
+  private readonly ageGenderGroupSrc = new BehaviorSubject<AgeGenderGroup>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public ageGenderObs = this.ageGenderGroupSrc.asObservable();
+
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
@@ -45,6 +50,8 @@ export class QuickMapsService {
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
+
+  private parameterChangeTimeout: NodeJS.Timeout;
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
@@ -57,7 +64,8 @@ export class QuickMapsService {
     promises.push(
       this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
-      this.getDataSource().then((option) => this.setDataSource(option)),
+      this.getInitialAgeGender().then((option) => this.setAgeGenderGroup(option)),
+      this.getInitialDataSource().then((option) => this.setDataSource(option)),
     );
     this.setMeasure(this.quickMapsParameters.getMeasure());
     this.setDataLevel(this.quickMapsParameters.getDataLevel());
@@ -68,7 +76,7 @@ export class QuickMapsService {
       this.measureObs.subscribe(() => this.parameterChanged());
       this.dataSourceObs.subscribe(() => this.parameterChanged());
       this.dataLevelObs.subscribe(() => this.parameterChanged());
-
+      this.ageGenderObs.subscribe(() => this.parameterChanged());
       this.initSrc.next(true);
     });
   }
@@ -120,6 +128,13 @@ export class QuickMapsService {
     this.setValue(this.dataLevelSrc, dataLevel, force);
   }
 
+  public get ageGenderGroup(): AgeGenderGroup {
+    return this.ageGenderGroupSrc.value;
+  }
+  public setAgeGenderGroup(ageGenderGroup: AgeGenderGroup, force = false): void {
+    this.setValue(this.ageGenderGroupSrc, ageGenderGroup, force);
+  }
+
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
@@ -127,6 +142,8 @@ export class QuickMapsService {
       null != this.micronutrient ? this.micronutrient.id : null;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP] =
+      null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
     this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
@@ -138,17 +155,35 @@ export class QuickMapsService {
 
   private parameterChanged(): void {
     this.updateQueryParams();
-    this.parameterChangedSrc.next();
+    // ensure not triggered too many times in quick succession
+    clearTimeout(this.parameterChangeTimeout);
+    this.parameterChangeTimeout = setTimeout(() => {
+      this.parameterChangedSrc.next();
+    }, 100);
   }
 
-  private getDataSource(): Promise<DataSource> {
-    return Promise.all([this.quickMapsParameters.getCountry()]).then(
-      (data: [CountryDictionaryItem]) =>
-        null == data[0]
+  private getInitialAgeGender(): Promise<AgeGenderGroup> {
+    // if age-gender query param is set, then find the corresponding AgeGenderGroup
+    const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId();
+    if (null == ageGenderGroupId) {
+      return Promise.resolve(null) as Promise<AgeGenderGroup>;
+    } else {
+      return Promise.all([this.quickMapsParameters.getMicronutrient()]).then((data: [MicronutrientDictionaryItem]) =>
+        null == data[0] // we don't have a micronutrient set so can't get available age gender groups
           ? null
           : this.currentDataService
+              .getAgeGenderGroups([data[0]])
+              .then((options) => options.find((option) => option.id === ageGenderGroupId)),
+      );
+    }
+  }
+  private getInitialDataSource(): Promise<DataSource> {
+    return Promise.all([this.quickMapsParameters.getCountry()]).then((data: [CountryDictionaryItem]) =>
+      null == data[0] // we don't have a country set so can't get available measures
+        ? null
+        : this.currentDataService
             .getDataSources(data[0], this.quickMapsParameters.getMeasure(), true)
-            .then((options) => options[0]), // first item
+            .then((options) => options[0]),
     );
   }
 }

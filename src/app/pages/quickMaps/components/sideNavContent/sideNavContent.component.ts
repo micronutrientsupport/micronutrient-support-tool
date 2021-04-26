@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -9,6 +9,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
+
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -44,6 +46,7 @@ export class SideNavContentComponent implements OnInit {
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<DataSource>();
+  public ageGenderGroups = new Array<AgeGenderGroup>();
 
   public quickMapsForm: FormGroup;
 
@@ -72,47 +75,55 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
           dataSource: [this.quickMapsService.dataSource, Validators.required],
+          ageGenderData: [this.quickMapsService.ageGenderGroup, (control: AbstractControl) => this.ageGenderRequiredValidator(control)],
         });
 
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe(value => {
-            const geographyType = (this.regionDictionary.getItems().includes(value))
+          this.quickMapsService.countryObs.subscribe((value) => {
+            const geographyType = this.regionDictionary.getItems().includes(value)
               ? GeographyTypes.REGION
               : GeographyTypes.COUNTRY;
             // really only used on first load to pre-select correct type
             this.geographyTypeChange(geographyType);
             // reacts to changes from location component selections
             this.quickMapsForm.get('nation').setValue(value);
-          })
+          }),
         );
         this.subscriptions.push(
-          this.quickMapsService.micronutrientObs.subscribe(value => {
+          this.quickMapsService.micronutrientObs.subscribe((value) => {
             // really only used on first load to pre-select correct type
-            const mndType = (null != value) ? value.type : MicronutrientType.VITAMIN;
+            const mndType = null != value ? value.type : MicronutrientType.VITAMIN;
             this.mndChange(mndType);
-          })
+          }),
         );
 
         this.updateDataMeasureOptions();
-        this.updateDataSources();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.setCountry(value);
             this.updateDataSources();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
             this.quickMapsService.setMicronutrient(value);
             this.updateDataMeasureOptions();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
+            // trigger re-evaluation since it's validity is also dependant on measure value
+            this.quickMapsForm.get('ageGenderData').updateValueAndValidity();
+            this.updateAgeGenderOptions();
+          }),
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderGroup) => {
+            this.quickMapsService.setAgeGenderGroup(value);
             this.updateDataSources();
-          })
+          }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
@@ -122,7 +133,7 @@ export class SideNavContentComponent implements OnInit {
                 this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
               }
             }
-          })
+          }),
         );
       });
   }
@@ -135,9 +146,8 @@ export class SideNavContentComponent implements OnInit {
         if (!this.showGoButton) {
           this.checkCurrentRouteValid();
         }
-      })
+      }),
     );
-
   }
 
   public mndChange(type: MicronutrientType): void {
@@ -147,12 +157,12 @@ export class SideNavContentComponent implements OnInit {
       this.selectMNDsFiltered = this.micronutrientsDictionary
         .getItems()
         .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
-        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
     }
   }
 
   public minimiseSideNav(): void {
-    this.sideNavToggleLock.setValue((this.sideNavToggleLock.value === true) ? true : false);
+    this.sideNavToggleLock.setValue(this.sideNavToggleLock.value === true ? true : false);
     if (this.sideNavToggleLock.value === false) {
       this.quickMapsService.sideNavToggle();
     }
@@ -162,10 +172,9 @@ export class SideNavContentComponent implements OnInit {
     if (type !== this.selectedGeographyType) {
       this.selectedGeographyType = type;
 
-      this.geographyOptionArray = (
-        (type === GeographyTypes.COUNTRY) ? this.countriesDictionary : this.regionDictionary)
+      this.geographyOptionArray = (type === GeographyTypes.COUNTRY ? this.countriesDictionary : this.regionDictionary)
         .getItems()
-        .sort((a, b) => (a.name < b.name) ? -1 : 1);
+        .sort((a, b) => (a.name < b.name ? -1 : 1));
     }
   }
 
@@ -179,11 +188,21 @@ export class SideNavContentComponent implements OnInit {
     }
   }
 
+  private ageGenderRequiredValidator(ageGenderControl: AbstractControl): ValidationErrors {
+    let valid = true;
+    if (null != this.quickMapsForm) {
+      const measureControl = this.quickMapsForm.get('measure');
+      valid = ((measureControl.value === MicronutrientMeasureType.DIET) || (null != ageGenderControl.value));
+    }
+    return valid ? null : { ageGender: 'required' };
+
+  }
+
   private updateDataMeasureOptions(): void {
     const micronutrient = this.quickMapsService.micronutrient;
 
-    this.measureDietEnabled = ((null != micronutrient) && micronutrient.isDiet);
-    this.measureBiomarkerEnabled = ((null != micronutrient) && micronutrient.isBiomarker);
+    this.measureDietEnabled = null != micronutrient && micronutrient.isDiet;
+    this.measureBiomarkerEnabled = null != micronutrient && micronutrient.isBiomarker;
 
     const measureControl = this.quickMapsForm.get('measure');
     const initialMeasure = measureControl.value as MicronutrientMeasureType;
@@ -196,25 +215,27 @@ export class SideNavContentComponent implements OnInit {
       } else if (this.measureBiomarkerEnabled) {
         measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
       }
-    } else if ((!this.measureDietEnabled) && (!this.measureBiomarkerEnabled)) {
+    } else if (!this.measureDietEnabled && !this.measureBiomarkerEnabled) {
       // nothing enabled, set value to null
       measureControl.setValue(null);
-
-    } else { // if disabled item selected, change it.
-      if (!this.measureDietEnabled && (initialMeasure === MicronutrientMeasureType.DIET)) {
+    } else {
+      // if disabled item selected, change it.
+      if (!this.measureDietEnabled && initialMeasure === MicronutrientMeasureType.DIET) {
         measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
-      } else if (!this.measureBiomarkerEnabled && (initialMeasure === MicronutrientMeasureType.BIOMARKER)) {
+      } else if (!this.measureBiomarkerEnabled && initialMeasure === MicronutrientMeasureType.BIOMARKER) {
         measureControl.setValue(MicronutrientMeasureType.DIET);
       }
     }
+
+    this.updateAgeGenderOptions();
   }
 
   private updateDataSources(): void {
     const country = this.quickMapsService.country;
     const measure = this.quickMapsService.measure;
+    // const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 
-    if ((null != country) && (null != measure)) {
-
+    if (null != country && null != measure) {
       void this.currentDataService
         .getDataSources(
           country,
@@ -234,6 +255,34 @@ export class SideNavContentComponent implements OnInit {
       this.dataSources = [];
     }
   }
+
+  private updateAgeGenderOptions(): void {
+    const micronutrients = this.quickMapsService.micronutrient;
+
+    if (null != micronutrients) {
+      void this.currentDataService.getAgeGenderGroups([micronutrients]).then((options: Array<AgeGenderGroup>) => {
+        let newSelection: AgeGenderGroup;
+
+        const currentSelection = this.quickMapsForm.get('ageGenderData').value as AgeGenderGroup;
+        // re-select the previously selected group
+        if (null != currentSelection) {
+          newSelection = options.find(option => option.id === currentSelection.id);
+        }
+        // if no previous selection or previous selection not available, default to first option
+        if (null == newSelection) {
+          newSelection = options[0];
+        }
+        this.ageGenderGroups = options;
+
+        this.quickMapsForm.get('ageGenderData').setValue(newSelection);
+      });
+    } else {
+      // clear
+      this.ageGenderGroups = [];
+    }
+    this.updateDataSources();
+  }
+
   private navigate(appRoute: AppRoute): void {
     // console.debug('navigate', this.quickMapsService.measure, route);
     void this.router.navigate(appRoute.getRoute(), {
@@ -245,13 +294,12 @@ export class SideNavContentComponent implements OnInit {
     // delay to let the query params update first, otherwise
     // the navigation gets cancelled
     setTimeout(() => {
-      void this.routeGuardService.getRequiredNavRoute()
-        .then((requiredRoute: AppRoute) => {
-          if (null != requiredRoute) {
-            // console.debug('Should Nav', requiredRoute);
-            this.navigate(requiredRoute);
-          }
-        });
+      void this.routeGuardService.getRequiredNavRoute().then((requiredRoute: AppRoute) => {
+        if (null != requiredRoute) {
+          // console.debug('Should Nav', requiredRoute);
+          this.navigate(requiredRoute);
+        }
+      });
     }, 100);
   }
 }

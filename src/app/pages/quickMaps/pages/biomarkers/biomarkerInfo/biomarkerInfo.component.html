@@ -26,7 +26,7 @@
         Vulputate mi sit amet mauris commodo quis imperdiet massa. Suspendisse ultrices gravida dictum fusce ut placerat
         orci. Dictumst quisque sagittis purus sit amet
       </div>
-      <ngx-chartjs
+      <!-- <ngx-chartjs
         id="box-chart"
         *ngIf="chartData"
         [data]="chartData.data"
@@ -34,7 +34,15 @@
         [options]="chartData.options"
         [plugins]="chartData.plugins"
       >
-      </ngx-chartjs>
+      </ngx-chartjs> -->
+      <ngx-chartjs
+        *ngIf="null != chartData"
+        id="histo"
+        [data]="chartData.data"
+        [type]="chartData.type"
+        [options]="chartData.options"
+        [plugins]="chartData.plugins"
+      ></ngx-chartjs>
 
       <div class="status-chart-data data-grid">
         <!-- <span class="pull-right">Deficiency threshold</span>
