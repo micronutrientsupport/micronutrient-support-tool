@@ -9,6 +9,8 @@ import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
+import { QuickMapsService } from '../../../quickMaps.service';
+
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
@@ -24,7 +26,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public chartData: ChartJSObject;
   public dialogData: any;
-  public title = 'Zinc Status - Adult Women';
+  public title: string;
   public displayedColumns = ['a', 'b', 'c', 'd'];
   public displayedColumns2 = ['a', 'b', 'c'];
   public defThreshold = 20;
@@ -42,10 +44,23 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private biomarkerMap: L.Map;
   private currentChartData: ChartJSObject;
 
-  constructor() { }
+  constructor(public quickMapsService: QuickMapsService) {
+    // Detect changes in quickmaps parameters:
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      const micronutrientName = this.quickMapsService.micronutrient.name;
+      const ageGenderName = this.quickMapsService.ageGenderGroup.name;
+      const titlePrefix = (null == micronutrientName ? '' : `${micronutrientName}`) + ' Status';
+      const titleSuffix = ' in ' + (null == ageGenderName ? '' : `${ageGenderName}`);
+      this.title = titlePrefix + titleSuffix;
+      if (null != this.card) {
+        this.card.title = this.title;
+      }
+    });
+
+  }
   ngAfterViewInit(): void {
 
-    this.card.title = this.title;
+    // this.card.title = this.title;
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.map1Element.nativeElement);
 
@@ -108,9 +123,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     this.currentChartData = this.chartData;
-
   }
 
   // Show/remove outlier data on boxplot.
