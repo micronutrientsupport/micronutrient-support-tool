@@ -11,7 +11,7 @@
   justify-content: space-around;
   text-align: center;
 
-  & .seperator {
+  & .separator {
     padding: 0;
     border: 0 solid $color_primary;
     border-width: 0 0 0 1px;
@@ -33,7 +33,7 @@
 @media (max-width: 920px) {
   .container {
     flex-direction: column;
-    & .seperator {
+    & .separator {
       border-width: 1px 0 0 0;
     }
   }
