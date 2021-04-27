@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { QuickMapsService } from '../../quickMaps.service';
 
 // eslint-disable-next-line no-shadow
@@ -26,15 +25,6 @@ export class BiomarkerComponent implements OnInit {
 
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 6;
-
-  private dataLevelWidgetTypesMap: Map<DataLevel, Array<BiomarkerWidgets>> = new Map([
-    [DataLevel.COUNTRY, [
-      BiomarkerWidgets.STATUS
-    ]],
-    [DataLevel.HOUSEHOLD, [
-      BiomarkerWidgets.STATUS
-    ]],
-  ]);
 
   constructor(public quickMapsService: QuickMapsService) { }
 
@@ -92,50 +82,17 @@ export class BiomarkerComponent implements OnInit {
         },
       },
     };
-
-    this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
-      this.setDataLevel(level);
-    });
-  }
-
-  private setDataLevel(level: DataLevel): void {
-    if (null != level) {
-      const newWidgetsTypes = this.dataLevelWidgetTypesMap.get(level);
-
-      // remove any not needed
-      this.dashboard.slice().forEach(thisWidget => {
-        if (null == newWidgetsTypes.find(widgetType => (widgetType === thisWidget.type))) {
-          this.dashboard.splice(this.dashboard.indexOf(thisWidget), 1);
-        }
-      });
-      // reset size and position of currrent items
-      // Maybe not ideal how this alters the user set size and position of widgets
-      // that have persisted, but what's the alternative?
-      // It does ensure a uniform view at init/data level change.
-      this.dashboard.forEach((thisWidget: GridsterItem, index: number) => {
-        this.resetItemPositionAndSize(thisWidget, index);
-      });
-
-      // add any new widgets
-      newWidgetsTypes.forEach(widgetType => {
-        if (null == this.dashboard.find(testWidget => (testWidget.type === widgetType))) {
-          this.dashboard.push(
-            this.resetItemPositionAndSize({ type: widgetType } as unknown as GridsterItem, this.dashboard.length)
-          );
-        }
-      });
-      this.changedOptions();
+    this.dashboard.push({
+      type: BiomarkerWidgets.STATUS,
+      cols: this.defaultWidgetWidth,
+      rows: this.defaultWidgetHeight,
+      x: 0,
+      y: 0,
     }
-  }
+    );
+    this.changedOptions();
 
-  private resetItemPositionAndSize(item: GridsterItem, index: number): GridsterItem {
-    item.cols = this.defaultWidgetWidth;
-    item.rows = this.defaultWidgetHeight;
-    item.x = (index % 2) * this.defaultWidgetWidth;
-    item.y = Math.floor(index / 2) * this.defaultWidgetHeight;
-    return item;
   }
-
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();
