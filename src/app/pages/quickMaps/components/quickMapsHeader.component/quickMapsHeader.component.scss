@@ -16,3 +16,11 @@
   flex-grow: 1;
   margin: 5px;
 }
+
+.heading-row {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+}
