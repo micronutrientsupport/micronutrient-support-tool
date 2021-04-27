@@ -9,7 +9,8 @@ import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
-import { QuickMapsService } from '../../../quickMaps.service';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { CurrentDataService } from 'src/app/services/currentData.service';
 
 @Component({
   selector: 'app-biomarker-status',
@@ -19,12 +20,12 @@ import { QuickMapsService } from '../../../quickMaps.service';
 export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('map1') map1Element: ElementRef;
+  @ViewChild('map1') mapElement: ElementRef;
   @ViewChild('boxplot') boxplot: ChartjsComponent;
 
   @Input() card: CardComponent;
 
-  public chartData: ChartJSObject;
+  public boxChartData: ChartJSObject;
   public dialogData: any;
   public title: string;
   public displayedColumns = ['a', 'b', 'c', 'd'];
@@ -35,8 +36,21 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public outlierControl = new FormControl(true);
   public dataTypes = new FormControl();
   public characteristics = new FormControl();
-  public dataList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
-  public characteristicList: string[] = ['Regions', 'Residence', 'Age group', 'Wealth Quintiles', 'All characteristics', 'Total'];
+  public dataList: any[] = [
+    { name: 'Prevalence of Deficiency', value: 'pod' },
+    { name: 'Prevalence of Excess', value: 'poe' },
+    { name: 'Combined deficiency and excess', value: 'cde' },
+    { name: 'Concentration Data', value: 'cda' }
+  ];
+
+  public characteristicList: any[] = [
+    { name: 'Regions', value: 'reg' },
+    { name: 'Residence', value: 'res' },
+    { name: 'Age group', value: 'age' },
+    { name: 'Wealth Quintiles', value: 'qui' },
+    { name: 'All characteristics', value: 'all' },
+    { name: 'Total', value: 'tot' }
+  ];
   public totalSamples = 6587;
   public selectedOption: any;
   public selectedCharacteristic: any;
@@ -44,31 +58,35 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private biomarkerMap: L.Map;
   private currentChartData: ChartJSObject;
 
-  constructor(public quickMapsService: QuickMapsService) {
-    // Detect changes in quickmaps parameters:
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      const micronutrientName = this.quickMapsService.micronutrient.name;
-      const ageGenderName = this.quickMapsService.ageGenderGroup.name;
-      const titlePrefix = (null == micronutrientName ? '' : `${micronutrientName}`) + ' Status';
-      const titleSuffix = ' in ' + (null == ageGenderName ? '' : `${ageGenderName}`);
-      this.title = titlePrefix + titleSuffix;
-      if (null != this.card) {
-        this.card.title = this.title;
-      }
-    });
+  constructor(
+    public quickMapsService: QuickMapsService,
+    private currentDataService: CurrentDataService
+  ) {
 
   }
   ngAfterViewInit(): void {
 
-    // this.card.title = this.title;
-    this.card.showExpand = true;
-    this.biomarkerMap = this.initialiseMap(this.map1Element.nativeElement);
+    // Detect changes in quickmaps parameters:
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
 
-    this.chartData = {
+      const mnName = this.quickMapsService.micronutrient.name;
+      const agName = this.quickMapsService.ageGenderGroup.name;
+      const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
+      const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
+      this.title = titlePrefix + titleSuffix;
+      if (null != this.card) {
+        this.card.title = this.title;
+      }
+
+    });
+
+    this.card.showExpand = true;
+    this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
+
+    this.boxChartData = {
       plugins: [ChartAnnotation],
       type: 'boxplot',
       data: {
-        // define label tree
         labels: ['Central', 'North', 'South', 'South East', 'West'],
         datasets: [
           {
@@ -123,23 +141,21 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
-    this.currentChartData = this.chartData;
+    this.currentChartData = this.boxChartData;
   }
 
   // Show/remove outlier data on boxplot.
   public toggleShowOutlier(): void {
     this.showOutliers = this.outlierControl.value;
     if (!this.showOutliers) {
-      this.chartData.data.datasets[0].data.forEach((chart: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        chart.outliers.pop();
-        console.log('remove');
-        this.boxplot.updateChart();
+      this.boxChartData.data.datasets[0].data.forEach((data: any) => {
+        console.log('remove', data);
+        // this.boxplot.updateChart();
       });
     } else {
-      this.currentChartData.data.datasets[0].data.forEach((x: any, idx: number) => {
-        console.log('put back', x, idx);
-        this.boxplot.updateChart();
+      this.currentChartData.data.datasets[0].data.forEach((data: any, idx: number) => {
+        console.log('put back', data, idx);
+        // this.boxplot.updateChart();
       });
     }
   }

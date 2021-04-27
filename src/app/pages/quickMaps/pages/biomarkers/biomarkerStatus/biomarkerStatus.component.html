@@ -8,7 +8,8 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Select data</mat-label>
                     <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
-                        <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType}}</mat-option>
+                        <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -21,7 +22,8 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Select data</mat-label>
                         <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
-                            <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType}}</mat-option>
+                            <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                     <span class="spacer"> by </span>
@@ -29,8 +31,9 @@
                         <mat-label>Select a charactersitic</mat-label>
                         <mat-select [formControl]="characteristics"
                             (selectionChange)="charactersiticSelected($event.value)">
-                            <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic">
-                                {{characteristic}}</mat-option>
+                            <mat-option *ngFor="let characteristic of characteristicList"
+                                [value]="characteristic.value">
+                                {{characteristic.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -74,7 +77,8 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Select data</mat-label>
                         <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
-                            <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType}}</mat-option>
+                            <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -83,23 +87,27 @@
                     ut
                     placerat orci. Dictumst quisque sagittis purus sit amet
                 </div>
-                <div class="status-element">
-                    <ngx-chartjs #boxplot id="box-chart" *ngIf="chartData" [data]="chartData.data"
-                        [type]="chartData.type" [options]="chartData.options" [plugins]="chartData.plugins">
-                    </ngx-chartjs>
-                </div>
-                <div class="status-element data-grid">
-                    <span class="pull-right">Deficiency threshold</span>
-                    <span class="pull-left"> {{ defThreshold }} &micro;g/dL</span>
-                    <span class="pull-right">Threshold for abnormal values</span>
-                    <span class="pull-left"> {{ abnThreshold }} &micro;g/dL</span>
-                    <span class="pull-right">Outliers</span>
-                    <span class="pull-left">
-                        <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()">
-                        </mat-slide-toggle>
-                        <span *ngIf="showOutliers; else dontShow"> Shown</span>
-                        <ng-template #dontShow> Hidden</ng-template>
-                    </span>
+
+                <div *ngIf="">
+                    <div class="status-element">
+                        <ngx-chartjs #boxplot id="box-chart" *ngIf="boxChartData" [data]="boxChartData.data"
+                            [type]="boxChartData.type" [options]="boxChartData.options"
+                            [plugins]="boxChartData.plugins">
+                        </ngx-chartjs>
+                    </div>
+                    <div class="status-element data-grid">
+                        <span class="pull-right">Deficiency threshold</span>
+                        <span class="pull-left"> {{ defThreshold }} &micro;g/dL</span>
+                        <span class="pull-right">Threshold for abnormal values</span>
+                        <span class="pull-left"> {{ abnThreshold }} &micro;g/dL</span>
+                        <span class="pull-right">Outliers</span>
+                        <span class="pull-left">
+                            <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()">
+                            </mat-slide-toggle>
+                            <span *ngIf="showOutliers; else dontShow"> Shown</span>
+                            <ng-template #dontShow> Hidden</ng-template>
+                        </span>
+                    </div>
                 </div>
             </div>
         </mat-tab>
