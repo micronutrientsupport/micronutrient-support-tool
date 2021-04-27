@@ -16,6 +16,7 @@ export class DataSource extends BaseObject {
   public readonly dataLevelOptions: Array<DataLevel>;
   public readonly consumptionDataId: string;
   public readonly compositionDataId: string;
+  public readonly year: number;
 
   protected constructor(
     sourceObject?: Record<string, unknown>,
@@ -31,5 +32,7 @@ export class DataSource extends BaseObject {
 
     this.consumptionDataId = this._getString(DataSource.KEYS.CONSUMPTION_DATA_ID);
     this.compositionDataId = this._getString(DataSource.KEYS.COMPOSITION_DATA_ID);
+    // TODO: update to value from underlying object when api response includes a year attribute
+    this.year = 2222;
   }
 }
