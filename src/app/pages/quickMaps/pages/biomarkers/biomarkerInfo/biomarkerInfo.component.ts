@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, AfterViewInit, ViewChild, Input, Inject, Optional } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
-// import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -33,9 +32,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public title = 'Additional Information';
 
-  public defThreshold = 75;
+  public defThreshold = 70;
   public abnThreshold = 150;
-  public labels: Array<string>;
+  public labels: Array<number>;
   public binData: Array<number>;
   public displayedColumns = ['mean', 'median', 'stdDev', 'min', 'max', 'q1', 'q3', 'n', 'nonApplicables'];
 
@@ -44,6 +43,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public selectedAgeGenderGroup = '';
   public mineralData: Array<number>;
 
+  private selectedBinSize = '25';
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
@@ -69,6 +69,10 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       this.selectedNutrient = micronutrient.name;
     });
 
+    this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.createBins();
+    });
+
     this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
       this.selectedAgeGenderGroup = ageGenderGroup.name;
     });
@@ -79,9 +83,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        // define labels
-        // labels: [0, 25, 50, 75, 100, 125, 150, 175, 200],
-        // labels: ['0-25', '25-50', '50-75', '75-100', '100-125', '125-150'],
         labels: this.labels,
 
         datasets: [
@@ -91,8 +92,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.5)',
             outlierRadius: 4,
-            // data: [[80], [120], [60], [0, 160], [0, 250]],
-
             data: this.binData,
           },
         ],
@@ -156,9 +155,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     // Set bins
     const arr = this.mineralData;
 
-    const bins = [];
+    const bins = new Array<BinObject>();
     let binCount = 0;
-    const interval = 25;
+    const interval = Number(this.selectedBinSize);
     const numOfBuckets = Math.max(...arr);
 
     // Setup Bins
@@ -173,22 +172,18 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     }
 
     // Loop through data and add to bin's count
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < arr.length; i++) {
-      const item = arr[i];
-      // eslint-disable-next-line @typescript-eslint/prefer-for-of
-      for (let j = 0; j < bins.length; j++) {
-        const bin = bins[j];
-        if (item > bin.minNum && item <= bin.maxNum) {
+    arr.forEach((value: number) => {
+      bins.forEach((bin: BinObject) => {
+        if (value > bin.minNum && value <= bin.maxNum) {
           bin.count++;
         }
-      }
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    this.binData = bins.map((item: any) => item.count);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    this.labels = bins.map((item: any) => item.maxNum);
-    // console.debug(bins);
+      });
+    });
+
+    this.binData = bins.map((item: BinObject) => item.count);
+    this.labels = bins.map((item: BinObject) => item.maxNum);
+
+    this.setChart();
   }
 
   private init(): void {
@@ -215,8 +210,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           .filter((value: number) => !isNaN(value)); // removes any NaN values
         this.mineralData = filteredArray;
         this.generateTable();
-        this.createBins();
-        this.setChart();
+        this.createBins(); // set interval
       });
   }
 
@@ -302,4 +296,11 @@ interface TableObject {
   q3: number;
   n: number;
   nonApplicables: number;
+}
+
+interface BinObject {
+  binNum: number;
+  minNum: number;
+  maxNum: number;
+  count: number;
 }

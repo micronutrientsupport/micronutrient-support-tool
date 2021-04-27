@@ -4,6 +4,7 @@ import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasu
 import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { AgeGenderGroup } from '../../objects/ageGenderGroup';
 
 export class GetDataSources extends CacheableEndpoint<
   Array<DataSource>,
@@ -34,18 +35,32 @@ export class GetDataSources extends CacheableEndpoint<
     return this.buildObjectsFromResponse(DataSource, callResponsePromise);
   }
 
+  /**
+   * Throws parameter validation errors for the developer
+   * Logic written in the calling code should prevent these exceptions
+   */
+  protected validateParams(params: GetDataSourcesParams): void {
+    switch (true) {
+      case (null == params.countryOrGroup): throw new Error('countryOrGroup parameter must be set');
+      case (null == params.measureType): throw new Error('measureType parameter must be set');
+      case ((params.measureType === MicronutrientMeasureType.BIOMARKER) && (null == params.ageGenderGroup)):
+        throw new Error('ageGenderGroup parameter must be set when measureType is BIOMARKER');
+    }
+  }
+
   private processResponseData(
     data: Array<Record<string, unknown>>,
     params: GetDataSourcesParams,
   ): Array<Record<string, unknown>> {
     data.forEach((item: Record<string, unknown>, index: number) => item.id = String(index).valueOf());
     // return only first item when single option specified
-    return (params.singleOptionOnly) ? data.slice(0, 1) : data;
+    return (true === params.singleOptionOnly) ? data.slice(0, 1) : data;
   }
 }
 
 export interface GetDataSourcesParams {
   countryOrGroup: CountryDictionaryItem;
   measureType: MicronutrientMeasureType;
-  singleOptionOnly: boolean;
+  ageGenderGroup?: AgeGenderGroup;
+  singleOptionOnly?: boolean;
 }

@@ -77,8 +77,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "micronutrient-support-tool:build",
-            "port": 8100,
-            "proxyConfig": "proxy.conf.json"
+            "port": 8100
           },
           "configurations": {
             "production": {
@@ -138,7 +137,9 @@
         "cypress-run": {
           "builder": "@briebug/cypress-schematic:cypress",
           "options": {
-            "devServerTarget": "micronutrient-support-tool:serve"
+            "devServerTarget": "micronutrient-support-tool:serve",
+            "browser": "chrome",
+            "headless": true
           },
           "configurations": {
             "production": {
