@@ -140,6 +140,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     let binCount = 0;
     const interval = 25;
     const numOfBuckets = 150;
+    // const numOfBuckets = Math.max(this.data.zincLevelOne);
+    // console.log(Math.max(this.data.zincLevelOne));
 
     // Setup Bins
     for (let i = 0; i < numOfBuckets; i += interval) {
