@@ -7,7 +7,7 @@
             <div class="status-map-select">
                 <mat-form-field appearance="fill">
                     <mat-label>Select data</mat-label>
-                    <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
+                    <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'map')">
                         <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
                         </mat-option>
                     </mat-select>
@@ -21,7 +21,7 @@
                 <div class="status-element">
                     <mat-form-field appearance="outline">
                         <mat-label>Select data</mat-label>
-                        <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
+                        <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'table')">
                             <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
                             </mat-option>
                         </mat-select>
@@ -76,19 +76,14 @@
                 <div class="status-element">
                     <mat-form-field appearance="outline">
                         <mat-label>Select data</mat-label>
-                        <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value)">
+                        <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'chart')">
                             <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="status-element">
-                    Vulputate mi sit amet mauris commodo quis imperdiet massa. Suspendisse ultrices gravida dictum fusce
-                    ut
-                    placerat orci. Dictumst quisque sagittis purus sit amet
-                </div>
 
-                <div *ngIf="">
+                <div *ngIf="selectedOption =='cda' ">
                     <div class="status-element">
                         <ngx-chartjs #boxplot id="box-chart" *ngIf="boxChartData" [data]="boxChartData.data"
                             [type]="boxChartData.type" [options]="boxChartData.options"
@@ -108,6 +103,19 @@
                             <ng-template #dontShow> Hidden</ng-template>
                         </span>
                     </div>
+                    <div class="status-element">Description of how deficiency/excess was measuredand details about the
+                        group</div>
+
+
+                </div>
+                <div *ngIf="selectedOption =='pod' || selectedOption=='poe' || selectedOption=='cde' ">
+                    <div class="status-element">
+                        <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
+                            [type]="barChartData.type" [options]="barChartData.options"
+                            [plugins]="barChartData.plugins"></ngx-chartjs>
+                    </div>
+                    <div class="status-element">Description of how deficiency/excess was measuredand details about the
+                        group</div>
                 </div>
             </div>
         </mat-tab>
@@ -117,14 +125,60 @@
                 <div class="status-element">
                     <h2>Select the data to download</h2>
                 </div>
-                <div class="status-element">
-                    <span><b>Deficiency</b></span>
-                    <span class="vertical-divider"></span>
-                    <span><b>Excess</b></span>
-                    <span class="vertical-divider"></span>
-                    <span><b>Combined deficiency and excess</b></span>
-                    <span class="vertical-divider"></span>
-                    <span><b>Continuous data</b></span>
+
+                <div class="container-row">
+                    <div class="element-container">
+                        <h3>Deficiency</h3>
+                        <div class="status-element">
+                            <a [href]="deficiencyBarChartPNG" target="_blank"
+                                [disabled]="!deficiencyBarChartPNG ? true : null"
+                                referrerpolicy="no-referrer-when-downgrade">
+                                Chart PNG
+                            </a>
+                        </div>
+                        <div class="status-element">
+                            <a [href]="deficiencyBarChartPDF" target="_blank"
+                                referrerpolicy="no-referrer-when-downgrade">
+                                Chart PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="element-container">
+                        <h3>Excess</h3>
+                        <div class="status-element">
+                            <a [href]="excessBarChartPNG" target="_blank"
+                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        </div>
+                        <div class="status-element">
+                            <a [href]="excessBarChartPDF" target="_blank"
+                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        </div>
+                    </div>
+
+                    <div class="element-container">
+                        <h3>Combined</h3>
+                        <div class="status-element">
+                            <a [href]="combinedBarChartPNG" target="_blank"
+                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        </div>
+                        <div class="status-element">
+                            <a [href]="combinedBarChartPDF" target="_blank"
+                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        </div>
+                    </div>
+
+                    <div class="element-container">
+                        <h3>Continuous data</h3>
+                        <div class="status-element">
+                            <a [href]="boxChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">Chart
+                                PNG</a>
+                        </div>
+                        <div class="status-element">
+                            <a [href]="boxChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">Chart
+                                PNG</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </mat-tab>
