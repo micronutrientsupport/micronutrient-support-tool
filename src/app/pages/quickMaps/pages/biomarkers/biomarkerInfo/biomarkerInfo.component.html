@@ -1,64 +1,77 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Chart">
-      <table mat-table [dataSource]="dataSource" matSort>
-        <ng-container matColumnDef="a" sticky>
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Regions</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-        <ng-container matColumnDef="b">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>N</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-        <ng-container matColumnDef="c">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Mean Zinc mg/dl</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-        <ng-container matColumnDef="d">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Standard deviation</th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
+      <div class="bmgf-maps-nice-scrollbar">
+        <div class="status-chart-header">
+          Histogram of <strong>{{ (quickMapsService.ageGenderObs | async)?.name }}</strong> in
+          {{ (quickMapsService.countryObs | async)?.name }}
+        </div>
+        <ngx-chartjs
+          *ngIf="null != chartData"
+          id="histo"
+          [data]="chartData.data"
+          [type]="chartData.type"
+          [options]="chartData.options"
+          [plugins]="chartData.plugins"
+        ></ngx-chartjs>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <div class="status-chart-header">
-        Vulputate mi sit amet mauris commodo quis imperdiet massa. Suspendisse ultrices gravida dictum fusce ut placerat
-        orci. Dictumst quisque sagittis purus sit amet
-      </div>
-      <!-- <ngx-chartjs
-        id="box-chart"
-        *ngIf="chartData"
-        [data]="chartData.data"
-        [type]="chartData.type"
-        [options]="chartData.options"
-        [plugins]="chartData.plugins"
-      >
-      </ngx-chartjs> -->
-      <ngx-chartjs
-        *ngIf="null != chartData"
-        id="histo"
-        [data]="chartData.data"
-        [type]="chartData.type"
-        [options]="chartData.options"
-        [plugins]="chartData.plugins"
-      ></ngx-chartjs>
+        <div class="status-chart-header">Descriptive Statistics</div>
 
-      <div class="status-chart-data data-grid">
-        <!-- <span class="pull-right">Deficiency threshold</span>
-        <span class="pull-left"> {{ defThreshold }} &micro;g/dL</span>
-        <span class="pull-right">Threshold for abnormal values</span>
-        <span class="pull-left"> {{ abnThreshold }} &micro;g/dL</span>
-        <span class="pull-right">Outliers</span>
-        <span class="pull-left">
-          <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()"></mat-slide-toggle>
-          <span *ngIf="showOutliers; else dontShow"> Shown</span>
-          <ng-template #dontShow> Hidden</ng-template>
-        </span> -->
+        <div class="status-chart-data">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="mean">
+              <th mat-header-cell *matHeaderCellDef>Mean</th>
+              <td mat-cell *matCellDef="let element">{{ element.mean.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="median">
+              <th mat-header-cell *matHeaderCellDef>Median</th>
+              <td mat-cell *matCellDef="let element">{{ element.median.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="stdDev">
+              <th mat-header-cell *matHeaderCellDef>Standard Deviation</th>
+              <td mat-cell *matCellDef="let element">{{ element.stdDev.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="min">
+              <th mat-header-cell *matHeaderCellDef>Minimum</th>
+              <td mat-cell *matCellDef="let element">{{ element.min.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="max">
+              <th mat-header-cell *matHeaderCellDef>Maximum</th>
+              <td mat-cell *matCellDef="let element">{{ element.max.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="q1">
+              <th mat-header-cell *matHeaderCellDef>1st Quartile</th>
+              <td mat-cell *matCellDef="let element">{{ element.q1.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="q3">
+              <th mat-header-cell *matHeaderCellDef>3rd Quartile</th>
+              <td mat-cell *matCellDef="let element">{{ element.q3.toFixed(2) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="n">
+              <th mat-header-cell *matHeaderCellDef>N</th>
+              <td mat-cell *matCellDef="let element">{{ element.n }}</td>
+            </ng-container>
+            <ng-container matColumnDef="nonApplicables">
+              <th mat-header-cell *matHeaderCellDef>N/A</th>
+              <td mat-cell *matCellDef="let element">{{ element.nonApplicables }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
       </div>
     </mat-tab>
 
-    <mat-tab label="More Information About The Data"> </mat-tab>
+    <mat-tab label="More Information About The Data">
+      <ul>
+        <li>How the outliers were defined</li>
+        <li>The quality assurance/quality of the data</li>
+        <li>Any known issues</li>
+        <li>supporting information</li>
+        <li>links to wider maps resources</li>
+      </ul>
+    </mat-tab>
   </mat-tab-group>
 </ng-template>
 

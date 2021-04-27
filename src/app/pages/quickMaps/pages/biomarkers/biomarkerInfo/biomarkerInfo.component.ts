@@ -3,12 +3,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, Inject, Optional } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input, Inject, Optional } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 // import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
-import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -17,6 +16,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
+import { QuickMapsService } from '../../../quickMaps.service';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -25,50 +27,51 @@ import { Papa } from 'ngx-papaparse';
 })
 export class BiomarkerInfoComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  @ViewChild(MatSort) sort: MatSort;
 
   @Input() card: CardComponent;
   static additionalData: any;
-  constructor(
-    private dialogService: DialogService,
-    private cdr: ChangeDetectorRef,
-    private http: HttpClient,
-    private papa: Papa,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
-  ) {}
   public chartData: ChartJSObject;
   public title = 'Additional Information';
 
-  public defThreshold = 60;
-  public abnThreshold = 170;
+  public defThreshold = 75;
+  public abnThreshold = 150;
   public labels: Array<string>;
   public binData: Array<number>;
+  public displayedColumns = ['mean', 'median', 'stdDev', 'min', 'max', 'q1', 'q3', 'n', 'nonApplicables'];
 
-  public data: Array<AdditionalInformationData>;
-  public dataSource = new MatTableDataSource();
+  public dataSource: MatTableDataSource<TableObject>;
+  public selectedNutrient = '';
+  public selectedAgeGenderGroup = '';
+  public mineralData: Array<number>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private openDialog(): void {
-    void this.dialogService.openDialogForComponent<AdditionalInformationDialogData>(BiomarkerInfoComponent, {
-      data: null,
-      selectedTab: this.tabGroup.selectedIndex,
-    });
-  }
 
+  constructor(
+    private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient,
+    private papa: Papa,
+    public quickMapsService: QuickMapsService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
+  ) {}
   ngAfterViewInit(): void {
-    this.getDataFromCSV();
-    setTimeout(() => {
-      this.createBins();
-      this.setChart();
-    }, 1000);
+    this.init();
     this.card.title = this.title;
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+
+    this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.selectedNutrient = micronutrient.name;
+    });
+
+    this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+      this.selectedAgeGenderGroup = ageGenderGroup.name;
+    });
   }
 
   private setChart() {
@@ -83,26 +86,43 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
         datasets: [
           {
-            label: 'Zinc',
+            label: `${this.selectedNutrient}`,
             backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.5)',
             outlierRadius: 4,
             // data: [[80], [120], [60], [0, 160], [0, 250]],
-            // data: this.createBins(),
+
             data: this.binData,
-            // data: AgeGenderGroup[]
           },
         ],
       },
       options: {
+        scales: {
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: `Concentration of ${this.selectedNutrient} in microg/DI`,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: `Number of ${this.selectedAgeGenderGroup}`,
+              },
+            },
+          ],
+        },
         annotation: {
           annotations: [
             {
               type: 'line',
               id: 'defLine',
               mode: 'vertical',
-              scaleID: 'y-axis-0',
+              scaleID: 'x-axis-0',
               value: this.defThreshold,
               borderWidth: 2.0,
               borderColor: 'rgba(255,0,0,0.5)',
@@ -116,7 +136,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
               type: 'line',
               id: 'abnLine',
               mode: 'vertical',
-              scaleID: 'y-axis-0',
+              scaleID: 'x-axis-0',
               value: this.abnThreshold,
               borderWidth: 2.0,
               borderColor: 'rgba(0,0,255,0.5)',
@@ -134,14 +154,12 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
   private createBins(): void {
     // Set bins
-    const arr = this.data.map((item: AdditionalInformationData) => item.zincLevelOne);
+    const arr = this.mineralData;
 
     const bins = [];
     let binCount = 0;
     const interval = 25;
-    const numOfBuckets = 150;
-    // const numOfBuckets = Math.max(this.data.zincLevelOne);
-    // console.log(Math.max(this.data.zincLevelOne));
+    const numOfBuckets = Math.max(...arr);
 
     // Setup Bins
     for (let i = 0; i < numOfBuckets; i += interval) {
@@ -167,16 +185,13 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       }
     }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    this.labels = bins.map((item: any) => item.binNum);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     this.binData = bins.map((item: any) => item.count);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    this.labels = bins.map((item: any) => `${item.minNum}-${item.maxNum}`);
+    this.labels = bins.map((item: any) => item.maxNum);
     // console.debug(bins);
   }
 
-  private getDataFromCSV(): void {
+  private init(): void {
     void this.http
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
@@ -194,9 +209,77 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           dataArray.push(additionalData);
           // console.debug(additionalData.zincLevelOne);
         });
-
-        this.data = dataArray;
+        const filteredArray = dataArray
+          .map((item: AdditionalInformationData) => Number(item.zincLevelOne))
+          .filter((value: number) => value != null) // removes any null values
+          .filter((value: number) => !isNaN(value)); // removes any NaN values
+        this.mineralData = filteredArray;
+        this.generateTable();
+        this.createBins();
+        this.setChart();
       });
+  }
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<AdditionalInformationDialogData>(BiomarkerInfoComponent, {
+      data: null,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
+  }
+
+  private generateTable() {
+    const sortedArray = this.mineralData.sort((a, b) => a - b);
+    const n = sortedArray.length;
+    const mean = sortedArray.reduce((acc, val) => acc + val, 0) / n;
+    const median = (sortedArray[Math.floor((n - 1) / 2)] + sortedArray[Math.ceil((sortedArray.length - 1) / 2)]) / 2;
+    const standardDeviation = Math.sqrt(
+      sortedArray
+        .reduce((acc: Array<number>, val: number) => acc.concat((val - mean) ** 2), [])
+        .reduce((acc, val) => acc + val, 0) /
+        (n - 1),
+    );
+    const min = Math.min(...sortedArray);
+    const max = Math.max(...sortedArray);
+    const q1 = this.calcQuartile(sortedArray, 1);
+    const q3 = this.calcQuartile(sortedArray, 3);
+    const nonApplicables = this.mineralData.length - sortedArray.length;
+
+    const tableObject: TableObject = {
+      mean: mean,
+      median: median,
+      stdDev: standardDeviation,
+      min: min,
+      max: max,
+      q1: q1,
+      q3: q3,
+      n: n,
+      nonApplicables: nonApplicables, // TODO: confirm is guff data frequency;
+    };
+
+    const dataArray = new Array<TableObject>();
+    dataArray.push(tableObject);
+    this.dataSource = new MatTableDataSource(dataArray);
+  }
+
+  private calcQuartile(arr, q): number {
+    // Turn q into a decimal (e.g. 95 becomes 0.95)
+    q = q / 100;
+
+    // Sort the array into ascending order
+
+    // Work out the position in the array of the percentile point
+    const p = (arr.length - 1) * q;
+    const b = Math.floor(p);
+
+    // Work out what we rounded off (if anything)
+    const remainder = p - b;
+
+    // See whether that data exists directly
+    if (arr[b + 1] !== undefined) {
+      return parseFloat(arr[b]) + remainder * (parseFloat(arr[b + 1]) - parseFloat(arr[b]));
+    } else {
+      return parseFloat(arr[b]);
+    }
   }
 }
 export interface AdditionalInformationDialogData {
@@ -205,10 +288,18 @@ export interface AdditionalInformationDialogData {
 }
 
 export interface AdditionalInformationData {
-  // demoGP: string;
   ageGenderGroup: string;
-  // areaName: string;
   zincLevelOne: string;
-  // zincLevelTwo: string;
-  // zincLevelThree: string;
+}
+
+interface TableObject {
+  mean: number;
+  median: number;
+  stdDev: number;
+  min: number;
+  max: number;
+  q1: number;
+  q3: number;
+  n: number;
+  nonApplicables: number;
 }

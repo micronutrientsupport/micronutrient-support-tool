@@ -15,16 +15,6 @@
   text-align: center;
 }
 
-.data-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-row-gap: 0px;
-  grid-column-gap: 10px;
-  height: 120px !important;
-  margin-left: 140px !important;
-}
-
 .pull-right {
   text-align: right;
 }
