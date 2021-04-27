@@ -68,7 +68,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public combinedBarChartPDF: string;
 
   private biomarkerMap: L.Map;
-  // private currentChartData: ChartJSObject;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -95,14 +94,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
-
-    this.initialiseBoxChart([
-      this.randomBoxPlot(0, 100),
-      this.randomBoxPlot(0, 20),
-      this.randomBoxPlot(20, 70),
-      this.randomBoxPlot(60, 100),
-      this.randomBoxPlot(50, 100),
-    ]);
+    // Render all charts
+    this.renderAllCharts();
 
   }
 
@@ -170,7 +163,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public initialiseBarChart(dataObj: any): void {
+  public initialiseBarChart(dataObj: any, type: string): void {
     this.barChartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
@@ -206,14 +199,22 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     };
 
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(this.barChartData));
-    this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
-    this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    if (type === 'pod') {
+      this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
 
-    this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    if (type === 'poe') {
+      this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
+
+    if (type === 'cde') {
+      this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
+
   }
 
   // Show/remove outlier data on boxplot.
@@ -221,14 +222,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.showOutliers = this.outlierControl.value;
     if (!this.showOutliers) {
       this.boxChartData.data.datasets[0].data.forEach((data: any) => {
-        console.log('remove', data);
-        // this.boxplot.updateChart();
+        console.log(data);
+        // hide outliers
       });
     } else {
-      //   this.currentChartData.data.datasets[0].data.forEach((data: any, idx: number) => {
-      //     console.log('put back', data, idx);
-      //     this.boxplot.updateChart();
-      //   });
+      // show outliers
     }
   }
 
@@ -246,9 +244,23 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       case 'table': break;
       case 'chart':
         const barData = this.getBarData(value);
-        this.initialiseBarChart(barData);
+        this.initialiseBarChart(barData, this.selectedOption);
         break;
     }
+  }
+
+  private renderAllCharts() {
+    this.initialiseBoxChart([
+      this.randomBoxPlot(0, 100),
+      this.randomBoxPlot(0, 20),
+      this.randomBoxPlot(20, 70),
+      this.randomBoxPlot(60, 100),
+      this.randomBoxPlot(50, 100),
+    ]);
+
+    this.initialiseBarChart(this.getBarData('pod'), 'pod');
+    this.initialiseBarChart(this.getBarData('poe'), 'poe');
+    this.initialiseBarChart(this.getBarData('cde'), 'cde');
   }
 
   private getBarData(type: string): any {

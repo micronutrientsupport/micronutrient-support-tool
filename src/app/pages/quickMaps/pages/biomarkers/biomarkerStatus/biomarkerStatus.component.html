@@ -105,18 +105,17 @@
                     </div>
                     <div class="status-element">Description of how deficiency/excess was measuredand details about the
                         group</div>
-
-
                 </div>
-                <div *ngIf="selectedOption =='pod' || selectedOption=='poe' || selectedOption=='cde' ">
-                    <div class="status-element">
-                        <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
-                            [type]="barChartData.type" [options]="barChartData.options"
-                            [plugins]="barChartData.plugins"></ngx-chartjs>
-                    </div>
-                    <div class="status-element">Description of how deficiency/excess was measuredand details about the
-                        group</div>
+
+                <div *ngIf="selectedOption =='pod' || selectedOption=='poe' || selectedOption=='cde' "
+                    class="status-element">
+                    <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
+                        [type]="barChartData.type" [options]="barChartData.options" [plugins]="barChartData.plugins">
+                    </ngx-chartjs>
                 </div>
+                <div class="status-element">Description of how deficiency/excess was measuredand details about the
+                    group</div>
+
             </div>
         </mat-tab>
 
@@ -128,55 +127,63 @@
 
                 <div class="container-row">
                     <div class="element-container">
-                        <h3>Deficiency</h3>
-                        <div class="status-element">
+                        <div class="download-title">Deficiency</div>
+                        <div class="download-element">
                             <a [href]="deficiencyBarChartPNG" target="_blank"
                                 [disabled]="!deficiencyBarChartPNG ? true : null"
                                 referrerpolicy="no-referrer-when-downgrade">
-                                Chart PNG
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PNG</span>
                             </a>
                         </div>
-                        <div class="status-element">
+                        <div class="download-element">
                             <a [href]="deficiencyBarChartPDF" target="_blank"
                                 referrerpolicy="no-referrer-when-downgrade">
-                                Chart PDF
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PDF</span>
                             </a>
                         </div>
                     </div>
 
                     <div class="element-container">
-                        <h3>Excess</h3>
-                        <div class="status-element">
-                            <a [href]="excessBarChartPNG" target="_blank"
-                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        <div class="download-title">Excess</div>
+                        <div class="download-element">
+                            <a [href]="excessBarChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PNG</span></a>
                         </div>
-                        <div class="status-element">
-                            <a [href]="excessBarChartPDF" target="_blank"
-                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
-                        </div>
-                    </div>
-
-                    <div class="element-container">
-                        <h3>Combined</h3>
-                        <div class="status-element">
-                            <a [href]="combinedBarChartPNG" target="_blank"
-                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
-                        </div>
-                        <div class="status-element">
-                            <a [href]="combinedBarChartPDF" target="_blank"
-                                referrerpolicy="no-referrer-when-downgrade">Chart PNG</a>
+                        <div class="download-element">
+                            <a [href]="excessBarChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PDF</span></a>
                         </div>
                     </div>
 
                     <div class="element-container">
-                        <h3>Continuous data</h3>
-                        <div class="status-element">
-                            <a [href]="boxChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">Chart
-                                PNG</a>
+                        <div class="download-title">Combined</div>
+                        <div class="download-element">
+                            <a [href]="combinedBarChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PNG</span></a>
                         </div>
-                        <div class="status-element">
-                            <a [href]="boxChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">Chart
-                                PNG</a>
+                        <div class="download-element">
+                            <a [href]="combinedBarChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PDF</span></a>
+                        </div>
+                    </div>
+
+                    <div class="element-container end">
+                        <div class="download-title">Continuous data</div>
+                        <div class="download-element">
+                            <a [href]="boxChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PNG</span></a>
+                        </div>
+                        <div class="download-element">
+                            <a [href]="boxChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+                                <i class="fas fa-download"></i>
+                                <span class="link-label">Chart PDF</span></a>
                         </div>
                     </div>
                 </div>

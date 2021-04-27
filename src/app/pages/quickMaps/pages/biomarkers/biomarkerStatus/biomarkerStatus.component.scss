@@ -16,6 +16,10 @@
   width: 200px;
   max-width: 250px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
+
+  &.end {
+    border-right: none;
+  }
 }
 
 .status-element {
@@ -24,6 +28,21 @@
   margin-left: 5%;
   margin-right: 5%;
   text-align: center;
+}
+
+.link-label {
+  margin-left: 15px;
+  font-size: small;
+}
+
+.download-element {
+  margin-bottom: 5px;
+}
+
+.download-title {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .status-map-select {
@@ -59,11 +78,4 @@ mat-form-field {
 .spacer {
   margin-left: 20px;
   margin-right: 20px;
-}
-
-.vertical-divider {
-  position: relative;
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
-  margin-right: 50px;
-  margin-left: 50px;
 }
