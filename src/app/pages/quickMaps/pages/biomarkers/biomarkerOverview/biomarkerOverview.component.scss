@@ -1,0 +1,40 @@
+@import 'src/assets/scss/_colour';
+
+.container {
+  display: flex;
+  margin-bottom: 10px;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  flex-flow: row nowrap;
+  background-color: white;
+  align-items: stretch;
+  justify-content: space-around;
+  text-align: center;
+
+  & .separator {
+    padding: 0;
+    border: 0 solid $color_primary;
+    border-width: 0 0 0 1px;
+  }
+
+  & > * {
+    padding: 0 0.5em;
+  }
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+@media (max-width: 920px) {
+  .container {
+    flex-direction: column;
+    & .separator {
+      border-width: 1px 0 0 0;
+    }
+  }
+}

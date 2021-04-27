@@ -14,6 +14,7 @@ import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
 import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.component';
 import 'chartjs-chart-box-and-violin-plot';
+import { BiomarkerOverviewComponent } from './biomarkerOverview/biomarkerOverview.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import 'chartjs-chart-box-and-violin-plot';
     BiomarkerComponent,
     BiomarkerDescriptionComponent,
     BiomarkerStatusComponent,
+    BiomarkerOverviewComponent,
   ],
   imports: [
     CommonModule,
