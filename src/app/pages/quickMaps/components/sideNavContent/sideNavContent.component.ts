@@ -97,7 +97,6 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
 
-        this.updateDataMeasureOptions();
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
@@ -128,13 +127,15 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
             this.quickMapsService.setDataSource(value);
-            if (null != value) {
-              if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
-                this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
-              }
+            if (null == value) {
+              this.quickMapsService.setDataLevel(null);
+            } else if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
+              this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
             }
           }),
         );
+
+        this.updateDataMeasureOptions();
       });
   }
 
@@ -205,55 +206,48 @@ export class SideNavContentComponent implements OnInit {
     this.measureBiomarkerEnabled = null != micronutrient && micronutrient.isBiomarker;
 
     const measureControl = this.quickMapsForm.get('measure');
-    const initialMeasure = measureControl.value as MicronutrientMeasureType;
+    const currentMeasure = measureControl.value as MicronutrientMeasureType;
 
+    let requiredMeasureValue = currentMeasure;
     // there's got to be a nicer way to do all of this :-(
-    if (null == initialMeasure) {
+    if (null == currentMeasure) {
       // if nothing selected, select first enabled one
       if (this.measureDietEnabled) {
-        measureControl.setValue(MicronutrientMeasureType.DIET);
+        requiredMeasureValue = MicronutrientMeasureType.DIET;
       } else if (this.measureBiomarkerEnabled) {
-        measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
+        requiredMeasureValue = MicronutrientMeasureType.BIOMARKER;
       }
     } else if (!this.measureDietEnabled && !this.measureBiomarkerEnabled) {
       // nothing enabled, set value to null
-      measureControl.setValue(null);
+      requiredMeasureValue = null;
     } else {
       // if disabled item selected, change it.
-      if (!this.measureDietEnabled && initialMeasure === MicronutrientMeasureType.DIET) {
-        measureControl.setValue(MicronutrientMeasureType.BIOMARKER);
-      } else if (!this.measureBiomarkerEnabled && initialMeasure === MicronutrientMeasureType.BIOMARKER) {
-        measureControl.setValue(MicronutrientMeasureType.DIET);
+      if (!this.measureDietEnabled && currentMeasure === MicronutrientMeasureType.DIET) {
+        requiredMeasureValue = MicronutrientMeasureType.BIOMARKER;
+      } else if (!this.measureBiomarkerEnabled && currentMeasure === MicronutrientMeasureType.BIOMARKER) {
+        requiredMeasureValue = MicronutrientMeasureType.DIET;
       }
     }
 
-    this.updateAgeGenderOptions();
+    measureControl.setValue(requiredMeasureValue);
   }
 
   private updateDataSources(): void {
-    const country = this.quickMapsService.country;
-    const measure = this.quickMapsService.measure;
-    // const ageGenderGroup = this.quickMapsService.ageGenderGroup;
+    void this.currentDataService
+      .getDataSources(
+        this.quickMapsService.country,
+        this.quickMapsService.measure,
+        this.quickMapsService.ageGenderGroup,
+        true,
+      )
+      .then((options: Array<DataSource>) => {
+        this.dataSources = options;
 
-    if (null != country && null != measure) {
-      void this.currentDataService
-        .getDataSources(
-          country,
-          measure,
-          true,
-        )
-        .then((options: Array<DataSource>) => {
-          this.dataSources = options.sort((a, b) => (a.name < b.name) ? -1 : 1);
-
-          // if only one option, preselect
-          if (1 === options.length) {
-            this.quickMapsForm.get('dataSource').setValue(options[0]);
-          }
-        });
-    } else {
-      // clear
-      this.dataSources = [];
-    }
+        // if only one option, preselect
+        if (1 === options.length) {
+          this.quickMapsForm.get('dataSource').setValue(options[0]);
+        }
+      });
   }
 
   private updateAgeGenderOptions(): void {
@@ -280,7 +274,6 @@ export class SideNavContentComponent implements OnInit {
       // clear
       this.ageGenderGroups = [];
     }
-    this.updateDataSources();
   }
 
   private navigate(appRoute: AppRoute): void {

@@ -138,7 +138,9 @@
         "cypress-run": {
           "builder": "@briebug/cypress-schematic:cypress",
           "options": {
-            "devServerTarget": "micronutrient-support-tool:serve"
+            "devServerTarget": "micronutrient-support-tool:serve",
+            "browser": "chrome",
+            "headless": true
           },
           "configurations": {
             "production": {
