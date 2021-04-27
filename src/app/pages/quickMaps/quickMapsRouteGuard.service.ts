@@ -130,51 +130,56 @@ export class QuickMapsRouteGuardService implements CanActivate {
       const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
 
-      return null == country ||
-        null == micronutrient ||
-        null == measure ||
-        (measure === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroupId)
+      return null == country
+        || null == micronutrient
+        || null == measure
         ? false
-        : Promise.all([
-          this.validateDataLevel(country, measure, dataLevel),
-          this.validateAgeGenderGroup(measure, micronutrient, ageGenderGroupId),
-        ])
-          .then((valids: Array<boolean>) => valids.every((valid) => true === valid));
+        : this.getAgeGenderGroup(micronutrient, ageGenderGroupId)
+          .then(ageGenderGroup => Promise.all([
+            this.validateAgeGenderGroup(measure, ageGenderGroup),
+            this.validateDataLevel(country, measure, ageGenderGroup, dataLevel),
+          ])
+            .then((valids: Array<boolean>) => valids.every((valid) => true === valid))
+          );
     });
   }
 
   private validateDataLevel(
     country: CountryDictionaryItem,
     measure: MicronutrientMeasureType,
+    ageGenderGroup: AgeGenderGroup,
     dataLevel: DataLevel,
   ): Promise<boolean> {
-    return this.currentDataService.getDataSources(country, measure, true)
+    return this.currentDataService.getDataSources(country, measure, ageGenderGroup, true)
       .then((options: Array<DataSource>) => {
 
         let valid = false;
         const selectedDataSource = options[0]; // always first item
         if (null != selectedDataSource) {
-          const availableDataLevels = selectedDataSource.dataLevelOptions;
-          valid = availableDataLevels.includes(dataLevel);
+          valid = selectedDataSource.dataLevelOptions.includes(dataLevel);
         }
 
         return valid;
       });
   }
 
-  private validateAgeGenderGroup(
-    measure: MicronutrientMeasureType,
+  private getAgeGenderGroup(
     micronutrient: MicronutrientDictionaryItem,
     ageGenderGroupId: string,
+  ): Promise<AgeGenderGroup> {
+    return this.currentDataService.getAgeGenderGroups([micronutrient])
+      .then((ageGenderGroups: Array<AgeGenderGroup>) => ageGenderGroups.find((group) => group.id === ageGenderGroupId));
+  }
+
+  private validateAgeGenderGroup(
+    measure: MicronutrientMeasureType,
+    ageGenderGroup: AgeGenderGroup,
   ): Promise<boolean> {
-    return (measure === MicronutrientMeasureType.DIET)
-      ? Promise.resolve(true)
-      : this.currentDataService
-        .getAgeGenderGroups([micronutrient])
-        .then((ageGenderGroups: Array<AgeGenderGroup>) => {
-          const selectedAgeGenderGroup = ageGenderGroups.find((group) => group.id === ageGenderGroupId);
-          return null != selectedAgeGenderGroup;
-        });
+    return Promise.resolve(
+      (measure === MicronutrientMeasureType.DIET)
+      || ((measure === MicronutrientMeasureType.BIOMARKER) && (null != ageGenderGroup))
+    );
+
   }
 
   private getActivatedRouteSnapshot(snapshot?: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
