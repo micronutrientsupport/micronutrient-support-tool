@@ -1,0 +1,18 @@
+<div class="container">
+  <span>
+    <strong>{{ quickMapsService.country.name }} {{ quickMapsService.micronutrient.name }} Status</strong>
+    in
+    <strong>{{ quickMapsService.ageGenderGroup.name }}</strong>
+    - 2222
+  </span>
+  <span class="seperator"></span>
+  <span>
+    Deficient: <strong class="red">{{ 0.9 | percent }}</strong>
+  </span>
+  <span>
+    Excess: <strong class="red">{{ 0.9 | percent }}</strong>
+  </span>
+  <span>
+    Adequate: <strong class="green">{{ 0.9 | percent }}</strong>
+  </span>
+</div>
