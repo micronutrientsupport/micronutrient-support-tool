@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { Component } from '@angular/core';
 import { QuickMapsService } from '../../quickMaps.service';
+import { SharingService } from 'src/app/services/sharing.service';
 @Component({
   selector: 'app-quick-maps-header',
   templateUrl: './quickMapsHeader.component.html',
@@ -10,5 +11,13 @@ import { QuickMapsService } from '../../quickMaps.service';
 })
 export class QuickMapsHeaderComponent {
   public ROUTES = AppRoutes;
-  constructor(public route: ActivatedRoute, public quickMapsService: QuickMapsService) {}
+  constructor(
+    public route: ActivatedRoute,
+    public quickMapsService: QuickMapsService,
+    private sharingService: SharingService,
+  ) {}
+
+  public share(text: string, title?: string, url?: string): Promise<any> {
+    return this.sharingService.share(text, title, url);
+  }
 }

@@ -1,11 +1,26 @@
-<div class="heading-row">
-  <div *ngIf="(quickMapsService.micronutrientObs | async).isDiet">
-    <h2>{{ (quickMapsService.countryObs | async)?.name }} Diet Data</h2>
+<div class="container">
+  <div class="item-center">
+    <div class="box" *ngIf="(quickMapsService.micronutrientObs | async).isDiet">
+      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Diet Data</h2>
+    </div>
+    <div class="box" *ngIf="(quickMapsService.micronutrientObs | async).isBiomarker">
+      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }}< Biomarker Data</h2>
+    </div>
   </div>
-  <div *ngIf="(quickMapsService.micronutrientObs | async).isBiomarker">
-    <h2>{{ (quickMapsService.countryObs | async)?.name }}< Biomarker Data</h2>
+  <div class="item">
+    <button
+      mat-raised-button
+      class="shareButton"
+      (click)="
+        share(
+          'Micronutrient Action Policy Support (MAPS) Tool',
+          'MAPS will be a web-hosted tool, communicating estimates of dietary micronutrient (MN) supplies and deficiency risks at national and sub-national scales in Africa.',
+          'https://micronutrient.support/')">
+      Share Page
+    </button>
   </div>
 </div>
+
 <div class="mode-select">
   <a
     class="mode-select-button quickmaps-baseline-link"
