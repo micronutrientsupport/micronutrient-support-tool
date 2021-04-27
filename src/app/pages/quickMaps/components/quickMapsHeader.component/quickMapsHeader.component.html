@@ -1,9 +1,9 @@
 <div class="container">
   <div class="item-center">
-    <div *ngIf="(quickMapsService.micronutrientObs | async).isDiet">
+    <div *ngIf="quickMapsService.measure === MicronutrientMeasureType.DIET">
       <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Diet Data</h2>
     </div>
-    <div *ngIf="(quickMapsService.micronutrientObs | async).isBiomarker">
+    <div *ngIf="quickMapsService.measure !== MicronutrientMeasureType.DIET">
       <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Biomarker Data</h2>
     </div>
   </div>
