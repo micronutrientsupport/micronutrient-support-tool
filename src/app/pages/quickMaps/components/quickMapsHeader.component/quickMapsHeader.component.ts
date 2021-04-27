@@ -17,7 +17,7 @@ export class QuickMapsHeaderComponent {
     private sharingService: SharingService,
   ) {}
 
-  public share(text: string, title?: string, url?: string): Promise<any> {
-    return this.sharingService.share(text, title, url);
+  public share(text: string, title?: string): Promise<any> {
+    return this.sharingService.share(text, title, window.location.href);
   }
 }
