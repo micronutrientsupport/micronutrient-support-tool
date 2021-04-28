@@ -61,7 +61,6 @@ const routes: Routes = [
           title: 'Quick Maps - Biomarker',
           keywords: '',
           description: '',
-          hideQuickMapsHeader: false,
           showLightFooter: true,
         } as RouteData,
         canActivate: [QuickMapsRouteGuardService],
@@ -78,4 +77,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QuickMapsRoutingModule {}
+export class QuickMapsRoutingModule { }

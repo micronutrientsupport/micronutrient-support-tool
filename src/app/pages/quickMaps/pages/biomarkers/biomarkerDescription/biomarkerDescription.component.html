@@ -11,13 +11,13 @@
           </div>
           <div class="item">Measure of MN: <strong>Biomarker</strong></div>
           <div class="item">
-            Age-gender group: <strong>{{ quickMapsService.ageGenderGroup.name }}</strong>
+            Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
           </div>
           <div class="item">
-            Data Source: <strong>{{ quickMapsService.dataSource.name }}</strong>
+            Data Source: <strong>{{ (quickMapsService.dataSourceObs | async).name }}</strong>
           </div>
           <div class="item">
-            Year: <strong>{{ quickMapsService.dataSource.year }}</strong>
+            Year: <strong>{{ (quickMapsService.dataSourceObs | async).year }}</strong>
           </div>
         </div>
       </mat-panel-title>
