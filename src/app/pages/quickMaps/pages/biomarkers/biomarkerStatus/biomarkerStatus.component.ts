@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as L from 'leaflet';
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, ChangeDetectionStrategy, Optional, Inject } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -12,7 +12,15 @@ import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
+export interface BiomarkerStatusDialogData {
+  data: any;
+  selectedTab: number;
+}
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
@@ -28,9 +36,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
 
+
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
-  public dialogData: any;
   public title: string;
   public displayedColumns = ['a', 'b', 'c', 'd'];
   public defThreshold = 20;
@@ -68,11 +76,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public combinedBarChartPDF: string;
 
   private biomarkerMap: L.Map;
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
     private currentDataService: CurrentDataService,
     private qcService: QuickchartService,
+    private dialogService: DialogService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {
 
   }
@@ -94,6 +105,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
+
+    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
     // Render all charts
     this.renderAllCharts();
 
@@ -234,6 +247,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (tabChangeEvent.index === 0) {
       this.biomarkerMap.invalidateSize();
     }
+  }
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<BiomarkerStatusDialogData>(BiomarkerStatusComponent, {
+      data: null,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
   }
 
   // Capture value from data select dropdown.
