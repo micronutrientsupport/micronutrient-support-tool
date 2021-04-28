@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, AfterViewInit, ViewChild, Input, Inject, Optional } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -56,7 +56,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     private papa: Papa,
     public quickMapsService: QuickMapsService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
-  ) {}
+  ) { }
   ngAfterViewInit(): void {
     this.init();
     this.card.title = this.title;
@@ -154,36 +154,38 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   private createBins(): void {
     // Set bins
     const arr = this.mineralData;
+    if (null != arr) {
 
-    const bins = new Array<BinObject>();
-    let binCount = 0;
-    const interval = Number(this.selectedBinSize);
-    const numOfBuckets = Math.max(...arr);
+      const bins = new Array<BinObject>();
+      let binCount = 0;
+      const interval = Number(this.selectedBinSize);
+      const numOfBuckets = Math.max(...arr);
 
-    // Setup Bins
-    for (let i = 0; i < numOfBuckets; i += interval) {
-      bins.push({
-        binNum: binCount,
-        minNum: i,
-        maxNum: i + interval,
-        count: 0,
+      // Setup Bins
+      for (let i = 0; i < numOfBuckets; i += interval) {
+        bins.push({
+          binNum: binCount,
+          minNum: i,
+          maxNum: i + interval,
+          count: 0,
+        });
+        binCount++;
+      }
+
+      // Loop through data and add to bin's count
+      arr.forEach((value: number) => {
+        bins.forEach((bin: BinObject) => {
+          if (value > bin.minNum && value <= bin.maxNum) {
+            bin.count++;
+          }
+        });
       });
-      binCount++;
+
+      this.binData = bins.map((item: BinObject) => item.count);
+      this.labels = bins.map((item: BinObject) => item.maxNum);
+
+      this.setChart();
     }
-
-    // Loop through data and add to bin's count
-    arr.forEach((value: number) => {
-      bins.forEach((bin: BinObject) => {
-        if (value > bin.minNum && value <= bin.maxNum) {
-          bin.count++;
-        }
-      });
-    });
-
-    this.binData = bins.map((item: BinObject) => item.count);
-    this.labels = bins.map((item: BinObject) => item.maxNum);
-
-    this.setChart();
   }
 
   private init(): void {
@@ -230,7 +232,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       sortedArray
         .reduce((acc: Array<number>, val: number) => acc.concat((val - mean) ** 2), [])
         .reduce((acc, val) => acc + val, 0) /
-        (n - 1),
+      (n - 1),
     );
     const min = Math.min(...sortedArray);
     const max = Math.max(...sortedArray);
@@ -273,6 +275,12 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       return parseFloat(arr[b]) + remainder * (parseFloat(arr[b + 1]) - parseFloat(arr[b]));
     } else {
       return parseFloat(arr[b]);
+    }
+  }
+
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    if (tabChangeEvent.index === 0) {
+      // this.biomarkerMap.invalidateSize();
     }
   }
 }
