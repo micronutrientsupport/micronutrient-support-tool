@@ -65,22 +65,20 @@ export interface ChartJSObject {
       ];
     };
     annotation?: {
-      annotations: Array<
-        {
-          type: string;
-          id: string;
-          mode: string;
-          scaleID: string;
-          value: number; // data-value at which the line is drawn
-          borderWidth: number;
-          borderColor: string;
-          label: {
-            enabled: boolean;
-            content?: string;
-            backgroundColor?: string;
-          };
-        }
-      >;
+      annotations: Array<{
+        type: string;
+        id: string;
+        mode: string;
+        scaleID: string;
+        value: number; // data-value at which the line is drawn
+        borderWidth: number;
+        borderColor: string;
+        label: {
+          enabled: boolean;
+          content?: string;
+          backgroundColor?: string;
+        };
+      }>;
     };
     tooltips?: {
       callbacks?: {

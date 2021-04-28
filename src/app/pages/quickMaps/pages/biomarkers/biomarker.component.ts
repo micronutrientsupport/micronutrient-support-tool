@@ -4,7 +4,8 @@ import { QuickMapsService } from '../../quickMaps.service';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
-  STATUS = 'widgetStatus'
+  STATUS = 'widgetStatus',
+  INFO = 'widgetInfo',
 }
 @Component({
   selector: 'app-biomarker',
@@ -12,7 +13,6 @@ enum BiomarkerWidgets {
   styleUrls: ['./biomarker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class BiomarkerComponent implements OnInit {
   public WIDGETS = BiomarkerWidgets;
   public options: GridsterConfig;
@@ -24,7 +24,7 @@ export class BiomarkerComponent implements OnInit {
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
   private readonly defaultWidgetHeight = 4;
-  private readonly defaultWidgetWidth = 6;
+  private readonly defaultWidgetWidth = 10;
 
   constructor(public quickMapsService: QuickMapsService) { }
 
@@ -88,8 +88,14 @@ export class BiomarkerComponent implements OnInit {
       rows: this.defaultWidgetHeight,
       x: 0,
       y: 0,
-    }
-    );
+    });
+    this.dashboard.push({
+      type: BiomarkerWidgets.INFO,
+      cols: this.defaultWidgetWidth,
+      rows: this.defaultWidgetHeight,
+      x: 0,
+      y: this.defaultWidgetHeight,
+    });
     this.changedOptions();
 
   }
@@ -98,5 +104,4 @@ export class BiomarkerComponent implements OnInit {
       this.options.api.optionsChanged();
     }
   }
-
 }
