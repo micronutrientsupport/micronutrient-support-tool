@@ -12,6 +12,8 @@ import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-biomarker-status',
@@ -20,11 +22,13 @@ import { QuickchartService } from 'src/app/services/quickChart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BiomarkerStatusComponent implements AfterViewInit {
+  public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('map1') mapElement: ElementRef;
   @ViewChild('boxplot') boxplot: ChartjsComponent;
   @ViewChild('barchart') barchart: ChartjsComponent;
+  @ViewChild('settingsMenu') settingsMenu: MatMenu;
 
   @Input() card: CardComponent;
 
@@ -74,6 +78,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private currentDataService: CurrentDataService,
     private qcService: QuickchartService,
+    private dialogService: DialogService,
   ) {
 
   }
@@ -82,8 +87,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     // Detect changes in quickmaps parameters:
     this.quickMapsService.parameterChangedObs.subscribe(() => {
 
-      const mnName = this.quickMapsService.micronutrient.name;
-      const agName = this.quickMapsService.ageGenderGroup.name;
+      const mnName: string = this.quickMapsService.micronutrient.name;
+      const agName: string = this.quickMapsService.ageGenderGroup.name;
       const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
       const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
       this.title = titlePrefix + titleSuffix;
@@ -94,6 +99,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     });
 
     this.card.showExpand = true;
+    this.card.showSettings = true;
     this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
 
     this.initialiseBoxChart([
@@ -103,6 +109,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.randomBoxPlot(60, 100),
       this.randomBoxPlot(50, 100),
     ]);
+
+    this.card.onSettingsClickObs.subscribe(() => {
+      // this.settingsMenu.
+    });
 
   }
 
@@ -236,6 +246,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (tabChangeEvent.index === 0) {
       this.biomarkerMap.invalidateSize();
     }
+  }
+
+  public openMapSettings(): void {
+    void this.dialogService.openMapSettingsDialog(BiomarkerStatusComponent.COLOUR_PALETTE_ID)
+      .then(() => {
+        // call change map function
+      });
   }
 
   // Capture value from data select dropdown.

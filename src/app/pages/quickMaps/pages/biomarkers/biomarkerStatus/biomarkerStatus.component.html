@@ -1,3 +1,16 @@
+<mat-menu #settingsMenu="matMenu">
+    <button mat-menu-item (click)="openMapSettings()" matTooltipPosition="before"
+        matTooltip="Annotated guide to search panel."><i class="fas fa-table"></i> Quick Guide</button>
+    <a mat-menu-item href="./assets/temp_documents/Guidelines-EPOS-ICS-Portal-20210219.pdf" target="_blank"
+        rel="noopener noreferrer" matTooltipPosition="before"
+        matTooltip="Comprehensive documentation for the EPOS user interface."><i class="fas fa-tasks"></i> User
+        Guide</a>
+    <a mat-menu-item href="https://www.youtube.com/playlist?list=PLMDzWjWnKNNlTHCukXp34FxondVnscK4-" target="_blank"
+        rel="noopener noreferrer" matTooltipPosition="before" matTooltip="Video tutorial of the search panel."><i
+            class="fab fa-youtube"></i>
+        Tutorial</a>
+</mat-menu>
+
 <ng-template #componentTemplate>
     <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Map">
