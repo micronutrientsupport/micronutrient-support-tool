@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as L from 'leaflet';
@@ -5,6 +7,8 @@ import { Component, AfterViewInit, ViewChild, ElementRef, Input, ChangeDetection
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
@@ -16,10 +20,24 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Papa } from 'ngx-papaparse';
 
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
+}
+
+export interface BiomarkerStatusData {
+  ageGenderGroup: string;
+  zincLevelOne: string;
+}
+
+interface TableObject {
+  region: number;
+  n: number;
+  deficient: number;
+  confidence: number;
 }
 @Component({
   selector: 'app-biomarker-status',
@@ -30,17 +48,17 @@ export interface BiomarkerStatusDialogData {
 export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('map1') mapElement: ElementRef;
   @ViewChild('boxplot') boxplot: ChartjsComponent;
   @ViewChild('barchart') barchart: ChartjsComponent;
 
   @Input() card: CardComponent;
 
-
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
   public title: string;
-  public displayedColumns = ['a', 'b', 'c', 'd'];
+  public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
   public defThreshold = 20;
   public abnThreshold = 60;
   public showOutliers = true;
@@ -62,9 +80,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     { name: 'All characteristics', value: 'all' },
     { name: 'Total', value: 'tot' }
   ];
+  public dataSource: MatTableDataSource<TableObject>;
   public totalSamples = 6587;
   public selectedOption: any;
   public selectedCharacteristic: any;
+  public mineralData: Array<number>;
+
   public boxChartPNG: string;
   public boxChartPDF: string;
 
@@ -82,6 +103,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
+    private http: HttpClient,
+    private papa: Papa,
     private currentDataService: CurrentDataService,
     private qcService: QuickchartService,
     private dialogService: DialogService,
@@ -90,7 +113,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-
+    this.init();
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -110,7 +133,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     });
 
-    // Render all charts
+    // Render all charts initially for download;
     this.renderAllCharts();
 
   }
@@ -180,6 +203,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public initialiseBarChart(dataObj: any, type: string): void {
+    let title = '';
+    switch (type) {
+      case 'pod': title = `Prevalence of ${this.quickMapsService.micronutrient.name} deficiency`; break;
+      case 'poe': title = `Prevalence of ${this.quickMapsService.micronutrient.name} excess`; break;
+      case 'cde': title = `Combined prevalence of ${this.quickMapsService.micronutrient.name} deficiency and excess`; break;
+    }
+    title = title + ' per participants\' characteristics';
+
     this.barChartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
@@ -190,7 +221,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       options: {
         title: {
           display: true,
-          text: 'Prevalence of Zinc deficiency per participants\' characteristics',
+          text: title,
         },
         maintainAspectRatio: false,
         legend: {
@@ -214,23 +245,22 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
+    // Generate chart renders for download.
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(this.barChartData));
-
-    if (type === 'pod') {
-      this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    switch (type) {
+      case 'pod':
+        this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+        this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        break;
+      case 'poe':
+        this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+        this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        break;
+      case 'cde':
+        this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+        this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        break;
     }
-
-    if (type === 'poe') {
-      this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-    }
-
-    if (type === 'cde') {
-      this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-    }
-
   }
 
   // Show/remove outlier data on boxplot.
@@ -250,6 +280,51 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (tabChangeEvent.index === 0) {
       this.biomarkerMap.invalidateSize();
     }
+  }
+
+  private init(): void {
+    void this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
+      .toPromise()
+      .then((data: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const blob = this.papa.parse(data, { header: true }).data;
+        const dataArray = new Array<BiomarkerStatusData>();
+
+        blob.forEach((simpleData) => {
+          const statusData: BiomarkerStatusData = {
+            ageGenderGroup: simpleData.DemoGpN,
+            zincLevelOne: simpleData.ZnAdj_gdL,
+          };
+
+          dataArray.push(statusData);
+        });
+
+        const filteredArray = dataArray
+          .map((item: BiomarkerStatusData) => Number(item.zincLevelOne))
+          .filter((value: number) => value != null) // removes any null values
+          .filter((value: number) => !isNaN(value)); // removes any NaN values
+        this.mineralData = filteredArray;
+        this.generateTable();
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  private generateTable() {
+    const sortedArray = this.mineralData.sort((a, b) => a - b);
+    const n = sortedArray.length;
+    const dataArray = new Array<TableObject>();
+
+    sortedArray.forEach(() => {
+      const tableObject: TableObject = {
+        region: this.randomValues(1, 0, 100)[0],
+        n: n,
+        deficient: this.randomValues(1, 0, 100)[0],
+        confidence: this.randomValues(1, 0, 100)[0],
+      };
+      dataArray.push(tableObject);
+    });
+
+    this.dataSource = new MatTableDataSource(dataArray);
   }
 
   private openDialog(): void {
