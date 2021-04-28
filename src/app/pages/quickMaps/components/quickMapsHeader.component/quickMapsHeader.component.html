@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="mode-select">
+<div class="mode-select" *ngIf="quickMapsService.measure !== MicronutrientMeasureType.BIOMARKER">
   <a
     class="mode-select-button quickmaps-baseline-link"
     mat-raised-button
