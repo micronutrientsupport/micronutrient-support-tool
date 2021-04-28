@@ -1,12 +1,9 @@
 <div class="container">
   <div class="item-center">
-    <div *ngIf="quickMapsService.measure === MicronutrientMeasureType.DIET">
-      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Diet Data</h2>
+    <div>
+      <h2 class="qm-title">{{ (quickMapsService.countryObs | async)?.name }} {{quickMapsService.measureObs | async | titlecase}} Data</h2>
     </div>
-    <div *ngIf="quickMapsService.measure !== MicronutrientMeasureType.DIET">
-      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Biomarker Data</h2>
-    </div>
-  </div>
+   </div>
   <div class="item">
     <button
       mat-raised-button
@@ -21,7 +18,7 @@
   </div>
 </div>
 
-<div class="mode-select" *ngIf="quickMapsService.measure !== MicronutrientMeasureType.BIOMARKER">
+<div class="mode-select" *ngIf="(quickMapsService.measureObs | async) === MEASURE_TYPES.DIET">
   <a
     class="mode-select-button quickmaps-baseline-link"
     mat-raised-button
