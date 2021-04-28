@@ -15,7 +15,7 @@ import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 export interface BiomarkerStatusDialogData {
   data: any;
@@ -77,6 +77,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   private biomarkerMap: L.Map;
   private subscriptions = new Array<Subscription>();
+  private loadingSrc = new BehaviorSubject<boolean>(false);
+  private errorSrc = new BehaviorSubject<boolean>(false);
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -88,6 +90,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   }
   ngAfterViewInit(): void {
+
+    this.card.showExpand = true;
+    this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
+    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
     // Detect changes in quickmaps parameters:
     this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -103,10 +110,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     });
 
-    this.card.showExpand = true;
-    this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
-
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
     // Render all charts
     this.renderAllCharts();
 
