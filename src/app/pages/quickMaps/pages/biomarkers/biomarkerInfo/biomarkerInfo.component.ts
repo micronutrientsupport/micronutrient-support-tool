@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Component, AfterViewInit, ViewChild, Input, Inject, Optional } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -275,6 +275,12 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       return parseFloat(arr[b]) + remainder * (parseFloat(arr[b + 1]) - parseFloat(arr[b]));
     } else {
       return parseFloat(arr[b]);
+    }
+  }
+
+  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    if (tabChangeEvent.index === 0) {
+      // this.biomarkerMap.invalidateSize();
     }
   }
 }
