@@ -58,7 +58,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
   ) {}
   ngAfterViewInit(): void {
-    this.init();
     this.card.title = this.title;
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -69,13 +68,18 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       this.selectedNutrient = micronutrient.name;
     });
 
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      this.createBins();
-    });
+    this.subscriptions.push(
+      this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.createBins();
+      }),
+    );
+    this.subscriptions.push(
+      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+        this.selectedAgeGenderGroup = ageGenderGroup.name;
 
-    this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
-      this.selectedAgeGenderGroup = ageGenderGroup.name;
-    });
+        this.init();
+      }),
+    );
   }
 
   private setChart() {
@@ -187,6 +191,24 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   private init(): void {
+    let ageGenderGroupName = '';
+
+    switch (this.selectedAgeGenderGroup) {
+      case 'Adult Women':
+        ageGenderGroupName = 'WRA';
+        break;
+      case 'Adult Men':
+        ageGenderGroupName = 'Men';
+        break;
+      case 'Children':
+        ageGenderGroupName = 'PSC';
+        break;
+      default: {
+        ageGenderGroupName = null;
+        break;
+      }
+    }
+
     void this.http
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
@@ -200,14 +222,21 @@ export class BiomarkerInfoComponent implements AfterViewInit {
             ageGenderGroup: simpleData.DemoGpN,
             zincLevelOne: simpleData.ZnAdj_gdL,
           };
-
           dataArray.push(additionalData);
-          // console.debug(additionalData.zincLevelOne);
         });
+
         const filteredArray = dataArray
+          .filter((item: AdditionalInformationData) => {
+            if (ageGenderGroupName) {
+              return item.ageGenderGroup === ageGenderGroupName;
+            } else {
+              return item;
+            }
+          })
           .map((item: AdditionalInformationData) => Number(item.zincLevelOne))
           .filter((value: number) => value != null) // removes any null values
           .filter((value: number) => !isNaN(value)); // removes any NaN values
+
         this.mineralData = filteredArray;
         this.generateTable();
         this.createBins(); // set interval
