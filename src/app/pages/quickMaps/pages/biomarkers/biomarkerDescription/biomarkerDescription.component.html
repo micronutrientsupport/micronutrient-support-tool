@@ -9,10 +9,6 @@
           <div class="item">
             Vitamin: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
           </div>
-          <div class="item">
-            Data level:
-            <strong class="capitalize-text">{{ quickMapsService.dataLevel }} </strong>
-          </div>
           <div class="item">Measure of MN: <strong>Biomarker</strong></div>
           <div class="item">
             Age-gender group: <strong>{{ quickMapsService.ageGenderGroup.name }}</strong>
