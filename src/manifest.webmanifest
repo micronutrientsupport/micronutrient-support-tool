@@ -1,6 +1,10 @@
 {
-  "name": "micronutrient-support-tool",
-  "short_name": "micronutrient-support-tool",
+  "name": "Micronutrient Action Policy Support",
+  "short_name": "MAPS",
+  "description": "Co-creating a web-hosted tool to estimate micronutrient deficiencies and explore pathways to improve nutrition.",
+  "orientation": "any",
+  "dir": "ltr",
+  "lang": "en",
   "theme_color": "#9b51e0",
   "background_color": "#fafafa",
   "display": "standalone",
