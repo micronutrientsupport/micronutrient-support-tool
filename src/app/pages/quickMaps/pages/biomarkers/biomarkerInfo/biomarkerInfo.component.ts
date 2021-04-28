@@ -56,7 +56,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     private papa: Papa,
     public quickMapsService: QuickMapsService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
-  ) { }
+  ) {}
   ngAfterViewInit(): void {
     this.card.title = this.title;
     this.card.showExpand = true;
@@ -64,19 +64,21 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
-    this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
-      this.selectedNutrient = micronutrient.name;
-    });
+    this.subscriptions.push(
+      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.selectedNutrient = micronutrient.name;
+      }),
+    );
+
+    this.subscriptions.push(
+      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+        this.selectedAgeGenderGroup = ageGenderGroup.name;
+      }),
+    );
 
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
         this.createBins();
-      }),
-    );
-    this.subscriptions.push(
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
-        this.selectedAgeGenderGroup = ageGenderGroup.name;
-
         this.init();
       }),
     );
@@ -159,7 +161,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     // Set bins
     const arr = this.mineralData;
     if (null != arr) {
-
       const bins = new Array<BinObject>();
       let binCount = 0;
       const interval = Number(this.selectedBinSize);
@@ -193,6 +194,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   private init(): void {
+    this.loadingSrc.next(true);
     let ageGenderGroupName = '';
 
     switch (this.selectedAgeGenderGroup) {
@@ -242,6 +244,11 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.mineralData = filteredArray;
         this.generateTable();
         this.createBins(); // set interval
+        this.cdr.detectChanges();
+      })
+      .finally(() => {
+        this.cdr.detectChanges();
+        this.loadingSrc.next(false);
       });
   }
 
@@ -261,7 +268,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       sortedArray
         .reduce((acc: Array<number>, val: number) => acc.concat((val - mean) ** 2), [])
         .reduce((acc, val) => acc + val, 0) /
-      (n - 1),
+        (n - 1),
     );
     const min = Math.min(...sortedArray);
     const max = Math.max(...sortedArray);
