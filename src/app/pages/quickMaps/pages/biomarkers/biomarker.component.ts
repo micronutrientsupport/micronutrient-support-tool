@@ -32,7 +32,7 @@ export class BiomarkerComponent implements OnInit {
     [DataLevel.HOUSEHOLD, [BiomarkerWidgets.STATUS, BiomarkerWidgets.INFO]],
   ]);
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  constructor(public quickMapsService: QuickMapsService) { }
 
   ngOnInit(): void {
     this.options = {
