@@ -18,7 +18,8 @@
     "build:stats": "ng build --stats-json",
     "analyze": "webpack-bundle-analyzer dist/micronutrient-support-tool/stats.json",
     "prepare": "husky install",
-    "start-pwa": "ng build --prod && http-server -p 8080 -c-1 dist/micronutrient-support-tool"
+    "start-pwa": "ng build --prod && http-server -p 8080 -c-1 dist/micronutrient-support-tool",
+    "pwa-gen-assets": "npx pwa-asset-generator src/assets/images/maps-logo-full-white.svg src/assets/icons --background \"#9b51e0\" --index src/index.html --manifest src/manifest.webmanifest --mstile"
   },
   "private": true,
   "browser": {
