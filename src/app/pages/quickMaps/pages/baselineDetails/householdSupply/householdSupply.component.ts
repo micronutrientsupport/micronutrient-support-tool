@@ -23,6 +23,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+
 @Component({
   selector: 'app-household-supply',
   templateUrl: './householdSupply.component.html',
@@ -58,7 +59,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     if (null != this.card) {
