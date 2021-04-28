@@ -16,3 +16,25 @@
   flex-grow: 1;
   margin: 5px;
 }
+
+.container {
+  display: flex;
+  padding-right: 10px;
+}
+
+.item {
+  width: 130px;
+}
+
+.item-center {
+  flex-grow: 1;
+}
+
+.item + .item {
+  margin-left: 2%;
+}
+
+.qmTitle {
+  font-weight: 600;
+  text-align: center;
+}
