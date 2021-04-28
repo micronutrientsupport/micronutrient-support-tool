@@ -34,7 +34,8 @@ const routes: Routes = [
           appRoute: AppRoutes.QUICK_MAPS_BASELINE,
           title: 'Quick MAPS - Baseline',
           keywords: 'Micronutrients, maps, policy, project objectives',
-          description: 'Baseline estimates of dietary MN supplies and deficiency risks in the selected country or region.',
+          description:
+            'Baseline estimates of dietary MN supplies and deficiency risks in the selected country or region.',
           showLightFooter: true,
         } as RouteData,
         canActivate: [QuickMapsRouteGuardService],
@@ -45,7 +46,8 @@ const routes: Routes = [
         data: {
           appRoute: AppRoutes.QUICK_MAPS_PROJECTION,
           title: 'Quick MAPS - Projections to 2050',
-          keywords: 'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
+          keywords:
+            'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
           description: 'Projections of food system changes under various scenarios.',
           showLightFooter: true,
         } as RouteData,
@@ -59,11 +61,11 @@ const routes: Routes = [
           title: 'Quick Maps - Biomarker',
           keywords: '',
           description: '',
-          hideQuickMapsHeader: true,
+          hideQuickMapsHeader: false,
           showLightFooter: true,
         } as RouteData,
         canActivate: [QuickMapsRouteGuardService],
-      }
+      },
     ],
   },
   {
@@ -76,4 +78,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QuickMapsRoutingModule { }
+export class QuickMapsRoutingModule {}
