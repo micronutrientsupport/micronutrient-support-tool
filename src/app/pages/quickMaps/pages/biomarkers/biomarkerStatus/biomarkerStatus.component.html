@@ -90,18 +90,24 @@
                             [plugins]="boxChartData.plugins">
                         </ngx-chartjs>
                     </div>
-                    <div class="status-element data-grid">
-                        <span class="pull-right">Deficiency threshold</span>
-                        <span class="pull-left"> {{ defThreshold }} &micro;g/dL</span>
-                        <span class="pull-right">Threshold for abnormal values</span>
-                        <span class="pull-left"> {{ abnThreshold }} &micro;g/dL</span>
-                        <span class="pull-right">Outliers</span>
-                        <span class="pull-left">
-                            <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()">
-                            </mat-slide-toggle>
-                            <span *ngIf="showOutliers; else dontShow"> Shown</span>
-                            <ng-template #dontShow> Hidden</ng-template>
-                        </span>
+                    <div class="status-element">
+                        <div class="row">
+                            <span class="col-left pull-right">Deficiency threshold</span>
+                            <span class="col-right red pull-left"> {{ defThreshold }} &micro;g/dL</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-left pull-right">Threshold for abnormal values</span>
+                            <span class="col-right blue pull-left"> {{ abnThreshold }} &micro;g/dL</span>
+                        </div>
+                        <div class="row">
+                            <span class="col-left pull-right">Outliers</span>
+                            <span class="col-right pull-left">
+                                <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()">
+                                </mat-slide-toggle>
+                                <span *ngIf="showOutliers; else dontShow"> Shown</span>
+                                <ng-template #dontShow> Hidden</ng-template>
+                            </span>
+                        </div>
                     </div>
                     <div class="status-element">Description of how deficiency/excess was measuredand details about the
                         group</div>
@@ -112,9 +118,10 @@
                     <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
                         [type]="barChartData.type" [options]="barChartData.options" [plugins]="barChartData.plugins">
                     </ngx-chartjs>
+                    <div class="status-element">Description of how deficiency/excess was measuredand details about the
+                        group</div>
                 </div>
-                <div class="status-element">Description of how deficiency/excess was measuredand details about the
-                    group</div>
+
 
             </div>
         </mat-tab>

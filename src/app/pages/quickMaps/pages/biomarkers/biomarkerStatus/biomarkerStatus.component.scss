@@ -53,13 +53,24 @@
   z-index: 999;
 }
 
-.data-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-row-gap: 0px;
-  grid-column-gap: 10px;
-  margin-left: 140px;
+.row {
+  display: flex;
+}
+
+.col-left {
+  flex: 55%;
+  margin-right: 10px;
+}
+
+.col-right {
+  flex: 45%;
+  margin-left: 10px;
+  &.red {
+    color: red;
+  }
+  &.blue {
+    color: blue;
+  }
 }
 
 .pull-right {
