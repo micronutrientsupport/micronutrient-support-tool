@@ -1,9 +1,9 @@
 <div class="container">
   <span>
-    <strong>{{ quickMapsService.country.name }} {{ quickMapsService.micronutrient.name }} Status</strong>
+    <strong>{{ (quickMapsService.countryObs| async).name }} {{ (quickMapsService.micronutrientObs| async).name }} Status</strong>
     in
-    <strong>{{ quickMapsService.ageGenderGroup.name }}</strong>
-    - {{ quickMapsService.dataSource.year }}
+    <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
+    - {{ (quickMapsService.dataSourceObs | async).year }}
   </span>
   <span class="separator"></span>
   <span>
