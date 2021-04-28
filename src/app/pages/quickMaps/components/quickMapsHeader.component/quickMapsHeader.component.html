@@ -1,16 +1,13 @@
 <div class="container">
   <div class="item-center">
-    <div *ngIf="quickMapsService.measure === MicronutrientMeasureType.DIET">
-      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Diet Data</h2>
-    </div>
-    <div *ngIf="quickMapsService.measure !== MicronutrientMeasureType.DIET">
-      <h2 class="qmTitle">{{ (quickMapsService.countryObs | async)?.name }} Biomarker Data</h2>
+    <div>
+      <h2 class="qm-title">
+        {{ (quickMapsService.countryObs | async)?.name }} {{quickMapsService.measureObs | async | titlecase}} Data
+      </h2>
     </div>
   </div>
   <div class="item">
-    <button
-      mat-raised-button
-      class="shareButton"
+    <button mat-raised-button class="shareButton"
       (click)="
         share(
           'Micronutrient Action Policy Support (MAPS) Tool',
@@ -21,25 +18,15 @@
   </div>
 </div>
 
-<div class="mode-select" *ngIf="quickMapsService.measure !== MicronutrientMeasureType.BIOMARKER">
-  <a
-    class="mode-select-button quickmaps-baseline-link"
-    mat-raised-button
-    [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route"
-    [queryParams]="route.queryParams | async"
-    routerLinkActive="active-route"
-    >Baseline
+<div class="mode-select" *ngIf="(quickMapsService.measureObs | async) === MEASURE_TYPES.DIET">
+  <a class="mode-select-button quickmaps-baseline-link" mat-raised-button
+    [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" [queryParams]="route.queryParams | async"
+    routerLinkActive="active-route">Baseline
   </a>
-  <a
-    class="mode-select-button quickmaps-projection-link"
-    mat-raised-button
-    [routerLink]="
+  <a class="mode-select-button quickmaps-projection-link" mat-raised-button [routerLink]="
       (quickMapsService.micronutrientObs | async).isInImpact ? (ROUTES.QUICK_MAPS_PROJECTION | route) : null
-    "
-    [queryParams]="route.queryParams | async"
-    routerLinkActive="active-route"
-    [disabled]="!(quickMapsService.micronutrientObs | async).isInImpact"
-    >Explore projections to 2050
+    " [queryParams]="route.queryParams | async" routerLinkActive="active-route"
+    [disabled]="!(quickMapsService.micronutrientObs | async).isInImpact">Explore projections to 2050
   </a>
   <a class="mode-select-button" mat-raised-button>Explore simple dietary change scenarios</a>
   <a class="mode-select-button" mat-raised-button>Explore cost effectiveness scenarios</a>

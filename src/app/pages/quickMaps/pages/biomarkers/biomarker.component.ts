@@ -95,8 +95,8 @@ export class BiomarkerComponent implements OnInit {
       rows: this.defaultWidgetHeight,
       x: 0,
       y: this.defaultWidgetHeight,
-    });
-    this.changedOptions();
+      });
+      this.changedOptions();
 
   }
   private changedOptions(): void {
