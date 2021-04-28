@@ -6,6 +6,10 @@
         aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
+      <button *ngIf="showSettingsMenu" (click)="functionSettingsMenu()" [matMenuTriggerFor]="matMenu" mat-icon-button
+        class="example-icon" aria-label="Settings icon">
+        <mat-icon>settings</mat-icon>
+      </button>
       <span class="example-spacer">{{title}}</span>
       <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button class="example-icon"
         aria-label="Modal icon">

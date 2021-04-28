@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import { GridsterItem } from 'angular-gridster2';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -15,7 +16,10 @@ export class CardComponent implements OnInit {
 
   public title = '';
   public showSettings = false;
+  public showSettingsMenu = false;
   public showExpand = false;
+
+  public matMenu: MatMenu;
 
   public loading = false;
   public error = false;
@@ -31,6 +35,10 @@ export class CardComponent implements OnInit {
   private onSettingsClickSrc = new Subject<void>();
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public onSettingsClickObs = this.onSettingsClickSrc.asObservable();
+
+  private onSettingsMenuClickSrc = new Subject<void>();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public onSettingsMenuClickObs = this.onSettingsMenuClickSrc.asObservable();
 
   private subscriptions = new Array<Subscription>();
 
@@ -74,6 +82,10 @@ export class CardComponent implements OnInit {
 
   public functionSettings(): void {
     this.onSettingsClickSrc.next();
+  }
+
+  public functionSettingsMenu(): void {
+    this.onSettingsMenuClickSrc.next();
   }
 
 }

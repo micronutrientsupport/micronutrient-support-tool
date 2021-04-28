@@ -1,14 +1,7 @@
 <mat-menu #settingsMenu="matMenu">
-    <button mat-menu-item (click)="openMapSettings()" matTooltipPosition="before"
-        matTooltip="Annotated guide to search panel."><i class="fas fa-table"></i> Quick Guide</button>
-    <a mat-menu-item href="./assets/temp_documents/Guidelines-EPOS-ICS-Portal-20210219.pdf" target="_blank"
-        rel="noopener noreferrer" matTooltipPosition="before"
-        matTooltip="Comprehensive documentation for the EPOS user interface."><i class="fas fa-tasks"></i> User
-        Guide</a>
-    <a mat-menu-item href="https://www.youtube.com/playlist?list=PLMDzWjWnKNNlTHCukXp34FxondVnscK4-" target="_blank"
-        rel="noopener noreferrer" matTooltipPosition="before" matTooltip="Video tutorial of the search panel."><i
-            class="fab fa-youtube"></i>
-        Tutorial</a>
+    <button mat-menu-item (click)="openMapSettings()"><i class="fas fa-map"></i> Map Settings</button>
+    <button mat-menu-item [disabled]="true"><i class="fas fa-table"></i> Table Settings</button>
+    <button mat-menu-item [disabled]="true"><i class="fas fa-chart-bar"></i> Chart Settings</button>
 </mat-menu>
 
 <ng-template #componentTemplate>

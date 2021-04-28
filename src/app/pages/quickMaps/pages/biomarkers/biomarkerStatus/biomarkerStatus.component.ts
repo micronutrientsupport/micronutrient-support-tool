@@ -23,14 +23,14 @@ import { MatMenu } from '@angular/material/menu';
 })
 export class BiomarkerStatusComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
+  @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('map1') mapElement: ElementRef;
   @ViewChild('boxplot') boxplot: ChartjsComponent;
   @ViewChild('barchart') barchart: ChartjsComponent;
-  @ViewChild('settingsMenu') settingsMenu: MatMenu;
+  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
-  @Input() card: CardComponent;
 
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
@@ -70,6 +70,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public deficiencyBarChartPDF: string;
   public combinedBarChartPNG: string;
   public combinedBarChartPDF: string;
+  public hidden = true;
 
   private biomarkerMap: L.Map;
   // private currentChartData: ChartJSObject;
@@ -99,7 +100,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     });
 
     this.card.showExpand = true;
-    this.card.showSettings = true;
+    this.card.showSettingsMenu = true;
+    this.card.matMenu = this.menu;
     this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
 
     this.initialiseBoxChart([
@@ -111,7 +113,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     ]);
 
     this.card.onSettingsClickObs.subscribe(() => {
-      // this.settingsMenu.
+      // this.settingsMenu.openMenu();
     });
 
   }
