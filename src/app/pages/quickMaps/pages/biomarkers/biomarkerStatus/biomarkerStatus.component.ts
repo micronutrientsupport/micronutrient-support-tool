@@ -304,6 +304,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<BiomarkerStatusData>();
 
+        console.log(this.quickMapsService.ageGenderGroup.id); // all; adult_women; adult_men; children
+
         blob.forEach((simpleData) => {
           const statusData: BiomarkerStatusData = {
             areaName: simpleData.AreaName,
@@ -313,6 +315,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           };
           dataArray.push(statusData);
         });
+
         const filterByParamatersArray = dataArray.filter(
           (value) => value.areaName === 'Area6' && value.ageGenderGroup === 'WRA',
         );
@@ -356,6 +359,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       case 'map':
         break;
       case 'table':
+        if (this.selectedCharacteristic) {
+          console.log('dataSelected');
+          this.generateTable();
+        }
         break;
       case 'chart':
         const barData = this.getBarData(value);
@@ -425,7 +432,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   // Capture value from characteristic select dropdown in table tab.
   private charactersiticSelected(value: any) {
     this.selectedCharacteristic = value;
-    console.log(value);
+    console.log('charactersiticSelected');
     if (this.selectedOption) {
       // do something
     }
@@ -438,7 +445,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   // Return the correct interface to dislpay outliers
   private randomBoxPlot(min: any, max: any) {
-    const values = this.randomValues(6, min, max).sort((a, b) => a - b);
+    const values = this.randomValues(5, min, max).sort((a, b) => a - b);
 
     return {
       min: values[0],
