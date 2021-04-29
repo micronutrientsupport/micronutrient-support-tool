@@ -4,30 +4,31 @@
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
-            Nation: <strong>{{(quickMapsService.countryObs | async)?.name}}</strong>
+            Nation: <strong>{{ (quickMapsService.countryObs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Vitamin: <strong>{{(quickMapsService.micronutrientObs | async)?.name}}</strong>
+            Vitamin: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Measure of MDN: <strong class="capitalize-text">{{(quickMapsService.measureObs | async)}} Data</strong>
+            Measure of MDN: <strong class="capitalize-text">{{ quickMapsService.measureObs | async }} Data</strong>
           </div>
           <div class="item">
-            Baseline assumptions: <strong>{{currentImpactScenario?.name}}</strong>
+            Baseline assumptions: <strong>{{ currentImpactScenario?.name }}</strong>
           </div>
           <div class="item">
             Data level:
-            <strong *ngIf="(1 === (quickMapsService.dataSourceObs | async).dataLevelOptions.length)" class="capitalize-text">
-              {{(quickMapsService.dataSourceObs | async).dataLevelOptions[0]}}
+            <strong *ngIf="1 === (quickMapsService.dataSourceObs | async).dataLevelOptions.length"
+              class="capitalize-text">
+              {{ (quickMapsService.dataSourceObs | async).dataLevelOptions[0] }}
             </strong>
-            <mat-form-field *ngIf="(1 < (quickMapsService.dataSourceObs | async).dataLevelOptions.length)"
+            <mat-form-field *ngIf="1 < (quickMapsService.dataSourceObs | async).dataLevelOptions.length"
               appearance="fill" class="data-level-select-wrapper">
-              <mat-select panelClass="data-level-select"
-                name="data-level" placeholder="Data Level" [value]="quickMapsService.dataLevelObs | async"
-                (selectionChange)="setDataLevel($event)" (click)="$event.stopPropagation()">
+              <mat-select panelClass="data-level-select" name="data-level" placeholder="Data Level"
+                [value]="quickMapsService.dataLevelObs | async" (selectionChange)="setDataLevel($event)"
+                (click)="$event.stopPropagation()">
                 <mat-option *ngFor="let option of (quickMapsService.dataSourceObs | async).dataLevelOptions"
                   [value]="option" class="capitalize-text">
-                  {{option}}
+                  {{ option }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -35,9 +36,10 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description">The projections are modelled based on 3 different scenarios. Scenario SSP1 is
-      called the
-      Sustainability scenario; scenario SSP2 is the Middle of the Road scenario; scenario SSP3 is the Regional
-      Rivalry Scenario. <button mat-button (click)="openScenarioTypeDialog()" color="primary">Learn More</button></div>
+    <div class="description">
+      The projections are modelled based on 3 different scenarios. Scenario SSP1 is called the Sustainability scenario;
+      scenario SSP2 is the Middle of the Road scenario; scenario SSP3 is the Regional Rivalry Scenario.
+      <button mat-button (click)="openScenarioTypeDialog()" color="primary">Learn More</button>
+    </div>
   </mat-expansion-panel>
 </div>

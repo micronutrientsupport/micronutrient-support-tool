@@ -16,5 +16,3 @@ jobs:
           wait-on: http://localhost:8100
           # 120 //secs
           wait-on-timeout: 120
-          browser: chrome
-          headless: true
