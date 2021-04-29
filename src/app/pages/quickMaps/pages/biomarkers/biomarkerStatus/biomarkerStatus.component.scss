@@ -73,6 +73,22 @@
   }
 }
 
+.dl-col-left {
+  flex: 20%;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.dl-col-right {
+  flex: 80%;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
 .pull-right {
   text-align: right;
 }

@@ -38,6 +38,8 @@ import { ColourPaletteType } from '../../../components/colourObjects/colourPalet
 import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -69,8 +71,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('map1') mapElement: ElementRef;
-  @ViewChild('boxplot') boxplot: ChartjsComponent;
-  @ViewChild('barchart') barchart: ChartjsComponent;
+  @ViewChild('boxplot') boxPlot: ChartjsComponent;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   public boxChartData: ChartJSObject;
@@ -102,6 +103,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public totalSamples: number;
   public selectedOption: any;
   public selectedCharacteristic: any;
+  public selectedNutrient = '';
+  public selectedAgeGenderGroup = '';
   public mineralData: Array<BiomarkerStatusData>;
 
   public boxChartPNG: string;
@@ -133,11 +136,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private thresholdLegend: L.Control;
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection;
-  //
-
-  private biomarkerMap: L.Map;
-  // private currentChartData: ChartJSObject;
   private subscriptions = new Array<Subscription>();
+  private outlierSet: any[] = [];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -164,17 +164,24 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
+    this.subscriptions.push(
+      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.selectedNutrient = micronutrient.name;
+      }),
+    );
+
+    this.subscriptions.push(
+      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+        this.selectedAgeGenderGroup = ageGenderGroup.name;
+      }),
+    );
+
     // Detect changes in quickmaps parameters:
-    this.quickMapsService.parameterChangedObs.subscribe(() => {
-      const mnName = this.quickMapsService.micronutrient.name;
-      const agName = this.quickMapsService.ageGenderGroup.name;
-      const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
-      const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
-      this.title = titlePrefix + titleSuffix;
-      if (null != this.card) {
-        this.card.title = this.title;
-      }
-    });
+    this.subscriptions.push(
+      this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.init();
+      }),
+    );
 
     // Render all charts initially for download;
     this.renderAllCharts();
@@ -182,7 +189,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.card.showSettingsMenu = true;
     this.card.matMenu = this.menu;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-    // this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
 
     this.initialiseBoxChart([
       this.randomBoxPlot(0, 100),
@@ -275,13 +281,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     let title = '';
     switch (type) {
       case 'pod':
-        title = `Prevalence of ${this.quickMapsService.micronutrient.name} deficiency`;
+        title = `Prevalence of ${this.selectedNutrient} deficiency`;
         break;
       case 'poe':
-        title = `Prevalence of ${this.quickMapsService.micronutrient.name} excess`;
+        title = `Prevalence of ${this.selectedNutrient} excess`;
         break;
       case 'cde':
-        title = `Combined prevalence of ${this.quickMapsService.micronutrient.name} deficiency and excess`;
+        title = `Combined prevalence of ${this.selectedNutrient} deficiency and excess`;
         break;
     }
     title = title + ' per participants characteristics';
@@ -320,7 +326,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       },
     };
 
-    // Generate chart renders for download.
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(this.barChartData));
     switch (type) {
       case 'pod':
@@ -338,22 +343,28 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     }
   }
 
-  // Show/remove outlier data on boxplot.
   public toggleShowOutlier(): void {
     this.showOutliers = this.outlierControl.value;
     if (!this.showOutliers) {
       this.boxChartData.data.datasets[0].data.forEach((data: any) => {
-        console.log(data);
         // hide outliers
+        console.log(data.outliers);
+        this.outlierSet.push(data.outliers);
+        data.outliers = null;
       });
+      this.boxPlot.renderChart();
     } else {
       // show outliers
+      this.boxChartData.data.datasets[0].data.forEach((data: any, idx: number) => {
+        data.outliers = this.outlierSet[idx];
+      });
+      this.boxPlot.renderChart();
     }
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 0) {
-      // this.biomarkerMap.invalidateSize(); // TODO: add again
+      this.absoluteMap.invalidateSize();
     }
   }
 
@@ -368,6 +379,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private init(): void {
+    const mnName = this.quickMapsService.micronutrient.name;
+    const agName = this.quickMapsService.ageGenderGroup.name;
+    const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
+    const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
+    this.title = titlePrefix + titleSuffix;
+    if (null != this.card) {
+      this.card.title = this.title;
+    }
     void this.http
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
@@ -376,7 +395,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<BiomarkerStatusData>();
 
-        console.log(this.quickMapsService.ageGenderGroup.id); // all; adult_women; adult_men; children
+        // console.log(this.quickMapsService.ageGenderGroup.id); // all; adult_women; adult_men; children
 
         blob.forEach((simpleData) => {
           const statusData: BiomarkerStatusData = {
