@@ -26,7 +26,7 @@ export class BiomarkerComponent implements OnInit {
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 10;
 
-  constructor(public quickMapsService: QuickMapsService) { }
+  constructor(public quickMapsService: QuickMapsService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -95,9 +95,8 @@ export class BiomarkerComponent implements OnInit {
       rows: this.defaultWidgetHeight,
       x: 0,
       y: this.defaultWidgetHeight,
-      });
-      this.changedOptions();
-
+    });
+    this.changedOptions();
   }
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {
