@@ -12,6 +12,7 @@ import {
   ChangeDetectionStrategy,
   Optional,
   Inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
@@ -142,6 +143,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
+  private tabVisited = new Map<number, boolean>();
+
   constructor(
     public quickMapsService: QuickMapsService,
     private http: HttpClient,
@@ -149,6 +152,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private currentDataService: CurrentDataService,
     private qcService: QuickchartService,
     private dialogService: DialogService,
+    private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
@@ -158,7 +162,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
-    this.init();
     this.absoluteMap = this.initialiseMap(this.mapElement.nativeElement);
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -173,13 +176,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.subscriptions.push(
       this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
-      }),
-    );
-
-    // Detect changes in quickmaps parameters:
-    this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
-        this.init();
       }),
     );
 
@@ -200,6 +196,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.init();
         this.initMap(
           this.currentDataService.getSubRegionData(
             this.quickMapsService.country,
@@ -566,17 +563,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         this.areaBounds = this.absoluteDataLayer.getBounds();
 
         // reset visited
-        // this.tabVisited.clear();
+        this.tabVisited.clear();
         // trigger current fit bounds
         // seems to need a small delay after page navigation to projections and back to baseline
         setTimeout(() => {
-          // this.triggerFitBounds(this.tabGroup.selectedIndex);
+          this.triggerFitBounds(this.tabGroup.selectedIndex);
         }, 0);
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
-        // this.cdr.detectChanges();
+        this.cdr.detectChanges();
       });
   }
 
@@ -586,6 +583,18 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
     return map;
+  }
+
+  private triggerFitBounds(tabIndex: number): void {
+    this.tabVisited.set(tabIndex, true);
+    switch (tabIndex) {
+      case 0:
+        this.absoluteMap.fitBounds(this.areaBounds);
+        break;
+      case 1:
+        // this.thresholdMap.fitBounds(this.areaBounds);
+        break;
+    }
   }
 
   private initialiseMapAbsolute(colourPalette: ColourPalette): void {
