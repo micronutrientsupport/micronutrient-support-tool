@@ -18,7 +18,7 @@ import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
-
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-biomarker-info',
   templateUrl: './biomarkerInfo.component.html',
@@ -30,6 +30,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   @Input() card: CardComponent;
   static additionalData: any;
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
   public title = 'Additional Information';
 
   public defThreshold = 70;
@@ -55,6 +57,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     private http: HttpClient,
     private papa: Papa,
     public quickMapsService: QuickMapsService,
+    private qcService: QuickchartService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
   ) {}
   ngAfterViewInit(): void {
@@ -82,79 +85,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.init();
       }),
     );
-  }
-
-  private setChart() {
-    this.chartData = {
-      plugins: [ChartAnnotation],
-      type: 'bar',
-      data: {
-        labels: this.labels,
-
-        datasets: [
-          {
-            label: `${this.selectedNutrient}`,
-            backgroundColor: 'rgba(0,220,255,0.5)',
-            borderColor: 'rgba(0,220,255,0.5)',
-            outlierColor: 'rgba(0,0,0,0.5)',
-            outlierRadius: 4,
-            data: this.binData,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `Concentration of ${this.selectedNutrient} in microg/DI`,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `Number of ${this.selectedAgeGenderGroup}`,
-              },
-            },
-          ],
-        },
-        annotation: {
-          annotations: [
-            {
-              type: 'line',
-              id: 'defLine',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: this.defThreshold,
-              borderWidth: 2.0,
-              borderColor: 'rgba(255,0,0,0.5)',
-              label: {
-                enabled: true,
-                content: 'Deficiency threshold',
-                backgroundColor: 'rgba(255,0,0,0.8)',
-              },
-            },
-            {
-              type: 'line',
-              id: 'abnLine',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: this.abnThreshold,
-              borderWidth: 2.0,
-              borderColor: 'rgba(0,0,255,0.5)',
-              label: {
-                enabled: true,
-                content: 'Threshold for abnormal values',
-                backgroundColor: 'rgba(0,0,255,0.8)',
-              },
-            },
-          ],
-        },
-      },
-    };
   }
 
   private createBins(): void {
@@ -192,7 +122,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       this.setChart();
     }
   }
-
   private init(): void {
     this.loadingSrc.next(true);
     let ageGenderGroupName = '';
@@ -251,14 +180,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.loadingSrc.next(false);
       });
   }
-
-  private openDialog(): void {
-    void this.dialogService.openDialogForComponent<AdditionalInformationDialogData>(BiomarkerInfoComponent, {
-      data: null,
-      selectedTab: this.tabGroup.selectedIndex,
-    });
-  }
-
   private generateTable() {
     const sortedArray = this.mineralData.sort((a, b) => a - b);
     const n = sortedArray.length;
@@ -319,7 +240,98 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       // this.biomarkerMap.invalidateSize();
     }
   }
+  private setChart() {
+    const generatedChart: ChartJSObject = {
+      // this.chartData = {
+      plugins: [ChartAnnotation],
+      type: 'bar',
+      data: {
+        labels: this.labels,
+
+        datasets: [
+          {
+            label: `${this.selectedNutrient}`,
+            backgroundColor: 'rgba(0,220,255,0.5)',
+            borderColor: 'rgba(0,220,255,0.5)',
+            outlierColor: 'rgba(0,0,0,0.5)',
+            outlierRadius: 4,
+            data: this.binData,
+          },
+        ],
+      },
+      options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        scales: {
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: `Concentration of ${this.selectedNutrient} in microg/DI`,
+              },
+            },
+          ],
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: `Number of ${this.selectedAgeGenderGroup}`,
+              },
+            },
+          ],
+        },
+        annotation: {
+          annotations: [
+            {
+              type: 'line',
+              id: 'defLine',
+              mode: 'vertical',
+              scaleID: 'x-axis-0',
+              value: this.defThreshold,
+              borderWidth: 2.0,
+              borderColor: 'rgba(255,0,0,0.5)',
+              label: {
+                enabled: true,
+                content: 'Deficiency threshold',
+                backgroundColor: 'rgba(255,0,0,0.8)',
+              },
+            },
+            {
+              type: 'line',
+              id: 'abnLine',
+              mode: 'vertical',
+              scaleID: 'x-axis-0',
+              value: this.abnThreshold,
+              borderWidth: 2.0,
+              borderColor: 'rgba(0,0,255,0.5)',
+              label: {
+                enabled: true,
+                content: 'Threshold for abnormal values',
+                backgroundColor: 'rgba(0,0,255,0.8)',
+              },
+            },
+          ],
+        },
+      },
+    };
+    this.chartData = generatedChart;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    console.log(this.chartPNG);
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+  }
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<AdditionalInformationDialogData>(BiomarkerInfoComponent, {
+      data: null,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
+  }
 }
+
 export interface AdditionalInformationDialogData {
   data: any;
   selectedTab: number;
