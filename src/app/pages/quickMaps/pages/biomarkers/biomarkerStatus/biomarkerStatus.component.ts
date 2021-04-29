@@ -31,7 +31,13 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
-
+import { MatMenu } from '@angular/material/menu';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
+import { ColourPalette } from '../../../components/colourObjects/colourPalette';
+import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
+import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
+import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
+import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -57,14 +63,15 @@ interface TableObject {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BiomarkerStatusComponent implements AfterViewInit {
+  public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
+  @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('map1') mapElement: ElementRef;
   @ViewChild('boxplot') boxplot: ChartjsComponent;
   @ViewChild('barchart') barchart: ChartjsComponent;
-
-  @Input() card: CardComponent;
+  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
@@ -106,9 +113,32 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public deficiencyBarChartPDF: string;
   public combinedBarChartPNG: string;
   public combinedBarChartPDF: string;
+  public hidden = true;
+
+  // Copied in from MapView, structure will be similar but will however may change
+  public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
+  private defaultPalette = ColourPalette.PALETTES.find(
+    (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
+  );
+  private colourPalette: ColourPalette;
+
+  private absoluteMap: L.Map;
+  private absoluteDataLayer: L.GeoJSON;
+  private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
+  private absoluteLegend: L.Control;
+
+  private thresholdMap: L.Map;
+  private thresholdDataLayer: L.GeoJSON;
+  private thresholdRange = [10, 20, 40, 60, 80, 99];
+  private thresholdLegend: L.Control;
+  private areaBounds: L.LatLngBounds;
+  private areaFeatureCollection: GeoJSON.FeatureCollection;
+  //
 
   private biomarkerMap: L.Map;
+  // private currentChartData: ChartJSObject;
   private subscriptions = new Array<Subscription>();
+
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
@@ -120,11 +150,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private dialogService: DialogService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
-  ) {}
+  ) {
+    this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
+    if (null == this.colourPalette) {
+      ColourPalette.setSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID, this.defaultPalette);
+      this.colourPalette = this.defaultPalette;
+    }
+  }
   ngAfterViewInit(): void {
     this.init();
+    this.absoluteMap = this.initialiseMap(this.mapElement.nativeElement);
     this.card.showExpand = true;
-    this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
 
@@ -142,6 +178,32 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     // Render all charts initially for download;
     this.renderAllCharts();
+    this.card.showExpand = true;
+    this.card.showSettingsMenu = true;
+    this.card.matMenu = this.menu;
+    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+    // this.biomarkerMap = this.initialiseMap(this.mapElement.nativeElement);
+
+    this.initialiseBoxChart([
+      this.randomBoxPlot(0, 100),
+      this.randomBoxPlot(0, 20),
+      this.randomBoxPlot(20, 70),
+      this.randomBoxPlot(60, 100),
+      this.randomBoxPlot(50, 100),
+    ]);
+
+    this.subscriptions.push(
+      this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.initMap(
+          this.currentDataService.getSubRegionData(
+            this.quickMapsService.country,
+            this.quickMapsService.micronutrient,
+            this.quickMapsService.dataSource,
+            this.quickMapsService.dataLevel,
+          ),
+        );
+      }),
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -291,8 +353,18 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 0) {
-      this.biomarkerMap.invalidateSize();
+      // this.biomarkerMap.invalidateSize(); // TODO: add again
     }
+  }
+
+  public openMapSettings(): void {
+    void this.dialogService.openMapSettingsDialog(BiomarkerStatusComponent.COLOUR_PALETTE_ID).then(() => {
+      this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
+      if (null == this.colourPalette) {
+        this.colourPalette = this.defaultPalette;
+      }
+      this.changeColourRamp(this.colourPalette);
+    });
   }
 
   private init(): void {
@@ -459,12 +531,210 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     };
   }
 
+  private initMap(dataPromise: Promise<SubRegionDataItem>): void {
+    this.loadingSrc.next(true);
+    dataPromise
+      .then((data: SubRegionDataItem) => {
+        this.temporaryData = data;
+        if (null == data) {
+          throw new Error('data error');
+        }
+        this.errorSrc.next(false);
+        this.areaFeatureCollection = data.geoJson;
+
+        this.initialiseMapAbsolute(this.colourPalette);
+        // this.initialiseMapThreshold(this.colourPalette);
+        this.areaBounds = this.absoluteDataLayer.getBounds();
+
+        // reset visited
+        // this.tabVisited.clear();
+        // trigger current fit bounds
+        // seems to need a small delay after page navigation to projections and back to baseline
+        setTimeout(() => {
+          // this.triggerFitBounds(this.tabGroup.selectedIndex);
+        }, 0);
+      })
+      .catch(() => this.errorSrc.next(true))
+      .finally(() => {
+        this.loadingSrc.next(false);
+        // this.cdr.detectChanges();
+      });
+  }
+
   private initialiseMap(mapElement: HTMLElement): L.Map {
     const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
-
     return map;
+  }
+
+  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
+    if (null != this.absoluteDataLayer) {
+      this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    }
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
+
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    ).addTo(this.absoluteMap);
+    // console.debug('absolute', this.absoluteDataLayer);
+
+    this.refreshAbsoluteLegend(absoluteGradient);
+  }
+
+  private initialiseMapThreshold(colourPalette: ColourPalette): void {
+    if (null != this.thresholdDataLayer) {
+      this.thresholdMap.removeLayer(this.thresholdDataLayer);
+    }
+    if (null != this.thresholdLegend) {
+      this.thresholdMap.removeControl(this.thresholdLegend);
+    }
+
+    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
+      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+    ).addTo(this.thresholdMap);
+    // console.debug('threshold', this.thresholdDataLayer);
+
+    this.refreshThresholdLegend(thresholdGradient);
+  }
+
+  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+    return L.geoJSON(this.areaFeatureCollection, {
+      style: (feature) => ({
+        fillColor: featureColourFunc(feature),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+      }),
+      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+        layer.bindTooltip(this.getTooltip(feature));
+      },
+    });
+  }
+
+  private getTooltip(feature: GeoJSON.Feature): string {
+    const props = this.getFeatProps(feature);
+    return `
+    <div>
+      Region:<b>${props.subregion_name}</b><br/>
+      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
+      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+    </div>`;
+  }
+
+  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
+    return feat.properties as SubRegionDataItemFeatureProperties;
+  }
+
+  private changeColourRamp(colourPalette: ColourPalette): void {
+    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+    // const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+
+    this.absoluteMap.removeLayer(this.absoluteDataLayer);
+    // this.thresholdMap.removeLayer(this.thresholdDataLayer);
+
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
+    if (null != this.thresholdLegend) {
+      this.absoluteMap.removeControl(this.thresholdLegend);
+    }
+
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    ).addTo(this.absoluteMap);
+
+    // this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+    // thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+    // ).addTo(this.thresholdMap);
+
+    this.refreshAbsoluteLegend(absoluteGradient);
+    // this.refreshThresholdLegend(thresholdGradient);
+  }
+
+  private refreshThresholdLegend(colourGradient: ColourGradient): void {
+    if (null != this.thresholdLegend) {
+      this.thresholdMap.removeControl(this.thresholdLegend);
+    }
+
+    this.thresholdLegend = new L.Control({ position: 'bottomright' });
+
+    this.thresholdLegend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+
+      // loop through our  intervals and generate a label with a colored square for each interval
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
+
+      let previousGradObj: ColourGradientObject;
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+        let text = '';
+        if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
+
+        addItemToHtml(gradObj.hexString, text);
+        previousGradObj = gradObj;
+      });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}%`);
+
+      return div;
+    };
+    this.thresholdLegend.addTo(this.thresholdMap);
+  }
+
+  private refreshAbsoluteLegend(colourGradient: ColourGradient): void {
+    if (null != this.absoluteLegend) {
+      this.absoluteMap.removeControl(this.absoluteLegend);
+    }
+
+    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+
+    this.absoluteLegend.onAdd = () => {
+      const div = L.DomUtil.create('div', 'info legend');
+
+      // loop through our  intervals and generate a label with a colored square for each interval
+      const addItemToHtml = (colourHex: string, text: string) => {
+        div.innerHTML += `<span style="display: flex; align-items: center;">
+        <span style="background-color:
+        ${colourHex};
+        height:10px; width:10px; display:block; margin-right:5px;">
+        </span><span>${text}</span>`;
+      };
+
+      let previousGradObj: ColourGradientObject;
+      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+        let text = '';
+        if (null == previousGradObj) {
+          text = `0 - ${gradObj.lessThanTestValue}`;
+        } else {
+          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+        }
+        addItemToHtml(gradObj.hexString, text);
+        previousGradObj = gradObj;
+      });
+      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
+
+      return div;
+    };
+
+    this.absoluteLegend.addTo(this.absoluteMap);
   }
 }
