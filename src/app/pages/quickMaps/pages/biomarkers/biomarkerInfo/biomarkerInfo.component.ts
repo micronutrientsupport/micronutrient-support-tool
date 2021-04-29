@@ -141,10 +141,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         break;
       }
     }
-    {
-    }
-    {
-    }
+
     void this.http
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
@@ -183,6 +180,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.loadingSrc.next(false);
       });
   }
+
   private generateTable() {
     const sortedArray = this.mineralData.sort((a, b) => a - b);
     const n = sortedArray.length;
