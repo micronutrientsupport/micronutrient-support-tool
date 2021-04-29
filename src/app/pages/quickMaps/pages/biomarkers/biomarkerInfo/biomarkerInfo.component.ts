@@ -141,7 +141,10 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         break;
       }
     }
-
+    {
+    }
+    {
+    }
     void this.http
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
