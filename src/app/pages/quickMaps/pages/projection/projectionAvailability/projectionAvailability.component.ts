@@ -94,7 +94,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private qcService: QuickchartService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -184,6 +184,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         title: {
           display: false,
           text: this.title,
