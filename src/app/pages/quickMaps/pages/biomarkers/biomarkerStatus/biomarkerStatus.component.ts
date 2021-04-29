@@ -3,7 +3,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as L from 'leaflet';
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, ChangeDetectionStrategy, Optional, Inject } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  Input,
+  ChangeDetectionStrategy,
+  Optional,
+  Inject,
+} from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
@@ -29,15 +38,17 @@ export interface BiomarkerStatusDialogData {
 }
 
 export interface BiomarkerStatusData {
+  areaName: string;
   ageGenderGroup: string;
-  zincLevelOne: string;
+  mineralLevelOne: string;
+  mineralOutlier: string;
 }
 
 interface TableObject {
-  region: number;
+  region: string;
   n: number;
-  deficient: number;
-  confidence: number;
+  deficient: string;
+  confidence: string;
 }
 @Component({
   selector: 'app-biomarker-status',
@@ -69,7 +80,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     { name: 'Prevalence of Deficiency', value: 'pod' },
     { name: 'Prevalence of Excess', value: 'poe' },
     { name: 'Combined deficiency and excess', value: 'cde' },
-    { name: 'Concentration Data', value: 'cda' }
+    { name: 'Concentration Data', value: 'cda' },
   ];
 
   public characteristicList: any[] = [
@@ -78,13 +89,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     { name: 'Age group', value: 'age' },
     { name: 'Wealth Quintiles', value: 'qui' },
     { name: 'All characteristics', value: 'all' },
-    { name: 'Total', value: 'tot' }
+    { name: 'Total', value: 'tot' },
   ];
   public dataSource: MatTableDataSource<TableObject>;
-  public totalSamples = 6587;
+  public totalSamples: number;
   public selectedOption: any;
   public selectedCharacteristic: any;
-  public mineralData: Array<number>;
+  public mineralData: Array<BiomarkerStatusData>;
 
   public boxChartPNG: string;
   public boxChartPDF: string;
@@ -109,9 +120,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private dialogService: DialogService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
-  ) {
-
-  }
+  ) {}
   ngAfterViewInit(): void {
     this.init();
     this.card.showExpand = true;
@@ -121,7 +130,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     // Detect changes in quickmaps parameters:
     this.quickMapsService.parameterChangedObs.subscribe(() => {
-
       const mnName = this.quickMapsService.micronutrient.name;
       const agName = this.quickMapsService.ageGenderGroup.name;
       const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
@@ -130,12 +138,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       if (null != this.card) {
         this.card.title = this.title;
       }
-
     });
 
     // Render all charts initially for download;
     this.renderAllCharts();
-
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -147,16 +153,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         labels: ['Central', 'North', 'South', 'South East', 'West'],
         datasets: [
           {
-            label: 'Zinc',
+            label: this.quickMapsService.micronutrient.name,
             backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.2)',
             outlierRadius: 3,
             data: data,
-          }
-        ]
+          },
+        ],
       },
       options: {
+        maintainAspectRatio: true,
         title: {
           display: true,
           text: 'Boxplot',
@@ -174,7 +181,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               label: {
                 enabled: true,
                 content: 'Deficiency threshold',
-                backgroundColor: 'rgba(255,0,0,0.8)'
+                backgroundColor: 'rgba(255,0,0,0.8)',
               },
             },
             {
@@ -188,7 +195,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               label: {
                 enabled: true,
                 content: 'Threshold for abnormal values',
-                backgroundColor: 'rgba(0,0,255,0.8)'
+                backgroundColor: 'rgba(0,0,255,0.8)',
               },
             },
           ],
@@ -205,11 +212,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public initialiseBarChart(dataObj: any, type: string): void {
     let title = '';
     switch (type) {
-      case 'pod': title = `Prevalence of ${this.quickMapsService.micronutrient.name} deficiency`; break;
-      case 'poe': title = `Prevalence of ${this.quickMapsService.micronutrient.name} excess`; break;
-      case 'cde': title = `Combined prevalence of ${this.quickMapsService.micronutrient.name} deficiency and excess`; break;
+      case 'pod':
+        title = `Prevalence of ${this.quickMapsService.micronutrient.name} deficiency`;
+        break;
+      case 'poe':
+        title = `Prevalence of ${this.quickMapsService.micronutrient.name} excess`;
+        break;
+      case 'cde':
+        title = `Combined prevalence of ${this.quickMapsService.micronutrient.name} deficiency and excess`;
+        break;
     }
-    title = title + ' per participants\' characteristics';
+    title = title + ' per participants characteristics';
 
     this.barChartData = {
       plugins: [ChartAnnotation],
@@ -223,7 +236,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           display: true,
           text: title,
         },
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         legend: {
           display: true,
           position: 'bottom',
@@ -283,7 +296,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private init(): void {
-    void this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
+    void this.http
+      .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
       .then((data: string) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -292,34 +306,35 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
         blob.forEach((simpleData) => {
           const statusData: BiomarkerStatusData = {
+            areaName: simpleData.AreaName,
             ageGenderGroup: simpleData.DemoGpN,
-            zincLevelOne: simpleData.ZnAdj_gdL,
+            mineralLevelOne: simpleData.ZnAdj_gdL,
+            mineralOutlier: simpleData.Zn_gdL_Outlier,
           };
-
           dataArray.push(statusData);
         });
+        const filterByParamatersArray = dataArray.filter(
+          (value) => value.areaName === 'Area6' && value.ageGenderGroup === 'WRA',
+        );
 
-        const filteredArray = dataArray
-          .map((item: BiomarkerStatusData) => Number(item.zincLevelOne))
-          .filter((value: number) => value != null) // removes any null values
-          .filter((value: number) => !isNaN(value)); // removes any NaN values
-        this.mineralData = filteredArray;
+        this.mineralData = filterByParamatersArray;
         this.generateTable();
         this.dataSource.paginator = this.paginator;
       });
   }
 
   private generateTable() {
-    const sortedArray = this.mineralData.sort((a, b) => a - b);
-    const n = sortedArray.length;
+    const n = this.mineralData.length;
     const dataArray = new Array<TableObject>();
 
-    sortedArray.forEach(() => {
+    this.totalSamples = n;
+
+    this.mineralData.forEach((data: BiomarkerStatusData) => {
       const tableObject: TableObject = {
-        region: this.randomValues(1, 0, 100)[0],
+        region: data.areaName,
         n: n,
-        deficient: this.randomValues(1, 0, 100)[0],
-        confidence: this.randomValues(1, 0, 100)[0],
+        deficient: data.mineralLevelOne,
+        confidence: data.mineralOutlier,
       };
       dataArray.push(tableObject);
     });
@@ -338,8 +353,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private dataSelected(value: any, origin: string) {
     this.selectedOption = value;
     switch (origin) {
-      case 'map': break;
-      case 'table': break;
+      case 'map':
+        break;
+      case 'table':
+        break;
       case 'chart':
         const barData = this.getBarData(value);
         this.initialiseBarChart(barData, this.selectedOption);
@@ -363,37 +380,45 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   private getBarData(type: string): any {
     switch (type) {
-      case 'pod': return [{
-        label: 'Deficiency',
-        data: this.randomValues(6, 0, 100),
-        borderColor: '#AF50A2',
-        backgroundColor: '#AF50A2',
-        fill: true,
-      }];
-      case 'poe': return [{
-        label: 'Excess',
-        data: this.randomValues(6, 0, 100),
-        borderColor: '#50AF5D',
-        backgroundColor: '#50AF5D',
-        fill: true,
-      }];
-      case 'cde': return [
-        {
-          label: 'Deficiency',
-          data: this.randomValues(6, 0, 100),
-          borderColor: '#AF50A2',
-          backgroundColor: '#AF50A2',
-          fill: true,
-        },
-        {
-          label: 'Excess',
-          data: this.randomValues(6, 0, 100),
-          borderColor: '#50AF5D',
-          backgroundColor: '#50AF5D',
-          fill: true,
-        },
-      ];
-      default: return null;
+      case 'pod':
+        return [
+          {
+            label: 'Deficiency',
+            data: this.randomValues(6, 0, 100),
+            borderColor: '#AF50A2',
+            backgroundColor: '#AF50A2',
+            fill: true,
+          },
+        ];
+      case 'poe':
+        return [
+          {
+            label: 'Excess',
+            data: this.randomValues(6, 0, 100),
+            borderColor: '#50AF5D',
+            backgroundColor: '#50AF5D',
+            fill: true,
+          },
+        ];
+      case 'cde':
+        return [
+          {
+            label: 'Deficiency',
+            data: this.randomValues(6, 0, 100),
+            borderColor: '#AF50A2',
+            backgroundColor: '#AF50A2',
+            fill: true,
+          },
+          {
+            label: 'Excess',
+            data: this.randomValues(6, 0, 100),
+            borderColor: '#50AF5D',
+            backgroundColor: '#50AF5D',
+            fill: true,
+          },
+        ];
+      default:
+        return null;
     }
   }
 
@@ -421,7 +446,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       median: values[2],
       q3: values[3],
       max: values[4],
-      outliers: Array(20).fill(1).map(() => Math.round(Math.random() * 120))
+      outliers: Array(20)
+        .fill(1)
+        .map(() => Math.round(Math.random() * 120)),
     };
   }
 
@@ -433,6 +460,4 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
     return map;
   }
-
-
 }
