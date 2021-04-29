@@ -29,7 +29,7 @@ import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/object
 import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
-import { LeafletZoomToExtentControl } from '../../../../../other/leafletZoomToExtentControl';
+import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -336,20 +336,11 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
-    const map = L.map(mapElement, { zoomControl: false }).setView([6.6194073, 20.9367017], 3);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    new LeafletZoomToExtentControl({
-      position: 'topleft',
-      getBoundsExtent: () => this.areaBounds,
-    }).addTo(map);
-
-    L.control.zoom({ position: 'topleft' }).addTo(map);
-
-    return map;
+    return new LeafletMapHelper()
+      .createMap(mapElement)
+      .setDefaultBaseLayer()
+      .setDefaultControls(() => this.areaBounds)
+      .getMap();
   }
 
   private initialiseMapAbsolute(colourPalette: ColourPalette): void {

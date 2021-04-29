@@ -1,4 +1,3 @@
-
 import * as L from 'leaflet';
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -7,10 +6,11 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
+import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
-  styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss']
+  styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss'],
 })
 export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -33,9 +33,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public tableList: string[] = ['Deficiency', 'Excess', 'Combined deficiency and excess', 'Continuous Data'];
   private biomarkerMap: L.Map;
 
-  constructor() { }
+  constructor() {}
   ngAfterViewInit(): void {
-
     this.card.title = this.title;
     this.card.showExpand = true;
     this.biomarkerMap = this.initialiseMap(this.map1Element.nativeElement);
@@ -58,10 +57,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               [0, 10, 20, 30, 40],
               [20, 30, 40, 50, 60],
               [60, 70, 80, 90, 100],
-              [20, 40, 60, 80, 100]
+              [20, 40, 60, 80, 100],
             ],
-          }
-        ]
+          },
+        ],
       },
       options: {
         annotation: {
@@ -77,7 +76,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               label: {
                 enabled: true,
                 content: 'Deficiency threshold',
-                backgroundColor: 'rgba(255,0,0,0.8)'
+                backgroundColor: 'rgba(255,0,0,0.8)',
               },
             },
             {
@@ -91,14 +90,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
               label: {
                 enabled: true,
                 content: 'Threshold for abnormal values',
-                backgroundColor: 'rgba(0,0,255,0.8)'
+                backgroundColor: 'rgba(0,0,255,0.8)',
               },
             },
           ],
         },
       },
     };
-
   }
 
   public toggleShowOutlier(): void {
@@ -113,13 +111,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
-    const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    return map;
+    return new LeafletMapHelper()
+      .createMap(mapElement)
+      .setDefaultBaseLayer()
+      .setDefaultControls(() => null) // TODO: populate with layerBounds
+      .getMap();
   }
-
-
 }
