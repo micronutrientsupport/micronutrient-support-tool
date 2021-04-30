@@ -8,7 +8,7 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
   @Input() widget: GridsterItem;
@@ -42,9 +42,7 @@ export class CardComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-  ) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -52,7 +50,7 @@ export class CardComponent implements OnInit {
         if (widget === this.widget) {
           this.onResizeSrc.next();
         }
-      })
+      }),
     );
   }
 
@@ -61,7 +59,7 @@ export class CardComponent implements OnInit {
       obs.subscribe((loading: boolean) => {
         this.loading = loading;
         this.cdr.detectChanges();
-      })
+      }),
     );
     return this;
   }
@@ -71,7 +69,7 @@ export class CardComponent implements OnInit {
       obs.subscribe((error: boolean) => {
         this.error = error;
         this.cdr.detectChanges();
-      })
+      }),
     );
     return this;
   }
@@ -87,5 +85,4 @@ export class CardComponent implements OnInit {
   public functionSettingsMenu(): void {
     this.onSettingsMenuClickSrc.next();
   }
-
 }

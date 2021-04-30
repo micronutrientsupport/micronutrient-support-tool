@@ -11,7 +11,7 @@
             <div #map1></div>
 
             <div class="status-map-select">
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Select data</mat-label>
                     <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'map')">
                         <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
