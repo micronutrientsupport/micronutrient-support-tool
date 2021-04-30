@@ -13,9 +13,6 @@
             Measure of MDN: <strong class="capitalize-text">{{ quickMapsService.measureObs | async }} Data</strong>
           </div>
           <div class="item">
-            Baseline assumptions: <strong>{{ currentImpactScenario?.name }}</strong>
-          </div>
-          <div class="item">
             Data level:
             <strong *ngIf="1 === (quickMapsService.dataSourceObs | async).dataLevelOptions.length"
               class="capitalize-text">
@@ -37,9 +34,10 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="description">
-      The projections are modelled based on 3 different scenarios. Scenario SSP1 is called the Sustainability scenario;
-      scenario SSP2 is the Middle of the Road scenario; scenario SSP3 is the Regional Rivalry Scenario.
-      <button mat-button (click)="openScenarioTypeDialog()" color="primary">Learn More</button>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button>
     </div>
   </mat-expansion-panel>
 </div>

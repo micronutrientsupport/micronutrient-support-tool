@@ -9,6 +9,7 @@ import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialo
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
+import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -16,14 +17,9 @@ import { RoutesModule } from 'src/app/routes/routes.module';
     ScenarioTypeDialogComponent,
     MapSettingsDialogComponent,
     InvalidParametersDialogComponent,
+    BaselineDescriptionDialogComponent,
   ],
-  imports: [
-    CommonModule,
-    AppMaterialModule,
-    ShareModule,
-    RouterModule,
-    RoutesModule,
-  ],
+  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule],
   exports: [BaseDialogComponent],
 })
-export class DialogModule { }
+export class DialogModule {}
