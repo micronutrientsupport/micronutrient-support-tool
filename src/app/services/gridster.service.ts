@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 import { Injectable } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
-import { BehaviorSubject } from 'rxjs';
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 
 export enum GridsterSource {
