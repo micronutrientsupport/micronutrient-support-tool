@@ -2,6 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
+import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
@@ -34,9 +35,11 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);
   }
 
-  public openMapSettingsDialog(
-    colourPaletteId: string,
-  ): Promise<DialogData<string>> {
+  public openBaselineDescriptionDialog(): Promise<DialogData> {
+    return this.openDialog('baselineDescriptionDialog', BaselineDescriptionDialogComponent);
+  }
+
+  public openMapSettingsDialog(colourPaletteId: string): Promise<DialogData<string>> {
     return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourPaletteId);
   }
 

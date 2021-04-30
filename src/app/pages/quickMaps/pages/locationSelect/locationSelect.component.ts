@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
@@ -15,6 +16,7 @@ import { QuickMapsService } from '../../quickMaps.service';
 })
 export class LocationSelectComponent implements OnInit, AfterViewInit {
   @ViewChild('drawer') public sidenav: MatSidenav;
+  @ViewChild('map') mapElement: ElementRef;
 
   public geojson: L.GeoJSON;
   public map: L.Map;
@@ -22,29 +24,25 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public selectedFeatureLayer: UnknownLeafletFeatureLayerClass;
   public hoverFeatureLayer: UnknownLeafletFeatureLayerClass;
 
-  constructor(
-    public quickMapsService: QuickMapsService,
-    public dictionaryService: DictionaryService,
-  ) {
-  }
+  constructor(public quickMapsService: QuickMapsService, public dictionaryService: DictionaryService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow
     setTimeout(() => {
       void this.initialiseMap().then(() => {
-        this.quickMapsService.countryObs.subscribe(country => this.selectFeature(this.getLayer(country)));
+        this.quickMapsService.countryObs.subscribe((country) => this.selectFeature(this.getLayer(country)));
       });
     }, 0);
   }
 
   public getLayer(country: CountryDictionaryItem): UnknownLeafletFeatureLayerClass {
     let countryLayer: UnknownLeafletFeatureLayerClass;
-    if ((null != this.geojson) && (null != country)) {
+    if (null != this.geojson && null != country) {
       this.geojson.eachLayer((layer: UnknownLeafletFeatureLayerClass) => {
         // tslint:disable-next-line: no-string-literal
-        if ((null == countryLayer) && (layer.feature.id === country.id)) {
+        if (null == countryLayer && layer.feature.id === country.id) {
           countryLayer = layer;
         }
       });
@@ -53,13 +51,15 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   }
 
   private initialiseMap(): Promise<void> {
-    this.map = L.map('map').setView([6.6194073, 20.9367017], 3).setMaxZoom(8).setMinZoom(3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.map);
+    this.map = new LeafletMapHelper()
+      .createMap(this.mapElement.nativeElement)
+      .setDefaultBaseLayer()
+      .setDefaultControls(() => this.geojson.getBounds())
+      .getMap()
+      .setMaxZoom(8)
+      .setMinZoom(3);
 
     return this.addCountriesMapLayer().then(() => this.selectFeature(this.selectedFeatureLayer));
-
   }
 
   private resetHighlight(layer: L.Layer): void {

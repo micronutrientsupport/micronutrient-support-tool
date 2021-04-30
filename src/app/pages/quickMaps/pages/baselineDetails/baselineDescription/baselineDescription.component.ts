@@ -29,18 +29,17 @@ export class BaselineDescriptionComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
     private miscApiService: MiscApiService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
       this.currentImpactScenario = result.find((o) => o.isBaseline === true);
       this.cdr.markForCheck();
     });
-
   }
 
-  public openScenarioTypeDialog(): void {
-    void this.dialogService.openScenarioTypeDialog();
+  public openBaselineDescriptionDialog(): void {
+    void this.dialogService.openBaselineDescriptionDialog();
   }
 
   public setDataLevel(event: MatSelectChange): void {
