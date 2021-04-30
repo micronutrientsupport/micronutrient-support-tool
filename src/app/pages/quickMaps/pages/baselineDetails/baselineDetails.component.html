@@ -1,3 +1,6 @@
+<mat-fab-menu class="fab-layout" color="accent" [fabButtons]="layoutOptions" icon="dashboard_customize"
+  (onFabMenuItemSelected)="layoutChange($event)">
+</mat-fab-menu>
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
   <app-base-desc></app-base-desc>
   <app-base-est class="details-panel"
@@ -5,13 +8,13 @@
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
       <!-- Map View -->
-      <app-map-view *ngSwitchCase="WIDGETS.MAP" [card]="card"></app-map-view>
+      <app-map-view *ngSwitchCase="WIDGETS.BASELINE_MAP" [card]="card"></app-map-view>
       <!-- Chart -->
-      <app-household-supply *ngSwitchCase="WIDGETS.CHART" [card]="card"></app-household-supply>
+      <app-household-supply *ngSwitchCase="WIDGETS.BASELINE_CHART" [card]="card"></app-household-supply>
       <!-- Monthly Card -->
-      <app-monthly-food *ngSwitchCase="WIDGETS.MONTHLY" [card]="card"></app-monthly-food>
+      <app-monthly-food *ngSwitchCase="WIDGETS.BASELINE_MONTHLY" [card]="card"></app-monthly-food>
       <!-- Top 20 -->
-      <app-food-items *ngSwitchCase="WIDGETS.TOP_FOOD" [card]="card"></app-food-items>
+      <app-food-items *ngSwitchCase="WIDGETS.BASELINE_TOP_FOOD" [card]="card"></app-food-items>
     </app-card>
   </gridster-item>
 </gridster>

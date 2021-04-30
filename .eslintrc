@@ -119,11 +119,7 @@ Happy linting! 💖
       "error",
       {
         "selector": "default",
-        "format": [
-          "camelCase",
-          "PascalCase",
-          "UPPER_CASE"
-        ],
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"],
         "leadingUnderscore": "allow"
       }
     ],
@@ -140,14 +136,8 @@ Happy linting! 💖
     "@typescript-eslint/prefer-for-of": "error",
     "@typescript-eslint/prefer-function-type": "error",
     "@typescript-eslint/prefer-namespace-keyword": "error",
-    "@typescript-eslint/quotes": [
-      "error",
-      "single"
-    ],
-    "@typescript-eslint/semi": [
-      "error",
-      "always"
-    ],
+    "@typescript-eslint/quotes": ["error", "single"],
+    "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {
@@ -163,10 +153,7 @@ Happy linting! 💖
     "constructor-super": "error",
     "curly": "error",
     "eol-last": "error",
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "eqeqeq": ["error", "smart"],
     "guard-for-in": "error",
     "id-blacklist": [
       "error",
@@ -229,17 +216,11 @@ Happy linting! 💖
     "no-debugger": "error",
     "no-empty": "off",
     "no-eval": "error",
-    "no-extra-parens": [
-      "error",
-      "functions"
-    ],
+    "no-extra-parens": ["error", "functions"],
     "no-fallthrough": "error",
     "no-invalid-this": "off",
     "no-new-wrappers": "error",
-    "no-restricted-imports": [
-      "error",
-      "rxjs/Rx"
-    ],
+    "no-restricted-imports": ["error", "rxjs/Rx"],
     "no-shadow": [
       "error",
       {
@@ -259,20 +240,11 @@ Happy linting! 💖
     "no-unsafe-finally": "error",
     "no-unused-labels": "error",
     "no-var": "error",
-    "object-shorthand": [
-      "error",
-      "methods"
-    ],
-    "one-var": [
-      "error",
-      "never"
-    ],
+    "object-shorthand": ["error", "methods"],
+    "one-var": ["error", "never"],
     "prefer-arrow/prefer-arrow-functions": "error",
     "prefer-const": "error",
-    "quote-props": [
-      "error",
-      "as-needed"
-    ],
+    "quote-props": ["error", "as-needed"],
     "radix": "error",
     "space-before-function-paren": [
       "error",
@@ -286,9 +258,7 @@ Happy linting! 💖
       "error",
       "always",
       {
-        "markers": [
-          "/"
-        ]
+        "markers": ["/"]
       }
     ],
     "use-isnan": "error",
