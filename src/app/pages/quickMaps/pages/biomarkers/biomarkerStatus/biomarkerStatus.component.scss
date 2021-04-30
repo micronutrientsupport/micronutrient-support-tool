@@ -1,28 +1,100 @@
-.status-chart-header {
+.container-row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+}
+
+.element-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+  margin: 2em;
+  width: 200px;
+  max-width: 250px;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+
+  &.end {
+    border-right: none;
+  }
+}
+
+.status-element {
   display: block;
-  height: 50px !important;
   margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 5%;
+  margin-right: 5%;
   text-align: center;
 }
 
-.status-chart-data {
-  display: block;
-  margin-left: 40px;
-  margin-right: 40px;
-  text-align: center;
+.link-label {
+  margin-left: 15px;
+  font-size: small;
 }
 
-.data-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-row-gap: 0px;
-  grid-column-gap: 10px;
-  height: 120px !important;
-  margin-left: 140px !important;
+.download-element {
+  margin-bottom: 5px;
+}
+
+.download-title {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.status-map-select {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translate(-50%);
+  z-index: 999;
+  height: 58px !important;
+  border-radius: 5px;
+  background-color: white;
+  ::ng-deep mat-form-field {
+    .mat-form-field-wrapper {
+      margin: 0;
+    }
+  }
+}
+
+.row {
+  display: flex;
+}
+
+.col-left {
+  flex: 55%;
+  margin-right: 10px;
+}
+
+.col-right {
+  flex: 45%;
+  margin-left: 10px;
+  &.red {
+    color: red;
+  }
+  &.blue {
+    color: blue;
+  }
+}
+
+.dl-col-left {
+  flex: 20%;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.dl-col-right {
+  flex: 80%;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-size: 0.9rem;
 }
 
 .pull-right {
@@ -31,4 +103,14 @@
 
 .pull-left {
   text-align: left;
+}
+
+mat-form-field {
+  width: 30%;
+  min-width: 300px;
+}
+
+.spacer {
+  margin-left: 20px;
+  margin-right: 20px;
 }
