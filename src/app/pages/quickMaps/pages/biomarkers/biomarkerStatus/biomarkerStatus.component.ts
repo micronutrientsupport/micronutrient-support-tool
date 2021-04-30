@@ -295,10 +295,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.barChartData = {
       plugins: [ChartAnnotation],
       type: 'bar',
-      data: {
-        labels: [1, 2, 3, 4, 5, 6],
-        datasets: dataObj,
-      },
+      data: dataObj,
       options: {
         title: {
           display: true,
@@ -346,15 +343,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public toggleShowOutlier(): void {
     this.showOutliers = this.outlierControl.value;
     if (!this.showOutliers) {
+      // Hide outliers
       this.boxChartData.data.datasets[0].data.forEach((data: any) => {
-        // hide outliers
-        console.log(data.outliers);
         this.outlierSet.push(data.outliers);
         data.outliers = null;
       });
       this.boxPlot.renderChart();
     } else {
-      // show outliers
+      // Show outliers
       this.boxChartData.data.datasets[0].data.forEach((data: any, idx: number) => {
         data.outliers = this.outlierSet[idx];
       });
@@ -477,22 +473,72 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private getBarData(type: string): any {
+    const barLabel = [
+      'Central',
+      'North',
+      'South',
+      'South East',
+      'West',
+      '15-19',
+      '20-29',
+      '30-39',
+      'Urban',
+      'Rural',
+      'Poorest',
+      'Poorer',
+      'Middle',
+      'Richer',
+      'Richest',
+      'Total',
+    ];
     switch (type) {
       case 'pod':
-        return [
-          {
-            label: 'Deficiency',
-            data: this.randomValues(6, 0, 100),
-            borderColor: '#AF50A2',
-            backgroundColor: '#AF50A2',
-            fill: true,
-          },
-        ];
+        const data = {
+          labels: ['Region', 'Age group', 'Residence', 'Wealth quintiles'],
+          datasets: [
+            {
+              label: barLabel[0],
+              data: this.randomValues(3, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[1],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[2],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[3],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[4],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+          ],
+        };
+        return data;
       case 'poe':
         return [
           {
             label: 'Excess',
-            data: this.randomValues(6, 0, 100),
+            data: this.randomValues(16, 0, 100),
             borderColor: '#50AF5D',
             backgroundColor: '#50AF5D',
             fill: true,
@@ -502,14 +548,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         return [
           {
             label: 'Deficiency',
-            data: this.randomValues(6, 0, 100),
+            data: this.randomValues(16, 0, 100),
             borderColor: '#AF50A2',
             backgroundColor: '#AF50A2',
             fill: true,
           },
           {
             label: 'Excess',
-            data: this.randomValues(6, 0, 100),
+            data: this.randomValues(16, 0, 100),
             borderColor: '#50AF5D',
             backgroundColor: '#50AF5D',
             fill: true,
