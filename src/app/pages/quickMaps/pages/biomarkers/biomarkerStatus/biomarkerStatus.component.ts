@@ -568,7 +568,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         // seems to need a small delay after page navigation to projections and back to baseline
         setTimeout(() => {
           this.triggerFitBounds(this.tabGroup.selectedIndex);
-        }, 0);
+        }, 100); // for some reason needs a slightly longer delay than mapView.ts for trigger to work.
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
