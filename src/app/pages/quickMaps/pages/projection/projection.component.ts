@@ -3,6 +3,13 @@ import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
+import { MatFabMenu } from '@angular-material-extensions/fab-menu';
+
+// eslint-disable-next-line no-shadow
+enum GridsterLayoutOptions {
+  DEFAULT_VIEW = 0,
+  GRID_VIEW = 1,
+}
 
 @Component({
   selector: 'app-quickmaps-projection',
@@ -20,6 +27,17 @@ export class ProjectionComponent implements OnInit {
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+
+  public layoutOptions: MatFabMenu[] = [
+    {
+      id: GridsterLayoutOptions.DEFAULT_VIEW,
+      icon: 'view_agenda',
+    },
+    {
+      id: GridsterLayoutOptions.GRID_VIEW,
+      icon: 'grid_view',
+    },
+  ];
 
   private readonly defaultWidgetHeight = 3;
   private readonly defaultWidgetWidth = 8;
@@ -89,7 +107,6 @@ export class ProjectionComponent implements OnInit {
 
     // When the quick maps params change trigger the boxes to reset
     this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
-      console.log('bong');
       this.dashboard = this.gridsterService.resetGrid(
         this.gridsterSource.PROJECTION,
         level,
@@ -103,11 +120,13 @@ export class ProjectionComponent implements OnInit {
         this.options.api.optionsChanged();
       }
     });
+  }
 
-    this.gridsterService.gridsterResetObs.subscribe((source: GridsterSource) => {
-      if (source === this.gridsterSource.PROJECTION) {
+  public layoutChange(id: number): void {
+    switch (id) {
+      case GridsterLayoutOptions.DEFAULT_VIEW: {
         this.dashboard = this.gridsterService.resetGrid(
-          this.gridsterSource.PROJECTION,
+          this.gridsterSource.BASELINE,
           this.quickMapsService.dataLevel,
           this.dashboard,
           this.dataLevelWidgetTypesMap,
@@ -115,10 +134,23 @@ export class ProjectionComponent implements OnInit {
           this.defaultWidgetHeight,
           this.defaultWidgetColumns,
         );
-        if (this.options.api && this.options.api.optionsChanged) {
-          this.options.api.optionsChanged();
-        }
+        break;
       }
-    });
+      case GridsterLayoutOptions.GRID_VIEW: {
+        this.dashboard = this.gridsterService.resetGrid(
+          this.gridsterSource.BASELINE,
+          this.quickMapsService.dataLevel,
+          this.dashboard,
+          this.dataLevelWidgetTypesMap,
+          6,
+          4,
+          2,
+        );
+        break;
+      }
+    }
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }

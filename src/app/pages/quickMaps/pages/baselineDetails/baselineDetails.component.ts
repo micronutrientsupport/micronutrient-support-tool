@@ -3,7 +3,13 @@ import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
+import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 
+// eslint-disable-next-line no-shadow
+enum GridsterLayoutOptions {
+  DEFAULT_VIEW = 0,
+  LIST_VIEW = 1,
+}
 @Component({
   selector: 'app-baseline-details',
   templateUrl: './baselineDetails.component.html',
@@ -20,6 +26,17 @@ export class BaselineDetailsComponent implements OnInit {
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
+
+  public layoutOptions: MatFabMenu[] = [
+    {
+      id: GridsterLayoutOptions.DEFAULT_VIEW,
+      icon: 'grid_view',
+    },
+    {
+      id: GridsterLayoutOptions.LIST_VIEW,
+      icon: 'view_agenda',
+    },
+  ];
 
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 6;
@@ -111,9 +128,11 @@ export class BaselineDetailsComponent implements OnInit {
         this.options.api.optionsChanged();
       }
     });
+  }
 
-    this.gridsterService.gridsterResetObs.subscribe((source: GridsterSource) => {
-      if (source === this.gridsterSource.BASELINE) {
+  public layoutChange(id: number): void {
+    switch (id) {
+      case GridsterLayoutOptions.DEFAULT_VIEW: {
         this.dashboard = this.gridsterService.resetGrid(
           this.gridsterSource.BASELINE,
           this.quickMapsService.dataLevel,
@@ -123,10 +142,23 @@ export class BaselineDetailsComponent implements OnInit {
           this.defaultWidgetHeight,
           this.defaultWidgetColumns,
         );
-        if (this.options.api && this.options.api.optionsChanged) {
-          this.options.api.optionsChanged();
-        }
+        break;
       }
-    });
+      case GridsterLayoutOptions.LIST_VIEW: {
+        this.dashboard = this.gridsterService.resetGrid(
+          this.gridsterSource.BASELINE,
+          this.quickMapsService.dataLevel,
+          this.dashboard,
+          this.dataLevelWidgetTypesMap,
+          this.defaultWidgetWidth,
+          this.defaultWidgetHeight,
+          1,
+        );
+        break;
+      }
+    }
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }

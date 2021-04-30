@@ -20,14 +20,7 @@ export enum GridsterWidgets {
 
 @Injectable()
 export class GridsterService {
-  public gridsterReset = new BehaviorSubject<GridsterSource>(null);
-  public gridsterResetObs = this.gridsterReset.asObservable();
-
   constructor() {}
-
-  public setGridsterReset(page: GridsterSource): void {
-    this.gridsterReset.next(page);
-  }
 
   public resetGrid(
     source: GridsterSource,
