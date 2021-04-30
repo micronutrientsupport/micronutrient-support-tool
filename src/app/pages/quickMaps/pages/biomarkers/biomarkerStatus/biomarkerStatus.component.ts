@@ -493,12 +493,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     ];
     switch (type) {
       case 'pod':
-        const data = {
+        return {
           labels: ['Region', 'Age group', 'Residence', 'Wealth quintiles'],
           datasets: [
             {
               label: barLabel[0],
-              data: this.randomValues(3, 0, 100),
+              data: this.randomValues(4, 0, 100),
               borderColor: '#AF50A2',
               backgroundColor: '#AF50A2',
               fill: true,
@@ -506,8 +506,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
             {
               label: barLabel[1],
               data: this.randomValues(4, 0, 100),
-              borderColor: '#50AF5D',
-              backgroundColor: '#50AF5D',
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
               fill: true,
             },
             {
@@ -520,8 +520,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
             {
               label: barLabel[3],
               data: this.randomValues(4, 0, 100),
-              borderColor: '#50AF5D',
-              backgroundColor: '#50AF5D',
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
               fill: true,
             },
             {
@@ -533,34 +533,90 @@ export class BiomarkerStatusComponent implements AfterViewInit {
             },
           ],
         };
-        return data;
+
       case 'poe':
-        return [
-          {
-            label: 'Excess',
-            data: this.randomValues(16, 0, 100),
-            borderColor: '#50AF5D',
-            backgroundColor: '#50AF5D',
-            fill: true,
-          },
-        ];
+        return {
+          labels: ['Region', 'Age group', 'Residence', 'Wealth quintiles'],
+          datasets: [
+            {
+              label: barLabel[0],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[1],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[2],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[3],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+            {
+              label: barLabel[4],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#50AF5D',
+              backgroundColor: '#50AF5D',
+              fill: true,
+            },
+          ],
+        };
+
       case 'cde':
-        return [
-          {
-            label: 'Deficiency',
-            data: this.randomValues(16, 0, 100),
-            borderColor: '#AF50A2',
-            backgroundColor: '#AF50A2',
-            fill: true,
-          },
-          {
-            label: 'Excess',
-            data: this.randomValues(16, 0, 100),
-            borderColor: '#50AF5D',
-            backgroundColor: '#50AF5D',
-            fill: true,
-          },
-        ];
+        return {
+          labels: ['Region', 'Age group', 'Residence', 'Wealth quintiles'],
+          datasets: [
+            {
+              label: barLabel[0],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[1],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[2],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[3],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+            {
+              label: barLabel[4],
+              data: this.randomValues(4, 0, 100),
+              borderColor: '#AF50A2',
+              backgroundColor: '#AF50A2',
+              fill: true,
+            },
+          ],
+        };
       default:
         return null;
     }
