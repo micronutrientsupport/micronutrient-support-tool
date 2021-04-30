@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
 
 @Component({
   selector: 'app-quickmaps-projection',
@@ -9,15 +11,26 @@ import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gri
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectionComponent implements OnInit {
+  public gridsterSource = GridsterSource;
+  public WIDGETS = GridsterWidgets;
   public options: GridsterConfig;
-  public dashboard: Array<GridsterItem>;
+  public dashboard = new Array<GridsterItem>();
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  private readonly defaultWidgetHeight = 3;
+  private readonly defaultWidgetWidth = 8;
+  private readonly defaultWidgetColumns = 1;
+
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<GridsterWidgets>> = new Map([
+    [DataLevel.COUNTRY, [GridsterWidgets.PROJ_AVAILABILITY, GridsterWidgets.PROJ_FOOD_SOURCE]],
+    [DataLevel.HOUSEHOLD, [GridsterWidgets.PROJ_AVAILABILITY, GridsterWidgets.PROJ_FOOD_SOURCE]],
+  ]);
+
+  constructor(public quickMapsService: QuickMapsService, private gridsterService: GridsterService) {}
 
   ngOnInit(): void {
     this.options = {
@@ -34,7 +47,9 @@ export class ProjectionComponent implements OnInit {
       itemResizeCallback: (item) => {
         this.resizeEvent.emit(item);
         // helps some components re-adjust size
-        window.dispatchEvent(new Event('resize'));
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 100);
       },
       itemChangeCallback: (item) => {
         this.changeEvent.emit(item);
@@ -72,24 +87,38 @@ export class ProjectionComponent implements OnInit {
       },
     };
 
-    const defaultHeight = 3;
-    const defaultWidth = 8;
+    // When the quick maps params change trigger the boxes to reset
+    this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
+      console.log('bong');
+      this.dashboard = this.gridsterService.resetGrid(
+        this.gridsterSource.PROJECTION,
+        level,
+        this.dashboard,
+        this.dataLevelWidgetTypesMap,
+        this.defaultWidgetWidth,
+        this.defaultWidgetHeight,
+        this.defaultWidgetColumns,
+      );
+      if (this.options.api && this.options.api.optionsChanged) {
+        this.options.api.optionsChanged();
+      }
+    });
 
-    this.dashboard = [
-      { cols: defaultWidth, rows: defaultHeight, y: 0, x: 0, type: 'widgetProjAvail' },
-      { cols: defaultWidth, rows: defaultHeight, y: 2, x: 0, type: 'widgetProjFoodSources' },
-    ];
-  }
-
-  public changedOptions(): void {
-    this.options.api.optionsChanged();
-  }
-
-  public removeItem(item: GridsterItem): void {
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
-  }
-
-  public addItem(): void {
-    this.dashboard.push();
+    this.gridsterService.gridsterResetObs.subscribe((source: GridsterSource) => {
+      if (source === this.gridsterSource.PROJECTION) {
+        this.dashboard = this.gridsterService.resetGrid(
+          this.gridsterSource.PROJECTION,
+          this.quickMapsService.dataLevel,
+          this.dashboard,
+          this.dataLevelWidgetTypesMap,
+          this.defaultWidgetWidth,
+          this.defaultWidgetHeight,
+          this.defaultWidgetColumns,
+        );
+        if (this.options.api && this.options.api.optionsChanged) {
+          this.options.api.optionsChanged();
+        }
+      }
+    });
   }
 }

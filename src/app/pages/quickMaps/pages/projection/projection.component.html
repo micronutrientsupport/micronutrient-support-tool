@@ -1,12 +1,12 @@
-  <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
-    <app-proj-desc></app-proj-desc>
-    <app-proj-est></app-proj-est>
-    <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-      <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
-        <!-- Availability -->
-        <app-proj-avail *ngSwitchCase="'widgetProjAvail'" [card]="card"></app-proj-avail>
-        <!-- Food Sources -->
-        <app-proj-food-sources *ngSwitchCase="'widgetProjFoodSources'" [card]="card"></app-proj-food-sources>
-      </app-card>
-    </gridster-item>
-  </gridster>
+<gridster class="bmgf-maps-nice-scrollbar" [options]="options">
+  <app-proj-desc></app-proj-desc>
+  <app-proj-est></app-proj-est>
+  <gridster-item [item]="widget" *ngFor="let widget of dashboard">
+    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+      <!-- Availability -->
+      <app-proj-avail *ngSwitchCase="WIDGETS.PROJ_AVAILABILITY" [card]="card"></app-proj-avail>
+      <!-- Food Sources -->
+      <app-proj-food-sources *ngSwitchCase="WIDGETS.PROJ_FOOD_SOURCE" [card]="card"></app-proj-food-sources>
+    </app-card>
+  </gridster-item>
+</gridster>

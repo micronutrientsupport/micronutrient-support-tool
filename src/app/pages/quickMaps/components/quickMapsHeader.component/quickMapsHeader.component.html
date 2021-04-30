@@ -1,9 +1,14 @@
 <div class="container">
+  <div class="item">
+    <button mat-button (click)="resetGridster()">
+      <mat-icon>grid_view</mat-icon>
+    </button>
+  </div>
   <div class="item-center">
     <div>
-      <h2 class="qm-title">
+      <span class="qm-title">
         {{ (quickMapsService.countryObs | async)?.name }} {{quickMapsService.measureObs | async | titlecase}} Data
-      </h2>
+      </span>
     </div>
   </div>
   <div class="item">
