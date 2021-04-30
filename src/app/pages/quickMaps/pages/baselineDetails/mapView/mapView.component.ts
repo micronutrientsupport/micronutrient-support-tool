@@ -29,6 +29,7 @@ import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/object
 import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
+import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -42,11 +43,12 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
-
   public title = '';
   private data: SubRegionDataItem;
 
-  private defaultPalette = ColourPalette.PALETTES.find((value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN);
+  private defaultPalette = ColourPalette.PALETTES.find(
+    (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
+  );
   private colourPalette: ColourPalette;
 
   private absoluteMap: L.Map;
@@ -94,15 +96,13 @@ export class MapViewComponent implements AfterViewInit {
 
       this.card.onSettingsClickObs.subscribe(() => {
         // console.debug('palette on dialog open:', this.colourPalette);
-        void this.dialogService
-          .openMapSettingsDialog(MapViewComponent.COLOUR_PALETTE_ID)
-          .then(() => {
-            this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
-            if (null == this.colourPalette) {
-              this.colourPalette = this.defaultPalette;
-            }
-            this.changeColourRamp(this.colourPalette);
-          });
+        void this.dialogService.openMapSettingsDialog(MapViewComponent.COLOUR_PALETTE_ID).then(() => {
+          this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
+          if (null == this.colourPalette) {
+            this.colourPalette = this.defaultPalette;
+          }
+          this.changeColourRamp(this.colourPalette);
+        });
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
@@ -278,7 +278,6 @@ export class MapViewComponent implements AfterViewInit {
         </span><span>${text}</span>`;
       };
 
-
       let previousGradObj: ColourGradientObject;
       colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
         let text = '';
@@ -337,13 +336,11 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
-    const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-
-    return map;
+    return new LeafletMapHelper()
+      .createMap(mapElement)
+      .setDefaultBaseLayer()
+      .setDefaultControls(() => this.areaBounds)
+      .getMap();
   }
 
   private initialiseMapAbsolute(colourPalette: ColourPalette): void {
@@ -362,7 +359,6 @@ export class MapViewComponent implements AfterViewInit {
     // console.debug('absolute', this.absoluteDataLayer);
 
     this.refreshAbsoluteLegend(absoluteGradient);
-
   }
 
   private initialiseMapThreshold(colourPalette: ColourPalette): void {
