@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import { GridsterItem } from 'angular-gridster2';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -7,7 +8,7 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
   @Input() widget: GridsterItem;
@@ -15,7 +16,10 @@ export class CardComponent implements OnInit {
 
   public title = '';
   public showSettings = false;
+  public showSettingsMenu = false;
   public showExpand = false;
+
+  public matMenu: MatMenu;
 
   public loading = false;
   public error = false;
@@ -32,11 +36,13 @@ export class CardComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public onSettingsClickObs = this.onSettingsClickSrc.asObservable();
 
+  private onSettingsMenuClickSrc = new Subject<void>();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public onSettingsMenuClickObs = this.onSettingsMenuClickSrc.asObservable();
+
   private subscriptions = new Array<Subscription>();
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-  ) { }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -44,7 +50,7 @@ export class CardComponent implements OnInit {
         if (widget === this.widget) {
           this.onResizeSrc.next();
         }
-      })
+      }),
     );
   }
 
@@ -53,7 +59,7 @@ export class CardComponent implements OnInit {
       obs.subscribe((loading: boolean) => {
         this.loading = loading;
         this.cdr.detectChanges();
-      })
+      }),
     );
     return this;
   }
@@ -63,7 +69,7 @@ export class CardComponent implements OnInit {
       obs.subscribe((error: boolean) => {
         this.error = error;
         this.cdr.detectChanges();
-      })
+      }),
     );
     return this;
   }
@@ -76,4 +82,7 @@ export class CardComponent implements OnInit {
     this.onSettingsClickSrc.next();
   }
 
+  public functionSettingsMenu(): void {
+    this.onSettingsMenuClickSrc.next();
+  }
 }
