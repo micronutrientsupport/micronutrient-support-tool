@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { NotificationsService } from '../notifications/notification.service';
 
 @Component({
@@ -13,13 +12,13 @@ export class HeaderComponent {
 
   constructor(public snackbar: NotificationsService) {}
 
-  sendInformativeNotification(message: string, action: string): void {
-    this.snackbar.sendInformative(message, action);
+  sendInformativeNotification(): void {
+    this.snackbar.sendInformative('Measure of MND changed to', 'Diet Data');
   }
-  sendNegativeNotification(message: string, action: string): void {
-    this.snackbar.sendNegative(message, action);
+  sendNegativeNotification(): void {
+    this.snackbar.sendNegative('An error occured', 'some data could not be loaded');
   }
-  sendPositiveNotification(message: string, action: string): void {
-    this.snackbar.sendPositive(message, action);
+  sendPositiveNotification(): void {
+    this.snackbar.sendPositive('Success', 'data upload worked!');
   }
 }
