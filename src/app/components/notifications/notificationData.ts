@@ -5,4 +5,5 @@ export interface NotificationData {
   message: string;
   boldMessage?: string;
   duration: number;
+  beingDispatched: boolean;
 }
