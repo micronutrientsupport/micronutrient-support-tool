@@ -23,7 +23,6 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Component({

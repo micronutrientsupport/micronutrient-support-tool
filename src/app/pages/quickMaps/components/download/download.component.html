@@ -18,4 +18,13 @@
     <button mat-raised-button color="primary" disabled>Save as .csv</button>
     <p>CSV File containing the data used in this visualisation</p>
   </div>
+
+  <br>
+  <br>
+  <div>
+    <strong>Suggested citation for this output: </strong>
+    <p>MAPS ({{year}}) The Micronutrient Action Policy Support (MAPS) Tool project. https://tool.micronutrient.support/
+      Accessed: {{ formattedDate}}</p>
+    <button mat-raised-button color="primary" cdkCopyToClipboard="{{copyTextContent}}">Copy citation</button>
+  </div>
 </div>
