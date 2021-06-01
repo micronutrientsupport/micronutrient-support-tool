@@ -20,6 +20,7 @@ interface NameValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaselineEstimateComponent {
+  public readonly DEFAULT_PLACEHOLDER = '-';
   public readonly massArray: NameValue[] = [
     { name: 'mcg', value: 1000 },
     { name: 'mg', value: 1 },

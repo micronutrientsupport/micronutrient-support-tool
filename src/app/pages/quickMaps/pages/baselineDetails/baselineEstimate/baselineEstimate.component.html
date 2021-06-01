@@ -8,7 +8,7 @@
       <span class="estimateHeader">Estimate ({{(null == projectionsSummary?.referenceYear) ? '-' :
         projectionsSummary.referenceYear}}):</span>
       <span class="estimateValue blue">
-        {{(null == currentEstimateCalc) ? '-' : currentEstimateCalc | number: '1.1-5'}}
+        {{(null == currentEstimateCalc) ? '-' : currentEstimateCalc | sigFig:3 | number}}
       </span>
       <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
@@ -16,18 +16,16 @@
 
     <div class="vitamin">
       <span class="estimateHeader">Target:</span>
-      <span class="estimateValue green">
-        {{(null == targetCalc) ? '-' : targetCalc | number: '1.1-5'}}
-      </span>
+      <span class="estimateValue green">{{(null == targetCalc) ? '-' : targetCalc | sigFig:3 | number}}</span>
       <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
 
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
       <span class="estimateValue" [ngClass]="(projectionsSummary?.difference < 0)? 'red': 'green'">
-        {{(null == projectionsSummary?.difference) ? '- ' : projectionsSummary.difference | number:'1.1-2'}}%
-        <i class="fas fa-question-circle margin-left" [matTooltip]="(null == differenceQuantity) ? '-' : (differenceQuantity | number: '1.1-5')
-        + ' ' + massNameValue.name + ' per ' + timeScaleNameValue.name" style="color: grey;"></i>
+        {{(null == projectionsSummary?.difference) ? '- ' : projectionsSummary.difference | number:'1.0-0'}}%
+        <i class="fas fa-question-circle margin-left" [matTooltip]="(null == differenceQuantity) ? '-' : (differenceQuantity | sigFig:3 | number)
+        + massNameValue.name + ' per ' + timeScaleNameValue.name + ' (3.s.f)'" style="color: grey;"></i>
       </span>
     </div>
   </div>

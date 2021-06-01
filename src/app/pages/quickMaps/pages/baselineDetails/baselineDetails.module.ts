@@ -17,6 +17,7 @@ import { BaselineEstimateComponent } from './baselineEstimate/baselineEstimate.c
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { RouterModule } from '@angular/router';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -30,6 +31,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
+    PipesModule,
     LeafletModule,
     HttpClientModule,
     AppMaterialModule,
