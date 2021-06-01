@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { GridsterModule } from 'angular-gridster2';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDetailsComponent } from './baselineDetails.component';
 import { MapViewComponent } from './mapView/mapView.component';
@@ -13,10 +13,11 @@ import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { RouterModule } from '@angular/router';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -24,11 +25,12 @@ import { RouterModule } from '@angular/router';
     FoodItemsComponent,
     HouseholdSupplyComponent,
     MonthlyFoodComponent,
-    BaslineEstimateComponent,
     BaselineDescriptionComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    PipesModule,
     LeafletModule,
     HttpClientModule,
     AppMaterialModule,
@@ -39,6 +41,7 @@ import { RouterModule } from '@angular/router';
     ComponentsModule,
     DialogModule,
     RouterModule,
+    QuickMapsComponentsModule,
   ],
 })
 export class BaselineDetailsModule {}
