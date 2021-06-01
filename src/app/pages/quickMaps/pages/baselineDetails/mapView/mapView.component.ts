@@ -38,12 +38,13 @@ import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 })
 export class MapViewComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'map-view';
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild(MatTabGroup, { static: false }) tabGroup: MatTabGroup;
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
   public title = '';
+  public selectedTab: number;
   private data: SubRegionDataItem;
 
   private defaultPalette = ColourPalette.PALETTES.find(
@@ -106,6 +107,7 @@ export class MapViewComponent implements AfterViewInit {
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
@@ -157,6 +159,11 @@ export class MapViewComponent implements AfterViewInit {
     if (!this.tabVisited.has(tabChangeEvent.index)) {
       this.triggerFitBounds(tabChangeEvent.index);
     }
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 2;
+    this.cdr.detectChanges();
   }
 
   private init(dataPromise: Promise<SubRegionDataItem>): void {

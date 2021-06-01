@@ -35,6 +35,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = 'Projected availability';
+  public selectedTab: number;
   public headingText = 'Multinutrient';
   public subtHeadingText = '';
   public selectedTimeScale: string;
@@ -104,6 +105,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
       // respond to parameter updates
       this.subscriptions.push(
@@ -123,6 +125,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       // this.cdr.detectChanges();
     }
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 3;
+    this.cdr.detectChanges();
   }
 
   private init(dataPromise: Promise<Array<ProjectedAvailability>>): void {
