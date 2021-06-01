@@ -31,10 +31,14 @@ export class BaselineDetailsComponent implements OnInit {
     {
       id: GridsterLayoutOptions.DEFAULT_VIEW,
       icon: 'grid_view',
+      tooltip: 'Grid View',
+      tooltipPosition: 'before',
     },
     {
       id: GridsterLayoutOptions.LIST_VIEW,
       icon: 'view_agenda',
+      tooltip: 'List View',
+      tooltipPosition: 'before',
     },
   ];
 
