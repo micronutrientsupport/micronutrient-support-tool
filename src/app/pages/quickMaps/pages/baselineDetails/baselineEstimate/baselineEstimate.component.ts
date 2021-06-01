@@ -77,12 +77,12 @@ export class BaslineEstimateComponent {
         this.quickMapsService.micronutrient,
         this.SCENARIO_ID,
       )
-      .then((response: Array<ProjectionsSummary>) => {
-        this.target = response[0].target;
-        this.currentEstimate = response[0].referenceVal;
-        this.differencePercentage = response[0].difference;
-        this.referenceYear = response[0].referenceYear.toString();
-        this.intersectYear = response[0].intersectYear.toString();
+      .then((summary: ProjectionsSummary) => {
+        this.target = summary.target;
+        this.currentEstimate = summary.referenceVal;
+        this.differencePercentage = summary.difference;
+        this.referenceYear = summary.referenceYear.toString();
+        this.intersectYear = summary.intersectYear.toString();
         this.calculate();
       })
       .catch(() => {

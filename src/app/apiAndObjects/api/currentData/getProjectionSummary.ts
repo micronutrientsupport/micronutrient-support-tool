@@ -2,27 +2,23 @@ import { ProjectionsSummary } from '../../objects/projectionSummary';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetProjectionSummary extends CacheableEndpoint<
-  Array<ProjectionsSummary>,
-  ProjectionSummaryParams,
-  ProjectionsSummary
-> {
+export class GetProjectionSummary extends CacheableEndpoint<ProjectionsSummary, ProjectionSummaryParams> {
   protected getCacheKey(params: ProjectionSummaryParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: ProjectionSummaryParams): Promise<Array<ProjectionsSummary>> {
+  protected callLive(params: ProjectionSummaryParams): Promise<ProjectionsSummary> {
     // throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall(
       ['projections', 'summary', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
       RequestMethod.GET,
     );
 
-    return this.buildObjectsFromResponse(ProjectionsSummary, callResponsePromise);
+    return this.buildObjectFromResponse(ProjectionsSummary, callResponsePromise);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected callMock(params?: ProjectionSummaryParams): Promise<ProjectionsSummary[]> {
+  protected callMock(params?: ProjectionSummaryParams): Promise<ProjectionsSummary> {
     throw new Error('Method not implemented.');
   }
 }

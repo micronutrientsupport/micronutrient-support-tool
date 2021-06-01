@@ -148,7 +148,7 @@ export class CurrentDataService {
     countryOrGroupId: string,
     micronutrient: MicronutrientDictionaryItem,
     scenarioId: string,
-  ): Promise<Array<ProjectionsSummary>> {
+  ): Promise<ProjectionsSummary> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.apiService.endpoints.currentData.getProjectionSummary.call({
       countryOrGroupId,
