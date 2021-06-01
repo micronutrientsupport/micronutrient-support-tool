@@ -32,10 +32,14 @@ export class ProjectionComponent implements OnInit {
     {
       id: GridsterLayoutOptions.DEFAULT_VIEW,
       icon: 'view_agenda',
+      tooltip: 'List View',
+      tooltipPosition: 'before',
     },
     {
       id: GridsterLayoutOptions.GRID_VIEW,
       icon: 'grid_view',
+      tooltip: 'Grid View',
+      tooltipPosition: 'before',
     },
   ];
 

@@ -18,6 +18,7 @@ export class CardComponent implements OnInit {
   public showSettings = false;
   public showSettingsMenu = false;
   public showExpand = false;
+  public showInfo = true;
 
   public matMenu: MatMenu;
 
@@ -39,6 +40,10 @@ export class CardComponent implements OnInit {
   private onSettingsMenuClickSrc = new Subject<void>();
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public onSettingsMenuClickObs = this.onSettingsMenuClickSrc.asObservable();
+
+  private onInfoClickSrc = new Subject<void>();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public onInfoClickObs = this.onInfoClickSrc.asObservable();
 
   private subscriptions = new Array<Subscription>();
 
@@ -84,5 +89,9 @@ export class CardComponent implements OnInit {
 
   public functionSettingsMenu(): void {
     this.onSettingsMenuClickSrc.next();
+  }
+
+  public functionInfo(): void {
+    this.onInfoClickSrc.next();
   }
 }

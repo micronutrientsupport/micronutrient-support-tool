@@ -36,6 +36,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = 'Monthly Food';
+  public selectedTab: number;
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartData: ChartJSObject;
@@ -73,7 +74,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -83,6 +84,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
       // respond to parameter updates
       this.subscriptions.push(
@@ -102,6 +104,11 @@ export class MonthlyFoodComponent implements AfterViewInit {
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 3;
+    this.cdr.detectChanges();
   }
 
   private init(dataPromise: Promise<MonthlyFoodGroups>): void {
