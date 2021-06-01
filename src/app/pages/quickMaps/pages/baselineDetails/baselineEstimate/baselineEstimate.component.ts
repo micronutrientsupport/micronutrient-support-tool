@@ -78,11 +78,7 @@ export class BaselineEstimateComponent {
   private updateProjectionSummary(): void {
     this.loading = true;
     void this.currentDataService
-      .getProjectionsSummaryCardData(
-        this.quickMapsService.country.id,
-        this.quickMapsService.micronutrient,
-        this.SCENARIO_ID,
-      )
+      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.SCENARIO_ID)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
         this.projectionsSummary = summary;

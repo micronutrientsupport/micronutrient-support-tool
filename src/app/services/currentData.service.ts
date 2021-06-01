@@ -144,7 +144,7 @@ export class CurrentDataService {
     });
   }
 
-  public getProjectionsSummaryCardData(
+  public getProjectionSummary(
     countryOrGroupId: string,
     micronutrient: MicronutrientDictionaryItem,
     scenarioId: string,

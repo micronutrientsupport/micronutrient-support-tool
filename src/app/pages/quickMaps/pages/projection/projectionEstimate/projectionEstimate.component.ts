@@ -94,11 +94,7 @@ export class ProjectionEstimateComponent {
   public callToApi(): void {
     this.loading = true;
     void this.currentDataService
-      .getProjectionsSummaryCardData(
-        this.quickMapsService.country.id,
-        this.quickMapsService.micronutrient,
-        this.scenarioId,
-      )
+      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.scenarioId)
       .then((summary: ProjectionsSummary) => {
         this.target = summary.target;
         this.currentEstimate = summary.referenceVal;
