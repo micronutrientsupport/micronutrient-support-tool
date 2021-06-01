@@ -7,9 +7,11 @@
             Nation: <strong>{{ (quickMapsService.countryObs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Vitamin: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
+            Micronutrient: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
           </div>
-          <div class="item">Measure of MN: <strong>Biomarker</strong></div>
+          <div class="item">
+            Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measureObs | async }} Data</strong>
+          </div>
           <div class="item">
             Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
           </div>
