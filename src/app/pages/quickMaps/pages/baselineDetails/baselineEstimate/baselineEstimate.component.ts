@@ -10,11 +10,14 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
+import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
+
 interface InterfaceTimeMass {
   id: string;
   name: string;
   value: number;
 }
+@Unsubscriber('subscriptions')
 @Component({
   selector: 'app-base-est',
   templateUrl: './baselineEstimate.component.html',
@@ -22,15 +25,8 @@ interface InterfaceTimeMass {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaslineEstimateComponent {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  public countriesDictionary: Dictionary;
-  public regionDictionary: Dictionary;
-  public micronutrientsDictionary: Dictionary;
   public loading: boolean;
   public error = false;
-  public scenarioId = 'SSP2';
   public projectionEstimateForm: FormGroup;
 
   public massArray: InterfaceTimeMass[] = [
@@ -60,6 +56,7 @@ export class BaslineEstimateComponent {
 
   public ROUTES = AppRoutes;
 
+  private readonly SCENARIO_ID = 'SSP2';
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -99,7 +96,7 @@ export class BaslineEstimateComponent {
       .getProjectionsSummaryCardData(
         this.quickMapsService.country.id,
         this.quickMapsService.micronutrient,
-        this.scenarioId,
+        this.SCENARIO_ID,
       )
       .then((response: Array<ProjectionsSummaryCard>) => {
         this.target = response[0].target;
@@ -132,4 +129,3 @@ export class BaslineEstimateComponent {
     this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
-
