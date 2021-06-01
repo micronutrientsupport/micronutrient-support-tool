@@ -3,7 +3,7 @@ import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectR
 import { CountryDictionaryItem } from './dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from './dictionaries/micronutrientDictionaryItem';
 
-export class ProjectionsSummaryCard extends BaseObjectRequiresDictionaries {
+export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
   public static readonly KEYS = {
     COUNTRY: 'country',
     MICRONUTRIENT: 'micronutrient',
@@ -34,17 +34,17 @@ export class ProjectionsSummaryCard extends BaseObjectRequiresDictionaries {
 
     this.country = this._getDictionaryItem<CountryDictionaryItem>(
       DictionaryType.COUNTRIES,
-      ProjectionsSummaryCard.KEYS.COUNTRY,
+      ProjectionsSummary.KEYS.COUNTRY,
     );
     this.micronutrient = this._getDictionaryItem<MicronutrientDictionaryItem>(
       DictionaryType.MICRONUTRIENTS,
-      ProjectionsSummaryCard.KEYS.MICRONUTRIENT,
+      ProjectionsSummary.KEYS.MICRONUTRIENT,
     );
-    this.scenario = this._getString(ProjectionsSummaryCard.KEYS.SCENARIO);
-    this.target = this._getNumber(ProjectionsSummaryCard.KEYS.TARGET);
-    this.referenceVal = this._getNumber(ProjectionsSummaryCard.KEYS.REFERENCE_VAL);
-    this.referenceYear = this._getNumber(ProjectionsSummaryCard.KEYS.REFERENCE_YEAR);
-    this.intersectYear = this._getString(ProjectionsSummaryCard.KEYS.INTERSECT_YEAR);
-    this.difference = this._getNumber(ProjectionsSummaryCard.KEYS.DIFFERENCE);
+    this.scenario = this._getString(ProjectionsSummary.KEYS.SCENARIO);
+    this.target = this._getNumber(ProjectionsSummary.KEYS.TARGET);
+    this.referenceVal = this._getNumber(ProjectionsSummary.KEYS.REFERENCE_VAL);
+    this.referenceYear = this._getNumber(ProjectionsSummary.KEYS.REFERENCE_YEAR);
+    this.intersectYear = this._getString(ProjectionsSummary.KEYS.INTERSECT_YEAR);
+    this.difference = this._getNumber(ProjectionsSummary.KEYS.DIFFERENCE);
   }
 }

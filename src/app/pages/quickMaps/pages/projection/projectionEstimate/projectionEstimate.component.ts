@@ -6,7 +6,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
+import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionsSummary';
 import { Subscription } from 'rxjs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 interface InterfaceTimeMass {
@@ -99,7 +99,7 @@ export class ProjectionEstimateComponent {
         this.quickMapsService.micronutrient,
         this.scenarioId,
       )
-      .then((response: Array<ProjectionsSummaryCard>) => {
+      .then((response: Array<ProjectionsSummary>) => {
         this.target = response[0].target;
         this.currentEstimate = response[0].referenceVal;
         this.differencePercentage = response[0].difference;
@@ -130,4 +130,3 @@ export class ProjectionEstimateComponent {
     this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
-

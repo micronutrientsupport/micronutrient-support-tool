@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
-import { ProjectionsSummaryCard } from 'src/app/apiAndObjects/objects/projectionsSummaryCard';
+import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionsSummary';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
@@ -77,7 +77,7 @@ export class BaslineEstimateComponent {
         this.quickMapsService.micronutrient,
         this.SCENARIO_ID,
       )
-      .then((response: Array<ProjectionsSummaryCard>) => {
+      .then((response: Array<ProjectionsSummary>) => {
         this.target = response[0].target;
         this.currentEstimate = response[0].referenceVal;
         this.differencePercentage = response[0].difference;
