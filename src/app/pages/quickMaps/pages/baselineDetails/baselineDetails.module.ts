@@ -13,11 +13,11 @@ import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { BaselineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { RouterModule } from '@angular/router';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -25,7 +25,6 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FoodItemsComponent,
     HouseholdSupplyComponent,
     MonthlyFoodComponent,
-    BaselineEstimateComponent,
     BaselineDescriptionComponent,
   ],
   imports: [
@@ -42,6 +41,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     ComponentsModule,
     DialogModule,
     RouterModule,
+    QuickMapsComponentsModule,
   ],
 })
 export class BaselineDetailsModule {}

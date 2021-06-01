@@ -14,6 +14,7 @@ import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projecti
 import { ProjectionEstimateComponent } from './projectionEstimate/projectionEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
+import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ProjectionDescriptionComponent } from './projectionDescription/projecti
     GridsterModule,
     ComponentsModule,
     DialogModule,
+    QuickMapsComponentsModule,
   ],
 })
 export class ProjectionModule {}

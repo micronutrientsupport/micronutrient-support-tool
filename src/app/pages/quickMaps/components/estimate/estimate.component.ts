@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
-import { QuickMapsService } from '../../../quickMaps.service';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
+import { QuickMapsService } from '../../quickMaps.service';
 
 interface NameValue {
   name: string;
@@ -14,12 +14,13 @@ interface NameValue {
 }
 @Unsubscriber('subscriptions')
 @Component({
-  selector: 'app-base-est',
-  templateUrl: './baselineEstimate.component.html',
-  styleUrls: ['./baselineEstimate.component.scss'],
+  selector: 'app-estimate',
+  templateUrl: './estimate.component.html',
+  styleUrls: ['./estimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaselineEstimateComponent {
+export class EstimateComponent {
+  @Input() showProjectionLink = false;
   public readonly DEFAULT_PLACEHOLDER = '-';
   public readonly massArray: NameValue[] = [
     { name: 'mcg', value: 1000 },
