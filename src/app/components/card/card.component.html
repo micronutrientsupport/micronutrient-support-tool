@@ -10,6 +10,9 @@
         class="example-icon" aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
+      <button *ngIf="showInfo" (click)="functionInfo()" mat-icon-button class="example-icon" aria-label="Info icon">
+        <mat-icon>info</mat-icon>
+      </button>
       <span class="example-spacer">{{title}}</span>
       <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button class="example-icon"
         aria-label="Modal icon">

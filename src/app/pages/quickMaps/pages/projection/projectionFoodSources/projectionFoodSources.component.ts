@@ -51,6 +51,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   @Input() card: CardComponent;
 
   public title = 'Projection Food Sources for';
+  public selectedTab: number;
   public micronutrientsDictionary: Dictionary;
   public micronutrientName = '';
   public chartData: ChartJSObject;
@@ -123,6 +124,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+
     void this.miscApiService
       .getImpactScenarios()
       .then((result: Array<ImpactScenario>) => {
@@ -150,6 +153,11 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         } else if (null != this.dialogData) {
         }
       });
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 3;
+    this.cdr.detectChanges();
   }
 
   private init(): void {

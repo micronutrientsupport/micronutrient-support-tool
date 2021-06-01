@@ -25,3 +25,10 @@
   border: 0;
   width: 100%;
 }
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 10px;
+}

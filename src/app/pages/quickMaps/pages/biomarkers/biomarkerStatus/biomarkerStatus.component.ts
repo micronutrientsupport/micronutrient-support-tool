@@ -78,6 +78,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
   public title: string;
+  public selectedTab: number;
   public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
   public defThreshold = 20;
   public abnThreshold = 60;
@@ -166,6 +167,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
     this.subscriptions.push(
       this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -207,6 +209,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         );
       }),
     );
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 4;
+    this.cdr.detectChanges();
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
