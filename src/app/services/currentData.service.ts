@@ -36,18 +36,20 @@ export class CurrentDataService {
     return new Promise((resolve) => {
       // no point in calling API if parameters selections aren't valid
       if (
-        null == countryOrGroup
-        || null == measureType
-        || (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
+        null == countryOrGroup ||
+        null == measureType ||
+        (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
       ) {
         resolve([]); // no data sources
       } else {
-        resolve(this.apiService.endpoints.currentData.getDataSources.call({
-          countryOrGroup,
-          measureType,
-          ageGenderGroup,
-          singleOptionOnly,
-        }));
+        resolve(
+          this.apiService.endpoints.currentData.getDataSources.call({
+            countryOrGroup,
+            measureType,
+            ageGenderGroup,
+            singleOptionOnly,
+          }),
+        );
       }
     });
   }

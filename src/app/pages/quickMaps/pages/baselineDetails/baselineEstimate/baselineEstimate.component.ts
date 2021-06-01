@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -12,8 +9,7 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 
-interface InterfaceTimeMass {
-  id: string;
+interface NameValue {
   name: string;
   value: number;
 }
@@ -25,22 +21,23 @@ interface InterfaceTimeMass {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaslineEstimateComponent {
-  public loading: boolean;
-  public error = false;
-  public projectionEstimateForm: FormGroup;
+  public readonly massArray: NameValue[] = [
+    { name: 'mcg', value: 1000 },
+    { name: 'mg', value: 1 },
+    { name: 'g', value: 0.001 },
+    { name: 'kg', value: 0.00001 },
+  ];
+  public readonly timeScaleArray: NameValue[] = [
+    { name: 'day', value: 1 },
+    { name: 'week', value: 7 },
+    { name: 'month', value: 30.4167 },
+    { name: 'year', value: 365 },
+  ];
 
-  public massArray: InterfaceTimeMass[] = [
-    { id: '1', name: 'mcg', value: 1000 },
-    { id: '2', name: 'mg', value: 1 },
-    { id: '3', name: 'g', value: 0.001 },
-    { id: '4', name: 'kg', value: 0.00001 },
-  ];
-  public timeScaleArray: InterfaceTimeMass[] = [
-    { id: '1', name: 'day', value: 1 },
-    { id: '2', name: 'week', value: 7 },
-    { id: '3', name: 'month', value: 30.4167 },
-    { id: '4', name: 'year', value: 365 },
-  ];
+  public loading: boolean;
+
+  public summar;
+
   target: number;
   currentEstimate: number;
   targetCalc: number;
@@ -49,10 +46,9 @@ export class BaslineEstimateComponent {
   differenceQuantity: number;
   referenceYear: string;
   intersectYear: string;
-  mass = 1;
-  timeScale = 1;
-  timeScaleName = 'day';
-  massName = 'mg';
+
+  public massNameValue = this.massArray[1];
+  public timeScaleNameValue = this.timeScaleArray[0];
 
   public ROUTES = AppRoutes;
 
@@ -71,23 +67,6 @@ export class BaslineEstimateComponent {
         this.callToApi();
       }),
     );
-
-    this.projectionEstimateForm = this.fb.group({
-      mass: this.massArray[1],
-      timeScale: this.timeScaleArray[0],
-    });
-
-    this.projectionEstimateForm.get('mass').valueChanges.subscribe((itemMass: InterfaceTimeMass) => {
-      this.mass = itemMass.value;
-      this.massName = itemMass.name;
-      this.calculate();
-    });
-    this.projectionEstimateForm.get('timeScale').valueChanges.subscribe((itemTime: InterfaceTimeMass) => {
-      console.log(itemTime);
-      this.timeScale = itemTime.value;
-      this.timeScaleName = itemTime.name;
-      this.calculate();
-    });
   }
 
   public callToApi(): void {
@@ -122,7 +101,7 @@ export class BaslineEstimateComponent {
 
   public calculate(): void {
     const diferrenceQuantityOriginal = this.currentEstimate - this.target;
-    const totalMultiplier = this.mass * this.timeScale;
+    const totalMultiplier = this.massNameValue.value * this.timeScaleNameValue.value;
 
     this.targetCalc = totalMultiplier * this.target;
     this.currentEstimateCalc = totalMultiplier * this.currentEstimate;

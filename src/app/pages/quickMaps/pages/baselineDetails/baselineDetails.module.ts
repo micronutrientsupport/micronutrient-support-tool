@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { GridsterModule } from 'angular-gridster2';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDetailsComponent } from './baselineDetails.component';
 import { MapViewComponent } from './mapView/mapView.component';
@@ -29,6 +29,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     LeafletModule,
     HttpClientModule,
     AppMaterialModule,

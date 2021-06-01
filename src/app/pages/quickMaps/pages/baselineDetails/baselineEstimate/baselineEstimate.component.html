@@ -9,7 +9,7 @@
       <span class="estimateValue blue">
         {{(null == currentEstimateCalc) ? 'n/a' : currentEstimateCalc | number: '1.1-5'}}
       </span>
-      <small>({{massName}} per {{timeScaleName}})</small>
+      <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
 
 
@@ -18,24 +18,24 @@
       <span class="estimateValue green">
         {{(null == targetCalc) ? 'n/a' : targetCalc | number: '1.1-5'}}
       </span>
-      <small>({{massName}} per {{timeScaleName}})</small>
+      <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
 
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
       <span class="estimateValue" [ngClass]="(differencePercentage < 0)? 'red': 'green'">
         {{(null == differencePercentage) ? 'n/a ' : differencePercentage | number:'1.1-2'}}%
-        <i class="fas fa-question-circle margin-left" matTooltip="{{(null == differenceQuantity) ? 'n/a' : differenceQuantity | number: '1.1-5'}}
-           {{massName}} per {{timeScaleName}}" style="color: grey;"></i>
+        <i class="fas fa-question-circle margin-left" [matTooltip]="(null == differenceQuantity) ? 'n/a' : (differenceQuantity | number: '1.1-5')
+        + ' ' + massNameValue.name + ' per ' + timeScaleNameValue.name" style="color: grey;"></i>
       </span>
     </div>
   </div>
 
-  <form [formGroup]="projectionEstimateForm" class="wideItem form">
+  <div class="wideItem form">
 
     <mat-form-field appearance="outline" aria-label="amount" class="width-quantity">
       <mat-label>Quantity</mat-label>
-      <mat-select formControlName="mass" placeholder="amount">
+      <mat-select [(ngModel)]="massNameValue" (selectionChange)="calculate()" placeholder="amount">
         <mat-option *ngFor="let item of massArray" [value]="item">
           {{item.name}}
         </mat-option>
@@ -46,14 +46,12 @@
 
     <mat-form-field appearance="outline" aria-label="time scale" class="width-time">
       <mat-label>Time</mat-label>
-      <mat-select formControlName="timeScale" placeholder="time scale">
-        <mat-option *ngFor="let item of timeScaleArray" [value]="item">
-          per {{item.name}}
-        </mat-option>
+      <mat-select [(ngModel)]="timeScaleNameValue" (selectionChange)="calculate()" placeholder="time scale">
+        <mat-option *ngFor="let item of timeScaleArray" [value]="item"> per {{item.name}} </mat-option>
       </mat-select>
     </mat-form-field>
 
-  </form>
+  </div>
 
   <div class="wideItem right-text">
     <span>
