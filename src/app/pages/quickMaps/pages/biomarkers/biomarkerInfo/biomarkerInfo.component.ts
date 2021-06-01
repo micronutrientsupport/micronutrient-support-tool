@@ -33,6 +33,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public chartPNG: string;
   public chartPDF: string;
   public title = 'Additional Information';
+  public selectedTab: number;
 
   public defThreshold = 70;
   public abnThreshold = 150;
@@ -66,6 +67,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
     this.subscriptions.push(
       this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -85,6 +87,11 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.init();
       }),
     );
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 4;
+    this.cdr.detectChanges();
   }
 
   private createBins(): void {
