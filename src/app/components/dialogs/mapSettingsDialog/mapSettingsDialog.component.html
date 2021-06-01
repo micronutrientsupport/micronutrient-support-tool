@@ -3,7 +3,8 @@
     <mat-drawer #drawer [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
-        <mat-list-option value="advanced">Create Gradient</mat-list-option>
+        <mat-list-option value="gradient">Create Gradient</mat-list-option>
+        <mat-list-option value="advanced">Advanced</mat-list-option>
       </mat-selection-list>
     </mat-drawer>
 
@@ -33,7 +34,7 @@
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'gradient'">
         <header>
           <p>Generate Custom Colour Gradient <i class="fas fa-question-circle"
               matTooltip="Click on the boxes to create your own custom gradient." matTooltipPosition="after"></i></p>
@@ -50,6 +51,23 @@
               <input (change)="callCustomColourInput([colorOne.value, colorTwo.value, colorThree.value])" #colorThree
                 value="#ff0000" type="color" id="color3" />
             </div>
+          </div>
+        </header>
+
+        <!-- div to hold the color scales -->
+        <div [hidden]="!showCustomGradient">
+          <p>Custom Gradient:</p>
+          <div #container class="container"></div>
+        </div>
+      </div>
+
+      <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'advanced'">
+        <header>
+          <div>
+            Threshold:
+          </div>
+          <div>
+            Absolute:
           </div>
         </header>
 
