@@ -13,7 +13,7 @@ import { FoodItemsComponent } from './foodItems/foodItems.component';
 import { HouseholdSupplyComponent } from './householdSupply/householdSupply.component';
 import { MonthlyFoodComponent } from './monthlyFood/monthlyFood.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { BaslineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
+import { BaselineEstimateComponent } from './baselineEstimate/baselineEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { BaselineDescriptionComponent } from './baselineDescription/baselineDescription.component';
 import { RouterModule } from '@angular/router';
@@ -24,7 +24,7 @@ import { RouterModule } from '@angular/router';
     FoodItemsComponent,
     HouseholdSupplyComponent,
     MonthlyFoodComponent,
-    BaslineEstimateComponent,
+    BaselineEstimateComponent,
     BaselineDescriptionComponent,
   ],
   imports: [

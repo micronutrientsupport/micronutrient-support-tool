@@ -5,9 +5,10 @@
 <div class="container" *ngIf="!loading">
   <div class="wideItem left-text">
     <div class="nation">
-      <span class="estimateHeader">Estimate ({{(null == referenceYear) ? 'n/a' : referenceYear}}):</span>
+      <span class="estimateHeader">Estimate ({{(null == projectionsSummary?.referenceYear) ? '-' :
+        projectionsSummary.referenceYear}}):</span>
       <span class="estimateValue blue">
-        {{(null == currentEstimateCalc) ? 'n/a' : currentEstimateCalc | number: '1.1-5'}}
+        {{(null == currentEstimateCalc) ? '-' : currentEstimateCalc | number: '1.1-5'}}
       </span>
       <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
@@ -16,16 +17,16 @@
     <div class="vitamin">
       <span class="estimateHeader">Target:</span>
       <span class="estimateValue green">
-        {{(null == targetCalc) ? 'n/a' : targetCalc | number: '1.1-5'}}
+        {{(null == targetCalc) ? '-' : targetCalc | number: '1.1-5'}}
       </span>
       <small>({{massNameValue.name}} per {{timeScaleNameValue.name}})</small>
     </div>
 
     <div class="baseline">
       <span class="estimateHeader">Difference:</span>
-      <span class="estimateValue" [ngClass]="(differencePercentage < 0)? 'red': 'green'">
-        {{(null == differencePercentage) ? 'n/a ' : differencePercentage | number:'1.1-2'}}%
-        <i class="fas fa-question-circle margin-left" [matTooltip]="(null == differenceQuantity) ? 'n/a' : (differenceQuantity | number: '1.1-5')
+      <span class="estimateValue" [ngClass]="(projectionsSummary?.difference < 0)? 'red': 'green'">
+        {{(null == projectionsSummary?.difference) ? '- ' : projectionsSummary.difference | number:'1.1-2'}}%
+        <i class="fas fa-question-circle margin-left" [matTooltip]="(null == differenceQuantity) ? '-' : (differenceQuantity | number: '1.1-5')
         + ' ' + massNameValue.name + ' per ' + timeScaleNameValue.name" style="color: grey;"></i>
       </span>
     </div>
@@ -56,10 +57,10 @@
   <div class="wideItem right-text">
     <span>
       'Business as usual' to reach target in &nbsp;
-      <strong>{{(null == intersectYear) ? 'n/a' : intersectYear}}</strong>
+      <strong>{{(null == projectionsSummary?.intersectYear) ? '-' : projectionsSummary.intersectYear}}</strong>
       <i class="fas fa-question-circle margin-left"
         matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
-      per capita consumption of {{(quickMapsService.micronutrientObs | async).name}} is expected to reach recommended levels by {{(null == intersectYear) ? 'n/a' : intersectYear}}."
+      per capita consumption of {{(quickMapsService.micronutrientObs | async).name}} is expected to reach recommended levels by {{(null == projectionsSummary?.intersectYear) ? '-' : projectionsSummary.intersectYear}}."
         style="color: grey;"></i>
     </span>
     <span>

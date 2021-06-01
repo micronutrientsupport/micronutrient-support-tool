@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
@@ -20,7 +19,7 @@ interface NameValue {
   styleUrls: ['./baselineEstimate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaslineEstimateComponent {
+export class BaselineEstimateComponent {
   public readonly massArray: NameValue[] = [
     { name: 'mcg', value: 1000 },
     { name: 'mg', value: 1 },
@@ -35,18 +34,10 @@ export class BaslineEstimateComponent {
   ];
 
   public loading: boolean;
-
-  public summar;
-
-  target: number;
-  currentEstimate: number;
-  targetCalc: number;
-  currentEstimateCalc: number;
-  differencePercentage: number;
-  differenceQuantity: number;
-  referenceYear: string;
-  intersectYear: string;
-
+  public projectionsSummary: ProjectionsSummary;
+  public targetCalc: number;
+  public currentEstimateCalc: number;
+  public differenceQuantity: number;
   public massNameValue = this.massArray[1];
   public timeScaleNameValue = this.timeScaleArray[0];
 
@@ -58,18 +49,32 @@ export class BaslineEstimateComponent {
   constructor(
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
-    private fb: FormBuilder,
     public route: ActivatedRoute,
     private currentDataService: CurrentDataService,
   ) {
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
-        this.callToApi();
+        this.updateProjectionSummary();
       }),
     );
   }
 
-  public callToApi(): void {
+  public calculate(): void {
+    if (null == this.projectionsSummary) {
+      this.targetCalc = null;
+      this.currentEstimateCalc = null;
+      this.differenceQuantity = null;
+    } else {
+      const diferrenceQuantityOriginal = this.projectionsSummary.referenceVal - this.projectionsSummary.target;
+      const totalMultiplier = this.massNameValue.value * this.timeScaleNameValue.value;
+
+      this.targetCalc = totalMultiplier * this.projectionsSummary.target;
+      this.currentEstimateCalc = totalMultiplier * this.projectionsSummary.referenceVal;
+      this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
+    }
+  }
+
+  private updateProjectionSummary(): void {
     this.loading = true;
     void this.currentDataService
       .getProjectionsSummaryCardData(
@@ -77,34 +82,14 @@ export class BaslineEstimateComponent {
         this.quickMapsService.micronutrient,
         this.SCENARIO_ID,
       )
+      .catch(() => null)
       .then((summary: ProjectionsSummary) => {
-        this.target = summary.target;
-        this.currentEstimate = summary.referenceVal;
-        this.differencePercentage = summary.difference;
-        this.referenceYear = summary.referenceYear.toString();
-        this.intersectYear = summary.intersectYear.toString();
-        this.calculate();
-      })
-      .catch(() => {
-        this.targetCalc = null;
-        this.currentEstimateCalc = null;
-        this.differencePercentage = null;
-        this.differenceQuantity = null;
-        this.referenceYear = null;
-        this.intersectYear = null;
+        this.projectionsSummary = summary;
       })
       .finally(() => {
+        this.calculate();
         this.cdr.markForCheck();
         this.loading = false;
       });
-  }
-
-  public calculate(): void {
-    const diferrenceQuantityOriginal = this.currentEstimate - this.target;
-    const totalMultiplier = this.massNameValue.value * this.timeScaleNameValue.value;
-
-    this.targetCalc = totalMultiplier * this.target;
-    this.currentEstimateCalc = totalMultiplier * this.currentEstimate;
-    this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
   }
 }
