@@ -6,7 +6,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionsSummary';
+import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
 import { Subscription } from 'rxjs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 interface InterfaceTimeMass {

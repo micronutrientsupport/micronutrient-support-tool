@@ -11,7 +11,7 @@ import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { ProjectionsSummary } from '../apiAndObjects/objects/projectionsSummary';
+import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 
@@ -150,7 +150,7 @@ export class CurrentDataService {
     scenarioId: string,
   ): Promise<Array<ProjectionsSummary>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.apiService.endpoints.currentData.getProjectionsSummaryCardData.call({
+    return this.apiService.endpoints.currentData.getProjectionSummary.call({
       countryOrGroupId,
       micronutrientId: micronutrient.id,
       scenarioId,

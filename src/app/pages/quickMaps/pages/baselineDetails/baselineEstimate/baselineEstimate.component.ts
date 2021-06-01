@@ -4,7 +4,7 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
-import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionsSummary';
+import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
