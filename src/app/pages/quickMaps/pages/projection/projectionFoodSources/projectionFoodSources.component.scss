@@ -30,3 +30,22 @@
   max-height: 200px;
   object-fit: fill;
 }
+
+.chartInput {
+  height: fit-content;
+  background-color: yellow;
+}
+.panelInput {
+  position: absolute !important;
+  height: 60px !important;
+  width: 100% !important;
+}
+.panelChart {
+  position: absolute !important;
+  height: calc(100% - 60px) !important;
+  min-height: 200px !important;
+  top: 60px !important;
+  bottom: 0px !important;
+  left: 0px !important;
+  right: 0px !important;
+}

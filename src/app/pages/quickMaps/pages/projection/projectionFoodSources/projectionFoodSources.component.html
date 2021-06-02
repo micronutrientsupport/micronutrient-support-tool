@@ -1,33 +1,39 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-      <div class="container">
-        <div class="item wideItem">Food sources for {{ micronutrientName | lowercase }} grouped by</div>
-        <div class="item">
-          <form [formGroup]="projectionFoodFormGroup">
-            <mat-form-field appearance="fill">
-              <mat-select name="groupedBy" formControlName="groupedBy">
-                <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <i class="fas fa-question-circle margin-left" style="color: grey;"
-              matTooltip="Difference between Commodity and Food Group TBC"></i>
-          </form>
-        </div>
-        <div class="item">under scenario</div>
-        <div class="item">
-          <form [formGroup]="projectionFoodFormGroup">
-            <mat-form-field appearance="fill">
-              <mat-select name="scenario" formControlName="scenario">
-                <mat-option *ngFor="let option of scenarioOptions" [value]="option.id">{{ option.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </form>
+
+      <div class="panelInput">
+        <div class="container">
+          <div class="item wideItem">Food sources for {{ micronutrientName | lowercase }} grouped by</div>
+          <div class="item">
+            <form [formGroup]="projectionFoodFormGroup">
+              <mat-form-field appearance="fill">
+                <mat-select name="groupedBy" formControlName="groupedBy">
+                  <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <i class="fas fa-question-circle margin-left" style="color: grey;"
+                matTooltip="Difference between Commodity and Food Group TBC"></i>
+            </form>
+          </div>
+          <div class="item">under scenario</div>
+          <div class="item">
+            <form [formGroup]="projectionFoodFormGroup">
+              <mat-form-field appearance="fill">
+                <mat-select name="scenario" formControlName="scenario">
+                  <mat-option *ngFor="let option of scenarioOptions" [value]="option.id">{{ option.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
         </div>
       </div>
-      <ngx-chartjs id="stacked-chart" *ngIf="chartData" [data]="chartData.data" [type]="chartData.type"
-        [options]="chartData.options">
+
+      <ngx-chartjs class="panelChart" id="stacked-chart" *ngIf="chartData" [data]="chartData.data"
+        [type]="chartData.type" [options]="chartData.options">
       </ngx-chartjs>
+
+
     </mat-tab>
 
     <mat-tab label="Table">
