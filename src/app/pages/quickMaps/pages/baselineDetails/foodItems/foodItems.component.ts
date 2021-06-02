@@ -25,6 +25,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -45,6 +46,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public chartPDF: string;
   public displayedColumns = ['foodName', 'value'];
   public dataSource: MatTableDataSource<TopFoodSource>;
+  public mnUnit = '';
 
   private data: Array<TopFoodSource>;
 
@@ -84,6 +86,9 @@ export class FoodItemsComponent implements AfterViewInit {
               this.quickMapsService.dataLevel,
             ),
           );
+        }),
+        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+          this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
         }),
       );
     } else if (null != this.dialogData) {
@@ -165,7 +170,8 @@ export class FoodItemsComponent implements AfterViewInit {
               const label: string = dataItem['g'] as string;
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
-              return label + ': ' + value;
+              const mnUnit = this.mnUnit;
+              return `${label}: ${Number(value).toPrecision(3)} ${mnUnit}/capita/day`;
             },
           },
         },
