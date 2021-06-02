@@ -18,12 +18,31 @@ export class DownloadComponent implements AfterViewInit {
       month: 'short',
       year: 'numeric',
     })
-    .replace(/ /g, '-');
-  public copyTextContent =
+    .replace(/ /g, ' ');
+
+  public copyPlainText =
     'MAPS' +
     `(${this.year})` +
     ' The Micronutrient Action Policy Support (MAPS) Tool project. https://tool.micronutrient.support/ Accessed: ' +
     `${this.formattedDate}`;
+
+  public copyBibTex =
+    '@misc{MAPS' +
+    `(${this.year})` +
+    '\n' +
+    'author = {{The Micronutrient Action Policy Support (MAPS) Tool project}},' +
+    '\n' +
+    'title = {The Micronutrient Action Policy Support (MAPS) Tool project},' +
+    '\n' +
+    'year = {2021},' +
+    '\n' +
+    'note = {[Online; accessed ' +
+    `${this.formattedDate}` +
+    ']},' +
+    '\n' +
+    'url = {https://tool.micronutrient.support/}' +
+    '\n' +
+    '}';
 
   constructor(private clipboard: Clipboard) {}
 
