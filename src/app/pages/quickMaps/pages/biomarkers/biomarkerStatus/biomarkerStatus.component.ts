@@ -78,6 +78,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
   public title: string;
+  public selectedTab: number;
   public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
   public defThreshold = 20;
   public abnThreshold = 60;
@@ -166,6 +167,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
     this.subscriptions.push(
       this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -207,6 +209,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         );
       }),
     );
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 4;
+    this.cdr.detectChanges();
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -371,6 +378,34 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     });
   }
 
+  // Capture value from data select dropdown.
+  public dataSelected(value: string, origin: string): void {
+    this.selectedOption = value;
+    switch (origin) {
+      case 'map':
+        break;
+      case 'table':
+        if (this.selectedCharacteristic) {
+          console.log('dataSelected');
+          this.generateTable();
+        }
+        break;
+      case 'chart':
+        const barData = this.getBarData(value);
+        this.initialiseBarChart(barData, this.selectedOption);
+        break;
+    }
+  }
+
+  // Capture value from characteristic select dropdown in table tab.
+  public charactersiticSelected(value: string): void {
+    this.selectedCharacteristic = value;
+    console.log('charactersiticSelected');
+    if (this.selectedOption) {
+      // do something
+    }
+  }
+
   private init(): void {
     const mnName = this.quickMapsService.micronutrient.name;
     const agName = this.quickMapsService.ageGenderGroup.name;
@@ -434,25 +469,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       data: null,
       selectedTab: this.tabGroup.selectedIndex,
     });
-  }
-
-  // Capture value from data select dropdown.
-  private dataSelected(value: any, origin: string) {
-    this.selectedOption = value;
-    switch (origin) {
-      case 'map':
-        break;
-      case 'table':
-        if (this.selectedCharacteristic) {
-          console.log('dataSelected');
-          this.generateTable();
-        }
-        break;
-      case 'chart':
-        const barData = this.getBarData(value);
-        this.initialiseBarChart(barData, this.selectedOption);
-        break;
-    }
   }
 
   private renderAllCharts() {
@@ -616,15 +632,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         };
       default:
         return null;
-    }
-  }
-
-  // Capture value from characteristic select dropdown in table tab.
-  private charactersiticSelected(value: any) {
-    this.selectedCharacteristic = value;
-    console.log('charactersiticSelected');
-    if (this.selectedOption) {
-      // do something
     }
   }
 

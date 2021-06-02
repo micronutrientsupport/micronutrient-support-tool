@@ -31,10 +31,14 @@ export class BaselineDetailsComponent implements OnInit {
     {
       id: GridsterLayoutOptions.DEFAULT_VIEW,
       icon: 'grid_view',
+      tooltip: 'Grid View',
+      tooltipPosition: 'before',
     },
     {
       id: GridsterLayoutOptions.LIST_VIEW,
       icon: 'view_agenda',
+      tooltip: 'List View',
+      tooltipPosition: 'before',
     },
   ];
 
@@ -130,7 +134,7 @@ export class BaselineDetailsComponent implements OnInit {
     });
   }
 
-  public layoutChange(id: number): void {
+  public layoutChange(id: string | number): void {
     switch (id) {
       case GridsterLayoutOptions.DEFAULT_VIEW: {
         this.dashboard = this.gridsterService.resetGrid(
