@@ -78,7 +78,8 @@
             <td mat-cell *matCellDef="let element; let i = index">{{ element?.foodName }}</td>
           </ng-container>
           <ng-container matColumnDef="value" sticky>
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ micronutrientName }} in mg/capita/day</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ micronutrientName }} in {{ mnUnit }}/capita/day
+            </th>
             <td mat-cell *matCellDef="let element; let i = index">{{ element?.value }}</td>
           </ng-container>
 

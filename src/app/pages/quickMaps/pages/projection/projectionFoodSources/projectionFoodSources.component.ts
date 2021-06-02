@@ -35,6 +35,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -57,6 +58,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public selectedTab: number;
   public micronutrientsDictionary: Dictionary;
   public micronutrientName = '';
+  public mnUnit = '';
   public chartData: ChartJSObject;
   public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
@@ -130,6 +132,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+    // eslint-disable-next-line max-len
+    this.subscriptions.push(
+      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
+      }),
+    );
 
     void this.miscApiService
       .getImpactScenarios()
@@ -293,7 +301,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
               stacked: true,
               scaleLabel: {
                 display: true,
-                labelString: this.micronutrientName + ' in mg/capita/day',
+                labelString: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
               },
             },
           ],
