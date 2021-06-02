@@ -4,7 +4,8 @@
 
       <div class="panelInput">
         <div class="container">
-          <div class="item wideItem">Food sources for {{ micronutrientName | lowercase }} grouped by</div>
+          <div id="chart-text-grouped-by" class="item wideItem">Food sources for {{ micronutrientName | lowercase }}
+            grouped by</div>
           <div class="item">
             <form [formGroup]="projectionFoodFormGroup">
               <mat-form-field appearance="fill">
@@ -16,7 +17,7 @@
                 matTooltip="Difference between Commodity and Food Group TBC"></i>
             </form>
           </div>
-          <div class="item">under scenario</div>
+          <div id="chart-text-under-scenario" class="item">under scenario</div>
           <div class="item">
             <form [formGroup]="projectionFoodFormGroup">
               <mat-form-field appearance="fill">
