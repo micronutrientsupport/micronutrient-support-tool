@@ -1,0 +1,19 @@
+@import 'src/assets/scss/_colour';
+
+.container {
+  display: flex;
+  margin-bottom: 10px;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  flex-flow: row wrap;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 920px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -6,6 +6,7 @@ import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 export enum GridsterSource {
   BASELINE,
   PROJECTION,
+  DIETARY_CHANGE,
 }
 
 export enum GridsterWidgets {
@@ -15,6 +16,7 @@ export enum GridsterWidgets {
   BASELINE_CHART = 'widgetChart',
   PROJ_AVAILABILITY = 'widgetProjAvail',
   PROJ_FOOD_SOURCE = 'widgetProjFoodSources',
+  DIET_CHANGE_COMPARISON = 'widgetDietChangeComparison',
 }
 
 @Injectable()
