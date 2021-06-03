@@ -10,6 +10,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { DescriptionComponent } from './components/description/description.component';
 import { OptionsComponent } from './components/options/options.component';
 import { ComparisonCardComponent } from './components/comparisonCard/comparisonCard.component';
+import { DietaryChangeService } from './dietaryChange.service';
 
 @NgModule({
   declarations: [DietaryChangeComponent, DescriptionComponent, OptionsComponent, ComparisonCardComponent],
@@ -22,7 +23,7 @@ import { ComparisonCardComponent } from './components/comparisonCard/comparisonC
     ComponentsModule,
     DialogModule,
   ],
-  providers: [],
+  providers: [DietaryChangeService],
   exports: [DietaryChangeComponent],
 })
 export class DietaryChangeModule {}
