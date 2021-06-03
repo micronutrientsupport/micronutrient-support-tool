@@ -11,7 +11,7 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
   styleUrls: ['./dietaryChangeOptions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DietaryChangeOptionsComponent {
+export class OptionsComponent {
   public loading: boolean;
 
   public ROUTES = AppRoutes;

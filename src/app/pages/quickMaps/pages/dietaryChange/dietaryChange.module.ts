@@ -4,20 +4,15 @@ import { AppMaterialModule } from 'src/app/app-material.module';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { DietaryChangeComponent } from './dietaryChange.component';
 import { DietaryChangeComponentsModule } from './components/dietaryChangeComponents.module';
-import { DietaryChangeDescriptionComponent } from './components/dietaryChangeDescription/dietaryChangeDescription.component';
 import { GridsterModule } from 'angular-gridster2';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { DietaryChangeOptionsComponent } from './components/dietaryChangeOptions/dietaryChangeOptions.component';
-import { DietaryChangeComparisonCardComponent } from './components/dietaryChangeComparisonCard/dietaryChangeComparisonCard.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
+import { DescriptionComponent } from './components/description/dietaryChangeDescription.component';
+import { OptionsComponent } from './components/options/dietaryChangeOptions.component';
+import { ComparisonCardComponent } from './components/comparisonCard/dietaryChangeComparisonCard.component';
 
 @NgModule({
-  declarations: [
-    DietaryChangeComponent,
-    DietaryChangeDescriptionComponent,
-    DietaryChangeOptionsComponent,
-    DietaryChangeComparisonCardComponent,
-  ],
+  declarations: [DietaryChangeComponent, DescriptionComponent, OptionsComponent, ComparisonCardComponent],
   imports: [
     CommonModule,
     AppMaterialModule,

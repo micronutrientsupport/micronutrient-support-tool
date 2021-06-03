@@ -25,7 +25,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
   styleUrls: ['../../../expandableTabGroup.scss', './dietaryChangeComparisonCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DietaryChangeComparisonCardComponent implements AfterViewInit {
+export class ComparisonCardComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -89,7 +89,7 @@ export class DietaryChangeComparisonCardComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<unknown>(DietaryChangeComparisonCardComponent, {
+    void this.dialogService.openDialogForComponent<unknown>(ComparisonCardComponent, {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });

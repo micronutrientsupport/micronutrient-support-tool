@@ -9,12 +9,12 @@ import { MatSelectChange } from '@angular/material/select';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 @Component({
-  selector: 'app-dietary-change-desc',
+  selector: 'app-dc-description',
   templateUrl: './dietaryChangeDescription.component.html',
   styleUrls: ['./dietaryChangeDescription.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DietaryChangeDescriptionComponent implements OnInit {
+export class DescriptionComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
