@@ -10,8 +10,8 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 @Component({
   selector: 'app-dc-description',
-  templateUrl: './dietaryChangeDescription.component.html',
-  styleUrls: ['./dietaryChangeDescription.component.scss'],
+  templateUrl: './description.component.html',
+  styleUrls: ['./description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DescriptionComponent implements OnInit {

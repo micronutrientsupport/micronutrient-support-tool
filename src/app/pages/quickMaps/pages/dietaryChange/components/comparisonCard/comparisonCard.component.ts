@@ -21,8 +21,8 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-dc-comparison-card',
-  templateUrl: './dietaryChangeComparisonCard.component.html',
-  styleUrls: ['../../../expandableTabGroup.scss', './dietaryChangeComparisonCard.component.scss'],
+  templateUrl: './comparisonCard.component.html',
+  styleUrls: ['../../../expandableTabGroup.scss', './comparisonCard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComparisonCardComponent implements AfterViewInit {

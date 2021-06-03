@@ -7,8 +7,8 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-dc-options',
-  templateUrl: './dietaryChangeOptions.component.html',
-  styleUrls: ['./dietaryChangeOptions.component.scss'],
+  templateUrl: './options.component.html',
+  styleUrls: ['./options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionsComponent {
