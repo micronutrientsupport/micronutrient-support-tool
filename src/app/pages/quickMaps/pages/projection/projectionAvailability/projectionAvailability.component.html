@@ -9,8 +9,8 @@
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
         <div class="heading">
-          <h2>{{ headingText }} availability</h2>
-          <h4>The data shows the projected MN availability per person {{selectedTimeScale}} {{ subtHeadingText }}</h4>
+          <h2>Projected {{ micronutrientName | lowercase }} availability to 2050</h2>
+          <h4>The data shows the projected {{ micronutrientName | lowercase }} availability per capita per day</h4>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>
 
