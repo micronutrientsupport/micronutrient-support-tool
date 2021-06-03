@@ -134,7 +134,6 @@ export class FoodItemsComponent implements AfterViewInit {
   }
 
   private initTreemap(data: Array<TopFoodSource>): void {
-    console.debug(data);
     const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
