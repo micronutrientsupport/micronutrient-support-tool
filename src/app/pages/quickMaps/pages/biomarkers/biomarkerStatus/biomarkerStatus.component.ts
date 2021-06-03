@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -41,6 +42,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -686,23 +688,38 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       });
   }
 
+  // private initialiseMap(mapElement: HTMLElement): L.Map {
+  //   const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
+  //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  //   }).addTo(map);
+  //   return map;
+  // }
+
   private initialiseMap(mapElement: HTMLElement): L.Map {
-    const map = L.map(mapElement, {}).setView([6.6194073, 20.9367017], 3);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-    return map;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return new LeafletMapHelper()
+      .createMap(mapElement)
+      .setDefaultBaseLayer()
+      .setDefaultControls(() => this.areaBounds)
+      .getMap();
   }
+  // private triggerFitBounds(tabIndex: number): void {
+  //   this.tabVisited.set(tabIndex, true);
+  //   switch (tabIndex) {
+  //     case 0:
+  //       this.absoluteMap.fitBounds(this.areaBounds);
+  //       break;
+  //     case 1:
+  //       // this.thresholdMap.fitBounds(this.areaBounds);
+  //       break;
+  //   }
+  // }
 
   private triggerFitBounds(tabIndex: number): void {
     this.tabVisited.set(tabIndex, true);
-    switch (tabIndex) {
-      case 0:
-        this.absoluteMap.fitBounds(this.areaBounds);
-        break;
-      case 1:
-        // this.thresholdMap.fitBounds(this.areaBounds);
-        break;
+    if (tabIndex === 0) {
+      this.absoluteMap.fitBounds(this.areaBounds);
     }
   }
 
