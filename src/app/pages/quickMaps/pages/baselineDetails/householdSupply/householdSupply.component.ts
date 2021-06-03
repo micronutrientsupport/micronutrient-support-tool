@@ -107,6 +107,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         }
 
         this.dataSource = new MatTableDataSource(data.data);
+        // console.debug('data:', this.dataSource.data);
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:

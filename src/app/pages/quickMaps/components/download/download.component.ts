@@ -1,4 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { biomarkerInfo } from 'src/app/apiAndObjects/objects/biomarkerInfo';
+import { HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
+
+import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
+import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAvailability';
+import { ProjectedFoodSourcesData } from 'src/app/apiAndObjects/objects/projectedFoodSources';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
+import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 
 import { ExportService } from 'src/app/services/export.service';
 @Component({
@@ -11,7 +19,15 @@ export class DownloadComponent implements OnInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
   // users = [];
-  @Input() csvObject: Array<any>;
+  @Input() csvObject: Array<
+    | MonthlyFoodGroup
+    | HouseholdHistogramData
+    | ProjectedAvailability
+    | ProjectedFoodSourcesData
+    | biomarkerInfo
+    | SubRegionDataItem
+    | TopFoodSource
+  >;
 
   constructor(private exportService: ExportService) {}
 
@@ -44,3 +60,20 @@ export class DownloadComponent implements OnInit {
     this.exportService.exportToCsv(this.csvObject);
   }
 }
+
+// export const downloadObject = new DownloadObject();
+// // | HouseholdHistogramData()
+// // | ProjectedAvailability()
+// // | ProjectedFoodSourcesData()
+// // | biomarkerInfo()
+// // | SubRegionDataItem();
+
+// export interface DownloadObject {
+//   downloadObject:
+//     | MonthlyFoodGroup
+//     | HouseholdHistogramData
+//     | ProjectedAvailability
+//     | ProjectedFoodSourcesData
+//     | biomarkerInfo
+//     | SubRegionDataItem;
+// }

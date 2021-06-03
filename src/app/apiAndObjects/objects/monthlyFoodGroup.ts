@@ -1,6 +1,5 @@
 export class MonthlyFoodGroup {
-
-  private constructor(
+  constructor(
     public readonly month: string,
     public readonly monthIndex: number,
     public readonly supplyTotal: number,
@@ -15,13 +14,9 @@ export class MonthlyFoodGroup {
     public readonly fatPerc: number,
     public readonly miscPerc: number,
     public readonly unitPerc: number,
-  ) { }
+  ) {}
 
-  public static makeFromObject(
-    month: string,
-    monthIndex: number,
-    obj: Record<string, unknown>,
-  ): MonthlyFoodGroup {
+  public static makeFromObject(month: string, monthIndex: number, obj: Record<string, unknown>): MonthlyFoodGroup {
     return new MonthlyFoodGroup(
       this.uppercaseFirst(month),
       monthIndex,
@@ -41,8 +36,6 @@ export class MonthlyFoodGroup {
   }
 
   private static uppercaseFirst(value: string): string {
-    return (typeof value !== 'string')
-      ? ''
-      : value.charAt(0).toUpperCase() + value.slice(1);
+    return typeof value !== 'string' ? '' : value.charAt(0).toUpperCase() + value.slice(1);
   }
 }

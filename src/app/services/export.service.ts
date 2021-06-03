@@ -6,6 +6,13 @@
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
+import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
+import { biomarkerInfo } from '../apiAndObjects/objects/biomarkerInfo';
+import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
+import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
+import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
+import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
+import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 const CSV_EXTENSION = '.csv';
 const CSV_TYPE = 'text/plain;charset=utf-8';
@@ -55,7 +62,17 @@ export class ExportService {
   // }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  public exportToCsv(details: object[]): void {
+  public exportToCsv(
+    details: Array<
+      | MonthlyFoodGroup
+      | TopFoodSource
+      | HouseholdHistogramData
+      | ProjectedAvailability
+      | ProjectedFoodSourcesData
+      | biomarkerInfo
+      | SubRegionDataItem
+    >,
+  ): void {
     // const exportObjectArray = new Array<ExportObject>();
     // exportObjectArray.push({
     //   clientSampleLabID: 'Lab Sample ID',
