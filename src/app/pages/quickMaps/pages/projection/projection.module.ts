@@ -14,6 +14,7 @@ import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projecti
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.
     ComponentsModule,
     DialogModule,
     QuickMapsComponentsModule,
+    PipesModule,
   ],
 })
 export class ProjectionModule {}

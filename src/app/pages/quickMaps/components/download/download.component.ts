@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
 import { biomarkerInfo } from 'src/app/apiAndObjects/objects/biomarkerInfo';
 import { HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 
@@ -9,16 +9,17 @@ import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataIt
 import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 
 import { ExportService } from 'src/app/services/export.service';
+
+import { Clipboard } from '@angular/cdk/clipboard';
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['../../pages/expandableTabGroup.scss', './download.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DownloadComponent implements OnInit {
+export class DownloadComponent implements AfterViewInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
-  // users = [];
   @Input() csvObject: Array<
     | MonthlyFoodGroup
     | HouseholdHistogramData
@@ -29,51 +30,45 @@ export class DownloadComponent implements OnInit {
     | TopFoodSource
   >;
 
-  constructor(private exportService: ExportService) {}
+  public year = new Date().getFullYear();
+  public date = new Date();
+  public formattedDate = this.date
+    .toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+    .replace(/ /g, ' ');
 
-  ngOnInit(): void {
-    // this.users = [
-    //   {
-    //     id: 1,
-    //     firstName: 'Mark',
-    //     lastName: 'Otto',
-    //     handle: '@mdo',
-    //   },
-    //   {
-    //     id: 2,
-    //     firstName: 'Jacob',
-    //     lastName: 'Thornton',
-    //     handle: '@fat',
-    //   },
-    //   {
-    //     id: 3,
-    //     firstName: 'Larry',
-    //     lastName: 'the Bird',
-    //     handle: '@twitter',
-    //   },
-    // ];
-  }
-  // exportToCsv(): void {
-  //   this.exportService.exportToCsv(this.csvObject, 'user-data', ['id', 'firstName', 'lastName', 'handle']);
-  // }
+  public copyPlainText =
+    'MAPS' +
+    `(${this.year})` +
+    ' The Micronutrient Action Policy Support (MAPS) Tool project. https://tool.micronutrient.support/ Accessed: ' +
+    `${this.formattedDate}`;
+
+  public copyBibTex =
+    '@misc{MAPS' +
+    `(${this.year})` +
+    '\n' +
+    'author = {{The Micronutrient Action Policy Support (MAPS) Tool project}},' +
+    '\n' +
+    'title = {The Micronutrient Action Policy Support (MAPS) Tool project},' +
+    '\n' +
+    'year = {2021},' +
+    '\n' +
+    'note = {[Online; accessed ' +
+    `${this.formattedDate}` +
+    ']},' +
+    '\n' +
+    'url = {https://tool.micronutrient.support/}' +
+    '\n' +
+    '}';
+
+  constructor(private clipboard: Clipboard, private exportService: ExportService) {}
+
+  ngAfterViewInit(): void {}
+
   exportToCsv(): void {
     this.exportService.exportToCsv(this.csvObject);
   }
 }
-
-// export const downloadObject = new DownloadObject();
-// // | HouseholdHistogramData()
-// // | ProjectedAvailability()
-// // | ProjectedFoodSourcesData()
-// // | biomarkerInfo()
-// // | SubRegionDataItem();
-
-// export interface DownloadObject {
-//   downloadObject:
-//     | MonthlyFoodGroup
-//     | HouseholdHistogramData
-//     | ProjectedAvailability
-//     | ProjectedFoodSourcesData
-//     | biomarkerInfo
-//     | SubRegionDataItem;
-// }
