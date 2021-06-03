@@ -45,44 +45,12 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public subtHeadingText = '';
   public selectedTimeScale: string;
   public micronutrientName = '';
+  public micronutrientId = '';
   public mnUnit = '';
   public projectionsSummary: ProjectionsSummary;
   public dataSource: MatTableDataSource<ProjectedAvailability>;
-
-  public displayedColumns: string[] = [
-    'country',
-    'year',
-    'scenario',
-    'ca',
-    'caDiff',
-    'b9',
-    'b9Diff',
-    'fe',
-    'feDiff',
-    'mg',
-    'mgDiff',
-    'b3',
-    'b3Diff',
-    'p',
-    'pDiff',
-    'k',
-    'kDiff',
-    'protein',
-    'proteinDiff',
-    'b2',
-    'b2Diff',
-    'b1',
-    'b1Diff',
-    'a',
-    'aDiff',
-    'b6',
-    'b6Diff',
-    'c',
-    'cDiff',
-    'zn',
-    'znDiff',
-  ];
-
+  public columns = [];
+  public displayedColumns = [];
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
@@ -122,6 +90,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.micronutrientName = this.quickMapsService.micronutrient.name;
+          this.micronutrientId = this.quickMapsService.micronutrient.id;
           this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
           this.card.title = this.title;
           this.init(
@@ -186,6 +155,27 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
 
   private initialiseTable(data: Array<ProjectedAvailability>): void {
+    this.columns = [
+      { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => `${element.country}` },
+      { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => `${element.year}` },
+      { columnDef: 'scenario', header: 'Scenario', cell: (element: ProjectedAvailability) => `${element.scenario}` },
+      {
+        columnDef: this.micronutrientId.toLowerCase(),
+        header: this.micronutrientId.toLowerCase() + ' Availability',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        cell: (element: ProjectedAvailability) => element[this.micronutrientId.toLowerCase()],
+      },
+      {
+        columnDef: this.micronutrientId.toLowerCase() + 'Diff',
+        header: '% Difference from previous year',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands
+        cell: (element: ProjectedAvailability) => element[this.micronutrientId.toLowerCase() + 'Diff'],
+      },
+    ];
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+    this.displayedColumns = this.columns.map((c) => c.columnDef);
+
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
   }
