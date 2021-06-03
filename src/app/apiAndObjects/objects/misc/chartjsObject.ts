@@ -82,8 +82,8 @@ export interface ChartJSObject {
     };
     tooltips?: {
       callbacks?: {
-        title: () => string;
-        label: (item: ChartTooltipItem, result: ChartData) => string;
+        title?: () => string;
+        label?: (item: ChartTooltipItem, result: ChartData) => string;
       };
     };
   };

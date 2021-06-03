@@ -45,8 +45,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
   public mineralData: Array<number>;
+  public selectedBinSize = '25';
 
-  private selectedBinSize = '25';
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
@@ -94,7 +94,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private createBins(): void {
+  public createBins(): void {
     // Set bins
     const arr = this.mineralData;
     if (null != arr) {

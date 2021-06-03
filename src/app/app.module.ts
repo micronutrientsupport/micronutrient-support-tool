@@ -9,6 +9,7 @@ import { ServicesModule } from './services/services.module';
 import { ApiModule } from './apiAndObjects/api.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,15 +21,16 @@ import { environment } from '../environments/environment';
     ComponentsModule,
     ApiModule,
     ServicesModule,
+    ClipboardModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   exports: [],
   providers: [Title, Meta],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -126,7 +126,7 @@ export class ProjectionComponent implements OnInit {
     });
   }
 
-  public layoutChange(id: number): void {
+  public layoutChange(id: string | number): void {
     switch (id) {
       case GridsterLayoutOptions.DEFAULT_VIEW: {
         this.dashboard = this.gridsterService.resetGrid(
