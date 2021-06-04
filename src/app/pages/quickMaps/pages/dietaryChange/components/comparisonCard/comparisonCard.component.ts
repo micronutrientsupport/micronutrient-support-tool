@@ -17,8 +17,11 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { DietaryChangeService } from '../../dietaryChange.service';
+import { ChangeItemsType } from '../../dietaryChange.item';
+import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 
-@Unsubscriber('subscriptions')
+@Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
   selector: 'app-dc-comparison-card',
   templateUrl: './comparisonCard.component.html',
@@ -34,17 +37,23 @@ export class ComparisonCardComponent implements AfterViewInit {
   public title = '';
   public selectedTab: number;
 
+  // temp set to the change items to display something
+  public modeDisplay: DietaryChangeMode;
+  public tempDisplay: ChangeItemsType;
+
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
-  private data: unknown;
+  private data: unknown; // TODO: update this type when we know it!
 
   private subscriptions = new Array<Subscription>();
+  private changeItemSubscriptions = new Array<Subscription>();
 
   constructor(
-    private quickMapsService: QuickMapsService,
-    private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
+    private dialogService: DialogService,
+    private quickMapsService: QuickMapsService,
+    private dietaryChangeService: DietaryChangeService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<DietaryChangeComparisonCardDialogData>,
   ) {}
 
@@ -62,6 +71,18 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.title = `${this.quickMapsService.micronutrient.name} comparison - ${this.quickMapsService.ageGenderGroup.name}`;
         }),
       );
+      // respond to quickmaps parameter updates
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.updateData();
+        }),
+      );
+      // respond to dietary change parameters updates
+      this.subscriptions.push(
+        this.dietaryChangeService.changeItemsObs.subscribe(() => {
+          this.refreshItemSubscriptions();
+        }),
+      );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
@@ -71,8 +92,23 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
 
   public navigateToInfoTab(): void {
-    this.selectedTab = 3;
+    this.selectedTab = 4;
     this.cdr.detectChanges();
+  }
+
+  // subscribes to those minor value changes,
+  // for if we don't need to call out for data, just update the display
+  private refreshItemSubscriptions(): void {
+    this.changeItemSubscriptions.forEach((subs) => {
+      if (null != subs) {
+        subs.unsubscribe();
+      }
+    });
+    this.changeItemSubscriptions = new Array<Subscription>();
+    this.dietaryChangeService.changeItems.forEach((item) => {
+      this.changeItemSubscriptions.push(item.changeValuesObs.subscribe(() => this.updateDisplay()));
+    });
+    this.updateDisplay();
   }
 
   private init(dataPromise: Promise<unknown>): void {
@@ -80,12 +116,27 @@ export class ComparisonCardComponent implements AfterViewInit {
     dataPromise
       .then((data: unknown) => {
         this.data = data;
+        this.updateDisplay();
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();
       });
+  }
+
+  // does a callout for new data?
+  private updateData(): void {
+    // console.debug('update data');
+    this.init(Promise.resolve(null));
+  }
+
+  // tweaks the display for new selected value?
+  private updateDisplay(): void {
+    this.modeDisplay = this.dietaryChangeService.mode;
+    this.tempDisplay = this.dietaryChangeService.changeItems;
+    // console.debug('updateDisplay', this.modeDisplay, this.tempDisplay);
+    this.cdr.detectChanges();
   }
 
   private openDialog(): void {
