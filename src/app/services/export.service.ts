@@ -44,6 +44,13 @@ export class ExportService {
       });
       // console.debug('csvData:', csvData);
     }
+    if (detailType instanceof ProjectedFoodSourcesData) {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      csvData = this.parser.unparse(detailType['data'], {
+        header: true,
+      });
+      // console.debug('csvData:', csvData);
+    }
 
     if (csvData != null) {
       let fileTitle = '';

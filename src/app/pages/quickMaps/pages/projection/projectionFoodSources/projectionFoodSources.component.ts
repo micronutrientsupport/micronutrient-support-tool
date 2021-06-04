@@ -88,10 +88,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   ];
   public chartPNG: string;
   public chartPDF: string;
-  // public csvDownloadData: Array<ProjectedFoodSourcesData> = [];
-  private sort: MatSort;
+  public csvDownloadData: Array<ProjectedFoodSourcesData> = [];
 
-  private data: Array<ProjectedFoodSourcesData>;
+  public data: Array<ProjectedFoodSourcesData>;
+  // private data: Array<ProjectedFoodSourcesData>;
+
+  private sort: MatSort;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -202,6 +204,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
+        //
+        this.dataSource = new MatTableDataSource(data);
+        // this.csvDownloadData.push(data);
         // Select current countries
         const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
           (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.country.id,
@@ -256,7 +261,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
         this.initialiseGraph(stackedChartData);
         this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
-        // this.csvDownloadData.push(data);
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
