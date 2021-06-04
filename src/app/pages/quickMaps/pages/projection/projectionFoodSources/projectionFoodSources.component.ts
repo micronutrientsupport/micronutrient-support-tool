@@ -314,7 +314,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
         tooltips: {
           callbacks: {
-            // title: () => 'Food Item',
             label: (item: ChartTooltipItem, result: ChartData) => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];

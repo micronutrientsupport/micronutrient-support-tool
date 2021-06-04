@@ -4,6 +4,7 @@ import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
+import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
@@ -54,6 +55,18 @@ const routes: Routes = [
         canActivate: [QuickMapsRouteGuardService],
       },
       {
+        path: AppRoutes.QUICK_MAPS_DIETARY_CHANGE.getRouterPath(),
+        component: DietaryChangeComponent,
+        data: {
+          appRoute: AppRoutes.QUICK_MAPS_DIETARY_CHANGE,
+          title: 'Quick MAPS - Simple dietary change scenarios',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+        canActivate: [QuickMapsRouteGuardService],
+      },
+      {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
         component: BiomarkerComponent,
         data: {
@@ -77,4 +90,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class QuickMapsRoutingModule { }
+export class QuickMapsRoutingModule {}
