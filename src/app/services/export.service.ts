@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
-import * as FileSaver from 'file-saver';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { biomarkerInfo } from '../apiAndObjects/objects/biomarkerInfo';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
@@ -13,7 +12,6 @@ import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFood
 import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-import { stubTrue } from 'cypress/types/lodash';
 
 // const CSV_EXTENSION = '.csv';
 // const CSV_TYPE = 'text/plain;charset=utf-8';
@@ -33,35 +31,46 @@ export class ExportService {
       | SubRegionDataItem
     >,
   ): void {
-    const csvData = this.parser.unparse(details, {
+    const detailType = details.pop();
+    let csvData;
+    csvData = this.parser.unparse(details, {
       header: true,
     });
 
+    if (detailType instanceof HouseholdHistogramData) {
+      // eslint-disable-next-line @typescript-eslint/dot-notation
+      csvData = this.parser.unparse(detailType['data'], {
+        header: true,
+      });
+      // console.debug('csvData:', csvData);
+    }
+
     if (csvData != null) {
-      const detailType = details.pop();
       let fileTitle = '';
       switch (true) {
         case detailType instanceof MonthlyFoodGroup:
-          fileTitle = 'MonthlyFoodGroup';
+          fileTitle = 'MonthlyFoodData';
           break;
         case detailType instanceof TopFoodSource:
-          fileTitle = 'TopFoodSource';
+          fileTitle = 'Top20FoodItemsData';
           break;
         case detailType instanceof HouseholdHistogramData:
-          fileTitle = 'HouseholdHistogramData';
+          fileTitle = 'HouseholdDietarySupplyData';
           break;
         case detailType instanceof ProjectedAvailability:
-          fileTitle = 'ProjectedAvailability';
+          fileTitle = 'ProjectedAvailabilityData';
           break;
         case detailType instanceof ProjectedFoodSourcesData:
-          fileTitle = 'ProjectedFoodSourcesData';
+          fileTitle = 'ProjectionFoodSourcesData';
           break;
         case detailType instanceof biomarkerInfo:
-          fileTitle = 'biomarkerInfo';
+          fileTitle = 'BiomarkerInfoData';
           break;
         case detailType instanceof SubRegionDataItem:
-          fileTitle = 'SubRegionDataItem';
+          fileTitle = 'MapViewData';
           break;
+        default:
+          fileTitle = 'MapsDataDownload';
       }
 
       const a = document.createElement('a');

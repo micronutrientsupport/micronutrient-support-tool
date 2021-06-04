@@ -88,8 +88,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   ];
   public chartPNG: string;
   public chartPDF: string;
-
+  // public csvDownloadData: Array<ProjectedFoodSourcesData> = [];
   private sort: MatSort;
+
   private data: Array<ProjectedFoodSourcesData>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -255,6 +256,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
         this.initialiseGraph(stackedChartData);
         this.initialiseTable(filteredTableDataArray, this.projectionFoodFormGroup.get('year').value);
+        // this.csvDownloadData.push(data);
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {

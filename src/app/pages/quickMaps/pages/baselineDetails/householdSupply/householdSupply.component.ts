@@ -48,6 +48,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedNutrientUnit = '';
 
+  public csvDownloadData: Array<HouseholdHistogramData> = [];
+
   private data: HouseholdHistogramData;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -114,7 +116,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         if (null == data) {
           throw new Error('data error');
         }
-
         this.dataSource = new MatTableDataSource(data.data);
         // console.debug('data:', this.dataSource.data);
         this.errorSrc.next(false);
@@ -127,6 +128,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.dataSource.sort = this.sort;
 
         this.initialiseGraph(data);
+        this.csvDownloadData.push(data);
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
