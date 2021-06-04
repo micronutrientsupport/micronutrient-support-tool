@@ -87,6 +87,11 @@ export class AppRoutes {
     segments: 'projection',
     parent: AppRoutes.QUICK_MAPS_DIET,
   };
+  public static readonly QUICK_MAPS_DIETARY_CHANGE = {
+    ...BASE_ROUTE,
+    segments: 'dietary-change',
+    parent: AppRoutes.QUICK_MAPS_DIET,
+  };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,
     segments: 'biomarker',
@@ -135,13 +140,12 @@ export const getRouterPath = (route: AppRoute): string => {
   // always first route
   pathSegments.push(route.segments);
   // stop if parent is null or parent is the root of a (sub)router
-  while ((null != route.parent) && (!route.parent.routerRoot)) {
+  while (null != route.parent && !route.parent.routerRoot) {
     pathSegments.push(route.parent.segments);
     route = route.parent;
   }
   return pathSegments.reverse().join('/');
 };
-
 
 export const getDescendents = (route: AppRoute): Array<AppRoute> => {
   const descendents = new Array<AppRoute>();
@@ -152,7 +156,8 @@ export const getDescendents = (route: AppRoute): Array<AppRoute> => {
   return descendents;
 };
 
-export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean => route.getDescendents().includes(parentTest);
+export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean =>
+  route.getDescendents().includes(parentTest);
 
 // Needs work
 // export const routeFromPath = (path: string): AppRoute => {
@@ -163,4 +168,3 @@ export const hasDescendent = (route: AppRoute, parentTest: AppRoute): boolean =>
 //   });
 //   return AppRoutes[routeKey];
 // };
-
