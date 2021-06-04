@@ -11,16 +11,16 @@ import { ProjectionComponent } from './projection.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { ProjectionAvailabilityComponent } from './projectionAvailability/projectionAvailability.component';
 import { ProjectionFoodSourcesComponent } from './projectionFoodSources/projectionFoodSources.component';
-import { ProjectionEstimateComponent } from './projectionEstimate/projectionEstimate.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
+import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
     ProjectionComponent,
     ProjectionAvailabilityComponent,
     ProjectionFoodSourcesComponent,
-    ProjectionEstimateComponent,
     ProjectionDescriptionComponent,
   ],
   imports: [
@@ -34,6 +34,8 @@ import { ProjectionDescriptionComponent } from './projectionDescription/projecti
     GridsterModule,
     ComponentsModule,
     DialogModule,
+    QuickMapsComponentsModule,
+    PipesModule,
   ],
 })
 export class ProjectionModule {}

@@ -11,7 +11,7 @@ import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { ProjectionsSummaryCard } from '../apiAndObjects/objects/projectionsSummaryCard';
+import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 
@@ -36,18 +36,20 @@ export class CurrentDataService {
     return new Promise((resolve) => {
       // no point in calling API if parameters selections aren't valid
       if (
-        null == countryOrGroup
-        || null == measureType
-        || (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
+        null == countryOrGroup ||
+        null == measureType ||
+        (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
       ) {
         resolve([]); // no data sources
       } else {
-        resolve(this.apiService.endpoints.currentData.getDataSources.call({
-          countryOrGroup,
-          measureType,
-          ageGenderGroup,
-          singleOptionOnly,
-        }));
+        resolve(
+          this.apiService.endpoints.currentData.getDataSources.call({
+            countryOrGroup,
+            measureType,
+            ageGenderGroup,
+            singleOptionOnly,
+          }),
+        );
       }
     });
   }
@@ -142,13 +144,13 @@ export class CurrentDataService {
     });
   }
 
-  public getProjectionsSummaryCardData(
+  public getProjectionSummary(
     countryOrGroupId: string,
     micronutrient: MicronutrientDictionaryItem,
     scenarioId: string,
-  ): Promise<Array<ProjectionsSummaryCard>> {
+  ): Promise<ProjectionsSummary> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.apiService.endpoints.currentData.getProjectionsSummaryCardData.call({
+    return this.apiService.endpoints.currentData.getProjectionSummary.call({
       countryOrGroupId,
       micronutrientId: micronutrient.id,
       scenarioId,

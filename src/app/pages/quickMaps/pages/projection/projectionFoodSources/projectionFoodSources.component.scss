@@ -2,17 +2,14 @@
 
 .container {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
   justify-content: center;
   align-items: baseline;
-  height: auto !important;
-  padding-left: 10px;
-  padding-right: 10px;
+  height: 60px !important;
 
   .item {
     flex-grow: 1;
     text-align: center;
-    margin: 5px;
 
     &.wideItem {
       flex-grow: 2;
@@ -29,4 +26,40 @@
   max-width: 300px;
   max-height: 200px;
   object-fit: fill;
+}
+
+.chartInput {
+  height: fit-content;
+  background-color: yellow;
+}
+.panelInput {
+  position: absolute !important;
+  height: 60px !important;
+  width: 100% !important;
+}
+.panelChart {
+  position: absolute !important;
+  height: calc(100% - 60px) !important;
+  min-height: 200px !important;
+  top: 60px !important;
+  bottom: 0px !important;
+  left: 0px !important;
+  right: 0px !important;
+}
+
+@media screen and (max-width: 1000px) {
+  #chart-text-grouped-by {
+    display: none;
+  }
+  #chart-text-under-scenario {
+    display: none;
+  }
+}
+@media screen and (max-width: 1200px) {
+  #chart-text-grouped-by {
+    font-size: 11px;
+  }
+  #chart-text-under-scenario {
+    font-size: 11px;
+  }
 }

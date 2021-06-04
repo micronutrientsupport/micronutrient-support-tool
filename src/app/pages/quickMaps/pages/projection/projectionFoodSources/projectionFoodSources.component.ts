@@ -33,11 +33,15 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './projectionFoodSources.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SignificantFiguresPipe],
 })
 export class ProjectionFoodSourcesComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -54,6 +58,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public selectedTab: number;
   public micronutrientsDictionary: Dictionary;
   public micronutrientName = '';
+  public mnUnit = '';
   public chartData: ChartJSObject;
   public displayedColumns = ['foodName', 'value'];
   public dataSource = new MatTableDataSource();
@@ -63,6 +68,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     { id: 'commodity', name: 'commodity' },
     { id: 'foodGroup', name: 'food group' },
   ];
+  public selectedGroup = 'commodity';
   public scenarioOptions = [
     { id: 'SSP1', name: 'SSP1' },
     { id: 'SSP2', name: 'SSP2' },
@@ -99,12 +105,13 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private miscApiService: MiscApiService,
     private qcService: QuickchartService,
     private fb: FormBuilder,
+    private sigFig: SignificantFiguresPipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
   ) {
     this.projectionFoodFormGroup = this.fb.group({
       groupedBy: 'commodity',
       scenario: 'SSP1',
-      year: '2005',
+      year: 1,
     });
     this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe(() => {
       if (this.currentImpactScenario) {
@@ -125,6 +132,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+    // eslint-disable-next-line max-len
+    this.subscriptions.push(
+      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
+      }),
+    );
 
     void this.miscApiService
       .getImpactScenarios()
@@ -158,6 +171,17 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public navigateToInfoTab(): void {
     this.selectedTab = 3;
     this.cdr.detectChanges();
+  }
+
+  public changeSelectedGroup(value: string): void {
+    switch (value) {
+      case 'commodity':
+        this.selectedGroup = 'Commodity';
+        break;
+      case 'foodGroup':
+        this.selectedGroup = 'Food Group';
+        break;
+    }
   }
 
   private init(): void {
@@ -277,10 +301,25 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
               stacked: true,
               scaleLabel: {
                 display: true,
-                labelString: 'value',
+                labelString: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
               },
             },
           ],
+        },
+        tooltips: {
+          callbacks: {
+            // title: () => 'Food Item',
+            label: (item: ChartTooltipItem, result: ChartData) => {
+              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+              const label: string = dataset.label;
+              const value: number = dataItem as number;
+              const sigFigLength = Math.ceil(Math.log10(value + 1));
+              const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+              return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+            },
+          },
         },
       },
     };

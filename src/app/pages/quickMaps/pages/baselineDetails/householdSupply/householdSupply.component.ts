@@ -23,6 +23,7 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Component({
   selector: 'app-household-supply',
@@ -44,6 +45,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public chartPDF: string;
   public displayedColumns = ['bin', 'frequency'];
   public dataSource = new MatTableDataSource();
+  public selectedNutrient = '';
+  public selectedNutrientUnit = '';
 
   private data: HouseholdHistogramData;
 
@@ -82,6 +85,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
               this.quickMapsService.dataSource,
             ),
           );
+        }),
+      );
+      this.subscriptions.push(
+        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+          this.selectedNutrient = micronutrient.name;
+          this.selectedNutrientUnit = micronutrient.unit;
         }),
       );
     } else if (null != this.dialogData) {
@@ -148,18 +157,27 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         },
         maintainAspectRatio: false,
         legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center',
+          display: false,
         },
+
         scales: {
           xAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: `${this.selectedNutrient} in ${this.selectedNutrientUnit}/capita/day`,
+              },
               display: true,
+              id: 'x-axis-0',
             },
           ],
           yAxes: [
             {
+              scaleLabel: {
+                display: true,
+                labelString: 'Count',
+              },
+
               display: true,
               id: 'y-axis-0',
             },
@@ -169,9 +187,9 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'hLine',
-              mode: 'horizontal',
-              scaleID: 'y-axis-0',
+              id: 'vLine',
+              mode: 'vertical',
+              scaleID: 'x-axis-0',
               value: Number(data.adequacyThreshold), // data-value at which the line is drawn
               borderWidth: 2.5,
               borderColor: 'black',
