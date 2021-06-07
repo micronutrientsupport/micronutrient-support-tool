@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
+import { MapComponent } from './comparisonCard/map/map.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    MapComponent
+  ],
   imports: [],
   providers: [],
 })
