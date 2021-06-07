@@ -42,48 +42,48 @@ export class ExportService {
           return object;
         }
       });
+
       csvData = this.parser.unparse(sourceObjectChecked, {
         header: true,
       });
-
-      if (csvData != null) {
-        let fileTitle = '';
-        switch (true) {
-          case detailType instanceof MonthlyFoodGroup:
-            fileTitle = 'MonthlyFoodData';
-            break;
-          case detailType instanceof TopFoodSource:
-            fileTitle = 'Top20FoodItemsData';
-            break;
-          case detailType instanceof HouseholdHistogramData:
-            fileTitle = 'HouseholdDietarySupplyData';
-            break;
-          case detailType instanceof ProjectedAvailability:
-            fileTitle = 'ProjectedAvailabilityData';
-            break;
-          case detailType instanceof ProjectedFoodSourcesData:
-            fileTitle = 'ProjectionFoodSourcesData';
-            break;
-          case detailType instanceof biomarkerInfo:
-            fileTitle = 'BiomarkerInfoData';
-            break;
-          case detailType instanceof SubRegionDataItem:
-            fileTitle = 'MapViewData';
-            break;
-          default:
-            fileTitle = 'MapsDataDownload';
-        }
-
-        const a = document.createElement('a');
-        const blob = new Blob([csvData], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-
-        a.href = url;
-        a.download = `${fileTitle}.csv`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
+    }
+    if (csvData != null) {
+      let fileTitle = '';
+      switch (true) {
+        case detailType instanceof MonthlyFoodGroup:
+          fileTitle = 'MonthlyFoodData';
+          break;
+        case detailType instanceof TopFoodSource:
+          fileTitle = 'Top20FoodItemsData';
+          break;
+        case detailType instanceof HouseholdHistogramData:
+          fileTitle = 'HouseholdDietarySupplyData';
+          break;
+        case detailType instanceof ProjectedAvailability:
+          fileTitle = 'ProjectedAvailabilityData';
+          break;
+        case detailType instanceof ProjectedFoodSourcesData:
+          fileTitle = 'ProjectionFoodSourcesData';
+          break;
+        case detailType instanceof biomarkerInfo:
+          fileTitle = 'BiomarkerInfoData';
+          break;
+        case detailType instanceof SubRegionDataItem:
+          fileTitle = 'MapViewData';
+          break;
+        default:
+          fileTitle = 'MapsDataDownload';
       }
+
+      const a = document.createElement('a');
+      const blob = new Blob([csvData], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+
+      a.href = url;
+      a.download = `${fileTitle}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
     }
   }
 }
