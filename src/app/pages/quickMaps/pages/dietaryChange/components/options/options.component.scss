@@ -61,13 +61,13 @@
     margin: 0em 0.5em;
   }
 }
-//
 
-mat-radio-button:checked + label {
+//set radio buttons to  primary colour and make label bold on selection
+::ng-deep .mat-radio-checked .mat-radio-label-content {
   font-weight: bold;
   color: $color_primary;
 }
-//
+
 ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle,
 .mat-radio-outer-circle {
   border-color: $color_primary !important;
@@ -76,11 +76,7 @@ mat-radio-button:checked + label {
 ::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
   background-color: $color_primary !important;
 }
-//
-input[type='radio']:checked + label {
-  font-weight: bold;
-  color: $color_primary;
-}
+
 .bold {
   font-weight: 700;
 }

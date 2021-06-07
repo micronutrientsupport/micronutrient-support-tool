@@ -3,17 +3,6 @@
   <ng-container *ngIf="!loading">
 
     <div>
-      <input type="radio" checked title="Composition change">
-      <label>Composition change</label>
-      <br>
-      <input type="radio" title="Consumption change">
-      <label>Consumption change</label>
-      <br>
-      <input type="radio" title="Food Item comparison">
-      <label>Food Item comparison</label>
-    </div>
-
-    <div>
       <mat-radio-button checked title="Composition change">
         <label>Composition change </label>
       </mat-radio-button>
@@ -33,11 +22,7 @@
         <br>
         <mat-form-field appearance="outline">
           <mat-label>Cereal/Grains</mat-label>
-          <mat-select>
-            <mat-option>
-
-            </mat-option>
-          </mat-select>
+          <input matInput>
         </mat-form-field>
 
       </div>
@@ -46,11 +31,7 @@
         <br>
         <mat-form-field appearance="outline">
           <mat-label>Wheat 1</mat-label>
-          <mat-select>
-            <mat-option>
-
-            </mat-option>
-          </mat-select>
+          <input matInput>
         </mat-form-field>
       </div>
       <div>
