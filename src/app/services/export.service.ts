@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
@@ -12,9 +8,6 @@ import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFood
 import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-
-// const CSV_EXTENSION = '.csv';
-// const CSV_TYPE = 'text/plain;charset=utf-8';
 
 @Injectable()
 export class ExportService {
@@ -32,63 +25,65 @@ export class ExportService {
     >,
   ): void {
     const detailType = details.pop();
-    let csvData;
-    csvData = this.parser.unparse(details, {
-      header: true,
-    });
+    let csvData: string;
 
     if (detailType instanceof HouseholdHistogramData) {
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      csvData = this.parser.unparse(detailType['data'], {
+      const hhd: HouseholdHistogramData = detailType;
+      const binValues = this.parser.unparse(hhd.data, {
         header: true,
       });
-      // console.debug('csvData:', csvData);
-    }
-    if (detailType instanceof ProjectedFoodSourcesData) {
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      csvData = this.parser.unparse(detailType['data'], {
+      csvData = `${binValues}, adequacyThreshold, ${hhd.adequacyThreshold}`;
+    } else {
+      const sourceObjectChecked = details.map((object) => {
+        if (null != object['_sourceObject']) {
+          delete object['_sourceObject'];
+          return object;
+        } else {
+          return object;
+        }
+      });
+      csvData = this.parser.unparse(sourceObjectChecked, {
         header: true,
       });
-      // console.debug('csvData:', csvData);
-    }
 
-    if (csvData != null) {
-      let fileTitle = '';
-      switch (true) {
-        case detailType instanceof MonthlyFoodGroup:
-          fileTitle = 'MonthlyFoodData';
-          break;
-        case detailType instanceof TopFoodSource:
-          fileTitle = 'Top20FoodItemsData';
-          break;
-        case detailType instanceof HouseholdHistogramData:
-          fileTitle = 'HouseholdDietarySupplyData';
-          break;
-        case detailType instanceof ProjectedAvailability:
-          fileTitle = 'ProjectedAvailabilityData';
-          break;
-        case detailType instanceof ProjectedFoodSourcesData:
-          fileTitle = 'ProjectionFoodSourcesData';
-          break;
-        case detailType instanceof biomarkerInfo:
-          fileTitle = 'BiomarkerInfoData';
-          break;
-        case detailType instanceof SubRegionDataItem:
-          fileTitle = 'MapViewData';
-          break;
-        default:
-          fileTitle = 'MapsDataDownload';
+      if (csvData != null) {
+        let fileTitle = '';
+        switch (true) {
+          case detailType instanceof MonthlyFoodGroup:
+            fileTitle = 'MonthlyFoodData';
+            break;
+          case detailType instanceof TopFoodSource:
+            fileTitle = 'Top20FoodItemsData';
+            break;
+          case detailType instanceof HouseholdHistogramData:
+            fileTitle = 'HouseholdDietarySupplyData';
+            break;
+          case detailType instanceof ProjectedAvailability:
+            fileTitle = 'ProjectedAvailabilityData';
+            break;
+          case detailType instanceof ProjectedFoodSourcesData:
+            fileTitle = 'ProjectionFoodSourcesData';
+            break;
+          case detailType instanceof biomarkerInfo:
+            fileTitle = 'BiomarkerInfoData';
+            break;
+          case detailType instanceof SubRegionDataItem:
+            fileTitle = 'MapViewData';
+            break;
+          default:
+            fileTitle = 'MapsDataDownload';
+        }
+
+        const a = document.createElement('a');
+        const blob = new Blob([csvData], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+
+        a.href = url;
+        a.download = `${fileTitle}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        a.remove();
       }
-
-      const a = document.createElement('a');
-      const blob = new Blob([csvData], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-
-      a.href = url;
-      a.download = `${fileTitle}.csv`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove();
     }
   }
 }
