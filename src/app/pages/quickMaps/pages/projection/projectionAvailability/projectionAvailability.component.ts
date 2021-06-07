@@ -21,7 +21,6 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
@@ -61,7 +60,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private readonly SCENARIO_ID = 'SSP2';
 
   constructor(
-    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -93,13 +91,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           this.micronutrientId = this.quickMapsService.micronutrient.id;
           this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
           this.card.title = this.title;
-          this.init(
-            this.currentDataService.getProjectedAvailabilities(
-              this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
-              this.quickMapsService.dataSource,
-            ),
-          );
+          this.init(this.currentDataService.getProjectedAvailabilities());
         }),
       );
     } else if (null != this.dialogData) {
