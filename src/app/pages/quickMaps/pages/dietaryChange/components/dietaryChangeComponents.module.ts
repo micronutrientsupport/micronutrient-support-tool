@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
-import { MapComponent } from './comparisonCard/map/map.component';
+import { ScenariosMapComponent } from './comparisonCard/scenariosMap/scenariosMap.component';
 
 @NgModule({
-  declarations: [
-    MapComponent
-  ],
+  declarations: [ScenariosMapComponent],
   imports: [],
   providers: [],
+  exports: [ScenariosMapComponent],
 })
 export class DietaryChangeComponentsModule {}

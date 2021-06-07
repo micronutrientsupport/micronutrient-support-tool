@@ -24,6 +24,6 @@ import { DietaryChangeService } from './dietaryChange.service';
     DialogModule,
   ],
   providers: [DietaryChangeService],
-  exports: [DietaryChangeComponent],
+  exports: [DietaryChangeComponent, ComparisonCardComponent],
 })
 export class DietaryChangeModule {}
