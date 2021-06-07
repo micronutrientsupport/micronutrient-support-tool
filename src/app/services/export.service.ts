@@ -32,17 +32,18 @@ export class ExportService {
     >,
   ): void {
     const detailType = details.pop();
-    let csvData;
+    let csvData: string;
     csvData = this.parser.unparse(details, {
       header: true,
     });
 
     if (detailType instanceof HouseholdHistogramData) {
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      csvData = this.parser.unparse(detailType['data'], {
+      const hhd: HouseholdHistogramData = detailType;
+      const binValues = this.parser.unparse(hhd.data, {
         header: true,
       });
-      // console.debug('csvData:', csvData);
+
+      csvData = `${binValues}, adequacyThreshold, ${hhd.adequacyThreshold}`;
     }
     if (detailType instanceof ProjectedFoodSourcesData) {
       // eslint-disable-next-line @typescript-eslint/dot-notation
