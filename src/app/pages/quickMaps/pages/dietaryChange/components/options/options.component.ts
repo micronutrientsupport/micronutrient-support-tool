@@ -9,6 +9,12 @@ import { CompositionChangeItem, ConsumptionChangeItem, FoodItemChangeItem } from
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
+import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
+import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -27,8 +33,10 @@ export class OptionsComponent {
 
   constructor(
     private cdr: ChangeDetectorRef,
+    public quickMapsService: QuickMapsService,
     public dietaryChangeService: DietaryChangeService,
     dictionaryService: DictionaryService,
+    private scenarioDataService: ScenarioDataService,
   ) {
     this.loading = true;
     void dictionaryService
@@ -39,8 +47,10 @@ export class OptionsComponent {
       .finally(() => {
         this.loading = false;
         cdr.markForCheck();
+        this.exampleValueChange();
+        this.exampleCurrentComposition();
+        this.exampleCurrentConsumption();
       });
-    this.exampleValueChange();
   }
 
   private exampleValueChange(): void {
@@ -69,5 +79,27 @@ export class OptionsComponent {
         consumptionChangeItem2.setChangeValue(consumptionChangeItem1.changeValue + 1);
       }, 500);
     }, 3000);
+  }
+
+  private exampleCurrentConsumption(): void {
+    void this.scenarioDataService
+      .getCurrentConsumption(
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+        this.quickMapsService.dataSource,
+      )
+      .then((item: CurrentConsumption) => {
+        console.log('CurrentConsumption item', item);
+      });
+  }
+
+  private exampleCurrentComposition(): void {
+    void this.scenarioDataService
+      .getCurrentComposition(
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+        this.quickMapsService.dataSource,
+      )
+      .then((item: CurrentComposition) => {
+        console.log('CurrentComposition item', item);
+      });
   }
 }

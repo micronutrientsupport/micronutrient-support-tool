@@ -20,6 +20,8 @@ import { GetProjectionSummary } from './currentData/getProjectionSummary';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
+import { GetCurrentComposition } from './scenario/getCurrentComposition';
+import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -37,6 +39,10 @@ export class ApiService extends BaseApi {
       getProjectionSummary: new GetProjectionSummary(ApiService.USE_LIVE_API),
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
+    },
+    scenario: {
+      getCurrentComposition: new GetCurrentComposition(false),
+      getCurrentConsumption: new GetCurrentConsumption(false),
     },
     misc: {
       getImpactScenarios: new GetImpactScenarios(true),
