@@ -1,25 +1,5 @@
 @import 'src/assets/scss/_colour';
 
-// .container {
-//   display: flex;
-//   margin-bottom: 10px;
-//   border: 1px solid $color_primary;
-//   border-radius: 5px;
-//   flex-flow: row wrap;
-//   background-color: white;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// @media (max-width: 920px) {
-//   .container {
-//     flex-direction: column;
-//     text-align: center;
-//   }
-// }
-
-@import 'src/assets/scss/_colour';
-
 .container {
   display: flex;
   margin-bottom: 10px;
@@ -29,6 +9,7 @@
   background-color: white;
   align-items: center;
   justify-content: center;
+  background-color: rgb(252, 250, 250);
 
   & .wideItem {
     flex-grow: 1;
@@ -82,10 +63,6 @@
 }
 
 .form::ng-deep {
-  .mat-form-field-wrapper {
-    padding-bottom: 0em;
-  }
-
   .width-quantity {
     width: 5em;
     margin-right: 0.5em;
@@ -100,7 +77,13 @@
 .optionsHeader {
   font-weight: 700;
   font-size: 16px;
-  display: block;
+}
+.optionsUnit {
+  font-weight: 300;
+  font-size: 12px;
+}
+.compositionValue {
+  font-weight: 700;
 }
 
 .optionsValue {
@@ -139,15 +122,18 @@
   .container {
     flex-direction: column;
     text-align: center;
+    margin: 20px;
   }
 }
 
 mat-divider {
-  padding-left: 20px;
-  padding-right: 20px;
+  margin: 30px;
 
-  height: 60px;
+  height: 100px;
 }
 mat-icon {
   color: blue;
+}
+.radioGroup {
+  margin: 20px;
 }

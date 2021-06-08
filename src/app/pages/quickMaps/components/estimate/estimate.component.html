@@ -34,6 +34,7 @@
         <mat-label>Quantity</mat-label>
         <mat-select [(ngModel)]="massNameValue" (selectionChange)="calculate()" placeholder="amount">
           <mat-option *ngFor="let item of massArray" [value]="item">
+
             {{item.name}}
           </mat-option>
         </mat-select>

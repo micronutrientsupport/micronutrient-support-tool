@@ -2,7 +2,7 @@
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
 
-    <div>
+    <div class="radioGroup">
       <mat-radio-button checked title="Composition change">
         <label>Composition change </label>
       </mat-radio-button>
@@ -16,52 +16,51 @@
     </div>
 
     <mat-divider [vertical]="true"></mat-divider>
-    <div class="row">
-      <div class="col-md-6">
-        <span class="optionsHeader">Food Item Group:</span>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Cereal/Grains</mat-label>
-          <input matInput>
-        </mat-form-field>
 
-      </div>
-      <div class="col-md-6">
-        <span class="optionsHeader">Food Item:</span>
-        <br>
-        <mat-form-field appearance="outline">
-          <mat-label>Wheat 1</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
-        Add food Item
-      </div>
+    <div class="col-md-6">
+      <span class="optionsHeader">Food Item Group:</span>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Cereal/Grains</mat-label>
+        <input matInput>
+      </mat-form-field>
+
     </div>
+    <div class="col-md-6">
+      <span class="optionsHeader">Food Item:</span>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Wheat 1</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+    <br>
+    <div>
+      <a href="#">
+        <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+      </a>
+      Add food Item
+    </div>
+
     <div class="wideItem right-text">
-      <mat-label>
+      <div class="col-md-6">
+        <mat-label class="optionsHeader">
+          Current Composition
+        </mat-label>
+        <span class="optionsUnit">(mg/kg)</span>
+        <p class="compositionValue">10</p>
+      </div>
+      <div class="col-md-6">
+        <mat-label class="optionsHeader">
+          Scenario Composition
+          <span class="optionsUnit">(mg/kg)</span>
+          <mat-select>
+            <mat-option>
 
-        Current Composition
-        <span>(mg/kg)</span>
-        <mat-select>
-          <mat-option>
-
-          </mat-option>
-        </mat-select>
-
-      </mat-label>
-
-      <mat-label>
-        Scenario Composition
-        <span>(mg/kg)</span>
-        <mat-select>
-          <mat-option>
-
-          </mat-option>
-        </mat-select>
-      </mat-label>
-
+            </mat-option>
+          </mat-select>
+        </mat-label>
+      </div>
     </div>
 
   </ng-container>
