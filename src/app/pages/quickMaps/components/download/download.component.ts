@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
+import { ExportService } from 'src/app/services/export.service';
+
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -9,6 +12,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class DownloadComponent implements AfterViewInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
+  @Input() dataArray: Array<Exportable>;
 
   public year = new Date().getFullYear();
   public date = new Date();
@@ -44,7 +48,11 @@ export class DownloadComponent implements AfterViewInit {
     '\n' +
     '}';
 
-  constructor(private clipboard: Clipboard) {}
+  constructor(private clipboard: Clipboard, private exportService: ExportService) {}
 
   ngAfterViewInit(): void {}
+
+  exportToCsv(): void {
+    this.exportService.exportToCsv(this.dataArray);
+  }
 }
