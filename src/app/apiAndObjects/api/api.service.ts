@@ -19,6 +19,7 @@ import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabili
 import { GetProjectionSummary } from './currentData/getProjectionSummary';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
+import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -54,6 +55,9 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
+    new GetDictionary(DictionaryType.FOOD_GROUPS, false)
+      .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
+      .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {

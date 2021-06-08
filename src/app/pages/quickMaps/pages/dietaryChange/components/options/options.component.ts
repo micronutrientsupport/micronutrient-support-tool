@@ -6,6 +6,9 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 import { CompositionChangeItem, ConsumptionChangeItem, FoodItemChangeItem } from '../../dietaryChange.item';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -15,13 +18,28 @@ import { CompositionChangeItem, ConsumptionChangeItem, FoodItemChangeItem } from
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionsComponent {
-  public loading: boolean;
-
   public ROUTES = AppRoutes;
+
+  public loading: boolean;
+  public foodGroupsDict: Dictionary;
 
   private subscriptions = new Array<Subscription>();
 
-  constructor(private cdr: ChangeDetectorRef, private dietaryChangeService: DietaryChangeService) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public dietaryChangeService: DietaryChangeService,
+    dictionaryService: DictionaryService,
+  ) {
+    this.loading = true;
+    void dictionaryService
+      .getDictionary(DictionaryType.FOOD_GROUPS)
+      .then((dict) => {
+        this.foodGroupsDict = dict;
+      })
+      .finally(() => {
+        this.loading = false;
+        cdr.markForCheck();
+      });
     this.exampleValueChange();
   }
 
