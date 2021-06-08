@@ -8,7 +8,8 @@ export class ExportService {
   constructor(private parser: Papa) {}
 
   public exportToCsv(dataArray: Array<Exportable>): void {
-    const csvData = this.parser.unparse(dataArray, {
+    const exportObjectsArray = dataArray.map((item: Exportable) => item.getExportObject());
+    const csvData = this.parser.unparse(exportObjectsArray, {
       header: true,
     });
     if (csvData != null) {

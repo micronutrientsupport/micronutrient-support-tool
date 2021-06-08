@@ -1,13 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
-import { BiomarkerInfo } from 'src/app/apiAndObjects/objects/biomarkerInfo';
-import { HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
-
-import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
-import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAvailability';
-import { ProjectedFoodSourcesData } from 'src/app/apiAndObjects/objects/projectedFoodSources';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
-
 import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';
