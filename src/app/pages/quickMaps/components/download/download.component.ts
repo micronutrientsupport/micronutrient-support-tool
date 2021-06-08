@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
-import { biomarkerInfo } from 'src/app/apiAndObjects/objects/biomarkerInfo';
+import { BiomarkerInfo } from 'src/app/apiAndObjects/objects/biomarkerInfo';
 import { HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
@@ -11,6 +11,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -20,15 +21,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class DownloadComponent implements AfterViewInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
-  @Input() csvObject: Array<
-    | MonthlyFoodGroup
-    | HouseholdHistogramData
-    | ProjectedAvailability
-    | ProjectedFoodSourcesData
-    | biomarkerInfo
-    | SubRegionDataItem
-    | TopFoodSource
-  >;
+  @Input() dataArray: Array<Exportable>;
 
   public year = new Date().getFullYear();
   public date = new Date();
@@ -69,6 +62,6 @@ export class DownloadComponent implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   exportToCsv(): void {
-    this.exportService.exportToCsv(this.csvObject);
+    this.exportService.exportToCsv(this.dataArray);
   }
 }

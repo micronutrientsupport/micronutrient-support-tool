@@ -1,4 +1,6 @@
-export class MonthlyFoodGroup {
+import { Exportable } from './exportable.interface';
+
+export class MonthlyFoodGroup implements Exportable {
   constructor(
     public readonly month: string,
     public readonly monthIndex: number,
@@ -37,5 +39,15 @@ export class MonthlyFoodGroup {
 
   private static uppercaseFirst(value: string): string {
     return typeof value !== 'string' ? '' : value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  public getExportObject(): Record<string, unknown> {
+    const exportObject = JSON.parse(JSON.stringify(this)) as Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/dot-notation, @typescript-eslint/no-unsafe-member-access
+    delete exportObject['_sourceObject'];
+    return exportObject;
+  }
+  public getExportFileName(): string {
+    return 'MonthlyFoodData';
   }
 }
