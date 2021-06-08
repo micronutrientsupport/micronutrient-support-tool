@@ -131,17 +131,8 @@ export class CurrentDataService {
       dataSource,
     });
   }
-  public getProjectedAvailabilities(
-    countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DataSource,
-  ): Promise<Array<ProjectedAvailability>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.apiService.endpoints.currentData.getProjectedAvailabilities.call({
-      countryOrGroup,
-      micronutrients,
-      dataSource,
-    });
+  public getProjectedAvailabilities(): Promise<Array<ProjectedAvailability>> {
+    return this.apiService.endpoints.currentData.getProjectedAvailabilities.call();
   }
 
   public getProjectionSummary(

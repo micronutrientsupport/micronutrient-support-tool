@@ -32,18 +32,18 @@ export class ApiService extends BaseApi {
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
-      getProjectedAvailabilities: new GetProjectedAvailabilities(false),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
       getProjectionSummary: new GetProjectionSummary(ApiService.USE_LIVE_API),
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
     misc: {
-      getImpactScenarios: new GetImpactScenarios(true),
+      getImpactScenarios: new GetImpactScenarios(ApiService.USE_LIVE_API),
     },
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, true).setDefaultParams({
+    new GetDictionary(DictionaryType.COUNTRIES, ApiService.USE_LIVE_API).setDefaultParams({
       path: 'country',
       typeObj: CountryDictionaryItem,
     }),
