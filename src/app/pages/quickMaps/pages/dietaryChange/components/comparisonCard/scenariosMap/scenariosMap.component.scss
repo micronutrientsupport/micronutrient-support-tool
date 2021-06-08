@@ -1,9 +1,13 @@
-.container {
-  height: 10em;
-  width: 10em;
-  background-color: yellowgreen;
-  color: yellowgreen;
-  #map1 {
+.maps-container {
+  height: 100%;
+  display: grid; // Display: flex does not work with leaflet maps
+  grid-template-columns: 50% 50%;
+  .map {
     height: 100%;
+    display: block;
+    .leaflet-container {
+      // allows maps to be visulised.
+      height: 100%;
+    }
   }
 }

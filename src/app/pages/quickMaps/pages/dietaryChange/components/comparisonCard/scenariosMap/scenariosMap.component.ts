@@ -1,5 +1,5 @@
 import { AfterViewInit, ElementRef } from '@angular/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 
 @Component({
@@ -19,7 +19,7 @@ export class ScenariosMapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.baselineMap = this.initialiseMap(this.map1Element.nativeElement);
-    // this.scenarioMap = this.initialiseMap(this.map2Element.nativeElement);
+    this.scenarioMap = this.initialiseMap(this.map2Element.nativeElement);
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
