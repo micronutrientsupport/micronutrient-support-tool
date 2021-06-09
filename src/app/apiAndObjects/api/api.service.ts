@@ -22,6 +22,9 @@ import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
 import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
+import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
+import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
+import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -43,6 +46,9 @@ export class ApiService extends BaseApi {
     scenario: {
       getCurrentComposition: new GetCurrentComposition(false),
       getCurrentConsumption: new GetCurrentConsumption(false),
+      getDietChangeComposition: new GetDietChangeComposition(false),
+      getDietChangeConsumption: new GetDietChangeConsumption(false),
+      getDietChangeFoodItem: new GetDietChangeFoodItem(false),
     },
     misc: {
       getImpactScenarios: new GetImpactScenarios(ApiService.USE_LIVE_API),
