@@ -43,7 +43,7 @@ describe('Quick Map - Side Nav Tests', () => {
     });
   });
 
-  it('loads a list of vitamins and populates the drop down with all api response', () => {
+  it('loads Vitamin list and populates the drop down with all api response', () => {
     cy.intercept('GET', 'micronutrient').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
@@ -57,7 +57,7 @@ describe('Quick Map - Side Nav Tests', () => {
     });
   });
 
-  it('loads a list of vitamins and populates the drop down with all api response', () => {
+  it('loads Mineral list and populates the drop down with all api response', () => {
     cy.intercept('GET', 'micronutrient').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
@@ -71,7 +71,7 @@ describe('Quick Map - Side Nav Tests', () => {
     });
   });
 
-  it('loads a list of vitamins and populates the drop down with all api response', () => {
+  it('loads Other list and populates the drop down with all api response', () => {
     cy.intercept('GET', 'micronutrient').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
