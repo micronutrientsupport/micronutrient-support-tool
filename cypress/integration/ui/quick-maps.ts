@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+/// <reference path="../../support/index.d.ts" />
 
 export const populateSelectValues = (): void => {
   cy.get('[name="nation"]', { timeout: 10000 }).first().click({ force: true });
