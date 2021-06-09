@@ -34,7 +34,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   private areaBounds: L.LatLngBounds;
 
   private baselineDataLayer: L.GeoJSON;
-  private baselineLegend: L.Control;
+  private legend: L.Control;
 
   private areaFeatureCollection: GeoJSON.FeatureCollection;
 
@@ -120,8 +120,8 @@ export class ScenariosMapComponent implements AfterViewInit {
     if (null != this.baselineDataLayer) {
       this.baselineMap.removeLayer(this.baselineDataLayer);
     }
-    if (null != this.baselineLegend) {
-      this.baselineMap.removeControl(this.baselineLegend);
+    if (null != this.legend) {
+      this.baselineMap.removeControl(this.legend);
     }
 
     const baselineGradient = new ColourGradient(this.baselineRange, colourPalette);
@@ -131,17 +131,17 @@ export class ScenariosMapComponent implements AfterViewInit {
     ).addTo(this.baselineMap);
     // console.debug('baseline', this.baselineDataLayer);
 
-    this.refreshBaselineLegend(baselineGradient);
+    this.refreshLegend(baselineGradient);
   }
 
-  private refreshBaselineLegend(colourGradient: ColourGradient): void {
-    if (null != this.baselineLegend) {
-      this.baselineMap.removeControl(this.baselineLegend);
+  private refreshLegend(colourGradient: ColourGradient): void {
+    if (null != this.legend) {
+      this.scenarioMap.removeControl(this.legend);
     }
 
-    this.baselineLegend = new L.Control({ position: 'bottomright' });
+    this.legend = new L.Control({ position: 'bottomright' });
 
-    this.baselineLegend.onAdd = () => {
+    this.legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
       // loop through our  intervals and generate a label with a colored square for each interval
@@ -169,7 +169,7 @@ export class ScenariosMapComponent implements AfterViewInit {
       return div;
     };
 
-    this.baselineLegend.addTo(this.baselineMap);
+    this.legend.addTo(this.scenarioMap);
   }
 
   private getTooltip(feature: GeoJSON.Feature): string {
