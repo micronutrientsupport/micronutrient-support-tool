@@ -20,6 +20,8 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { ChangeItemsType } from '../../dietaryChange.item';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
+import { CurrentDataService } from 'src/app/services/currentData.service';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -40,11 +42,10 @@ export class ComparisonCardComponent implements AfterViewInit {
   // temp set to the change items to display something
   public modeDisplay: DietaryChangeMode;
   public tempDisplay: ChangeItemsType;
+  public data: SubRegionDataItem; // TODO: update this type when we know it!
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
-  private data: unknown; // TODO: update this type when we know it!
 
   private subscriptions = new Array<Subscription>();
   private changeItemSubscriptions = new Array<Subscription>();
@@ -54,6 +55,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private dietaryChangeService: DietaryChangeService,
+    private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<DietaryChangeComparisonCardDialogData>,
   ) {}
 
@@ -83,9 +85,28 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.refreshItemSubscriptions();
         }),
       );
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.init(
+            this.currentDataService.getSubRegionData(
+              this.quickMapsService.country,
+              this.quickMapsService.micronutrient,
+              this.quickMapsService.dataSource,
+              this.quickMapsService.dataLevel,
+            ),
+          );
+        }),
+      );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
-      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.init(
+        this.currentDataService.getSubRegionData(
+          this.quickMapsService.country,
+          this.quickMapsService.micronutrient,
+          this.quickMapsService.dataSource,
+          this.quickMapsService.dataLevel,
+        ),
+      );
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -111,10 +132,10 @@ export class ComparisonCardComponent implements AfterViewInit {
     this.updateDisplay();
   }
 
-  private init(dataPromise: Promise<unknown>): void {
+  private init(dataPromise: Promise<SubRegionDataItem>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: unknown) => {
+      .then((data: SubRegionDataItem) => {
         this.data = data;
         this.updateDisplay();
       })

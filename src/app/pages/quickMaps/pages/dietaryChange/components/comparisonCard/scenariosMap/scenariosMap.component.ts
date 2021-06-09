@@ -1,6 +1,6 @@
-import { AfterViewInit, ElementRef } from '@angular/core';
+import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
-import { type } from 'os';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 
 @Component({
@@ -11,6 +11,12 @@ import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 export class ScenariosMapComponent implements AfterViewInit {
   @ViewChild('baselineMap') baselineMapElement: ElementRef;
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
+
+  @Input() set data(data: SubRegionDataItem) {
+    this.baselineMapData = data;
+  }
+
+  public baselineMapData: SubRegionDataItem;
 
   public baselineMap: L.Map;
   public scenarioMap: L.Map;
@@ -26,6 +32,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
     this.initialiseListeners();
+    // console.debug('data', this.data);
   }
 
   private initialiseBaselineMap(mapElement: HTMLElement): L.Map {
