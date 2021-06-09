@@ -14,7 +14,7 @@ export class E2ELeaflet {
     }
   }
 
-  setReference(key: string, value: any): void {
+  setReference(key: string, value: unknown): void {
     this.testingObj[key] = value;
   }
 }
