@@ -60,32 +60,38 @@ export class OptionsComponent {
   private exampleValueChange(): void {
     // test
     setTimeout(() => {
-      // change mode
-      this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
-
-      // change food items
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const compositionChangeItem1 = new CompositionChangeItem(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-        10,
-      );
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const FoodItemChangeItem1 = new FoodItemChangeItem(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
-      );
-
-      const consumptionChangeItem1 = new ConsumptionChangeItem(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
-        55,
-      );
-      const consumptionChangeItem2 = new ConsumptionChangeItem(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
-        22,
-      );
-      this.dietaryChangeService.setChangeItems([consumptionChangeItem1, consumptionChangeItem2]);
+      this.dietaryChangeService.setMode(DietaryChangeMode.COMPOSITION);
+      this.dietaryChangeService.setChangeItems([
+        new CompositionChangeItem(
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+          10,
+        ),
+      ]);
     }, 3000);
+
+    setTimeout(() => {
+      this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
+      this.dietaryChangeService.setChangeItems([
+        new FoodItemChangeItem(
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
+        ),
+      ]);
+    }, 6000);
+
+    setTimeout(() => {
+      this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
+      this.dietaryChangeService.setChangeItems([
+        new ConsumptionChangeItem(
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
+          22,
+        ),
+        new ConsumptionChangeItem(
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
+          55,
+        ),
+      ]);
+    }, 9000);
   }
 
   private exampleCurrentConsumption(): void {

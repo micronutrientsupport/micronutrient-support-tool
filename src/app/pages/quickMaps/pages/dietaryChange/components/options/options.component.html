@@ -5,7 +5,7 @@
     <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
       <mat-form-field appearance="fill">
         <mat-label>Food Item Group</mat-label>
-        <mat-select #groupSelect (selectionChange)="changeItem">
+        <mat-select #groupSelect>
           <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
             {{foodGroup.name}}
           </mat-option>
