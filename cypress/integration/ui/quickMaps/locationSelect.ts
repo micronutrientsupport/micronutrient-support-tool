@@ -16,6 +16,7 @@ describe('Quick Map - Location Select', () => {
 
   it('accesses leafet map', () => {
     cy.visit('/quick-maps');
+    cy.wait(5000);
     cy.get('.leaflet-container').should('be.visible');
     cy.get('.leaflet-container > .leaflet-map-pane').should('exist');
     cy.window()
