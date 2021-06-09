@@ -14,11 +14,7 @@ import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/f
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
-import {
-  CompositionChangeItem,
-  ConsumptionChangeItem,
-  FoodItemChangeItem,
-} from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { CompositionChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -60,6 +56,7 @@ export class OptionsComponent {
   private exampleValueChange(): void {
     // test
     setTimeout(() => {
+      // COMPOSITION
       this.dietaryChangeService.setMode(DietaryChangeMode.COMPOSITION);
       this.dietaryChangeService.setChangeItems([
         new CompositionChangeItem(
@@ -67,31 +64,27 @@ export class OptionsComponent {
           10,
         ),
       ]);
+      // // CONSUMPTION
+      // this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
+      // this.dietaryChangeService.setChangeItems([
+      //   new ConsumptionChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
+      //     22,
+      //   ),
+      //   new ConsumptionChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
+      //     55,
+      //   ),
+      // ]);
+      // // FOOD_ITEM
+      // this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
+      // this.dietaryChangeService.setChangeItems([
+      //   new FoodItemChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
+      //   ),
+      // ]);
     }, 3000);
-
-    setTimeout(() => {
-      this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
-      this.dietaryChangeService.setChangeItems([
-        new FoodItemChangeItem(
-          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
-        ),
-      ]);
-    }, 6000);
-
-    setTimeout(() => {
-      this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
-      this.dietaryChangeService.setChangeItems([
-        new ConsumptionChangeItem(
-          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
-          22,
-        ),
-        new ConsumptionChangeItem(
-          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
-          55,
-        ),
-      ]);
-    }, 9000);
   }
 
   private exampleCurrentConsumption(): void {

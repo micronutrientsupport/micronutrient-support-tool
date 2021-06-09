@@ -121,7 +121,10 @@ export class ComparisonCardComponent implements AfterViewInit {
       .then((data: SubRegionDataItem) => {
         this.baselineData = data;
       })
-      .catch(() => this.errorSrc.next(true))
+      .catch((e) => {
+        console.error(e);
+        this.errorSrc.next(true);
+      })
       .finally(() => {
         this.endLoading();
       });
@@ -136,8 +139,12 @@ export class ComparisonCardComponent implements AfterViewInit {
       )
       .then((data: SubRegionDataItem) => {
         this.scenarioData = data;
+        // console.debug('scenarioData', this.scenarioData);
       })
-      .catch(() => this.errorSrc.next(true))
+      .catch((e) => {
+        console.error(e);
+        this.errorSrc.next(true);
+      })
       .finally(() => {
         this.endLoading();
       });

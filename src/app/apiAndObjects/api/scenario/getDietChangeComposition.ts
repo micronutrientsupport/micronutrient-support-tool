@@ -23,6 +23,15 @@ export class GetDietChangeComposition extends CacheableEndpoint<SubRegionDataIte
         setTimeout(() => {
           resolve(httpClient.get('/assets/exampleData/sub-region-results.json').toPromise());
         }, 1500);
+      }).then((data) => {
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/dot-notation
+        data[0]['geojson']['features'].forEach((feature) => {
+          // eslint-disable-next-line max-len
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/dot-notation
+          feature['properties']['mn_absolute'] = feature['properties']['mn_absolute'] * 1.1;
+        });
+        return data;
       }),
     );
   }
