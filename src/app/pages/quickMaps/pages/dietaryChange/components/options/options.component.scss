@@ -1,15 +1,29 @@
 @import 'src/assets/scss/_colour';
 
+// .container {
+//   display: flex;
+//   margin-bottom: 10px;
+//   border: 1px solid $color_primary;
+//   border-radius: 5px;
+//   flex-flow: row wrap;
+//   background-color: white;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: rgb(252, 250, 250);
+
 .container {
-  display: flex;
   margin-bottom: 10px;
   border: 1px solid $color_primary;
   border-radius: 5px;
-  flex-flow: row wrap;
-  background-color: white;
   align-items: center;
-  justify-content: center;
   background-color: rgb(252, 250, 250);
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  gap: 5px;
 
   & .wideItem {
     flex-grow: 1;
@@ -42,7 +56,9 @@
     margin: 0em 0.5em;
   }
 }
-
+mat-form-field {
+  margin: 5px;
+}
 //set radio buttons to  primary colour and make label bold on selection
 ::ng-deep .mat-radio-checked .mat-radio-label-content {
   font-weight: bold;

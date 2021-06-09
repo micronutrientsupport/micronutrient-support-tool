@@ -17,21 +17,25 @@
 
     <mat-divider [vertical]="true"></mat-divider>
 
-    <div class="col-md-6">
+    <div>
       <span class="optionsHeader">Food Item Group:</span>
       <br>
       <mat-form-field appearance="outline">
-        <mat-label>Cereal/Grains</mat-label>
-        <input matInput>
-      </mat-form-field>
 
+        <mat-select placeholder="Cereal/Grains">
+          <mat-option value="one">Cereal/Grains</mat-option>
+          <mat-option value="two">Tubers</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="col-md-6">
+    <div>
       <span class="optionsHeader">Food Item:</span>
       <br>
       <mat-form-field appearance="outline">
-        <mat-label>Wheat 1</mat-label>
-        <input matInput>
+        <mat-select placeholder="Wheat 1">
+          <mat-option value="one">Wheat 1</mat-option>
+          <mat-option value="two">Item 2</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <br>
@@ -50,6 +54,7 @@
         <span class="optionsUnit">(mg/kg)</span>
         <p class="compositionValue">10</p>
       </div>
+      <br>
       <div class="col-md-6">
         <mat-label class="optionsHeader">
           Scenario Composition
