@@ -70,8 +70,7 @@ export class ScenariosMapComponent implements AfterViewInit {
       if (null == this.colourPalette) {
         this.colourPalette = this.defaultPalette;
       }
-      // console.debug('colour Palette:', this.colourPalette);
-      // this.changeColourRamp(this.colourPalette);
+      this.changeColourRamp(this.colourPalette);
     });
   }
 
@@ -214,5 +213,21 @@ export class ScenariosMapComponent implements AfterViewInit {
 
   private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
     return feat.properties as SubRegionDataItemFeatureProperties;
+  }
+
+  private changeColourRamp(colourPalette: ColourPalette): void {
+    const colourGradient = new ColourGradient(this.baselineRange, colourPalette);
+
+    this.baselineMap.removeLayer(this.baselineDataLayer);
+
+    if (null != this.legend) {
+      this.baselineMap.removeControl(this.legend);
+    }
+
+    this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      colourGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    ).addTo(this.baselineMap);
+
+    this.refreshLegend(colourGradient);
   }
 }
