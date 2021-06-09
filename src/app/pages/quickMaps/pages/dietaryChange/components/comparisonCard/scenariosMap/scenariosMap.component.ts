@@ -9,8 +9,8 @@ import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
   styleUrls: ['./scenariosMap.component.scss'],
 })
 export class ScenariosMapComponent implements AfterViewInit {
-  @ViewChild('map1') map1Element: ElementRef;
-  @ViewChild('map2') map2Element: ElementRef;
+  @ViewChild('baselineMap') baselineMapElement: ElementRef;
+  @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
 
   public baselineMap: L.Map;
   public scenarioMap: L.Map;
@@ -23,8 +23,8 @@ export class ScenariosMapComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    this.baselineMap = this.initialiseMap(this.map1Element.nativeElement);
-    this.scenarioMap = this.initialiseMap(this.map2Element.nativeElement);
+    this.baselineMap = this.initialiseMap(this.baselineMapElement.nativeElement);
+    this.scenarioMap = this.initialiseMap(this.scenarioMapElement.nativeElement);
     this.initialiseListeners();
   }
 
@@ -44,8 +44,11 @@ export class ScenariosMapComponent implements AfterViewInit {
       },
       move: () => {
         if (this.allowBaselineMapEvents) {
-          this.setMap(this.baselineMap, this.scenarioMap);
+          this.setMapPosition(this.baselineMap, this.scenarioMap);
         }
+      },
+      zoom: () => {
+        this.setMapZoom(this.baselineMap, this.scenarioMap);
       },
     });
     this.scenarioMap.on({
@@ -55,16 +58,22 @@ export class ScenariosMapComponent implements AfterViewInit {
       },
       move: () => {
         if (this.allowScenarioMapEvents) {
-          this.setMap(this.scenarioMap, this.baselineMap);
+          this.setMapPosition(this.scenarioMap, this.baselineMap);
         }
+      },
+      zoom: () => {
+        this.setMapZoom(this.scenarioMap, this.baselineMap);
       },
     });
   }
 
-  private setMap(baseMap: L.Map, targetMap: L.Map): void {
+  private setMapPosition(baseMap: L.Map, targetMap: L.Map): void {
     if (targetMap.getCenter() !== baseMap.getCenter()) {
       targetMap.panTo(baseMap.getCenter());
     }
+  }
+
+  private setMapZoom(baseMap: L.Map, targetMap: L.Map): void {
     if (targetMap.getZoom() !== baseMap.getZoom()) {
       targetMap.setZoom(baseMap.getZoom());
     }
