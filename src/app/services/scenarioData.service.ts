@@ -66,7 +66,11 @@ export class ScenarioDataService {
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
   ): Promise<SubRegionDataItem> {
-    let promiseFunc: (dataSourcey: DataSource, changeItemsy: Array<DietaryChangeItem>) => Promise<SubRegionDataItem>;
+    type promiseFuncType = (
+      dataSourcey: DataSource,
+      changeItemsy: Array<DietaryChangeItem>,
+    ) => Promise<SubRegionDataItem>;
+    let promiseFunc: promiseFuncType;
 
     let typeCheckFunc: (item: DietaryChangeItem) => boolean;
 
@@ -89,6 +93,7 @@ export class ScenarioDataService {
     if (!changeItems.every((item) => typeCheckFunc(item))) {
       throw new Error('Incorrect DietaryChangeItem type for DietaryChangeMode');
     }
+    promiseFunc = promiseFunc.bind(this) as promiseFuncType;
     return promiseFunc(dataSource, changeItems);
   }
 }

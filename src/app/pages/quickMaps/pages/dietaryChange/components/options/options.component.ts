@@ -65,23 +65,26 @@ export class OptionsComponent {
 
       // change food items
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const compositionChangeItem1 = new CompositionChangeItem('Some food item object here - potato', 10);
+      const compositionChangeItem1 = new CompositionChangeItem(
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+        10,
+      );
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const FoodItemChangeItem1 = new FoodItemChangeItem(
-        'Some food item object here - potato',
-        'Some food item object here - chips',
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
       );
 
-      const consumptionChangeItem1 = new ConsumptionChangeItem('Some food item object here - potato', 55);
-      const consumptionChangeItem2 = new ConsumptionChangeItem('Some food item object here - pizza', 22);
+      const consumptionChangeItem1 = new ConsumptionChangeItem(
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
+        55,
+      );
+      const consumptionChangeItem2 = new ConsumptionChangeItem(
+        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
+        22,
+      );
       this.dietaryChangeService.setChangeItems([consumptionChangeItem1, consumptionChangeItem2]);
-
-      setInterval(() => {
-        // change value on a change item
-        consumptionChangeItem1.setChangeValue(consumptionChangeItem1.changeValue + 1);
-        consumptionChangeItem2.setChangeValue(consumptionChangeItem1.changeValue + 1);
-      }, 500);
     }, 3000);
   }
 
