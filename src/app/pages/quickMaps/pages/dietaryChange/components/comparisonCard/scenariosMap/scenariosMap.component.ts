@@ -23,17 +23,21 @@ export class ScenariosMapComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    this.baselineMap = this.initialiseMap(this.baselineMapElement.nativeElement);
-    this.scenarioMap = this.initialiseMap(this.scenarioMapElement.nativeElement);
+    this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
+    this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
     this.initialiseListeners();
   }
 
-  private initialiseMap(mapElement: HTMLElement): L.Map {
+  private initialiseBaselineMap(mapElement: HTMLElement): L.Map {
     return new LeafletMapHelper()
       .createMap(mapElement)
       .setDefaultBaseLayer()
       .setDefaultControls(() => this.areaBounds)
       .getMap();
+  }
+
+  private initialiseScenarioMap(mapElement: HTMLElement): L.Map {
+    return new LeafletMapHelper().createMap(mapElement).setDefaultBaseLayer().getMap();
   }
 
   private initialiseListeners(): void {
