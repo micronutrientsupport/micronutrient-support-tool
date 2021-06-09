@@ -25,11 +25,11 @@
     </mat-tab>
 
     <mat-tab label="Download">
-      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [csvObject]="csvDownloadData">
+      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="null">
       </app-download>
     </mat-tab>
 
-    <mat-tab label=" About {{title}}">
+    <mat-tab label="About {{title}}">
       <div class="about-container">
         <h2>About {{title}}</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et

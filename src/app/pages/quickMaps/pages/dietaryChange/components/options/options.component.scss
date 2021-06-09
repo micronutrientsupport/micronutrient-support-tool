@@ -1,16 +1,5 @@
 @import 'src/assets/scss/_colour';
 
-// .container {
-//   display: flex;
-//   margin-bottom: 10px;
-//   border: 1px solid $color_primary;
-//   border-radius: 5px;
-//   flex-flow: row wrap;
-//   background-color: white;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: rgb(252, 250, 250);
-
 .container {
   margin-bottom: 10px;
   border: 1px solid $color_primary;
@@ -56,9 +45,7 @@
     margin: 0em 0.5em;
   }
 }
-mat-form-field {
-  margin: 5px;
-}
+
 //set radio buttons to  primary colour and make label bold on selection
 ::ng-deep .mat-radio-checked .mat-radio-label-content {
   font-weight: bold;
@@ -72,22 +59,6 @@ mat-form-field {
 
 ::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
   background-color: $color_primary !important;
-}
-
-.bold {
-  font-weight: 700;
-}
-
-.form::ng-deep {
-  .width-quantity {
-    width: 5em;
-    margin-right: 0.5em;
-  }
-
-  .width-time {
-    width: 8em;
-    margin-left: 0.5em;
-  }
 }
 
 .optionsHeader {
@@ -120,36 +91,36 @@ mat-form-field {
   }
 }
 
-.margin-left {
-  margin-left: 0.5em;
-}
-
-.explore-projection-text {
-  text-decoration: none;
-  color: $color_primary;
-  font-weight: 500;
-}
-
-.explore-projection-text:hover {
-  font-weight: 700;
-}
-
 @media (max-width: 920px) {
   .container {
     flex-direction: column;
     text-align: center;
     margin: 20px;
   }
+  .divVertical {
+    display: none !important;
+  }
 }
-
-mat-divider {
-  margin: 30px;
-
+@media (min-width: 920px) {
+  .divHorizontal {
+    display: none !important;
+  }
+}
+.divVertical {
+  margin: 20px;
   height: 100px;
+}
+.divHorizontal {
+  margin: 15px;
+  width: 90%;
+
+  align-items: center;
+  flex-direction: center;
 }
 mat-icon {
   color: blue;
 }
-.radioGroup {
-  margin: 20px;
+mat-radio-group {
+  margin: 15px;
+  text-align: initial;
 }

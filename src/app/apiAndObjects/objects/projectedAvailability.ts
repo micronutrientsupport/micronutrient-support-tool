@@ -1,6 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { Exportable } from './exportable.interface';
 
-export class ProjectedAvailability extends BaseObject {
+export class ProjectedAvailability extends BaseObject implements Exportable {
   public static readonly KEYS = {
     COUNTRY: 'country',
     YEAR: 'year',
@@ -67,9 +68,7 @@ export class ProjectedAvailability extends BaseObject {
   public readonly zn: number;
   public readonly znDiff: number;
 
-  protected constructor(
-    sourceObject?: Record<string, unknown>,
-  ) {
+  protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.country = this._getString(ProjectedAvailability.KEYS.COUNTRY);
@@ -120,6 +119,16 @@ export class ProjectedAvailability extends BaseObject {
 
     this.zn = this._getNumber(ProjectedAvailability.KEYS.ZN);
     this.znDiff = this.getNumberOrNull(ProjectedAvailability.KEYS.ZN_DIFF);
+  }
+
+  public getExportObject(): Record<string, unknown> {
+    const exportObject = JSON.parse(JSON.stringify(this)) as Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/dot-notation, @typescript-eslint/no-unsafe-member-access
+    delete exportObject['_sourceObject'];
+    return exportObject;
+  }
+  public getExportFileName(): string {
+    return 'ProjectedAvailabilityData';
   }
 
   private getNumberOrNull(key: string): number {

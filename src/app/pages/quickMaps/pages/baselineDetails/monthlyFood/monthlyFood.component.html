@@ -68,7 +68,7 @@
     </mat-tab>
 
     <mat-tab label="Download">
-      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [csvObject]="dataSource?.data">
+      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data">
       </app-download>
     </mat-tab>
     <mat-tab label="About {{title}}">

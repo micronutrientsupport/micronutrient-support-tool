@@ -1,21 +1,25 @@
 <div class="container">
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
-
-    <div class="radioGroup">
-      <mat-radio-button checked title="Composition change">
-        <label>Composition change </label>
-      </mat-radio-button>
-
-      <br>
-      <mat-radio-button title="Consumption change">
-        <label>Consumption change </label>
+    <mat-radio-group [value]="dietaryChangeService.modeObs | async"
+      (change)="dietaryChangeService.setMode($event.value)">
+      <mat-radio-button [value]="dietaryChangeMode.COMPOSITION" title="Composition change">
+        Composition change
       </mat-radio-button>
       <br>
-      <mat-radio-button title="Food Item comparison"><label> Food Item comparison</label></mat-radio-button>
-    </div>
+      <mat-radio-button [value]="dietaryChangeMode.CONSUMPTION" title="Consumption change">
+        Consumption change
+      </mat-radio-button>
+      <br>
+      <mat-radio-button [value]="dietaryChangeMode.FOOD_ITEM" title="Food Item comparison">
+        Food Item comparison
+      </mat-radio-button>
+    </mat-radio-group>
 
-    <mat-divider [vertical]="true"></mat-divider>
+
+    <mat-divider class="divHorizontal"></mat-divider>
+    <mat-divider class="divVertical" [vertical]="true"></mat-divider>
+
 
     <div>
       <span class="optionsHeader">Food Item Group:</span>
@@ -38,7 +42,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <br>
+
     <div>
       <a href="#">
         <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
@@ -68,5 +72,26 @@
       </div>
     </div>
 
+    <!-- Options panel JON -->
+    <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
+      <mat-form-field appearance="fill">
+        <mat-label>Food Item Group</mat-label>
+        <mat-select #groupSelect (selectionChange)="changeItem">
+          <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
+            {{foodGroup.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Food Item Group</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
+            {{foodItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- options panel JON -->
+    </div>
   </ng-container>
 </div>

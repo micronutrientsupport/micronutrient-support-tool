@@ -19,6 +19,9 @@ import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabili
 import { GetProjectionSummary } from './currentData/getProjectionSummary';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
+import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
+import { GetCurrentComposition } from './scenario/getCurrentComposition';
+import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -37,6 +40,10 @@ export class ApiService extends BaseApi {
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
+    scenario: {
+      getCurrentComposition: new GetCurrentComposition(false),
+      getCurrentConsumption: new GetCurrentConsumption(false),
+    },
     misc: {
       getImpactScenarios: new GetImpactScenarios(ApiService.USE_LIVE_API),
     },
@@ -54,6 +61,9 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
+    new GetDictionary(DictionaryType.FOOD_GROUPS, false)
+      .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
+      .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {

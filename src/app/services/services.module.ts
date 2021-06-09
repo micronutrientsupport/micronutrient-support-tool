@@ -9,6 +9,7 @@ import { MiscApiService } from './miscApi.service';
 import { PageLoadingService } from './pageLoadingService.service';
 import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
+import { ScenarioDataService } from './scenarioData.service';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,7 @@ import { GridsterService } from './gridster.service';
     PageLoadingService,
     QuickchartService,
     GridsterService,
+    ScenarioDataService,
   ],
 })
 export class ServicesModule {}

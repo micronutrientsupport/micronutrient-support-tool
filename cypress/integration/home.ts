@@ -6,6 +6,12 @@ describe('Homepage Tests', () => {
     cy.title().should('include', 'Micronutrient Action Policy Support (MAPS)');
   });
 
+  it('checks home page for a11y', () => {
+    cy.visit('/');
+    cy.injectAxe();
+    cy.checkA11y(null, null, cy.terminalLog);
+  });
+
   it('loads the home page sharing dialog', () => {
     cy.visit('/');
     cy.get('#sharePageButton').click();
