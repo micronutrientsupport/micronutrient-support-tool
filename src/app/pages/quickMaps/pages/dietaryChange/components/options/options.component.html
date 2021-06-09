@@ -2,5 +2,23 @@
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     Options panel
+    <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
+      <mat-form-field appearance="fill">
+        <mat-label>Food Item Group</mat-label>
+        <mat-select #groupSelect>
+          <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
+            {{foodGroup.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Food Item Group</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
+            {{foodItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </ng-container>
 </div>

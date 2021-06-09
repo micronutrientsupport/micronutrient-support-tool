@@ -21,7 +21,6 @@ import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAv
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
@@ -61,7 +60,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private readonly SCENARIO_ID = 'SSP2';
 
   constructor(
-    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -93,13 +91,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           this.micronutrientId = this.quickMapsService.micronutrient.id;
           this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
           this.card.title = this.title;
-          this.init(
-            this.currentDataService.getProjectedAvailabilities(
-              this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
-              this.quickMapsService.dataSource,
-            ),
-          );
+          this.init(this.currentDataService.getProjectedAvailabilities());
         }),
       );
     } else if (null != this.dialogData) {
@@ -190,22 +182,19 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             label: 'SSP1',
             data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
             fill: false,
-            borderColor: 'rgb(255, 0, 0)',
-            // backgroundColor: 'rgba(12, 92, 90, 0.6)',
+            borderColor: '#6FCF97',
           },
           {
             label: 'SSP2',
             data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
             fill: false,
-            borderColor: 'rgb(0, 255, 0)',
-            // backgroundColor: 'rgba(12, 92, 225, 0.6)',
+            borderColor: '#9B51E0',
           },
           {
             label: 'SSP3',
             data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
             fill: false,
-            borderColor: 'rgb(0, 0, 255)',
-            // backgroundColor: 'rgba(48, 102, 133, 0.6)',
+            borderColor: '#FF3E7A',
           },
         ],
       },

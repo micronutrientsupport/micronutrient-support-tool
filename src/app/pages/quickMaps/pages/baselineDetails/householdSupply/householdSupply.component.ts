@@ -21,7 +21,6 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
@@ -48,6 +47,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedNutrientUnit = '';
 
+  public csvDownloadData: Array<HouseholdHistogramData> = [];
+
   private data: HouseholdHistogramData;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -56,7 +57,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
-    private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -114,8 +114,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         if (null == data) {
           throw new Error('data error');
         }
-
         this.dataSource = new MatTableDataSource(data.data);
+        // console.debug('data:', this.dataSource.data);
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -126,6 +126,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.dataSource.sort = this.sort;
 
         this.initialiseGraph(data);
+        this.csvDownloadData.push(data);
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {

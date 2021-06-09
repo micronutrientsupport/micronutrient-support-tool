@@ -88,9 +88,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   ];
   public chartPNG: string;
   public chartPDF: string;
+  public csvDownloadData: Array<ProjectedFoodSourcesData> = [];
+
+  public data: Array<ProjectedFoodSourcesData>;
+  // private data: Array<ProjectedFoodSourcesData>;
 
   private sort: MatSort;
-  private data: Array<ProjectedFoodSourcesData>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -201,6 +204,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
+        //
+        this.dataSource = new MatTableDataSource(data);
+        // this.csvDownloadData.push(data);
         // Select current countries
         const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
           (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.country.id,

@@ -1,11 +1,12 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { Exportable } from './exportable.interface';
 
 export interface ProjectedFoodSourcesTable {
   year: number;
   foodName: string;
   value: number;
 }
-export class ProjectedFoodSourcesData extends BaseObject {
+export class ProjectedFoodSourcesData extends BaseObject implements Exportable {
   public static readonly KEYS = {
     NUTRIENT: 'nutrient',
     COUNTRY: 'country',
@@ -37,5 +38,15 @@ export class ProjectedFoodSourcesData extends BaseObject {
     this.year = this._getNumber(ProjectedFoodSourcesData.KEYS.YEAR);
     this.value = this._getNumber(ProjectedFoodSourcesData.KEYS.VALUE);
     this.rank = this._getNumber(ProjectedFoodSourcesData.KEYS.RANK);
+  }
+
+  public getExportObject(): Record<string, unknown> {
+    const exportObject = JSON.parse(JSON.stringify(this)) as Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/dot-notation, @typescript-eslint/no-unsafe-member-access
+    delete exportObject['_sourceObject'];
+    return exportObject;
+  }
+  public getExportFileName(): string {
+    return 'ProjectionFoodSourcesData';
   }
 }

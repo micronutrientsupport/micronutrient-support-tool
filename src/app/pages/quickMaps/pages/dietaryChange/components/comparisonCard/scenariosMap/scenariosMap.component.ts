@@ -22,7 +22,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
-  @Input() set data(data: SubRegionDataItem) {
+  @Input() set baselineData(data: SubRegionDataItem) {
     if (null != data) {
       this.baselineMapData = data;
       this.areaFeatureCollection = data.geoJson;
@@ -30,13 +30,23 @@ export class ScenariosMapComponent implements AfterViewInit {
     }
   }
 
+  @Input() set scenarioData(data: SubRegionDataItem) {
+    if (null != data) {
+      this.scenarioMapData = data;
+      // this.areaFeatureCollection = data.geoJson;
+      this.initialiseMapScenario(this.colourPalette);
+    }
+  }
+
   public baselineMapData: SubRegionDataItem;
+  public scenarioMapData: SubRegionDataItem;
 
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
   private areaBounds: L.LatLngBounds;
 
   private baselineDataLayer: L.GeoJSON;
+  private scenarioDataLayer: L.GeoJSON;
   private legend: L.Control;
 
   private areaFeatureCollection: GeoJSON.FeatureCollection;
@@ -133,18 +143,29 @@ export class ScenariosMapComponent implements AfterViewInit {
     if (null != this.baselineDataLayer) {
       this.baselineMap.removeLayer(this.baselineDataLayer);
     }
-    if (null != this.legend) {
-      this.baselineMap.removeControl(this.legend);
-    }
 
-    const baselineGradient = new ColourGradient(this.baselineRange, colourPalette);
+    const gradient = new ColourGradient(this.baselineRange, colourPalette);
 
     this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      baselineGradient.getColour(this.getFeatProps(feat).mn_absolute),
+      gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.baselineMap);
-    // console.debug('baseline', this.baselineDataLayer);
+  }
 
-    this.refreshLegend(baselineGradient);
+  private initialiseMapScenario(colourPalette: ColourPalette): void {
+    if (null != this.scenarioDataLayer) {
+      this.scenarioMap.removeLayer(this.scenarioDataLayer);
+    }
+    if (null != this.legend) {
+      this.scenarioMap.removeControl(this.legend);
+    }
+
+    const gradient = new ColourGradient(this.baselineRange, colourPalette);
+
+    this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      gradient.getColour(this.getFeatProps(feat).mn_absolute),
+    ).addTo(this.scenarioMap);
+
+    this.refreshLegend(gradient);
   }
 
   private refreshLegend(colourGradient: ColourGradient): void {
@@ -219,10 +240,15 @@ export class ScenariosMapComponent implements AfterViewInit {
     const colourGradient = new ColourGradient(this.baselineRange, colourPalette);
 
     this.baselineMap.removeLayer(this.baselineDataLayer);
+    this.scenarioMap.removeLayer(this.scenarioDataLayer);
 
     if (null != this.legend) {
-      this.baselineMap.removeControl(this.legend);
+      this.scenarioMap.removeControl(this.legend);
     }
+
+    this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+      colourGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    ).addTo(this.scenarioMap);
 
     this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       colourGradient.getColour(this.getFeatProps(feat).mn_absolute),

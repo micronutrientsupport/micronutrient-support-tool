@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 import { BiomarkerModule } from './pages/biomarkers/biomarker.module';
 import { QuickMapsComponentsModule } from './components/quickMapsComponents.module';
+import { ExportService } from 'src/app/services/export.service';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module';
 @NgModule({
@@ -37,6 +38,6 @@ import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module'
     PipesModule,
     DietaryChangeModule,
   ],
-  providers: [QuickMapsService, QuickMapsRouteGuardService, PipesModule],
+  providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule],
 })
 export class QuickMapsModule {}

@@ -19,6 +19,12 @@ import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabili
 import { GetProjectionSummary } from './currentData/getProjectionSummary';
 import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
+import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
+import { GetCurrentComposition } from './scenario/getCurrentComposition';
+import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
+import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
+import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
+import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -32,18 +38,25 @@ export class ApiService extends BaseApi {
       getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
-      getProjectedAvailabilities: new GetProjectedAvailabilities(false),
+      getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
       getProjectionSummary: new GetProjectionSummary(ApiService.USE_LIVE_API),
       getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
+    scenario: {
+      getCurrentComposition: new GetCurrentComposition(false),
+      getCurrentConsumption: new GetCurrentConsumption(false),
+      getDietChangeComposition: new GetDietChangeComposition(false),
+      getDietChangeConsumption: new GetDietChangeConsumption(false),
+      getDietChangeFoodItem: new GetDietChangeFoodItem(false),
+    },
     misc: {
-      getImpactScenarios: new GetImpactScenarios(true),
+      getImpactScenarios: new GetImpactScenarios(ApiService.USE_LIVE_API),
     },
   };
 
   private _dictionaries = [
-    new GetDictionary(DictionaryType.COUNTRIES, true).setDefaultParams({
+    new GetDictionary(DictionaryType.COUNTRIES, ApiService.USE_LIVE_API).setDefaultParams({
       path: 'country',
       typeObj: CountryDictionaryItem,
     }),
@@ -54,6 +67,9 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
+    new GetDictionary(DictionaryType.FOOD_GROUPS, false)
+      .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
+      .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {
