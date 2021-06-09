@@ -1,8 +1,10 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import * as L from 'leaflet';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
@@ -18,6 +20,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'scenarios-map-view';
   @ViewChild('baselineMap') baselineMapElement: ElementRef;
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
+  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   @Input() set data(data: SubRegionDataItem) {
     if (null != data) {
@@ -47,7 +50,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   private colourPalette: ColourPalette;
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
 
-  constructor() {
+  constructor(private dialogService: DialogService) {
     this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
     if (null == this.colourPalette) {
       ColourPalette.setSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID, this.defaultPalette);
@@ -55,10 +58,21 @@ export class ScenariosMapComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
     this.initialiseListeners();
+  }
+
+  public openMapSettings(): void {
+    void this.dialogService.openMapSettingsDialog(ScenariosMapComponent.COLOUR_PALETTE_ID).then(() => {
+      this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
+      if (null == this.colourPalette) {
+        this.colourPalette = this.defaultPalette;
+      }
+      // console.debug('colour Palette:', this.colourPalette);
+      // this.changeColourRamp(this.colourPalette);
+    });
   }
 
   private initialiseBaselineMap(mapElement: HTMLElement): L.Map {

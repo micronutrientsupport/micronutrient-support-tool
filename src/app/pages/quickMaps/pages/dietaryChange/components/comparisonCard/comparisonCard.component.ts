@@ -22,6 +22,8 @@ import { ChangeItemsType } from '../../dietaryChange.item';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
+import { MatMenu } from '@angular/material/menu';
+import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -34,7 +36,9 @@ export class ComparisonCardComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
+  @ViewChild(ScenariosMapComponent) scenariosMapComponent: ScenariosMapComponent;
   @Input() card: CardComponent;
+  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   public title = '';
   public selectedTab: number;
@@ -63,6 +67,8 @@ export class ComparisonCardComponent implements AfterViewInit {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
       this.card.showExpand = true;
+      this.card.showSettingsMenu = true;
+      this.card.matMenu = this.menu;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
@@ -115,6 +121,10 @@ export class ComparisonCardComponent implements AfterViewInit {
   public navigateToInfoTab(): void {
     this.selectedTab = 4;
     this.cdr.detectChanges();
+  }
+
+  public openMapSettings(): void {
+    this.scenariosMapComponent.openMapSettings();
   }
 
   // subscribes to those minor value changes,
