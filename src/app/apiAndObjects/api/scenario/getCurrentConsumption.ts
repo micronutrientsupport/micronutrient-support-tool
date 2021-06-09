@@ -10,6 +10,7 @@ export class GetCurrentConsumption extends CacheableEndpoint<CurrentConsumption,
   }
 
   protected callLive(params: GetCurrentConsumptionParams): Promise<CurrentConsumption> {
+    throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall(['diet', 'scenario', 'consumption'], RequestMethod.GET, {
       foodItem: params.foodItem.id,
       consumptionDataId: params.dataSource.consumptionDataId,
@@ -35,6 +36,6 @@ export class GetCurrentConsumption extends CacheableEndpoint<CurrentConsumption,
 }
 
 export interface GetCurrentConsumptionParams {
-  foodItem: FoodDictionaryItem;
   dataSource: DataSource;
+  foodItem: FoodDictionaryItem;
 }

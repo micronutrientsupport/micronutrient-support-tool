@@ -15,7 +15,6 @@ export class SubRegionDataItem extends BaseObject implements Exportable {
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-
     this.geoJson = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.FeatureCollection;
   }
 

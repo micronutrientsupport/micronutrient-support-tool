@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { CurrentDataService } from 'src/app/services/currentData.service';
-import { ChangeItemsType } from './dietaryChange.item';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class DietaryChangeService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public modeObs = this.modeSrc.asObservable();
 
-  private readonly changeItemsSrc = new BehaviorSubject<ChangeItemsType>([]);
+  private readonly changeItemsSrc = new BehaviorSubject<Array<DietaryChangeItem>>([]);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public changeItemsObs = this.changeItemsSrc.asObservable();
 
@@ -47,10 +47,10 @@ export class DietaryChangeService {
   public setMode(mode: DietaryChangeMode, force = false): void {
     this.setValue(this.modeSrc, mode, force);
   }
-  public get changeItems(): ChangeItemsType {
+  public get changeItems(): Array<DietaryChangeItem> {
     return this.changeItemsSrc.value;
   }
-  public setChangeItems(changeItems: ChangeItemsType, force = false): void {
+  public setChangeItems(changeItems: Array<DietaryChangeItem>, force = false): void {
     this.setValue(this.changeItemsSrc, changeItems, force);
   }
 

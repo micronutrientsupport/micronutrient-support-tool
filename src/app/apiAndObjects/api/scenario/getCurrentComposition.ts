@@ -10,6 +10,7 @@ export class GetCurrentComposition extends CacheableEndpoint<CurrentComposition,
   }
 
   protected callLive(params: GetCurrentCompositionParams): Promise<CurrentComposition> {
+    throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall(['diet', 'scenario', 'composition'], RequestMethod.GET, {
       foodItem: params.foodItem.id,
       compositionDataId: params.dataSource.compositionDataId,
@@ -35,6 +36,6 @@ export class GetCurrentComposition extends CacheableEndpoint<CurrentComposition,
 }
 
 export interface GetCurrentCompositionParams {
-  foodItem: FoodDictionaryItem;
   dataSource: DataSource;
+  foodItem: FoodDictionaryItem;
 }
