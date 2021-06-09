@@ -4,17 +4,14 @@ import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { FoodDictionaryItem } from '../apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { CurrentConsumption } from '../apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from '../apiAndObjects/objects/currentComposition';
-import { DietChangeFoodItem } from '../apiAndObjects/objects/dietChangeFoodItem';
 import {
   CompositionChangeItem,
   ConsumptionChangeItem,
   DietaryChangeItem,
   FoodItemChangeItem,
 } from '../apiAndObjects/objects/dietaryChange.item';
-import { DietChangeComposition } from '../apiAndObjects/objects/dietChangeComposition';
-import { DietChangeConsumption } from '../apiAndObjects/objects/dietChangeConsumption';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
-import { DietChangeData } from '../apiAndObjects/objects/dietChangeData';
+import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 
 @Injectable()
 export class ScenarioDataService {
@@ -37,7 +34,7 @@ export class ScenarioDataService {
   public getDietChangeComposition(
     dataSource: DataSource,
     changeItems: Array<CompositionChangeItem>,
-  ): Promise<DietChangeComposition> {
+  ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeComposition.call({
       dataSource,
       changeItems,
@@ -47,7 +44,7 @@ export class ScenarioDataService {
   public getDietChangeConsumption(
     dataSource: DataSource,
     changeItems: Array<ConsumptionChangeItem>,
-  ): Promise<DietChangeConsumption> {
+  ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeConsumption.call({
       dataSource,
       changeItems,
@@ -57,7 +54,7 @@ export class ScenarioDataService {
   public getDietChangeFoodItem(
     dataSource: DataSource,
     changeItems: Array<FoodItemChangeItem>,
-  ): Promise<DietChangeFoodItem> {
+  ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeFoodItem.call({
       dataSource,
       changeItems,
@@ -68,8 +65,8 @@ export class ScenarioDataService {
     dataSource: DataSource,
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
-  ): Promise<DietChangeData> {
-    let promiseFunc: (dataSourcey: DataSource, changeItemsy: Array<DietaryChangeItem>) => Promise<DietChangeData>;
+  ): Promise<SubRegionDataItem> {
+    let promiseFunc: (dataSourcey: DataSource, changeItemsy: Array<DietaryChangeItem>) => Promise<SubRegionDataItem>;
 
     let typeCheckFunc: (item: DietaryChangeItem) => boolean;
 

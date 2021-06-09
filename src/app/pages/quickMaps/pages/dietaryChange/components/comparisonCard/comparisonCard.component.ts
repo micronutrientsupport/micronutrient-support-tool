@@ -20,8 +20,8 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
-import { DietChangeData } from 'src/app/apiAndObjects/objects/dietChangeData';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -46,7 +46,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
-  private data: DietChangeData;
+  private data: SubRegionDataItem;
 
   private subscriptions = new Array<Subscription>();
   private changeItemSubscriptions = new Array<Subscription>();
@@ -117,7 +117,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   private init(dataPromise: Promise<unknown>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: DietChangeData) => {
+      .then((data: SubRegionDataItem) => {
         this.data = data;
         this.updateDisplay();
       })
