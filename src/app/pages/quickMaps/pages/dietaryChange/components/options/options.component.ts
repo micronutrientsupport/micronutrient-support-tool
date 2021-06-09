@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
-import { CompositionChangeItem, ConsumptionChangeItem, FoodItemChangeItem } from '../../dietaryChange.item';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -15,6 +14,11 @@ import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/f
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
+import {
+  CompositionChangeItem,
+  ConsumptionChangeItem,
+  FoodItemChangeItem,
+} from 'src/app/apiAndObjects/objects/dietaryChange.item';
 
 @Unsubscriber('subscriptions')
 @Component({

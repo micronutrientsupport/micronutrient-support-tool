@@ -18,8 +18,10 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
-import { ChangeItemsType } from '../../dietaryChange.item';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { DietChangeData } from 'src/app/apiAndObjects/objects/dietChangeData';
+import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -39,12 +41,12 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   // temp set to the change items to display something
   public modeDisplay: DietaryChangeMode;
-  public tempDisplay: ChangeItemsType;
+  public tempDisplay: Array<DietaryChangeItem>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
 
-  private data: unknown; // TODO: update this type when we know it!
+  private data: DietChangeData;
 
   private subscriptions = new Array<Subscription>();
   private changeItemSubscriptions = new Array<Subscription>();
@@ -54,6 +56,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private dietaryChangeService: DietaryChangeService,
+    private scenarioDataService: ScenarioDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<DietaryChangeComparisonCardDialogData>,
   ) {}
 
@@ -114,7 +117,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   private init(dataPromise: Promise<unknown>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: unknown) => {
+      .then((data: DietChangeData) => {
         this.data = data;
         this.updateDisplay();
       })
@@ -127,8 +130,13 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   // does a callout for new data?
   private updateData(): void {
+    const dataPromise = this.scenarioDataService.getDietChange(
+      this.quickMapsService.dataSource,
+      this.dietaryChangeService.mode,
+      this.dietaryChangeService.changeItems,
+    );
     // console.debug('update data');
-    this.init(Promise.resolve(null));
+    this.init(dataPromise);
   }
 
   // tweaks the display for new selected value?
