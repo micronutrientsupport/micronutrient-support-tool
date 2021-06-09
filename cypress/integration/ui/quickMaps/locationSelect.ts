@@ -8,6 +8,12 @@ import * as L from 'leaflet';
 let leafletObject: L.Map;
 
 describe('Quick Map - Location Select', () => {
+  // it('checks page for a11y compliance', () => {
+  //   cy.visit('/quick-maps');
+  //   cy.injectAxe();
+  //   cy.checkA11y(null, null, cy.terminalLog);
+  // });
+
   it('accesses leafet map', () => {
     cy.visit('/quick-maps');
     cy.get('.leaflet-container').should('be.visible');
