@@ -14,12 +14,6 @@
   font-size: 18px;
   gap: 5px;
 
-  & .wideItem {
-    flex-grow: 1;
-    display: flex;
-    margin: 1em 0.5em;
-  }
-
   & .right-text {
     flex-direction: column;
     align-items: flex-start;
@@ -54,11 +48,11 @@
 
 ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle,
 .mat-radio-outer-circle {
-  border-color: $color_primary !important;
+  border-color: $color_primary;
 }
 
 ::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: $color_primary !important;
+  background-color: $color_primary;
 }
 
 .optionsHeader {
@@ -71,24 +65,8 @@
 }
 .compositionValue {
   font-weight: 700;
-}
-
-.optionsValue {
-  font-weight: 700;
-  font-size: 16px;
-  display: block;
-
-  &.blue {
-    color: blue;
-  }
-
-  &.green {
-    color: green;
-  }
-
-  &.red {
-    color: red;
-  }
+  color: $color_primary;
+  text-align: center;
 }
 
 @media (max-width: 920px) {
@@ -98,20 +76,20 @@
     margin: 20px;
   }
   .divVertical {
-    display: none !important;
+    display: none;
   }
 }
 @media (min-width: 920px) {
   .divHorizontal {
-    display: none !important;
+    display: none;
   }
 }
 .divVertical {
-  margin: 20px;
+  margin: 10px;
   height: 100px;
 }
 .divHorizontal {
-  margin: 15px;
+  margin: 10px;
   width: 90%;
 
   align-items: center;
@@ -121,6 +99,20 @@ mat-icon {
   color: blue;
 }
 mat-radio-group {
-  margin: 15px;
+  margin: 10px;
   text-align: initial;
+}
+.matFormFieldScenario {
+  text-align: center;
+  width: 60px;
+}
+.btn-danger {
+  background-color: #d9534f;
+  color: white;
+  outline: none;
+}
+.btn-success {
+  background-color: #5cb85c;
+  color: white;
+  outline: none;
 }
