@@ -3,7 +3,7 @@
     (click)="minimiseSideNav()">
     <i class="fas fa-caret-left"></i>
   </button>
-  <h2 (click)="minimiseSideNav()">Quick MAPS</h2>
+  <h2 id="qmSideNavTitle" (click)="minimiseSideNav()">Quick MAPS</h2>
   <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
     [matTooltip]="sideNavToggleLock.value === true ? 'Unlock Side-Nav' : 'Lock Side-Nav'">
   </mat-slide-toggle>
@@ -34,8 +34,9 @@
       </div>
 
       <mat-form-field appearance="fill" aria-label="Geography of interest">
-        <mat-select name="nation" formControlName="nation" [placeholder]="'select a ' + group.value">
-          <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
+        <mat-select id="qmSelectNation" name="nation" formControlName="nation"
+          [placeholder]="'select a ' + group.value">
+          <mat-option id="qmSelectNationOption" *ngFor="let item of geographyOptionArray" [value]="item">
             {{ item.name }}
           </mat-option>
         </mat-select>

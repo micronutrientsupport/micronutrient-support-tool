@@ -1,0 +1,43 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/// <reference path="../../../support/index.d.ts" />
+
+import { Interception } from 'cypress/types/net-stubbing';
+import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
+
+describe('Quick Map - Side Nav Tests', () => {
+  it('side navigation loads all elements', () => {
+    cy.visit('/quick-maps');
+    cy.get('#qmSideNavTitle').contains('Quick MAPS');
+  });
+
+  it('hides and reopens the side navigation', () => {
+    cy.visit('/quick-maps');
+    cy.get('#quickMapsForm').should('exist');
+    cy.get('.minimize-button').click();
+    cy.get('#quickMapsForm').should('not.exist');
+    cy.get('.minimize-button').click();
+    cy.get('#quickMapsForm').should('exist');
+  });
+
+  it('sidebar lock disables side bar from being minimised', () => {
+    cy.visit('/quick-maps');
+    cy.get('.minimize-button').should('not.be.disabled');
+    cy.get('.mat-slide-toggle-label').click();
+    cy.get('.minimize-button').should('be.disabled');
+    cy.get('.mat-slide-toggle-label').click();
+    cy.get('.minimize-button').should('not.be.disabled');
+  });
+
+  it('loads a list of single nations and populates the drop down with all api response', () => {
+    cy.intercept('GET', 'country*').as('getCountries');
+    cy.visit('/quick-maps');
+    cy.wait('@getCountries').then((interception: Interception) => {
+      assert.isNotNull(interception.response.body, 'API call has data');
+      const responseBody: ApiResponse = interception.response.body;
+      cy.get('#mat-select-value-1').click();
+      cy.get('#qmSelectNation-panel').find('mat-option').should('have.length', responseBody.data['length']);
+    });
+  });
+});
