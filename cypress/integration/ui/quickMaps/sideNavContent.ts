@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -35,9 +36,52 @@ describe('Quick Map - Side Nav Tests', () => {
     cy.visit('/quick-maps');
     cy.wait('@getCountries').then((interception: Interception) => {
       assert.isNotNull(interception.response.body, 'API call has data');
+      expect(interception.response.statusCode).to.eq(200);
       const responseBody: ApiResponse = interception.response.body;
       cy.get('#mat-select-value-1').click();
       cy.get('#qmSelectNation-panel').find('mat-option').should('have.length', responseBody.data['length']);
+    });
+  });
+
+  it('loads a list of vitamins and populates the drop down with all api response', () => {
+    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.visit('/quick-maps');
+    cy.wait('@getMicronutrients').then((interception: Interception) => {
+      assert.isNotNull(interception.response.body, 'API call has data');
+      expect(interception.response.statusCode).to.eq(200);
+      const responseBody: ApiResponse = interception.response.body;
+      const countVitamins: Array<unknown> = responseBody.data.filter((item) => item['category'] === 'vitamin');
+      cy.get('#qmSelectMNDVitamin-button').click();
+      cy.get('#mat-select-value-3').click();
+      cy.get('#qmSelectMND-panel').find('mat-option').should('have.length', countVitamins.length);
+    });
+  });
+
+  it('loads a list of vitamins and populates the drop down with all api response', () => {
+    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.visit('/quick-maps');
+    cy.wait('@getMicronutrients').then((interception: Interception) => {
+      assert.isNotNull(interception.response.body, 'API call has data');
+      expect(interception.response.statusCode).to.eq(200);
+      const responseBody: ApiResponse = interception.response.body;
+      const countMinerals: Array<unknown> = responseBody.data.filter((item) => item['category'] === 'mineral');
+      cy.get('#qmSelectMNDMineral-button').click();
+      cy.get('#mat-select-value-3').click();
+      cy.get('#qmSelectMND-panel').find('mat-option').should('have.length', countMinerals.length);
+    });
+  });
+
+  it('loads a list of vitamins and populates the drop down with all api response', () => {
+    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.visit('/quick-maps');
+    cy.wait('@getMicronutrients').then((interception: Interception) => {
+      assert.isNotNull(interception.response.body, 'API call has data');
+      expect(interception.response.statusCode).to.eq(200);
+      const responseBody: ApiResponse = interception.response.body;
+      const countOther: Array<unknown> = responseBody.data.filter((item) => item['category'] === 'other');
+      cy.get('#qmSelectMNDOther-button').click();
+      cy.get('#mat-select-value-3').click();
+      cy.get('#qmSelectMND-panel').find('mat-option').should('have.length', countOther.length);
     });
   });
 });

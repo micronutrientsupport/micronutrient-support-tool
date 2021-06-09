@@ -54,14 +54,16 @@
       <div class="toggle-buttons">
         <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
           (change)="mndChange($event.value)" [value]="selectedMndType">
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDVitamin" [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin
+          </mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDMineral" [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral
+          </mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDOther" [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
       <ng-container>
         <mat-form-field appearance="fill">
-          <mat-select name="micronutrient" formControlName="micronutrient"
+          <mat-select id="qmSelectMND" name="micronutrient" formControlName="micronutrient"
             [placeholder]="'Select ' + groupMND?.value + ' option'">
             <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{ mnd.name }}</mat-option>
           </mat-select>
