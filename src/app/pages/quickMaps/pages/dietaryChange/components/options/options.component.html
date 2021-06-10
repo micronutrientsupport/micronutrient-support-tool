@@ -66,13 +66,15 @@
       <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
         <span class="current-value">{{changeableChangeItem.currentValue}}</span>
         <div>
-          <button type="button" class="btn btn-danger"
+          <button type="button" class="btn btn-danger" [disabled]="null == changeableChangeItem.currentValue"
             (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 0.95)">-5%</button>
           <mat-form-field class="mat-form-field-scenario">
-            <input type="number" matInput [value]="changeableChangeItem.scenarioValue | number:'1.1-3'">
+            <input type="number" matInput [value]="changeableChangeItem.scenarioValue | number:'1.1-3'"
+              [disabled]="null == changeableChangeItem.currentValue">
           </mat-form-field>
           <button type="button" class="btn btn-success"
-            (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 1.05)">+5%</button>
+            (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 1.05)"
+            [disabled]="null == changeableChangeItem.currentValue">+5%</button>
         </div>
       </ng-container>
       <ng-template #foodChangeElseBlock>
