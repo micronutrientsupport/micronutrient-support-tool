@@ -136,7 +136,7 @@ export class ComparisonCardComponent implements AfterViewInit {
       .getDietChange(
         this.quickMapsService.dataSource,
         this.dietaryChangeService.mode,
-        this.dietaryChangeService.changeItems,
+        this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
       )
       .then((data: SubRegionDataItem) => {
         this.scenarioData = data;

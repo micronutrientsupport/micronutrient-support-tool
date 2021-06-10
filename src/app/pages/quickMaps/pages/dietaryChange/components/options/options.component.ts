@@ -95,32 +95,63 @@ export class OptionsComponent {
 
   public foodItemSelectChange(event: MatSelectChange): void {
     const selectedFoodItem = event.value as FoodDictionaryItem;
-    if (DietaryChangeMode.FOOD_ITEM === this.dietaryChangeService.mode) {
-      this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, selectedFoodItem, null);
+
+    if (null == selectedFoodItem) {
+      this.changeableChangeItem = this.makeChangeItem(selectedFoodItem);
       this.cdr.markForCheck();
     } else {
-      void (null == selectedFoodItem
-        ? Promise.resolve(null)
-        : this.scenarioDataService
+      switch (this.dietaryChangeService.mode) {
+        case DietaryChangeMode.FOOD_ITEM:
+          const foodChangeItem = new FoodItemChangeItem(selectedFoodItem, selectedFoodItem);
+          this.changeableChangeItem = foodChangeItem;
+          this.setChangeItemComposition(foodChangeItem);
+          this.cdr.markForCheck();
+          break;
+        default:
+          void this.scenarioDataService
             .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
-            .then((item: CurrentValue) => item.value)
-      ).then((currentValue) => {
-        this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, currentValue, currentValue);
-        this.cdr.markForCheck();
-      });
+            .then((currentValue: CurrentValue) => {
+              this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, currentValue.value, currentValue.value);
+              this.cdr.markForCheck();
+            });
+      }
     }
   }
-
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
     item.scenarioValue = newValue;
+    if (item instanceof FoodItemChangeItem) {
+      this.setChangeItemComposition(item);
+    } else {
+    }
     this.itemsChanged();
     // const newItem = this.makeChangeItem(item.foodItem, item.currentValue, newValue);
   }
 
+  private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
+    if (null != foodChangeItem.foodItem) {
+      if (null == foodChangeItem.currentComposition) {
+        void this.scenarioDataService
+          .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dataSource)
+          .then((currentComposition: CurrentComposition) => {
+            foodChangeItem.currentComposition = currentComposition;
+            this.cdr.markForCheck();
+          });
+      }
+      if (foodChangeItem instanceof FoodItemChangeItem && null != foodChangeItem.scenarioValue) {
+        void this.scenarioDataService
+          .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dataSource)
+          .then((currentComposition: CurrentComposition) => {
+            foodChangeItem.scenarioComposition = currentComposition;
+            this.cdr.markForCheck();
+          });
+      }
+    }
+  }
+
   private itemsChanged(): void {
     // console.debug('itemsChanged');
-    clearTimeout(this.itemsChangedTimeout);
     // wait for inactivity before triggering update
+    clearTimeout(this.itemsChangedTimeout);
     this.itemsChangedTimeout = setTimeout(() => {
       // force as array is the same ref
       this.dietaryChangeService.setChangeItems(this.dietaryChangeService.changeItems, true);

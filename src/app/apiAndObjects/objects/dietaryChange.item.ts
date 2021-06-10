@@ -1,6 +1,9 @@
+import { CurrentComposition } from './currentComposition';
 import { FoodDictionaryItem } from './dictionaries/foodDictionaryItem';
 
 export abstract class DietaryChangeItem<T = any> {
+  public currentComposition: CurrentComposition;
+  public scenarioComposition: CurrentComposition;
   constructor(
     public readonly foodItem?: FoodDictionaryItem,
     public readonly currentValue?: T,
