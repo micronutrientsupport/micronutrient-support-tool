@@ -15,30 +15,9 @@
         <app-scenarios-map [baselineData]="baselineData" [scenarioData]="scenarioData"></app-scenarios-map>
       </div>
     </mat-tab>
-
     <mat-tab label="Table">
-      <div class="bmgf-maps-nice-scrollbar">
-        <!-- <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth"> -->
-        <table mat-table matSort class="mat-elevation-z8 tableFullWidth">
-
-          <ng-container matColumnDef="Region">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
-            <td mat-cell *matCellDef="let element">{{ element.Region }}</td>
-          </ng-container>
-          <ng-container matColumnDef="BaselineSupply">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Baseline Supply<span> (mg/person/day)</span></th>
-            <td mat-cell *matCellDef="let element">{{ element.BaselineSupply }}</td>
-          </ng-container>
-          <ng-container matColumnDef="ScenarioSupply">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Scenario Supply<span> (mg/person/day)</span></th>
-            <td mat-cell *matCellDef="let element">{{ element.ScenarioSupply }}</td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <tr class="mat-row" *matNoDataRow>
-          </tr>
-        </table>
-      </div>
+      <app-scenarios-table [baselineData]="baselineData" [scenarioData]="scenarioData">
+      </app-scenarios-table>
     </mat-tab>
 
     <mat-tab label="Download">
