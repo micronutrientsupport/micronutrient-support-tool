@@ -40,7 +40,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   public baselineData: SubRegionDataItem;
   public scenarioData: SubRegionDataItem;
-
+  public displayedColumns = ['Region', 'BaselineSupply', 'ScenarioSupply'];
   private loadingCount = 0;
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
