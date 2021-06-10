@@ -15,6 +15,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
 import { CompositionChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -28,6 +29,9 @@ export class OptionsComponent {
   public dietaryChangeMode = DietaryChangeMode;
   public loading: boolean;
   public foodGroupsDict: Dictionary;
+
+  public units: string;
+  public locallySelectedMode: DietaryChangeMode;
 
   private subscriptions = new Array<Subscription>();
 
@@ -52,8 +56,24 @@ export class OptionsComponent {
         this.exampleCurrentConsumption();
       });
     dietaryChangeService.modeObs.subscribe((value) => {
-      console.log('value:', value);
+      this.locallySelectedMode = value;
     });
+  }
+
+  public changeMode(event: MatRadioChange): void {
+    // TODO: only show confirmation if anything will be lost
+    if (confirm('ARE YOU SURE')) {
+      // TODO: clear selected items etc.
+
+      this.dietaryChangeService.setMode(event.value);
+    } else {
+      setTimeout(() => {
+        this.locallySelectedMode = this.dietaryChangeService.mode;
+        // this.dietaryChangeService.setMode(this.dietaryChangeService.mode, true);
+        // event.source.value = this.dietaryChangeService.mode;
+        this.cdr.markForCheck();
+      }, 0);
+    }
   }
 
   private exampleValueChange(): void {

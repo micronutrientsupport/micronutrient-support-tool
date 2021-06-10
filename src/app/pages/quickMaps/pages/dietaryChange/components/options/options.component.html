@@ -1,8 +1,7 @@
 <div class="container">
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
-    <mat-radio-group [value]="dietaryChangeService.modeObs | async"
-      (change)="dietaryChangeService.setMode($event.value)">
+    <mat-radio-group [(ngModel)]="locallySelectedMode" (change)="changeMode($event)">
       <mat-radio-button [value]="dietaryChangeMode.COMPOSITION" title="Composition change">
         Composition change
       </mat-radio-button>
@@ -21,34 +20,53 @@
     <mat-divider class="divVertical" [vertical]="true"></mat-divider>
 
 
-    <div>
+    <div class="options-grid mode-{{dietaryChangeMode[(dietaryChangeService.modeObs | async)] | lowercase}}">
+      <!-- start titles -->
       <span class="optionsHeader">Food Item Group:</span>
-      <br>
-      <mat-form-field appearance="outline">
-
-        <mat-select placeholder="Cereal/Grains">
-          <mat-option value="one">Cereal/Grains</mat-option>
-          <mat-option value="two">Tubers</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div>
       <span class="optionsHeader">Food Item:</span>
-      <br>
+      <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== dietaryChangeMode.FOOD_ITEM; else elseBlock">
+        <span class="optionsHeader">
+          Current {{dietaryChangeMode[dietaryChangeService.modeObs | async] | lowercase}}
+        </span>
+        <span class="optionsHeader">
+          Scenario {{dietaryChangeMode[dietaryChangeService.modeObs | async] | lowercase}}
+        </span>
+      </ng-container>
+      <ng-template #elseBlock>
+        <span></span>
+        <span class="optionsHeader">Food Item Group:</span>
+        <span class="optionsHeader">Food Item:</span>
+      </ng-template>
+      <!-- end titles -->
+
+      <!-- start fixed selection food items -->
+      <!-- end fixed selection food items -->
+
+      <!-- start changeable selection food items -->
       <mat-form-field appearance="outline">
-        <mat-select placeholder="Wheat 1">
-          <mat-option value="one">Wheat 1</mat-option>
-          <mat-option value="two">Item 2</mat-option>
+        <mat-select #groupSelect placeholder="Food Item Group">
+          <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
+            {{foodGroup.name}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Food Item">
+          <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
+            {{foodItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- end changeable selection food items -->
+      <span>
+        <a href="#">
+          <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+        </a>
+        Add food Item
+      </span>
     </div>
 
-    <div>
-      <a href="#">
-        <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
-      </a>
-      Add food Item
-    </div>
 
     <div class="wideItem right-text">
       <div class="col-md-6">
@@ -71,25 +89,8 @@
         </mat-label>
       </div>
     </div>
-
     <!-- Options panel JON -->
     <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
-      <mat-form-field appearance="fill">
-        <mat-label>Food Item Group</mat-label>
-        <mat-select #groupSelect>
-          <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
-            {{foodGroup.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Food Item Group</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
-            {{foodItem.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
       <!-- options panel JON -->
     </div>

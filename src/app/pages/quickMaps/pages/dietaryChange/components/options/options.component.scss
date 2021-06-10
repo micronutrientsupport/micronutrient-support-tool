@@ -124,3 +124,11 @@ mat-radio-group {
   margin: 15px;
   text-align: initial;
 }
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  &.mode-food_item {
+    grid-template-columns: repeat(5, auto);
+  }
+}

@@ -11,6 +11,7 @@ import { DescriptionComponent } from './components/description/description.compo
 import { OptionsComponent } from './components/options/options.component';
 import { ComparisonCardComponent } from './components/comparisonCard/comparisonCard.component';
 import { DietaryChangeService } from './dietaryChange.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DietaryChangeComponent, DescriptionComponent, OptionsComponent, ComparisonCardComponent],
@@ -22,6 +23,7 @@ import { DietaryChangeService } from './dietaryChange.service';
     GridsterModule,
     ComponentsModule,
     DialogModule,
+    FormsModule,
   ],
   providers: [DietaryChangeService],
   exports: [DietaryChangeComponent],
