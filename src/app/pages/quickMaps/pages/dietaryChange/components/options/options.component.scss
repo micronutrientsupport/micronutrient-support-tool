@@ -55,15 +55,15 @@
   background-color: $color_primary;
 }
 
-.optionsHeader {
+.options-header {
   font-weight: 700;
   font-size: 16px;
 }
-.optionsUnit {
+.options-unit {
   font-weight: 300;
   font-size: 12px;
 }
-.compositionValue {
+.composition-value {
   font-weight: 700;
   color: $color_primary;
   text-align: center;
@@ -75,20 +75,20 @@
     text-align: center;
     margin: 20px;
   }
-  .divVertical {
+  .div-vertical {
     display: none;
   }
 }
 @media (min-width: 920px) {
-  .divHorizontal {
+  .div-horizontal {
     display: none;
   }
 }
-.divVertical {
+.div-vertical {
   margin: 10px;
   height: 100px;
 }
-.divHorizontal {
+.div-horizontal {
   margin: 10px;
   width: 90%;
 
@@ -102,7 +102,7 @@ mat-radio-group {
   margin: 10px;
   text-align: initial;
 }
-.matFormFieldScenario {
+.mat-form-field-scenario {
   text-align: center;
   width: 60px;
 }
