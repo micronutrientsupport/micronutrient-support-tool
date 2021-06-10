@@ -94,16 +94,21 @@ export class OptionsComponent {
   }
 
   public foodItemSelectChange(event: MatSelectChange): void {
-    const foodItem = event.value as FoodDictionaryItem;
-    void (null == foodItem
-      ? Promise.resolve(null)
-      : this.scenarioDataService
-          .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, foodItem)
-          .then((item: CurrentValue) => item.value)
-    ).then((currentValue) => {
-      this.changeableChangeItem = this.makeChangeItem(event.value, currentValue, currentValue);
+    const selectedFoodItem = event.value as FoodDictionaryItem;
+    if (DietaryChangeMode.FOOD_ITEM === this.dietaryChangeService.mode) {
+      this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, selectedFoodItem, null);
       this.cdr.markForCheck();
-    });
+    } else {
+      void (null == selectedFoodItem
+        ? Promise.resolve(null)
+        : this.scenarioDataService
+            .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
+            .then((item: CurrentValue) => item.value)
+      ).then((currentValue) => {
+        this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, currentValue, currentValue);
+        this.cdr.markForCheck();
+      });
+    }
   }
 
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
