@@ -26,6 +26,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     if (null != data) {
       this.baselineMapData = data;
       this.areaFeatureCollection = data.geoJson;
+      this.allowBaselineMapEvents = false;
       this.initialiseMapBaseline(this.colourPalette);
     }
   }
@@ -33,7 +34,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   @Input() set scenarioData(data: SubRegionDataItem) {
     if (null != data) {
       this.scenarioMapData = data;
-      // this.areaFeatureCollection = data.geoJson;
+      this.allowScenarioMapEvents = false;
       this.initialiseMapScenario(this.colourPalette);
     }
   }
@@ -44,12 +45,11 @@ export class ScenariosMapComponent implements AfterViewInit {
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
   private areaBounds: L.LatLngBounds;
+  private areaFeatureCollection: GeoJSON.FeatureCollection;
 
   private baselineDataLayer: L.GeoJSON;
   private scenarioDataLayer: L.GeoJSON;
   private legend: L.Control;
-
-  private areaFeatureCollection: GeoJSON.FeatureCollection;
 
   private allowBaselineMapEvents: boolean;
   private allowScenarioMapEvents: boolean;
@@ -149,6 +149,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.baselineMap);
+    this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
   }
 
   private initialiseMapScenario(colourPalette: ColourPalette): void {
@@ -164,7 +165,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.scenarioMap);
-
+    this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
     this.refreshLegend(gradient);
   }
 
@@ -202,7 +203,7 @@ export class ScenariosMapComponent implements AfterViewInit {
 
       return div;
     };
-
+    // this.setBounds();
     this.legend.addTo(this.scenarioMap);
   }
 
