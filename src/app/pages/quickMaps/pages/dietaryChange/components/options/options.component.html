@@ -44,7 +44,7 @@
 
       <!-- start changeable selection food items -->
       <mat-form-field appearance="outline">
-        <mat-select #groupSelect [value]="changeableChangeItem.foodItem?.group" placeholder="Food Item Group">
+        <mat-select #groupSelect placeholder="Food Item Group" (selectionChange)="resetChangeItem()">
           <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
             {{foodGroup.name}}
           </mat-option>

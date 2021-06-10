@@ -94,6 +94,7 @@ export class OptionsComponent {
   }
 
   public foodItemSelectChange(event: MatSelectChange): void {
+    // console.debug('foodItemSelectChange', event);
     const selectedFoodItem = event.value as FoodDictionaryItem;
 
     if (null == selectedFoodItem) {
@@ -125,6 +126,10 @@ export class OptionsComponent {
     }
     this.itemsChanged();
     // const newItem = this.makeChangeItem(item.foodItem, item.currentValue, newValue);
+  }
+
+  public resetChangeItem(): void {
+    this.changeableChangeItem = this.makeChangeItem();
   }
 
   private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
