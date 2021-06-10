@@ -2,49 +2,49 @@
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     <mat-radio-group [(ngModel)]="locallySelectedMode" (change)="changeMode($event)">
-      <mat-radio-button [value]="dietaryChangeMode.COMPOSITION" title="Composition change">
+      <mat-radio-button [value]="MODE_ENUM.COMPOSITION" title="Composition change">
         Composition change
       </mat-radio-button>
       <br>
-      <mat-radio-button [value]="dietaryChangeMode.CONSUMPTION" title="Consumption change">
+      <mat-radio-button [value]="MODE_ENUM.CONSUMPTION" title="Consumption change">
         Consumption change
       </mat-radio-button>
       <br>
-      <mat-radio-button [value]="dietaryChangeMode.FOOD_ITEM" title="Food Item comparison">
+      <mat-radio-button [value]="MODE_ENUM.FOOD_ITEM" title="Food Item comparison">
         Food Item comparison
       </mat-radio-button>
     </mat-radio-group>
 
+    <mat-divider class="div-horizontal"></mat-divider>
+    <mat-divider class="div-vertical" [vertical]="true"></mat-divider>
 
-    <mat-divider class="divHorizontal"></mat-divider>
-    <mat-divider class="divVertical" [vertical]="true"></mat-divider>
-
-
-    <div class="options-grid mode-{{dietaryChangeMode[(dietaryChangeService.modeObs | async)] | lowercase}}">
+    <div class="options-grid mode-{{modeText | lowercase}}">
       <!-- start titles -->
-      <span class="optionsHeader">Food Item Group:</span>
-      <span class="optionsHeader">Food Item:</span>
-      <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== dietaryChangeMode.FOOD_ITEM; else elseBlock">
-        <span class="optionsHeader">
-          Current {{dietaryChangeMode[dietaryChangeService.modeObs | async] | lowercase}}
+      <span class="options-header">Food Item Group:</span>
+      <span class="options-header">Food Item:</span>
+      <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else elseBlock">
+        <span class="options-header centre">Current {{modeText | lowercase}}<br>
+          <span class="options-header-units">({{units}})</span>
         </span>
-        <span class="optionsHeader">
-          Scenario {{dietaryChangeMode[dietaryChangeService.modeObs | async] | lowercase}}
+        <span class="options-header centre">Scenario {{modeText | lowercase}}<br>
+          <span class="options-header-units">({{units}})</span>
         </span>
       </ng-container>
       <ng-template #elseBlock>
         <span></span>
-        <span class="optionsHeader">Food Item Group:</span>
-        <span class="optionsHeader">Food Item:</span>
+        <span class="options-header">Food Item Group:</span>
+        <span class="options-header">Food Item:</span>
       </ng-template>
       <!-- end titles -->
 
       <!-- start fixed selection food items -->
+      <!-- <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
+      </div> -->
       <!-- end fixed selection food items -->
 
       <!-- start changeable selection food items -->
       <mat-form-field appearance="outline">
-        <mat-select #groupSelect placeholder="Food Item Group">
+        <mat-select #groupSelect [value]="changeableChangeItem.foodItem?.group" placeholder="Food Item Group">
           <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
             {{foodGroup.name}}
           </mat-option>
@@ -52,12 +52,23 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-select placeholder="Food Item">
+        <mat-select placeholder="Food Item" [value]="changeableChangeItem.foodItem"
+          (selectionChange)="foodItemSelectChange($event)">
           <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
             {{foodItem.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <span class="composition-value">{{changeableChangeItem.currentValue}}</span>
+      <div>
+        <button type="button" class="btn btn-danger"
+          (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 0.95)">-5%</button>
+        <mat-form-field class="mat-form-field-scenario">
+          <input type="number" matInput [value]="changeableChangeItem.scenarioValue | number:'1.1-3'">
+        </mat-form-field>
+        <button type="button" class="btn btn-success"
+          (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 1.05)">+5%</button>
+      </div>
       <!-- end changeable selection food items -->
       <span>
         <a href="#">
@@ -65,34 +76,6 @@
         </a>
         Add food Item
       </span>
-    </div>
-
-
-    <div class="wideItem right-text">
-      <div class="col-md-6">
-        <mat-label class="optionsHeader">
-          Current Composition
-        </mat-label>
-        <span class="optionsUnit">(mg/kg)</span>
-        <p class="compositionValue">10</p>
-      </div>
-      <br>
-      <div class="col-md-6">
-        <mat-label class="optionsHeader">
-          Scenario Composition
-          <span class="optionsUnit">(mg/kg)</span>
-          <mat-select>
-            <mat-option>
-
-            </mat-option>
-          </mat-select>
-        </mat-label>
-      </div>
-    </div>
-    <!-- Options panel JON -->
-    <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
-
-      <!-- options panel JON -->
     </div>
   </ng-container>
 </div>
