@@ -24,14 +24,16 @@ export class FoodGroupDictionaryItem extends MapsDictionaryItem {
             >;
             return objectBuilder
               .buildArray<FoodDictionaryItem>(FoodDictionaryItem, foodItemObjects)
-              .then((foodItems) =>
-                new this(
+              .then((foodItems) => {
+                const group = new this(
                   source,
                   ObjectAccessor.getString(this.ID_ATTRIBUTE, source),
                   ObjectAccessor.getString(this.NAME_ATTRIBUTE, source),
                   ObjectAccessor.getString(this.DESC_ATTRIBUTE, source),
-                ).setFoodItems(foodItems),
-              );
+                ).setFoodItems(foodItems);
+                foodItems.forEach((item) => item.setGroup(group));
+                return group;
+              });
           }),
     );
   }

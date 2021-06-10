@@ -130,6 +130,7 @@ export class ComparisonCardComponent implements AfterViewInit {
       });
   }
   private updateScenarioData(): void {
+    // console.debug('updateScenarioData');
     this.startLoading();
     this.scenarioDataService
       .getDietChange(

@@ -12,6 +12,7 @@ import {
 } from '../apiAndObjects/objects/dietaryChange.item';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
+import { CurrentValue } from '../apiAndObjects/objects/currentValue.interface';
 
 @Injectable()
 export class ScenarioDataService {
@@ -29,6 +30,19 @@ export class ScenarioDataService {
       dataSource,
       foodItem,
     });
+  }
+
+  public getCurrentValue(
+    dataSource: DataSource,
+    mode: DietaryChangeMode,
+    foodItem: FoodDictionaryItem,
+  ): Promise<CurrentValue> {
+    switch (mode) {
+      case DietaryChangeMode.COMPOSITION:
+        return this.getCurrentComposition(foodItem, dataSource);
+      case DietaryChangeMode.CONSUMPTION:
+        return this.getCurrentConsumption(foodItem, dataSource);
+    }
   }
 
   public getDietChangeComposition(

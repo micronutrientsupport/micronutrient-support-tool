@@ -1,14 +1,10 @@
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { DataSource } from '../../objects/dataSource';
 import { ConsumptionChangeItem } from '../../objects/dietaryChange.item';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { HttpClient } from '@angular/common/http';
+import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 
-export class GetDietChangeConsumption extends CacheableEndpoint<SubRegionDataItem, GetDietChangeConsumptionParams> {
-  protected getCacheKey(params: GetDietChangeConsumptionParams): string {
-    return JSON.stringify(params);
-  }
-
+export class GetDietChangeConsumption extends Endpoint<SubRegionDataItem, GetDietChangeConsumptionParams> {
   protected callLive(): // params: GetDietChangeConsumptionParams,
   Promise<SubRegionDataItem> {
     throw new Error('Method not implemented.');
