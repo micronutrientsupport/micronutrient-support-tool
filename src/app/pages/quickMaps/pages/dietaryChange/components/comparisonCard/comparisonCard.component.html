@@ -1,10 +1,6 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
-      <div>
-        {{modeDisplay | json}}
-        <div *ngFor="let item of tempDisplay">{{item.foodItem}} {{item.changeValuesObs | async}}</div>
-      </div>
     </mat-tab>
 
     <mat-tab label="Table">

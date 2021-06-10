@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
-import { CompositionChangeItem, ConsumptionChangeItem, FoodItemChangeItem } from '../../dietaryChange.item';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -15,6 +14,7 @@ import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/f
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
+import { CompositionChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -59,28 +59,34 @@ export class OptionsComponent {
   private exampleValueChange(): void {
     // test
     setTimeout(() => {
-      // change mode
-      this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
-
-      // change food items
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const compositionChangeItem1 = new CompositionChangeItem('Some food item object here - potato', 10);
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const FoodItemChangeItem1 = new FoodItemChangeItem(
-        'Some food item object here - potato',
-        'Some food item object here - chips',
-      );
-
-      const consumptionChangeItem1 = new ConsumptionChangeItem('Some food item object here - potato', 55);
-      const consumptionChangeItem2 = new ConsumptionChangeItem('Some food item object here - pizza', 22);
-      this.dietaryChangeService.setChangeItems([consumptionChangeItem1, consumptionChangeItem2]);
-
-      setInterval(() => {
-        // change value on a change item
-        consumptionChangeItem1.setChangeValue(consumptionChangeItem1.changeValue + 1);
-        consumptionChangeItem2.setChangeValue(consumptionChangeItem1.changeValue + 1);
-      }, 500);
+      // COMPOSITION
+      this.dietaryChangeService.setMode(DietaryChangeMode.COMPOSITION);
+      this.dietaryChangeService.setChangeItems([
+        new CompositionChangeItem(
+          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+          10,
+        ),
+      ]);
+      // // CONSUMPTION
+      // this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
+      // this.dietaryChangeService.setChangeItems([
+      //   new ConsumptionChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
+      //     22,
+      //   ),
+      //   new ConsumptionChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
+      //     55,
+      //   ),
+      // ]);
+      // // FOOD_ITEM
+      // this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
+      // this.dietaryChangeService.setChangeItems([
+      //   new FoodItemChangeItem(
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
+      //   ),
+      // ]);
     }, 3000);
   }
 
