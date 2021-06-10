@@ -1,7 +1,81 @@
 <div class="container">
   <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
-    Options panel
+    <mat-radio-group [value]="dietaryChangeService.modeObs | async"
+      (change)="dietaryChangeService.setMode($event.value)">
+      <mat-radio-button [value]="dietaryChangeMode.COMPOSITION" title="Composition change">
+        Composition change
+      </mat-radio-button>
+      <br>
+      <mat-radio-button [value]="dietaryChangeMode.CONSUMPTION" title="Consumption change">
+        Consumption change
+      </mat-radio-button>
+      <br>
+      <mat-radio-button [value]="dietaryChangeMode.FOOD_ITEM" title="Food Item comparison">
+        Food Item comparison
+      </mat-radio-button>
+    </mat-radio-group>
+
+
+    <mat-divider class="div-horizontal"></mat-divider>
+    <mat-divider class="div-vertical" [vertical]="true"></mat-divider>
+
+
+    <div>
+      <span class="options-header">Food Item Group:</span>
+      <br>
+      <mat-form-field appearance="outline">
+
+        <mat-select placeholder="Cereal/Grains">
+          <mat-option value="one">Cereal/Grains</mat-option>
+          <mat-option value="two">Tubers</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <span class="options-header">Food Item:</span>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Wheat 1">
+          <mat-option value="one">Wheat 1</mat-option>
+          <mat-option value="two">Item 2</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <a href="#">
+        <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+      </a>
+      Add food Item
+    </div>
+
+    <div class="right-text">
+      <div class="col-md-6">
+        <mat-label class="options-header">
+          Current Composition
+        </mat-label>
+        <span class="options-unit">(mg/kg)</span>
+        <p class="composition-value">10</p>
+      </div>
+      <br>
+      <div class="col-md-6">
+        <mat-label class="options-header">
+          Scenario Composition
+          <span class="options-unit">(mg/kg)</span>
+        </mat-label>
+        <br>
+        <div style="align-items: center;">
+          <button type="button" class="btn btn-danger">-5%</button>
+          <mat-form-field class="mat-form-field-scenario">
+            <input matInput placeholder="12">
+          </mat-form-field>
+          <button type="button" class="btn btn-success">+5%</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options panel JON -->
     <div class="item-row" *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async">
       <mat-form-field appearance="fill">
         <mat-label>Food Item Group</mat-label>
@@ -19,6 +93,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <!-- options panel JON -->
     </div>
   </ng-container>
 </div>
