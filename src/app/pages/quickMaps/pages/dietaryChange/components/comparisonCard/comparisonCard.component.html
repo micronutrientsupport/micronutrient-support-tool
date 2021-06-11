@@ -1,10 +1,23 @@
+<mat-menu #settingsMenu="matMenu">
+  <button mat-menu-item (click)="openMapSettings()"><i class="fas fa-map"></i> Map Settings</button>
+  <button mat-menu-item [disabled]="true"><i class="fas fa-table"></i> Table Settings</button>
+  <button mat-menu-item [disabled]="true"><i class="fas fa-chart-bar"></i> Chart Settings</button>
+</mat-menu>
+
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
+      <!-- <div>
+        {{modeDisplay | json}}
+        <div *ngFor="let item of tempDisplay">{{item.foodItem}} {{item.changeValuesObs | async}}</div>
+      </div> -->
+      <div>
+        <app-scenarios-map [baselineData]="baselineData" [scenarioData]="scenarioData"></app-scenarios-map>
+      </div>
     </mat-tab>
-
     <mat-tab label="Table">
-
+      <app-scenarios-table [baselineData]="baselineData" [scenarioData]="scenarioData">
+      </app-scenarios-table>
     </mat-tab>
 
     <mat-tab label="Download">

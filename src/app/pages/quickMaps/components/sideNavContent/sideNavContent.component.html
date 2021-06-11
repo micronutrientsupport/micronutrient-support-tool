@@ -3,7 +3,7 @@
     (click)="minimiseSideNav()">
     <i class="fas fa-caret-left"></i>
   </button>
-  <h2 (click)="minimiseSideNav()">Quick MAPS</h2>
+  <h2 id="qmSideNavTitle" (click)="minimiseSideNav()">Quick MAPS</h2>
   <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
     [matTooltip]="sideNavToggleLock.value === true ? 'Unlock Side-Nav' : 'Lock Side-Nav'">
   </mat-slide-toggle>
@@ -34,8 +34,9 @@
       </div>
 
       <mat-form-field appearance="fill" aria-label="Geography of interest">
-        <mat-select name="nation" formControlName="nation" [placeholder]="'select a ' + group.value">
-          <mat-option *ngFor="let item of geographyOptionArray" [value]="item">
+        <mat-select id="qmSelectNation" name="nation" formControlName="nation"
+          [placeholder]="'select a ' + group.value">
+          <mat-option id="qmSelectNationOption" *ngFor="let item of geographyOptionArray" [value]="item">
             {{ item.name }}
           </mat-option>
         </mat-select>
@@ -53,14 +54,16 @@
       <div class="toggle-buttons">
         <mat-button-toggle-group #groupMND="matButtonToggleGroup" aria-label="MNDs of interest"
           (change)="mndChange($event.value)" [value]="selectedMndType">
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin</mat-button-toggle>
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral</mat-button-toggle>
-          <mat-button-toggle [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDVitamin" [value]="MICRONUTRIENT_TYPE_ENUM.VITAMIN">Vitamin
+          </mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDMineral" [value]="MICRONUTRIENT_TYPE_ENUM.MINERAL">Mineral
+          </mat-button-toggle>
+          <mat-button-toggle id="qmSelectMNDOther" [value]="MICRONUTRIENT_TYPE_ENUM.OTHER">Other</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
       <ng-container>
         <mat-form-field appearance="fill">
-          <mat-select name="micronutrient" formControlName="micronutrient"
+          <mat-select id="qmSelectMND" name="micronutrient" formControlName="micronutrient"
             [placeholder]="'Select ' + groupMND?.value + ' option'">
             <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{ mnd.name }}</mat-option>
           </mat-select>

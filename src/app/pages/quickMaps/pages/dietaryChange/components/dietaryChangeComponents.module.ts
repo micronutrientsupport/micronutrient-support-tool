@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ScenariosMapComponent } from './comparisonCard/scenariosMap/scenariosMap.component';
+import { ScenariosTableComponent } from './comparisonCard/scenarios-table/scenariosTable.component';
 import { FormsModule } from '@angular/forms';
 import { AppMaterialModule } from 'src/app/app-material.module';
 import { ComponentsModule } from 'src/app/components/components.module';
@@ -10,9 +12,21 @@ import { DescriptionComponent } from './description/description.component';
 import { OptionsComponent } from './options/options.component';
 
 @NgModule({
-  declarations: [DescriptionComponent, OptionsComponent, ComparisonCardComponent],
+  declarations: [
+    ScenariosMapComponent,
+    ScenariosTableComponent,
+    DescriptionComponent,
+    OptionsComponent,
+    ComparisonCardComponent,
+  ],
   imports: [CommonModule, AppMaterialModule, ComponentsModule, DialogModule, FormsModule],
   providers: [DietaryChangeService],
-  exports: [DescriptionComponent, OptionsComponent, ComparisonCardComponent],
+  exports: [
+    ScenariosMapComponent,
+    ScenariosTableComponent,
+    DescriptionComponent,
+    OptionsComponent,
+    ComparisonCardComponent,
+  ],
 })
 export class DietaryChangeComponentsModule {}

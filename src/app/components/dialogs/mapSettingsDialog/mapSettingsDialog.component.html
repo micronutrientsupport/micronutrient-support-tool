@@ -1,6 +1,6 @@
 <app-base-dialog [data]="data">
   <mat-drawer-container class="settings-container" autosize>
-    <mat-drawer #drawer [opened]="true" mode="side">
+    <mat-drawer #drawer [disableClose]="true" [opened]="true" mode="side">
       <mat-selection-list #optionList [multiple]="false">
         <mat-list-option [selected]="true" value="general">General</mat-list-option>
         <mat-list-option value="advanced">Create Gradient</mat-list-option>
