@@ -36,6 +36,8 @@ export class OptionsComponent {
 
   public loading: boolean;
   public foodGroupsDict: Dictionary;
+  public filteredFoodGroups: Array<FoodGroupDictionaryItem>;
+  public filteredFoodItems: Array<FoodDictionaryItem>;
 
   public units: string;
   public modeText: string;
@@ -59,6 +61,7 @@ export class OptionsComponent {
       .getDictionary(DictionaryType.FOOD_GROUPS)
       .then((dict) => {
         this.foodGroupsDict = dict;
+        this.updateFilteredFoodItems();
       })
       .finally(() => {
         this.loading = false;
@@ -117,6 +120,7 @@ export class OptionsComponent {
     const initiallyUseable = changeItem.isUseable();
     changeItem.clear();
     changeItem.foodGroup = event.value as FoodGroupDictionaryItem;
+    this.updateFilteredFoodItems();
     if (initiallyUseable) {
       this.itemsChanged();
     }
@@ -149,6 +153,32 @@ export class OptionsComponent {
     // doesn't need to trigger update as new item isn't fully formed
     this.dietaryChangeService.changeItems.push(this.makeChangeItem());
     this.addItemDisabled = true;
+
+    this.updateFilteredFoodItems();
+  }
+
+  private updateFilteredFoodItems(): void {
+    if (null != this.foodGroupsDict) {
+      const editableChangeItem = this.dietaryChangeService.changeItems[
+        this.dietaryChangeService.changeItems.length - 1
+      ];
+      const selectedGroup = null != editableChangeItem ? editableChangeItem.foodGroup : null;
+      const usedFoodItems = this.dietaryChangeService.changeItems.map((item) => item.foodItem);
+
+      const availableFoodItems = this.foodGroupsDict
+        .getItems()
+        .map((group: FoodGroupDictionaryItem) => group.foodItems.getItems())
+        .reduce((allItems, theseItems) => allItems.concat(theseItems))
+        .filter((item: FoodDictionaryItem) => !usedFoodItems.includes(item)) as Array<FoodDictionaryItem>;
+
+      this.filteredFoodGroups = availableFoodItems
+        .map((item) => item.group)
+        // unique
+        .filter((group: FoodGroupDictionaryItem, index, array) => array.indexOf(group) === index);
+
+      this.filteredFoodItems =
+        null == selectedGroup ? [] : availableFoodItems.filter((item) => item.group === selectedGroup);
+    }
   }
 
   private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {

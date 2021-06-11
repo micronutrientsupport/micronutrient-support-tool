@@ -125,14 +125,20 @@ mat-radio-group {
 
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: min-content auto auto auto auto;
   align-items: center;
   gap: 1rem;
   &.mode-food_item {
-    grid-template-columns: repeat(6, auto);
+    grid-template-columns: min-content auto auto auto auto auto;
   }
 }
 
 button.hidden {
   visibility: hidden;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
