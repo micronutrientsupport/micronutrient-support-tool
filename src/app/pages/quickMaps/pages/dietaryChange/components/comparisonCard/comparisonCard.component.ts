@@ -18,9 +18,12 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
-import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
+import { MatMenu } from '@angular/material/menu';
+import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
+import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -33,11 +36,16 @@ export class ComparisonCardComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
+  @ViewChild(ScenariosMapComponent) scenariosMapComponent: ScenariosMapComponent;
   @Input() card: CardComponent;
+  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   public title = '';
   public selectedTab: number;
 
+  // temp set to the change items to display something
+  public modeDisplay: DietaryChangeMode;
+  // public tempDisplay: ChangeItemsType;
   public baselineData: SubRegionDataItem;
   public scenarioData: SubRegionDataItem;
 
@@ -62,6 +70,8 @@ export class ComparisonCardComponent implements AfterViewInit {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
       this.card.showExpand = true;
+      this.card.showSettingsMenu = true;
+      this.card.matMenu = this.menu;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
@@ -86,8 +96,14 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.updateScenarioData();
         }),
       );
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.updateBaselineData();
+        }),
+      );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
+      this.updateBaselineData();
       this.baselineData = this.dialogData.dataIn.baselineData;
       this.scenarioData = this.dialogData.dataIn.scenarioData;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
@@ -99,6 +115,25 @@ export class ComparisonCardComponent implements AfterViewInit {
     this.selectedTab = 4;
     this.cdr.detectChanges();
   }
+
+  public openMapSettings(): void {
+    this.scenariosMapComponent.openMapSettings();
+  }
+
+  // subscribes to those minor value changes,
+  // for if we don't need to call out for data, just update the display
+  // private refreshItemSubscriptions(): void {
+  //   this.changeItemSubscriptions.forEach((subs) => {
+  //     if (null != subs) {
+  //       subs.unsubscribe();
+  //     }
+  //   });
+  //   this.changeItemSubscriptions = new Array<Subscription>();
+  //   this.dietaryChangeService.changeItems.forEach((item) => {
+  //     this.changeItemSubscriptions.push(item.changeValuesObs.subscribe(() => this.updateDisplay()));
+  //   });
+  //   this.updateDisplay();
+  // }
 
   private startLoading(): void {
     this.loadingSrc.next(++this.loadingCount > 0);
@@ -139,7 +174,6 @@ export class ComparisonCardComponent implements AfterViewInit {
       )
       .then((data: SubRegionDataItem) => {
         this.scenarioData = data;
-        // console.debug('scenarioData', this.scenarioData);
       })
       .catch((e) => {
         console.error(e);

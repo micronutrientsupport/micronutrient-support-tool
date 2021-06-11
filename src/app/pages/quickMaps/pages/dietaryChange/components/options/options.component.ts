@@ -25,7 +25,7 @@ import { CompositionChangeItem } from 'src/app/apiAndObjects/objects/dietaryChan
 })
 export class OptionsComponent {
   public ROUTES = AppRoutes;
-
+  public dietaryChangeMode = DietaryChangeMode;
   public loading: boolean;
   public foodGroupsDict: Dictionary;
 
@@ -51,6 +51,9 @@ export class OptionsComponent {
         this.exampleCurrentComposition();
         this.exampleCurrentConsumption();
       });
+    dietaryChangeService.modeObs.subscribe((value) => {
+      console.log('value:', value);
+    });
   }
 
   private exampleValueChange(): void {

@@ -1,19 +1,118 @@
 @import 'src/assets/scss/_colour';
 
 .container {
-  display: flex;
   margin-bottom: 10px;
   border: 1px solid $color_primary;
   border-radius: 5px;
-  flex-flow: row wrap;
-  background-color: white;
   align-items: center;
-  justify-content: center;
+  background-color: rgb(252, 250, 250);
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  gap: 5px;
+
+  & .right-text {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  & .form,
+  & .left-text {
+    flex-flow: row wrap;
+  }
+
+  & .form {
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  & .left-text {
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  & .left-text > div {
+    margin: 0em 0.5em;
+  }
+}
+
+//set radio buttons to  primary colour and make label bold on selection
+:host ::ng-deep .mat-radio-checked .mat-radio-label-content {
+  font-weight: bold;
+  color: $color_primary;
+}
+
+:host ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle,
+.mat-radio-outer-circle {
+  border-color: $color_primary;
+}
+
+:host ::ng-deep.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $color_primary;
+}
+
+.options-header {
+  font-weight: 700;
+  font-size: 16px;
+}
+.options-unit {
+  font-weight: 300;
+  font-size: 12px;
+}
+.composition-value {
+  font-weight: 700;
+  color: $color_primary;
+  text-align: center;
 }
 
 @media (max-width: 920px) {
   .container {
     flex-direction: column;
     text-align: center;
+    margin: 20px;
   }
+  .div-vertical {
+    display: none;
+  }
+}
+@media (min-width: 920px) {
+  .div-horizontal {
+    display: none;
+  }
+}
+.div-vertical {
+  margin: 10px;
+  height: 100px;
+}
+.div-horizontal {
+  margin: 10px;
+  width: 90%;
+
+  align-items: center;
+  flex-direction: center;
+}
+mat-icon {
+  color: blue;
+}
+mat-radio-group {
+  margin: 10px;
+  text-align: initial;
+}
+.mat-form-field-scenario {
+  text-align: center;
+  width: 60px;
+}
+.btn-danger {
+  background-color: #d9534f;
+  color: white;
+  outline: none;
+}
+.btn-success {
+  background-color: #5cb85c;
+  color: white;
+  outline: none;
 }
