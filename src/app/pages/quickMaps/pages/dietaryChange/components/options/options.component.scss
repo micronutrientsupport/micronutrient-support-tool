@@ -109,8 +109,12 @@ mat-radio-group {
   text-align: initial;
 }
 .mat-form-field-scenario {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   width: 5rem;
+  & input {
+    text-align: center;
+  }
 }
 .btn-danger {
   background-color: #d9534f;
@@ -141,4 +145,8 @@ button.hidden {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
 }
