@@ -108,14 +108,14 @@ export class OptionsComponent {
         this.setChangeItemComposition(changeItem);
         break;
       default:
-        changeItem.updating = true;
+        changeItem.updatingScenarioValue = true;
         void this.scenarioDataService
           .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
           .then((currentValue: CurrentValue) => {
             changeItem.currentValue = currentValue.value;
             this.changeScenarioValue(changeItem, currentValue.value);
           })
-          .finally(() => (changeItem.updating = false));
+          .finally(() => (changeItem.updatingScenarioValue = false));
     }
   }
 
@@ -193,25 +193,25 @@ export class OptionsComponent {
     if (null != foodChangeItem.foodItem) {
       if (null == foodChangeItem.currentComposition) {
         foodChangeItem.currentComposition = null;
-        foodChangeItem.updating = true;
+        foodChangeItem.updatingComposition = true;
         void this.scenarioDataService
           .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dataSource)
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.currentComposition = currentComposition;
             this.cdr.markForCheck();
           })
-          .finally(() => (foodChangeItem.updating = false));
+          .finally(() => (foodChangeItem.updatingComposition = false));
       }
       if (foodChangeItem instanceof FoodItemChangeItem && null != foodChangeItem.scenarioValue) {
         foodChangeItem.scenarioComposition = null;
-        foodChangeItem.updatingScenario = true;
+        foodChangeItem.updatingScenarioComposition = true;
         void this.scenarioDataService
           .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dataSource)
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.scenarioComposition = currentComposition;
             this.cdr.markForCheck();
           })
-          .finally(() => (foodChangeItem.updatingScenario = false));
+          .finally(() => (foodChangeItem.updatingScenarioComposition = false));
       }
     }
   }

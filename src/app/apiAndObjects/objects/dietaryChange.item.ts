@@ -7,9 +7,10 @@ export abstract class DietaryChangeItem<T = any> {
   public foodItem: FoodDictionaryItem;
   public currentValue: T;
   public scenarioValue: T;
+  public updatingScenarioValue = false;
 
-  public updating = false;
-  public updatingScenario = false;
+  public updatingComposition = false;
+  public updatingScenarioComposition = false;
 
   // only used in FoodItemChangeItem.  I know that's not great. Will try to make that better.
   public currentComposition: CurrentComposition;
@@ -28,8 +29,9 @@ export abstract class DietaryChangeItem<T = any> {
     this.currentComposition = null;
     this.scenarioComposition = null;
     this.currentValueFoodItemGroup = null;
-    this.updating = false;
-    this.updatingScenario = false;
+    this.updatingScenarioValue = false;
+    this.updatingComposition = false;
+    this.updatingScenarioComposition = false;
   }
 }
 
