@@ -21,6 +21,7 @@ import {
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
+import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -94,6 +95,7 @@ export class OptionsComponent {
     // console.debug('foodItemSelectChange', event);
     const selectedFoodItem = event.value as FoodDictionaryItem;
     changeItem.clear();
+    changeItem.foodGroup = selectedFoodItem.group;
     changeItem.foodItem = selectedFoodItem;
 
     switch (this.dietaryChangeService.mode) {
@@ -110,6 +112,17 @@ export class OptionsComponent {
           });
     }
   }
+
+  public foodGroupSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
+    const initiallyUseable = changeItem.isUseable();
+    changeItem.clear();
+    changeItem.foodGroup = event.value as FoodGroupDictionaryItem;
+    if (initiallyUseable) {
+      this.itemsChanged();
+    }
+    this.cdr.markForCheck();
+  }
+
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
     item.scenarioValue = newValue;
     if (item instanceof FoodItemChangeItem) {
@@ -117,16 +130,19 @@ export class OptionsComponent {
     } else {
     }
     this.itemsChanged();
-    // const newItem = this.makeChangeItem(item.foodItem, item.currentValue, newValue);
   }
 
-  public resetChangeItem(changeItem: DietaryChangeItem): void {
-    const initiallyUseable = changeItem.isUseable();
-    changeItem.clear();
-    if (initiallyUseable) {
-      this.itemsChanged();
-    }
-    this.cdr.markForCheck();
+  public changeFoodChangeScenarioGroup(item: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
+    item.currentValueFoodItemGroup = group;
+    item.scenarioValue = null;
+    item.scenarioComposition = null;
+    this.itemsChanged();
+  }
+
+  public deleteChangeItem(changeItem: DietaryChangeItem): void {
+    const newItems = this.dietaryChangeService.changeItems.filter((item) => item !== changeItem);
+    this.dietaryChangeService.setChangeItems(newItems);
+    this.itemsChanged();
   }
 
   public addChangeItem(): void {
