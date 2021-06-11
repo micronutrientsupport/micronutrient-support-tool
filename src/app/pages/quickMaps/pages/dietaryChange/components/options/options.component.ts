@@ -78,8 +78,9 @@ export class OptionsComponent {
 
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
-    // TODO: only show confirmation if anything will be lost
-    if (true) {
+    // only show confirmation if anything will be lost
+    const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
+    if (this.dietaryChangeService.changeItems.length > 1 || lastItem.isUseable()) {
       confirmed = confirm('ARE YOU SURE');
     }
     if (confirmed) {
