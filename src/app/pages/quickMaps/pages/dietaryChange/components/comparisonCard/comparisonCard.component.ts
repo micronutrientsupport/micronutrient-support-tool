@@ -24,6 +24,7 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -42,6 +43,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   public title = '';
   public selectedTab: number;
+  public mnUnit = '';
 
   // temp set to the change items to display something
   public modeDisplay: DietaryChangeMode;
