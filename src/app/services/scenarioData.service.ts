@@ -80,6 +80,7 @@ export class ScenarioDataService {
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
   ): Promise<SubRegionDataItem> {
+    // console.debug('getDietChange', changeItems);
     type promiseFuncType = (
       dataSourcey: DataSource,
       changeItemsy: Array<DietaryChangeItem>,
