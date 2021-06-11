@@ -1,12 +1,12 @@
-/// <reference types="Cypress" />
+/// <reference path="../../support/index.d.ts" />
 
-describe('Homepage Tests', () => {
+describe('Page: Home Tests', () => {
   it('wakes up', () => {
     cy.visit('/');
     cy.title().should('include', 'Micronutrient Action Policy Support (MAPS)');
   });
 
-  it('checks home page for a11y', () => {
+  it('checks page for a11y compliance', () => {
     cy.visit('/');
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);

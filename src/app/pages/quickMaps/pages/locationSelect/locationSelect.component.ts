@@ -7,6 +7,7 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { E2ELeaflet } from 'src/app/services/e2eLeaflet.service';
 import { QuickMapsService } from '../../quickMaps.service';
 
 @Component({
@@ -24,7 +25,11 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
   public selectedFeatureLayer: UnknownLeafletFeatureLayerClass;
   public hoverFeatureLayer: UnknownLeafletFeatureLayerClass;
 
-  constructor(public quickMapsService: QuickMapsService, public dictionaryService: DictionaryService) {}
+  constructor(
+    public quickMapsService: QuickMapsService,
+    public dictionaryService: DictionaryService,
+    private e2eLeaflet: E2ELeaflet,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -33,6 +38,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       void this.initialiseMap().then(() => {
         this.quickMapsService.countryObs.subscribe((country) => this.selectFeature(this.getLayer(country)));
+        this.e2eLeaflet.setReference('leafletObject', this.map);
       });
     }, 0);
   }

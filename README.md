@@ -32,7 +32,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artefacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 
@@ -56,11 +56,22 @@ Run `ng run micronutrient-support-tool:cypress-open` to execute the Cypress end-
 
 ### Webpack Analysis
 
-Webpack bundle analyzer can generate stats and on the current application bundle size and visualise them in a simple web tool.
+Webpack bundle analyser can generate stats and on the current application bundle size and visualise them in a simple web tool.
 
 Run `npm run build:stats` to build the Angular project and calculate the bundle stats (`dist/stats.json`)
 
 Run `npm run analyze` to use this `stats.json` and load the bundle visualiser at `localhost:8888`
+
+### Accessibility (A11y)
+
+Accessibility is tested using the `axe-core` library. To use within the Cypress tests you need to:
+
+```shell
+cy.injectAxe(); // load cypress-axe lib into your test
+cy.checkA11y(null, null, cy.terminalLog); // run the A11y tests and log errors to the terminal for review
+```
+
+When running in the Cypress GUI A11y test failures are printed in the Dev Tools console
 
 ## Further help
 

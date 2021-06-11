@@ -4,11 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
-declare namespace Cypress {
-  interface Chainable {
-    terminalLog(violations: any): () => void;
-  }
-}
+/// <reference types="Cypress" />
 
 Cypress.Commands.add('terminalLog', (violations: any) => {
   cy.task(
