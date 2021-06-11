@@ -43,11 +43,15 @@
       <!-- end fixed selection food items -->
 
       <!-- start changeable selection food items -->
-      <ng-container *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async; last as isLast"
-        class="item-row">
+      <ng-container *ngFor="
+      let changeItem of dietaryChangeService.changeItemsObs | async; last as isLast" class="item-row">
         <ng-container *ngIf="!isLast; else lastItemBlock">
           <span>{{changeItem.foodItem?.group.name}}</span>
-          <span>{{changeItem.foodItem?.name}}</span>
+          <span>
+            {{changeItem.foodItem?.name}}
+            {{((dietaryChangeService.modeObs | async) === MODE_ENUM.FOOD_ITEM)
+            ? ' ('+changeItem.currentComposition?.value + ' ' + changeItem.currentComposition?.units + ')'
+            : ''}}</span>
         </ng-container>
         <ng-template #lastItemBlock>
           <mat-form-field appearance="outline">

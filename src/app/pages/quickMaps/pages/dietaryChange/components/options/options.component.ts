@@ -9,10 +9,8 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
-import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { CurrentConsumption } from 'src/app/apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
 import {
   CompositionChangeItem,
@@ -44,8 +42,6 @@ export class OptionsComponent {
 
   public addItemDisabled = true;
 
-  public changeableChangeItem: DietaryChangeItem;
-
   private subscriptions = new Array<Subscription>();
 
   private itemsChangedTimeout: NodeJS.Timeout;
@@ -66,9 +62,6 @@ export class OptionsComponent {
       .finally(() => {
         this.loading = false;
         cdr.markForCheck();
-        // this.exampleValueChange();
-        // this.exampleCurrentComposition();
-        // this.exampleCurrentConsumption();
       });
     this.subscriptions.push(
       dietaryChangeService.modeObs.subscribe((mode) => {
@@ -137,9 +130,9 @@ export class OptionsComponent {
   }
 
   public addChangeItem(): void {
-    const changeItems = this.dietaryChangeService.changeItems.slice();
-    changeItems.push(this.makeChangeItem());
-    this.dietaryChangeService.setChangeItems(changeItems);
+    // doesn't need to trigger update as new item isn't fully formed
+    this.dietaryChangeService.changeItems.push(this.makeChangeItem());
+    this.addItemDisabled = true;
   }
 
   private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
@@ -186,7 +179,6 @@ export class OptionsComponent {
     this.locallySelectedMode = newMode;
     this.modeText = DietaryChangeMode[newMode];
 
-    this.changeableChangeItem = this.makeChangeItem();
     if (this.dietaryChangeService.changeItems.length === 0) {
       this.addChangeItem();
     }
