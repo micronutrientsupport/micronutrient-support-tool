@@ -689,7 +689,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return new LeafletMapHelper()
       .createMap(mapElement)
       .setDefaultBaseLayer()
