@@ -43,74 +43,86 @@
       <!-- end fixed selection food items -->
 
       <!-- start changeable selection food items -->
-      <mat-form-field appearance="outline">
-        <mat-select #groupSelect placeholder="Food Item Group" (selectionChange)="resetChangeItem()">
-          <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
-            {{foodGroup.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div>
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="Food Item" [value]="changeableChangeItem.foodItem"
-            (selectionChange)="foodItemSelectChange($event)">
-            <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
-              {{foodItem.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <span>{{(null == changeableChangeItem.currentComposition) ? '' :
-          changeableChangeItem.currentComposition.value + ' (' + changeableChangeItem.currentComposition.units + ')'}}
-        </span>
-      </div>
-      <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
-        <span class="current-value">{{changeableChangeItem.currentValue}}</span>
-        <div>
-          <button type="button" class="btn btn-danger" [disabled]="null == changeableChangeItem.currentValue"
-            (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 0.95)">-5%</button>
-          <mat-form-field class="mat-form-field-scenario">
-            <input type="number" matInput [value]="changeableChangeItem.scenarioValue | number:'1.1-3'"
-              [disabled]="null == changeableChangeItem.currentValue">
-          </mat-form-field>
-          <button type="button" class="btn btn-success"
-            (click)="changeScenarioValue(changeableChangeItem, changeableChangeItem.scenarioValue * 1.05)"
-            [disabled]="null == changeableChangeItem.currentValue">+5%</button>
-        </div>
-      </ng-container>
-      <ng-template #foodChangeElseBlock>
-        <span>replace with</span>
-        <mat-form-field appearance="outline">
-          <mat-select #groupSelect [value]="changeableChangeItem.scenarioValue?.group" placeholder="Food Item Group">
-            <ng-container *ngIf="null != changeableChangeItem.foodItem">
+      <ng-container *ngFor="let changeItem of dietaryChangeService.changeItemsObs | async; last as isLast"
+        class="item-row">
+        <ng-container *ngIf="!isLast; else lastItemBlock">
+          <span>{{changeItem.foodItem?.group.name}}</span>
+          <span>{{changeItem.foodItem?.name}}</span>
+        </ng-container>
+        <ng-template #lastItemBlock>
+          <mat-form-field appearance="outline">
+            <mat-select #groupSelect placeholder="Food Item Group" (selectionChange)="resetChangeItem(changeItem)">
               <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
                 {{foodGroup.name}}
               </mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <div>
-          <mat-form-field appearance="outline">
-            <mat-select placeholder="Food Item" [value]="changeableChangeItem.scenarioValue"
-              (selectionChange)="changeScenarioValue(changeableChangeItem, $event.value)">
-              <ng-container *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async">
-                <mat-option *ngIf="foodItem !== changeableChangeItem.foodItem" [value]="foodItem">
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Food Item" [value]="changeItem.foodItem"
+                (selectionChange)="foodItemSelectChange($event, changeItem)">
+                <mat-option *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async" [value]="foodItem">
                   {{foodItem.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span>{{(null == changeItem.currentComposition) ? '' :
+              changeItem.currentComposition.value + ' (' + changeItem.currentComposition.units +
+              ')'}}
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
+          <span class="current-value">{{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}</span>
+          <div>
+            <button mat-raised-button type="button" class="btn btn-danger" [disabled]="null == changeItem.currentValue"
+              (click)="changeScenarioValue(changeItem, changeItem.scenarioValue * 0.95)">-5%</button>
+            <mat-form-field class="mat-form-field-scenario">
+              <input type="number" matInput [value]="changeItem.scenarioValue | number:'1.1-3'"
+                [disabled]="null == changeItem.currentValue">
+            </mat-form-field>
+            <button mat-raised-button type="button" class="btn btn-success"
+              (click)="changeScenarioValue(changeItem, changeItem.scenarioValue * 1.05)"
+              [disabled]="null == changeItem.currentValue">+5%</button>
+          </div>
+        </ng-container>
+        <ng-template #foodChangeElseBlock>
+          <span>replace with</span>
+          <mat-form-field appearance="outline">
+            <mat-select #groupSelect [value]="changeItem.scenarioValue?.group" placeholder="Food Item Group">
+              <ng-container *ngIf="null != changeItem.foodItem">
+                <mat-option *ngFor="let foodGroup of foodGroupsDict?.itemsObs | async" [value]="foodGroup">
+                  {{foodGroup.name}}
                 </mat-option>
               </ng-container>
             </mat-select>
           </mat-form-field>
-          <span>{{(null == changeableChangeItem.scenarioComposition) ? '' :
-            changeableChangeItem.scenarioComposition.value + ' (' + changeableChangeItem.scenarioComposition.units +
-            ')'}}
-          </span>
-        </div>
-      </ng-template>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Food Item" [value]="changeItem.scenarioValue"
+                (selectionChange)="changeScenarioValue(changeItem, $event.value)">
+                <ng-container *ngFor="let foodItem of groupSelect.value?.foodItems.itemsObs | async">
+                  <mat-option *ngIf="foodItem !== changeItem.foodItem" [value]="foodItem">
+                    {{foodItem.name}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+            <span>{{(null == changeItem.scenarioComposition) ? '' :
+              changeItem.scenarioComposition.value + ' (' + changeItem.scenarioComposition.units +
+              ')'}}
+            </span>
+          </div>
+        </ng-template>
+
+      </ng-container>
       <!-- end changeable selection food items -->
       <span>
-        <a href="#">
+        <button mat-raised-button [disabled]="addItemDisabled" (click)="addChangeItem()">
           <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
-        </a>
-        Add food Item
+          Add food Item
+        </button>
       </span>
     </div>
   </ng-container>

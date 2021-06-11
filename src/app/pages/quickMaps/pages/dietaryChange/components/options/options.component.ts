@@ -42,6 +42,8 @@ export class OptionsComponent {
   public modeText: string;
   public locallySelectedMode: DietaryChangeMode;
 
+  public addItemDisabled = true;
+
   public changeableChangeItem: DietaryChangeItem;
 
   private subscriptions = new Array<Subscription>();
@@ -75,6 +77,8 @@ export class OptionsComponent {
     );
   }
 
+  public init(): void {}
+
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
     // TODO: only show confirmation if anything will be lost
@@ -93,29 +97,24 @@ export class OptionsComponent {
     }
   }
 
-  public foodItemSelectChange(event: MatSelectChange): void {
+  public foodItemSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
     // console.debug('foodItemSelectChange', event);
     const selectedFoodItem = event.value as FoodDictionaryItem;
+    changeItem.clear();
+    changeItem.foodItem = selectedFoodItem;
 
-    if (null == selectedFoodItem) {
-      this.changeableChangeItem = this.makeChangeItem(selectedFoodItem);
-      this.cdr.markForCheck();
-    } else {
-      switch (this.dietaryChangeService.mode) {
-        case DietaryChangeMode.FOOD_ITEM:
-          const foodChangeItem = new FoodItemChangeItem(selectedFoodItem, selectedFoodItem);
-          this.changeableChangeItem = foodChangeItem;
-          this.setChangeItemComposition(foodChangeItem);
-          this.cdr.markForCheck();
-          break;
-        default:
-          void this.scenarioDataService
-            .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
-            .then((currentValue: CurrentValue) => {
-              this.changeableChangeItem = this.makeChangeItem(selectedFoodItem, currentValue.value, currentValue.value);
-              this.cdr.markForCheck();
-            });
-      }
+    switch (this.dietaryChangeService.mode) {
+      case DietaryChangeMode.FOOD_ITEM:
+        this.changeScenarioValue(changeItem, changeItem.currentValue);
+        this.setChangeItemComposition(changeItem);
+        break;
+      default:
+        void this.scenarioDataService
+          .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
+          .then((currentValue: CurrentValue) => {
+            changeItem.currentValue = currentValue.value;
+            this.changeScenarioValue(changeItem, currentValue.value);
+          });
     }
   }
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
@@ -128,13 +127,25 @@ export class OptionsComponent {
     // const newItem = this.makeChangeItem(item.foodItem, item.currentValue, newValue);
   }
 
-  public resetChangeItem(): void {
-    this.changeableChangeItem = this.makeChangeItem();
+  public resetChangeItem(changeItem: DietaryChangeItem): void {
+    const initiallyUseable = changeItem.isUseable();
+    changeItem.clear();
+    if (initiallyUseable) {
+      this.itemsChanged();
+    }
+    this.cdr.markForCheck();
+  }
+
+  public addChangeItem(): void {
+    const changeItems = this.dietaryChangeService.changeItems.slice();
+    changeItems.push(this.makeChangeItem());
+    this.dietaryChangeService.setChangeItems(changeItems);
   }
 
   private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
     if (null != foodChangeItem.foodItem) {
       if (null == foodChangeItem.currentComposition) {
+        foodChangeItem.currentComposition = null;
         void this.scenarioDataService
           .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dataSource)
           .then((currentComposition: CurrentComposition) => {
@@ -143,6 +154,7 @@ export class OptionsComponent {
           });
       }
       if (foodChangeItem instanceof FoodItemChangeItem && null != foodChangeItem.scenarioValue) {
+        foodChangeItem.scenarioComposition = null;
         void this.scenarioDataService
           .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dataSource)
           .then((currentComposition: CurrentComposition) => {
@@ -154,6 +166,12 @@ export class OptionsComponent {
   }
 
   private itemsChanged(): void {
+    const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
+
+    if (null != lastItem) {
+      this.addItemDisabled = !lastItem.isUseable();
+    }
+
     // console.debug('itemsChanged');
     // wait for inactivity before triggering update
     clearTimeout(this.itemsChangedTimeout);
@@ -167,7 +185,11 @@ export class OptionsComponent {
     console.log('value:', newMode);
     this.locallySelectedMode = newMode;
     this.modeText = DietaryChangeMode[newMode];
+
     this.changeableChangeItem = this.makeChangeItem();
+    if (this.dietaryChangeService.changeItems.length === 0) {
+      this.addChangeItem();
+    }
     switch (newMode) {
       case DietaryChangeMode.COMPOSITION:
         this.units = 'mg/kg';
@@ -181,70 +203,70 @@ export class OptionsComponent {
     }
   }
 
-  private makeChangeItem(foodItem?: FoodDictionaryItem, currentValue?: any, scenarioValue?: any): DietaryChangeItem {
+  private makeChangeItem(): DietaryChangeItem {
     switch (this.dietaryChangeService.mode) {
       case DietaryChangeMode.COMPOSITION:
-        return new CompositionChangeItem(foodItem, currentValue, scenarioValue);
+        return new CompositionChangeItem();
       case DietaryChangeMode.CONSUMPTION:
-        return new ConsumptionChangeItem(foodItem, currentValue, scenarioValue);
+        return new ConsumptionChangeItem();
       case DietaryChangeMode.FOOD_ITEM:
-        return new FoodItemChangeItem(foodItem, currentValue, scenarioValue);
+        return new FoodItemChangeItem();
     }
   }
 
-  private exampleValueChange(): void {
-    // test
-    setTimeout(() => {
-      // COMPOSITION
-      this.dietaryChangeService.setMode(DietaryChangeMode.COMPOSITION);
-      this.dietaryChangeService.setChangeItems([
-        new CompositionChangeItem(
-          this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-          10,
-        ),
-      ]);
-      // // CONSUMPTION
-      // this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
-      // this.dietaryChangeService.setChangeItems([
-      //   new ConsumptionChangeItem(
-      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
-      //     22,
-      //   ),
-      //   new ConsumptionChangeItem(
-      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
-      //     55,
-      //   ),
-      // ]);
-      // // FOOD_ITEM
-      // this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
-      // this.dietaryChangeService.setChangeItems([
-      //   new FoodItemChangeItem(
-      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-      //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
-      //   ),
-      // ]);
-    }, 3000);
-  }
+  // private exampleValueChange(): void {
+  //   // test
+  //   setTimeout(() => {
+  //     // COMPOSITION
+  //     this.dietaryChangeService.setMode(DietaryChangeMode.COMPOSITION);
+  //     this.dietaryChangeService.setChangeItems([
+  //       new CompositionChangeItem()
+  //         this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+  //         10,
+  //       ),
+  //     ]);
+  //     // // CONSUMPTION
+  //     // this.dietaryChangeService.setMode(DietaryChangeMode.CONSUMPTION);
+  //     // this.dietaryChangeService.setChangeItems([
+  //     //   new ConsumptionChangeItem(
+  //     //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[3],
+  //     //     22,
+  //     //   ),
+  //     //   new ConsumptionChangeItem(
+  //     //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[2],
+  //     //     55,
+  //     //   ),
+  //     // ]);
+  //     // // FOOD_ITEM
+  //     // this.dietaryChangeService.setMode(DietaryChangeMode.FOOD_ITEM);
+  //     // this.dietaryChangeService.setChangeItems([
+  //     //   new FoodItemChangeItem(
+  //     //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+  //     //     this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[1].foodItems.getItems<FoodDictionaryItem>()[1],
+  //     //   ),
+  //     // ]);
+  //   }, 3000);
+  // }
 
-  private exampleCurrentConsumption(): void {
-    void this.scenarioDataService
-      .getCurrentConsumption(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-        this.quickMapsService.dataSource,
-      )
-      .then((item: CurrentConsumption) => {
-        console.log('CurrentConsumption item', item);
-      });
-  }
+  // private exampleCurrentConsumption(): void {
+  //   void this.scenarioDataService
+  //     .getCurrentConsumption(
+  //       this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+  //       this.quickMapsService.dataSource,
+  //     )
+  //     .then((item: CurrentConsumption) => {
+  //       console.log('CurrentConsumption item', item);
+  //     });
+  // }
 
-  private exampleCurrentComposition(): void {
-    void this.scenarioDataService
-      .getCurrentComposition(
-        this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
-        this.quickMapsService.dataSource,
-      )
-      .then((item: CurrentComposition) => {
-        console.log('CurrentComposition item', item);
-      });
-  }
+  // private exampleCurrentComposition(): void {
+  //   void this.scenarioDataService
+  //     .getCurrentComposition(
+  //       this.foodGroupsDict.getItems<FoodGroupDictionaryItem>()[0].foodItems.getItems<FoodDictionaryItem>()[0],
+  //       this.quickMapsService.dataSource,
+  //     )
+  //     .then((item: CurrentComposition) => {
+  //       console.log('CurrentComposition item', item);
+  //     });
+  // }
 }
