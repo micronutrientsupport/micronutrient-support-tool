@@ -58,12 +58,18 @@
 .options-header {
   font-weight: 700;
   font-size: 16px;
+  &-units {
+    font-weight: initial;
+  }
+  &.centre {
+    text-align: center;
+  }
 }
 .options-unit {
   font-weight: 300;
   font-size: 12px;
 }
-.composition-value {
+.current-value {
   font-weight: 700;
   color: $color_primary;
   text-align: center;
@@ -103,8 +109,12 @@ mat-radio-group {
   text-align: initial;
 }
 .mat-form-field-scenario {
-  text-align: center;
-  width: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 5rem;
+  & input {
+    text-align: center;
+  }
 }
 .btn-danger {
   background-color: #d9534f;
@@ -115,4 +125,28 @@ mat-radio-group {
   background-color: #5cb85c;
   color: white;
   outline: none;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: min-content auto auto auto auto;
+  align-items: center;
+  gap: 1rem;
+  &.mode-food_item {
+    grid-template-columns: min-content auto auto auto auto auto;
+  }
+}
+
+button.hidden {
+  visibility: hidden;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
 }

@@ -24,7 +24,6 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
-import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -122,21 +121,6 @@ export class ComparisonCardComponent implements AfterViewInit {
     this.scenariosMapComponent.openMapSettings();
   }
 
-  // subscribes to those minor value changes,
-  // for if we don't need to call out for data, just update the display
-  // private refreshItemSubscriptions(): void {
-  //   this.changeItemSubscriptions.forEach((subs) => {
-  //     if (null != subs) {
-  //       subs.unsubscribe();
-  //     }
-  //   });
-  //   this.changeItemSubscriptions = new Array<Subscription>();
-  //   this.dietaryChangeService.changeItems.forEach((item) => {
-  //     this.changeItemSubscriptions.push(item.changeValuesObs.subscribe(() => this.updateDisplay()));
-  //   });
-  //   this.updateDisplay();
-  // }
-
   private startLoading(): void {
     this.loadingSrc.next(++this.loadingCount > 0);
     this.cdr.detectChanges();
@@ -167,12 +151,13 @@ export class ComparisonCardComponent implements AfterViewInit {
       });
   }
   private updateScenarioData(): void {
+    // console.debug('updateScenarioData');
     this.startLoading();
     this.scenarioDataService
       .getDietChange(
         this.quickMapsService.dataSource,
         this.dietaryChangeService.mode,
-        this.dietaryChangeService.changeItems,
+        this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
       )
       .then((data: SubRegionDataItem) => {
         this.scenarioData = data;

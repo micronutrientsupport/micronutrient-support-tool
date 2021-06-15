@@ -1,14 +1,10 @@
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { DataSource } from '../../objects/dataSource';
 import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryItem';
 import { CurrentComposition } from '../../objects/currentComposition';
+import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 
-export class GetCurrentComposition extends CacheableEndpoint<CurrentComposition, GetCurrentCompositionParams> {
-  protected getCacheKey(params: GetCurrentCompositionParams): string {
-    return JSON.stringify(params);
-  }
-
+export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurrentCompositionParams> {
   protected callLive(params: GetCurrentCompositionParams): Promise<CurrentComposition> {
     throw new Error('Method not implemented.');
     const callResponsePromise = this.apiCaller.doCall(['diet', 'scenario', 'composition'], RequestMethod.GET, {
