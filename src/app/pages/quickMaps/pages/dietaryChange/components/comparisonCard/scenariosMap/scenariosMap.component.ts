@@ -26,7 +26,6 @@ export class ScenariosMapComponent implements AfterViewInit {
     if (null != data) {
       this.baselineMapData = data;
       this.areaFeatureCollection = data.geoJson;
-      this.allowBaselineMapEvents = false;
       this.initialiseMapBaseline(this.colourPalette);
     }
   }
@@ -34,7 +33,6 @@ export class ScenariosMapComponent implements AfterViewInit {
   @Input() set scenarioData(data: SubRegionDataItem) {
     if (null != data) {
       this.scenarioMapData = data;
-      this.allowScenarioMapEvents = false;
       this.initialiseMapScenario(this.colourPalette);
     }
   }
@@ -51,14 +49,12 @@ export class ScenariosMapComponent implements AfterViewInit {
   private scenarioDataLayer: L.GeoJSON;
   private legend: L.Control;
 
-  private allowBaselineMapEvents: boolean;
-  private allowScenarioMapEvents: boolean;
-
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
   private colourPalette: ColourPalette;
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
+  private timeout: NodeJS.Timeout;
 
   constructor(private dialogService: DialogService) {
     this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
@@ -98,45 +94,23 @@ export class ScenariosMapComponent implements AfterViewInit {
 
   private initialiseListeners(): void {
     this.baselineMap.on({
-      mousedown: () => {
-        this.allowBaselineMapEvents = true;
-        this.allowScenarioMapEvents = false;
-      },
       move: () => {
-        if (this.allowBaselineMapEvents) {
-          this.setMapPosition(this.baselineMap, this.scenarioMap);
-        }
-      },
-      zoom: () => {
-        this.setMapZoom(this.baselineMap, this.scenarioMap);
+        this.alignMaps(this.baselineMap, this.scenarioMap);
       },
     });
     this.scenarioMap.on({
-      mousedown: () => {
-        this.allowScenarioMapEvents = true;
-        this.allowBaselineMapEvents = false;
-      },
       move: () => {
-        if (this.allowScenarioMapEvents) {
-          this.setMapPosition(this.scenarioMap, this.baselineMap);
-        }
-      },
-      zoom: () => {
-        this.setMapZoom(this.scenarioMap, this.baselineMap);
+        this.alignMaps(this.scenarioMap, this.baselineMap);
       },
     });
   }
 
-  private setMapPosition(baseMap: L.Map, targetMap: L.Map): void {
-    if (targetMap.getCenter() !== baseMap.getCenter()) {
-      targetMap.panTo(baseMap.getCenter());
-    }
-  }
-
-  private setMapZoom(baseMap: L.Map, targetMap: L.Map): void {
-    if (targetMap.getZoom() !== baseMap.getZoom()) {
-      targetMap.setZoom(baseMap.getZoom());
-    }
+  private alignMaps(baseMap: L.Map, targetMap: L.Map): void {
+    // wait for inactivity before triggering update
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      targetMap.setView(baseMap.getCenter(), baseMap.getZoom(), { animate: false });
+    }, 50);
   }
 
   private initialiseMapBaseline(colourPalette: ColourPalette): void {
