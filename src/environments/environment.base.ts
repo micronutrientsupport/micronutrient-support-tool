@@ -11,6 +11,6 @@ export const environment = {
   // gitCommitHash: '{GIT-COMMIT-HASH}', // populated during pipeline
   // gitTag: '{GIT-TAG}', // populated during pipeline
   // gitBranchName: '{GIT-BRANCH-NAME}', // populated during pipeline
-  apiBaseUrl: 'https://devapi.micronutrient.support',
+  apiBaseUrl: 'https://api.micronutrient.support',
   useLiveApi: true,
 };
