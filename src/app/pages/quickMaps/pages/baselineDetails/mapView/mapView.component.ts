@@ -321,8 +321,8 @@ export class MapViewComponent implements AfterViewInit {
     return `
     <div>
       Region:<b>${props.subregion_name}</b><br/>
-      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
-      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+      Dietary Availablility (AFE): ${props.mn_absolute}${props.mn_absolute_unit} per day<br/>
+      Prevalence of Deficency (EAR): ${props.mn_threshold}${props.mn_threshold_unit}<br/>
     </div>`;
   }
 
