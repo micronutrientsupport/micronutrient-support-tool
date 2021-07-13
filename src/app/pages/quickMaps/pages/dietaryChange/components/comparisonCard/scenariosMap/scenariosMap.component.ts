@@ -97,25 +97,19 @@ export class ScenariosMapComponent implements AfterViewInit {
       move: () => {
         this.alignMaps(this.baselineMap, this.scenarioMap);
       },
-      zoom: () => {
-        this.alignMaps(this.baselineMap, this.scenarioMap);
-      },
     });
     this.scenarioMap.on({
       move: () => {
         this.alignMaps(this.scenarioMap, this.baselineMap);
       },
-      zoom: () => {
-        this.alignMaps(this.scenarioMap, this.baselineMap);
-      },
     });
   }
 
-  private alignMaps(interactedMap: L.Map, mirroredMap: L.Map): void {
+  private alignMaps(activatedMap: L.Map, mirroredMap: L.Map): void {
     // wait for inactivity before triggering update
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      mirroredMap.setView(interactedMap.getCenter(), interactedMap.getZoom(), { animate: false });
+      mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
     }, 50);
   }
 
