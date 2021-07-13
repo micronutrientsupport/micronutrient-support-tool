@@ -106,10 +106,13 @@ export class ScenariosMapComponent implements AfterViewInit {
   }
 
   private alignMaps(activatedMap: L.Map, mirroredMap: L.Map): void {
-    // wait for inactivity before triggering update
+    mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
+    // wait for inactivity before triggering map check to assure they are aligned
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
+      if (activatedMap.getBounds() !== mirroredMap.getBounds() || activatedMap.getZoom() !== mirroredMap.getZoom()) {
+        mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
+      }
     }, 50);
   }
 
@@ -153,7 +156,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
-      // loop through our  intervals and generate a label with a colored square for each interval
+      // loop through our intervals and generate a label with a colored square for each interval
       const addItemToHtml = (colourHex: string, text: string) => {
         div.innerHTML += `<span style="display: flex; align-items: center;">
         <span style="background-color:
