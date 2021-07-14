@@ -201,7 +201,6 @@ export class ScenariosMapComponent implements AfterViewInit {
 
       return div;
     };
-    // this.setBounds();
     this.legend.addTo(this.scenarioMap);
   }
 

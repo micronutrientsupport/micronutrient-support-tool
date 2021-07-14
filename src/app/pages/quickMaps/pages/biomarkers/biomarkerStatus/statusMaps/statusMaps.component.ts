@@ -7,6 +7,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
+import { BiomarkerService } from '../../biomarker.service';
 
 @Component({
   selector: 'app-status-maps',
@@ -39,12 +40,19 @@ export class StatusMapsComponent implements AfterViewInit {
   );
   private colourPalette: ColourPalette;
 
-  constructor() {
+  constructor(private biomarkerService: BiomarkerService) {
     this.colourPalette = ColourPalette.getSelectedPalette(StatusMapsComponent.COLOUR_PALETTE_ID);
     if (null == this.colourPalette) {
       ColourPalette.setSelectedPalette(StatusMapsComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
+    this.biomarkerService.changeColourRampObservable.subscribe(() => {
+      this.colourPalette = ColourPalette.getSelectedPalette(StatusMapsComponent.COLOUR_PALETTE_ID);
+      if (null == this.colourPalette) {
+        this.colourPalette = this.defaultPalette;
+      }
+      this.changeColourRamp(this.colourPalette);
+    });
   }
 
   ngAfterViewInit(): void {

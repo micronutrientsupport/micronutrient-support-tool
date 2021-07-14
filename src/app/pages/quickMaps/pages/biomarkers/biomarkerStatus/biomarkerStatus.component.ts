@@ -43,6 +43,8 @@ import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/object
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
+import { BiomarkerService } from '../biomarker.service';
+import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -129,7 +131,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   );
   private colourPalette: ColourPalette;
 
-  private absoluteMap: L.Map;
+  // private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
@@ -156,6 +158,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
+    private biomarkerService: BiomarkerService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
@@ -165,7 +168,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
-    this.absoluteMap = this.initialiseMap(this.mapElement.nativeElement);
+    // this.absoluteMap = this.initialiseMap(this.mapElement.nativeElement);
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
@@ -366,17 +369,18 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     if (tabChangeEvent.index === 0) {
-      this.absoluteMap.invalidateSize();
+      // this.absoluteMap.invalidateSize();
     }
   }
 
   public openMapSettings(): void {
-    void this.dialogService.openMapSettingsDialog(BiomarkerStatusComponent.COLOUR_PALETTE_ID).then(() => {
-      this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
-      if (null == this.colourPalette) {
-        this.colourPalette = this.defaultPalette;
-      }
-      this.changeColourRamp(this.colourPalette);
+    void this.dialogService.openMapSettingsDialog(StatusMapsComponent.COLOUR_PALETTE_ID).then(() => {
+      // this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
+      // if (null == this.colourPalette) {
+      //   this.colourPalette = this.defaultPalette;
+      // }
+      // this.changeColourRamp(this.colourPalette);
+      this.biomarkerService.changeColourRamp();
     });
   }
 
@@ -667,19 +671,19 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           throw new Error('data error');
         }
         this.errorSrc.next(false);
-        this.areaFeatureCollection = data.geoJson;
+        // this.areaFeatureCollection = data.geoJson;
 
-        this.initialiseMapAbsolute(this.colourPalette);
-        // this.initialiseMapThreshold(this.colourPalette);
-        this.areaBounds = this.absoluteDataLayer.getBounds();
+        // this.initialiseMapAbsolute(this.colourPalette);
+        // // this.initialiseMapThreshold(this.colourPalette);
+        // this.areaBounds = this.absoluteDataLayer.getBounds();
 
-        // reset visited
-        this.tabVisited.clear();
-        // trigger current fit bounds
-        // seems to need a small delay after page navigation to projections and back to baseline
-        setTimeout(() => {
-          this.triggerFitBounds(this.tabGroup.selectedIndex);
-        }, 100); // for some reason needs a slightly longer delay than mapView.ts for trigger to work.
+        // // reset visited
+        // this.tabVisited.clear();
+        // // trigger current fit bounds
+        // // seems to need a small delay after page navigation to projections and back to baseline
+        // setTimeout(() => {
+        //   this.triggerFitBounds(this.tabGroup.selectedIndex);
+        // }, 100); // for some reason needs a slightly longer delay than mapView.ts for trigger to work.
       })
       .catch(() => this.errorSrc.next(true))
       .finally(() => {
@@ -688,187 +692,187 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       });
   }
 
-  private initialiseMap(mapElement: HTMLElement): L.Map {
-    return new LeafletMapHelper()
-      .createMap(mapElement)
-      .setDefaultBaseLayer()
-      .setDefaultControls(() => this.areaBounds)
-      .getMap();
-  }
+  // private initialiseMap(mapElement: HTMLElement): L.Map {
+  //   return new LeafletMapHelper()
+  //     .createMap(mapElement)
+  //     .setDefaultBaseLayer()
+  //     .setDefaultControls(() => this.areaBounds)
+  //     .getMap();
+  // }
 
-  private triggerFitBounds(tabIndex: number): void {
-    this.tabVisited.set(tabIndex, true);
-    if (tabIndex === 0) {
-      this.absoluteMap.fitBounds(this.areaBounds);
-    }
-  }
+  // private triggerFitBounds(tabIndex: number): void {
+  //   this.tabVisited.set(tabIndex, true);
+  //   if (tabIndex === 0) {
+  //     this.absoluteMap.fitBounds(this.areaBounds);
+  //   }
+  // }
 
-  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
-    if (null != this.absoluteDataLayer) {
-      this.absoluteMap.removeLayer(this.absoluteDataLayer);
-    }
-    if (null != this.absoluteLegend) {
-      this.absoluteMap.removeControl(this.absoluteLegend);
-    }
+  // private initialiseMapAbsolute(colourPalette: ColourPalette): void {
+  //   if (null != this.absoluteDataLayer) {
+  //     this.absoluteMap.removeLayer(this.absoluteDataLayer);
+  //   }
+  //   if (null != this.absoluteLegend) {
+  //     this.absoluteMap.removeControl(this.absoluteLegend);
+  //   }
 
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+  //   const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
 
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
-    ).addTo(this.absoluteMap);
-    // console.debug('absolute', this.absoluteDataLayer);
+  //   this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+  //     absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+  //   ).addTo(this.absoluteMap);
+  //   // console.debug('absolute', this.absoluteDataLayer);
 
-    this.refreshAbsoluteLegend(absoluteGradient);
-  }
+  //   this.refreshAbsoluteLegend(absoluteGradient);
+  // }
 
-  private initialiseMapThreshold(colourPalette: ColourPalette): void {
-    if (null != this.thresholdDataLayer) {
-      this.thresholdMap.removeLayer(this.thresholdDataLayer);
-    }
-    if (null != this.thresholdLegend) {
-      this.thresholdMap.removeControl(this.thresholdLegend);
-    }
+  // private initialiseMapThreshold(colourPalette: ColourPalette): void {
+  //   if (null != this.thresholdDataLayer) {
+  //     this.thresholdMap.removeLayer(this.thresholdDataLayer);
+  //   }
+  //   if (null != this.thresholdLegend) {
+  //     this.thresholdMap.removeControl(this.thresholdLegend);
+  //   }
 
-    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+  //   const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
 
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
-      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
-    ).addTo(this.thresholdMap);
-    // console.debug('threshold', this.thresholdDataLayer);
+  //   this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+  //     // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
+  //     thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+  //   ).addTo(this.thresholdMap);
+  //   // console.debug('threshold', this.thresholdDataLayer);
 
-    this.refreshThresholdLegend(thresholdGradient);
-  }
+  //   this.refreshThresholdLegend(thresholdGradient);
+  // }
 
-  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
-    return L.geoJSON(this.areaFeatureCollection, {
-      style: (feature) => ({
-        fillColor: featureColourFunc(feature),
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7,
-      }),
-      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
-        layer.bindTooltip(this.getTooltip(feature));
-      },
-    });
-  }
+  // private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+  //   return L.geoJSON(this.areaFeatureCollection, {
+  //     style: (feature) => ({
+  //       fillColor: featureColourFunc(feature),
+  //       weight: 2,
+  //       opacity: 1,
+  //       color: 'white',
+  //       dashArray: '3',
+  //       fillOpacity: 0.7,
+  //     }),
+  //     onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+  //       layer.bindTooltip(this.getTooltip(feature));
+  //     },
+  //   });
+  // }
 
-  private getTooltip(feature: GeoJSON.Feature): string {
-    const props = this.getFeatProps(feature);
-    return `
-    <div>
-      Region:<b>${props.subregion_name}</b><br/>
-      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
-      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
-    </div>`;
-  }
+  // private getTooltip(feature: GeoJSON.Feature): string {
+  //   const props = this.getFeatProps(feature);
+  //   return `
+  //   <div>
+  //     Region:<b>${props.subregion_name}</b><br/>
+  //     Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
+  //     Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+  //   </div>`;
+  // }
 
-  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
-    return feat.properties as SubRegionDataItemFeatureProperties;
-  }
+  // private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
+  //   return feat.properties as SubRegionDataItemFeatureProperties;
+  // }
 
-  private changeColourRamp(colourPalette: ColourPalette): void {
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
-    // const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+  // private changeColourRamp(colourPalette: ColourPalette): void {
+  //   const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+  //   // const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
 
-    this.absoluteMap.removeLayer(this.absoluteDataLayer);
-    // this.thresholdMap.removeLayer(this.thresholdDataLayer);
+  //   this.absoluteMap.removeLayer(this.absoluteDataLayer);
+  //   // this.thresholdMap.removeLayer(this.thresholdDataLayer);
 
-    if (null != this.absoluteLegend) {
-      this.absoluteMap.removeControl(this.absoluteLegend);
-    }
-    if (null != this.thresholdLegend) {
-      this.absoluteMap.removeControl(this.thresholdLegend);
-    }
+  //   if (null != this.absoluteLegend) {
+  //     this.absoluteMap.removeControl(this.absoluteLegend);
+  //   }
+  //   if (null != this.thresholdLegend) {
+  //     this.absoluteMap.removeControl(this.thresholdLegend);
+  //   }
 
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
-    ).addTo(this.absoluteMap);
+  //   this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+  //     absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+  //   ).addTo(this.absoluteMap);
 
-    // this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-    // thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
-    // ).addTo(this.thresholdMap);
+  //   // this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+  //   // thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+  //   // ).addTo(this.thresholdMap);
 
-    this.refreshAbsoluteLegend(absoluteGradient);
-    // this.refreshThresholdLegend(thresholdGradient);
-  }
+  //   this.refreshAbsoluteLegend(absoluteGradient);
+  //   // this.refreshThresholdLegend(thresholdGradient);
+  // }
 
-  private refreshThresholdLegend(colourGradient: ColourGradient): void {
-    if (null != this.thresholdLegend) {
-      this.thresholdMap.removeControl(this.thresholdLegend);
-    }
+  // private refreshThresholdLegend(colourGradient: ColourGradient): void {
+  //   if (null != this.thresholdLegend) {
+  //     this.thresholdMap.removeControl(this.thresholdLegend);
+  //   }
 
-    this.thresholdLegend = new L.Control({ position: 'bottomright' });
+  //   this.thresholdLegend = new L.Control({ position: 'bottomright' });
 
-    this.thresholdLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
+  //   this.thresholdLegend.onAdd = () => {
+  //     const div = L.DomUtil.create('div', 'info legend');
 
-      // loop through our  intervals and generate a label with a colored square for each interval
-      const addItemToHtml = (colourHex: string, text: string) => {
-        div.innerHTML += `<span style="display: flex; align-items: center;">
-        <span style="background-color:
-        ${colourHex};
-        height:10px; width:10px; display:block; margin-right:5px;">
-        </span><span>${text}</span>`;
-      };
+  //     // loop through our  intervals and generate a label with a colored square for each interval
+  //     const addItemToHtml = (colourHex: string, text: string) => {
+  //       div.innerHTML += `<span style="display: flex; align-items: center;">
+  //       <span style="background-color:
+  //       ${colourHex};
+  //       height:10px; width:10px; display:block; margin-right:5px;">
+  //       </span><span>${text}</span>`;
+  //     };
 
-      let previousGradObj: ColourGradientObject;
-      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
-        let text = '';
-        if (null == previousGradObj) {
-          text = `0 - ${gradObj.lessThanTestValue}`;
-        } else {
-          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
-        }
+  //     let previousGradObj: ColourGradientObject;
+  //     colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+  //       let text = '';
+  //       if (null == previousGradObj) {
+  //         text = `0 - ${gradObj.lessThanTestValue}`;
+  //       } else {
+  //         text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+  //       }
 
-        addItemToHtml(gradObj.hexString, text);
-        previousGradObj = gradObj;
-      });
-      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}%`);
+  //       addItemToHtml(gradObj.hexString, text);
+  //       previousGradObj = gradObj;
+  //     });
+  //     addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}%`);
 
-      return div;
-    };
-    this.thresholdLegend.addTo(this.thresholdMap);
-  }
+  //     return div;
+  //   };
+  //   this.thresholdLegend.addTo(this.thresholdMap);
+  // }
 
-  private refreshAbsoluteLegend(colourGradient: ColourGradient): void {
-    if (null != this.absoluteLegend) {
-      this.absoluteMap.removeControl(this.absoluteLegend);
-    }
+  // private refreshAbsoluteLegend(colourGradient: ColourGradient): void {
+  //   if (null != this.absoluteLegend) {
+  //     this.absoluteMap.removeControl(this.absoluteLegend);
+  //   }
 
-    this.absoluteLegend = new L.Control({ position: 'bottomright' });
+  //   this.absoluteLegend = new L.Control({ position: 'bottomright' });
 
-    this.absoluteLegend.onAdd = () => {
-      const div = L.DomUtil.create('div', 'info legend');
+  //   this.absoluteLegend.onAdd = () => {
+  //     const div = L.DomUtil.create('div', 'info legend');
 
-      // loop through our  intervals and generate a label with a colored square for each interval
-      const addItemToHtml = (colourHex: string, text: string) => {
-        div.innerHTML += `<span style="display: flex; align-items: center;">
-        <span style="background-color:
-        ${colourHex};
-        height:10px; width:10px; display:block; margin-right:5px;">
-        </span><span>${text}</span>`;
-      };
+  //     // loop through our  intervals and generate a label with a colored square for each interval
+  //     const addItemToHtml = (colourHex: string, text: string) => {
+  //       div.innerHTML += `<span style="display: flex; align-items: center;">
+  //       <span style="background-color:
+  //       ${colourHex};
+  //       height:10px; width:10px; display:block; margin-right:5px;">
+  //       </span><span>${text}</span>`;
+  //     };
 
-      let previousGradObj: ColourGradientObject;
-      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
-        let text = '';
-        if (null == previousGradObj) {
-          text = `0 - ${gradObj.lessThanTestValue}`;
-        } else {
-          text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
-        }
-        addItemToHtml(gradObj.hexString, text);
-        previousGradObj = gradObj;
-      });
-      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
+  //     let previousGradObj: ColourGradientObject;
+  //     colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+  //       let text = '';
+  //       if (null == previousGradObj) {
+  //         text = `0 - ${gradObj.lessThanTestValue}`;
+  //       } else {
+  //         text = `${previousGradObj.lessThanTestValue} - ${gradObj.lessThanTestValue}`;
+  //       }
+  //       addItemToHtml(gradObj.hexString, text);
+  //       previousGradObj = gradObj;
+  //     });
+  //     addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
 
-      return div;
-    };
+  //     return div;
+  //   };
 
-    this.absoluteLegend.addTo(this.absoluteMap);
-  }
+  //   this.absoluteLegend.addTo(this.absoluteMap);
+  // }
 }

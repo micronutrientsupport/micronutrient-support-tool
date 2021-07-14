@@ -8,7 +8,8 @@
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
 
-      <div #map1></div>
+      <!-- <div [hidden] #map1></div> -->
+      <app-status-maps [biomarkerData]="temporaryData"></app-status-maps>
 
       <div class="status-map-select">
         <mat-form-field appearance="outline">
@@ -21,10 +22,10 @@
       </div>
 
     </mat-tab>
-    <mat-tab label="Map 2">
+    <!-- <mat-tab label="Map 2">
       <app-status-maps [biomarkerData]="temporaryData"></app-status-maps>
 
-    </mat-tab>
+    </mat-tab> -->
 
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
