@@ -1,6 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { CurrentValue } from './currentValue.interface';
 
-export class CurrentComposition extends BaseObject {
+export class CurrentComposition extends BaseObject implements CurrentValue {
   public static readonly KEYS = {
     VALUE: 'value',
     UNITS: 'units',

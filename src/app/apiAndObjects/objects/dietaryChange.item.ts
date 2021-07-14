@@ -1,10 +1,40 @@
+import { CurrentComposition } from './currentComposition';
 import { FoodDictionaryItem } from './dictionaries/foodDictionaryItem';
+import { FoodGroupDictionaryItem } from './dictionaries/foodGroupDictionaryItem';
 
 export abstract class DietaryChangeItem<T = any> {
+  public foodGroup: FoodGroupDictionaryItem;
+  public foodItem: FoodDictionaryItem;
   public currentValue: T;
-  constructor(public readonly foodItem: FoodDictionaryItem, public readonly scenarioValue: T) {}
+  public scenarioValue: T;
+  public updatingScenarioValue = false;
+
+  public updatingComposition = false;
+  public updatingScenarioComposition = false;
+
+  // only used in FoodItemChangeItem.  I know that's not great. Will try to make that better.
+  public currentComposition: CurrentComposition;
+  public scenarioComposition: CurrentComposition;
+  public currentValueFoodItemGroup: FoodGroupDictionaryItem;
+
+  public isUseable(): boolean {
+    return null != this.foodItem && null != this.scenarioValue;
+  }
+
+  public clear(): void {
+    this.foodGroup = null;
+    this.foodItem = null;
+    this.currentValue = null;
+    this.scenarioValue = null;
+    this.currentComposition = null;
+    this.scenarioComposition = null;
+    this.currentValueFoodItemGroup = null;
+    this.updatingScenarioValue = false;
+    this.updatingComposition = false;
+    this.updatingScenarioComposition = false;
+  }
 }
 
 export class CompositionChangeItem extends DietaryChangeItem<number> {}
 export class ConsumptionChangeItem extends DietaryChangeItem<number> {}
-export class FoodItemChangeItem extends DietaryChangeItem<FoodDictionaryItem> {} // TODO: update with FoodItem type
+export class FoodItemChangeItem extends DietaryChangeItem<FoodDictionaryItem> {}
