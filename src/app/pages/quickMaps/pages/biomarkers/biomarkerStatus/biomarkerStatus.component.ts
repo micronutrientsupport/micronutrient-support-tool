@@ -16,9 +16,6 @@ import {
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
@@ -51,12 +48,6 @@ export interface BiomarkerStatusData {
   mineralOutlier: string;
 }
 
-interface TableObject {
-  region: string;
-  n: number;
-  deficient: string;
-  confidence: string;
-}
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
@@ -67,8 +58,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('boxplot') boxPlot: ChartjsComponent;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
@@ -76,7 +65,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public barChartData: ChartJSObject;
   public title: string;
   public selectedTab: number;
-  public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
   public defThreshold = 20;
   public abnThreshold = 60;
   public showOutliers = true;
@@ -98,8 +86,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     { name: 'All characteristics', value: 'all' },
     { name: 'Total', value: 'tot' },
   ];
-  public dataSource: MatTableDataSource<TableObject>;
-  public totalSamples: number;
+
   public selectedOption: any;
   public selectedCharacteristic: any;
   public selectedNutrient = '';
@@ -370,7 +357,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       case 'table':
         if (this.selectedCharacteristic) {
           console.log('dataSelected');
-          this.generateTable();
+          // this.generateTable();
         }
         break;
       case 'chart':
@@ -423,28 +410,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         );
 
         this.mineralData = filterByParamatersArray;
-        this.generateTable();
-        this.dataSource.paginator = this.paginator;
       });
-  }
-
-  private generateTable() {
-    const n = this.mineralData.length;
-    const dataArray = new Array<TableObject>();
-
-    this.totalSamples = n;
-
-    this.mineralData.forEach((data: BiomarkerStatusData) => {
-      const tableObject: TableObject = {
-        region: data.areaName,
-        n: n,
-        deficient: data.mineralLevelOne,
-        confidence: data.mineralOutlier,
-      };
-      dataArray.push(tableObject);
-    });
-
-    this.dataSource = new MatTableDataSource(dataArray);
   }
 
   private openDialog(): void {
