@@ -8,7 +8,6 @@
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
 
-      <!-- <div [hidden] #map1></div> -->
       <app-status-maps [biomarkerData]="temporaryData"></app-status-maps>
 
       <div class="status-map-select">
@@ -22,10 +21,6 @@
       </div>
 
     </mat-tab>
-    <!-- <mat-tab label="Map 2">
-      <app-status-maps [biomarkerData]="temporaryData"></app-status-maps>
-
-    </mat-tab> -->
 
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
@@ -47,8 +42,10 @@
           </mat-form-field>
 
         </div>
+
         <div class="status-element">
-          <table mat-table [dataSource]="dataSource" matSort>
+          <app-status-table [biomarkerData]="mineralData"></app-status-table>
+          <!-- <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="region" sticky>
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
               <td mat-cell *matCellDef="let element">{{ element.region }}</td>
@@ -76,6 +73,7 @@
         </div>
         <div class="status-element">
           <span><b>Total samples (N) - {{ totalSamples }}</b></span>
+        </div> -->
         </div>
       </div>
     </mat-tab>
