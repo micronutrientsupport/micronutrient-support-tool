@@ -24,7 +24,6 @@ export class ScenariosMapComponent implements AfterViewInit {
     if (null != data) {
       this.baselineMapData = data;
       this.areaFeatureCollection = data.geoJson;
-      this.allowBaselineMapEvents = false;
       this.initialiseMapBaseline(this.colourPalette);
     }
   }
@@ -32,7 +31,6 @@ export class ScenariosMapComponent implements AfterViewInit {
   @Input() set scenarioData(data: SubRegionDataItem) {
     if (null != data) {
       this.scenarioMapData = data;
-      this.allowScenarioMapEvents = false;
       this.initialiseMapScenario(this.colourPalette);
     }
   }
@@ -49,14 +47,12 @@ export class ScenariosMapComponent implements AfterViewInit {
   private scenarioDataLayer: L.GeoJSON;
   private legend: L.Control;
 
-  private allowBaselineMapEvents: boolean;
-  private allowScenarioMapEvents: boolean;
-
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
   private colourPalette: ColourPalette;
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
+  private timeout: NodeJS.Timeout;
 
   constructor(private dialogService: DialogService) {
     this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
@@ -96,45 +92,26 @@ export class ScenariosMapComponent implements AfterViewInit {
 
   private initialiseListeners(): void {
     this.baselineMap.on({
-      mousedown: () => {
-        this.allowBaselineMapEvents = true;
-        this.allowScenarioMapEvents = false;
-      },
       move: () => {
-        if (this.allowBaselineMapEvents) {
-          this.setMapPosition(this.baselineMap, this.scenarioMap);
-        }
-      },
-      zoom: () => {
-        this.setMapZoom(this.baselineMap, this.scenarioMap);
+        this.alignMaps(this.baselineMap, this.scenarioMap);
       },
     });
     this.scenarioMap.on({
-      mousedown: () => {
-        this.allowScenarioMapEvents = true;
-        this.allowBaselineMapEvents = false;
-      },
       move: () => {
-        if (this.allowScenarioMapEvents) {
-          this.setMapPosition(this.scenarioMap, this.baselineMap);
-        }
-      },
-      zoom: () => {
-        this.setMapZoom(this.scenarioMap, this.baselineMap);
+        this.alignMaps(this.scenarioMap, this.baselineMap);
       },
     });
   }
 
-  private setMapPosition(baseMap: L.Map, targetMap: L.Map): void {
-    if (targetMap.getCenter() !== baseMap.getCenter()) {
-      targetMap.panTo(baseMap.getCenter());
-    }
-  }
-
-  private setMapZoom(baseMap: L.Map, targetMap: L.Map): void {
-    if (targetMap.getZoom() !== baseMap.getZoom()) {
-      targetMap.setZoom(baseMap.getZoom());
-    }
+  private alignMaps(activatedMap: L.Map, mirroredMap: L.Map): void {
+    mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
+    // wait for inactivity before triggering map check to assure they are aligned
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      if (activatedMap.getBounds() !== mirroredMap.getBounds() || activatedMap.getZoom() !== mirroredMap.getZoom()) {
+        mirroredMap.setView(activatedMap.getCenter(), activatedMap.getZoom(), { animate: false });
+      }
+    }, 50);
   }
 
   private initialiseMapBaseline(colourPalette: ColourPalette): void {
@@ -177,7 +154,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.legend.onAdd = () => {
       const div = L.DomUtil.create('div', 'info legend');
 
-      // loop through our  intervals and generate a label with a colored square for each interval
+      // loop through our intervals and generate a label with a colored square for each interval
       const addItemToHtml = (colourHex: string, text: string) => {
         div.innerHTML += `<span style="display: flex; align-items: center;">
         <span style="background-color:
