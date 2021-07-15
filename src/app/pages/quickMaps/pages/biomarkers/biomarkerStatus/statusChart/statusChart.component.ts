@@ -1,174 +1,59 @@
-/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  Component,
-  AfterViewInit,
-  ViewChild,
-  Input,
-  ChangeDetectionStrategy,
-  Optional,
-  Inject,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { CardComponent } from 'src/app/components/card/card.component';
-import { FormControl } from '@angular/forms';
-import { ChartjsComponent } from '@ctrl/ngx-chartjs';
-import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { Papa } from 'ngx-papaparse';
-import { MatMenu } from '@angular/material/menu';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { ColourPalette } from '../../../components/colourObjects/colourPalette';
-import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
-import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { BiomarkerService } from '../biomarker.service';
-import { StatusMapsComponent } from './statusMaps/statusMaps.component';
-export interface BiomarkerStatusDialogData {
-  data: any;
-  selectedTab: number;
-}
-
-export interface BiomarkerStatusData {
-  areaName: string;
-  ageGenderGroup: string;
-  mineralLevelOne: string;
-  mineralOutlier: string;
-}
-
-export interface BiomarkerChartType {
-  // this is temporary
-  name: string;
-  value: string;
-}
+import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 
 @Component({
-  selector: 'app-biomarker-status',
-  templateUrl: './biomarkerStatus.component.html',
-  styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-status-chart',
+  templateUrl: './statusChart.component.html',
+  styleUrls: ['./statusChart.component.scss'],
 })
-export class BiomarkerStatusComponent implements AfterViewInit {
-  public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
-  @Input() card: CardComponent;
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+export class StatusChartComponent implements AfterViewInit {
   @ViewChild('boxplot') boxPlot: ChartjsComponent;
-  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
-  public chartTypeValue;
+  @Input() set biomarkerData(micronutrientName: string) {
+    if (null != micronutrientName) {
+      this.micronutirentName = micronutrientName;
+    }
+  }
+
+  @Input() set selectedChart(chart: string) {
+    if (null != chart) {
+      this.selectedOption = chart;
+    }
+  }
+
+  public selectedNutrient = '';
+  public selectedOption;
+
   public boxChartData: ChartJSObject;
   public barChartData: ChartJSObject;
-  public title: string;
-  public selectedTab: number;
-  public defThreshold = 20;
-  public abnThreshold = 60;
-  public showOutliers = true;
-  public outlierControl = new FormControl(true);
-  public dataTypes = new FormControl();
-  public characteristics = new FormControl();
-  public dataList: Array<BiomarkerChartType> = [
-    { name: 'Prevalence of Deficiency', value: 'pod' },
-    { name: 'Prevalence of Excess', value: 'poe' },
-    { name: 'Combined deficiency and excess', value: 'cde' },
-    { name: 'Concentration Data', value: 'cda' },
-  ];
-
-  public characteristicList: any[] = [
-    { name: 'Regions', value: 'reg' },
-    { name: 'Residence', value: 'res' },
-    { name: 'Age group', value: 'age' },
-    { name: 'Wealth Quintiles', value: 'qui' },
-    { name: 'All characteristics', value: 'all' },
-    { name: 'Total', value: 'tot' },
-  ];
-
-  public selectedOption: any;
-  public selectedCharacteristic: any;
-  public selectedNutrient = '';
-  public selectedAgeGenderGroup = '';
-  public mineralData: Array<BiomarkerStatusData>;
 
   public boxChartPNG: string;
   public boxChartPDF: string;
-
   public excessBarChartPNG: string;
   public excessBarChartPDF: string;
   public deficiencyBarChartPNG: string;
   public deficiencyBarChartPDF: string;
   public combinedBarChartPNG: string;
   public combinedBarChartPDF: string;
-  public hidden = true;
 
-  // Copied in from MapView, structure will be similar but will however may change
-  public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
-  private defaultPalette = ColourPalette.PALETTES.find(
-    (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
-  );
-  private colourPalette: ColourPalette;
+  public defThreshold = 20;
+  public abnThreshold = 60;
+  public showOutliers = true;
+  public outlierControl = new FormControl(true);
+  public micronutirentName: string;
 
-  private subscriptions = new Array<Subscription>();
   private outlierSet: any[] = [];
 
-  private loadingSrc = new BehaviorSubject<boolean>(false);
-  private errorSrc = new BehaviorSubject<boolean>(false);
+  constructor(private qcService: QuickchartService) {}
 
-  private tabVisited = new Map<number, boolean>();
-
-  constructor(
-    public quickMapsService: QuickMapsService,
-    private http: HttpClient,
-    private papa: Papa,
-    private currentDataService: CurrentDataService,
-    private qcService: QuickchartService,
-    private dialogService: DialogService,
-    private cdr: ChangeDetectorRef,
-    private biomarkerService: BiomarkerService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
-  ) {
-    this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
-    if (null == this.colourPalette) {
-      ColourPalette.setSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID, this.defaultPalette);
-      this.colourPalette = this.defaultPalette;
-    }
-  }
   ngAfterViewInit(): void {
-    // this.absoluteMap = this.initialiseMap(this.mapElement.nativeElement);
-    this.card.showExpand = true;
-    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-
-    this.subscriptions.push(
-      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
-        this.selectedNutrient = micronutrient.name;
-      }),
-    );
-
-    this.subscriptions.push(
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
-        this.selectedAgeGenderGroup = ageGenderGroup.name;
-      }),
-    );
-
-    // Render all charts initially for download;
     this.renderAllCharts();
-    this.card.showExpand = true;
-    this.card.showSettingsMenu = true;
-    this.card.matMenu = this.menu;
-    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-
     this.initialiseBoxChart([
       this.randomBoxPlot(0, 100),
       this.randomBoxPlot(0, 20),
@@ -176,25 +61,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.randomBoxPlot(60, 100),
       this.randomBoxPlot(50, 100),
     ]);
-
-    this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
-        this.init();
-        this.initMapData(
-          this.currentDataService.getSubRegionData(
-            this.quickMapsService.country,
-            this.quickMapsService.micronutrient,
-            this.quickMapsService.dataSource,
-            this.quickMapsService.dataLevel,
-          ),
-        );
-      }),
-    );
-  }
-
-  public navigateToInfoTab(): void {
-    this.selectedTab = 4;
-    this.cdr.detectChanges();
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -206,7 +72,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         labels: ['Central', 'North', 'South', 'South East', 'West'],
         datasets: [
           {
-            label: this.quickMapsService.micronutrient.name,
+            label: this.micronutirentName,
             backgroundColor: 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.2)',
@@ -341,91 +207,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       });
       this.boxPlot.renderChart();
     }
-  }
-
-  public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    if (tabChangeEvent.index === 0) {
-      // this.absoluteMap.invalidateSize();
-    }
-  }
-
-  public openMapSettings(): void {
-    void this.dialogService.openMapSettingsDialog(StatusMapsComponent.COLOUR_PALETTE_ID).then(() => {
-      this.biomarkerService.changeColourRamp();
-    });
-  }
-
-  // Capture value from data select dropdown.
-  public dataSelected(value: string, origin: string): void {
-    this.selectedOption = value;
-    switch (origin) {
-      case 'map':
-        break;
-      case 'table':
-        if (this.selectedCharacteristic) {
-          console.log('dataSelected');
-          // this.generateTable();
-        }
-        break;
-      case 'chart':
-        this.chartTypeValue = value;
-        const barData = this.getBarData(value);
-        this.initialiseBarChart(barData, this.selectedOption);
-        break;
-    }
-  }
-
-  // Capture value from characteristic select dropdown in table tab.
-  public charactersiticSelected(value: string): void {
-    this.selectedCharacteristic = value;
-    console.log('charactersiticSelected');
-    if (this.selectedOption) {
-      // do something
-    }
-  }
-
-  private init(): void {
-    const mnName = this.quickMapsService.micronutrient.name;
-    const agName = this.quickMapsService.ageGenderGroup.name;
-    const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
-    const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
-    this.title = titlePrefix + titleSuffix;
-    if (null != this.card) {
-      this.card.title = this.title;
-    }
-    void this.http
-      .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
-      .toPromise()
-      .then((data: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const blob = this.papa.parse(data, { header: true }).data;
-        const dataArray = new Array<BiomarkerStatusData>();
-
-        // console.log(this.quickMapsService.ageGenderGroup.id); // all; adult_women; adult_men; children
-
-        blob.forEach((simpleData) => {
-          const statusData: BiomarkerStatusData = {
-            areaName: simpleData.AreaName,
-            ageGenderGroup: simpleData.DemoGpN,
-            mineralLevelOne: simpleData.ZnAdj_gdL,
-            mineralOutlier: simpleData.Zn_gdL_Outlier,
-          };
-          dataArray.push(statusData);
-        });
-
-        const filterByParamatersArray = dataArray.filter(
-          (value) => value.areaName === 'Area6' && value.ageGenderGroup === 'WRA',
-        );
-
-        this.mineralData = filterByParamatersArray;
-      });
-  }
-
-  private openDialog(): void {
-    void this.dialogService.openDialogForComponent<BiomarkerStatusDialogData>(BiomarkerStatusComponent, {
-      data: null,
-      selectedTab: this.tabGroup.selectedIndex,
-    });
   }
 
   private renderAllCharts() {
@@ -611,22 +392,5 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         .fill(1)
         .map(() => Math.round(Math.random() * 120)),
     };
-  }
-
-  private initMapData(dataPromise: Promise<SubRegionDataItem>): void {
-    this.loadingSrc.next(true);
-    dataPromise
-      .then((data: SubRegionDataItem) => {
-        this.temporaryData = data;
-        if (null == data) {
-          throw new Error('data error');
-        }
-        this.errorSrc.next(false);
-      })
-      .catch(() => this.errorSrc.next(true))
-      .finally(() => {
-        this.loadingSrc.next(false);
-        this.cdr.detectChanges();
-      });
   }
 }

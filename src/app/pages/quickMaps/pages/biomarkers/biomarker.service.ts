@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { ColourPalette } from '../../components/colourObjects/colourPalette';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
