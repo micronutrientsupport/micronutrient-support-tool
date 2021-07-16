@@ -16,6 +16,10 @@ import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.comp
 import 'chartjs-chart-box-and-violin-plot';
 import { BiomarkerInfoComponent } from './biomarkerInfo/biomarkerInfo.component';
 import { BiomarkerOverviewComponent } from './biomarkerOverview/biomarkerOverview.component';
+import { StatusMapsComponent } from './biomarkerStatus/statusMaps/statusMaps.component';
+import { StatusTableComponent } from './biomarkerStatus/statusTable/statusTable.component';
+import { StatusChartComponent } from './biomarkerStatus/statusChart/statusChart.component';
+import { StatusDownloadComponent } from './biomarkerStatus/statusDownload/statusDownload.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,10 @@ import { BiomarkerOverviewComponent } from './biomarkerOverview/biomarkerOvervie
     BiomarkerStatusComponent,
     BiomarkerInfoComponent,
     BiomarkerOverviewComponent,
+    StatusMapsComponent,
+    StatusTableComponent,
+    StatusChartComponent,
+    StatusDownloadComponent,
   ],
   imports: [
     CommonModule,

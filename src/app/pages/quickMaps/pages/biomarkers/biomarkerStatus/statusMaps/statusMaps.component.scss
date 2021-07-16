@@ -1,0 +1,8 @@
+.map {
+  height: 100%;
+  display: block;
+  .leaflet-container {
+    // allows maps to be visulised.
+    height: 100%;
+  }
+}
