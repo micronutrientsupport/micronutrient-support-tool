@@ -19,6 +19,7 @@ import { BiomarkerOverviewComponent } from './biomarkerOverview/biomarkerOvervie
 import { StatusMapsComponent } from './biomarkerStatus/statusMaps/statusMaps.component';
 import { StatusTableComponent } from './biomarkerStatus/statusTable/statusTable.component';
 import { StatusChartComponent } from './biomarkerStatus/statusChart/statusChart.component';
+import { StatusDownloadComponent } from './biomarkerStatus/statusDownload/statusDownload.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { StatusChartComponent } from './biomarkerStatus/statusChart/statusChart.
     StatusMapsComponent,
     StatusTableComponent,
     StatusChartComponent,
+    StatusDownloadComponent,
   ],
   imports: [
     CommonModule,
