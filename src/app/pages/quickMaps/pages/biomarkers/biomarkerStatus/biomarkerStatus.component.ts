@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Component,
   AfterViewInit,
@@ -27,8 +22,6 @@ import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { MatMenu } from '@angular/material/menu';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { ColourPalette } from '../../../components/colourObjects/colourPalette';
-import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
@@ -43,6 +36,15 @@ export interface BiomarkerStatusData {
   ageGenderGroup: string;
   mineralLevelOne: string;
   mineralOutlier: string;
+}
+
+interface simpleDataObject {
+  AreaName: string;
+  DemoGpN: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  ZnAdj_gdL: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Zn_gdL_Outlier: string;
 }
 
 export interface BiomarkerChartType {
@@ -94,26 +96,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public selectedAgeGenderGroup = '';
   public mineralData: Array<BiomarkerStatusData>;
 
-  public boxChartPNG: string;
-  public boxChartPDF: string;
-
-  public excessBarChartPNG: string;
-  public excessBarChartPDF: string;
-  public deficiencyBarChartPNG: string;
-  public deficiencyBarChartPDF: string;
-  public combinedBarChartPNG: string;
-  public combinedBarChartPDF: string;
-  public hidden = true;
-
   // Copied in from MapView, structure will be similar but will however may change
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
-  private defaultPalette = ColourPalette.PALETTES.find(
-    (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
-  );
-  private colourPalette: ColourPalette;
-
   private subscriptions = new Array<Subscription>();
-  private outlierSet: any[] = [];
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -129,13 +114,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
-  ) {
-    this.colourPalette = ColourPalette.getSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID);
-    if (null == this.colourPalette) {
-      ColourPalette.setSelectedPalette(BiomarkerStatusComponent.COLOUR_PALETTE_ID, this.defaultPalette);
-      this.colourPalette = this.defaultPalette;
-    }
-  }
+  ) {}
   ngAfterViewInit(): void {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -235,7 +214,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<BiomarkerStatusData>();
 
-        blob.forEach((simpleData) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        blob.forEach((simpleData: simpleDataObject) => {
           const statusData: BiomarkerStatusData = {
             areaName: simpleData.AreaName,
             ageGenderGroup: simpleData.DemoGpN,
