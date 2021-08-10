@@ -6,6 +6,7 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
+import { BiomarkerDataType } from '../biomarkerStatus.component';
 
 @Component({
   selector: 'app-status-chart',
@@ -21,9 +22,9 @@ export class StatusChartComponent implements AfterViewInit {
     }
   }
 
-  @Input() set selectedChart(chart: string) {
-    if (null != chart) {
-      this.selectedOption = chart;
+  @Input() set selectedDataType(dataType: BiomarkerDataType) {
+    if (null != dataType) {
+      this.selectedOption = dataType.value;
     }
   }
 

@@ -8,13 +8,13 @@
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
 
-      <app-status-maps [biomarkerData]="temporaryData"></app-status-maps>
+      <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>
 
       <div class="status-map-select">
         <mat-form-field appearance="outline">
           <mat-label>Select data</mat-label>
-          <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'map')">
-            <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+          <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+            <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -27,16 +27,17 @@
         <div class="status-element">
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
-            <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'table')">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <span class="spacer"> by </span>
           <mat-form-field appearance="outline">
             <mat-label>Select a charactersitic</mat-label>
-            <mat-select [formControl]="characteristics" (selectionChange)="charactersiticSelected($event.value)">
-              <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic.value">
+            <mat-select [(value)]="selectedCharacteristicType"
+              (selectionChange)="setCharacteristicSelection($event.value)">
+              <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic">
                 {{characteristic.name}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -44,7 +45,8 @@
         </div>
 
         <div class="status-element">
-          <app-status-table [biomarkerData]="mineralData"></app-status-table>
+          <app-status-table [biomarkerData]="mineralData" [selectedDataType]="selectedDataType"
+            [selectedCharacteristicType]="selectedCharacteristicType"></app-status-table>
         </div>
       </div>
     </mat-tab>
@@ -54,14 +56,14 @@
         <div class="status-element">
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
-            <mat-select #option (selectionChange)="dataSelected($event.value, 'chart')">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <app-status-chart [biomarkerData]="selectedNutrient" [selectedChart]="chartTypeValue"></app-status-chart>
+        <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart>
 
       </div>
     </mat-tab>

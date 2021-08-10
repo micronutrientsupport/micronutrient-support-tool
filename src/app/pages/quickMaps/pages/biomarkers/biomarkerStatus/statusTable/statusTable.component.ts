@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BiomarkerStatusData } from '../biomarkerStatus.component';
+import { BiomarkerCharacteristicType, BiomarkerDataType, BiomarkerStatusData } from '../biomarkerStatus.component';
 
 interface TableObject {
   region: string;
@@ -21,6 +21,18 @@ export class StatusTableComponent implements OnInit {
   @Input() set biomarkerData(data: Array<BiomarkerStatusData>) {
     if (null != data) {
       this.generateTable(data);
+    }
+  }
+
+  @Input() set selectedDataType(dataType: BiomarkerDataType) {
+    if (null != dataType) {
+      // set table with new data type.
+    }
+  }
+
+  @Input() set selectedCharacteristicType(dataType: BiomarkerCharacteristicType) {
+    if (null != dataType) {
+      // set table with new charateristic type.
     }
   }
 

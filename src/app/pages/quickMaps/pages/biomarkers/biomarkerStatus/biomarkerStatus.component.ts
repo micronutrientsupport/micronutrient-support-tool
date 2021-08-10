@@ -47,8 +47,12 @@ interface simpleDataObject {
   Zn_gdL_Outlier: string;
 }
 
-export interface BiomarkerChartType {
-  // this is temporary
+export interface BiomarkerDataType {
+  name: string;
+  value: string;
+}
+
+export interface BiomarkerCharacteristicType {
   name: string;
   value: string;
 }
@@ -66,7 +70,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   @ViewChild('boxplot') boxPlot: ChartjsComponent;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
-  public chartTypeValue;
   public title: string;
   public selectedTab: number;
 
@@ -74,14 +77,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public outlierControl = new FormControl(true);
   public dataTypes = new FormControl();
   public characteristics = new FormControl();
-  public dataList: Array<BiomarkerChartType> = [
+  public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },
     { name: 'Prevalence of Excess', value: 'poe' },
     { name: 'Combined deficiency and excess', value: 'cde' },
     { name: 'Concentration Data', value: 'cda' },
   ];
 
-  public characteristicList: any[] = [
+  public characteristicList: Array<BiomarkerCharacteristicType> = [
     { name: 'Regions', value: 'reg' },
     { name: 'Residence', value: 'res' },
     { name: 'Age group', value: 'age' },
@@ -95,6 +98,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
   public mineralData: Array<BiomarkerStatusData>;
+  public selectedDataType: BiomarkerDataType;
+  public selectedCharacteristicType: BiomarkerCharacteristicType;
 
   // Copied in from MapView, structure will be similar but will however may change
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
@@ -179,22 +184,19 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       case 'table':
         if (this.selectedCharacteristic) {
           console.log('dataSelected');
-          // this.generateTable();
         }
         break;
       case 'chart':
-        this.chartTypeValue = value;
+        // this.chartTypeValue = value;
         break;
     }
   }
+  public setCharacteristicSelection(charateristicType: BiomarkerCharacteristicType): void {
+    this.selectedCharacteristicType = charateristicType;
+  }
 
-  // Capture value from characteristic select dropdown in table tab.
-  public charactersiticSelected(value: string): void {
-    this.selectedCharacteristic = value;
-    console.log('charactersiticSelected');
-    if (this.selectedOption) {
-      // do something
-    }
+  public setDataSelection(dataType: BiomarkerDataType): void {
+    this.selectedDataType = dataType;
   }
 
   private init(): void {

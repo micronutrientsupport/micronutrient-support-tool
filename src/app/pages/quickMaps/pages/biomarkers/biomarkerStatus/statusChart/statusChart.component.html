@@ -28,7 +28,7 @@
             group</div>
     </div>
 
-    <div *ngIf="selectedOption =='pod' || selectedOption =='poe' || selectedOption =='cde' " class="status-element">
+    <div *ngIf="selectedOption ==='pod' || selectedOption ==='poe' || selectedOption ==='cde' " class="status-element">
         <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
             [type]="barChartData.type" [options]="barChartData.options" [plugins]="barChartData.plugins">
         </ngx-chartjs>

@@ -8,6 +8,7 @@ import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/co
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
 import { BiomarkerService } from '../../biomarker.service';
+import { BiomarkerDataType } from '../biomarkerStatus.component';
 
 @Component({
   selector: 'app-status-maps',
@@ -23,6 +24,12 @@ export class StatusMapsComponent implements AfterViewInit {
       this.biomarkerMapData = data;
       this.areaFeatureCollection = data.geoJson;
       this.initialiseMapLayers(this.colourPalette);
+    }
+  }
+
+  @Input() set selectedDataType(dataType: BiomarkerDataType) {
+    if (null != dataType) {
+      // set map with new data type.
     }
   }
 
