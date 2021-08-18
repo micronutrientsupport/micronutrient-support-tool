@@ -88,7 +88,7 @@ export class StatusMapsComponent implements AfterViewInit {
     // Take it out of the loop, map fits bounds of target country on refresh.
     setTimeout(() => {
       this.biomakerMap.fitBounds(this.biomarkerDataLayer.getBounds());
-    }, 100);
+    }, 200);
 
     this.refreshLegend(gradient);
   }
