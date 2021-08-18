@@ -84,7 +84,12 @@ export class StatusMapsComponent implements AfterViewInit {
     this.biomarkerDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.biomakerMap);
-    this.biomakerMap.fitBounds(this.biomarkerDataLayer.getBounds());
+
+    // Take it out of the loop, map fits bounds of target country on refresh.
+    setTimeout(() => {
+      this.biomakerMap.fitBounds(this.biomarkerDataLayer.getBounds());
+    }, 100);
+
     this.refreshLegend(gradient);
   }
 
