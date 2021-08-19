@@ -1,6 +1,7 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -9,6 +10,7 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
+import { DietaryChangeService } from '../../../dietaryChange.service';
 
 @Component({
   selector: 'app-scenarios-map',
@@ -38,6 +40,8 @@ export class ScenariosMapComponent implements AfterViewInit {
   public baselineMapData: SubRegionDataItem;
   public scenarioMapData: SubRegionDataItem;
 
+  public showSelectScenarioMessage = true;
+
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
   private areaBounds: L.LatLngBounds;
@@ -54,12 +58,15 @@ export class ScenariosMapComponent implements AfterViewInit {
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
   private timeout: NodeJS.Timeout;
 
-  constructor(private dialogService: DialogService) {
+  constructor(private dialogService: DialogService, private dietaryChangeService: DietaryChangeService) {
     this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
     if (null == this.colourPalette) {
       ColourPalette.setSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
+    this.dietaryChangeService.changeItemsObs.subscribe((items: Array<DietaryChangeItem>) => {
+      this.showSelectScenarioMessage = items.length === 0 || null == items[0].scenarioValue ? true : false;
+    });
   }
 
   public ngAfterViewInit(): void {

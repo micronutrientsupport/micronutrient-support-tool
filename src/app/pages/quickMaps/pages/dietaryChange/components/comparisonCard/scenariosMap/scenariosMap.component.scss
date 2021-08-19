@@ -5,6 +5,30 @@
   .map {
     height: 100%;
     display: block;
+    .title {
+      position: absolute;
+      z-index: 401; // lowest z-index where titles append on top of map
+      display: flex;
+      justify-content: center;
+      width: 50%;
+      font-weight: 600;
+    }
+    .message {
+      position: absolute;
+      z-index: 402; // lowest z-index where titles append on top of map
+      height: 100%;
+      width: 50%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.32);
+      span {
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 4px;
+        box-shadow: 0 11px 15px -7px rgb(0 0 0 / 20%), 0 24px 38px 3px rgb(0 0 0 / 14%), 0 9px 46px 8px rgb(0 0 0 / 12%);
+      }
+    }
     .leaflet-container {
       // allows maps to be visulised.
       height: 100%;
