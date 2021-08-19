@@ -1,6 +1,5 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
-import { MatMenu } from '@angular/material/menu';
 import * as L from 'leaflet';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
@@ -22,7 +21,6 @@ export class ScenariosMapComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'scenarios-map-view';
   @ViewChild('baselineMap') baselineMapElement: ElementRef;
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
-  @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   @Input() set baselineData(data: SubRegionDataItem) {
     if (null != data) {
@@ -189,7 +187,6 @@ export class ScenariosMapComponent implements AfterViewInit {
 
       return div;
     };
-    // this.setBounds();
     this.legend.addTo(this.scenarioMap);
   }
 
