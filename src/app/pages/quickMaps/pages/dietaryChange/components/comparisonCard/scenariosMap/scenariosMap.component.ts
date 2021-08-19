@@ -67,7 +67,9 @@ export class ScenariosMapComponent implements AfterViewInit {
       this.colourPalette = this.defaultPalette;
     }
     this.dietaryChangeService.changeItemsObs.subscribe((items: Array<DietaryChangeItem>) => {
-      this.showSelectScenarioMessage = items.length === 0 ? true : false;
+      if (null != items[0].scenarioValue) {
+        this.showSelectScenarioMessage = items.length === 0 ? true : false;
+      }
     });
   }
 
