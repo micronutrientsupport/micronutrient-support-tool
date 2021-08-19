@@ -8,13 +8,13 @@
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Map">
 
-      <div #map1></div>
+      <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>
 
       <div class="status-map-select">
         <mat-form-field appearance="outline">
           <mat-label>Select data</mat-label>
-          <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'map')">
-            <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+          <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+            <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -27,50 +27,26 @@
         <div class="status-element">
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
-            <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'table')">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <span class="spacer"> by </span>
           <mat-form-field appearance="outline">
             <mat-label>Select a charactersitic</mat-label>
-            <mat-select [formControl]="characteristics" (selectionChange)="charactersiticSelected($event.value)">
-              <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic.value">
+            <mat-select [(value)]="selectedCharacteristicType"
+              (selectionChange)="setCharacteristicSelection($event.value)">
+              <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic">
                 {{characteristic.name}}</mat-option>
             </mat-select>
           </mat-form-field>
 
         </div>
-        <div class="status-element">
-          <table mat-table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="region" sticky>
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
-              <td mat-cell *matCellDef="let element">{{ element.region }}</td>
-            </ng-container>
-            <ng-container matColumnDef="n">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>N</th>
-              <td mat-cell *matCellDef="let element">{{ element.n }}</td>
-            </ng-container>
-            <ng-container matColumnDef="deficient">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Deficient</th>
-              <td mat-cell *matCellDef="let element">{{ element.deficient }}</td>
-            </ng-container>
-            <ng-container matColumnDef="confidence">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Confidence interval (95%)</th>
-              <td mat-cell *matCellDef="let element">{{ element.confidence }}</td>
-            </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-        </div>
         <div class="status-element">
-          <span>Description of how deficiency/excess was measured and details about groups</span>
-        </div>
-        <div class="status-element">
-          <span><b>Total samples (N) - {{ totalSamples }}</b></span>
+          <app-status-table [biomarkerData]="mineralData" [selectedDataType]="selectedDataType"
+            [selectedCharacteristicType]="selectedCharacteristicType"></app-status-table>
         </div>
       </div>
     </mat-tab>
@@ -80,167 +56,37 @@
         <div class="status-element">
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
-            <mat-select [formControl]="dataTypes" (selectionChange)="dataSelected($event.value, 'chart')">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType.value">{{dataType.name}}
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div *ngIf="selectedOption =='cda' ">
-          <div class="status-element">
-            <ngx-chartjs #boxplot id="box-chart" *ngIf="boxChartData" [data]="boxChartData.data"
-              [type]="boxChartData.type" [options]="boxChartData.options" [plugins]="boxChartData.plugins">
-            </ngx-chartjs>
-          </div>
-          <div class="status-element">
-            <div class="row">
-              <span class="col-left pull-right">Deficiency threshold</span>
-              <span class="col-right red pull-left"> {{ defThreshold }} &micro;g/dL</span>
-            </div>
-            <div class="row">
-              <span class="col-left pull-right">Threshold for abnormal values</span>
-              <span class="col-right blue pull-left"> {{ abnThreshold }} &micro;g/dL</span>
-            </div>
-            <div class="row">
-              <span class="col-left pull-right">Outliers</span>
-              <span class="col-right pull-left">
-                <mat-slide-toggle [formControl]="outlierControl" (change)="toggleShowOutlier()">
-                </mat-slide-toggle>
-                <span *ngIf="showOutliers; else dontShow"> Shown</span>
-                <ng-template #dontShow> Hidden</ng-template>
-              </span>
-            </div>
-          </div>
-          <div class="status-element">Description of how deficiency/excess was measuredand details about the
-            group</div>
-        </div>
-
-        <div *ngIf="selectedOption =='pod' || selectedOption=='poe' || selectedOption=='cde' " class="status-element">
-          <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
-            [type]="barChartData.type" [options]="barChartData.options" [plugins]="barChartData.plugins">
-          </ngx-chartjs>
-          <div class="status-element">Description of how deficiency/excess was measuredand details about the
-            group</div>
-        </div>
-
+        <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart>
 
       </div>
     </mat-tab>
 
     <mat-tab label="Download">
-      <div class="bmgf-maps-nice-scrollbar">
-        <div class="status-element">
-          <h2>Select the data to download</h2>
-        </div>
-
-        <div class="container-row">
-          <div class="element-container">
-            <div class="download-title">Deficiency</div>
-            <div class="download-element">
-              <a [href]="deficiencyBarChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PNG</span>
-              </a>
-            </div>
-            <div class="download-element">
-              <a [href]="deficiencyBarChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PDF</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="element-container">
-            <div class="download-title">Excess</div>
-            <div class="download-element">
-              <a [href]="excessBarChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PNG</span></a>
-            </div>
-            <div class="download-element">
-              <a [href]="excessBarChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PDF</span></a>
-            </div>
-          </div>
-
-          <div class="element-container">
-            <div class="download-title">Combined</div>
-            <div class="download-element">
-              <a [href]="combinedBarChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PNG</span></a>
-            </div>
-            <div class="download-element">
-              <a [href]="combinedBarChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PDF</span></a>
-            </div>
-          </div>
-
-          <div class="element-container end">
-            <div class="download-title">Continuous data</div>
-            <div class="download-element">
-              <a [href]="boxChartPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PNG</span></a>
-            </div>
-            <div class="download-element">
-              <a [href]="boxChartPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
-                <i class="fas fa-download"></i>
-                <span class="link-label">Chart PDF</span></a>
-            </div>
-          </div>
-        </div>
-        <div class="status-element">
-          <div class="row">
-            <span class="dl-col-left pull-right">Map</span>
-            <span class="dl-col-right pull-left">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium.
-            </span>
-          </div>
-          <div class="row">
-            <span class="dl-col-left pull-right">Table</span>
-            <span class="dl-col-right pull-left">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium.
-            </span>
-          </div>
-          <div class="row">
-            <span class="dl-col-left pull-right">Chart</span>
-            <span class="dl-col-right pull-left">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium.
-            </span>
-          </div>
-          <div class="row">
-            <span class="dl-col-left pull-right">CSV file</span>
-            <span class="dl-col-right pull-left">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-              laudantium.
-            </span>
-          </div>
-        </div>
-      </div>
+      <app-status-download></app-status-download>
     </mat-tab>
 
-        <mat-tab label="About {{title}}">
-            <div class="about-container">
-                <h2>About {{title}}</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id
-                    est laborum.</p>
-            </div>
+    <mat-tab label="About {{title}}">
+      <div class="about-container">
+        <h2>About {{title}}</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+          ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+          anim id
+          est laborum.</p>
+      </div>
 
-        </mat-tab>
+    </mat-tab>
 
   </mat-tab-group>
 </ng-template>
