@@ -6,6 +6,12 @@
       </ngx-chartjs>
     </mat-tab>
 
+    <mat-tab label="Tree">
+      <ejs-treemap *ngIf="null != data" id='container' style='display: block;' height='100%' [dataSource]='data'
+        weightValuePath='value' [leafItemSettings]='leafItemSettings'>
+      </ejs-treemap>
+    </mat-tab>
+
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">

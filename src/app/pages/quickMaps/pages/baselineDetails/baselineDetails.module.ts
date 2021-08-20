@@ -18,6 +18,7 @@ import { BaselineDescriptionComponent } from './baselineDescription/baselineDesc
 import { RouterModule } from '@angular/router';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
+import { TreeMapModule } from '@syncfusion/ej2-angular-treemap';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -42,6 +43,7 @@ import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.
     DialogModule,
     RouterModule,
     QuickMapsComponentsModule,
+    TreeMapModule,
   ],
 })
 export class BaselineDetailsModule {}
