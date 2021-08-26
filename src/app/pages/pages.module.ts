@@ -10,6 +10,7 @@ import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsModule } from './quickMaps/quickMaps.module';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
+import { StorymapComponent } from './help/storymap/storymap.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     HelpComponent,
     ProjectObjectivesComponent,
     StyleGuideComponent,
+    StorymapComponent,
   ],
   imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule],
   providers: [],
