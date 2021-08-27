@@ -9,5 +9,5 @@ import { AppRoutes } from 'src/app/routes/routes';
 export class HeaderComponent {
   public ROUTES = AppRoutes;
 
-  constructor() { }
+  constructor() {}
 }
