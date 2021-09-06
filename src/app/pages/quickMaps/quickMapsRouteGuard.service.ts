@@ -12,6 +12,7 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { DietDataService } from 'src/app/services/dietData.service';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -24,6 +25,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private router: Router,
     private route: ActivatedRoute,
     private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     injector: Injector,
     private dialogService: DialogService,
   ) {
@@ -87,10 +89,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
       ? Promise.resolve(null)
       : this.quickMapsParameters
-        .getMicronutrient(snapshot.queryParamMap)
-        .then((micronutrient: MicronutrientDictionaryItem) =>
-          micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
-        )) as Promise<AppRoute>;
+          .getMicronutrient(snapshot.queryParamMap)
+          .then((micronutrient: MicronutrientDictionaryItem) =>
+            micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
+          )) as Promise<AppRoute>;
   }
 
   private validateMeasureForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {
@@ -129,30 +131,26 @@ export class QuickMapsRouteGuardService implements CanActivate {
       const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId(queryParamMap);
       const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
-
-      return null == country
-        || null == micronutrient
-        || null == measure
+      return null == country || null == micronutrient || null == measure
         ? false
-        : this.getAgeGenderGroup(micronutrient, ageGenderGroupId)
-          .then(ageGenderGroup => Promise.all([
-            this.validateAgeGenderGroup(measure, ageGenderGroup),
-            this.validateDataLevel(country, measure, ageGenderGroup, dataLevel),
-          ])
-            .then((valids: Array<boolean>) => valids.every((valid) => true === valid))
+        : this.getAgeGenderGroup(micronutrient, ageGenderGroupId).then((ageGenderGroup) =>
+            Promise.all([
+              this.validateAgeGenderGroup(measure, ageGenderGroup),
+              this.validateDataLevel(country, micronutrient, ageGenderGroup, dataLevel),
+            ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid)),
           );
     });
   }
 
   private validateDataLevel(
     country: CountryDictionaryItem,
-    measure: MicronutrientMeasureType,
+    micronutrient: MicronutrientDictionaryItem,
     ageGenderGroup: AgeGenderGroup,
     dataLevel: DataLevel,
   ): Promise<boolean> {
-    return this.currentDataService.getDataSources(country, measure, ageGenderGroup, true)
+    return this.dietDataService
+      .getDataSources(country, micronutrient, ageGenderGroup, true)
       .then((options: Array<DataSource>) => {
-
         let valid = false;
         const selectedDataSource = options[0]; // always first item
         if (null != selectedDataSource) {
@@ -167,19 +165,16 @@ export class QuickMapsRouteGuardService implements CanActivate {
     micronutrient: MicronutrientDictionaryItem,
     ageGenderGroupId: string,
   ): Promise<AgeGenderGroup> {
-    return this.currentDataService.getAgeGenderGroups([micronutrient])
+    return this.currentDataService
+      .getAgeGenderGroups([micronutrient])
       .then((ageGenderGroups: Array<AgeGenderGroup>) => ageGenderGroups.find((group) => group.id === ageGenderGroupId));
   }
 
-  private validateAgeGenderGroup(
-    measure: MicronutrientMeasureType,
-    ageGenderGroup: AgeGenderGroup,
-  ): Promise<boolean> {
+  private validateAgeGenderGroup(measure: MicronutrientMeasureType, ageGenderGroup: AgeGenderGroup): Promise<boolean> {
     return Promise.resolve(
-      (measure === MicronutrientMeasureType.DIET)
-      || ((measure === MicronutrientMeasureType.BIOMARKER) && (null != ageGenderGroup))
+      measure === MicronutrientMeasureType.DIET ||
+        (measure === MicronutrientMeasureType.BIOMARKER && null != ageGenderGroup),
     );
-
   }
 
   private getActivatedRouteSnapshot(snapshot?: ActivatedRouteSnapshot): ActivatedRouteSnapshot {

@@ -8,6 +8,7 @@ import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
+import { DietDataService } from 'src/app/services/dietData.service';
 
 @Injectable()
 export class QuickMapsService {
@@ -55,7 +56,11 @@ export class QuickMapsService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector, private currentDataService: CurrentDataService) {
+  constructor(
+    injector: Injector,
+    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
+  ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
@@ -67,7 +72,7 @@ export class QuickMapsService {
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
     ])
       .then(() => this.setInitialAgeGender(this.micronutrient))
-      .then(() => this.setInitialDataSource(this.country, this.measure, this.ageGenderGroup))
+      .then(() => this.setInitialDataSource(this.country, this.micronutrient, this.ageGenderGroup))
       .then(() => {
         this.initSubscriptions();
         this.initSrc.next(true);
@@ -181,11 +186,11 @@ export class QuickMapsService {
 
   private setInitialDataSource(
     country: CountryDictionaryItem,
-    measure: MicronutrientMeasureType,
+    micronutrient: MicronutrientDictionaryItem,
     ageGenderGroup: AgeGenderGroup,
   ): Promise<void> {
-    return this.currentDataService
-      .getDataSources(country, measure, ageGenderGroup, true)
+    return this.dietDataService
+      .getDataSources(country, micronutrient, ageGenderGroup, true)
       .then((groups) => this.setDataSource(groups[0])); // always first item
   }
 }

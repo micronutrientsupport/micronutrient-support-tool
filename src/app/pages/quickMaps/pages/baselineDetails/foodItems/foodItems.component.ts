@@ -26,6 +26,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataService } from 'src/app/services/dietData.service';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -58,6 +59,7 @@ export class FoodItemsComponent implements AfterViewInit {
   constructor(
     private notificationService: NotificationsService,
     private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
@@ -79,8 +81,7 @@ export class FoodItemsComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
-            this.currentDataService.getTopFood(
-              this.quickMapsService.country,
+            this.dietDataService.getTopFoods(
               this.quickMapsService.micronutrient,
               this.quickMapsService.dataSource,
               this.quickMapsService.dataLevel,

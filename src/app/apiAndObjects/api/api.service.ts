@@ -5,13 +5,13 @@ import { DictionaryType } from './dictionaryType.enum';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
-import { GetDataSources } from './currentData/getDataSources';
+import { GetDataSources } from './diet/getDataSources';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
-import { GetTopFood } from './currentData/getTopFood';
+import { GetTopFood } from './diet/getTopFoods';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
@@ -31,11 +31,13 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    currentData: {
+    diet: {
+      getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
+    },
+    currentData: {
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
-      getTopFood: new GetTopFood(ApiService.USE_LIVE_API),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
@@ -57,7 +59,7 @@ export class ApiService extends BaseApi {
 
   private _dictionaries = [
     new GetDictionary(DictionaryType.COUNTRIES, ApiService.USE_LIVE_API).setDefaultParams({
-      path: 'country',
+      path: 'countries',
       typeObj: CountryDictionaryItem,
     }),
     // .setMockObjects(CountryDictionaryItem.createMockItems(false)),
@@ -65,7 +67,7 @@ export class ApiService extends BaseApi {
       .setDefaultParams({ path: 'regions', typeObj: CountryDictionaryItem })
       .setMockObjects(CountryDictionaryItem.createMockItems(false, 0)),
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
-      .setDefaultParams({ path: 'micronutrient', typeObj: MicronutrientDictionaryItem })
+      .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
     new GetDictionary(DictionaryType.FOOD_GROUPS, false)
       .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })

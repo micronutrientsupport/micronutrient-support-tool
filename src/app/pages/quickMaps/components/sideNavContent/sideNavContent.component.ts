@@ -20,6 +20,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
+import { DietDataService } from 'src/app/services/dietData.service';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
@@ -58,6 +59,7 @@ export class SideNavContentComponent implements OnInit {
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
@@ -75,7 +77,10 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
           dataSource: [this.quickMapsService.dataSource, Validators.required],
-          ageGenderData: [this.quickMapsService.ageGenderGroup, (control: AbstractControl) => this.ageGenderRequiredValidator(control)],
+          ageGenderData: [
+            this.quickMapsService.ageGenderGroup,
+            (control: AbstractControl) => this.ageGenderRequiredValidator(control),
+          ],
         });
 
         this.subscriptions.push(
@@ -97,7 +102,6 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
 
-
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.setCountry(value);
@@ -108,6 +112,7 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
             this.quickMapsService.setMicronutrient(value);
             this.updateDataMeasureOptions();
+            this.updateDataSources();
           }),
         );
         this.subscriptions.push(
@@ -181,9 +186,10 @@ export class SideNavContentComponent implements OnInit {
 
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
-      this.navigate((this.quickMapsService.measure === MicronutrientMeasureType.DIET)
-        ? AppRoutes.QUICK_MAPS_BASELINE
-        : AppRoutes.QUICK_MAPS_BIOMARKER
+      this.navigate(
+        this.quickMapsService.measure === MicronutrientMeasureType.DIET
+          ? AppRoutes.QUICK_MAPS_BASELINE
+          : AppRoutes.QUICK_MAPS_BIOMARKER,
       );
       this.minimiseSideNav();
     }
@@ -193,10 +199,9 @@ export class SideNavContentComponent implements OnInit {
     let valid = true;
     if (null != this.quickMapsForm) {
       const measureControl = this.quickMapsForm.get('measure');
-      valid = ((measureControl.value === MicronutrientMeasureType.DIET) || (null != ageGenderControl.value));
+      valid = measureControl.value === MicronutrientMeasureType.DIET || null != ageGenderControl.value;
     }
     return valid ? null : { ageGender: 'required' };
-
   }
 
   private updateDataMeasureOptions(): void {
@@ -233,10 +238,10 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private updateDataSources(): void {
-    void this.currentDataService
+    void this.dietDataService
       .getDataSources(
         this.quickMapsService.country,
-        this.quickMapsService.measure,
+        this.quickMapsService.micronutrient,
         this.quickMapsService.ageGenderGroup,
         true,
       )
@@ -260,7 +265,7 @@ export class SideNavContentComponent implements OnInit {
         const currentSelection = this.quickMapsForm.get('ageGenderData').value as AgeGenderGroup;
         // re-select the previously selected group
         if (null != currentSelection) {
-          newSelection = options.find(option => option.id === currentSelection.id);
+          newSelection = options.find((option) => option.id === currentSelection.id);
         }
         // if no previous selection or previous selection not available, default to first option
         if (null == newSelection) {
