@@ -15,13 +15,8 @@ import {
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CardComponent } from 'src/app/components/card/card.component';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
-import {
-  ProjectedFoodSourcesData,
-  ProjectedFoodSourcesTable,
-} from 'src/app/apiAndObjects/objects/projectedFoodSources';
 import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -31,11 +26,13 @@ import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import ColorHash from 'color-hash-ts';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { ProjectionDataService } from 'src/app/services/projectionData.service';
+import { FoodSourceGroup } from 'src/app/apiAndObjects/objects/enums/foodSourceGroup.enum';
+import { MicronutrientProjectionSource } from 'src/app/apiAndObjects/objects/micronutrientProjectionSource.abstract';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -64,16 +61,15 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public dataSource = new MatTableDataSource();
   public currentImpactScenario: ImpactScenario;
   public projectionFoodFormGroup: FormGroup;
-  public groupByOptions = [
-    { id: 'commodity', name: 'commodity' },
-    { id: 'foodGroup', name: 'food group' },
-  ];
+  public groupByOptions = Object.values(FoodSourceGroup);
   public selectedGroup = 'commodity';
+  // TODO: from API??
   public scenarioOptions = [
     { id: 'SSP1', name: 'SSP1' },
     { id: 'SSP2', name: 'SSP2' },
     { id: 'SSP3', name: 'SSP3' },
   ];
+  // TODO: from API??
   public yearOptions = [
     { id: 0, name: '2005' },
     { id: 1, name: '2010' },
@@ -88,10 +84,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   ];
   public chartPNG: string;
   public chartPDF: string;
-  public csvDownloadData: Array<ProjectedFoodSourcesData> = [];
+  public csvDownloadData: Array<MicronutrientProjectionSource> = [];
 
-  public data: Array<ProjectedFoodSourcesData>;
-  // private data: Array<ProjectedFoodSourcesData>;
+  public data: Array<MicronutrientProjectionSource>;
 
   private sort: MatSort;
 
@@ -101,8 +96,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
-    private notificationService: NotificationsService,
-    private currentDataService: CurrentDataService,
+    private projectionDataService: ProjectionDataService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private miscApiService: MiscApiService,
@@ -189,16 +183,15 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private init(): void {
     this.loadingSrc.next(true);
-    this.currentDataService
-      .getProjectedFoodSourceData(
+    this.projectionDataService
+      .getProjectionSources(
         this.projectionFoodFormGroup.get('groupedBy').value,
         this.quickMapsService.country,
-        [this.quickMapsService.micronutrient],
+        this.quickMapsService.micronutrient,
         this.projectionFoodFormGroup.get('scenario').value,
+        this.projectionFoodFormGroup.get('year').value,
       )
-      .then((data: Array<ProjectedFoodSourcesData>) => {
-        const goodOrCommodity: string = this.projectionFoodFormGroup.get('groupedBy').value as string;
-
+      .then((data: Array<MicronutrientProjectionSource>) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
@@ -208,17 +201,17 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         this.dataSource = new MatTableDataSource(data);
         // this.csvDownloadData.push(data);
         // Select current countries
-        const filteredByCountry: Array<ProjectedFoodSourcesData> = data.filter(
-          (item: ProjectedFoodSourcesData) => item.country === this.quickMapsService.country.id,
+        const filteredByCountry: Array<MicronutrientProjectionSource> = data.filter(
+          (item: MicronutrientProjectionSource) => item.country === this.quickMapsService.country.id,
         );
 
         // Filter by current impact scenario
-        const filteredByScenario: Array<ProjectedFoodSourcesData> = filteredByCountry.filter(
-          (item: ProjectedFoodSourcesData) => item.scenario === this.projectionFoodFormGroup.get('scenario').value,
+        const filteredByScenario: Array<MicronutrientProjectionSource> = filteredByCountry.filter(
+          (item: MicronutrientProjectionSource) => item.scenario === this.projectionFoodFormGroup.get('scenario').value,
         );
 
         const filteredTableDataArray = [];
-        const foodTypes = [...new Set(data.map((item) => item[goodOrCommodity]))];
+        const foodTypes = [...new Set(data.map((item) => item.name))];
         const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
 
         // Generate the stacked chart
@@ -229,16 +222,14 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         foodTypes.forEach((thing, index) => {
           stackedChartData.datasets.push({
             label: foodTypes[index],
-            data: filteredByScenario
-              .filter((item) => item[goodOrCommodity] === foodTypes[index])
-              .map((item) => item.value),
+            data: filteredByScenario.filter((item) => item.name === foodTypes[index]).map((item) => item.value),
             backgroundColor: this.genColorHex(foodTypes[index]),
           });
         });
 
         // Generate the table
         quinquennialPeriod.forEach((currentYear) => {
-          const filteredTableData = new Array<ProjectedFoodSourcesTable>();
+          const filteredTableData = new Array<MicronutrientProjectionSourceTable>();
 
           foodTypes.forEach((thing, index) => {
             filteredTableData.push({
@@ -246,7 +237,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
               foodName: foodTypes[index],
               value: filteredByScenario
                 .filter((item) => item.year === currentYear)
-                .filter((item) => item[goodOrCommodity] === foodTypes[index])
+                .filter((item) => item.name === foodTypes[index])
                 .map((item) => item.value)[0],
             });
           });
@@ -269,11 +260,12 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       });
   }
 
-  private initialiseTable(data: Array<ProjectedFoodSourcesTable>, yearId: number): void {
+  private initialiseTable(data: Array<MicronutrientProjectionSourceTable>, yearId: number): void {
     // Data needs to be flattened frmo a nested array as mat-table can't acccess nested data
-    const flatten = (arr: Array<ProjectedFoodSourcesTable>) =>
+    const flatten = (arr: Array<MicronutrientProjectionSourceTable>) =>
       arr.reduce(
-        (a: ProjectedFoodSourcesTable[], b: ProjectedFoodSourcesTable) => a.concat(Array.isArray(b) ? flatten(b) : b),
+        (a: MicronutrientProjectionSourceTable[], b: MicronutrientProjectionSourceTable) =>
+          a.concat(Array.isArray(b) ? flatten(b) : b),
         [],
       );
     const flattenedData = flatten([data[yearId]]);
@@ -339,4 +331,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     const colorHash = new ColorHash();
     return colorHash.hex(foodTypeIndex);
   }
+}
+
+export interface MicronutrientProjectionSourceTable {
+  year: number;
+  foodName: string;
+  value: number;
 }

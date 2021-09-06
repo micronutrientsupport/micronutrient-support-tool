@@ -17,7 +17,6 @@ import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 import { GetProjectionSummary } from './currentData/getProjectionSummary';
-import { GetProjectedFoodSourcesData } from './currentData/getProjectedFoodSources';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
@@ -25,6 +24,7 @@ import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
 import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
 import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
 import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
+import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -35,6 +35,9 @@ export class ApiService extends BaseApi {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
     },
+    projections: {
+      getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),
+    },
     currentData: {
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
@@ -42,7 +45,6 @@ export class ApiService extends BaseApi {
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
       getProjectionSummary: new GetProjectionSummary(ApiService.USE_LIVE_API),
-      getProjectedFoodSourcesData: new GetProjectedFoodSourcesData(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
     scenario: {

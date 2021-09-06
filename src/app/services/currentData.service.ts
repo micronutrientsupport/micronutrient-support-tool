@@ -8,7 +8,6 @@ import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistog
 import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
-import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
@@ -60,20 +59,6 @@ export class CurrentDataService {
       countryOrGroup,
       micronutrients,
       dataSource,
-    });
-  }
-
-  public getProjectedFoodSourceData(
-    commodityOrFoodGroup: string,
-    countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    scenarioId: string,
-  ): Promise<Array<ProjectedFoodSourcesData>> {
-    return this.apiService.endpoints.currentData.getProjectedFoodSourcesData.call({
-      commodityOrFoodGroup,
-      countryOrGroup,
-      micronutrients,
-      scenarioId,
     });
   }
 

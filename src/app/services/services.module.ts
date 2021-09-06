@@ -11,6 +11,7 @@ import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
 import { DietDataService } from './dietData.service';
+import { ProjectionDataService } from './projectionData.service';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { DietDataService } from './dietData.service';
     DictionaryService,
     CurrentDataService,
     DietDataService,
+    ProjectionDataService,
     MiscApiService,
     SnackbarService,
     SharingService,

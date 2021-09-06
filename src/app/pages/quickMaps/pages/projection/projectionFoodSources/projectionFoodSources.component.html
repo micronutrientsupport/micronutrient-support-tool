@@ -10,7 +10,7 @@
             <form [formGroup]="projectionFoodFormGroup">
               <mat-form-field appearance="fill">
                 <mat-select name="groupedBy" formControlName="groupedBy">
-                  <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
+                  <mat-option *ngFor="let option of groupByOptions" [value]="option">{{ option }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <i class="fas fa-question-circle margin-left" style="color: grey;"
@@ -45,7 +45,7 @@
             <mat-form-field appearance="fill">
               <mat-select name="groupedBy" formControlName="groupedBy"
                 (selectionChange)="changeSelectedGroup($event.value)">
-                <mat-option *ngFor="let option of groupByOptions" [value]="option.id">{{ option.name }}</mat-option>
+                <mat-option *ngFor="let option of groupByOptions" [value]="option">{{ option }}</mat-option>
               </mat-select>
             </mat-form-field>
           </form>

@@ -5,7 +5,6 @@ import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionari
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 
 @Injectable()
