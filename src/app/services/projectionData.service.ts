@@ -6,6 +6,7 @@ import { FoodSourceGroup } from '../apiAndObjects/objects/enums/foodSourceGroup.
 import { MicronutrientProjectionCommodity } from '../apiAndObjects/objects/micronutrientProjectionCommodity';
 import { MicronutrientProjectionFoodGroup } from '../apiAndObjects/objects/micronutrientProjectionFoodGroup';
 import { MicronutrientProjectionSource } from '../apiAndObjects/objects/micronutrientProjectionSource.abstract';
+import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
 
 @Injectable()
 export class ProjectionDataService {
@@ -31,6 +32,19 @@ export class ProjectionDataService {
       micronutrient: micronutrient,
       scenarioId,
       year,
+    });
+  }
+
+  public getProjectionSummaries(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    scenarioId: string,
+  ): Promise<ProjectionsSummary> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.apiService.endpoints.projections.getProjectionSummaries.call({
+      country: country,
+      micronutrient: micronutrient,
+      scenarioId: scenarioId,
     });
   }
 }

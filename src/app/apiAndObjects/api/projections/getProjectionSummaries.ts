@@ -1,18 +1,21 @@
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { ProjectionsSummary } from '../../objects/projectionSummary';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetProjectionSummary extends CacheableEndpoint<ProjectionsSummary, ProjectionSummaryParams> {
+export class GetProjectionSummaries extends CacheableEndpoint<ProjectionsSummary, ProjectionSummaryParams> {
   protected getCacheKey(params: ProjectionSummaryParams): string {
     return JSON.stringify(params);
   }
 
   protected callLive(params: ProjectionSummaryParams): Promise<ProjectionsSummary> {
     // throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall(
-      ['projections', 'summary', params.countryOrGroupId, params.micronutrientId, params.scenarioId],
-      RequestMethod.GET,
-    );
+    const callResponsePromise = this.apiCaller.doCall(['diet', 'projections', 'summaries'], RequestMethod.GET, {
+      countryId: params.country.id,
+      micronutrientId: params.micronutrient.id,
+      scenarioId: params.scenarioId,
+    });
 
     return this.buildObjectFromResponse(ProjectionsSummary, callResponsePromise);
   }
@@ -24,7 +27,7 @@ export class GetProjectionSummary extends CacheableEndpoint<ProjectionsSummary, 
 }
 
 export interface ProjectionSummaryParams {
-  countryOrGroupId: string;
-  micronutrientId: string;
+  country: CountryDictionaryItem;
+  micronutrient: MicronutrientDictionaryItem;
   scenarioId: string;
 }

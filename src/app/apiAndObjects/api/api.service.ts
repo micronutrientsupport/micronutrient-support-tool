@@ -16,7 +16,6 @@ import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramDa
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
-import { GetProjectionSummary } from './currentData/getProjectionSummary';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
@@ -25,6 +24,7 @@ import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
 import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
 import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
 import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
+import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -37,6 +37,7 @@ export class ApiService extends BaseApi {
     },
     projections: {
       getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),
+      getProjectionSummaries: new GetProjectionSummaries(ApiService.USE_LIVE_API),
     },
     currentData: {
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
@@ -44,7 +45,6 @@ export class ApiService extends BaseApi {
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
-      getProjectionSummary: new GetProjectionSummary(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
     },
     scenario: {

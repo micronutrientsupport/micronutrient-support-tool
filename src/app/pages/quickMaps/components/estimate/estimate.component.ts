@@ -3,10 +3,10 @@ import { ChangeDetectionStrategy, Component, ChangeDetectorRef, Input } from '@a
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from '../../quickMaps.service';
+import { ProjectionDataService } from 'src/app/services/projectionData.service';
 
 interface NameValue {
   name: string;
@@ -52,7 +52,7 @@ export class EstimateComponent {
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     public route: ActivatedRoute,
-    private currentDataService: CurrentDataService,
+    private projectionDataService: ProjectionDataService,
   ) {
     this.subscriptions.push(
       this.quickMapsService.parameterChangedObs.subscribe(() => {
@@ -67,10 +67,10 @@ export class EstimateComponent {
       this.currentEstimateCalc = null;
       this.differenceQuantity = null;
     } else {
-      const diferrenceQuantityOriginal = this.projectionsSummary.referenceVal - this.projectionsSummary.target;
+      const diferrenceQuantityOriginal = this.projectionsSummary.referenceVal - this.projectionsSummary.recommended;
       const totalMultiplier = this.massNameValue.value * this.timeScaleNameValue.value;
 
-      this.targetCalc = totalMultiplier * this.projectionsSummary.target;
+      this.targetCalc = totalMultiplier * this.projectionsSummary.recommended;
       this.currentEstimateCalc = totalMultiplier * this.projectionsSummary.referenceVal;
       this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
     }
@@ -78,8 +78,8 @@ export class EstimateComponent {
 
   private updateProjectionSummary(): void {
     this.loading = true;
-    void this.currentDataService
-      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.SCENARIO_ID)
+    void this.projectionDataService
+      .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.SCENARIO_ID)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
         this.projectionsSummary = summary;

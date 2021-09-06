@@ -26,6 +26,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
+import { ProjectionDataService } from 'src/app/services/projectionData.service';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -61,6 +62,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
   constructor(
     private currentDataService: CurrentDataService,
+    private projectionDataService: ProjectionDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
@@ -110,11 +112,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private init(dataPromise: Promise<Array<ProjectedAvailability>>): void {
     this.loadingSrc.next(true);
 
-    void this.currentDataService
-      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.SCENARIO_ID)
+    void this.projectionDataService
+      .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.SCENARIO_ID)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
-        // console.log(summary.target);
+        // console.log(summary.recommended);
         this.projectionsSummary = summary;
 
         dataPromise
@@ -241,13 +243,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
               id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
-              value: this.projectionsSummary.target,
+              value: this.projectionsSummary.recommended,
               borderWidth: 2.0,
               borderColor: 'rgba(200,0,0,0.5)',
               label: {
                 enabled: true,
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                content: 'Threshold: ' + this.projectionsSummary.target,
+                content: 'Threshold: ' + this.projectionsSummary.recommended,
                 backgroundColor: 'rgba(200,0,0,0.8)',
               },
             },
