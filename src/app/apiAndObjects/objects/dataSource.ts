@@ -3,8 +3,8 @@ import { DataLevel } from './enums/dataLevel.enum';
 
 export class DataSource extends BaseObject {
   public static readonly KEYS = {
-    ID: 'id',
-    NAME: 'name',
+    ID: 'micronutrientId',
+    NAME: 'displayName',
     // COUNTRY_ID: 'countryId', // needed? if so we might grab the dictionary item.
     CONSUMPTION_DATA_TYPE: 'consumptionDataType',
     CONSUMPTION_DATA_ID: 'consumptionDataId',
@@ -18,9 +18,7 @@ export class DataSource extends BaseObject {
   public readonly compositionDataId: string;
   public readonly year: number;
 
-  protected constructor(
-    sourceObject?: Record<string, unknown>,
-  ) {
+  protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(DataSource.KEYS.ID);

@@ -11,25 +11,19 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   protected getCacheKey(params: TopFoodParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(
-    params: TopFoodParams,
-  ): Promise<Array<TopFoodSource>> {
+  protected callLive(params: TopFoodParams): Promise<Array<TopFoodSource>> {
     // throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall([
-      'diet',
-      this.getDataLevelString(params.dataLevel),
-      'top20',
-      params.countryOrGroup.id,
-      params.micronutrient.id,
-      params.micronutrientDataOption.compositionDataId,
-      params.micronutrientDataOption.consumptionDataId,
-    ], RequestMethod.GET);
+    const callResponsePromise = this.apiCaller.doCall(['diet', 'country', 'topFoods'], RequestMethod.GET, {
+      // params.country.id,
+      micronutrientId: params.micronutrient.id,
+      compositionDataId: params.micronutrientDataOption.compositionDataId,
+      consumptionDataId: params.micronutrientDataOption.consumptionDataId,
+    });
 
     return this.buildObjectsFromResponse(TopFoodSource, callResponsePromise);
   }
 
-  protected callMock(
-  ): Promise<Array<TopFoodSource>> {
+  protected callMock(): Promise<Array<TopFoodSource>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       TopFoodSource,
@@ -37,30 +31,24 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(
-            httpClient.get('/assets/exampleData/top-foods.json').toPromise()
+            httpClient
+              .get('/assets/exampleData/top-foods.json')
+              .toPromise()
               .then((objects: Array<Record<string, unknown>>) => {
                 if (null != objects[0]) {
                   // change something so that the display changes a little
                   objects[0].value = Math.floor(Math.random() * 3);
                 }
                 return objects;
-              })
+              }),
           );
         }, 1500);
       }),
     );
   }
-
-  private getDataLevelString(dataLevel: DataLevel): string {
-    switch (dataLevel) {
-      case (DataLevel.COUNTRY): return 'country';
-      case (DataLevel.HOUSEHOLD): return 'household';
-    }
-  }
-
 }
 export interface TopFoodParams {
-  countryOrGroup: CountryDictionaryItem;
+  country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
   micronutrientDataOption: DataSource;
   dataLevel: DataLevel;

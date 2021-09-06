@@ -10,6 +10,7 @@ import { PageLoadingService } from './pageLoadingService.service';
 import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
+import { DietDataService } from './dietData.service';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { ScenarioDataService } from './scenarioData.service';
   providers: [
     DictionaryService,
     CurrentDataService,
+    DietDataService,
     MiscApiService,
     SnackbarService,
     SharingService,
