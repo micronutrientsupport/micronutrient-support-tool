@@ -35,7 +35,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
 
-  public title = 'Monthly Food';
+  public title = 'Monthly apparent micronutrient intake';
   public selectedTab: number;
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
