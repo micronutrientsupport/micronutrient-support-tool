@@ -4,4 +4,5 @@ export enum DictionaryType {
   REGIONS,
   MICRONUTRIENTS,
   FOOD_GROUPS,
+  IMPACT_SCENARIOS,
 }

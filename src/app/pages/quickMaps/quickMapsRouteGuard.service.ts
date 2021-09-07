@@ -12,7 +12,6 @@ import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { DietDataService } from 'src/app/services/dietData.service';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -25,7 +24,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
     private router: Router,
     private route: ActivatedRoute,
     private currentDataService: CurrentDataService,
-    private dietDataService: DietDataService,
     injector: Injector,
     private dialogService: DialogService,
   ) {
@@ -136,7 +134,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
         : this.getAgeGenderGroup(micronutrient, ageGenderGroupId).then((ageGenderGroup) =>
             Promise.all([
               this.validateAgeGenderGroup(measure, ageGenderGroup),
-              this.validateDataLevel(country, micronutrient, ageGenderGroup, dataLevel),
+              this.validateDataLevel(country, measure, micronutrient, ageGenderGroup, dataLevel),
             ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid)),
           );
     });
@@ -144,12 +142,13 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
   private validateDataLevel(
     country: CountryDictionaryItem,
+    measure: MicronutrientMeasureType,
     micronutrient: MicronutrientDictionaryItem,
     ageGenderGroup: AgeGenderGroup,
     dataLevel: DataLevel,
   ): Promise<boolean> {
-    return this.dietDataService
-      .getDataSources(country, micronutrient, ageGenderGroup, true)
+    return this.currentDataService
+      .getDataSources(country, measure, micronutrient, ageGenderGroup, true)
       .then((options: Array<DataSource>) => {
         let valid = false;
         const selectedDataSource = options[0]; // always first item

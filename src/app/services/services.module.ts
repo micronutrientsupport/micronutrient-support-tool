@@ -5,12 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { CurrentDataService } from './currentData.service';
 import { SnackbarService } from './snackbar.service';
 import { SharingService } from './sharing.service';
-import { MiscApiService } from './miscApi.service';
 import { PageLoadingService } from './pageLoadingService.service';
 import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
-import { DietDataService } from './dietData.service';
 import { ProjectionDataService } from './projectionData.service';
 
 @NgModule({
@@ -20,9 +18,7 @@ import { ProjectionDataService } from './projectionData.service';
   providers: [
     DictionaryService,
     CurrentDataService,
-    DietDataService,
     ProjectionDataService,
-    MiscApiService,
     SnackbarService,
     SharingService,
     PageLoadingService,

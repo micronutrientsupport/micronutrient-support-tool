@@ -9,8 +9,9 @@ import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
+import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
+import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
 export class CurrentDataService {
@@ -80,6 +81,48 @@ export class CurrentDataService {
   public getAgeGenderGroups(micronutrients: Array<MicronutrientDictionaryItem>): Promise<Array<AgeGenderGroup>> {
     return this.apiService.endpoints.currentData.getAgeGenderGroups.call({
       micronutrients,
+    });
+  }
+
+  public getTopFoods(
+    micronutrient: MicronutrientDictionaryItem,
+    micronutrientDataOption: DataSource,
+    dataLevel: DataLevel,
+  ): Promise<Array<TopFoodSource>> {
+    return this.apiService.endpoints.currentData.getTopFoods.call({
+      micronutrient,
+      micronutrientDataOption,
+      dataLevel,
+    });
+  }
+
+  public getDataSources(
+    country: CountryDictionaryItem,
+    measureType: MicronutrientMeasureType,
+    micronutrient: MicronutrientDictionaryItem,
+    ageGenderGroup?: AgeGenderGroup,
+    singleOptionOnly = false,
+  ): Promise<Array<DataSource>> {
+    return new Promise((resolve) => {
+      // no point in calling API if required parameters aren't set
+      if (
+        null == country ||
+        null == micronutrient ||
+        null == measureType ||
+        (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
+      ) {
+        resolve([]); // no data sources
+      } else {
+        resolve(
+          this.apiService.endpoints.currentData.getDataSources.call({
+            country,
+            measureType,
+            micronutrient,
+            ageGenderGroup,
+            singleOptionOnly,
+          }),
+        );
+      }
     });
   }
 }

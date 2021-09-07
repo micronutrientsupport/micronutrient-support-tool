@@ -4,10 +4,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { MiscApiService } from 'src/app/services/miscApi.service';
-import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MatSelectChange } from '@angular/material/select';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 
 @Component({
   selector: 'app-proj-desc',
@@ -22,21 +24,20 @@ export class ProjectionDescriptionComponent implements OnInit {
   public readonly DATA_LEVEL = DataLevel;
   public loading = false;
   public error = false;
-  public currentImpactScenario: ImpactScenario;
+  public currentImpactScenario: ImpactScenarioDictionaryItem;
 
   constructor(
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
-    private miscApiService: MiscApiService,
-  ) { }
+    private dictionaryService: DictionaryService,
+  ) {}
 
   ngOnInit(): void {
-    void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      this.currentImpactScenario = result.find((o) => o.isBaseline === true);
+    void this.dictionaryService.getDictionary(DictionaryType.IMPACT_SCENARIOS).then((dict: Dictionary) => {
+      this.currentImpactScenario = dict.getItems<ImpactScenarioDictionaryItem>().find((o) => o.isBaseline);
       this.cdr.markForCheck();
     });
-
   }
 
   public openScenarioTypeDialog(): void {

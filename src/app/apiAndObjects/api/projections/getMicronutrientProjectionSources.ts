@@ -20,12 +20,16 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
   protected callLive(params: GetMicronutrientProjectionSourcesParams): Promise<Array<MicronutrientProjectionSource>> {
     const urlSegment = params.foodSourceGroup === FoodSourceGroup.COMMODITY ? 'commodities' : 'food-groups';
 
-    const callResponsePromise = this.apiCaller.doCall(['diet', 'projections', urlSegment], RequestMethod.GET, {
-      countryId: params.country.id,
-      micronutrientId: params.micronutrient.id,
-      scenarioId: params.scenarioId,
-      year: params.year,
-    });
+    const callResponsePromise = this.apiCaller.doCall(
+      ['diet', 'projections', urlSegment],
+      RequestMethod.GET,
+      this.removeNullsFromObject({
+        countryId: params.country.id,
+        micronutrientId: params.micronutrient.id,
+        scenarioId: params.scenarioId,
+        year: params.year,
+      }) as Record<string, string>,
+    );
 
     const objType =
       params.foodSourceGroup === FoodSourceGroup.COMMODITY
@@ -53,5 +57,5 @@ export interface GetMicronutrientProjectionSourcesParams {
   country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
   scenarioId: string;
-  year: string;
+  year?: string;
 }

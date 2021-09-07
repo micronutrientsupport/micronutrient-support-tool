@@ -12,7 +12,7 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   }
   protected callLive(params: TopFoodParams): Promise<Array<TopFoodSource>> {
     // throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall(['diet', params.dataLevel, 'topFoods'], RequestMethod.GET, {
+    const callResponsePromise = this.apiCaller.doCall(['diet', params.dataLevel, 'top-foods'], RequestMethod.GET, {
       // params.country.id,
       micronutrientId: params.micronutrient.id,
       compositionDataId: params.micronutrientDataOption.compositionDataId,

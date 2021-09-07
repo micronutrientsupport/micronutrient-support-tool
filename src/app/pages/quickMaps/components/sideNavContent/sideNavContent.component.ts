@@ -20,7 +20,6 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
-import { DietDataService } from 'src/app/services/dietData.service';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
@@ -59,7 +58,6 @@ export class SideNavContentComponent implements OnInit {
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
     private currentDataService: CurrentDataService,
-    private dietDataService: DietDataService,
     private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
@@ -238,9 +236,10 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private updateDataSources(): void {
-    void this.dietDataService
+    void this.currentDataService
       .getDataSources(
         this.quickMapsService.country,
+        this.quickMapsService.measure,
         this.quickMapsService.micronutrient,
         this.quickMapsService.ageGenderGroup,
         true,

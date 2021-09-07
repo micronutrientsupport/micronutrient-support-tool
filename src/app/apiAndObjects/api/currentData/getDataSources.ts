@@ -3,8 +3,9 @@ import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionD
 import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
-import { AgeGenderGroup } from '../../objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
+import { AgeGenderGroup } from '../../objects/ageGenderGroup';
 
 export class GetDataSources extends CacheableEndpoint<Array<DataSource>, GetDataSourcesParams, DataSource> {
   protected getCacheKey(params: GetDataSourcesParams): string {
@@ -12,10 +13,15 @@ export class GetDataSources extends CacheableEndpoint<Array<DataSource>, GetData
   }
   protected callLive(params: GetDataSourcesParams): Promise<Array<DataSource>> {
     const callResponsePromise = this.apiCaller
-      .doCall(['diet', 'data-sources'], RequestMethod.GET, {
-        countryId: params.country.id,
-        micronutrientId: params.micronutrient.id,
-      })
+      .doCall(
+        [params.measureType === MicronutrientMeasureType.DIET ? 'diet' : 'biomarker', 'data-sources'],
+        RequestMethod.GET,
+        this.removeNullsFromObject({
+          countryId: params.country.id,
+          micronutrientId: params.micronutrient.id,
+          ageGenderGroup: params.ageGenderGroup,
+        }) as Record<string, string>,
+      )
       .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 
     return this.buildObjectsFromResponse(DataSource, callResponsePromise);
@@ -56,6 +62,7 @@ export class GetDataSources extends CacheableEndpoint<Array<DataSource>, GetData
 
 export interface GetDataSourcesParams {
   country: CountryDictionaryItem;
+  measureType: MicronutrientMeasureType;
   micronutrient: MicronutrientDictionaryItem;
   ageGenderGroup?: AgeGenderGroup;
   singleOptionOnly?: boolean;

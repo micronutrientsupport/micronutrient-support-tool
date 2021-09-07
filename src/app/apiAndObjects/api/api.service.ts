@@ -5,16 +5,13 @@ import { DictionaryType } from './dictionaryType.enum';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
-import { GetDataSources } from './diet/getDataSources';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
 import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
-import { GetTopFood } from './diet/getTopFoods';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
-import { GetImpactScenarios } from './misc/getImpactScenarios';
 import { GetProjectedAvailabilities } from './currentData/getProjectedAvailabilities';
 import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
@@ -23,6 +20,9 @@ import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
 import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
 import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
 import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
+import { ImpactScenarioDictionaryItem } from '../objects/dictionaries/impactScenarioDictionaryItem';
+import { GetTopFood } from './currentData/getTopFoods';
+import { GetDataSources } from './currentData/getDataSources';
 import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
 import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 
@@ -31,14 +31,6 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    diet: {
-      getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
-      getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
-    },
-    projections: {
-      getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),
-      getProjectionSummaries: new GetProjectionSummaries(ApiService.USE_LIVE_API),
-    },
     currentData: {
       getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
@@ -46,6 +38,12 @@ export class ApiService extends BaseApi {
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getProjectedAvailabilities: new GetProjectedAvailabilities(ApiService.USE_LIVE_API),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
+      getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
+      getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
+    },
+    projections: {
+      getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),
+      getProjectionSummaries: new GetProjectionSummaries(ApiService.USE_LIVE_API),
     },
     scenario: {
       getCurrentComposition: new GetCurrentComposition(false),
@@ -54,9 +52,7 @@ export class ApiService extends BaseApi {
       getDietChangeConsumption: new GetDietChangeConsumption(false),
       getDietChangeFoodItem: new GetDietChangeFoodItem(false),
     },
-    misc: {
-      getImpactScenarios: new GetImpactScenarios(ApiService.USE_LIVE_API),
-    },
+    misc: {},
   };
 
   private _dictionaries = [
@@ -74,6 +70,10 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.FOOD_GROUPS, false)
       .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
       .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
+    new GetDictionary(DictionaryType.IMPACT_SCENARIOS, true).setDefaultParams({
+      path: 'diet/projections/scenarios',
+      typeObj: ImpactScenarioDictionaryItem,
+    }),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {
