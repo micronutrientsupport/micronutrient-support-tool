@@ -26,7 +26,7 @@ jobs:
           args: deploy --dir=documentation --alias ${PR}
 
       - name: Compodoc Preview URL
-        uses: unsplash/comment-on-pr@master
+        uses: fakhrip/comment-on-pr@master
         if: github.event_name == 'pull_request_target'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
