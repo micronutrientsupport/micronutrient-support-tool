@@ -36,7 +36,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
 
-  public title = 'Household Dietary Supply';
+  public title = 'National overview';
   public selectedTab: number;
 
   public chartData: ChartJSObject;
