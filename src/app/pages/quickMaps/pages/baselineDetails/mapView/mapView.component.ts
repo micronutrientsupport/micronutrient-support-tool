@@ -73,7 +73,7 @@ export class MapViewComponent implements AfterViewInit {
 
   constructor(
     private dialogService: DialogService,
-    private quickMapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private currentDataService: CurrentDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
