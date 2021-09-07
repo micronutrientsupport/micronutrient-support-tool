@@ -52,7 +52,7 @@ jobs:
           urls: "${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps"
           sha: ${{ github.sha }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         with:
           name: Lighthouse reports
           path: /tmp/artifacts
