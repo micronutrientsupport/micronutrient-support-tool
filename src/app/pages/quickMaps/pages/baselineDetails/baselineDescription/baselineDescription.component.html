@@ -33,11 +33,15 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button>
+    <div class="description" *ngIf="'household' === (quickMapsService.dataSourceObs | async).dataLevelOptions[0]">
+      These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall of
+      household-level data. These proxy for consumption is joined to locally relevant food composition table data.
+      <!-- <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button> -->
+    </div>
+    <div class="description" *ngIf="'country' === (quickMapsService.dataSourceObs | async).dataLevelOptions[0]">
+      These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to FAO
+      at the national level. This proxy for consumption is joined to locally relevant food composition table.
+      <!-- <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button> -->
     </div>
   </mat-expansion-panel>
 </div>
