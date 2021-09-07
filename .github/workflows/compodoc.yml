@@ -16,7 +16,7 @@ jobs:
           npx compodoc -p ./tsconfig.json
       - name: Deploy docs to netlify
         id: deploy-netlify
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
@@ -27,7 +27,7 @@ jobs:
 
       - name: Compodoc Preview URL
         uses: unsplash/comment-on-pr@master
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request_target'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "The compodoc for this PR is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n📖  Compodoc: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
