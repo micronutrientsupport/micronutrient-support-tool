@@ -40,12 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Download base artifact
-        uses: actions/download-artifact@v2.0.8
+        uses: actions/download-artifact@v2.0.10
         with:
           name: base-stats
           path: base-stats
       - name: Download head artifact
-        uses: actions/download-artifact@v2.0.8
+        uses: actions/download-artifact@v2.0.10
         with:
           name: head-stats
           path: head-stats
