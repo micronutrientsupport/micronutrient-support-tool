@@ -63,6 +63,10 @@ mat-form-field.mat-form-field {
   font-weight: 600;
 }
 
+mat-form-field.mat-form-field .mat-select-placeholder {
+  color: black;
+}
+
 mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex {
   padding: 0em 1em 0.25em 1em;
   background-color: #fff;
