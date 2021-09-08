@@ -38,7 +38,7 @@ jobs:
           args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
 
       - name: Netlify Preview URL
-        uses: unsplash/comment-on-pr@master
+        uses: micronutrientsupport/comment-on-pr@master
         if: github.event_name == 'pull_request_target'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
