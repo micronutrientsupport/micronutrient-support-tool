@@ -1,21 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataSource } from '../../objects/dietDataSource';
 import { HouseholdHistogramData } from '../../objects/householdHistogramData';
-import { DataSource } from '../../objects/dataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetHouseholdHistogramData extends CacheableEndpoint<
   HouseholdHistogramData,
   GetHouseholdHistogramDataParams
 > {
-
   protected getCacheKey(params: GetHouseholdHistogramDataParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(
-  // params: GetHouseholdHistogramDataParams,
-  ): Promise<HouseholdHistogramData> {
+  protected callLive(): // params: GetHouseholdHistogramDataParams,
+  Promise<HouseholdHistogramData> {
     throw new Error('Method not implemented.');
     // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
     //   'country-or-group-id': params.countryOrGroupId,
@@ -26,9 +24,8 @@ export class GetHouseholdHistogramData extends CacheableEndpoint<
     // return this.buildObjectsFromResponse(HouseholdHistogramData, callResponsePromise);
   }
 
-  protected callMock(
-  // params: GetHouseholdHistogramDataParams,
-  ): Promise<HouseholdHistogramData> {
+  protected callMock(): // params: GetHouseholdHistogramDataParams,
+  Promise<HouseholdHistogramData> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(
       HouseholdHistogramData,
@@ -51,5 +48,5 @@ export class GetHouseholdHistogramData extends CacheableEndpoint<
 export interface GetHouseholdHistogramDataParams {
   countryOrGroup: CountryDictionaryItem;
   micronutrients: Array<MicronutrientDictionaryItem>;
-  dataSource: DataSource;
+  dataSource: DietDataSource;
 }

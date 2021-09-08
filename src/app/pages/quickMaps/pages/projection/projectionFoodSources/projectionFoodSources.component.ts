@@ -139,7 +139,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.micronutrientName = this.quickMapsService.micronutrient.name;
           this.title = 'Projection Food Sources for ' + this.micronutrientName;
           this.card.title = this.title;

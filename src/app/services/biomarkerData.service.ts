@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DataSource } from '../apiAndObjects/objects/dataSource';
-import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { AgeGenderDictionaryItem } from '../apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { BiomarkerDataSource } from '../apiAndObjects/objects/biomarkerDataSource';
 
 @Injectable()
 export class BiomarkerDataService {
@@ -18,33 +17,17 @@ export class BiomarkerDataService {
     //   });
   }
 
-  // public getDataSources(
-  //   country: CountryDictionaryItem,
-  //   measureType: MicronutrientMeasureType,
-  //   micronutrient: MicronutrientDictionaryItem,
-  //   ageGenderGroup?: AgeGenderDictionaryItem,
-  //   singleOptionOnly = false,
-  // ): Promise<Array<DataSource>> {
-  //   return new Promise((resolve) => {
-  //     // no point in calling API if required parameters aren't set
-  //     if (
-  //       null == country ||
-  //       null == micronutrient ||
-  //       null == measureType ||
-  //       (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
-  //     ) {
-  //       resolve([]); // no data sources
-  //     } else {
-  //       resolve(
-  //         this.apiService.endpoints.currentData.getDataSources.call({
-  //           country,
-  //           measureType,
-  //           micronutrient,
-  //           ageGenderGroup,
-  //           singleOptionOnly,
-  //         }),
-  //       );
-  //     }
-  //   });
-  // }
+  public getDataSources(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    ageGenderGroup: AgeGenderDictionaryItem,
+    singleOptionOnly = false,
+  ): Promise<Array<BiomarkerDataSource>> {
+    return this.apiService.endpoints.biomarker.getDataSources.call({
+      country,
+      micronutrient,
+      ageGenderGroup,
+      singleOptionOnly,
+    });
+  }
 }

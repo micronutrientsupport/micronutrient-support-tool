@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-base-desc',
@@ -31,9 +30,5 @@ export class BaselineDescriptionComponent implements OnInit {
 
   public openBaselineDescriptionDialog(): void {
     void this.dialogService.openBaselineDescriptionDialog();
-  }
-
-  public setDataLevel(event: MatSelectChange): void {
-    this.quickMapsService.setDataLevel(event.value);
   }
 }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
-import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
@@ -21,27 +21,36 @@ export class DietDataService {
 
   public getTopFoods(
     micronutrient: MicronutrientDictionaryItem,
-    micronutrientDataOption: DataSource,
-    dataLevel: DataLevel,
+    dataSource: DietDataSource,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.currentData.getTopFoods.call({
       micronutrient,
-      micronutrientDataOption,
-      dataLevel,
+      dataSource,
     });
   }
 
+  // TODO: needs separate endpoints for data levels
   public getDietaryAvailability(
     countryOrGroup: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    dataSource: DataSource,
-    dataLevel: DataLevel,
+    dataSource: DietDataSource,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.diet.getDietaryAvailability.call({
       country: countryOrGroup,
       micronutrient,
       dataSource,
-      dataLevel,
+    });
+  }
+
+  public getDataSources(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    singleOptionOnly = false,
+  ): Promise<Array<DietDataSource>> {
+    return this.apiService.endpoints.diet.getDataSources.call({
+      country,
+      micronutrient,
+      singleOptionOnly,
     });
   }
 }

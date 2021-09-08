@@ -97,7 +97,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
         // respond to parameter updates
         this.subscriptions.push(
-          this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             this.micronutrientName = this.quickMapsService.micronutrient.name;
             this.micronutrientId = this.quickMapsService.micronutrient.id;
             this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';

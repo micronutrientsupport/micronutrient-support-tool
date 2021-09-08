@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRe
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { MatSelectChange } from '@angular/material/select';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 @Component({
@@ -23,8 +22,4 @@ export class DescriptionComponent implements OnInit {
   constructor(public quickMapsService: QuickMapsService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
-
-  public setDataLevel(event: MatSelectChange): void {
-    this.quickMapsService.setDataLevel(event.value);
-  }
 }

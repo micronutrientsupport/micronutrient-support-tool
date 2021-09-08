@@ -1,12 +1,13 @@
 /* tslint:disable: no-string-literal */
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataSource } from '../../objects/dietDataSource';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
-import { DataSource } from '../../objects/dataSource';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
+// TODO: NEEDS SPLITTING INTO TWO DIFFERENT ENDPOINTS!!!!
 export class GetDietaryAvailability extends CacheableEndpoint<SubRegionDataItem, GetSubRegionDataParams> {
   protected getCacheKey(params: GetSubRegionDataParams): string {
     return JSON.stringify(params);
@@ -15,7 +16,7 @@ export class GetDietaryAvailability extends CacheableEndpoint<SubRegionDataItem,
     const callResponsePromise = this.apiCaller.doCall(
       [
         'diet',
-        this.getDataLevelSegment(params.dataLevel),
+        this.getDataLevelSegment(params.dataSource.dataLevel),
         'geojson',
         params.country.id,
         params.micronutrient.id,
@@ -70,6 +71,5 @@ export class GetDietaryAvailability extends CacheableEndpoint<SubRegionDataItem,
 export interface GetSubRegionDataParams {
   country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  dataSource: DataSource;
-  dataLevel: DataLevel;
+  dataSource: DietDataSource;
 }

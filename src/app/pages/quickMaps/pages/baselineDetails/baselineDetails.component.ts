@@ -118,49 +118,33 @@ export class BaselineDetailsComponent implements OnInit {
     };
 
     // When the quick maps params change trigger the boxes to reset
-    this.quickMapsService.dataLevelObs.subscribe((level: DataLevel) => {
-      this.dashboard = this.gridsterService.resetGrid(
-        this.gridsterSource.BASELINE,
-        level,
-        this.dashboard,
-        this.dataLevelWidgetTypesMap,
-        this.defaultWidgetWidth,
-        this.defaultWidgetHeight,
-        this.defaultWidgetColumns,
-      );
-      if (this.options.api && this.options.api.optionsChanged) {
-        this.options.api.optionsChanged();
-      }
+    this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+      this.layoutChange();
     });
   }
 
-  public layoutChange(id: string | number): void {
+  public layoutChange(id?: string | number): void {
+    let widgetCols: number;
     switch (id) {
-      case GridsterLayoutOptions.DEFAULT_VIEW: {
-        this.dashboard = this.gridsterService.resetGrid(
-          this.gridsterSource.BASELINE,
-          this.quickMapsService.dataLevel,
-          this.dashboard,
-          this.dataLevelWidgetTypesMap,
-          this.defaultWidgetWidth,
-          this.defaultWidgetHeight,
-          this.defaultWidgetColumns,
-        );
+      default: {
+        widgetCols = this.defaultWidgetColumns;
         break;
       }
       case GridsterLayoutOptions.LIST_VIEW: {
-        this.dashboard = this.gridsterService.resetGrid(
-          this.gridsterSource.BASELINE,
-          this.quickMapsService.dataLevel,
-          this.dashboard,
-          this.dataLevelWidgetTypesMap,
-          this.defaultWidgetWidth,
-          this.defaultWidgetHeight,
-          1,
-        );
+        widgetCols = 1;
         break;
       }
     }
+    this.dashboard = this.gridsterService.resetGrid(
+      this.gridsterSource.BASELINE,
+      this.quickMapsService.dietDataSource?.dataLevel,
+      this.dashboard.slice(),
+      this.dataLevelWidgetTypesMap,
+      this.defaultWidgetWidth,
+      this.defaultWidgetHeight,
+      widgetCols,
+    );
+
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();
     }

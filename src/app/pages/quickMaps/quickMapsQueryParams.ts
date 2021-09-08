@@ -4,7 +4,6 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { EnumTools } from 'src/utility/enumTools';
@@ -14,7 +13,6 @@ export class QuickMapsQueryParams {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
-    DATA_LEVEL: 'data-level',
     AGE_GENDER_GROUP_ID: 'age-gender-group-id',
   };
 
@@ -61,12 +59,6 @@ export class QuickMapsQueryParams {
     );
   }
 
-  public getDataLevel(queryParamMap?: ParamMap): DataLevel {
-    return EnumTools.getEnumFromValue(
-      this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL),
-      DataLevel,
-    );
-  }
   public setQueryParams(params: Record<string, string | Array<string>>): void {
     // console.debug('setQueryParams', params);
     const stringParams: Record<string, string> = {};

@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { MatSelectChange } from '@angular/material/select';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -42,9 +41,5 @@ export class ProjectionDescriptionComponent implements OnInit {
 
   public openScenarioTypeDialog(): void {
     void this.dialogService.openScenarioTypeDialog();
-  }
-
-  public setDataLevel(event: MatSelectChange): void {
-    this.quickMapsService.setDataLevel(event.value);
   }
 }

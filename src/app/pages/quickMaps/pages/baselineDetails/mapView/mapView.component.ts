@@ -127,13 +127,12 @@ export class MapViewComponent implements AfterViewInit {
 
       // respond to parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
             this.dietDataService.getDietaryAvailability(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.dataSource,
-              this.quickMapsService.dataLevel,
+              this.quickMapsService.dietDataSource,
             ),
           );
         }),

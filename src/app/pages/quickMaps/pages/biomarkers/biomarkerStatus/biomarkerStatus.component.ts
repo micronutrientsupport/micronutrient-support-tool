@@ -144,16 +144,15 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
     this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.init();
-        this.initMapData(
-          this.dietDataService.getDietaryAvailability(
-            this.quickMapsService.country,
-            this.quickMapsService.micronutrient,
-            this.quickMapsService.dataSource,
-            this.quickMapsService.dataLevel,
-          ),
-        );
+        // this.initMapData(
+        //   this.dietDataService.getDietaryAvailability(
+        //     this.quickMapsService.country,
+        //     this.quickMapsService.micronutrient,
+        //     this.quickMapsService.biomarkerDataSource,
+        //   ),
+        // );
       }),
     );
   }

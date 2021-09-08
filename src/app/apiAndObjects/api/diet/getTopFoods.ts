@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataSource } from '../../objects/dietDataSource';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
-import { DataSource } from '../../objects/dataSource';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -12,12 +12,16 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
   }
   protected callLive(params: TopFoodParams): Promise<Array<TopFoodSource>> {
     // throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall(['diet', params.dataLevel, 'top-foods'], RequestMethod.GET, {
-      // params.country.id,
-      micronutrientId: params.micronutrient.id,
-      compositionDataId: params.micronutrientDataOption.compositionDataId,
-      consumptionDataId: params.micronutrientDataOption.consumptionDataId,
-    });
+    const callResponsePromise = this.apiCaller.doCall(
+      ['diet', this.getDataLevelSegment(params.dataSource), 'top-foods'],
+      RequestMethod.GET,
+      {
+        // params.country.id,
+        micronutrientId: params.micronutrient.id,
+        compositionDataId: params.dataSource.compositionDataId,
+        consumptionDataId: params.dataSource.consumptionDataId,
+      },
+    );
 
     return this.buildObjectsFromResponse(TopFoodSource, callResponsePromise);
   }
@@ -45,9 +49,17 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       }),
     );
   }
+
+  private getDataLevelSegment(dataSource: DietDataSource): string {
+    switch (dataSource.dataLevel) {
+      case DataLevel.COUNTRY:
+        return 'country';
+      case DataLevel.HOUSEHOLD:
+        return 'household';
+    }
+  }
 }
 export interface TopFoodParams {
   micronutrient: MicronutrientDictionaryItem;
-  micronutrientDataOption: DataSource;
-  dataLevel: DataLevel;
+  dataSource: DietDataSource;
 }

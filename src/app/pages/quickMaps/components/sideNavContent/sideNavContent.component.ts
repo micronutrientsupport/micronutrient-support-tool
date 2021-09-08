@@ -8,18 +8,21 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
-import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
+import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
+import { DietDataService } from 'src/app/services/dietData.service';
+import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
+import { Named } from 'src/app/apiAndObjects/objects/named.interface';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
@@ -46,7 +49,7 @@ export class SideNavContentComponent implements OnInit {
 
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public dataSources = new Array<DataSource>();
+  public dataSources = new Array<Named>();
 
   public quickMapsForm: FormGroup;
 
@@ -57,7 +60,8 @@ export class SideNavContentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dictionariesService: DictionaryService,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
+    private biomarkerDataService: BiomarkerDataService,
     private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
@@ -79,7 +83,7 @@ export class SideNavContentComponent implements OnInit {
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.country, Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
-          measure: [this.quickMapsService.measure, Validators.required], // to be initialized from service
+          measure: [this.quickMapsService.measure, Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderData: [
             this.quickMapsService.ageGenderGroup,
@@ -131,13 +135,8 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DataSource) => {
+          this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DietDataSource | BiomarkerDataSource) => {
             this.quickMapsService.setDataSource(value);
-            if (null == value) {
-              this.quickMapsService.setDataLevel(null);
-            } else if (!value.dataLevelOptions.includes(this.quickMapsService.dataLevel)) {
-              this.quickMapsService.setDataLevel(value.dataLevelOptions[0]);
-            }
           }),
         );
 
@@ -239,22 +238,35 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private updateDataSources(): void {
-    void this.currentDataService
-      .getDataSources(
-        this.quickMapsService.country,
-        this.quickMapsService.measure,
-        this.quickMapsService.micronutrient,
-        this.quickMapsService.ageGenderGroup,
-        true,
-      )
-      .then((options: Array<DataSource>) => {
-        this.dataSources = options;
+    let dataSourcePromise: Promise<Array<Named>> = Promise.resolve([] as Array<Named>);
+    // no point in calling API if required parameters aren't set
+    const country = this.quickMapsService.country;
+    const micronutrient = this.quickMapsService.micronutrient;
+    const measure = this.quickMapsService.measure;
+    const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 
-        // if only one option, preselect
-        if (1 === options.length) {
-          this.quickMapsForm.get('dataSource').setValue(options[0]);
+    if (null != country && null != micronutrient && null != measure) {
+      switch (this.quickMapsService.measure) {
+        case MicronutrientMeasureType.DIET: {
+          dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
+          break;
         }
-      });
+        case MicronutrientMeasureType.BIOMARKER: {
+          if (null != ageGenderGroup) {
+            dataSourcePromise = this.biomarkerDataService.getDataSources(country, micronutrient, ageGenderGroup, true);
+          }
+          break;
+        }
+      }
+    }
+    void dataSourcePromise.then((options: Array<Named>) => {
+      this.dataSources = options;
+
+      // if only one option, preselect
+      if (1 === options.length) {
+        this.quickMapsForm.get('dataSource').setValue(options[0]);
+      }
+    });
   }
 
   private navigate(appRoute: AppRoute): void {

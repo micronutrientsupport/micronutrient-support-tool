@@ -4,7 +4,6 @@ import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, 
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
@@ -128,35 +127,13 @@ export class QuickMapsRouteGuardService implements CanActivate {
       const micronutrient = values.shift() as MicronutrientDictionaryItem;
       const ageGenderGroup = values.shift() as AgeGenderDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
-      const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
       return null == country || null == micronutrient || null == measure
         ? false
-        : Promise.all([
-            this.validateAgeGenderGroup(measure, ageGenderGroup),
-            this.validateDataLevel(country, measure, micronutrient, ageGenderGroup, dataLevel),
-          ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid));
+        : Promise.all([this.validateAgeGenderGroup(measure, ageGenderGroup)]).then((valids: Array<boolean>) =>
+            valids.every((valid) => true === valid),
+          );
     });
-  }
-
-  private validateDataLevel(
-    country: CountryDictionaryItem,
-    measure: MicronutrientMeasureType,
-    micronutrient: MicronutrientDictionaryItem,
-    ageGenderGroup: AgeGenderDictionaryItem,
-    dataLevel: DataLevel,
-  ): Promise<boolean> {
-    return this.currentDataService
-      .getDataSources(country, measure, micronutrient, ageGenderGroup, true)
-      .then((options: Array<DataSource>) => {
-        let valid = false;
-        const selectedDataSource = options[0]; // always first item
-        if (null != selectedDataSource) {
-          valid = selectedDataSource.dataLevelOptions.includes(dataLevel);
-        }
-
-        return valid;
-      });
   }
 
   private validateAgeGenderGroup(

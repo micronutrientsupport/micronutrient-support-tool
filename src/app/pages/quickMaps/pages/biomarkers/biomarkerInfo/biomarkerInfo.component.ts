@@ -82,7 +82,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     );
 
     this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.createBins();
         this.init();
       }),

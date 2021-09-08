@@ -79,13 +79,13 @@ export class ComparisonCardComponent implements AfterViewInit {
       this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.card.title = `${this.quickMapsService.micronutrient.name} comparison - ${this.quickMapsService.ageGenderGroup.name}`;
         }),
       );
       // respond to quickmaps parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.updateBaselineData();
           this.updateScenarioData();
         }),
@@ -98,7 +98,7 @@ export class ComparisonCardComponent implements AfterViewInit {
         }),
       );
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.updateBaselineData();
         }),
       );
@@ -136,8 +136,7 @@ export class ComparisonCardComponent implements AfterViewInit {
       .getDietaryAvailability(
         this.quickMapsService.country,
         this.quickMapsService.micronutrient,
-        this.quickMapsService.dataSource,
-        this.quickMapsService.dataLevel,
+        this.quickMapsService.dietDataSource,
       )
       .then((data: SubRegionDataItem) => {
         this.baselineData = data;
@@ -155,7 +154,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     this.startLoading();
     this.scenarioDataService
       .getDietChange(
-        this.quickMapsService.dataSource,
+        this.quickMapsService.dietDataSource,
         this.dietaryChangeService.mode,
         this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
       )

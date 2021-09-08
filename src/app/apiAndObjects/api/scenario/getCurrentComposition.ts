@@ -1,8 +1,8 @@
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
-import { DataSource } from '../../objects/dataSource';
 import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryItem';
 import { CurrentComposition } from '../../objects/currentComposition';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
+import { DietDataSource } from '../../objects/dietDataSource';
 
 export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurrentCompositionParams> {
   protected callLive(params: GetCurrentCompositionParams): Promise<CurrentComposition> {
@@ -32,6 +32,6 @@ export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurre
 }
 
 export interface GetCurrentCompositionParams {
-  dataSource: DataSource;
+  dataSource: DietDataSource;
   foodItem: FoodDictionaryItem;
 }
