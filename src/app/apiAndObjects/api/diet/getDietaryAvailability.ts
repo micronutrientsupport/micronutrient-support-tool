@@ -7,21 +7,22 @@ import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSubRegionDataParams> {
-
+export class GetDietaryAvailability extends CacheableEndpoint<SubRegionDataItem, GetSubRegionDataParams> {
   protected getCacheKey(params: GetSubRegionDataParams): string {
     return JSON.stringify(params);
   }
   protected callLive(params: GetSubRegionDataParams): Promise<SubRegionDataItem> {
-    const callResponsePromise = this.apiCaller.doCall([
-      'diet',
-      this.getDataLevelString(params.dataLevel),
-      'geojson',
-      params.countryOrGroup.id,
-      params.micronutrient.id,
-      params.dataSource.compositionDataId,
-      params.dataSource.consumptionDataId,
-    ], RequestMethod.GET,
+    const callResponsePromise = this.apiCaller.doCall(
+      [
+        'diet',
+        this.getDataLevelSegment(params.dataLevel),
+        'geojson',
+        params.country.id,
+        params.micronutrient.id,
+        params.dataSource.compositionDataId,
+        params.dataSource.consumptionDataId,
+      ],
+      RequestMethod.GET,
     );
 
     return this.buildObjectFromResponse(SubRegionDataItem, callResponsePromise);
@@ -56,16 +57,18 @@ export class GetSubRegionData extends CacheableEndpoint<SubRegionDataItem, GetSu
   //   );
   // }
 
-  private getDataLevelString(dataLevel: DataLevel): string {
+  private getDataLevelSegment(dataLevel: DataLevel): string {
     switch (dataLevel) {
-      case (DataLevel.COUNTRY): return 'country';
-      case (DataLevel.HOUSEHOLD): return 'household';
+      case DataLevel.COUNTRY:
+        return 'country';
+      case DataLevel.HOUSEHOLD:
+        return 'household';
     }
   }
 }
 
 export interface GetSubRegionDataParams {
-  countryOrGroup: CountryDictionaryItem;
+  country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
   dataSource: DataSource;
   dataLevel: DataLevel;

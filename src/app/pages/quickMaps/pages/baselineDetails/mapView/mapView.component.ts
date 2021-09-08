@@ -19,7 +19,6 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -30,6 +29,7 @@ import { ColourGradient, ColourGradientObject } from '../../../components/colour
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
+import { DietDataService } from 'src/app/services/dietData.service';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -75,7 +75,7 @@ export class MapViewComponent implements AfterViewInit {
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -129,7 +129,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.parameterChangedObs.subscribe(() => {
           this.init(
-            this.currentDataService.getSubRegionData(
+            this.dietDataService.getDietaryAvailability(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
               this.quickMapsService.dataSource,

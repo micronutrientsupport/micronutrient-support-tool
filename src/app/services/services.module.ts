@@ -10,6 +10,8 @@ import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
 import { ProjectionDataService } from './projectionData.service';
+import { BiomarkerDataService } from './biomarkerData.service';
+import { DietDataService } from './dietData.service';
 
 @NgModule({
   declarations: [],
@@ -18,6 +20,8 @@ import { ProjectionDataService } from './projectionData.service';
   providers: [
     DictionaryService,
     CurrentDataService,
+    DietDataService,
+    BiomarkerDataService,
     ProjectionDataService,
     SnackbarService,
     SharingService,

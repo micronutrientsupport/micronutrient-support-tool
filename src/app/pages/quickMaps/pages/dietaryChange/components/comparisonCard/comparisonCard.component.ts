@@ -20,10 +20,10 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { DietDataService } from 'src/app/services/dietData.service';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -62,7 +62,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     private dialogService: DialogService,
     private quickMapsService: QuickMapsService,
     private dietaryChangeService: DietaryChangeService,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private scenarioDataService: ScenarioDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<DietaryChangeComparisonCardDialogData>,
   ) {}
@@ -132,8 +132,8 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   private updateBaselineData(): void {
     this.startLoading();
-    this.currentDataService
-      .getSubRegionData(
+    this.dietDataService
+      .getDietaryAvailability(
         this.quickMapsService.country,
         this.quickMapsService.micronutrient,
         this.quickMapsService.dataSource,

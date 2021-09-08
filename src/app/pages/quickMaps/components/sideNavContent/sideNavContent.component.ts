@@ -110,7 +110,6 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
             this.quickMapsService.setMicronutrient(value);
             this.updateDataMeasureOptions();
-            this.updateDataSources();
           }),
         );
         this.subscriptions.push(

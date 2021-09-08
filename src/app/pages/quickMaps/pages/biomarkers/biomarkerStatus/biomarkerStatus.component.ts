@@ -26,6 +26,7 @@ import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
+import { DietDataService } from 'src/app/services/dietData.service';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -114,7 +115,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private http: HttpClient,
     private papa: Papa,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
@@ -147,7 +148,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.quickMapsService.parameterChangedObs.subscribe(() => {
         this.init();
         this.initMapData(
-          this.currentDataService.getSubRegionData(
+          this.dietDataService.getDietaryAvailability(
             this.quickMapsService.country,
             this.quickMapsService.micronutrient,
             this.quickMapsService.dataSource,

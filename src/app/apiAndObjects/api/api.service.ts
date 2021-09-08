@@ -7,7 +7,6 @@ import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
-import { GetSubRegionData } from './currentData/getSubRegionData';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
@@ -20,11 +19,12 @@ import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
 import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
 import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
 import { ImpactScenarioDictionaryItem } from '../objects/dictionaries/impactScenarioDictionaryItem';
-import { GetTopFood } from './currentData/getTopFoods';
+import { GetTopFood } from './diet/getTopFoods';
 import { GetDataSources } from './currentData/getDataSources';
 import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
 import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 import { GetProjectionTotals } from './projections/getProjectionTotals';
+import { GetDietaryAvailability } from './diet/getDietaryAvailability';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -32,13 +32,16 @@ export class ApiService extends BaseApi {
 
   public readonly endpoints = {
     currentData: {
-      getSubRegionData: new GetSubRegionData(ApiService.USE_LIVE_API),
       getDietarySources: new GetDietarySources(false),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
       getAgeGenderGroups: new GetAgeGenderGroups(false),
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
+    },
+    diet: {
+      getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
+      getDietaryAvailability: new GetDietaryAvailability(ApiService.USE_LIVE_API),
     },
     projections: {
       getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),
