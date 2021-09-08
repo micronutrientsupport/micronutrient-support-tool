@@ -7,7 +7,6 @@ import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
-import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
@@ -73,9 +72,6 @@ export class CurrentDataService {
       micronutrients,
       dataSource,
     });
-  }
-  public getProjectedAvailabilities(): Promise<Array<ProjectedAvailability>> {
-    return this.apiService.endpoints.currentData.getProjectedAvailabilities.call();
   }
 
   public getAgeGenderGroups(micronutrients: Array<MicronutrientDictionaryItem>): Promise<Array<AgeGenderGroup>> {

@@ -7,6 +7,7 @@ import { MicronutrientProjectionSource } from '../../objects/micronutrientProjec
 import { MicronutrientProjectionCommodity } from '../../objects/micronutrientProjectionCommodity';
 import { MicronutrientProjectionFoodGroup } from '../../objects/micronutrientProjectionFoodGroup';
 import { FoodSourceGroup } from '../../objects/enums/foodSourceGroup.enum';
+import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
 
 export class GetMicronutrientProjectionSources extends CacheableEndpoint<
   Array<MicronutrientProjectionSource>,
@@ -26,7 +27,7 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
       this.removeNullsFromObject({
         countryId: params.country.id,
         micronutrientId: params.micronutrient.id,
-        scenarioId: params.scenarioId,
+        scenarioId: params.scenario.id,
         year: params.year,
       }) as Record<string, string>,
     );
@@ -56,6 +57,6 @@ export interface GetMicronutrientProjectionSourcesParams {
   foodSourceGroup: FoodSourceGroup;
   country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  scenarioId: string;
+  scenario: ImpactScenarioDictionaryItem;
   year?: string;
 }
