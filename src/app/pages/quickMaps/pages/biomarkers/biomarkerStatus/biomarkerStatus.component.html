@@ -62,14 +62,37 @@
             </mat-select>
           </mat-form-field>
         </div>
-
         <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart>
-
       </div>
     </mat-tab>
 
     <mat-tab label="Download">
-      <app-status-download></app-status-download>
+      <div class="bmgf-maps-nice-scrollbar">
+        <div class="status-element">
+          <mat-form-field appearance="outline">
+            <mat-label>Select data</mat-label>
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span class="spacer"> & Media Type</span>
+          <div class="status-element">
+            <mat-form-field appearance="outline">
+              <mat-label>Select media type</mat-label>
+              <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+                <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"> -->
+        <app-download>
+        </app-download>
+        <!-- <app-status-download></app-status-download> -->
+      </div>
+
     </mat-tab>
 
     <mat-tab label="About {{title}}">
