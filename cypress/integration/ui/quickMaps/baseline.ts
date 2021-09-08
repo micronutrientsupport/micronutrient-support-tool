@@ -7,6 +7,7 @@ describe('Quick maps - Baseline', () => {
     );
     cy.wait(3000);
     cy.get('.minimize-button').click();
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });

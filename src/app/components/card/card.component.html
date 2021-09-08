@@ -2,20 +2,18 @@
   <div class="card-container">
     <mat-toolbar color="primary">
       <mat-icon class="drag-handle">drag_indicator</mat-icon>
-      <button *ngIf="showSettings" (click)="functionSettings()" mat-icon-button class="example-icon"
-        aria-label="Settings icon">
+      <button *ngIf="showSettings" (click)="functionSettings()" mat-icon-button aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
       <button *ngIf="showSettingsMenu" (click)="functionSettingsMenu()" [matMenuTriggerFor]="matMenu" mat-icon-button
-        class="example-icon" aria-label="Settings icon">
+        aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
-      <button *ngIf="showInfo" (click)="functionInfo()" mat-icon-button class="example-icon" aria-label="Info icon">
+      <button *ngIf="showInfo" (click)="functionInfo()" mat-icon-button aria-label="Info icon">
         <mat-icon>info</mat-icon>
       </button>
       <span class="example-spacer">{{title}}</span>
-      <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button class="example-icon"
-        aria-label="Modal icon">
+      <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button aria-label="Modal icon">
         <mat-icon>launch</mat-icon>
       </button>
     </mat-toolbar>
