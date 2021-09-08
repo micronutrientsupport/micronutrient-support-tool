@@ -8,11 +8,12 @@ import { Interception } from 'cypress/types/net-stubbing';
 import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
 
 describe('Quick Map - Side Nav Tests', () => {
-  // it('checks page for a11y compliance', () => {
-  //   cy.visit('/quick-maps');
-  //   cy.injectAxe();
-  //   cy.checkA11y(null, null, cy.terminalLog);
-  // });
+  it('checks page for a11y compliance', () => {
+    cy.visit('/quick-maps');
+    cy.wait(3000);
+    cy.injectAxe();
+    cy.checkA11y(null, null, cy.terminalLog);
+  });
 
   it('side navigation loads all elements', () => {
     cy.visit('/quick-maps');
