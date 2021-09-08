@@ -11,11 +11,14 @@ export class SubRegionDataItem extends BaseObject implements Exportable {
     GEOMETRY: 'geojson',
   };
 
-  public readonly geoJson: GeoJSON.FeatureCollection;
+  public readonly geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, SubRegionDataItemProperties>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-    this.geoJson = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.FeatureCollection;
+    this.geoJson = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.FeatureCollection<
+      GeoJSON.Geometry,
+      SubRegionDataItemProperties
+    >;
   }
 
   public getExportObject(): Record<string, unknown> {
@@ -27,4 +30,11 @@ export class SubRegionDataItem extends BaseObject implements Exportable {
   public getExportFileName(): string {
     return 'MapViewData';
   }
+}
+
+export interface SubRegionDataItemProperties {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  subregion_name: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  mn_absolute: number;
 }
