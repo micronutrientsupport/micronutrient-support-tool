@@ -10,8 +10,8 @@ import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -122,21 +122,20 @@ export class QuickMapsRouteGuardService implements CanActivate {
     return Promise.all([
       this.quickMapsParameters.getCountry(queryParamMap),
       this.quickMapsParameters.getMicronutrient(queryParamMap),
-    ]).then((values: [CountryDictionaryItem, MicronutrientDictionaryItem]) => {
+      this.quickMapsParameters.getAgeGenderGroup(queryParamMap),
+    ]).then((values: [CountryDictionaryItem, MicronutrientDictionaryItem, AgeGenderDictionaryItem]) => {
       const country = values.shift() as CountryDictionaryItem;
       const micronutrient = values.shift() as MicronutrientDictionaryItem;
+      const ageGenderGroup = values.shift() as AgeGenderDictionaryItem;
       const measure = this.quickMapsParameters.getMeasure(queryParamMap);
-      const ageGenderGroupId = this.quickMapsParameters.getAgeGenderGroupId(queryParamMap);
       const dataLevel = this.quickMapsParameters.getDataLevel(queryParamMap);
 
       return null == country || null == micronutrient || null == measure
         ? false
-        : this.getAgeGenderGroup(micronutrient, ageGenderGroupId).then((ageGenderGroup) =>
-            Promise.all([
-              this.validateAgeGenderGroup(measure, ageGenderGroup),
-              this.validateDataLevel(country, measure, micronutrient, ageGenderGroup, dataLevel),
-            ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid)),
-          );
+        : Promise.all([
+            this.validateAgeGenderGroup(measure, ageGenderGroup),
+            this.validateDataLevel(country, measure, micronutrient, ageGenderGroup, dataLevel),
+          ]).then((valids: Array<boolean>) => valids.every((valid) => true === valid));
     });
   }
 
@@ -144,7 +143,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     country: CountryDictionaryItem,
     measure: MicronutrientMeasureType,
     micronutrient: MicronutrientDictionaryItem,
-    ageGenderGroup: AgeGenderGroup,
+    ageGenderGroup: AgeGenderDictionaryItem,
     dataLevel: DataLevel,
   ): Promise<boolean> {
     return this.currentDataService
@@ -160,16 +159,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
       });
   }
 
-  private getAgeGenderGroup(
-    micronutrient: MicronutrientDictionaryItem,
-    ageGenderGroupId: string,
-  ): Promise<AgeGenderGroup> {
-    return this.currentDataService
-      .getAgeGenderGroups([micronutrient])
-      .then((ageGenderGroups: Array<AgeGenderGroup>) => ageGenderGroups.find((group) => group.id === ageGenderGroupId));
-  }
-
-  private validateAgeGenderGroup(measure: MicronutrientMeasureType, ageGenderGroup: AgeGenderGroup): Promise<boolean> {
+  private validateAgeGenderGroup(
+    measure: MicronutrientMeasureType,
+    ageGenderGroup: AgeGenderDictionaryItem,
+  ): Promise<boolean> {
     return Promise.resolve(
       measure === MicronutrientMeasureType.DIET ||
         (measure === MicronutrientMeasureType.BIOMARKER && null != ageGenderGroup),

@@ -5,7 +5,7 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from '../../objects/enums/micronutrientMeasureType.enum';
-import { AgeGenderGroup } from '../../objects/ageGenderGroup';
+import { AgeGenderDictionaryItem } from '../../objects/dictionaries/ageGenderDictionaryItem';
 
 export class GetDataSources extends CacheableEndpoint<Array<DataSource>, GetDataSourcesParams, DataSource> {
   protected getCacheKey(params: GetDataSourcesParams): string {
@@ -19,7 +19,7 @@ export class GetDataSources extends CacheableEndpoint<Array<DataSource>, GetData
         this.removeNullsFromObject({
           countryId: params.country.id,
           micronutrientId: params.micronutrient.id,
-          ageGenderGroup: params.ageGenderGroup,
+          // ageGenderGroup: params.ageGenderGroup,
         }) as Record<string, string>,
       )
       .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
@@ -64,6 +64,6 @@ export interface GetDataSourcesParams {
   country: CountryDictionaryItem;
   measureType: MicronutrientMeasureType;
   micronutrient: MicronutrientDictionaryItem;
-  ageGenderGroup?: AgeGenderGroup;
+  ageGenderGroup?: AgeGenderDictionaryItem;
   singleOptionOnly?: boolean;
 }

@@ -9,7 +9,6 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 import { DataSource } from 'src/app/apiAndObjects/objects/dataSource';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
@@ -20,6 +19,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { QuickMapsService } from '../../quickMaps.service';
 import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
+import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
@@ -36,6 +36,7 @@ export class SideNavContentComponent implements OnInit {
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
+  public ageGenderGroupsDictionary: Dictionary;
 
   public measureDietEnabled = false;
   public measureBiomarkerEnabled = false;
@@ -46,7 +47,6 @@ export class SideNavContentComponent implements OnInit {
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<DataSource>();
-  public ageGenderGroups = new Array<AgeGenderGroup>();
 
   public quickMapsForm: FormGroup;
 
@@ -64,11 +64,17 @@ export class SideNavContentComponent implements OnInit {
     public routeGuardService: QuickMapsRouteGuardService,
   ) {
     void dictionariesService
-      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.REGIONS, DictionaryType.MICRONUTRIENTS])
+      .getDictionaries([
+        DictionaryType.COUNTRIES,
+        DictionaryType.REGIONS,
+        DictionaryType.MICRONUTRIENTS,
+        DictionaryType.AGE_GENDER_GROUPS,
+      ])
       .then((dicts: Array<Dictionary>) => {
         this.countriesDictionary = dicts.shift();
         this.regionDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
+        this.ageGenderGroupsDictionary = dicts.shift();
 
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.country, Validators.required],
@@ -115,13 +121,11 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
-            // trigger re-evaluation since it's validity is also dependant on measure value
-            this.quickMapsForm.get('ageGenderData').updateValueAndValidity();
-            this.updateAgeGenderOptions();
+            this.updateDataSources();
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderGroup) => {
+          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
             this.quickMapsService.setAgeGenderGroup(value);
             this.updateDataSources();
           }),
@@ -251,32 +255,6 @@ export class SideNavContentComponent implements OnInit {
           this.quickMapsForm.get('dataSource').setValue(options[0]);
         }
       });
-  }
-
-  private updateAgeGenderOptions(): void {
-    const micronutrients = this.quickMapsService.micronutrient;
-
-    if (null != micronutrients) {
-      void this.currentDataService.getAgeGenderGroups([micronutrients]).then((options: Array<AgeGenderGroup>) => {
-        let newSelection: AgeGenderGroup;
-
-        const currentSelection = this.quickMapsForm.get('ageGenderData').value as AgeGenderGroup;
-        // re-select the previously selected group
-        if (null != currentSelection) {
-          newSelection = options.find((option) => option.id === currentSelection.id);
-        }
-        // if no previous selection or previous selection not available, default to first option
-        if (null == newSelection) {
-          newSelection = options[0];
-        }
-        this.ageGenderGroups = options;
-
-        this.quickMapsForm.get('ageGenderData').setValue(newSelection);
-      });
-    } else {
-      // clear
-      this.ageGenderGroups = [];
-    }
   }
 
   private navigate(appRoute: AppRoute): void {

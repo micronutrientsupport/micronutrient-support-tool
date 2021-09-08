@@ -3,13 +3,11 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietarySource } from '../apiAndObjects/objects/dietarySource';
-import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
-import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
+import { AgeGenderDictionaryItem } from '../apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 
 @Injectable()
 export class CurrentDataService {
@@ -62,17 +60,11 @@ export class CurrentDataService {
     });
   }
 
-  public getAgeGenderGroups(micronutrients: Array<MicronutrientDictionaryItem>): Promise<Array<AgeGenderGroup>> {
-    return this.apiService.endpoints.currentData.getAgeGenderGroups.call({
-      micronutrients,
-    });
-  }
-
   public getDataSources(
     country: CountryDictionaryItem,
     measureType: MicronutrientMeasureType,
     micronutrient: MicronutrientDictionaryItem,
-    ageGenderGroup?: AgeGenderGroup,
+    ageGenderGroup?: AgeGenderDictionaryItem,
     singleOptionOnly = false,
   ): Promise<Array<DataSource>> {
     return new Promise((resolve) => {

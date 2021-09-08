@@ -17,8 +17,8 @@ import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 @Component({
   selector: 'app-biomarker-info',
   templateUrl: './biomarkerInfo.component.html',
@@ -76,7 +76,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     );
 
     this.subscriptions.push(
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
     );

@@ -11,7 +11,6 @@ import { Endpoint } from '../_lib_code/api/endpoint.abstract';
 import { GetDietarySources } from './currentData/getDietarySources';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
-import { GetAgeGenderGroups } from './currentData/getAgeGenderGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
 import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
@@ -25,6 +24,7 @@ import { GetMicronutrientProjectionSources } from './projections/getMicronutrien
 import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 import { GetProjectionTotals } from './projections/getProjectionTotals';
 import { GetDietaryAvailability } from './diet/getDietaryAvailability';
+import { AgeGenderDictionaryItem } from '../objects/dictionaries/ageGenderDictionaryItem';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -35,7 +35,6 @@ export class ApiService extends BaseApi {
       getDietarySources: new GetDietarySources(false),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
-      getAgeGenderGroups: new GetAgeGenderGroups(false),
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDataSources(ApiService.USE_LIVE_API),
     },
@@ -76,6 +75,10 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.IMPACT_SCENARIOS, true).setDefaultParams({
       path: 'diet/projections/scenarios',
       typeObj: ImpactScenarioDictionaryItem,
+    }),
+    new GetDictionary(DictionaryType.AGE_GENDER_GROUPS, true).setDefaultParams({
+      path: 'biomarker/age-gender-groups',
+      typeObj: AgeGenderDictionaryItem,
     }),
   ];
 
