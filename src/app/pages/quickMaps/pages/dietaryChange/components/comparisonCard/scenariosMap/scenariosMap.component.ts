@@ -131,7 +131,11 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.baselineMap);
-    this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
+
+    const bounds = this.baselineDataLayer.getBounds();
+    if (bounds.isValid()) {
+      this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
+    }
   }
 
   private initialiseMapScenario(colourPalette: ColourPalette): void {
@@ -147,7 +151,11 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
       gradient.getColour(this.getFeatProps(feat).mn_absolute),
     ).addTo(this.scenarioMap);
-    this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
+
+    const bounds = this.scenarioDataLayer.getBounds();
+    if (bounds.isValid()) {
+      this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
+    }
     this.refreshLegend(gradient);
   }
 
