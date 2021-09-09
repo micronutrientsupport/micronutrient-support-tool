@@ -19,10 +19,8 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
   }
 
   protected callLive(params: GetMicronutrientProjectionSourcesParams): Promise<Array<MicronutrientProjectionSource>> {
-    const urlSegment = params.foodSourceGroup === FoodSourceGroup.COMMODITY ? 'commodities' : 'food-groups';
-
     const callResponsePromise = this.apiCaller.doCall(
-      ['diet', 'projections', urlSegment],
+      ['diet', 'projections', this.getFoodSourceGroupSegment(params.foodSourceGroup)],
       RequestMethod.GET,
       this.removeNullsFromObject({
         countryId: params.country.id,
@@ -50,6 +48,15 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
         }, 1500);
       }),
     );
+  }
+
+  private getFoodSourceGroupSegment(foodSourceGroup: FoodSourceGroup): string {
+    switch (foodSourceGroup) {
+      case FoodSourceGroup.COMMODITY:
+        return 'commodities';
+      case FoodSourceGroup.FOOD_GROUP:
+        return 'food-groups';
+    }
   }
 }
 

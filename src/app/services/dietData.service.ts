@@ -3,7 +3,6 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
-import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
@@ -31,12 +30,12 @@ export class DietDataService {
 
   // TODO: needs separate endpoints for data levels
   public getDietaryAvailability(
-    countryOrGroup: CountryDictionaryItem,
+    country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
     dataSource: DietDataSource,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.diet.getDietaryAvailability.call({
-      country: countryOrGroup,
+      country: country,
       micronutrient,
       dataSource,
     });
