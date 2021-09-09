@@ -5,9 +5,9 @@ describe('Quick maps - Baseline', () => {
     cy.visit(
       '/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&data-level=household&age-gender-group=all',
     );
-    cy.wait(3000);
+    cy.wait(4000);
     cy.get('.minimize-button').click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.injectAxe();
     cy.checkA11y(
       {
