@@ -51,6 +51,10 @@ export interface BiomarkerDataType {
   name: string;
   value: string;
 }
+export interface BiomarkerMediaType {
+  name: string;
+  value: string;
+}
 
 export interface BiomarkerCharacteristicType {
   name: string;
@@ -77,11 +81,18 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public outlierControl = new FormControl(true);
   public dataTypes = new FormControl();
   public characteristics = new FormControl();
+
   public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },
     { name: 'Prevalence of Excess', value: 'poe' },
     { name: 'Combined deficiency and excess', value: 'cde' },
     { name: 'Concentration Data', value: 'cda' },
+  ];
+
+  public mediaList: Array<BiomarkerMediaType> = [
+    { name: 'Map', value: 'map' },
+    { name: 'Table', value: 'table' },
+    { name: 'Chart', value: 'chart' },
   ];
 
   public characteristicList: Array<BiomarkerCharacteristicType> = [
@@ -100,6 +111,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public mineralData: Array<BiomarkerStatusData>;
   public selectedDataType: BiomarkerDataType;
   public selectedCharacteristicType: BiomarkerCharacteristicType;
+  public selectedMediaType: BiomarkerMediaType;
 
   // Copied in from MapView, structure will be similar but will however may change
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
@@ -198,7 +210,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public setDataSelection(dataType: BiomarkerDataType): void {
     this.selectedDataType = dataType;
   }
-
+  public setMediaSelection(mediaType: BiomarkerDataType): void {
+    this.selectedMediaType = mediaType;
+  }
   private init(): void {
     const mnName = this.quickMapsService.micronutrient.name;
     const agName = this.quickMapsService.ageGenderGroup.name;

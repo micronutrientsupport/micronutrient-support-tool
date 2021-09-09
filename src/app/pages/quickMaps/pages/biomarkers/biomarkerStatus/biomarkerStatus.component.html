@@ -76,20 +76,17 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <span class="spacer"> & Media Type</span>
-          <div class="status-element">
-            <mat-form-field appearance="outline">
-              <mat-label>Select media type</mat-label>
-              <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-                <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+          <span class="spacer"> &</span>
+          <mat-form-field appearance="outline">
+            <mat-label>Select media type</mat-label>
+            <mat-select [(value)]="selectedMediaType" (selectionChange)="setMediaSelection($event.value)">
+              <mat-option *ngFor="let mediaType of mediaList" [value]="mediaType">{{mediaType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <!-- <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"> -->
-        <app-download>
-        </app-download>
+        <app-download> </app-download>
         <!-- <app-status-download></app-status-download> -->
       </div>
 
