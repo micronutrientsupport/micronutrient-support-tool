@@ -307,13 +307,9 @@ export class MapViewComponent implements AfterViewInit {
 
   private triggerFitBounds(tabIndex: number): void {
     this.tabVisited.set(tabIndex, true);
-    switch (tabIndex) {
-      case 0:
-        this.absoluteMap.fitBounds(this.areaBounds);
-        break;
-      case 1:
-        this.thresholdMap.fitBounds(this.areaBounds);
-        break;
+
+    if (this.areaBounds.isValid()) {
+      (0 === tabIndex ? this.absoluteMap : this.thresholdMap).fitBounds(this.areaBounds);
     }
   }
 
