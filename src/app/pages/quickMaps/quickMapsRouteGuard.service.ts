@@ -9,7 +9,6 @@ import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 
 /**

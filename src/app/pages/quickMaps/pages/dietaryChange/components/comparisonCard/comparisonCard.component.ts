@@ -131,23 +131,25 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
 
   private updateBaselineData(): void {
-    this.startLoading();
-    this.dietDataService
-      .getDietaryAvailability(
-        this.quickMapsService.country,
-        this.quickMapsService.micronutrient,
-        this.quickMapsService.dietDataSource,
-      )
-      .then((data: SubRegionDataItem) => {
-        this.baselineData = data;
-      })
-      .catch((e) => {
-        console.error(e);
-        this.errorSrc.next(true);
-      })
-      .finally(() => {
-        this.endLoading();
-      });
+    const country = this.quickMapsService.country;
+    const micronutrient = this.quickMapsService.micronutrient;
+    const dietDataSource = this.quickMapsService.dietDataSource;
+
+    if (null != country && null != micronutrient && null != dietDataSource) {
+      this.startLoading();
+      this.dietDataService
+        .getDietaryAvailability(country, micronutrient, dietDataSource)
+        .then((data: SubRegionDataItem) => {
+          this.baselineData = data;
+        })
+        .catch((e) => {
+          console.error(e);
+          this.errorSrc.next(true);
+        })
+        .finally(() => {
+          this.endLoading();
+        });
+    }
   }
   private updateScenarioData(): void {
     this.startLoading();
