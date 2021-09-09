@@ -1,11 +1,12 @@
 <div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
   <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
-    (click)="minimiseSideNav()">
+    (click)="minimiseSideNav()" aria-label="Toggle sidebar">
     <i class="fas fa-caret-left"></i>
   </button>
-  <h2 id="qmSideNavTitle" (click)="minimiseSideNav()">Quick MAPS</h2>
+  <h1 aria-level="1" id="qmSideNavTitle" (click)="minimiseSideNav()">Quick MAPS</h1>
   <mat-slide-toggle matTooltipClass="tooltip" [formControl]="sideNavToggleLock" color="primary"
-    [matTooltip]="sideNavToggleLock.value === true ? 'Unlock Side-Nav' : 'Lock Side-Nav'">
+    [matTooltip]="sideNavToggleLock.value === true ? 'Unlock Side-Nav' : 'Lock Side-Nav'"
+    aria-label="Slide nav toggle lock">
   </mat-slide-toggle>
 </div>
 
@@ -16,10 +17,11 @@
     <fieldset name="geographyOfInterest">
       <legend>
         <span class="field-title">
-          <h3>Geography of interest</h3>
+          <h2>Geography of interest</h2>
           <a class="map-button" mat-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
             [queryParams]="route.queryParams | async" routerLinkActive [routerLinkActiveOptions]="{ exact: true }"
-            #rla="routerLinkActive" [disabled]="rla.isActive"><i class="fas fa-map-marked-alt"></i></a>
+            #rla="routerLinkActive" [disabled]="rla.isActive" aria-label="Map location select"><i
+              class="fas fa-map-marked-alt"></i></a>
           <i class="fas fa-question-circle" matTooltip="Select via dropdown menu or via interactive map"></i>
         </span>
       </legend>
@@ -47,7 +49,7 @@
     <fieldset>
       <legend>
         <span class="field-title">
-          <h3>Nutrients to explore</h3>
+          <h2>Nutrients to explore</h2>
           <i class="fas fa-question-circle" matTooltip="Nutrients available in the tool database"></i>
         </span>
       </legend>
@@ -75,7 +77,7 @@
     <fieldset>
       <legend>
         <div class="field-title">
-          <h3>Measure of nutrient deficiency</h3>
+          <h2>Measure of nutrient deficiency</h2>
           <i class="fas fa-question-circle" matTooltip="Select diet proxy or biomarker, if both are available"></i>
         </div>
       </legend>
@@ -96,7 +98,7 @@
       <fieldset>
         <legend>
           <div class="field-title">
-            <h3>Age-gender-group</h3>
+            <h2>Age-gender-group</h2>
             <i class="fas fa-question-circle"
               matTooltip="You can choose from the original biomarker survey demographic groups"></i>
           </div>
@@ -113,7 +115,7 @@
     <fieldset>
       <legend class="flex-row">
         <span class="field-title">
-          <h3>Data source</h3>
+          <h2>Data source</h2>
           <i class="fas fa-question-circle"
             matTooltip="QuickMAPS will default to the latest available dataset from your choices above"></i>
         </span>
