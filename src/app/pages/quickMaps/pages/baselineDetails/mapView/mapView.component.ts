@@ -30,6 +30,7 @@ import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { DietDataService } from 'src/app/services/dietData.service';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -43,6 +44,7 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+  public readonly dataLevelEnum = DataLevel;
   public title = '';
   public selectedTab: number;
   private data: SubRegionDataItem;

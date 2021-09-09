@@ -19,12 +19,12 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description" *ngIf="'household' === (quickMapsService.dataSourceObs | async).dataLevelOptions[0]">
+    <div class="description" *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSourceObs | async)?.dataLevel">
       These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall of
       household-level data. These proxy for consumption is joined to locally relevant food composition table data.
       <!-- <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button> -->
     </div>
-    <div class="description" *ngIf="'country' === (quickMapsService.dataSourceObs | async).dataLevelOptions[0]">
+    <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSourceObs | async)?.dataLevel">
       These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to FAO
       at the national level. This proxy for consumption is joined to locally relevant food composition table.
       <!-- <button mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn More</button> -->
