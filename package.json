@@ -43,7 +43,7 @@
     "@ctrl/ngx-chartjs": "^4.0.2",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material/layout-grid": "^11.0.0",
-    "@types/chart.js": "^2.9.31",
+    "@types/chart.js": "^2.9.34",
     "angular-gridster2": "^11.1.5",
     "chart.js": "^2.9.4",
     "chartjs-chart-box-and-violin-plot": "^2.4.0",
