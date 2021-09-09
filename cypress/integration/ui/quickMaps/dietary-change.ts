@@ -5,9 +5,9 @@ describe('Quick maps - Dietary Change', () => {
     cy.visit(
       '/quick-maps/diet/dietary-change?country-id=MWI&mnd-id=Ca&measure=diet&data-level=household&age-gender-group=all',
     );
-    cy.wait(3000);
+    cy.wait(4000);
     cy.get('.minimize-button').click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.injectAxe();
     cy.checkA11y(
       {

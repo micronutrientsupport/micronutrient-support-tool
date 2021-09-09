@@ -14,7 +14,7 @@ export const populateSelectValues = (): void => {
 describe('Quick Map Tests', () => {
   it('checks page for a11y compliance', () => {
     cy.visit('/quick-maps');
-    cy.wait(3000);
+    cy.wait(4000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });
