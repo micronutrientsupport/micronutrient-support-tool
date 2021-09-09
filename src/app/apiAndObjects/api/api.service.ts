@@ -36,7 +36,6 @@ export class ApiService extends BaseApi {
       getDietarySources: new GetDietarySources(false),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
-      getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
     },
     diet: {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),

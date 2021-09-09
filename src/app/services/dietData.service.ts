@@ -22,7 +22,7 @@ export class DietDataService {
     micronutrient: MicronutrientDictionaryItem,
     dataSource: DietDataSource,
   ): Promise<Array<TopFoodSource>> {
-    return this.apiService.endpoints.currentData.getTopFoods.call({
+    return this.apiService.endpoints.diet.getTopFoods.call({
       micronutrient,
       dataSource,
     });
