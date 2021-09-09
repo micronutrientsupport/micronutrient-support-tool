@@ -4,5 +4,6 @@
   "baseUrl": "http://localhost:8100",
   "videosFolder": "cypress/videos",
   "video": true,
-  "screenshotOnRunFailure": true
+  "screenshotOnRunFailure": true,
+  "retries": { "openMode": 0, "runMode": 3 }
 }
