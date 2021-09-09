@@ -30,6 +30,11 @@ import { ColourGradient, ColourGradientObject } from '../../../components/colour
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
+
+export interface MapDataType {
+  name: string;
+  value: string;
+}
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -45,8 +50,14 @@ export class MapViewComponent implements AfterViewInit {
 
   public title = '';
   public selectedTab: number;
-  private data: SubRegionDataItem;
 
+  public selectedDataType: MapDataType;
+
+  public dataList: Array<MapDataType> = [
+    { name: 'Absolute Values', value: 'absolute' },
+    { name: 'Variation from Threshold', value: 'threshold' },
+  ];
+  private data: SubRegionDataItem;
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
@@ -165,7 +176,9 @@ export class MapViewComponent implements AfterViewInit {
     this.selectedTab = 2;
     this.cdr.detectChanges();
   }
-
+  public setDataSelection(dataType: MapDataType): void {
+    this.selectedDataType = dataType;
+  }
   private init(dataPromise: Promise<SubRegionDataItem>): void {
     this.loadingSrc.next(true);
     dataPromise

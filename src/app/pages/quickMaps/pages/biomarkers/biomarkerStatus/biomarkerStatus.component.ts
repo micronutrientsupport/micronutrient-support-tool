@@ -210,7 +210,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public setDataSelection(dataType: BiomarkerDataType): void {
     this.selectedDataType = dataType;
   }
-  public setMediaSelection(mediaType: BiomarkerDataType): void {
+  public setMediaSelection(mediaType: BiomarkerMediaType): void {
     this.selectedMediaType = mediaType;
   }
   private init(): void {
