@@ -1,7 +1,9 @@
 # Micronutrient Support Tool
 
 ---
-### :globe_with_meridians: [Latest Development Preview](https://develop--micronutrientsupport-tool.netlify.app/) :globe_with_meridians:
+### :globe_with_meridians: [Latest Development Preview](https://develop--micronutrientsupport-tool.netlify.app/)
+
+### :fire: [Uptime Robot Status Page](https://stats.uptimerobot.com/g8Vr6ulQEm)
 
 ---
 
