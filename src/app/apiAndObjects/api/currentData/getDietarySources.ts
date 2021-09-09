@@ -5,6 +5,7 @@ import { DietarySource } from '../../objects/dietarySource';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 
+// TODO: This doesn't appear to be used anywhere
 export class GetDietarySources extends CacheableEndpoint<Array<DietarySource>, GetDietarySourcesParams, DietarySource> {
   protected getCacheKey(params: GetDietarySourcesParams): string {
     return JSON.stringify(params);
