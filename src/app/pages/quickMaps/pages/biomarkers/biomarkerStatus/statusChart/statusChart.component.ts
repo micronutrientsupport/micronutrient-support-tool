@@ -7,6 +7,7 @@ import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { BiomarkerDataType } from '../biomarkerStatus.component';
+import { StatusChartService } from './statusChart.service';
 
 @Component({
   selector: 'app-status-chart',
@@ -27,7 +28,7 @@ export class StatusChartComponent implements AfterViewInit {
       this.selectedOption = dataType.value;
     }
   }
-
+  message: string;
   public selectedNutrient = '';
   public selectedOption;
 
@@ -51,7 +52,7 @@ export class StatusChartComponent implements AfterViewInit {
 
   private outlierSet: any[] = [];
 
-  constructor(private qcService: QuickchartService) {}
+  constructor(private qcService: QuickchartService, private data: StatusChartService) {}
 
   ngAfterViewInit(): void {
     this.renderAllCharts();
@@ -62,6 +63,7 @@ export class StatusChartComponent implements AfterViewInit {
       this.randomBoxPlot(60, 100),
       this.randomBoxPlot(50, 100),
     ]);
+    this.data.currentMessage.subscribe((message) => (this.message = message));
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

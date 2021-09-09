@@ -1,4 +1,39 @@
-<div class="bmgf-maps-nice-scrollbar">
+<div class="container-row">
+    <div class="element-container">
+        <i class="fas fa-file-image"></i>
+        <a [href]="chartDownloadPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+            <button [disabled]="!chartDownloadPNG ? true : null" mat-raised-button color="primary">Save as .png</button>
+        </a>
+        <p>PNG image of the visualisation that can be used in reports and presentations</p>
+    </div>
+    <div class="element-container">
+        <i class="fas fa-file-image"></i>
+        <a [href]="chartDownloadPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+            <button [disabled]="!chartDownloadPDF ? true : null" mat-raised-button color="primary">Save as .pdf</button>
+        </a>
+        <p>Adobe PDF document of the visualisation that can be used for editing and redesigning the chart</p>
+    </div>
+    <div class="element-container">
+        <i class="fas fa-file-csv"></i>
+        <button [disabled]="dataArray?.length<1 ||dataArray== null" mat-raised-button color="primary"
+            (click)="exportToCsv()">Save as .csv</button>
+        <p>CSV File containing the data used in this visualisation</p>
+    </div>
+
+    <br>
+    <br>
+    <div>
+        <strong>Suggested citation for this output: </strong>
+        <p>MAPS ({{year}}) The Micronutrient Action Policy Support (MAPS) Tool project.
+            https://tool.micronutrient.support/
+            Accessed: {{ formattedDate}}</p>
+        <button mat-raised-button color="primary" cdkCopyToClipboard="{{copyPlainText}}">Copy plain text
+            citation</button>
+        <button mat-raised-button color="primary" cdkCopyToClipboard="{{copyBibTex}}">Copy BibTex citation</button>
+
+    </div>
+</div>
+<!-- <div class="bmgf-maps-nice-scrollbar">
     <div class="status-element">
         <h2>Select the data to download</h2>
     </div>
@@ -92,4 +127,4 @@
             </span>
         </div>
     </div>
-</div>
+</div> -->
