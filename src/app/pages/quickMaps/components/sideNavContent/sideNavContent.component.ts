@@ -85,7 +85,7 @@ export class SideNavContentComponent implements OnInit {
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
-          ageGenderData: [
+          ageGenderGroup: [
             this.quickMapsService.ageGenderGroup,
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
@@ -125,11 +125,13 @@ export class SideNavContentComponent implements OnInit {
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
             this.quickMapsService.setMeasure(value);
+            // force re-validation of age-gender group
+            this.quickMapsForm.get('ageGenderGroup').updateValueAndValidity();
             this.updateDataSources();
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('ageGenderData').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
+          this.quickMapsForm.get('ageGenderGroup').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
             this.quickMapsService.setAgeGenderGroup(value);
             this.updateDataSources();
           }),

@@ -2,9 +2,7 @@
 
 describe('Quick maps - Baseline', () => {
   it('checks page for a11y compliance', () => {
-    cy.visit(
-      '/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&data-level=household&age-gender-group=all',
-    );
+    cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Fe&measure=diet');
     cy.wait(4000);
     cy.get('.minimize-button').click();
     cy.wait(2000);
