@@ -3,6 +3,8 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
+import { MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
+import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
@@ -38,6 +40,19 @@ export class DietDataService {
       country: country,
       micronutrient,
       dataSource,
+    });
+  }
+
+  public getMicronutrientAvailability(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    dataSource: DietDataSource,
+  ): Promise<Array<MnAvailibiltyCountryItem> | Array<MnAvailibiltyHouseholdItem>> {
+    return this.apiService.endpoints.diet.getMicronutrientAvailability.call({
+      country,
+      micronutrient,
+      dataSource,
+      asGeoJson: false,
     });
   }
 

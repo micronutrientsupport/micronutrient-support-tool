@@ -19,18 +19,23 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import {
+  FEATURE_TYPE,
+  MnAvailibiltyItem,
+  MnAvailibiltyItemFeatureProperties,
+} from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
+import * as GeoJSON from 'geojson';
+
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -47,7 +52,7 @@ export class MapViewComponent implements AfterViewInit {
   public readonly dataLevelEnum = DataLevel;
   public title = '';
   public selectedTab: number;
-  private data: SubRegionDataItem;
+  private data: Array<MnAvailibiltyItem>;
 
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
@@ -64,7 +69,7 @@ export class MapViewComponent implements AfterViewInit {
   private thresholdRange = [10, 20, 40, 60, 80, 99];
   private thresholdLegend: L.Control;
   private areaBounds: L.LatLngBounds;
-  private areaFeatureCollection: GeoJSON.FeatureCollection;
+  private areaFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -131,7 +136,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
-            this.dietDataService.getDietaryAvailability(
+            this.dietDataService.getMicronutrientAvailability(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
               this.quickMapsService.dietDataSource,
@@ -167,16 +172,19 @@ export class MapViewComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private init(dataPromise: Promise<SubRegionDataItem>): void {
+  private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: SubRegionDataItem) => {
+      .then((data: Array<MnAvailibiltyItem>) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
         this.errorSrc.next(false);
-        this.areaFeatureCollection = data.geoJson;
+        this.areaFeatureCollection = {
+          type: 'FeatureCollection',
+          features: data.map((item) => item.toFeature()),
+        };
 
         this.initialiseMapAbsolute(this.colourPalette);
         this.initialiseMapThreshold(this.colourPalette);
@@ -197,11 +205,6 @@ export class MapViewComponent implements AfterViewInit {
       });
   }
 
-  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
-    // console.debug(feat.properties);
-    return feat.properties as SubRegionDataItemFeatureProperties;
-  }
-
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
   private changeColourRamp(colourPalette: ColourPalette): void {
     const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
@@ -217,12 +220,12 @@ export class MapViewComponent implements AfterViewInit {
       this.absoluteMap.removeControl(this.thresholdLegend);
     }
 
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      absoluteGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.absoluteMap);
 
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      thresholdGradient.getColour(feat.properties.deficientPercentage),
     ).addTo(this.thresholdMap);
 
     this.refreshAbsoluteLegend(absoluteGradient);
@@ -313,19 +316,24 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  private getTooltip(feature: GeoJSON.Feature): string {
-    const props = this.getFeatProps(feature);
+  // TODO: reword
+  // <aggregationAreaType>: <aggregationAreaName>
+  // Dietary Availability (AFE): <dietarySupply><unit> per day
+  // Prevalence of deficiency (EAR): <deficientPercentage> of sample households (<deficientCount>/<household_count)
+  //
+  // what about when data level is country??
+  private getTooltip(feature: FEATURE_TYPE): string {
+    const props = feature.properties;
     return `
     <div>
-      Region:<b>${props.subregion_name}</b><br/>
-      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
-      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+      ${props.areaType}:<b>${props.areaName}</b><br/>
+      Absolute value: ${props.dietarySupply}${props.unit}<br/>
+      Threshold: ${props.deficientPercentage}%<br/>
     </div>`;
   }
-
-  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+  private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
     return L.geoJSON(this.areaFeatureCollection, {
-      style: (feature) => ({
+      style: (feature: FEATURE_TYPE) => ({
         fillColor: featureColourFunc(feature),
         weight: 2,
         opacity: 1,
@@ -333,7 +341,7 @@ export class MapViewComponent implements AfterViewInit {
         dashArray: '3',
         fillOpacity: 0.7,
       }),
-      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+      onEachFeature: (feature: FEATURE_TYPE, layer: UnknownLeafletFeatureLayerClass) => {
         layer.bindTooltip(this.getTooltip(feature));
       },
     });
@@ -357,8 +365,8 @@ export class MapViewComponent implements AfterViewInit {
 
     const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
 
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      absoluteGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.absoluteMap);
     // console.debug('absolute', this.absoluteDataLayer);
 
@@ -375,9 +383,9 @@ export class MapViewComponent implements AfterViewInit {
 
     const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
 
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
-      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+      thresholdGradient.getColour(feat.properties.deficientPercentage),
     ).addTo(this.thresholdMap);
     // console.debug('threshold', this.thresholdDataLayer);
 
@@ -395,6 +403,6 @@ export class MapViewComponent implements AfterViewInit {
 
 export interface MapViewDialogData {
   title: string;
-  data: SubRegionDataItem;
+  data: Array<MnAvailibiltyItem>;
   selectedTab: number;
 }

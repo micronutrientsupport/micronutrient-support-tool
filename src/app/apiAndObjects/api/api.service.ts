@@ -26,6 +26,7 @@ import { GetDietaryAvailability } from './diet/getDietaryAvailability';
 import { AgeGenderDictionaryItem } from '../objects/dictionaries/ageGenderDictionaryItem';
 import { GetDietDataSources } from './diet/getDietDataSources';
 import { GetBiomarkerDataSources } from './biomarker/getBiomarkerDataSources';
+import { GetMicronutrientAvailability } from './diet/getMicronutrientAvailability';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -41,6 +42,7 @@ export class ApiService extends BaseApi {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDietaryAvailability: new GetDietaryAvailability(ApiService.USE_LIVE_API),
       getDataSources: new GetDietDataSources(ApiService.USE_LIVE_API),
+      getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
     },
     biomarker: {
       getDataSources: new GetBiomarkerDataSources(ApiService.USE_LIVE_API),
