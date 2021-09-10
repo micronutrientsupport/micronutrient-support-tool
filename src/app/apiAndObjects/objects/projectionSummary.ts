@@ -1,7 +1,7 @@
 import { DictionaryType } from '../api/dictionaryType.enum';
 import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectRequiresDictionaries';
 import { Dictionary } from '../_lib_code/objects/dictionary';
-import { CountryDictionaryItem } from './dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from './dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from './dictionaries/micronutrientDictionaryItem';
 
 export class ProjectionsSummary extends BaseObjectRequiresDictionaries {

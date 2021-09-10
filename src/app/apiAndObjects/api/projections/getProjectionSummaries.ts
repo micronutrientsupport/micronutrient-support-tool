@@ -1,4 +1,5 @@
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { HttpClient } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { ProjectionsSummary } from '../../objects/projectionSummary';
@@ -23,7 +24,16 @@ export class GetProjectionSummaries extends CacheableEndpoint<ProjectionsSummary
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected callMock(params?: GetProjectionSummaryParams): Promise<ProjectionsSummary> {
-    throw new Error('Method not implemented.');
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
+    return this.buildObjectFromResponse(
+      ProjectionsSummary,
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/projection-summary.json').toPromise());
+        }, 1500);
+      }),
+    );
   }
 }
 

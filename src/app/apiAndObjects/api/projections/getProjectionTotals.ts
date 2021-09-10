@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProjectedAvailability } from '../../objects/projectedAvailability';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
 
@@ -25,7 +25,7 @@ export class GetProjectionTotals extends Endpoint<
     return this.buildObjectsFromResponse(ProjectedAvailability, callResponsePromise);
   }
 
-  protected callMock(): Promise<Array<ProjectedAvailability>> {
+  protected callMock(params: GetProjectionTotalsParams): Promise<Array<ProjectedAvailability>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ProjectedAvailability,
@@ -34,7 +34,13 @@ export class GetProjectionTotals extends Endpoint<
         setTimeout(() => {
           resolve(httpClient.get('/assets/exampleData/projection-total.json').toPromise());
         }, 1500);
-      }),
+      }).then((data: Array<Record<string, unknown>>) =>
+        data.map((item) => {
+          item[params.micronutrient.id] = item.Fe;
+          item[params.micronutrient.id + 'Diff'] = item.FeDiff;
+          return item;
+        }),
+      ),
     );
   }
 }

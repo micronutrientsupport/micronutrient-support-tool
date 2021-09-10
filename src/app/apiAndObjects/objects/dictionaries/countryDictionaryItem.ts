@@ -1,27 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import * as GeoJSON from 'geojson';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
-export class ImpactScenarioDictionaryItem extends MapsDictionaryItem {
+export class CountryDictionaryItem extends MapsDictionaryItem {
+  public static readonly DESC_ATTRIBUTE: string = 'name';
   public static readonly KEYS = {
-    BRIEF_DESCRIPTION: 'briefDescription',
-    IS_BASELINE: 'isBaseline',
+    GEOMETRY: 'geometry',
   };
 
-  public readonly briefDescription: string;
-  public readonly isBaseline: boolean;
+  public readonly geoFeature: GeoJSON.Feature;
 
   protected constructor(sourceObject: Record<string, unknown>, id: string, name: string, description: string) {
     super(sourceObject, id, name, description);
 
-    this.briefDescription = this._getString(ImpactScenarioDictionaryItem.KEYS.BRIEF_DESCRIPTION);
-    this.isBaseline = this._getBoolean(ImpactScenarioDictionaryItem.KEYS.IS_BASELINE);
+    const geometry = this._getValue(CountryDictionaryItem.KEYS.GEOMETRY) as GeoJSON.Geometry;
+    if (null != geometry) {
+      this.geoFeature = {
+        geometry,
+        type: 'Feature',
+        properties: {},
+        id: this.id,
+      };
+    }
   }
 
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
     const httpClient = injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
-    return httpClient.get('/assets/exampleData/impact_scenarios.json').toPromise() as Promise<
+    return httpClient.get('/assets/exampleData/country_select.json').toPromise() as Promise<
       Array<Record<string, unknown>>
     >;
   }

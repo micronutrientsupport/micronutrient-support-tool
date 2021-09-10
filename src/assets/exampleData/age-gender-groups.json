@@ -1,22 +1,7 @@
 [
-  {
-    "id": "all",
-    "name": "All",
-    "description": "All"
-  },
-  {
-    "id": "adult_women",
-    "name": "Adult Women",
-    "description": "Adult Women"
-  },
-  {
-    "id": "adult_men",
-    "name": "Adult Men",
-    "description": "Adult Men"
-  },
-  {
-    "id": "children",
-    "name": "Children",
-    "description": "Children"
-  }
+  { "groupId": "MEN", "supraGroup": "Adult", "groupName": "Men" },
+  { "groupId": "PREG", "supraGroup": "Adult", "groupName": "Pregnant Women" },
+  { "groupId": "PSC", "supraGroup": "Children", "groupName": "Pre School Children" },
+  { "groupId": "SAC", "supraGroup": "Children", "groupName": "School Age Children" },
+  { "groupId": "WRA", "supraGroup": "Adult", "groupName": "Women of reproductive age" }
 ]

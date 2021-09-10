@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
-import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
