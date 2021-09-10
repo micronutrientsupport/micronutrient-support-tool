@@ -3,17 +3,9 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietarySource } from '../apiAndObjects/objects/dietarySource';
-import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
-import { MicronutrientMeasureType } from '../apiAndObjects/objects/enums/micronutrientMeasureType.enum';
+import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
-import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
-import { ProjectedAvailability } from '../apiAndObjects/objects/projectedAvailability';
-import { ProjectedFoodSourcesData } from '../apiAndObjects/objects/projectedFoodSources';
-import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { ProjectionsSummary } from '../apiAndObjects/objects/projectionSummary';
-import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-import { AgeGenderGroup } from '../apiAndObjects/objects/ageGenderGroup';
 
 @Injectable()
 export class CurrentDataService {
@@ -27,51 +19,11 @@ export class CurrentDataService {
     //   });
   }
 
-  public getDataSources(
-    countryOrGroup: CountryDictionaryItem,
-    measureType: MicronutrientMeasureType,
-    ageGenderGroup?: AgeGenderGroup,
-    singleOptionOnly = false,
-  ): Promise<Array<DataSource>> {
-    return new Promise((resolve) => {
-      // no point in calling API if parameters selections aren't valid
-      if (
-        null == countryOrGroup ||
-        null == measureType ||
-        (measureType === MicronutrientMeasureType.BIOMARKER && null == ageGenderGroup)
-      ) {
-        resolve([]); // no data sources
-      } else {
-        resolve(
-          this.apiService.endpoints.currentData.getDataSources.call({
-            countryOrGroup,
-            measureType,
-            ageGenderGroup,
-            singleOptionOnly,
-          }),
-        );
-      }
-    });
-  }
-
-  public getSubRegionData(
-    countryOrGroup: CountryDictionaryItem,
-    micronutrient: MicronutrientDictionaryItem,
-    dataSource: DataSource,
-    dataLevel: DataLevel,
-  ): Promise<SubRegionDataItem> {
-    return this.apiService.endpoints.currentData.getSubRegionData.call({
-      countryOrGroup,
-      micronutrient,
-      dataSource,
-      dataLevel,
-    });
-  }
-
+  // MOVE TO new section service when made live
   public getDietarySources(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DataSource,
+    dataSource: DietDataSource,
   ): Promise<Array<DietarySource>> {
     return this.apiService.endpoints.currentData.getDietarySources.call({
       countryOrGroup,
@@ -80,24 +32,11 @@ export class CurrentDataService {
     });
   }
 
-  public getTopFood(
-    countryOrGroup: CountryDictionaryItem,
-    micronutrient: MicronutrientDictionaryItem,
-    micronutrientDataOption: DataSource,
-    dataLevel: DataLevel,
-  ): Promise<Array<TopFoodSource>> {
-    return this.apiService.endpoints.currentData.getTopFood.call({
-      countryOrGroup,
-      micronutrient,
-      micronutrientDataOption,
-      dataLevel,
-    });
-  }
-
+  // MOVE TO new section service when made live
   public getHouseholdHistogramData(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DataSource,
+    dataSource: DietDataSource,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
       countryOrGroup,
@@ -106,51 +45,16 @@ export class CurrentDataService {
     });
   }
 
-  public getProjectedFoodSourceData(
-    commodityOrFoodGroup: string,
-    countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    scenarioId: string,
-  ): Promise<Array<ProjectedFoodSourcesData>> {
-    return this.apiService.endpoints.currentData.getProjectedFoodSourcesData.call({
-      commodityOrFoodGroup,
-      countryOrGroup,
-      micronutrients,
-      scenarioId,
-    });
-  }
-
+  // MOVE TO new section service when made live
   public getMonthlyFoodGroups(
     countryOrGroup: CountryDictionaryItem,
     micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DataSource,
+    dataSource: DietDataSource,
   ): Promise<MonthlyFoodGroups> {
     return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroup,
       micronutrients,
       dataSource,
-    });
-  }
-  public getProjectedAvailabilities(): Promise<Array<ProjectedAvailability>> {
-    return this.apiService.endpoints.currentData.getProjectedAvailabilities.call();
-  }
-
-  public getProjectionSummary(
-    countryOrGroupId: string,
-    micronutrient: MicronutrientDictionaryItem,
-    scenarioId: string,
-  ): Promise<ProjectionsSummary> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.apiService.endpoints.currentData.getProjectionSummary.call({
-      countryOrGroupId,
-      micronutrientId: micronutrient.id,
-      scenarioId,
-    });
-  }
-
-  public getAgeGenderGroups(micronutrients: Array<MicronutrientDictionaryItem>): Promise<Array<AgeGenderGroup>> {
-    return this.apiService.endpoints.currentData.getAgeGenderGroups.call({
-      micronutrients,
     });
   }
 }

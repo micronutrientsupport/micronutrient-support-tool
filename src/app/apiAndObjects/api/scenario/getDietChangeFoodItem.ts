@@ -1,8 +1,8 @@
-import { DataSource } from '../../objects/dataSource';
 import { FoodItemChangeItem } from '../../objects/dietaryChange.item';
 import { SubRegionDataItem } from '../../objects/subRegionDataItem';
 import { HttpClient } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
+import { DietDataSource } from '../../objects/dietDataSource';
 
 export class GetDietChangeFoodItem extends Endpoint<SubRegionDataItem, GetDietChangeFoodItemParams> {
   protected callLive(): // params: GetDietChangeFoodItemParams,
@@ -34,6 +34,6 @@ export class GetDietChangeFoodItem extends Endpoint<SubRegionDataItem, GetDietCh
 }
 
 export interface GetDietChangeFoodItemParams {
-  dataSource: DataSource;
+  dataSource: DietDataSource;
   changeItems: Array<FoodItemChangeItem>;
 }

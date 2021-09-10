@@ -104,9 +104,10 @@
           </div>
         </legend>
         <mat-form-field appearance="fill">
-          <mat-select name="ageGenderData" formControlName="ageGenderData" placeholder="Click to select option"
+          <mat-select name="ageGenderGroup" formControlName="ageGenderGroup" placeholder="Click to select option"
             panelClass="allow-long-text">
-            <mat-option *ngFor="let item of ageGenderGroups" [value]="item">{{ item.name }} </mat-option>
+            <mat-option *ngFor="let item of ageGenderGroupsDictionary.itemsObs | async" [value]="item">{{ item.name }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </fieldset>

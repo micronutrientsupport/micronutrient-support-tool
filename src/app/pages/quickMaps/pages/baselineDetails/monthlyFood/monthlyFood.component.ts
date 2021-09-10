@@ -88,12 +88,12 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
       // respond to parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
             this.currentDataService.getMonthlyFoodGroups(
               this.quickMapsService.country,
               [this.quickMapsService.micronutrient],
-              this.quickMapsService.dataSource,
+              this.quickMapsService.dietDataSource,
             ),
           );
         }),

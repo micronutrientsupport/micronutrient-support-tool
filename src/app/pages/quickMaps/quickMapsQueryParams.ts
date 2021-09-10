@@ -1,9 +1,9 @@
 import { Injector } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { EnumTools } from 'src/utility/enumTools';
@@ -13,8 +13,7 @@ export class QuickMapsQueryParams {
     COUNTRY_ID: 'country-id',
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
-    DATA_LEVEL: 'data-level',
-    AGE_GENDER_GROUP: 'age-gender-group',
+    AGE_GENDER_GROUP_ID: 'age-gender-group-id',
   };
 
   private readonly dictionariesService: DictionaryService;
@@ -30,13 +29,18 @@ export class QuickMapsQueryParams {
   public getCountryId(queryParamMap?: ParamMap): string {
     return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
   }
-  public getAgeGenderGroupId(queryParamMap?: ParamMap): string {
-    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP);
-  }
   public getCountry(queryParamMap?: ParamMap): Promise<CountryDictionaryItem> {
     return this.dictionariesService
       .getDictionary(DictionaryType.COUNTRIES)
       .then((dict) => dict.getItem(this.getCountryId(queryParamMap)));
+  }
+  public getAgeGenderGroupId(queryParamMap?: ParamMap): string {
+    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID);
+  }
+  public getAgeGenderGroup(queryParamMap?: ParamMap): Promise<AgeGenderDictionaryItem> {
+    return this.dictionariesService
+      .getDictionary(DictionaryType.AGE_GENDER_GROUPS)
+      .then((dict) => dict.getItem(this.getAgeGenderGroupId(queryParamMap)));
   }
 
   public getMicronutrientId(queryParamMap?: ParamMap): string {
@@ -55,12 +59,6 @@ export class QuickMapsQueryParams {
     );
   }
 
-  public getDataLevel(queryParamMap?: ParamMap): DataLevel {
-    return EnumTools.getEnumFromValue(
-      this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL),
-      DataLevel,
-    );
-  }
   public setQueryParams(params: Record<string, string | Array<string>>): void {
     // console.debug('setQueryParams', params);
     const stringParams: Record<string, string> = {};

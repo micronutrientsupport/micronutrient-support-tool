@@ -110,7 +110,7 @@ export class OptionsComponent {
       default:
         changeItem.updatingScenarioValue = true;
         void this.scenarioDataService
-          .getCurrentValue(this.quickMapsService.dataSource, this.dietaryChangeService.mode, selectedFoodItem)
+          .getCurrentValue(this.quickMapsService.dietDataSource, this.dietaryChangeService.mode, selectedFoodItem)
           .then((currentValue: CurrentValue) => {
             changeItem.currentValue = currentValue.value;
             this.changeScenarioValue(changeItem, currentValue.value);
@@ -195,7 +195,7 @@ export class OptionsComponent {
         foodChangeItem.currentComposition = null;
         foodChangeItem.updatingComposition = true;
         void this.scenarioDataService
-          .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dataSource)
+          .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dietDataSource)
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.currentComposition = currentComposition;
             this.cdr.markForCheck();
@@ -206,7 +206,7 @@ export class OptionsComponent {
         foodChangeItem.scenarioComposition = null;
         foodChangeItem.updatingScenarioComposition = true;
         void this.scenarioDataService
-          .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dataSource)
+          .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dietDataSource)
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.scenarioComposition = currentComposition;
             this.cdr.markForCheck();

@@ -19,7 +19,6 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -30,6 +29,8 @@ import { ColourGradient, ColourGradientObject } from '../../../components/colour
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
+import { DietDataService } from 'src/app/services/dietData.service';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -43,6 +44,7 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+  public readonly dataLevelEnum = DataLevel;
   public title = '';
   public selectedTab: number;
   private data: SubRegionDataItem;
@@ -75,7 +77,7 @@ export class MapViewComponent implements AfterViewInit {
     private dialogService: DialogService,
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -127,13 +129,12 @@ export class MapViewComponent implements AfterViewInit {
 
       // respond to parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
-            this.currentDataService.getSubRegionData(
+            this.dietDataService.getDietaryAvailability(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.dataSource,
-              this.quickMapsService.dataLevel,
+              this.quickMapsService.dietDataSource,
             ),
           );
         }),
