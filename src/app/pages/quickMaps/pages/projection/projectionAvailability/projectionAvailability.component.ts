@@ -131,7 +131,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.baselineScenario)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
-        console.log(summary.recommended);
+        // console.log(summary.recommended);
         this.projectionsSummary = summary;
 
         dataPromise
@@ -191,7 +191,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    console.log('#### this.projectionsSummary.recommended = ', this.projectionsSummary.recommended);
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {
@@ -258,7 +257,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              // id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.projectionsSummary.recommended,
@@ -275,7 +273,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
       },
     };
-    console.log(generatedChart);
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
