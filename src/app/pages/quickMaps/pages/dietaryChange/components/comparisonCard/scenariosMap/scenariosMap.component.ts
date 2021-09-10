@@ -2,8 +2,12 @@ import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import {
+  FEATURE_TYPE,
+  MnAvailibiltyItem,
+  MnAvailibiltyItemFeatureProperties,
+} from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
@@ -22,10 +26,15 @@ export class ScenariosMapComponent implements AfterViewInit {
   @ViewChild('baselineMap') baselineMapElement: ElementRef;
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
 
-  @Input() set baselineData(data: SubRegionDataItem) {
+  @Input() set baselineData(data: Array<MnAvailibiltyItem>) {
     if (null != data) {
       this.baselineMapData = data;
-      this.areaFeatureCollection = data.geoJson;
+      this.areaFeatureCollection =
+        // create featureCollection from data
+        this.areaFeatureCollection = {
+          type: 'FeatureCollection',
+          features: data.map((item) => item.toFeature()),
+        };
       this.initialiseMapBaseline(this.colourPalette);
     }
   }
@@ -37,7 +46,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     }
   }
 
-  public baselineMapData: SubRegionDataItem;
+  public baselineMapData: Array<MnAvailibiltyItem>;
   public scenarioMapData: SubRegionDataItem;
 
   public showSelectScenarioMessage = true;
@@ -45,7 +54,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
   private areaBounds: L.LatLngBounds;
-  private areaFeatureCollection: GeoJSON.FeatureCollection;
+  private areaFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
   private baselineDataLayer: L.GeoJSON;
   private scenarioDataLayer: L.GeoJSON;
@@ -128,8 +137,8 @@ export class ScenariosMapComponent implements AfterViewInit {
 
     const gradient = new ColourGradient(this.baselineRange, colourPalette);
 
-    this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      gradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.baselineDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      gradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.baselineMap);
 
     const bounds = this.baselineDataLayer.getBounds();
@@ -148,8 +157,8 @@ export class ScenariosMapComponent implements AfterViewInit {
 
     const gradient = new ColourGradient(this.baselineRange, colourPalette);
 
-    this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      gradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.scenarioDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      gradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.scenarioMap);
 
     const bounds = this.scenarioDataLayer.getBounds();
@@ -196,17 +205,17 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.legend.addTo(this.scenarioMap);
   }
 
-  private getTooltip(feature: GeoJSON.Feature): string {
-    const props = this.getFeatProps(feature);
+  private getTooltip(feature: FEATURE_TYPE): string {
+    const props = feature.properties;
     return `
     <div>
-      Region:<b>${props.subregion_name}</b><br/>
-      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
-      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+      ${props.areaType}:<b>${props.areaName}</b><br/>
+      Absolute value: ${props.dietarySupply}${props.unit}<br/>
+      Threshold: ${props.deficientPercentage}%<br/>
     </div>`;
   }
 
-  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+  private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
     return L.geoJSON(this.areaFeatureCollection, {
       style: (feature) => ({
         fillColor: featureColourFunc(feature),
@@ -216,14 +225,10 @@ export class ScenariosMapComponent implements AfterViewInit {
         dashArray: '3',
         fillOpacity: 0.7,
       }),
-      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+      onEachFeature: (feature: FEATURE_TYPE, layer: UnknownLeafletFeatureLayerClass) => {
         layer.bindTooltip(this.getTooltip(feature));
       },
     });
-  }
-
-  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
-    return feat.properties as SubRegionDataItemFeatureProperties;
   }
 
   private changeColourRamp(colourPalette: ColourPalette): void {
@@ -236,13 +241,13 @@ export class ScenariosMapComponent implements AfterViewInit {
       this.scenarioMap.removeControl(this.legend);
     }
 
-    this.scenarioDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      colourGradient.getColour(this.getFeatProps(feat).mn_absolute),
-    ).addTo(this.scenarioMap);
-
-    this.baselineDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      colourGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.baselineDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      colourGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.baselineMap);
+
+    this.scenarioDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      colourGradient.getColour(feat.properties.dietarySupply),
+    ).addTo(this.scenarioMap);
 
     this.refreshLegend(colourGradient);
   }

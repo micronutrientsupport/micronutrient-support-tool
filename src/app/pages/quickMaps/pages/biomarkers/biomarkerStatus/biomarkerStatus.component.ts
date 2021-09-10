@@ -244,10 +244,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         }
         this.errorSrc.next(false);
       })
-      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 

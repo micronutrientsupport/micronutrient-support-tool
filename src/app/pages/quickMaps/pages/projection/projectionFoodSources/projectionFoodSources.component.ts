@@ -233,10 +233,13 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           this.initialiseGraph(stackedChartData);
           this.initialiseTable(tableData);
         })
-        .catch(() => this.errorSrc.next(true))
         .finally(() => {
           this.loadingSrc.next(false);
           this.cdr.detectChanges();
+        })
+        .catch((e) => {
+          this.errorSrc.next(true);
+          throw e;
         });
     }
   }

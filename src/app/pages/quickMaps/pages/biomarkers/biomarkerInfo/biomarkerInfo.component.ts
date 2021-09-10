@@ -185,6 +185,10 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       .finally(() => {
         this.cdr.detectChanges();
         this.loadingSrc.next(false);
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 
