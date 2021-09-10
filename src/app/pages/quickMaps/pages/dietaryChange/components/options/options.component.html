@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
+  <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     <mat-radio-group [(ngModel)]="locallySelectedMode" (change)="changeMode($event)">
       <mat-radio-button [value]="MODE_ENUM.COMPOSITION" title="Composition change">
