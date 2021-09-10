@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { CurrentDataService } from 'src/app/services/currentData.service';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';

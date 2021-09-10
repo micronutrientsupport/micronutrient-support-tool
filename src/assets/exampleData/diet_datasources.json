@@ -1,0 +1,16 @@
+[
+  {
+    "countryId": "MWI",
+    "micronutrientId": "Fe",
+    "consumptionDataType": "household",
+    "consumptionDataId": 1,
+    "consumptionDataName": "Fourth Integrated Household Survey (IHS4)",
+    "consumptionDataDescription": "No description available for this data source",
+    "consumptionDataMetadataId": null,
+    "compositionDataId": 1,
+    "compositionDataName": "Malawi",
+    "compositionDataDescription": "No description available for this data source",
+    "compositionDataMetadataId": null,
+    "displayName": "Dietary supply estimate (Fourth Integrated Household Survey (IHS4), Malawi FCT)"
+  }
+]

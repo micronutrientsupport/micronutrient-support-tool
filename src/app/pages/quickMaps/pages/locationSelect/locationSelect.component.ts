@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
-import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';

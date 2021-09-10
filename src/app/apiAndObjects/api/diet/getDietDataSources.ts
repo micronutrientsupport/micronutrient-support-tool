@@ -1,8 +1,9 @@
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
+import { HttpClient } from '@angular/common/http';
 
 export class GetDietDataSources extends CacheableEndpoint<
   Array<DietDataSource>,
@@ -24,7 +25,16 @@ export class GetDietDataSources extends CacheableEndpoint<
   }
 
   protected callMock(): Promise<DietDataSource[]> {
-    throw new Error('Method not implemented.');
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
+    return this.buildObjectsFromResponse(
+      DietDataSource,
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/diet_datasources.json').toPromise());
+        }, 1500);
+      }),
+    );
   }
 
   private processResponseData(

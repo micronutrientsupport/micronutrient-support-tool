@@ -1,6 +1,6 @@
 /* tslint:disable: no-string-literal */
-import { HttpHeaders } from '@angular/common/http';
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
@@ -38,7 +38,16 @@ export class GetMicronutrientAvailability extends CacheableEndpoint<
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected callMock(params?: GetMicronutrientAvailabilityParams): Promise<Array<OBJECT_TYPE>> {
-    throw new Error('Method not implemented.');
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
+    return this.buildObjectsFromResponse(
+      this.getObjectType(params.dataSource),
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/mn_availability.json').toPromise());
+        }, 1500);
+      }),
+    );
   }
 
   private getObjectType(

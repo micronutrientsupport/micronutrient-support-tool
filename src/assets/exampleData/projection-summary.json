@@ -1,0 +1,12 @@
+[
+  {
+    "country": "MWI",
+    "micronutrient": "Fe",
+    "scenario": "SSP2",
+    "recommended": "21.1283281307",
+    "referenceVal": "22.0636164383561644",
+    "referenceYear": "2010",
+    "intersectYear": "2005",
+    "difference": "4.43"
+  }
+]

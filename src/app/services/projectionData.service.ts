@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
-import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { ImpactScenarioDictionaryItem } from '../apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { FoodSourceGroup } from '../apiAndObjects/objects/enums/foodSourceGroup.enum';

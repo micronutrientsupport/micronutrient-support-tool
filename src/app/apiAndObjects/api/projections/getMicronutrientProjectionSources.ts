@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -44,9 +44,14 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/impact_commodity_aggregation.json').toPromise());
+          resolve(httpClient.get('/assets/exampleData/projection_commodities.json').toPromise());
         }, 1500);
-      }),
+      }).then((data: Array<Record<string, unknown>>) =>
+        data.map((item) => {
+          item.foodGroup = item.commodity;
+          return item;
+        }),
+      ),
     );
   }
 
