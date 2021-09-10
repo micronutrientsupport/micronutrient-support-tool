@@ -5,7 +5,6 @@ import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionari
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
-import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
@@ -25,19 +24,6 @@ export class DietDataService {
     dataSource: DietDataSource,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.diet.getTopFoods.call({
-      micronutrient,
-      dataSource,
-    });
-  }
-
-  // TODO: needs separate endpoints for data levels
-  public getDietaryAvailability(
-    country: CountryDictionaryItem,
-    micronutrient: MicronutrientDictionaryItem,
-    dataSource: DietDataSource,
-  ): Promise<SubRegionDataItem> {
-    return this.apiService.endpoints.diet.getDietaryAvailability.call({
-      country: country,
       micronutrient,
       dataSource,
     });

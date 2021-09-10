@@ -24,6 +24,7 @@ import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
+import { MnAvailibiltyItem } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -47,7 +48,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   // temp set to the change items to display something
   public modeDisplay: DietaryChangeMode;
   // public tempDisplay: ChangeItemsType;
-  public baselineData: SubRegionDataItem;
+  public baselineData: Array<MnAvailibiltyItem>;
   public scenarioData: SubRegionDataItem;
 
   private loadingCount = 0;
@@ -138,8 +139,8 @@ export class ComparisonCardComponent implements AfterViewInit {
     if (null != country && null != micronutrient && null != dietDataSource) {
       this.startLoading();
       this.dietDataService
-        .getDietaryAvailability(country, micronutrient, dietDataSource)
-        .then((data: SubRegionDataItem) => {
+        .getMicronutrientAvailability(country, micronutrient, dietDataSource)
+        .then((data: Array<MnAvailibiltyItem>) => {
           this.baselineData = data;
         })
         .finally(() => {
@@ -180,7 +181,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 }
 
 export interface DietaryChangeComparisonCardDialogData {
-  baselineData: SubRegionDataItem;
+  baselineData: Array<MnAvailibiltyItem>;
   scenarioData: SubRegionDataItem;
   selectedTab: number;
 }

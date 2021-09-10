@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryRegionDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DietarySource } from '../apiAndObjects/objects/dietarySource';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
 import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
@@ -17,19 +16,6 @@ export class CurrentDataService {
     //       micronutrients: [item],
     //     }).then(data => console.debug(data));
     //   });
-  }
-
-  // MOVE TO new section service when made live
-  public getDietarySources(
-    countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DietDataSource,
-  ): Promise<Array<DietarySource>> {
-    return this.apiService.endpoints.currentData.getDietarySources.call({
-      countryOrGroup,
-      micronutrients,
-      dataSource,
-    });
   }
 
   // MOVE TO new section service when made live

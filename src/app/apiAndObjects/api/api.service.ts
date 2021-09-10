@@ -8,7 +8,6 @@ import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryRegionDictionaryItem';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
-import { GetDietarySources } from './currentData/getDietarySources';
 import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
@@ -22,7 +21,6 @@ import { GetTopFood } from './diet/getTopFoods';
 import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
 import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 import { GetProjectionTotals } from './projections/getProjectionTotals';
-import { GetDietaryAvailability } from './diet/getDietaryAvailability';
 import { AgeGenderDictionaryItem } from '../objects/dictionaries/ageGenderDictionaryItem';
 import { GetDietDataSources } from './diet/getDietDataSources';
 import { GetBiomarkerDataSources } from './biomarker/getBiomarkerDataSources';
@@ -34,13 +32,11 @@ export class ApiService extends BaseApi {
 
   public readonly endpoints = {
     currentData: {
-      getDietarySources: new GetDietarySources(false),
       getHouseholdHistogramData: new GetHouseholdHistogramData(false),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
     },
     diet: {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
-      getDietaryAvailability: new GetDietaryAvailability(ApiService.USE_LIVE_API),
       getDataSources: new GetDietDataSources(ApiService.USE_LIVE_API),
       getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
     },
