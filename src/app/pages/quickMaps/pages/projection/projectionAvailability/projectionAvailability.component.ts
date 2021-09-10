@@ -125,6 +125,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
 
   private init(dataPromise: Promise<Array<ProjectedAvailability>>): void {
+    console.log('this.micronutrientId = ', this.micronutrientId);
     this.loadingSrc.next(true);
 
     void this.projectionDataService
