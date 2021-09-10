@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
+  <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     <div class="wideItem left-text">
       <div class="nation">
@@ -56,7 +56,7 @@
         'Business as usual' to reach target in &nbsp;
         <strong>{{(null == projectionsSummary?.intersectYear) ? '-' : projectionsSummary.intersectYear}}</strong>
         <i class="fas fa-question-circle margin-left"
-          matTooltip="Using moderate assumptions of economic and population growth, and no interventions, 
+          matTooltip="Using moderate assumptions of economic and population growth, and no interventions,
       per capita consumption of {{(quickMapsService.micronutrientObs | async).name}} is expected to reach recommended levels by {{(null == projectionsSummary?.intersectYear) ? '-' : projectionsSummary.intersectYear}}."
           style="color: grey;"></i>
       </span>
