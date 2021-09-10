@@ -3,7 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BiomarkerCharacteristicType, BiomarkerDataType, BiomarkerStatusData } from '../biomarkerStatus.component';
-import { StatusChartService } from '../statusChart/statusChart.service';
+
+import { BiomarkerStatusService } from '../biomarkerStatus.service';
 
 interface TableObject {
   region: string;
@@ -41,13 +42,13 @@ export class StatusTableComponent implements OnInit {
   public dataSource: MatTableDataSource<TableObject>;
   public totalSamples: number;
 
-  constructor(private data: StatusChartService) {}
+  constructor(private data: BiomarkerStatusService) {}
 
   ngOnInit(): void {
     this.data.currentMessage.subscribe((message) => (this.message = message));
   }
-  newMessage() {
-    this.data.changeMessage('new message send from table');
+  newMessage(): void {
+    this.data.changeMessage('new message sent from table');
   }
 
   private generateTable(data: Array<BiomarkerStatusData>) {

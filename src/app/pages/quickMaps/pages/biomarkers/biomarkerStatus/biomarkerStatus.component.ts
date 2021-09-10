@@ -7,6 +7,7 @@ import {
   Optional,
   Inject,
   ChangeDetectorRef,
+  OnInit,
 } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -26,6 +27,7 @@ import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
+import { BiomarkerStatusService } from './biomarkerStatus.service';
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -67,13 +69,13 @@ export interface BiomarkerCharacteristicType {
   styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BiomarkerStatusComponent implements AfterViewInit {
+export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('boxplot') boxPlot: ChartjsComponent;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
-
+  message: string;
   public title: string;
   public selectedTab: number;
 
@@ -130,9 +132,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
+    private data: BiomarkerStatusService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
+  ngOnInit(): void {}
+
   ngAfterViewInit(): void {
+    this.data.currentMessage.subscribe((message) => (this.message = message));
+  }
+  newMessage(): void {
+    this.data.changeMessage('new message sent from biomarker status');
+
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
     this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));

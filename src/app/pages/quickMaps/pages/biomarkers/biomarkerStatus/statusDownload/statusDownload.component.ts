@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { BiomarkerStatusService } from '../biomarkerStatus.service';
 import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -10,7 +11,7 @@ import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
   styleUrls: ['./statusDownload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusDownloadComponent implements AfterViewInit {
+export class StatusDownloadComponent implements OnInit {
   // public boxChartPNG: string;
   // public boxChartPDF: string;
   // public excessBarChartPNG: string;
@@ -23,6 +24,7 @@ export class StatusDownloadComponent implements AfterViewInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
   @Input() dataArray: Array<Exportable>;
+  message: string;
 
   public year = new Date().getFullYear();
   public date = new Date();
@@ -58,11 +60,16 @@ export class StatusDownloadComponent implements AfterViewInit {
     '\n' +
     '}';
 
-  constructor(private clipboard: Clipboard, private exportService: ExportService) {}
-
-  ngAfterViewInit(): void {}
+  constructor(
+    private data: BiomarkerStatusService,
+    private clipboard: Clipboard,
+    private exportService: ExportService,
+  ) {}
 
   exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
+  }
+  ngOnInit(): void {
+    this.data.currentMessage.subscribe((message) => (this.message = message));
   }
 }

@@ -7,7 +7,8 @@ import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { BiomarkerDataType } from '../biomarkerStatus.component';
-import { StatusChartService } from './statusChart.service';
+
+import { BiomarkerStatusService } from '../biomarkerStatus.service';
 
 @Component({
   selector: 'app-status-chart',
@@ -52,7 +53,7 @@ export class StatusChartComponent implements AfterViewInit {
 
   private outlierSet: any[] = [];
 
-  constructor(private qcService: QuickchartService, private data: StatusChartService) {}
+  constructor(private qcService: QuickchartService, private data: BiomarkerStatusService) {}
 
   ngAfterViewInit(): void {
     this.renderAllCharts();

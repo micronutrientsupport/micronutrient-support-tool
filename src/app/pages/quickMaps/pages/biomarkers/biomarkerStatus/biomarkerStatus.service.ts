@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class StatusChartService {
+export class BiomarkerStatusService {
   private messageSource = new BehaviorSubject<string>('default message');
   // eslint-disable-next-line @typescript-eslint/member-ordering
   currentMessage = this.messageSource.asObservable();
@@ -13,6 +13,3 @@ export class StatusChartService {
     this.messageSource.next(message);
   }
 }
-
-//create chart download service
-//on dropdown selection trigger function to send correct data

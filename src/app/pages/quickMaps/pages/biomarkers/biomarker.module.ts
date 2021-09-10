@@ -21,6 +21,7 @@ import { StatusTableComponent } from './biomarkerStatus/statusTable/statusTable.
 import { StatusChartComponent } from './biomarkerStatus/statusChart/statusChart.component';
 import { StatusDownloadComponent } from './biomarkerStatus/statusDownload/statusDownload.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+
 @NgModule({
   declarations: [
     BiomarkerComponent,
@@ -47,5 +48,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     RouterModule,
     ClipboardModule,
   ],
+  providers: [],
 })
 export class BiomarkerModule {}
