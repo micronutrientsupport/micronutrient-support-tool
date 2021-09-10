@@ -8,11 +8,12 @@ import { Interception } from 'cypress/types/net-stubbing';
 import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
 
 describe('Quick Map - Side Nav Tests', () => {
-  // it('checks page for a11y compliance', () => {
-  //   cy.visit('/quick-maps');
-  //   cy.injectAxe();
-  //   cy.checkA11y(null, null, cy.terminalLog);
-  // });
+  it('checks page for a11y compliance', () => {
+    cy.visit('/quick-maps');
+    cy.wait(4000);
+    cy.injectAxe();
+    cy.checkA11y(null, null, cy.terminalLog);
+  });
 
   it('side navigation loads all elements', () => {
     cy.visit('/quick-maps');
@@ -38,7 +39,7 @@ describe('Quick Map - Side Nav Tests', () => {
   });
 
   it('loads a list of single nations and populates the drop down with all api response', () => {
-    cy.intercept('GET', 'country*').as('getCountries');
+    cy.intercept('GET', 'countries').as('getCountries');
     cy.visit('/quick-maps');
     cy.wait('@getCountries').then((interception: Interception) => {
       assert.isNotNull(interception.response.body, 'API call has data');
@@ -50,7 +51,7 @@ describe('Quick Map - Side Nav Tests', () => {
   });
 
   it('loads Vitamin list and populates the drop down with all api response', () => {
-    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.intercept('GET', 'micronutrients').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
       assert.isNotNull(interception.response.body, 'API call has data');
@@ -64,7 +65,7 @@ describe('Quick Map - Side Nav Tests', () => {
   });
 
   it('loads Mineral list and populates the drop down with all api response', () => {
-    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.intercept('GET', 'micronutrients').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
       assert.isNotNull(interception.response.body, 'API call has data');
@@ -78,7 +79,7 @@ describe('Quick Map - Side Nav Tests', () => {
   });
 
   it('loads Other list and populates the drop down with all api response', () => {
-    cy.intercept('GET', 'micronutrient').as('getMicronutrients');
+    cy.intercept('GET', 'micronutrients').as('getMicronutrients');
     cy.visit('/quick-maps');
     cy.wait('@getMicronutrients').then((interception: Interception) => {
       assert.isNotNull(interception.response.body, 'API call has data');

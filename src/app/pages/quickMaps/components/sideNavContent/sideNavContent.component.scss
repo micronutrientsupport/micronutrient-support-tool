@@ -1,4 +1,4 @@
-@import "src/assets/scss/_colour";
+@import 'src/assets/scss/_colour';
 
 :host {
   display: flex;
@@ -20,7 +20,6 @@ form {
   transition: opacity 1s ease;
 
   & fieldset {
-
     border: none;
     background: #1d355712;
     border-radius: 2px;
@@ -49,7 +48,6 @@ form {
         }
 
         .map-button {
-
           line-height: 22px;
           padding: 2px;
           min-width: 22px;
@@ -69,21 +67,29 @@ form {
       }
     }
   }
-
 }
 
 i {
   margin: 0em 1em;
 }
 
+h1 {
+  font-size: 25px;
+}
+
 h2 {
   font-weight: 600;
+  font-size: 16px;
   margin-bottom: 0em;
 }
 
 h3 {
   color: $color_grey;
   margin: 0em;
+}
+
+#qmSideNavTitle {
+  margin-top: 20px;
 }
 
 .heading-row {
@@ -112,7 +118,6 @@ h3 {
     width: 100%;
     text-align: center;
   }
-
 }
 
 .footer-row {
@@ -130,7 +135,6 @@ h3 {
 }
 
 .slim-sidenav {
-
   //// opacity doesnt seem to be affected in form...
   & * {
     opacity: 0;
@@ -166,7 +170,6 @@ h3 {
     transition: transform 0.4s ease, translate 0.4s ease;
 
     & i {
-
       opacity: 1;
       display: block;
     }
@@ -184,7 +187,6 @@ mat-slide-toggle {
 }
 
 :host::ng-deep {
-
   & .mat-tooltip {
     font-size: 12px;
   }
@@ -203,14 +205,13 @@ mat-slide-toggle {
   }
 
   & .mat-slide-toggle.mat-primary.mat-checked {
-
     & .mat-slide-toggle-thumb {
       background: $color_blue_form;
     }
   }
 
   & .mat-slide-toggle-thumb:before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     border: 3px solid $color_blue_form;

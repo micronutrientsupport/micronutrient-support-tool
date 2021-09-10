@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-spinner *ngIf="loading" color="accent"></mat-spinner>
+  <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     <mat-radio-group [(ngModel)]="locallySelectedMode" (change)="changeMode($event)">
       <mat-radio-button [value]="MODE_ENUM.COMPOSITION" title="Composition change">
@@ -98,7 +98,7 @@
                 <mat-form-field *ngIf="!changeItem.updatingScenarioValue; else loadingBlock">
                   <input type="number" matInput [value]="changeItem.scenarioValue | number:'1.1-3'"
                     [disabled]="null == changeItem.currentValue"
-                    (change)="changeScenarioValueFromEvent(changeItem, $event)">
+                    (change)="changeScenarioValueFromEvent(changeItem, $event)" aria-label="Scenario value">
                 </mat-form-field>
 
               </div>
@@ -145,8 +145,8 @@
 
       </div>
       <span>
-        <button mat-raised-button [disabled]="addItemDisabled" (click)="addChangeItem()">
-          <mat-icon aria-hidden="false">add_circle_outline</mat-icon>
+        <button mat-raised-button [disabled]="addItemDisabled" (click)="addChangeItem()" aria-label="Add food item">
+          <mat-icon aria-label="Add food item">add_circle_outline</mat-icon>
           Add food Item
         </button>
       </span>
