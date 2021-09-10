@@ -155,10 +155,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             // show table and init paginator and sorter
             this.initialiseTable(filteredData);
           })
-          .catch(() => this.errorSrc.next(true))
           .finally(() => {
             this.loadingSrc.next(false);
             this.cdr.detectChanges();
+          })
+          .catch((e) => {
+            this.errorSrc.next(true);
+            throw e;
           });
       });
   }
