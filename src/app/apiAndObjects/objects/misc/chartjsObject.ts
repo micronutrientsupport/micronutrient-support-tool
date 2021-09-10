@@ -67,7 +67,7 @@ export interface ChartJSObject {
     annotation?: {
       annotations: Array<{
         type: string;
-        id: string;
+        id?: string;
         mode: string;
         scaleID: string;
         value: number; // data-value at which the line is drawn
