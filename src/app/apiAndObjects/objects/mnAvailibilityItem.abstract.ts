@@ -48,6 +48,7 @@ export abstract class MnAvailibiltyItem extends BaseObject implements Exportable
 
   public toFeature(): FEATURE_TYPE {
     return {
+      type: 'Feature',
       geometry: this.geometry,
       properties: {
         areaName: this.areaName,

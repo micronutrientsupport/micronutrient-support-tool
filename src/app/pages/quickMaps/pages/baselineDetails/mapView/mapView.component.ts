@@ -109,7 +109,7 @@ export class MapViewComponent implements AfterViewInit {
           if (null == this.colourPalette) {
             this.colourPalette = this.defaultPalette;
           }
-          this.changeColourRamp(this.colourPalette);
+          this.changeColourRamp();
         });
       });
 
@@ -181,13 +181,14 @@ export class MapViewComponent implements AfterViewInit {
           throw new Error('data error');
         }
         this.errorSrc.next(false);
+
+        // create featureCollection from data
         this.areaFeatureCollection = {
           type: 'FeatureCollection',
           features: data.map((item) => item.toFeature()),
         };
-
-        this.initialiseMapAbsolute(this.colourPalette);
-        this.initialiseMapThreshold(this.colourPalette);
+        this.initialiseMapAbsolute();
+        this.initialiseMapThreshold();
         this.areaBounds = this.absoluteDataLayer.getBounds();
 
         // reset visited
@@ -198,38 +199,20 @@ export class MapViewComponent implements AfterViewInit {
           this.triggerFitBounds(this.tabGroup.selectedIndex);
         }, 0);
       })
-      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         // this.cdr.detectChanges();
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
-  private changeColourRamp(colourPalette: ColourPalette): void {
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
-    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
-
-    this.absoluteMap.removeLayer(this.absoluteDataLayer);
-    this.thresholdMap.removeLayer(this.thresholdDataLayer);
-
-    if (null != this.absoluteLegend) {
-      this.absoluteMap.removeControl(this.absoluteLegend);
-    }
-    if (null != this.thresholdLegend) {
-      this.absoluteMap.removeControl(this.thresholdLegend);
-    }
-
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
-      absoluteGradient.getColour(feat.properties.dietarySupply),
-    ).addTo(this.absoluteMap);
-
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
-      thresholdGradient.getColour(feat.properties.deficientPercentage),
-    ).addTo(this.thresholdMap);
-
-    this.refreshAbsoluteLegend(absoluteGradient);
-    this.refreshThresholdLegend(thresholdGradient);
+  private changeColourRamp(): void {
+    this.initialiseMapAbsolute();
+    this.initialiseMapThreshold();
   }
 
   private refreshThresholdLegend(colourGradient: ColourGradient): void {
@@ -355,7 +338,7 @@ export class MapViewComponent implements AfterViewInit {
       .getMap();
   }
 
-  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
+  private initialiseMapAbsolute(): void {
     if (null != this.absoluteDataLayer) {
       this.absoluteMap.removeLayer(this.absoluteDataLayer);
     }
@@ -363,7 +346,7 @@ export class MapViewComponent implements AfterViewInit {
       this.absoluteMap.removeControl(this.absoluteLegend);
     }
 
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+    const absoluteGradient = new ColourGradient(this.absoluteRange, this.colourPalette);
 
     this.absoluteDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
       absoluteGradient.getColour(feat.properties.dietarySupply),
@@ -373,7 +356,7 @@ export class MapViewComponent implements AfterViewInit {
     this.refreshAbsoluteLegend(absoluteGradient);
   }
 
-  private initialiseMapThreshold(colourPalette: ColourPalette): void {
+  private initialiseMapThreshold(): void {
     if (null != this.thresholdDataLayer) {
       this.thresholdMap.removeLayer(this.thresholdDataLayer);
     }
@@ -381,7 +364,7 @@ export class MapViewComponent implements AfterViewInit {
       this.thresholdMap.removeControl(this.thresholdLegend);
     }
 
-    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+    const thresholdGradient = new ColourGradient(this.thresholdRange, this.colourPalette);
 
     this.thresholdDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
