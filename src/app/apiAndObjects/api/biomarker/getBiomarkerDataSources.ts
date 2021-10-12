@@ -1,9 +1,10 @@
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderDictionaryItem } from '../../objects/dictionaries/ageGenderDictionaryItem';
 import { BiomarkerDataSource } from '../../objects/biomarkerDataSource';
+import { HttpClient } from '@angular/common/http';
 
 export class GetBiomarkerDataSources extends CacheableEndpoint<
   Array<BiomarkerDataSource>,
@@ -26,9 +27,17 @@ export class GetBiomarkerDataSources extends CacheableEndpoint<
   }
 
   protected callMock(): Promise<BiomarkerDataSource[]> {
-    throw new Error('Method not implemented.');
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
+    return this.buildObjectsFromResponse(
+      BiomarkerDataSource,
+      // response after delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(httpClient.get('/assets/exampleData/biomarker_datasources.json').toPromise());
+        }, 1500);
+      }),
+    );
   }
-
   private processResponseData(
     data: Array<Record<string, unknown>>,
     params: GetBiomarkerDataSourcesParams,

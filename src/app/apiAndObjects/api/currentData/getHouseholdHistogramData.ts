@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { CountryDictionaryItem } from '../../objects/dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { HouseholdHistogramData } from '../../objects/householdHistogramData';

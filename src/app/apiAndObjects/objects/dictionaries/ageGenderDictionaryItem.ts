@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { Injector } from '@angular/core';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class AgeGenderDictionaryItem extends MapsDictionaryItem {
@@ -14,5 +16,13 @@ export class AgeGenderDictionaryItem extends MapsDictionaryItem {
     super(sourceObject, id, name, description);
 
     this.group = this._getString(AgeGenderDictionaryItem.KEYS.GROUP);
+  }
+
+  public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
+    const httpClient = injector.get<HttpClient>(HttpClient);
+    // return a single random element when specified
+    return httpClient.get('/assets/exampleData/age-gender-groups.json').toPromise() as Promise<
+      Array<Record<string, unknown>>
+    >;
   }
 }
