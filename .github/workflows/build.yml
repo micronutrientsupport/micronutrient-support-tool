@@ -1,4 +1,4 @@
-name: AngularPING Build
+name: AngularWHY Build
 on: pull_request
 jobs:
   build:
