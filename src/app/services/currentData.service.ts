@@ -4,7 +4,6 @@ import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/cou
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { HouseholdHistogramData } from '../apiAndObjects/objects/householdHistogramData';
-import { MonthlyFoodGroups } from '../apiAndObjects/objects/monthlyFoodGroups';
 
 @Injectable()
 export class CurrentDataService {
@@ -25,19 +24,6 @@ export class CurrentDataService {
     dataSource: DietDataSource,
   ): Promise<HouseholdHistogramData> {
     return this.apiService.endpoints.currentData.getHouseholdHistogramData.call({
-      countryOrGroup,
-      micronutrients,
-      dataSource,
-    });
-  }
-
-  // MOVE TO new section service when made live
-  public getMonthlyFoodGroups(
-    countryOrGroup: CountryDictionaryItem,
-    micronutrients: Array<MicronutrientDictionaryItem>,
-    dataSource: DietDataSource,
-  ): Promise<MonthlyFoodGroups> {
-    return this.apiService.endpoints.currentData.getMonthlyFoodGroups.call({
       countryOrGroup,
       micronutrients,
       dataSource,
