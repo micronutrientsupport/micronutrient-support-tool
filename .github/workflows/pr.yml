@@ -1,4 +1,4 @@
-name: PR Checks
+name: PR build and delpoy preview
 on:
   pull_request_target:
 jobs:
