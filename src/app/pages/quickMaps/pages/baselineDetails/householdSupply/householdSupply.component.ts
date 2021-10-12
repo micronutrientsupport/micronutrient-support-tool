@@ -99,32 +99,38 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private householdSummariesToSummarizedData(data: Array<DietaryHouseholdSummary>): SummarizedData {
-    const x = 50;
-    const overviewMap = new Map<number, number>();
-    data.forEach((householdSummary: DietaryHouseholdSummary) => {
-      // round UP to nearest x
-      const roundedValue = Math.ceil(householdSummary.dietarySupply / x) * x;
-      if (!overviewMap.has(roundedValue)) {
-        overviewMap.set(roundedValue, 0);
-      }
-      overviewMap.set(roundedValue, overviewMap.get(roundedValue) + 1);
-    });
+  private householdSummariesToSummarizedData(data: Array<DietaryHouseholdSummary>): null | SummarizedData {
+    // should this stepSize be worked out from the data to ensure only a fixed/max number of table rows/bars on the chart?
+    const stepSize = 50;
+    let summarizedData: SummarizedData = null;
 
-    // iterate through from min value to max in steps of x
-    const dataArray = new Array<DataFrequency>();
-    for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + x) {
-      dataArray.push({
-        value: i,
-        frequency: overviewMap.get(i) ?? 0, // fill in any missing frequencies with zero
+    if (data.length > 0) {
+      const overviewMap = new Map<number, number>();
+
+      data.forEach((householdSummary: DietaryHouseholdSummary) => {
+        // round UP to nearest x
+        const roundedValue = Math.ceil(householdSummary.dietarySupply / stepSize) * stepSize;
+        if (!overviewMap.has(roundedValue)) {
+          overviewMap.set(roundedValue, 0);
+        }
+        overviewMap.set(roundedValue, overviewMap.get(roundedValue) + 1);
       });
-    }
 
-    const returnValue: SummarizedData = {
-      data: dataArray,
-      threshold: data[0].deficientValue,
-    };
-    return returnValue;
+      // iterate through from min value to max in steps of x
+      const dataArray = new Array<DataFrequency>();
+      for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + stepSize) {
+        dataArray.push({
+          value: i,
+          frequency: overviewMap.get(i) ?? 0, // fill in any missing frequencies with zero
+        });
+      }
+
+      summarizedData = {
+        data: dataArray,
+        threshold: data[0].deficientValue,
+      };
+    }
+    return summarizedData;
   }
 
   private init(dataPromise: Promise<SummarizedData>): void {
