@@ -1,4 +1,4 @@
-name: PR build and delpoy preview
+name: Bing
 on:
   pull_request_target:
 jobs:
