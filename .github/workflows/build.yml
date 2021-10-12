@@ -1,4 +1,4 @@
-name: Angular Build
+name: AngularBING Build
 on: [push, pull_request_target]
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
           npm i
           npm run build:prod
 
-      - name: Deploy to netlify
+      - name: Deploy to netlifyBONG
         id: deploy-netlify
         if: github.event_name == 'pull_request_target'
         uses: netlify/actions/cli@master
