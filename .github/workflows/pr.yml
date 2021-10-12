@@ -1,6 +1,6 @@
-name: Angular Build Push
+name: PR Checks
 on:
-  push:
+  pull_request_target:
 jobs:
   build:
     runs-on: ubuntu-latest
