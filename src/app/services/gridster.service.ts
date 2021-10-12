@@ -60,9 +60,8 @@ export class GridsterService {
           );
         }
       });
-
-      return dashboard;
     }
+    return dashboard;
   }
 
   public resetItemPositionAndSize(

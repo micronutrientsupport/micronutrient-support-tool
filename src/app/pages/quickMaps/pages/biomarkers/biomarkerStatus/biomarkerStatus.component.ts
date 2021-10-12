@@ -14,7 +14,6 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { FormControl } from '@angular/forms';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -23,11 +22,13 @@ import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { MatMenu } from '@angular/material/menu';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { AgeGenderGroup } from 'src/app/apiAndObjects/objects/ageGenderGroup';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { BiomarkerStatusService } from './biomarkerStatus.service';
+import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { DietDataService } from 'src/app/services/dietData.service';
+
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -128,7 +129,7 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
     public quickMapsService: QuickMapsService,
     private http: HttpClient,
     private papa: Papa,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
@@ -155,7 +156,7 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
     );
 
     this.subscriptions.push(
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderGroup) => {
+      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
     );
@@ -166,16 +167,15 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
     this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
+      this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.init();
-        this.initMapData(
-          this.currentDataService.getSubRegionData(
-            this.quickMapsService.country,
-            this.quickMapsService.micronutrient,
-            this.quickMapsService.dataSource,
-            this.quickMapsService.dataLevel,
-          ),
-        );
+        // this.initMapData(
+        //   this.dietDataService.getDietaryAvailability(
+        //     this.quickMapsService.country,
+        //     this.quickMapsService.micronutrient,
+        //     this.quickMapsService.biomarkerDataSource,
+        //   ),
+        // );
       }),
     );
   }
@@ -269,10 +269,13 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
         }
         this.errorSrc.next(false);
       })
-      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 

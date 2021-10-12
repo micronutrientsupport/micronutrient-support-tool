@@ -2,6 +2,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MnAvailibiltyItem } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 
 interface TableObject {
@@ -23,7 +24,7 @@ export class ScenariosTableComponent implements OnInit {
     }
   }
 
-  @Input() set baselineData(data: SubRegionDataItem) {
+  @Input() set baselineData(data: Array<MnAvailibiltyItem>) {
     if (null != data) {
       this.baselineTableData = data;
       if (null != this.scenarioTableData) {
@@ -45,7 +46,7 @@ export class ScenariosTableComponent implements OnInit {
   public dataSource: MatTableDataSource<TableObject>;
   private sort: MatSort;
 
-  private baselineTableData: SubRegionDataItem;
+  private baselineTableData: Array<MnAvailibiltyItem>;
   private scenarioTableData: SubRegionDataItem;
 
   constructor() {}
@@ -57,13 +58,13 @@ export class ScenariosTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public createTableObjects(baseLineDetails: SubRegionDataItem, scenarioDetails: SubRegionDataItem): void {
+  public createTableObjects(baseLineDetails: Array<MnAvailibiltyItem>, scenarioDetails: SubRegionDataItem): void {
     const baselineTableObjects = new Array<TableObject>();
     const scenarioTableObjects = new Array<TableObject>();
-    baseLineDetails.geoJson.features.forEach((item) => {
+    baseLineDetails.forEach((item) => {
       const detail: TableObject = {
-        region: item.properties.subregion_name,
-        baselineSupply: item.properties.mn_absolute,
+        region: item.areaName,
+        baselineSupply: item.dietarySupply,
       };
       baselineTableObjects.push(detail);
     });

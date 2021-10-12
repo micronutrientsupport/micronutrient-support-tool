@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
-import { DataSource } from '../apiAndObjects/objects/dataSource';
 import { FoodDictionaryItem } from '../apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { CurrentConsumption } from '../apiAndObjects/objects/currentConsumption';
 import { CurrentComposition } from '../apiAndObjects/objects/currentComposition';
@@ -13,19 +12,20 @@ import {
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { CurrentValue } from '../apiAndObjects/objects/currentValue.interface';
+import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 
 @Injectable()
 export class ScenarioDataService {
   constructor(private apiService: ApiService) {}
 
-  public getCurrentComposition(foodItem: FoodDictionaryItem, dataSource: DataSource): Promise<CurrentComposition> {
+  public getCurrentComposition(foodItem: FoodDictionaryItem, dataSource: DietDataSource): Promise<CurrentComposition> {
     return this.apiService.endpoints.scenario.getCurrentComposition.call({
       dataSource,
       foodItem,
     });
   }
 
-  public getCurrentConsumption(foodItem: FoodDictionaryItem, dataSource: DataSource): Promise<CurrentConsumption> {
+  public getCurrentConsumption(foodItem: FoodDictionaryItem, dataSource: DietDataSource): Promise<CurrentConsumption> {
     return this.apiService.endpoints.scenario.getCurrentConsumption.call({
       dataSource,
       foodItem,
@@ -33,7 +33,7 @@ export class ScenarioDataService {
   }
 
   public getCurrentValue(
-    dataSource: DataSource,
+    dataSource: DietDataSource,
     mode: DietaryChangeMode,
     foodItem: FoodDictionaryItem,
   ): Promise<CurrentValue> {
@@ -46,7 +46,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeComposition(
-    dataSource: DataSource,
+    dataSource: DietDataSource,
     changeItems: Array<CompositionChangeItem>,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeComposition.call({
@@ -56,7 +56,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeConsumption(
-    dataSource: DataSource,
+    dataSource: DietDataSource,
     changeItems: Array<ConsumptionChangeItem>,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeConsumption.call({
@@ -66,7 +66,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeFoodItem(
-    dataSource: DataSource,
+    dataSource: DietDataSource,
     changeItems: Array<FoodItemChangeItem>,
   ): Promise<SubRegionDataItem> {
     return this.apiService.endpoints.scenario.getDietChangeFoodItem.call({
@@ -76,13 +76,13 @@ export class ScenarioDataService {
   }
 
   public getDietChange(
-    dataSource: DataSource,
+    dataSource: DietDataSource,
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
   ): Promise<SubRegionDataItem> {
     // console.debug('getDietChange', changeItems);
     type promiseFuncType = (
-      dataSourcey: DataSource,
+      dataSourcey: DietDataSource,
       changeItemsy: Array<DietaryChangeItem>,
     ) => Promise<SubRegionDataItem>;
     let promiseFunc: promiseFuncType;

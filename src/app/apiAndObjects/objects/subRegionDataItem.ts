@@ -1,5 +1,6 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { Exportable } from './exportable.interface';
+import { SubRegionDataItemFeatureProperties } from './subRegionDataItemFeatureProperties.interface';
 
 export class SubRegionDataItem extends BaseObject implements Exportable {
   public static readonly KEYS = {
@@ -11,11 +12,14 @@ export class SubRegionDataItem extends BaseObject implements Exportable {
     GEOMETRY: 'geojson',
   };
 
-  public readonly geoJson: GeoJSON.FeatureCollection;
+  public readonly geoJson: GeoJSON.FeatureCollection<GeoJSON.Geometry, SubRegionDataItemFeatureProperties>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-    this.geoJson = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.FeatureCollection;
+    this.geoJson = this._getValue(SubRegionDataItem.KEYS.GEOMETRY) as GeoJSON.FeatureCollection<
+      GeoJSON.Geometry,
+      SubRegionDataItemFeatureProperties
+    >;
   }
 
   public getExportObject(): Record<string, unknown> {

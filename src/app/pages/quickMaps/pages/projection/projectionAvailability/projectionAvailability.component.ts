@@ -11,7 +11,6 @@ import {
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -26,6 +25,10 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
+import { ProjectionDataService } from 'src/app/services/projectionData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -56,11 +59,12 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private data: Array<ProjectedAvailability>;
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
+  private baselineScenario: ImpactScenarioDictionaryItem;
   private subscriptions = new Array<Subscription>();
-  private readonly SCENARIO_ID = 'SSP2';
 
   constructor(
-    private currentDataService: CurrentDataService,
+    private dictionaryService: DictionaryService,
+    private projectionDataService: ProjectionDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
@@ -70,36 +74,49 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    // if displayed within a card component init interactions with the card
-    if (null != this.card) {
-      this.card.title = this.title;
-      this.card.showExpand = true;
-      this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+    // get baseline scenario
+    void this.dictionaryService.getDictionaries([DictionaryType.IMPACT_SCENARIOS]).then((dicts) => {
+      this.baselineScenario = dicts
+        .shift()
+        .getItems<ImpactScenarioDictionaryItem>()
+        .find((item) => item.isBaseline);
 
-      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-      this.subscriptions.push(
-        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
-          this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
-        }),
-      );
+      // if displayed within a card component init interactions with the card
+      if (null != this.card) {
+        this.card.title = this.title;
+        this.card.showExpand = true;
+        this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      // respond to parameter updates
-      this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
-          this.micronutrientName = this.quickMapsService.micronutrient.name;
-          this.micronutrientId = this.quickMapsService.micronutrient.id;
-          this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
-          this.card.title = this.title;
-          this.init(this.currentDataService.getProjectedAvailabilities());
-        }),
-      );
-    } else if (null != this.dialogData) {
-      // if displayed within a dialog use the data passed in
-      // this.init(Promise.resolve(this.dialogData.dataIn.data));
-      // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
-      // this.cdr.detectChanges();
-    }
+        this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+        this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+        this.subscriptions.push(
+          this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+            this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
+          }),
+        );
+
+        // respond to parameter updates
+        this.subscriptions.push(
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+            this.micronutrientName = this.quickMapsService.micronutrient.name;
+            this.micronutrientId = this.quickMapsService.micronutrient.id;
+            this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
+            this.card.title = this.title;
+            this.init(
+              this.projectionDataService.getProjectedAvailabilities(
+                this.quickMapsService.country,
+                this.quickMapsService.micronutrient,
+              ),
+            );
+          }),
+        );
+      } else if (null != this.dialogData) {
+        // if displayed within a dialog use the data passed in
+        // this.init(Promise.resolve(this.dialogData.dataIn.data));
+        // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+        // this.cdr.detectChanges();
+      }
+    });
   }
 
   public navigateToInfoTab(): void {
@@ -110,11 +127,11 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private init(dataPromise: Promise<Array<ProjectedAvailability>>): void {
     this.loadingSrc.next(true);
 
-    void this.currentDataService
-      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.SCENARIO_ID)
+    void this.projectionDataService
+      .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.baselineScenario)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
-        // console.log(summary.target);
+        // console.log(summary.recommended);
         this.projectionsSummary = summary;
 
         dataPromise
@@ -138,30 +155,33 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             // show table and init paginator and sorter
             this.initialiseTable(filteredData);
           })
-          .catch(() => this.errorSrc.next(true))
           .finally(() => {
             this.loadingSrc.next(false);
             this.cdr.detectChanges();
+          })
+          .catch((e) => {
+            this.errorSrc.next(true);
+            throw e;
           });
       });
   }
 
   private initialiseTable(data: Array<ProjectedAvailability>): void {
     this.columns = [
-      { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => `${element.country}` },
-      { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => `${element.year}` },
-      { columnDef: 'scenario', header: 'Scenario', cell: (element: ProjectedAvailability) => `${element.scenario}` },
+      { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => element.country },
+      { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => element.year },
+      { columnDef: 'scenario', header: 'Scenario', cell: (element: ProjectedAvailability) => element.scenario },
       {
-        columnDef: this.micronutrientId.toLowerCase(),
-        header: this.micronutrientId.toLowerCase() + ' Availability',
+        columnDef: this.micronutrientId,
+        header: this.micronutrientId + ' Availability',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        cell: (element: ProjectedAvailability) => element[this.micronutrientId.toLowerCase()],
+        cell: (element: ProjectedAvailability) => element.data[this.micronutrientId].value,
       },
       {
-        columnDef: this.micronutrientId.toLowerCase() + 'Diff',
+        columnDef: this.micronutrientId + 'Diff',
         header: '% Difference from previous year',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/restrict-plus-operands
-        cell: (element: ProjectedAvailability) => element[this.micronutrientId.toLowerCase() + 'Diff'],
+        cell: (element: ProjectedAvailability) => element.data[this.micronutrientId].diff,
       },
     ];
 
@@ -177,22 +197,23 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       type: 'line',
       data: {
         labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
+        // TODO: loop through scenarios from db so these three aren't hard-coded?
         datasets: [
           {
             label: 'SSP1',
-            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.c),
+            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.data[this.micronutrientId].value),
             fill: false,
             borderColor: '#6FCF97',
           },
           {
             label: 'SSP2',
-            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.c),
+            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.data[this.micronutrientId].value),
             fill: false,
             borderColor: '#9B51E0',
           },
           {
             label: 'SSP3',
-            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.c),
+            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.data[this.micronutrientId].value),
             fill: false,
             borderColor: '#FF3E7A',
           },
@@ -241,13 +262,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
               id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
-              value: this.projectionsSummary.target,
+              value: this.projectionsSummary.recommended,
               borderWidth: 2.0,
               borderColor: 'rgba(200,0,0,0.5)',
               label: {
                 enabled: true,
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                content: 'Threshold: ' + this.projectionsSummary.target,
+                content: 'Threshold: ' + this.projectionsSummary.recommended,
                 backgroundColor: 'rgba(200,0,0,0.8)',
               },
             },

@@ -1,7 +1,7 @@
 import { DictionaryType } from '../api/dictionaryType.enum';
 import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectRequiresDictionaries';
 import { Dictionary } from '../_lib_code/objects/dictionary';
-import { CountryDictionaryItem } from './dictionaries/countryRegionDictionaryItem';
+import { CountryDictionaryItem } from './dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from './dictionaries/micronutrientDictionaryItem';
 
 export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
@@ -9,7 +9,7 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
     COUNTRY: 'country',
     MICRONUTRIENT: 'micronutrient',
     SCENARIO: 'scenario',
-    TARGET: 'target',
+    RECOMMENDED: 'recommended',
     REFERENCE_VAL: 'referenceVal',
     REFERENCE_YEAR: 'referenceYear',
     INTERSECT_YEAR: 'intersectYear',
@@ -24,7 +24,7 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
   public readonly country: CountryDictionaryItem;
   public readonly micronutrient: MicronutrientDictionaryItem;
   public readonly scenario: string;
-  public readonly target: number;
+  public readonly recommended: number;
   public readonly referenceVal: number;
   public readonly referenceYear: number;
   public readonly intersectYear: string;
@@ -42,7 +42,7 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
       ProjectionsSummary.KEYS.MICRONUTRIENT,
     );
     this.scenario = this._getString(ProjectionsSummary.KEYS.SCENARIO);
-    this.target = this._getNumber(ProjectionsSummary.KEYS.TARGET);
+    this.recommended = this._getNumber(ProjectionsSummary.KEYS.RECOMMENDED);
     this.referenceVal = this._getNumber(ProjectionsSummary.KEYS.REFERENCE_VAL);
     this.referenceYear = this._getNumber(ProjectionsSummary.KEYS.REFERENCE_YEAR);
     this.intersectYear = this._getString(ProjectionsSummary.KEYS.INTERSECT_YEAR);

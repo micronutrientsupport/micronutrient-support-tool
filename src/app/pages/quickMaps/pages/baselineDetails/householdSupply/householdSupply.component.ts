@@ -77,12 +77,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
       // respond to parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
             this.currentDataService.getHouseholdHistogramData(
               this.quickMapsService.country,
               [this.quickMapsService.micronutrient],
-              this.quickMapsService.dataSource,
+              this.quickMapsService.dietDataSource,
             ),
           );
         }),
@@ -128,10 +128,13 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.initialiseGraph(data);
         this.csvDownloadData.push(data);
       })
-      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         this.cdr.detectChanges();
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 

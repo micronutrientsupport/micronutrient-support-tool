@@ -3,10 +3,13 @@ import { ChangeDetectionStrategy, Component, ChangeDetectorRef, Input } from '@a
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { Subscription } from 'rxjs';
 import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from '../../quickMaps.service';
+import { ProjectionDataService } from 'src/app/services/projectionData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 
 interface NameValue {
   name: string;
@@ -45,20 +48,29 @@ export class EstimateComponent {
 
   public ROUTES = AppRoutes;
 
-  private readonly SCENARIO_ID = 'SSP2';
+  private baselineScenario: ImpactScenarioDictionaryItem;
   private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     public route: ActivatedRoute,
-    private currentDataService: CurrentDataService,
+    private dictionaryService: DictionaryService,
+    private projectionDataService: ProjectionDataService,
   ) {
-    this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
-        this.updateProjectionSummary();
-      }),
-    );
+    // get baseline scenario
+    void this.dictionaryService.getDictionaries([DictionaryType.IMPACT_SCENARIOS]).then((dicts) => {
+      this.baselineScenario = dicts
+        .shift()
+        .getItems<ImpactScenarioDictionaryItem>()
+        .find((item) => item.isBaseline);
+
+      this.subscriptions.push(
+        this.quickMapsService.parameterChangedObs.subscribe(() => {
+          this.updateProjectionSummary();
+        }),
+      );
+    });
   }
 
   public calculate(): void {
@@ -67,10 +79,10 @@ export class EstimateComponent {
       this.currentEstimateCalc = null;
       this.differenceQuantity = null;
     } else {
-      const diferrenceQuantityOriginal = this.projectionsSummary.referenceVal - this.projectionsSummary.target;
+      const diferrenceQuantityOriginal = this.projectionsSummary.referenceVal - this.projectionsSummary.recommended;
       const totalMultiplier = this.massNameValue.value * this.timeScaleNameValue.value;
 
-      this.targetCalc = totalMultiplier * this.projectionsSummary.target;
+      this.targetCalc = totalMultiplier * this.projectionsSummary.recommended;
       this.currentEstimateCalc = totalMultiplier * this.projectionsSummary.referenceVal;
       this.differenceQuantity = totalMultiplier * diferrenceQuantityOriginal;
     }
@@ -78,8 +90,8 @@ export class EstimateComponent {
 
   private updateProjectionSummary(): void {
     this.loading = true;
-    void this.currentDataService
-      .getProjectionSummary(this.quickMapsService.country.id, this.quickMapsService.micronutrient, this.SCENARIO_ID)
+    void this.projectionDataService
+      .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.baselineScenario)
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
         this.projectionsSummary = summary;

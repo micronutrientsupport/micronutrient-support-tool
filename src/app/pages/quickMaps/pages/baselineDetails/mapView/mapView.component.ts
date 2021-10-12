@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import {
   Component,
   Input,
@@ -19,22 +21,31 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
-import { SubRegionDataItemFeatureProperties } from 'src/app/apiAndObjects/objects/subRegionDataItemFeatureProperties.interface';
 import { ColourGradient, ColourGradientObject } from '../../../components/colourObjects/colourGradient';
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
-
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
+import { SimpleMapScreenshoter } from 'leaflet-simple-map-screenshoter';
 export interface MapDataType {
   name: string;
   value: string;
 }
+import { DietDataService } from 'src/app/services/dietData.service';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import {
+  FEATURE_TYPE,
+  MnAvailibiltyItem,
+  MnAvailibiltyItemFeatureProperties,
+} from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
+import * as GeoJSON from 'geojson';
+import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
+
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -48,6 +59,8 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
 
+  public snapshot = document.getElementById('snapshot');
+  public readonly dataLevelEnum = DataLevel;
   public title = '';
   public selectedTab: number;
 
@@ -57,7 +70,8 @@ export class MapViewComponent implements AfterViewInit {
     { name: 'Absolute Values', value: 'absolute' },
     { name: 'Variation from Threshold', value: 'threshold' },
   ];
-  private data: SubRegionDataItem;
+  private data: Array<MnAvailibiltyItem>;
+  private subregiondata: SubRegionDataItem;
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
@@ -73,7 +87,7 @@ export class MapViewComponent implements AfterViewInit {
   private thresholdRange = [10, 20, 40, 60, 80, 99];
   private thresholdLegend: L.Control;
   private areaBounds: L.LatLngBounds;
-  private areaFeatureCollection: GeoJSON.FeatureCollection;
+  private areaFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -82,11 +96,15 @@ export class MapViewComponent implements AfterViewInit {
 
   private tabVisited = new Map<number, boolean>();
 
+  private simpleMapScreenshoterAbs: SimpleMapScreenshoter;
+  private simpleMapScreenshoterthres: SimpleMapScreenshoter;
+  private bla: SimpleMapScreenshoter = new SimpleMapScreenshoter({ hidden: true });
+
   constructor(
     private dialogService: DialogService,
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -96,9 +114,48 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
+  public downloadMap(): void {
+    this.bla
+      .takeScreen('image')
+      .then((blob: Blob) => {
+        // console.debug('blob', blob);
+        saveAs(blob, 'screenshot.png');
+      })
+      .catch((e) => {
+        alert(e.toString());
+      });
+  }
+
+  // //  trying to get leaflet-image to work with canvas
+  // public downloadMap(err, canvas): void {
+  //   const img = document.createElement('img');
+  //   const dimensions = this.absoluteMap.getSize();
+  //   img.width = dimensions.x;
+  //   img.height = dimensions.y;
+  //   img.src = canvas.toDataURL();
+  //   this.snapshot.innerHTML = '';
+  //   this.snapshot.appendChild(img);
+  // }
+
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+    // this.simpleMapScreenshoterAbs = L.simpleMapScreenshoter({hidden: true}).addTo(this.absoluteMap);
+    // this.simpleMapScreenshoter.addTo(this.thresholdMap);
+
+    // const bla: SimpleMapScreenshoter = L.simpleMapScreenshoter({ hidden: false });
+    // bla.addTo(this.absoluteMap);
+    // new SimpleMapScreenshoter({ hidden: true }).addTo(this.absoluteMap);
+
+    // const bla: SimpleMapScreenshoter =  new SimpleMapScreenshoter({ hidden: false }).addTo(this.absoluteMap);
+    // bla.takeScreen();
+
+    // test polygon
+    L.polygon([
+      [40, -74],
+      [51.503, -0.06],
+      [20, -20],
+    ]).addTo(this.absoluteMap);
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -113,7 +170,7 @@ export class MapViewComponent implements AfterViewInit {
           if (null == this.colourPalette) {
             this.colourPalette = this.defaultPalette;
           }
-          this.changeColourRamp(this.colourPalette);
+          this.changeColourRamp();
         });
       });
 
@@ -138,13 +195,12 @@ export class MapViewComponent implements AfterViewInit {
 
       // respond to parameter updates
       this.subscriptions.push(
-        this.quickMapsService.parameterChangedObs.subscribe(() => {
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
-            this.currentDataService.getSubRegionData(
+            this.dietDataService.getMicronutrientAvailability(
               this.quickMapsService.country,
               this.quickMapsService.micronutrient,
-              this.quickMapsService.dataSource,
-              this.quickMapsService.dataLevel,
+              this.quickMapsService.dietDataSource,
             ),
           );
         }),
@@ -179,19 +235,44 @@ export class MapViewComponent implements AfterViewInit {
   public setDataSelection(dataType: MapDataType): void {
     this.selectedDataType = dataType;
   }
-  private init(dataPromise: Promise<SubRegionDataItem>): void {
+
+  public exportMapImage(): void {
+    // const node = document.getElementById('threshold-map');
+    domtoimage.toBlob(this.thresholdMap, { innerHeight: 400, innerWidth: 400 }).then((blob) => {
+      window.saveAs(blob, 'my-node.png');
+    });
+
+    // domtoimage
+    //   .toPng(this.thresholdMap, { innerHeight: 400, innerWidth: 400 })
+    //   .then((dataUrl) => {
+    //     const img = new Image();
+    //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    //     img.src = dataUrl;
+    //     document.body.appendChild(img);
+    //     console.debug('img', img);
+    //   })
+    //   .catch((error) => {
+    //     console.error('oops, something went wrong!', error);
+    //   });
+  }
+
+  private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: SubRegionDataItem) => {
+      .then((data: Array<MnAvailibiltyItem>) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
         this.errorSrc.next(false);
-        this.areaFeatureCollection = data.geoJson;
 
-        this.initialiseMapAbsolute(this.colourPalette);
-        this.initialiseMapThreshold(this.colourPalette);
+        // create featureCollection from data
+        this.areaFeatureCollection = {
+          type: 'FeatureCollection',
+          features: data.map((item) => item.toFeature()),
+        };
+        this.initialiseMapAbsolute();
+        this.initialiseMapThreshold();
         this.areaBounds = this.absoluteDataLayer.getBounds();
 
         // reset visited
@@ -202,43 +283,20 @@ export class MapViewComponent implements AfterViewInit {
           this.triggerFitBounds(this.tabGroup.selectedIndex);
         }, 0);
       })
-      .catch(() => this.errorSrc.next(true))
       .finally(() => {
         this.loadingSrc.next(false);
         // this.cdr.detectChanges();
+      })
+      .catch((e) => {
+        this.errorSrc.next(true);
+        throw e;
       });
   }
 
-  private getFeatProps(feat: GeoJSON.Feature): SubRegionDataItemFeatureProperties {
-    // console.debug(feat.properties);
-    return feat.properties as SubRegionDataItemFeatureProperties;
-  }
-
   // will need to define colour gradient as argument for this function and refactor other functions to allow for changing the gradients.
-  private changeColourRamp(colourPalette: ColourPalette): void {
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
-    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
-
-    this.absoluteMap.removeLayer(this.absoluteDataLayer);
-    this.thresholdMap.removeLayer(this.thresholdDataLayer);
-
-    if (null != this.absoluteLegend) {
-      this.absoluteMap.removeControl(this.absoluteLegend);
-    }
-    if (null != this.thresholdLegend) {
-      this.absoluteMap.removeControl(this.thresholdLegend);
-    }
-
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
-    ).addTo(this.absoluteMap);
-
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
-    ).addTo(this.thresholdMap);
-
-    this.refreshAbsoluteLegend(absoluteGradient);
-    this.refreshThresholdLegend(thresholdGradient);
+  private changeColourRamp(): void {
+    this.initialiseMapAbsolute();
+    this.initialiseMapThreshold();
   }
 
   private refreshThresholdLegend(colourGradient: ColourGradient): void {
@@ -315,33 +373,35 @@ export class MapViewComponent implements AfterViewInit {
     };
 
     this.absoluteLegend.addTo(this.absoluteMap);
+    this.bla.addTo(this.absoluteMap);
   }
 
   private triggerFitBounds(tabIndex: number): void {
     this.tabVisited.set(tabIndex, true);
-    switch (tabIndex) {
-      case 0:
-        this.absoluteMap.fitBounds(this.areaBounds);
-        break;
-      case 1:
-        this.thresholdMap.fitBounds(this.areaBounds);
-        break;
+
+    if (this.areaBounds.isValid()) {
+      (0 === tabIndex ? this.absoluteMap : this.thresholdMap).fitBounds(this.areaBounds);
     }
   }
 
-  private getTooltip(feature: GeoJSON.Feature): string {
-    const props = this.getFeatProps(feature);
+  // TODO: reword
+  // <aggregationAreaType>: <aggregationAreaName>
+  // Dietary Availability (AFE): <dietarySupply><unit> per day
+  // Prevalence of deficiency (EAR): <deficientPercentage> of sample households (<deficientCount>/<household_count)
+  //
+  // what about when data level is country??
+  private getTooltip(feature: FEATURE_TYPE): string {
+    const props = feature.properties;
     return `
     <div>
-      Region:<b>${props.subregion_name}</b><br/>
-      Absolute value: ${props.mn_absolute}${props.mn_absolute_unit}<br/>
-      Threshold: ${props.mn_threshold}${props.mn_threshold_unit}<br/>
+      ${props.areaType}:<b>${props.areaName}</b><br/>
+      Absolute value: ${props.dietarySupply}${props.unit}<br/>
+      Threshold: ${props.deficientPercentage}%<br/>
     </div>`;
   }
-
-  private createGeoJsonLayer(featureColourFunc: (feature: GeoJSON.Feature) => string): L.GeoJSON {
+  private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
     return L.geoJSON(this.areaFeatureCollection, {
-      style: (feature) => ({
+      style: (feature: FEATURE_TYPE) => ({
         fillColor: featureColourFunc(feature),
         weight: 2,
         opacity: 1,
@@ -349,7 +409,7 @@ export class MapViewComponent implements AfterViewInit {
         dashArray: '3',
         fillOpacity: 0.7,
       }),
-      onEachFeature: (feature: GeoJSON.Feature, layer: UnknownLeafletFeatureLayerClass) => {
+      onEachFeature: (feature: FEATURE_TYPE, layer: UnknownLeafletFeatureLayerClass) => {
         layer.bindTooltip(this.getTooltip(feature));
       },
     });
@@ -363,7 +423,7 @@ export class MapViewComponent implements AfterViewInit {
       .getMap();
   }
 
-  private initialiseMapAbsolute(colourPalette: ColourPalette): void {
+  private initialiseMapAbsolute(): void {
     if (null != this.absoluteDataLayer) {
       this.absoluteMap.removeLayer(this.absoluteDataLayer);
     }
@@ -371,17 +431,17 @@ export class MapViewComponent implements AfterViewInit {
       this.absoluteMap.removeControl(this.absoluteLegend);
     }
 
-    const absoluteGradient = new ColourGradient(this.absoluteRange, colourPalette);
+    const absoluteGradient = new ColourGradient(this.absoluteRange, this.colourPalette);
 
-    this.absoluteDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
-      absoluteGradient.getColour(this.getFeatProps(feat).mn_absolute),
+    this.absoluteDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+      absoluteGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.absoluteMap);
     // console.debug('absolute', this.absoluteDataLayer);
 
     this.refreshAbsoluteLegend(absoluteGradient);
   }
 
-  private initialiseMapThreshold(colourPalette: ColourPalette): void {
+  private initialiseMapThreshold(): void {
     if (null != this.thresholdDataLayer) {
       this.thresholdMap.removeLayer(this.thresholdDataLayer);
     }
@@ -389,11 +449,11 @@ export class MapViewComponent implements AfterViewInit {
       this.thresholdMap.removeControl(this.thresholdLegend);
     }
 
-    const thresholdGradient = new ColourGradient(this.thresholdRange, colourPalette);
+    const thresholdGradient = new ColourGradient(this.thresholdRange, this.colourPalette);
 
-    this.thresholdDataLayer = this.createGeoJsonLayer((feat: GeoJSON.Feature) =>
+    this.thresholdDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
       // this.getThresholdColourRange(feat.properties.mnThreshold, this.ColourObject.type),
-      thresholdGradient.getColour(this.getFeatProps(feat).mn_threshold),
+      thresholdGradient.getColour(feat.properties.deficientPercentage),
     ).addTo(this.thresholdMap);
     // console.debug('threshold', this.thresholdDataLayer);
 
@@ -411,6 +471,6 @@ export class MapViewComponent implements AfterViewInit {
 
 export interface MapViewDialogData {
   title: string;
-  data: SubRegionDataItem;
+  data: Array<MnAvailibiltyItem>;
   selectedTab: number;
 }

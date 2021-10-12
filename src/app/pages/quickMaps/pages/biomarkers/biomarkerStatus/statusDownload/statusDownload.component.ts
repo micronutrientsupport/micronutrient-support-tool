@@ -12,14 +12,11 @@ import { BiomarkerDataType, BiomarkerMediaType } from '../biomarkerStatus.compon
   styleUrls: ['./statusDownload.component.scss'],
 })
 export class StatusDownloadComponent implements OnInit {
-  // public boxChartPNG: string;
-  // public boxChartPDF: string;
-  // public excessBarChartPNG: string;
-  // public excessBarChartPDF: string;
-  // public deficiencyBarChartPNG: string;
-  // public deficiencyBarChartPDF: string;
-  // public combinedBarChartPNG: string;
-  // public combinedBarChartPDF: string;
+  @Input() set biomarkerData(micronutrientName: string) {
+    if (null != micronutrientName) {
+      this.micronutirentName = micronutrientName;
+    }
+  }
   @Input() set selectedDataType(dataType: BiomarkerDataType) {
     if (null != dataType) {
       this.selectedDataOption = dataType.value;
@@ -37,6 +34,15 @@ export class StatusDownloadComponent implements OnInit {
   message: string;
   public selectedDataOption;
   public selectedMediaOption;
+  public micronutirentName: string;
+  // public boxChartPNG: string;
+  // public boxChartPDF: string;
+  // public excessBarChartPNG: string;
+  // public excessBarChartPDF: string;
+  // public deficiencyBarChartPNG: string;
+  // public deficiencyBarChartPDF: string;
+  // public combinedBarChartPNG: string;
+  // public combinedBarChartPDF: string;
 
   public year = new Date().getFullYear();
   public date = new Date();

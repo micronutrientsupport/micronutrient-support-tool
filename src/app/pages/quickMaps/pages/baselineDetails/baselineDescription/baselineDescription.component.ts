@@ -4,10 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { MiscApiService } from 'src/app/services/miscApi.service';
-import { ImpactScenario } from 'src/app/apiAndObjects/objects/impactScenario';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-base-desc',
@@ -22,27 +19,16 @@ export class BaselineDescriptionComponent implements OnInit {
   public readonly DATA_LEVEL = DataLevel;
   public loading = false;
   public error = false;
-  public currentImpactScenario: ImpactScenario;
 
   constructor(
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private dialogService: DialogService,
-    private miscApiService: MiscApiService,
   ) {}
 
-  ngOnInit(): void {
-    void this.miscApiService.getImpactScenarios().then((result: Array<ImpactScenario>) => {
-      this.currentImpactScenario = result.find((o) => o.isBaseline === true);
-      this.cdr.markForCheck();
-    });
-  }
+  ngOnInit(): void {}
 
   public openBaselineDescriptionDialog(): void {
     void this.dialogService.openBaselineDescriptionDialog();
-  }
-
-  public setDataLevel(event: MatSelectChange): void {
-    this.quickMapsService.setDataLevel(event.value);
   }
 }

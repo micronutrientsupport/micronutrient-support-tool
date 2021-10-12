@@ -5,7 +5,7 @@ export class LeafletMapHelper {
   private map: L.Map;
 
   public createMap(mapElement: HTMLElement): this {
-    this.map = L.map(mapElement, { zoomControl: false }).setView([6.6194073, 20.9367017], 3);
+    this.map = L.map(mapElement, { preferCanvas: true, zoomControl: false }).setView([6.6194073, 20.9367017], 3);
     return this;
   }
 

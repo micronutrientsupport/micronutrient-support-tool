@@ -1,0 +1,1622 @@
+[
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": "4172.4990000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": "874.2270000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": "501.1510000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2005,
+    "value": "298.7950000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2005,
+    "value": "260.4740000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2005,
+    "value": "1762.6680000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": "4225.4300000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": "895.9450000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": "513.9150000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2010,
+    "value": "318.0810000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2010,
+    "value": "274.4270000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2010,
+    "value": "1825.4220000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": "4245.8590000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": "893.3270000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": "515.1490000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2015,
+    "value": "324.7960000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2015,
+    "value": "278.3260000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2015,
+    "value": "1860.5600000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": "4263.1960000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": "900.1030000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": "519.1360000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2020,
+    "value": "341.3260000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2020,
+    "value": "287.7570000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2020,
+    "value": "1943.5770000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": "4247.3280000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": "919.4400000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": "517.4690000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2025,
+    "value": "365.2430000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2025,
+    "value": "302.7730000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2025,
+    "value": "2074.4320000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": "4237.0370000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": "939.4060000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": "519.3430000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2030,
+    "value": "394.3100000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Beans",
+    "year": 2030,
+    "value": "322.3880000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2030,
+    "value": "2248.5360000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": "4216.4830000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": "952.1310000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": "516.3150000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2035,
+    "value": "421.9290000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Plantains",
+    "year": 2035,
+    "value": "364.0360000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2035,
+    "value": "2434.1820000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": "4188.5580000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": "956.4130000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": "512.9360000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2040,
+    "value": "445.7660000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Plantains",
+    "year": 2040,
+    "value": "421.7400000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2040,
+    "value": "2633.5850000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": "4144.7500000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": "956.9150000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": "505.7570000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Plantains",
+    "year": 2045,
+    "value": "485.1530000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2045,
+    "value": "464.4130000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2045,
+    "value": "2856.6670000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": "4095.5200000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": "950.6700000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Plantains",
+    "year": 2050,
+    "value": "557.5080000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": "499.4700000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Wheat",
+    "year": 2050,
+    "value": "478.1660000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP1",
+    "commodity": "Other",
+    "year": 2050,
+    "value": "3101.2580000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": "4172.4990000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": "874.2270000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": "501.1510000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2005,
+    "value": "298.7950000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2005,
+    "value": "260.4740000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2005,
+    "value": "1762.6680000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": "4225.4300000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": "895.9450000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": "513.9150000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2010,
+    "value": "318.0810000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2010,
+    "value": "274.4270000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2010,
+    "value": "1825.4220000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": "4246.2890000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": "891.8420000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": "513.4490000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2015,
+    "value": "324.1610000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2015,
+    "value": "278.0430000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2015,
+    "value": "1856.6040000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": "4258.2980000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": "894.3410000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": "514.4980000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2020,
+    "value": "337.1400000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2020,
+    "value": "285.8520000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2020,
+    "value": "1924.1280000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": "4229.8780000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": "906.2350000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": "509.2770000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2025,
+    "value": "352.3580000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2025,
+    "value": "296.4670000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2025,
+    "value": "2015.5590000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": "4204.4930000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": "917.0860000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": "507.4640000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2030,
+    "value": "368.1330000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2030,
+    "value": "308.5470000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2030,
+    "value": "2119.6750000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": "4170.8490000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": "922.2190000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": "502.0810000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2035,
+    "value": "380.7050000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Beans",
+    "year": 2035,
+    "value": "320.5080000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2035,
+    "value": "2227.9560000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": "4135.8100000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": "922.7130000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": "497.4980000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2040,
+    "value": "391.4000000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Plantains",
+    "year": 2040,
+    "value": "341.5680000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2040,
+    "value": "2341.8190000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": "4090.9040000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": "921.7730000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": "489.4630000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2045,
+    "value": "399.9530000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Plantains",
+    "year": 2045,
+    "value": "374.1120000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2045,
+    "value": "2463.1290000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": "4045.0220000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": "916.8870000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": "482.6330000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Plantains",
+    "year": 2050,
+    "value": "412.2030000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Wheat",
+    "year": 2050,
+    "value": "406.6310000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP2",
+    "commodity": "Other",
+    "year": 2050,
+    "value": "2601.1120000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2005,
+    "value": "4172.4990000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2005,
+    "value": "874.2270000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2005,
+    "value": "501.1510000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2005,
+    "value": "298.7950000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2005,
+    "value": "260.4740000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2005,
+    "value": "1762.6680000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2010,
+    "value": "4225.4300000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2010,
+    "value": "895.9450000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2010,
+    "value": "513.9150000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2010,
+    "value": "318.0810000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2010,
+    "value": "274.4270000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2010,
+    "value": "1825.4220000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2015,
+    "value": "4247.9840000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2015,
+    "value": "891.3180000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2015,
+    "value": "512.1910000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2015,
+    "value": "323.8640000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2015,
+    "value": "277.8460000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2015,
+    "value": "1853.8440000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2020,
+    "value": "4261.2790000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2020,
+    "value": "892.4660000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2020,
+    "value": "511.1440000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2020,
+    "value": "335.5210000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2020,
+    "value": "284.9870000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2020,
+    "value": "1914.2860000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2025,
+    "value": "4228.2000000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2025,
+    "value": "901.0000000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2025,
+    "value": "502.9120000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2025,
+    "value": "345.7250000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2025,
+    "value": "292.8570000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2025,
+    "value": "1981.3970000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2030,
+    "value": "4198.0100000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2030,
+    "value": "907.5630000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2030,
+    "value": "497.6520000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2030,
+    "value": "353.8420000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2030,
+    "value": "300.3480000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2030,
+    "value": "2044.2830000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2035,
+    "value": "4160.5390000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2035,
+    "value": "909.3880000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2035,
+    "value": "489.6650000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2035,
+    "value": "357.7910000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2035,
+    "value": "306.2850000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2035,
+    "value": "2097.4380000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2040,
+    "value": "4124.3320000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2040,
+    "value": "908.4410000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2040,
+    "value": "483.1350000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2040,
+    "value": "360.0920000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2040,
+    "value": "313.0350000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2040,
+    "value": "2152.3650000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2045,
+    "value": "4081.2490000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2045,
+    "value": "907.1500000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2045,
+    "value": "473.4060000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2045,
+    "value": "360.8640000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2045,
+    "value": "320.9460000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2045,
+    "value": "2212.4610000000",
+    "rank": "6"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Maize",
+    "year": 2050,
+    "value": "4040.0920000000",
+    "rank": "1"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Potato",
+    "year": 2050,
+    "value": "903.8450000000",
+    "rank": "2"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Cassava",
+    "year": 2050,
+    "value": "465.3130000000",
+    "rank": "3"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Wheat",
+    "year": 2050,
+    "value": "360.6650000000",
+    "rank": "4"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Beans",
+    "year": 2050,
+    "value": "330.0630000000",
+    "rank": "5"
+  },
+  {
+    "nutrient": "Fe",
+    "country": "MWI",
+    "scenario": "SSP3",
+    "commodity": "Other",
+    "year": 2050,
+    "value": "2281.4660000000",
+    "rank": "6"
+  }
+]
