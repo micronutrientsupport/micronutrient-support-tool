@@ -9,6 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2.3.4
+        with: ref
 
       - name: Cache node modules
         uses: actions/cache@v2.1.6
@@ -35,7 +36,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           PR: preview${{ github.event.number }}
         with:
-          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
+          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR} --skip-functions-cache --debug=true
 
       - name: Netlify Preview URL
         uses: micronutrientsupport/comment-on-pr@master
