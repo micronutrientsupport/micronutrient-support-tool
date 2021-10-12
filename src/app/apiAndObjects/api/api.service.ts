@@ -7,7 +7,6 @@ import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
-import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
 import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
@@ -33,9 +32,6 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    currentData: {
-      getHouseholdHistogramData: new GetHouseholdHistogramData(false),
-    },
     diet: {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDietDataSources(ApiService.USE_LIVE_API),
