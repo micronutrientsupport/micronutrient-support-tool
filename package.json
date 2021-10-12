@@ -105,12 +105,12 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "ng-packagr": "^11.2.4",
-    "prettier": "2.3.2",
+    "prettier": "2.4.1",
     "ts-loader": "8.0.17",
     "ts-node": "~10.2.1",
     "tslib": "^2.2.0",
     "typescript": "~4.1.6",
-    "utf-8-validate": "^5.0.5",
+    "utf-8-validate": "^5.0.6",
     "webpack-bundle-analyzer": "^4.4.1"
   }
 }
