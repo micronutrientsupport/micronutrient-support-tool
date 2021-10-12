@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BiomarkerStatusService } from '../biomarkerStatus.service';
 import { ExportService } from 'src/app/services/export.service';
 
-import { Clipboard } from '@angular/cdk/clipboard';
+// import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
+import { BiomarkerDataType, BiomarkerMediaType } from '../biomarkerStatus.component';
 
 @Component({
   selector: 'app-status-download',
   templateUrl: './statusDownload.component.html',
   styleUrls: ['./statusDownload.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusDownloadComponent implements OnInit {
   // public boxChartPNG: string;
@@ -20,11 +20,23 @@ export class StatusDownloadComponent implements OnInit {
   // public deficiencyBarChartPDF: string;
   // public combinedBarChartPNG: string;
   // public combinedBarChartPDF: string;
-
+  @Input() set selectedDataType(dataType: BiomarkerDataType) {
+    if (null != dataType) {
+      this.selectedDataOption = dataType.value;
+    }
+  }
+  @Input() set selectedMediaType(mediaType: BiomarkerMediaType) {
+    if (null != mediaType) {
+      this.selectedMediaOption = mediaType.value;
+    }
+  }
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
   @Input() dataArray: Array<Exportable>;
+
   message: string;
+  public selectedDataOption;
+  public selectedMediaOption;
 
   public year = new Date().getFullYear();
   public date = new Date();
@@ -61,15 +73,15 @@ export class StatusDownloadComponent implements OnInit {
     '}';
 
   constructor(
-    private data: BiomarkerStatusService,
-    private clipboard: Clipboard,
     private exportService: ExportService,
-  ) {}
+    private data: BiomarkerStatusService, // private clipboard: Clipboard,
+  ) {
+    this.data.currentMessage.subscribe((message) => (this.message = message));
+  }
+
+  ngOnInit(): void {}
 
   exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
-  }
-  ngOnInit(): void {
-    this.data.currentMessage.subscribe((message) => (this.message = message));
   }
 }
