@@ -112,9 +112,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         );
       } else if (null != this.dialogData) {
         // if displayed within a dialog use the data passed in
-        // this.init(Promise.resolve(this.dialogData.dataIn.data));
-        // this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
-        // this.cdr.detectChanges();
+        this.init(Promise.resolve(this.dialogData.dataIn.data));
+        this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+        this.cdr.detectChanges();
       }
     });
   }
