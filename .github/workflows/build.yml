@@ -1,4 +1,4 @@
-name: AngularWHY Build
+name: AngularWHY2 Build
 on: pull_request
 jobs:
   build:
