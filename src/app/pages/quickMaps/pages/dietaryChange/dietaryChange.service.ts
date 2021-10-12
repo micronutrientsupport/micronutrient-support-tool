@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class DietaryChangeService {
 
   // private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector, private currentDataService: CurrentDataService) {
+  constructor(injector: Injector) {
     // this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init

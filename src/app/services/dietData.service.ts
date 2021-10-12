@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { DietaryHouseholdSummary } from '../apiAndObjects/objects/dietaryHouseholdSummary';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
@@ -61,6 +62,18 @@ export class DietDataService {
     dataSource: DietDataSource,
   ): Promise<Array<MonthlyFoodGroup>> {
     return this.apiService.endpoints.diet.getMonthlyFoodGroups.call({
+      country,
+      micronutrient,
+      dataSource,
+    });
+  }
+
+  public getHouseholdSummaries(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    dataSource: DietDataSource,
+  ): Promise<Array<DietaryHouseholdSummary>> {
+    return this.apiService.endpoints.diet.getNationalSummary.call({
       country,
       micronutrient,
       dataSource,
