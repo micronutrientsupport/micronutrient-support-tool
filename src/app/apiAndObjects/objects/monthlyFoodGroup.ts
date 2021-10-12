@@ -1,3 +1,4 @@
+import { DictionaryType } from '../api/dictionaryType.enum';
 import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectRequiresDictionaries';
 import { Exportable } from './exportable.interface';
 import { Month } from './month';
@@ -13,10 +14,12 @@ export class MonthlyFoodGroup extends BaseObjectRequiresDictionaries implements 
     COMPOSITION_DATA_ID: 'compositionDataId',
   };
 
+  public static readonly requiredDictionaryTypes: Array<DictionaryType> = [DictionaryType.FOOD_GROUPS];
+
   public readonly percentageConsumed: number;
   public readonly dietarySupply: number;
   public readonly month: Month;
-  public readonly group: string;
+  public readonly foodGroup: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -24,6 +27,7 @@ export class MonthlyFoodGroup extends BaseObjectRequiresDictionaries implements 
     this.percentageConsumed = this._getNumber(MonthlyFoodGroup.KEYS.PERCENTAGE_MN_CONSUMED);
     this.dietarySupply = this._getNumber(MonthlyFoodGroup.KEYS.DIETARY_SUPPLY);
     this.month = new Month(this._getNumber(MonthlyFoodGroup.KEYS.MONTH_CONSUMED_INDEX));
+    this.foodGroup = this._getDictionaryItem(DictionaryType.FOOD_GROUPS, MonthlyFoodGroup.KEYS.FOOD_GROUP_ID);
   }
 
   public getExportObject(): Record<string, unknown> {
