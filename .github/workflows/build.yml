@@ -1,5 +1,5 @@
-name: AngularBING Build
-on: [push, pull_request_target]
+name: AngularPING Build
+on: pull_request_target
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,9 +28,9 @@ jobs:
           npm i
           npm run build:prod
 
-      - name: Deploy to netlifyBONG
+      - name: Deploy to netlifyBONG2
         id: deploy-netlify
-        if: github.event_name == 'pull_request_target'
+        # if: github.event_name == 'pull_request_target'
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
 
       - name: Netlify Preview URL
         uses: micronutrientsupport/comment-on-pr@master
-        if: github.event_name == 'pull_request_target'
+        # if: github.event_name == 'pull_request_target'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
