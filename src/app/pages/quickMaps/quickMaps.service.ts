@@ -9,6 +9,8 @@ import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Injectable()
 export class QuickMapsService {
@@ -70,6 +72,7 @@ export class QuickMapsService {
     injector: Injector,
     private dietDataService: DietDataService,
     private biomarkerDataService: BiomarkerDataService,
+    private dictionaryService: DictionaryService,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
@@ -79,7 +82,16 @@ export class QuickMapsService {
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
-      this.quickMapsParameters.getAgeGenderGroup().then((ageGenderGroup) => this.setAgeGenderGroup(ageGenderGroup)),
+      this.quickMapsParameters.getAgeGenderGroup().then((ageGenderGroupFromParams) =>
+        (null != ageGenderGroupFromParams
+          ? // use one from params
+            Promise.resolve(ageGenderGroupFromParams)
+          : // get default from dictionary
+            this.dictionaryService
+              .getDictionary(DictionaryType.AGE_GENDER_GROUPS)
+              .then((dict) => dict.getItems<AgeGenderDictionaryItem>().find((item) => item.isDefault))
+        ).then((ageGenderGroup) => this.setAgeGenderGroup(ageGenderGroup)),
+      ),
     ])
       .then(() => this.setInitialDataSources(this.country, this.measure, this.micronutrient, this.ageGenderGroup))
       .then(() => {
