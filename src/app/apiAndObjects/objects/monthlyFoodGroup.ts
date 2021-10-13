@@ -1,5 +1,6 @@
 import { DictionaryType } from '../api/dictionaryType.enum';
 import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectRequiresDictionaries';
+import { Dictionary } from '../_lib_code/objects/dictionary';
 import { DictionaryItem } from '../_lib_code/objects/dictionaryItem.interface';
 import { Exportable } from './exportable.interface';
 import { Month } from './month';
@@ -23,13 +24,14 @@ export class MonthlyFoodGroup extends BaseObjectRequiresDictionaries implements 
   public readonly foodGroup: DictionaryItem;
   public readonly foodGroupId: string; // temporary, until food group dict live
 
-  protected constructor(sourceObject?: Record<string, unknown>) {
-    super(sourceObject);
+  protected constructor(sourceObject?: Record<string, unknown>, dictionaries?: Array<Dictionary>) {
+    super(sourceObject, dictionaries);
 
     this.percentageConsumed = this._getNumber(MonthlyFoodGroup.KEYS.PERCENTAGE_MN_CONSUMED);
     this.dietarySupply = this._getNumber(MonthlyFoodGroup.KEYS.DIETARY_SUPPLY);
     this.month = new Month(this._getNumber(MonthlyFoodGroup.KEYS.MONTH_CONSUMED_INDEX));
-    this.foodGroup = this._getDictionaryItem(DictionaryType.FOOD_GROUPS, MonthlyFoodGroup.KEYS.FOOD_GROUP_ID);
+    // enable when  food group dict live
+    // this.foodGroup = this._getDictionaryItem(DictionaryType.FOOD_GROUPS, MonthlyFoodGroup.KEYS.FOOD_GROUP_ID);
 
     this.foodGroupId = this._getString(MonthlyFoodGroup.KEYS.FOOD_GROUP_ID);
   }
