@@ -9,8 +9,9 @@
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
         <div class="heading">
-          <h2>Projected {{ micronutrientName | lowercase }} availability to 2050</h2>
-          <h4>The data shows the projected {{ micronutrientName | lowercase }} availability per capita per day</h4>
+          <h2>Projected {{ (quickMapsService.micronutrientObs | async)?.name | lowercase }} availability to 2050</h2>
+          <h4>The data shows the projected {{ (quickMapsService.micronutrientObs | async)?.name | lowercase }}
+            availability per capita per day</h4>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>
 
@@ -45,7 +46,7 @@
   </mat-tab-group>
 </ng-template>
 
-<ng-container *ngIf="(null != dialogData) else componentTemplate">
+<ng-container *ngIf="null != dialogData; else componentTemplate">
   <app-base-dialog [data]="dialogData" [title]="title">
     <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
   </app-base-dialog>

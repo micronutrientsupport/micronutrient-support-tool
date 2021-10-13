@@ -315,7 +315,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
