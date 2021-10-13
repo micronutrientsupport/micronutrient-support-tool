@@ -5,6 +5,7 @@ import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionari
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
+import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
 
 @Injectable()
@@ -51,6 +52,18 @@ export class DietDataService {
       country,
       micronutrient,
       singleOptionOnly,
+    });
+  }
+
+  public getMonthlyFoodGroups(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    dataSource: DietDataSource,
+  ): Promise<Array<MonthlyFoodGroup>> {
+    return this.apiService.endpoints.diet.getMonthlyFoodGroups.call({
+      country,
+      micronutrient,
+      dataSource,
     });
   }
 }

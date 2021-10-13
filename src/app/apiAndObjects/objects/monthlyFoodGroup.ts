@@ -1,44 +1,33 @@
+import { DictionaryType } from '../api/dictionaryType.enum';
+import { BaseObjectRequiresDictionaries } from '../_lib_code/objects/baseObjectRequiresDictionaries';
 import { Exportable } from './exportable.interface';
+import { Month } from './month';
 
-export class MonthlyFoodGroup implements Exportable {
-  constructor(
-    public readonly month: string,
-    public readonly monthIndex: number,
-    public readonly supplyTotal: number,
-    public readonly supplyUnit: string,
-    public readonly cerealGrainsPerc: number,
-    public readonly tubersPerc: number,
-    public readonly nutsPerc: number,
-    public readonly vegetablesPerc: number,
-    public readonly meatPerc: number,
-    public readonly fruitPerc: number,
-    public readonly dairyPerc: number,
-    public readonly fatPerc: number,
-    public readonly miscPerc: number,
-    public readonly unitPerc: number,
-  ) {}
+export class MonthlyFoodGroup extends BaseObjectRequiresDictionaries implements Exportable {
+  public static readonly KEYS = {
+    PERCENTAGE_MN_CONSUMED: 'percentageMnConsumed',
+    MICRONUTRIENT_ID: 'micronutrientId',
+    DIETARY_SUPPLY: 'dietarySupply',
+    MONTH_CONSUMED_INDEX: 'monthConsumed',
+    FOOD_GROUP_ID: 'foodGroupId',
+    CONSUMPTION_DATA_ID: 'consumptionDataId',
+    COMPOSITION_DATA_ID: 'compositionDataId',
+  };
 
-  public static makeFromObject(month: string, monthIndex: number, obj: Record<string, unknown>): MonthlyFoodGroup {
-    return new MonthlyFoodGroup(
-      this.uppercaseFirst(month),
-      monthIndex,
-      obj.mn_supply_total as number,
-      obj.mn_supply_unit as string,
-      obj.mn_cereal_grains_perc as number,
-      obj.mn_tubers_perc as number,
-      obj.mn_nuts_perc as number,
-      obj.mn_vegetables_perc as number,
-      obj.mn_meat_perc as number,
-      obj.mn_fruit_perc as number,
-      obj.mn_dairy_perc as number,
-      obj.mn_fat_perc as number,
-      obj.mn_misc_perc as number,
-      obj.mn_unit_perc as number,
-    );
-  }
+  public static readonly requiredDictionaryTypes: Array<DictionaryType> = [DictionaryType.FOOD_GROUPS];
 
-  private static uppercaseFirst(value: string): string {
-    return typeof value !== 'string' ? '' : value.charAt(0).toUpperCase() + value.slice(1);
+  public readonly percentageConsumed: number;
+  public readonly dietarySupply: number;
+  public readonly month: Month;
+  public readonly foodGroup: string;
+
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
+
+    this.percentageConsumed = this._getNumber(MonthlyFoodGroup.KEYS.PERCENTAGE_MN_CONSUMED);
+    this.dietarySupply = this._getNumber(MonthlyFoodGroup.KEYS.DIETARY_SUPPLY);
+    this.month = new Month(this._getNumber(MonthlyFoodGroup.KEYS.MONTH_CONSUMED_INDEX));
+    this.foodGroup = this._getDictionaryItem(DictionaryType.FOOD_GROUPS, MonthlyFoodGroup.KEYS.FOOD_GROUP_ID);
   }
 
   public getExportObject(): Record<string, unknown> {

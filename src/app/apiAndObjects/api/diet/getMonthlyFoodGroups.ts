@@ -3,31 +3,33 @@ import { HttpClient } from '@angular/common/http';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
-import { MonthlyFoodGroups } from '../../objects/monthlyFoodGroups';
+import { MonthlyFoodGroup } from '../../objects/monthlyFoodGroup';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetMonthlyFoodGroups extends CacheableEndpoint<MonthlyFoodGroups, GetMonthlyFoodGroupsParams> {
+export class GetMonthlyFoodGroups extends CacheableEndpoint<
+  Array<MonthlyFoodGroup>,
+  GetMonthlyFoodGroupsParams,
+  MonthlyFoodGroup
+> {
   protected getCacheKey(params: GetMonthlyFoodGroupsParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): // params: GetMonthlyFoodGroupsParams,
-  Promise<MonthlyFoodGroups> {
-    throw new Error('Method not implemented.');
-    // const callResponsePromise = this.apiCaller.doCall('', RequestMethod.GET, {
-    //   'country-or-group-id': params.countryOrGroupId,
-    //   'micronutrient-id': params.micronutrientId,
-    //   'poulationGroup-id': params.poulationGroupId,
-    // });
+  protected callLive(params: GetMonthlyFoodGroupsParams): Promise<Array<MonthlyFoodGroup>> {
+    const callResponsePromise = this.apiCaller.doCall(['diet', 'household', 'monthly'], RequestMethod.GET, {
+      micronutrientId: params.micronutrient.id,
+      compositionDataId: params.dataSource.compositionDataId,
+      consumptionDataId: params.dataSource.consumptionDataId,
+    });
 
-    // return this.buildObjectFromResponse(MonthlyFoodGroups, callResponsePromise);
+    return this.buildObjectsFromResponse(MonthlyFoodGroup, callResponsePromise);
   }
 
-  protected callMock(): // params: GetMonthlyFoodGroupsParams,
-  Promise<MonthlyFoodGroups> {
+  protected callMock(): Promise<Array<MonthlyFoodGroup>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
-    return this.buildObjectFromResponse(
-      MonthlyFoodGroups,
+    return this.buildObjectsFromResponse(
+      MonthlyFoodGroup,
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
@@ -37,7 +39,7 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<MonthlyFoodGroups, G
         if (null != data) {
           // change something so that the display changes a little
           // eslint-disable-next-line @typescript-eslint/dot-notation
-          data.jan['mn_cereal_grains_perc'] = Math.floor(Math.random() * 40);
+          data[0][MonthlyFoodGroup.KEYS.PERCENTAGE_MN_CONSUMED] = Math.floor(Math.random() * 40);
         }
         return data;
       }),
@@ -46,7 +48,7 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<MonthlyFoodGroups, G
 }
 
 export interface GetMonthlyFoodGroupsParams {
-  countryOrGroup: CountryDictionaryItem;
-  micronutrients: Array<MicronutrientDictionaryItem>;
+  country: CountryDictionaryItem;
+  micronutrient: MicronutrientDictionaryItem;
   dataSource: DietDataSource;
 }
