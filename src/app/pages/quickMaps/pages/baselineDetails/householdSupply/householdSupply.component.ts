@@ -120,7 +120,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       const dataArray = new Array<DataFrequency>();
       for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + stepSize) {
         dataArray.push({
-          rangeMin: i - stepSize,
+          rangeMin: 0 === i ? 0 : i - stepSize,
           rangeMax: i,
           frequency: overviewMap.get(i) ?? 0, // fill in any missing frequencies with zero
         });
