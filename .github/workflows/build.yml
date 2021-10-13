@@ -1,5 +1,5 @@
 name: Angular Build
-on: [pull_request_target]
+on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
 
       - name: Deploy to netlify
         id: deploy-netlify
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Netlify Preview URL
         uses: micronutrientsupport/comment-on-pr@master
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
