@@ -78,9 +78,13 @@ export class FoodItemsComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService.getTopFoods(this.quickMapsService.micronutrient, this.quickMapsService.dietDataSource),
-          );
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+          }
         }),
         this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;

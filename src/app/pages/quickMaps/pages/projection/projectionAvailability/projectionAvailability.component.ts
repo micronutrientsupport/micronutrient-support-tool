@@ -102,12 +102,14 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             this.micronutrientId = this.quickMapsService.micronutrient.id;
             this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
             this.card.title = this.title;
-            this.init(
-              this.projectionDataService.getProjectedAvailabilities(
-                this.quickMapsService.country,
-                this.quickMapsService.micronutrient,
-              ),
-            );
+
+            const country = this.quickMapsService.country;
+            const micronutrient = this.quickMapsService.micronutrient;
+
+            //  only if all set
+            if (null != country && null != micronutrient) {
+              this.init(this.projectionDataService.getProjectedAvailabilities(country, micronutrient));
+            }
           }),
         );
       } else if (null != this.dialogData) {
