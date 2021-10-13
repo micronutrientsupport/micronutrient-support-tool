@@ -219,7 +219,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'vLine',
               mode: 'vertical',
               scaleID: 'x-axis-0',
               value: data.threshold, // data-value at which the line is drawn

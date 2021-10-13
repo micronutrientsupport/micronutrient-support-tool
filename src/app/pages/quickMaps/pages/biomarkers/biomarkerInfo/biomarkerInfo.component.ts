@@ -298,7 +298,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'vertical',
               scaleID: 'x-axis-0',
               value: this.defThreshold,

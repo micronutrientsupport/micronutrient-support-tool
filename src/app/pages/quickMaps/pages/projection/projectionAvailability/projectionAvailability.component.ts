@@ -147,9 +147,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             );
             this.errorSrc.next(false);
             this.chartData = null;
-            // force change detection to:
-            // remove chart before re-setting it to stop js error
-            this.cdr.detectChanges();
+
             this.initialiseGraph(filteredData);
 
             // show table and init paginator and sorter
@@ -259,7 +257,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.projectionsSummary.recommended,
@@ -276,7 +273,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
       },
     };
-
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
