@@ -41,7 +41,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['value', 'frequency'];
+  public displayedColumns = ['rangeMax', 'frequency'];
   public dataSource = new MatTableDataSource<DataFrequency>();
 
   public csvDownloadData = new Array<DataFrequency>();
@@ -120,7 +120,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       const dataArray = new Array<DataFrequency>();
       for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + stepSize) {
         dataArray.push({
-          value: i,
+          rangeMin: i - stepSize,
+          rangeMax: i,
           frequency: overviewMap.get(i) ?? 0, // fill in any missing frequencies with zero
         });
       }
@@ -170,7 +171,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        labels: data.data.map((item) => item.value),
+        labels: data.data.map((item) => item.rangeMax),
         datasets: [
           {
             label: 'Frequency',
@@ -250,7 +251,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 }
 
 interface DataFrequency {
-  value: number;
+  rangeMin: number;
+  rangeMax: number;
   frequency: number;
 }
 
