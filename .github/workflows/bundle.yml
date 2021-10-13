@@ -1,5 +1,5 @@
 name: Analyse Bundle
-on: pull_request_target
+on: pull_request
 jobs:
   build-head:
     name: "Build Current Branch"
