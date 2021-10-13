@@ -1,5 +1,5 @@
-name: Angular Build
-on: [push, pull_request_target]
+name: Deploy Staging
+on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +17,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2.4.1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: npm install and npm run build
         run: |
           npm i
@@ -28,18 +30,18 @@ jobs:
 
       - name: Deploy to netlify
         id: deploy-netlify
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           PR: preview${{ github.event.number }}
         with:
-          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR}
+          args: deploy --dir=dist/micronutrient-support-tool --alias ${PR} --debug
 
       - name: Netlify Preview URL
         uses: micronutrientsupport/comment-on-pr@master
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
