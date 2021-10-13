@@ -81,7 +81,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.card.title = `${this.quickMapsService.micronutrient.name} comparison - ${this.quickMapsService.ageGenderGroup.name}`;
+          this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
         }),
       );
       // respond to quickmaps parameter updates
