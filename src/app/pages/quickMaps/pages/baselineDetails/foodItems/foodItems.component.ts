@@ -44,7 +44,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['foodName', 'value'];
+  public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
 
@@ -78,9 +78,13 @@ export class FoodItemsComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService.getTopFoods(this.quickMapsService.micronutrient, this.quickMapsService.dietDataSource),
-          );
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+          }
         }),
         this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
@@ -138,8 +142,8 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             tree: data,
-            key: 'value',
-            groups: ['foodName'],
+            key: 'dailyMnContribution',
+            groups: ['foodGroupName'],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',

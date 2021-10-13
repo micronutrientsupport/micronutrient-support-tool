@@ -7,7 +7,6 @@ import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/mi
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 
@@ -21,7 +20,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private currentDataService: CurrentDataService,
     injector: Injector,
     private dialogService: DialogService,
   ) {
