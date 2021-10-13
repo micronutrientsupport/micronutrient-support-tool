@@ -10,9 +10,12 @@
     <mat-tab label="Household Data">
       <div class="bmgf-maps-nice-scrollbar">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-          <ng-container matColumnDef="bin">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bin</th>
-            <td mat-cell *matCellDef="let element">{{ element.bin }}</td>
+          <ng-container matColumnDef="rangeMax">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+            <td mat-cell *matCellDef="let element">
+              {{ (element.rangeMin === element.rangeMax)
+              ? element.rangeMin : element.rangeMin + " - " + element.rangeMax}}
+            </td>
           </ng-container>
           <ng-container matColumnDef="frequency">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Frequency</th>
