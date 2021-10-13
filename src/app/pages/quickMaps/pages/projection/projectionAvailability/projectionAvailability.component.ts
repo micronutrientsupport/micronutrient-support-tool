@@ -166,7 +166,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
 
   private initialiseTable(data: Array<ProjectedAvailability>): void {
-    console.log('initialiseProjTable: ', data);
     this.columns = [
       { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => element.country },
       { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => element.year },
