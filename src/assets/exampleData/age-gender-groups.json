@@ -1,7 +1,7 @@
 [
-  { "groupId": "MEN", "supraGroup": "Adult", "groupName": "Men" },
-  { "groupId": "PREG", "supraGroup": "Adult", "groupName": "Pregnant Women" },
-  { "groupId": "PSC", "supraGroup": "Children", "groupName": "Pre School Children" },
-  { "groupId": "SAC", "supraGroup": "Children", "groupName": "School Age Children" },
-  { "groupId": "WRA", "supraGroup": "Adult", "groupName": "Women of reproductive age" }
+  { "groupId": "MEN", "supraGroup": "Adult", "groupName": "Men", "isDefault": false },
+  { "groupId": "PREG", "supraGroup": "Adult", "groupName": "Pregnant Women", "isDefault": false },
+  { "groupId": "PSC", "supraGroup": "Children", "groupName": "Pre School Children", "isDefault": false },
+  { "groupId": "SAC", "supraGroup": "Children", "groupName": "School Age Children", "isDefault": false },
+  { "groupId": "WRA", "supraGroup": "Adult", "groupName": "Women of reproductive age", "isDefault": true }
 ]
