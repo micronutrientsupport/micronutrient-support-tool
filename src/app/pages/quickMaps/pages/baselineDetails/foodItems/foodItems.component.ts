@@ -44,7 +44,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['foodName', 'value'];
+  public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
 
@@ -142,8 +142,8 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             tree: data,
-            key: 'value',
-            groups: ['foodName'],
+            key: 'dailyMnContribution',
+            groups: ['foodGroupName'],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',

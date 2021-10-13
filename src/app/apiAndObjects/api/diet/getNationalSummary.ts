@@ -35,11 +35,11 @@ export class GetNationalSummary extends CacheableEndpoint<
         setTimeout(() => {
           resolve(httpClient.get('/assets/exampleData/national_summary.json').toPromise());
         }, 1500);
-      }).then((data: Record<string, unknown>) => {
+      }).then((data: Array<Record<string, unknown>>) => {
         if (null != data) {
           // change something so that the display changes a little (multiply by 0.8 to 0.9)
           // eslint-disable-next-line @typescript-eslint/dot-notation
-          data[0][DietaryHouseholdSummary.KEYS.DEFICIENT_VALUE] *= Math.random() * 0.1 + 0.8;
+          (data[0][DietaryHouseholdSummary.KEYS.DEFICIENT_VALUE] as number) *= Math.random() * 0.1 + 0.8;
         }
         return data;
       }),
