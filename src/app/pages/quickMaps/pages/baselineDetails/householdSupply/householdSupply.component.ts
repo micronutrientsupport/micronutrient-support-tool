@@ -35,7 +35,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
 
-  public title = 'National overview';
+  public title = 'Household apparent micronutrient intake at national scale - histogram';
   public selectedTab: number;
 
   public chartData: ChartJSObject;
@@ -197,7 +197,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: `${this.quickMapsService.micronutrient.name} in ${this.quickMapsService.micronutrient.unit}/capita/day`,
+                labelString: `${this.quickMapsService.micronutrient.name} in ${this.quickMapsService.micronutrient.unit}/AFE/day`,
               },
               display: true,
               id: 'x-axis-0',
