@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
+import ColorHash from 'color-hash-ts';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -26,6 +27,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
+import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -47,6 +49,9 @@ export class FoodItemsComponent implements AfterViewInit {
   public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
+
+  private existingMicronutrient: MicronutrientDictionaryItem;
+  private existingDietDataSource: DietDataSource;
 
   private data: Array<TopFoodSource>;
 
@@ -83,7 +88,11 @@ export class FoodItemsComponent implements AfterViewInit {
 
           //  only if all set
           if (null != micronutrient && null != dietDataSource) {
-            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+            if (this.existingMicronutrient !== micronutrient && this.existingDietDataSource !== dietDataSource) {
+              this.existingMicronutrient = micronutrient;
+              this.existingDietDataSource = dietDataSource;
+              this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+            }
           }
         }),
         this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -149,7 +158,20 @@ export class FoodItemsComponent implements AfterViewInit {
             fontFamily: 'Quicksand',
             fontSize: 12,
             fontStyle: 'normal',
-            backgroundColor: '#703aa3',
+            backgroundColor: (result: ChartData) => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              const index = result['dataIndex'];
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartData: ChartDataSets = result['dataset']['data'];
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartDataAtCurrentIndex = groupedChartData[index];
+              let colourCode = '';
+              if (groupedChartDataAtCurrentIndex) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                colourCode = this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+              }
+              return this.genColorHex(colourCode);
+            },
           },
         ],
       },
@@ -179,7 +201,6 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
-
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
@@ -192,6 +213,11 @@ export class FoodItemsComponent implements AfterViewInit {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 }
 
