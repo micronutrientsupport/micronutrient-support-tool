@@ -177,7 +177,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             label: 'Frequency',
             data: data.data.map((item) => item.frequency),
             borderColor: '#ff6384',
-            backgroundColor: '#ff6384',
+            backgroundColor: () => '#ff6384',
             fill: true,
           },
         ],
