@@ -71,9 +71,9 @@ export class OptionsComponent {
         throw err;
       });
     this.subscriptions.push(
-      dietaryChangeService.modeObs.subscribe((mode) => {
-        this.modeChanged(mode);
-      }),
+        dietaryChangeService.modeObs.subscribe((mode) => {
+          this.modeChanged(mode);
+        }),
     );
   }
 
@@ -113,7 +113,12 @@ export class OptionsComponent {
       default:
         changeItem.updatingScenarioValue = true;
         void this.scenarioDataService
-          .getCurrentValue(this.quickMapsService.dietDataSource, this.dietaryChangeService.mode, selectedFoodItem)
+          .getCurrentValue(
+            this.quickMapsService.dietDataSource,
+            this.dietaryChangeService.mode,
+            selectedFoodItem,
+            this.quickMapsService.micronutrient,
+          )
           .then((currentValue: CurrentValue) => {
             changeItem.currentValue = currentValue.value;
             this.changeScenarioValue(changeItem, currentValue.value);
@@ -197,7 +202,11 @@ export class OptionsComponent {
         foodChangeItem.currentComposition = null;
         foodChangeItem.updatingComposition = true;
         void this.scenarioDataService
-          .getCurrentComposition(foodChangeItem.foodItem, this.quickMapsService.dietDataSource)
+          .getCurrentComposition(
+            foodChangeItem.foodItem,
+            this.quickMapsService.dietDataSource,
+            this.quickMapsService.micronutrient,
+          )
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.currentComposition = currentComposition;
             this.cdr.markForCheck();
@@ -208,7 +217,11 @@ export class OptionsComponent {
         foodChangeItem.scenarioComposition = null;
         foodChangeItem.updatingScenarioComposition = true;
         void this.scenarioDataService
-          .getCurrentComposition(foodChangeItem.scenarioValue, this.quickMapsService.dietDataSource)
+          .getCurrentComposition(
+            foodChangeItem.scenarioValue,
+            this.quickMapsService.dietDataSource,
+            this.quickMapsService.micronutrient,
+          )
           .then((currentComposition: CurrentComposition) => {
             foodChangeItem.scenarioComposition = currentComposition;
             this.cdr.markForCheck();
