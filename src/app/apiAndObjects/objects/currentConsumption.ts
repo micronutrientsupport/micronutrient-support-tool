@@ -3,17 +3,17 @@ import { CurrentValue } from './currentValue.interface';
 
 export class CurrentConsumption extends BaseObject implements CurrentValue {
   public static readonly KEYS = {
-    VALUE: 'value',
-    UNITS: 'units',
+    FOOD_GENUS_ID: 'foodGenusId',
+    CONSUMPTION_DATA_ID: 'consumptionDataId',
+    VALUE: 'consumptionValue',
   };
 
   public readonly value: number;
-  public readonly units: string;
+  public readonly units = 'ml/AME/day';
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.value = this._getNumber(CurrentConsumption.KEYS.VALUE);
-    this.units = this._getString(CurrentConsumption.KEYS.UNITS);
   }
 }

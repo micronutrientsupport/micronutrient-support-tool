@@ -48,8 +48,8 @@ export class ApiService extends BaseApi {
       getProjectionTotals: new GetProjectionTotals(ApiService.USE_LIVE_API),
     },
     scenario: {
-      getCurrentComposition: new GetCurrentComposition(false),
-      getCurrentConsumption: new GetCurrentConsumption(false),
+      getCurrentComposition: new GetCurrentComposition(ApiService.USE_LIVE_API),
+      getCurrentConsumption: new GetCurrentConsumption(ApiService.USE_LIVE_API),
       getDietChangeComposition: new GetDietChangeComposition(false),
       getDietChangeConsumption: new GetDietChangeConsumption(false),
       getDietChangeFoodItem: new GetDietChangeFoodItem(false),
