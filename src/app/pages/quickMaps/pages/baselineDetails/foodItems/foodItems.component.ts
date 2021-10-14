@@ -27,7 +27,6 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
