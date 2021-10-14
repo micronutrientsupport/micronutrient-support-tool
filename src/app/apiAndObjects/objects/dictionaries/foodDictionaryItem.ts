@@ -2,7 +2,9 @@ import { FoodGroupDictionaryItem } from './foodGroupDictionaryItem';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class FoodDictionaryItem extends MapsDictionaryItem {
-  public static readonly DESC_ATTRIBUTE: string = 'name';
+  public static readonly ID_ATTRIBUTE: string = 'foodGenusId';
+  public static readonly NAME_ATTRIBUTE: string = 'foodGenusName';
+  public static readonly DESC_ATTRIBUTE: string = 'foodGenusName';
 
   public group: FoodGroupDictionaryItem;
 

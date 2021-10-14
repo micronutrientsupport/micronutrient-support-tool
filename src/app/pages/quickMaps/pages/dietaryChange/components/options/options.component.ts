@@ -66,6 +66,9 @@ export class OptionsComponent {
       .finally(() => {
         this.loading = false;
         cdr.markForCheck();
+      })
+      .catch((err) => {
+        throw err;
       });
     this.subscriptions.push(
       dietaryChangeService.modeObs.subscribe((mode) => {
@@ -167,9 +170,8 @@ export class OptionsComponent {
 
   private updateFilteredFoodItems(): void {
     if (null != this.foodGroupsDict) {
-      const editableChangeItem = this.dietaryChangeService.changeItems[
-        this.dietaryChangeService.changeItems.length - 1
-      ];
+      const editableChangeItem =
+        this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
       const selectedGroup = null != editableChangeItem ? editableChangeItem.foodGroup : null;
       const usedFoodItems = this.dietaryChangeService.changeItems.map((item) => item.foodItem);
 
