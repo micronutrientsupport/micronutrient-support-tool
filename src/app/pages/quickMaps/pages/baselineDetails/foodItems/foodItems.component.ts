@@ -159,12 +159,10 @@ export class FoodItemsComponent implements AfterViewInit {
             fontSize: 12,
             fontStyle: 'normal',
             backgroundColor: (result: ChartData) => {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              const index = result['dataIndex'];
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               const groupedChartData: ChartDataSets = result['dataset']['data'];
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartDataAtCurrentIndex = groupedChartData[index];
+              const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
               let colourCode = '';
               if (groupedChartDataAtCurrentIndex) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
