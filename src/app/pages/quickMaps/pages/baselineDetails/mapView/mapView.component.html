@@ -1,11 +1,9 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
-      <button id='snapshot' (click)="downloadMap()">DownloadMap</button>
+      <button (click)="downloadMap()">DownloadMap</button>
       <div #map1 id="absolute-map"></div>
 
-
-      id"testmap"
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">
@@ -23,9 +21,8 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <button (click)="exportMapImage()">downlaod map</button>
-        <app-download></app-download>
-
+        <button (click)="downloadMap()">Download Map (map screenshot)</button>
+        <app-download [selectedDataType]="selectedDataType"></app-download>
       </div>
 
     </mat-tab>

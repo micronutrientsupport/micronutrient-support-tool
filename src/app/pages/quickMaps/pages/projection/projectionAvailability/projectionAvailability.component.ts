@@ -98,16 +98,20 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         // respond to parameter updates
         this.subscriptions.push(
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-            this.micronutrientName = this.quickMapsService.micronutrient.name;
-            this.micronutrientId = this.quickMapsService.micronutrient.id;
-            this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
-            this.card.title = this.title;
-            this.init(
-              this.projectionDataService.getProjectedAvailabilities(
-                this.quickMapsService.country,
-                this.quickMapsService.micronutrient,
-              ),
-            );
+            // projections only available if isInImpact flag set
+            const country = this.quickMapsService.country;
+            const micronutrient = this.quickMapsService.micronutrient;
+            if (null != micronutrient && micronutrient.isInImpact) {
+              this.micronutrientName = micronutrient.name;
+              this.micronutrientId = micronutrient.id;
+              this.title = 'Projected ' + this.micronutrientName + ' availability to 2050';
+              this.card.title = this.title;
+
+              //  only if all set
+              if (null != country && null != micronutrient) {
+                this.init(this.projectionDataService.getProjectedAvailabilities(country, micronutrient));
+              }
+            }
           }),
         );
       } else if (null != this.dialogData) {
@@ -147,9 +151,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             );
             this.errorSrc.next(false);
             this.chartData = null;
-            // force change detection to:
-            // remove chart before re-setting it to stop js error
-            this.cdr.detectChanges();
+
             this.initialiseGraph(filteredData);
 
             // show table and init paginator and sorter
@@ -259,7 +261,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.projectionsSummary.recommended,
@@ -276,7 +277,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
       },
     };
-
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));

@@ -1,82 +1,222 @@
 [
   {
-    "foodName": "Poultry",
-    "mnConsumedPerDay": 3.17276256615469
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "23120.03.01",
+    "dailyMnContribution": "1171.02226734471232876712329",
+    "ranking": "1",
+    "foodGenusName": "maize, flour, white, unrefined, non-fermented, raw",
+    "foodGroupId": 2041,
+    "foodGroupName": "Maize and products (including white maize)"
   },
   {
-    "foodName": "Eggs",
-    "mnConsumedPerDay": 22.7510933437594
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "23120.03.02",
+    "dailyMnContribution": "200.72725990969863013698630",
+    "ranking": "2",
+    "foodGenusName": "maize, flour, white, refined, non-fermented, raw",
+    "foodGroupId": 2041,
+    "foodGroupName": "Maize and products (including white maize)"
   },
   {
-    "foodName": "Dairy",
-    "mnConsumedPerDay": 0.547628383034992
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1235.01",
+    "dailyMnContribution": "149.09760372602739726027397",
+    "ranking": "3",
+    "foodGenusName": "pumpkins, raw",
+    "foodGroupId": 2088,
+    "foodGroupName": "Vegetables, Other and products"
   },
   {
-    "foodName": "Barley",
-    "mnConsumedPerDay": 1.76826654657459
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1701.03",
+    "dailyMnContribution": "125.61063770213698630136986",
+    "ranking": "4",
+    "foodGenusName": "kidney beans, dried, raw",
+    "foodGroupId": 2007,
+    "foodGroupName": "Beans and products"
   },
   {
-    "foodName": "Maize",
-    "mnConsumedPerDay": 11.337750456652
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "114.01",
+    "dailyMnContribution": "123.38280426240000000000000",
+    "ranking": "5",
+    "foodGenusName": "sorghum grain, raw",
+    "foodGroupId": 2074,
+    "foodGroupName": "Sorghum and products"
   },
   {
-    "foodName": "Millet",
-    "mnConsumedPerDay": 9.97548718069936
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "141.02",
+    "dailyMnContribution": "77.72934167271232876712329",
+    "ranking": "6",
+    "foodGenusName": "soybeans, flour, raw",
+    "foodGroupId": 2076,
+    "foodGroupName": "Soyabeans and products"
   },
   {
-    "foodName": "Rice",
-    "mnConsumedPerDay": 12.8777462512764
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1707.01",
+    "dailyMnContribution": "70.68594259726027397260274",
+    "ranking": "7",
+    "foodGenusName": "pigeon peas, dried, raw",
+    "foodGroupId": 2067,
+    "foodGroupName": "Pulses, Other and products"
   },
   {
-    "foodName": "Sorghum",
-    "mnConsumedPerDay": 7.69862263323709
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1214.04",
+    "dailyMnContribution": "66.35474901852328767123288",
+    "ranking": "8",
+    "foodGenusName": "pumpkin leaves, raw",
+    "foodGroupId": 2088,
+    "foodGroupName": "Vegetables, Other and products"
   },
   {
-    "foodName": "Wheat",
-    "mnConsumedPerDay": 5.38526882606607
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1214.03",
+    "dailyMnContribution": "56.59994985650136986301370",
+    "ranking": "9",
+    "foodGenusName": "rape leaves, raw",
+    "foodGroupId": 2088,
+    "foodGroupName": "Vegetables, Other and products"
   },
   {
-    "foodName": "Other Cereals",
-    "mnConsumedPerDay": 3.08045122492409
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "21111.01.01",
+    "dailyMnContribution": "44.01650189315068493150685",
+    "ranking": "10",
+    "foodGenusName": "beef, with bones, fresh, raw",
+    "foodGroupId": 2013,
+    "foodGroupName": "Bovine Meat and products"
   },
   {
-    "foodName": "Cassava",
-    "mnConsumedPerDay": 3.61630672928275
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1802.01",
+    "dailyMnContribution": "23.97665832479452054794521",
+    "ranking": "11",
+    "foodGenusName": "sugar canes",
+    "foodGroupId": 2080,
+    "foodGroupName": "Sugar cane and products"
   },
   {
-    "foodName": "Potato",
-    "mnConsumedPerDay": 2.05153368524876
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1234.01",
+    "dailyMnContribution": "19.88555176043835616438356",
+    "ranking": "12",
+    "foodGenusName": "tomatoes, raw",
+    "foodGroupId": 2087,
+    "foodGroupName": "Tomatoes and products"
   },
   {
-    "foodName": "Sweet Potatoes",
-    "mnConsumedPerDay": 3.23742772055967
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "21116.01",
+    "dailyMnContribution": "16.53306923835616438356164",
+    "ranking": "13",
+    "foodGenusName": "goat meat, fresh, raw",
+    "foodGroupId": 2049,
+    "foodGroupName": "Mutton & and Goat Meat and products"
   },
   {
-    "foodName": "Yams",
-    "mnConsumedPerDay": 2.30618757827016
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1706.02",
+    "dailyMnContribution": "15.98663652120547945205479",
+    "ranking": "14",
+    "foodGenusName": "black eye peas, dried, raw",
+    "foodGroupId": 2067,
+    "foodGroupName": "Pulses, Other and products"
   },
   {
-    "foodName": "Other Roots & Tubers",
-    "mnConsumedPerDay": 2.76323805950054
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "23170.01",
+    "dailyMnContribution": "11.88366829123287671232877",
+    "ranking": "15",
+    "foodGenusName": "cassava, flour, raw",
+    "foodGroupId": 2016,
+    "foodGroupName": "Cassava and products"
   },
   {
-    "foodName": "Beans",
-    "mnConsumedPerDay": 3.35228203113356
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1510.01",
+    "dailyMnContribution": "11.52996222317808219178082",
+    "ranking": "16",
+    "foodGenusName": "potatoes, raw",
+    "foodGroupId": 2065,
+    "foodGroupName": "Potatoes and products"
   },
   {
-    "foodName": "Chickpeas",
-    "mnConsumedPerDay": 1.25289121559603
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "1212.01",
+    "dailyMnContribution": "11.45685635191232876712329",
+    "ranking": "17",
+    "foodGenusName": "cabbages, white, raw",
+    "foodGroupId": 2088,
+    "foodGroupName": "Vegetables, Other and products"
   },
   {
-    "foodName": "Cowpeas",
-    "mnConsumedPerDay": 0.00804380052775321
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "142.02",
+    "dailyMnContribution": "10.53104816739726027397260",
+    "ranking": "18",
+    "foodGenusName": "peanut, flour, raw",
+    "foodGroupId": 2038,
+    "foodGroupName": "Groundnuts (Shelled Eq) and products"
   },
   {
-    "foodName": "Lentils",
-    "mnConsumedPerDay": 0.887753787047604
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "231.01",
+    "dailyMnContribution": "9.74357122191780821917808",
+    "ranking": "19",
+    "foodGenusName": "egg, chicken, raw",
+    "foodGroupId": 2030,
+    "foodGroupName": "Eggs and products"
   },
   {
-    "foodName": "Pigeonpeas",
-    "mnConsumedPerDay": 1.92925798045451
+    "consumptionDataId": 1,
+    "compositionDataId": 21,
+    "micronutrientId": "Fe",
+    "foodGenusId": "F0022.04",
+    "dailyMnContribution": "9.16305294380503364383562",
+    "ranking": "20",
+    "foodGenusName": "dough, sweet, fried",
+    "foodGroupId": 2089,
+    "foodGroupName": "Wheat and products"
   }
 ]

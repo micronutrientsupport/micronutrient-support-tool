@@ -3,6 +3,8 @@ import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
+import { MapDataType } from '../../pages/baselineDetails/mapView/mapView.component';
+import { MapDownloadService } from './mapDownload.service';
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -14,6 +16,12 @@ export class DownloadComponent implements AfterViewInit {
   @Input() chartDownloadPDF: string;
   @Input() dataArray: Array<Exportable>;
 
+  @Input() set selectedDataType(dataType: MapDataType) {
+    if (null != dataType) {
+      this.selectedDataOption = dataType.value;
+    }
+  }
+  public selectedDataOption;
   public year = new Date().getFullYear();
   public date = new Date();
   public formattedDate = this.date
@@ -48,9 +56,17 @@ export class DownloadComponent implements AfterViewInit {
     '\n' +
     '}';
 
-  constructor(private clipboard: Clipboard, private exportService: ExportService) {}
+  constructor(
+    private clipboard: Clipboard,
+    private exportService: ExportService,
+    private mapDownloadService: MapDownloadService,
+  ) {}
 
   ngAfterViewInit(): void {}
+
+  public exportBasemapImage(): void {
+    this.mapDownloadService.takeBasemapScreenShot();
+  }
 
   exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);

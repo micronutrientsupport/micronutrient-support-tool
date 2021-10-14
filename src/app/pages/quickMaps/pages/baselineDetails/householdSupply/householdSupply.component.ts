@@ -13,16 +13,15 @@ import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { BinValue, HouseholdHistogramData } from 'src/app/apiAndObjects/objects/householdHistogramData';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { DietDataService } from 'src/app/services/dietData.service';
+import { DietaryHouseholdSummary } from 'src/app/apiAndObjects/objects/dietaryHouseholdSummary';
 
 @Component({
   selector: 'app-household-supply',
@@ -42,14 +41,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['bin', 'frequency'];
-  public dataSource = new MatTableDataSource();
-  public selectedNutrient = '';
-  public selectedNutrientUnit = '';
+  public displayedColumns = ['rangeMax', 'frequency'];
+  public dataSource = new MatTableDataSource<DataFrequency>();
 
-  public csvDownloadData: Array<HouseholdHistogramData> = [];
+  public csvDownloadData = new Array<DataFrequency>();
 
-  private data: HouseholdHistogramData;
+  private data: SummarizedData;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -57,7 +54,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
@@ -79,18 +76,14 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           this.init(
-            this.currentDataService.getHouseholdHistogramData(
-              this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
-              this.quickMapsService.dietDataSource,
-            ),
+            this.dietDataService
+              .getHouseholdSummaries(
+                this.quickMapsService.country,
+                this.quickMapsService.micronutrient,
+                this.quickMapsService.dietDataSource,
+              )
+              .then((data) => this.householdSummariesToSummarizedData(data)),
           );
-        }),
-      );
-      this.subscriptions.push(
-        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
-          this.selectedNutrient = micronutrient.name;
-          this.selectedNutrientUnit = micronutrient.unit;
         }),
       );
     } else if (null != this.dialogData) {
@@ -106,15 +99,50 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private init(dataPromise: Promise<HouseholdHistogramData>): void {
+  private householdSummariesToSummarizedData(data: Array<DietaryHouseholdSummary>): null | SummarizedData {
+    // should this stepSize be worked out from the data to ensure only a fixed/max number of table rows/bars on the chart?
+    const stepSize = 50;
+    let summarizedData: SummarizedData = null;
+
+    if (data.length > 0) {
+      const overviewMap = new Map<number, number>();
+
+      data.forEach((householdSummary: DietaryHouseholdSummary) => {
+        // round UP to nearest x
+        const roundedValue = Math.ceil(householdSummary.dietarySupply / stepSize) * stepSize;
+        if (!overviewMap.has(roundedValue)) {
+          overviewMap.set(roundedValue, 0);
+        }
+        overviewMap.set(roundedValue, overviewMap.get(roundedValue) + 1);
+      });
+
+      // iterate through from min value to max in steps of x
+      const dataArray = new Array<DataFrequency>();
+      for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + stepSize) {
+        dataArray.push({
+          rangeMin: 0 === i ? 0 : i - stepSize,
+          rangeMax: i,
+          frequency: overviewMap.get(i) ?? 0, // fill in any missing frequencies with zero
+        });
+      }
+
+      summarizedData = {
+        data: dataArray,
+        threshold: data[0].deficientValue,
+      };
+    }
+    return summarizedData;
+  }
+
+  private init(dataPromise: Promise<SummarizedData>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: HouseholdHistogramData) => {
+      .then((data: SummarizedData) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
-        this.dataSource = new MatTableDataSource(data.data);
+        this.dataSource.data = data.data;
         // console.debug('data:', this.dataSource.data);
         this.errorSrc.next(false);
         this.chartData = null;
@@ -126,7 +154,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.dataSource.sort = this.sort;
 
         this.initialiseGraph(data);
-        this.csvDownloadData.push(data);
+        this.csvDownloadData = data.data;
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -138,16 +166,16 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       });
   }
 
-  private initialiseGraph(data: HouseholdHistogramData): void {
+  private initialiseGraph(data: SummarizedData): void {
     const generatedChart: ChartJSObject = {
       plugins: [ChartAnnotation],
       type: 'bar',
       data: {
-        labels: data.data.map((item: BinValue) => item.bin),
+        labels: data.data.map((item) => item.rangeMax),
         datasets: [
           {
             label: 'Frequency',
-            data: data.data.map((item: BinValue) => item.frequency),
+            data: data.data.map((item) => item.frequency),
             borderColor: '#ff6384',
             backgroundColor: '#ff6384',
             fill: true,
@@ -169,7 +197,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: `${this.selectedNutrient} in ${this.selectedNutrientUnit}/capita/day`,
+                labelString: `${this.quickMapsService.micronutrient.name} in ${this.quickMapsService.micronutrient.unit}/capita/day`,
               },
               display: true,
               id: 'x-axis-0',
@@ -191,10 +219,9 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'vLine',
               mode: 'vertical',
               scaleID: 'x-axis-0',
-              value: Number(data.adequacyThreshold), // data-value at which the line is drawn
+              value: data.threshold, // data-value at which the line is drawn
               borderWidth: 2.5,
               borderColor: 'black',
               label: {
@@ -222,7 +249,18 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   }
 }
 
+interface DataFrequency {
+  rangeMin: number;
+  rangeMax: number;
+  frequency: number;
+}
+
+interface SummarizedData {
+  data: Array<DataFrequency>;
+  threshold: number;
+}
+
 export interface HouseholdSupplyDialogData {
-  data: HouseholdHistogramData;
+  data: SummarizedData;
   selectedTab: number;
 }

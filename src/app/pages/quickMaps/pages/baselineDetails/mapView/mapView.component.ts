@@ -32,10 +32,7 @@ import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import { SimpleMapScreenshoter } from 'leaflet-simple-map-screenshoter';
-export interface MapDataType {
-  name: string;
-  value: string;
-}
+import * as leafletImage from 'leaflet-image';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import {
@@ -45,7 +42,12 @@ import {
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-
+import { jsPDF } from 'jspdf';
+import { MapDownloadService } from '../../../components/download/mapDownload.service';
+export interface MapDataType {
+  name: string;
+  value: string;
+}
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -58,14 +60,14 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
-
+  pdfMake: any;
   public snapshot = document.getElementById('snapshot');
   public readonly dataLevelEnum = DataLevel;
   public title = '';
   public selectedTab: number;
 
   public selectedDataType: MapDataType;
-
+  public selectedDataOption;
   public dataList: Array<MapDataType> = [
     { name: 'Absolute Values', value: 'absolute' },
     { name: 'Variation from Threshold', value: 'threshold' },
@@ -98,13 +100,14 @@ export class MapViewComponent implements AfterViewInit {
 
   private simpleMapScreenshoterAbs: SimpleMapScreenshoter;
   private simpleMapScreenshoterthres: SimpleMapScreenshoter;
-  private bla: SimpleMapScreenshoter = new SimpleMapScreenshoter({ hidden: true });
+  private screenshot: SimpleMapScreenshoter = new SimpleMapScreenshoter({ hidden: true });
 
   constructor(
     private dialogService: DialogService,
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private dietDataService: DietDataService,
+    private mapDownloadService: MapDownloadService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -112,34 +115,65 @@ export class MapViewComponent implements AfterViewInit {
       ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
+
+    this.mapDownloadService.basemapImgObs.subscribe(() => this.downloadMap());
   }
+
+  // jsPDF / pdfMake
 
   public downloadMap(): void {
-    this.bla
-      .takeScreen('image')
-      .then((blob: Blob) => {
-        // console.debug('blob', blob);
-        saveAs(blob, 'screenshot.png');
-      })
-      .catch((e) => {
-        alert(e.toString());
-      });
+    leafletImage(this.absoluteMap, (err, canvas) => {
+      const img = document.createElement('img');
+      const dimensions = this.absoluteMap.getSize();
+      img.width = dimensions.x;
+      img.height = dimensions.y;
+      img.src = canvas.toDataURL();
+      void this.generatePdf(img.src);
+    });
   }
 
-  // //  trying to get leaflet-image to work with canvas
-  // public downloadMap(err, canvas): void {
-  //   const img = document.createElement('img');
+  public async loadPdfMaker() {
+    if (!this.pdfMake) {
+      const pdfMakeModule = await import('pdfmake/build/pdfmake');
+      const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+      this.pdfMake = pdfMakeModule.default;
+      this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
+    }
+  }
+
+  public async generatePdf(img: any) {
+    await this.loadPdfMaker();
+    const def = {
+      content: {
+        image: `${img}`,
+      },
+    };
+    this.pdfMake.createPdf(def).open();
+  }
+
+  // jsPDF/ pdfMAke end
+
+  // public downloadMap(): void {
   //   const dimensions = this.absoluteMap.getSize();
-  //   img.width = dimensions.x;
-  //   img.height = dimensions.y;
-  //   img.src = canvas.toDataURL();
-  //   this.snapshot.innerHTML = '';
-  //   this.snapshot.appendChild(img);
+  //   console.debug('dimensions:', dimensions);
+  //   // alert('service working');
+  // }
+  // public downloadMap(): void {
+  //   this.screenshot
+  //     .takeScreen('blob')
+  //     .then((blob: Blob) => {
+  //       console.debug('blob', blob);
+  //       saveAs(blob, 'screenshot.png');
+  //     })
+  //     .catch((e) => {
+  //       alert(e.toString());
+  //     });
   // }
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
+    this.screenshot.addTo(this.absoluteMap);
     // this.simpleMapScreenshoterAbs = L.simpleMapScreenshoter({hidden: true}).addTo(this.absoluteMap);
     // this.simpleMapScreenshoter.addTo(this.thresholdMap);
 
@@ -149,13 +183,6 @@ export class MapViewComponent implements AfterViewInit {
 
     // const bla: SimpleMapScreenshoter =  new SimpleMapScreenshoter({ hidden: false }).addTo(this.absoluteMap);
     // bla.takeScreen();
-
-    // test polygon
-    L.polygon([
-      [40, -74],
-      [51.503, -0.06],
-      [20, -20],
-    ]).addTo(this.absoluteMap);
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -193,16 +220,17 @@ export class MapViewComponent implements AfterViewInit {
         }),
       );
 
-      // respond to parameter updates
+      // respond to parameter updates only if all set
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService.getMicronutrientAvailability(
-              this.quickMapsService.country,
-              this.quickMapsService.micronutrient,
-              this.quickMapsService.dietDataSource,
-            ),
-          );
+          const country = this.quickMapsService.country;
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != country && null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, dietDataSource));
+          }
         }),
       );
     } else if (null != this.dialogData) {
@@ -234,26 +262,6 @@ export class MapViewComponent implements AfterViewInit {
   }
   public setDataSelection(dataType: MapDataType): void {
     this.selectedDataType = dataType;
-  }
-
-  public exportMapImage(): void {
-    // const node = document.getElementById('threshold-map');
-    domtoimage.toBlob(this.thresholdMap, { innerHeight: 400, innerWidth: 400 }).then((blob) => {
-      window.saveAs(blob, 'my-node.png');
-    });
-
-    // domtoimage
-    //   .toPng(this.thresholdMap, { innerHeight: 400, innerWidth: 400 })
-    //   .then((dataUrl) => {
-    //     const img = new Image();
-    //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    //     img.src = dataUrl;
-    //     document.body.appendChild(img);
-    //     console.debug('img', img);
-    //   })
-    //   .catch((error) => {
-    //     console.error('oops, something went wrong!', error);
-    //   });
   }
 
   private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
@@ -373,7 +381,6 @@ export class MapViewComponent implements AfterViewInit {
     };
 
     this.absoluteLegend.addTo(this.absoluteMap);
-    this.bla.addTo(this.absoluteMap);
   }
 
   private triggerFitBounds(tabIndex: number): void {

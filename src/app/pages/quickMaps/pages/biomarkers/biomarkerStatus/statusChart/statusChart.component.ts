@@ -95,7 +95,6 @@ export class StatusChartComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.defThreshold,
@@ -109,7 +108,6 @@ export class StatusChartComponent implements AfterViewInit {
             },
             {
               type: 'line',
-              id: 'abnLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.abnThreshold,

@@ -47,9 +47,9 @@ export class DietDataSource extends BaseObject implements Named {
     this.consumptionDataDesc = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_DESC);
     this.consumptionDataMetaId = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_META_ID);
 
-    this.compositionDataId = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_ID);
-    this.compositionDataName = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_NAME);
-    this.compositionDataDesc = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_DESC);
-    this.compositionDataMetaId = this._getString(DietDataSource.KEYS.CONSUMPTION_DATA_META_ID);
+    this.compositionDataId = this._getString(DietDataSource.KEYS.COMPOSITION_DATA_ID);
+    this.compositionDataName = this._getString(DietDataSource.KEYS.COMPOSITION_DATA_NAME);
+    this.compositionDataDesc = this._getString(DietDataSource.KEYS.COMPOSITION_DATA_DESC);
+    this.compositionDataMetaId = this._getString(DietDataSource.KEYS.COMPOSITION_DATA_META_ID);
   }
 }
