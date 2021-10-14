@@ -6,7 +6,7 @@ export interface ChartsJSDataObject {
   datasets: Array<{
     data?: Array<any | string>;
     label?: string;
-    backgroundColor?: string;
+    backgroundColor?: (result?: ChartData) => string;
     borderColor?: string;
     outlierColor?: string;
     outlierRadius?: number;
