@@ -34,6 +34,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 import { ProjectionDataService } from 'src/app/services/projectionData.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -88,6 +89,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private qcService: QuickchartService,
     private fb: FormBuilder,
     private sigFig: SignificantFiguresPipe,
+    private dialogService: DialogService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
   ) {
     // 2010 to 2050 in 5 year jumps
@@ -125,8 +127,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-    // eslint-disable-next-line max-len
     this.subscriptions.push(
       this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
@@ -134,6 +134,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     );
 
     if (null != this.card) {
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+
       this.card.title = this.title;
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -147,6 +150,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         }),
       );
     } else if (null != this.dialogData) {
+      this.init();
+      this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.cdr.detectChanges();
     }
   }
 
@@ -307,6 +313,18 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     const colorHash = new ColorHash();
     return colorHash.hex(foodTypeIndex);
   }
+
+  private openDialog(): void {
+    void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
+      data: this.data,
+      selectedTab: this.tabGroup.selectedIndex,
+    });
+  }
+}
+
+export interface ProjectionFoodSourcesDialogData {
+  data: Array<MicronutrientProjectionSource>;
+  selectedTab: number;
 }
 
 // export interface MicronutrientProjectionSourceTable {
