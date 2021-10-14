@@ -50,9 +50,6 @@ export class FoodItemsComponent implements AfterViewInit {
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
 
-  private existingMicronutrient: MicronutrientDictionaryItem;
-  private existingDietDataSource: DietDataSource;
-
   private data: Array<TopFoodSource>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -88,11 +85,7 @@ export class FoodItemsComponent implements AfterViewInit {
 
           //  only if all set
           if (null != micronutrient && null != dietDataSource) {
-            if (this.existingMicronutrient !== micronutrient && this.existingDietDataSource !== dietDataSource) {
-              this.existingMicronutrient = micronutrient;
-              this.existingDietDataSource = dietDataSource;
-              this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
-            }
+            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
           }
         }),
         this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
