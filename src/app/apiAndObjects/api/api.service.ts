@@ -70,9 +70,9 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
-    new GetDictionary(DictionaryType.FOOD_GROUPS, false)
+    new GetDictionary(DictionaryType.FOOD_GROUPS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
-      .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
+      .setMockObjectsCreatorFunc((injector) => FoodGroupDictionaryItem.getMockItems(injector)),
     new GetDictionary(DictionaryType.IMPACT_SCENARIOS, ApiService.USE_LIVE_API)
       .setDefaultParams({
         path: 'diet/projections/scenarios',

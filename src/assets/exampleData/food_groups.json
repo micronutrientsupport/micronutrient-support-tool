@@ -1,0 +1,1618 @@
+[
+  {
+    "foodGroupId": 2001,
+    "foodGroupName": "Apples and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1341.01",
+        "foodGenusName": "apples, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2002,
+    "foodGroupName": "Aquatic Plants",
+    "foodItems": [
+      {
+        "foodGenusId": "1594.01",
+        "foodGenusName": "red algae, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2003,
+    "foodGroupName": "Bananas and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1312.01",
+        "foodGenusName": "banana, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2005,
+    "foodGroupName": "Barley and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23140.05.01",
+        "foodGenusName": "barley grain, pearled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2007,
+    "foodGroupName": "Beans and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1701.03",
+        "foodGenusName": "kidney beans, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2009,
+    "foodGroupName": "Beer and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24310.01.01",
+        "foodGenusName": "beer, regular"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2010,
+    "foodGroupName": "Beverages, Alcoholic and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2413.01",
+        "foodGenusName": "gin"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2011,
+    "foodGroupName": "Beverages, Fermented and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24310.04.01",
+        "foodGenusName": "beer, sorghum grain"
+      },
+      {
+        "foodGenusId": "24310.02.01",
+        "foodGenusName": "beer, maize grain"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2013,
+    "foodGroupName": "Bovine Meat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21111.02.01",
+        "foodGenusName": "beef, without bones, fresh, raw"
+      },
+      {
+        "foodGenusId": "21111.01.01",
+        "foodGenusName": "beef, with bones, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2014,
+    "foodGroupName": "Butter, Ghee and products",
+    "foodItems": [
+      {
+        "foodGenusId": "22241.02.01",
+        "foodGenusName": "ghee"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2016,
+    "foodGroupName": "Cassava and products",
+    "foodItems": [
+      {
+        "foodGenusId": "01520.01.01",
+        "foodGenusName": "cassava root, raw"
+      },
+      {
+        "foodGenusId": "01520.01.02",
+        "foodGenusName": "cassava root, boiled"
+      },
+      {
+        "foodGenusId": "23170.01",
+        "foodGenusName": "cassava, flour, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2017,
+    "foodGroupName": "Cephalopods",
+    "foodItems": [
+      {
+        "foodGenusId": "1570.01",
+        "foodGenusName": "squids, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2018,
+    "foodGroupName": "Cereals, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1193.03",
+        "foodGenusName": "fonio grain, white, unrefined, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2019,
+    "foodGroupName": "Oranges, Mandarines and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1323.01",
+        "foodGenusName": "oranges, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2020,
+    "foodGroupName": "Cloves and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1656.01",
+        "foodGenusName": "cloves"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2021,
+    "foodGroupName": "Cocoa Beans and products",
+    "foodItems": [
+      {
+        "foodGenusId": "F0665.01",
+        "foodGenusName": "cocoa powder"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2022,
+    "foodGroupName": "Coconut Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2166.01",
+        "foodGenusName": "coconut oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2023,
+    "foodGroupName": "Coconuts (including copra) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1460.01",
+        "foodGenusName": "coconuts"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2024,
+    "foodGroupName": "Coffee and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23912.02.01",
+        "foodGenusName": "coffee, instant powder"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2025,
+    "foodGroupName": "Cottonseed Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2168.01",
+        "foodGenusName": "cotton seed oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2026,
+    "foodGroupName": "Cream and products",
+    "foodItems": [
+      {
+        "foodGenusId": "22120.01",
+        "foodGenusName": "cream"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2027,
+    "foodGroupName": "Crustaceans",
+    "foodItems": [
+      {
+        "foodGenusId": "1553.01",
+        "foodGenusName": "crab, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2028,
+    "foodGroupName": "Dates and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1314.01",
+        "foodGenusName": "dates"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2029,
+    "foodGroupName": "Demersal Fish",
+    "foodItems": [
+      {
+        "foodGenusId": "1518.01",
+        "foodGenusName": "haddock, smoked, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2030,
+    "foodGroupName": "Eggs and products",
+    "foodItems": [
+      {
+        "foodGenusId": "231.01",
+        "foodGenusName": "egg, chicken, raw"
+      },
+      {
+        "foodGenusId": "231.02",
+        "foodGenusName": "egg, chicken, boiled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2031,
+    "foodGroupName": "Fats, Animals, Raw and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21521.01",
+        "foodGenusName": "pork lard"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2032,
+    "foodGroupName": "Fish, Liver Oil",
+    "foodItems": [
+      {
+        "foodGenusId": "1523.01",
+        "foodGenusName": "cod, liver oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2033,
+    "foodGroupName": "Freshwater Fish",
+    "foodItems": [
+      {
+        "foodGenusId": "1501.01",
+        "foodGenusName": "trout, rainbow, fresh, raw"
+      },
+      {
+        "foodGenusId": "1501.03",
+        "foodGenusName": "tilapia, fresh, grilled "
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2034,
+    "foodGroupName": "Fruits, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1316.01",
+        "foodGenusName": "mangoes, raw"
+      },
+      {
+        "foodGenusId": "1311.01",
+        "foodGenusName": "avocados, raw"
+      },
+      {
+        "foodGenusId": "1316.02",
+        "foodGenusName": "guavas, raw"
+      },
+      {
+        "foodGenusId": "1317.01",
+        "foodGenusName": "papayas, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2035,
+    "foodGroupName": "Grapefruit and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1321.02",
+        "foodGenusName": "grapefruits, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2036,
+    "foodGroupName": "Grapes and products (excludingexcl wine) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1330.01",
+        "foodGenusName": "grapes, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2037,
+    "foodGroupName": "Groundnut Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2162.01",
+        "foodGenusName": "peanut oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2038,
+    "foodGroupName": "Groundnuts (Shelled Eq) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "142.01",
+        "foodGenusName": "peanut, unshelled"
+      },
+      {
+        "foodGenusId": "142.02",
+        "foodGenusName": "peanut, flour, raw"
+      },
+      {
+        "foodGenusId": "142.05",
+        "foodGenusName": "peanut, unshelled, boiled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2039,
+    "foodGroupName": "Honey and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2910.01",
+        "foodGenusName": "honey"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2040,
+    "foodGroupName": "Lemons, Limes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1322.01",
+        "foodGenusName": "lemons, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2041,
+    "foodGroupName": "Maize and products (including white maize)",
+    "foodItems": [
+      {
+        "foodGenusId": "112.01",
+        "foodGenusName": "maize, grain, white, dried, raw"
+      },
+      {
+        "foodGenusId": "23120.03.02",
+        "foodGenusName": "maize, flour, white, refined, non-fermented, raw"
+      },
+      {
+        "foodGenusId": "23120.03.01",
+        "foodGenusName": "maize, flour, white, unrefined, non-fermented, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2042,
+    "foodGroupName": "Maize Germ Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21691.02.01",
+        "foodGenusName": "maize oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2043,
+    "foodGroupName": "Pelagic Fish",
+    "foodItems": [
+      {
+        "foodGenusId": "1532.01",
+        "foodGenusName": "sardines, tinned"
+      },
+      {
+        "foodGenusId": "1527.01",
+        "foodGenusName": "mackerel, fresh, raw"
+      },
+      {
+        "foodGenusId": "1533.01",
+        "foodGenusName": "pelagic fish, fresh, soup"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2044,
+    "foodGroupName": "Meat, Aquatic Mammals",
+    "foodItems": [
+      {
+        "foodGenusId": "1580.01",
+        "foodGenusName": "marine mammals meat, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2045,
+    "foodGroupName": "Meat, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21170.92.01",
+        "foodGenusName": "deer meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21170.01.03",
+        "foodGenusName": "quail fresh meat,raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2046,
+    "foodGroupName": "Milk - (Excluding excluding Butter butter) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2211.01",
+        "foodGenusName": "milk, cow, whole, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2047,
+    "foodGroupName": "Millet and products",
+    "foodItems": [
+      {
+        "foodGenusId": "118.02",
+        "foodGenusName": "finger millet,  grain"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2048,
+    "foodGroupName": "Molluscs, Other",
+    "foodItems": [
+      {
+        "foodGenusId": "1562.01",
+        "foodGenusName": "oysters, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2049,
+    "foodGroupName": "Mutton & and Goat Meat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21116.01",
+        "foodGenusName": "goat meat, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2050,
+    "foodGroupName": "Nuts and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1372.01",
+        "foodGenusName": "cashew nuts"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2051,
+    "foodGroupName": "Oats and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23140.07.01",
+        "foodGenusName": "oats, rolled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2052,
+    "foodGroupName": "Offals, Edible and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21151.01",
+        "foodGenusName": "beef offal, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2053,
+    "foodGroupName": "Oilcrops, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1441.01",
+        "foodGenusName": "linseeds"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2054,
+    "foodGroupName": "Olive Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2167.01",
+        "foodGenusName": "olive oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2055,
+    "foodGroupName": "Olives (including preserved) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "F0262.01",
+        "foodGenusName": "olives, preserved"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2056,
+    "foodGroupName": "Onions and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1253.02.01",
+        "foodGenusName": "onions, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2057,
+    "foodGroupName": "Palm Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2165.01",
+        "foodGenusName": "palm oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2058,
+    "foodGroupName": "Palmkernel Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21691.14.01",
+        "foodGenusName": "palm kernel oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2059,
+    "foodGroupName": "Peas and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1705.01",
+        "foodGenusName": "peas, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2060,
+    "foodGroupName": "Pepper and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1651.01",
+        "foodGenusName": "pepper, black"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2061,
+    "foodGroupName": "Pigmeat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21113.02.01",
+        "foodGenusName": "pig meat, without bones, fresh, raw"
+      },
+      {
+        "foodGenusId": "21113.01.01",
+        "foodGenusName": "pig meat, with bones, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2062,
+    "foodGroupName": "Pimento and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1652.02",
+        "foodGenusName": "peppers, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2063,
+    "foodGroupName": "Pineapples and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1318.01",
+        "foodGenusName": "pineapple, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2064,
+    "foodGroupName": "Plantains and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1313.01",
+        "foodGenusName": "plantain, raw"
+      },
+      {
+        "foodGenusId": "1313.02",
+        "foodGenusName": "plantain, bolied"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2065,
+    "foodGroupName": "Potatoes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1510.01",
+        "foodGenusName": "potatoes, raw"
+      },
+      {
+        "foodGenusId": "1510.02",
+        "foodGenusName": "potato, crisps"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2066,
+    "foodGroupName": "Poultry Meat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21121.01",
+        "foodGenusName": "chicken meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21121.03",
+        "foodGenusName": "chicken meat, fresh, stew"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2067,
+    "foodGroupName": "Pulses, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1707.01",
+        "foodGenusName": "pigeon peas, dried, raw"
+      },
+      {
+        "foodGenusId": "1706.02",
+        "foodGenusName": "black eye peas, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2068,
+    "foodGroupName": "Rape and Mustard Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21641.01.01",
+        "foodGenusName": "rape seed oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2069,
+    "foodGroupName": "Rice and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23161.01.01",
+        "foodGenusName": "rice grain, white, raw"
+      },
+      {
+        "foodGenusId": "23161.02.01",
+        "foodGenusName": "rice grain, white, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2070,
+    "foodGroupName": "Roots, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1550.01",
+        "foodGenusName": "taros, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2071,
+    "foodGroupName": "Rye and products",
+    "foodItems": [
+      {
+        "foodGenusId": "116.01",
+        "foodGenusName": "rye grain, unrefined, raw "
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2072,
+    "foodGroupName": "Sesame seed and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1444.01",
+        "foodGenusName": "sesame seeds"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2073,
+    "foodGroupName": "Sesameseed Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21691.07.01",
+        "foodGenusName": "sesame seed oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2074,
+    "foodGroupName": "Sorghum and products",
+    "foodItems": [
+      {
+        "foodGenusId": "114.01",
+        "foodGenusName": "sorghum grain, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2075,
+    "foodGroupName": "Soyabean Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2161.01",
+        "foodGenusName": "soybean oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2076,
+    "foodGroupName": "Soyabeans and products",
+    "foodItems": [
+      {
+        "foodGenusId": "141.01",
+        "foodGenusName": "soybeans, dried, raw"
+      },
+      {
+        "foodGenusId": "141.02",
+        "foodGenusName": "soybeans, flour, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2077,
+    "foodGroupName": "Spices, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1699.01",
+        "foodGenusName": "turmeric roots"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2078,
+    "foodGroupName": "Sugar (Raw Equivalent) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23520.01",
+        "foodGenusName": "sugar, white"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2079,
+    "foodGroupName": "Sugar beet and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1801.01",
+        "foodGenusName": "beetroots, sugar, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2080,
+    "foodGroupName": "Sugar cane and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1802.01",
+        "foodGenusName": "sugar canes"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2081,
+    "foodGroupName": "Sugar non-centrifugal and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23511.02.01",
+        "foodGenusName": "syrups, sugar cane"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2082,
+    "foodGroupName": "Sunflower seed and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1445.01",
+        "foodGenusName": "sunflower seeds, dried"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2083,
+    "foodGroupName": "Sunflowerseed Oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21631.01.01",
+        "foodGenusName": "sunflower oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2084,
+    "foodGroupName": "Sweet potatoes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1530.01",
+        "foodGenusName": "sweet potato, white-flesh, raw"
+      },
+      {
+        "foodGenusId": "1530.02",
+        "foodGenusName": "sweet potatoes, orange-flesh, raw"
+      },
+      {
+        "foodGenusId": "1530.04",
+        "foodGenusName": "sweet potato, white-flesh, boiled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2085,
+    "foodGroupName": "Sweeteners, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23210.01.01",
+        "foodGenusName": "fructose, powder"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2086,
+    "foodGroupName": "Tea (including mate) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1620.01",
+        "foodGenusName": "tea leaves"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2087,
+    "foodGroupName": "Tomatoes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1234.01",
+        "foodGenusName": "tomatoes, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2088,
+    "foodGroupName": "Vegetables, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1212.01",
+        "foodGenusName": "cabbages, white, raw"
+      },
+      {
+        "foodGenusId": "1290.01.03",
+        "foodGenusName": "maize, green, boiled"
+      },
+      {
+        "foodGenusId": "1214.04",
+        "foodGenusName": "pumpkin leaves, raw"
+      },
+      {
+        "foodGenusId": "1214.03",
+        "foodGenusName": "rape leaves, raw"
+      },
+      {
+        "foodGenusId": "1270.02",
+        "foodGenusName": "mushroom, pleurotus, raw"
+      },
+      {
+        "foodGenusId": "1270.01",
+        "foodGenusName": "common mushrooms, raw"
+      },
+      {
+        "foodGenusId": "1239.01.01",
+        "foodGenusName": "okra, raw"
+      },
+      {
+        "foodGenusId": "1235.01",
+        "foodGenusName": "pumpkins, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2089,
+    "foodGroupName": "Wheat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23110.01",
+        "foodGenusName": "wheat flour, unrefined"
+      },
+      {
+        "foodGenusId": "F0022.04",
+        "foodGenusName": "dough, sweet, fried"
+      },
+      {
+        "foodGenusId": "F0022.02",
+        "foodGenusName": "scones"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2090,
+    "foodGroupName": "Wine and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24212.02.01",
+        "foodGenusName": "wine, white"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2091,
+    "foodGroupName": "Yams and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1540.01",
+        "foodGenusName": "yams, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2092,
+    "foodGroupName": "millet and products",
+    "foodItems": [
+      {
+        "foodGenusId": "118.03",
+        "foodGenusName": "pearl millet,  grain"
+      },
+      {
+        "foodGenusId": "118.01",
+        "foodGenusName": "millet, grain"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2093,
+    "foodGroupName": "wheat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23110.02",
+        "foodGenusName": "wheat flour, refined"
+      },
+      {
+        "foodGenusId": "111.01",
+        "foodGenusName": "wheat grain, unrefined"
+      },
+      {
+        "foodGenusId": "F0022.03",
+        "foodGenusName": "biscuits, sweet, plain"
+      },
+      {
+        "foodGenusId": "23710.01",
+        "foodGenusName": "pasta, dried, raw"
+      },
+      {
+        "foodGenusId": "23140.03.01",
+        "foodGenusName": "breakfast cereal, flakes"
+      },
+      {
+        "foodGenusId": "F0022.06",
+        "foodGenusName": "samosa, meat"
+      },
+      {
+        "foodGenusId": "F0020.01",
+        "foodGenusName": "bread, wheat flour, refined"
+      },
+      {
+        "foodGenusId": "F0020.02",
+        "foodGenusName": "bread, wheat flour, unrefined"
+      },
+      {
+        "foodGenusId": "23140.03.02",
+        "foodGenusName": "breakfast cereals, muesli mix"
+      },
+      {
+        "foodGenusId": "F0022.05",
+        "foodGenusName": "samosa, vegetable"
+      },
+      {
+        "foodGenusId": "F0022.01",
+        "foodGenusName": "buns"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2094,
+    "foodGroupName": "beans and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1701.02",
+        "foodGenusName": "common beans, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2095,
+    "foodGroupName": "pulses, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1708.01",
+        "foodGenusName": "bambara bean, dried, raw"
+      },
+      {
+        "foodGenusId": "1704.01",
+        "foodGenusName": "lentils, dried, raw"
+      },
+      {
+        "foodGenusId": "1706.01",
+        "foodGenusName": "cow peas, dried, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2096,
+    "foodGroupName": "meat, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "F1172.01",
+        "foodGenusName": "tinned meat"
+      },
+      {
+        "foodGenusId": "21114.01",
+        "foodGenusName": "rabbit meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21170.01.02",
+        "foodGenusName": "guinea-fowl meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21170.01.01",
+        "foodGenusName": "pigeon meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21119.01.01",
+        "foodGenusName": "rat meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21170.92.02",
+        "foodGenusName": "edible insect adults, fresh, raw"
+      },
+      {
+        "foodGenusId": "21170.92.03",
+        "foodGenusName": "edible insect larvae, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2098,
+    "foodGroupName": "milk - (excluding excluding butter butter) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "22211.01",
+        "foodGenusName": "milk, cow, full-fat, powder"
+      },
+      {
+        "foodGenusId": "22251.01.01",
+        "foodGenusName": "cheese, cow milk, cottage"
+      },
+      {
+        "foodGenusId": "22230.01.01",
+        "foodGenusName": "yoghurt, cow milk, plain"
+      },
+      {
+        "foodGenusId": "22290.01",
+        "foodGenusName": "sour milk, traditional"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2100,
+    "foodGroupName": "beverages, fermented and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24230.03.02",
+        "foodGenusName": "maize-fermented beverage"
+      },
+      {
+        "foodGenusId": "24230.03.03",
+        "foodGenusName": "maize- and millet-fermented beverage"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2101,
+    "foodGroupName": "sweeteners, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24490.02",
+        "foodGenusName": "sugar sweetned beverage, cola"
+      },
+      {
+        "foodGenusId": "24490.01",
+        "foodGenusName": "sugar sweetned beverage, concentrate"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2102,
+    "foodGroupName": "sugar (raw equivalent) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23670.01.02",
+        "foodGenusName": "flavoured ice"
+      },
+      {
+        "foodGenusId": "23670.01.01",
+        "foodGenusName": "candies, hard"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2103,
+    "foodGroupName": "fruits, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "F0623.01",
+        "foodGenusName": "jam, mixed fruit"
+      },
+      {
+        "foodGenusId": "F0623.02",
+        "foodGenusName": "jelly, fruits"
+      },
+      {
+        "foodGenusId": "1359.9.02",
+        "foodGenusName": "baobab fruits, raw"
+      },
+      {
+        "foodGenusId": "F0623.03",
+        "foodGenusName": "banana, fritters"
+      },
+      {
+        "foodGenusId": "1359.9.01",
+        "foodGenusName": "indian jujubes, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2104,
+    "foodGroupName": "cocoa beans and products",
+    "foodItems": [
+      {
+        "foodGenusId": "F0666.01",
+        "foodGenusName": "chocolate, milk"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2106,
+    "foodGroupName": "aquatic animals, others",
+    "foodItems": [
+      {
+        "foodGenusId": "1587.01",
+        "foodGenusName": "frog meat, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2112,
+    "foodGroupName": "butter, ghee and products",
+    "foodItems": [
+      {
+        "foodGenusId": "22241.01.01",
+        "foodGenusName": "butter"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2113,
+    "foodGroupName": "cassava and products",
+    "foodItems": [
+      {
+        "foodGenusId": "01520.01.03",
+        "foodGenusName": "cassava root, roasted"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2119,
+    "foodGroupName": "coffee and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23912.02.02",
+        "foodGenusName": "coffee beverages"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2124,
+    "foodGroupName": "demersal fish",
+    "foodItems": [
+      {
+        "foodGenusId": "1514.01",
+        "foodGenusName": "groupers, white, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2127,
+    "foodGroupName": "fish, body oil",
+    "foodItems": [
+      {
+        "foodGenusId": "1522.01",
+        "foodGenusName": "cod, body, oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2129,
+    "foodGroupName": "freshwater fish",
+    "foodItems": [
+      {
+        "foodGenusId": "1501.02",
+        "foodGenusName": "catfish, african, fresh, raw"
+      },
+      {
+        "foodGenusId": "1501.05",
+        "foodGenusName": "tilapia, fresh, raw "
+      },
+      {
+        "foodGenusId": "1505.01",
+        "foodGenusName": "catfish, african, dried, raw"
+      },
+      {
+        "foodGenusId": "1505.05",
+        "foodGenusName": "tilapia, smoked, raw"
+      },
+      {
+        "foodGenusId": "1505.04",
+        "foodGenusName": "catfish, african, smoked, raw"
+      },
+      {
+        "foodGenusId": "1501.04",
+        "foodGenusName": "catfish, african, fresh, grilled"
+      },
+      {
+        "foodGenusId": "1505.02",
+        "foodGenusName": "tilapia, dried, raw"
+      },
+      {
+        "foodGenusId": "1505.03",
+        "foodGenusName": "barb, silver, dried, raw"
+      },
+      {
+        "foodGenusId": "1501.06",
+        "foodGenusName": "barb, silver, fresh, raw"
+      },
+      {
+        "foodGenusId": "1505.06",
+        "foodGenusName": "barb, silver, smoked, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2133,
+    "foodGroupName": "groundnuts (shelled eq) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "142.03",
+        "foodGenusName": "peanuts, fresh, unshelled, raw"
+      },
+      {
+        "foodGenusId": "142.04",
+        "foodGenusName": "peanut, unshelled, roasted"
+      },
+      {
+        "foodGenusId": "21421.01",
+        "foodGenusName": "peanut, shelled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2135,
+    "foodGroupName": "lemons, limes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1322.02",
+        "foodGenusName": "limes, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2136,
+    "foodGroupName": "maize and products (including white maize)",
+    "foodItems": [
+      {
+        "foodGenusId": "39120.04.01",
+        "foodGenusName": "maize bran, flour, raw "
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2140,
+    "foodGroupName": "mutton & and goat meat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21115.01",
+        "foodGenusName": "sheep meat, fresh, raw"
+      },
+      {
+        "foodGenusId": "21116.02",
+        "foodGenusName": "goat meat, fresh, grilled"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2141,
+    "foodGroupName": "nuts and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1379.9.01",
+        "foodGenusName": "macadamias"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2143,
+    "foodGroupName": "offals, edible and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21151.02",
+        "foodGenusName": "beef liver, fresh, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2144,
+    "foodGroupName": "oilcrops oil, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "34550.01",
+        "foodGenusName": "vegetable, oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2149,
+    "foodGroupName": "oranges, mandarines and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1324.02",
+        "foodGenusName": "mandarins, raw"
+      },
+      {
+        "foodGenusId": "21431.01",
+        "foodGenusName": "orange, juice"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2155,
+    "foodGroupName": "pimento and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1652.01",
+        "foodGenusName": "pepper, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2159,
+    "foodGroupName": "poultry meat and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21121.02",
+        "foodGenusName": "chicken meat, minced, fresh, raw"
+      },
+      {
+        "foodGenusId": "21121.04",
+        "foodGenusName": "chicken meat, fresh, deep-fried"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2161,
+    "foodGroupName": "rice and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23120.01.01",
+        "foodGenusName": "rice flour, white"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2162,
+    "foodGroupName": "ricebran oil and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21691.01.01",
+        "foodGenusName": "rice bran, oil"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2170,
+    "foodGroupName": "spices, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1699.05",
+        "foodGenusName": "baking powder"
+      },
+      {
+        "foodGenusId": "1699.02",
+        "foodGenusName": "salt"
+      },
+      {
+        "foodGenusId": "1699.03",
+        "foodGenusName": "mixed spices"
+      },
+      {
+        "foodGenusId": "1699.04",
+        "foodGenusName": "yeast, baking"
+      },
+      {
+        "foodGenusId": "1699.06",
+        "foodGenusName": "tabasco, sauce"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2176,
+    "foodGroupName": "sweet potatoes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1530.05",
+        "foodGenusName": "sweet potato, white-flesh, roasted"
+      },
+      {
+        "foodGenusId": "1530.06",
+        "foodGenusName": "sweet potatoes, orange-flesh, boiled"
+      },
+      {
+        "foodGenusId": "1530.07",
+        "foodGenusName": "sweet potatoes, orange-flesh, roasted"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2177,
+    "foodGroupName": "tea (including mate) and products",
+    "foodItems": [
+      {
+        "foodGenusId": "23914.01",
+        "foodGenusName": "tea beverages"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2178,
+    "foodGroupName": "tomatoes and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21399.01.01",
+        "foodGenusName": "tomatoes, sauce"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2179,
+    "foodGroupName": "vegetables, other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "1212.02",
+        "foodGenusName": "cabbages, chinese, raw"
+      },
+      {
+        "foodGenusId": "1212.03",
+        "foodGenusName": "cabbages, head, raw"
+      },
+      {
+        "foodGenusId": "1214.06",
+        "foodGenusName": "blackjack leaves, raw"
+      },
+      {
+        "foodGenusId": "1219.01.01",
+        "foodGenusName": "cassava leaves, raw"
+      },
+      {
+        "foodGenusId": "1232.01",
+        "foodGenusName": "cucumbers, raw"
+      },
+      {
+        "foodGenusId": "1215.02",
+        "foodGenusName": "amaranth leaves, raw"
+      },
+      {
+        "foodGenusId": "1290.01.01",
+        "foodGenusName": "maize, green, raw"
+      },
+      {
+        "foodGenusId": "21397.01.01",
+        "foodGenusName": "canned mushrooms"
+      },
+      {
+        "foodGenusId": "1215.03",
+        "foodGenusName": "roselle leaves, raw"
+      },
+      {
+        "foodGenusId": "1290.01.02",
+        "foodGenusName": "maize, green, roasted"
+      },
+      {
+        "foodGenusId": "1214.05",
+        "foodGenusName": "jew's mallow leaves, raw"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2180,
+    "foodGroupName": "wine and products",
+    "foodItems": [
+      {
+        "foodGenusId": "24212.02.02",
+        "foodGenusName": "wine, red"
+      },
+      {
+        "foodGenusId": "24212.02.03",
+        "foodGenusName": "wine, rosé"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2182,
+    "foodGroupName": "Oilcrops Oil, Other and products",
+    "foodItems": [
+      {
+        "foodGenusId": "21700.02.01",
+        "foodGenusName": "margarine"
+      }
+    ]
+  },
+  {
+    "foodGroupId": 2183,
+    "foodGroupName": "Miscellaneous and products",
+    "foodItems": [
+      {
+        "foodGenusId": "2899.01.01",
+        "foodGenusName": "water, drinking, bottled"
+      }
+    ]
+  }
+]
