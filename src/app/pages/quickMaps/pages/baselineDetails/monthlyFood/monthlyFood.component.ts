@@ -129,7 +129,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
         this.cdr.detectChanges();
 
         this.dataSource.sort = this.sort;
-
+        console.log(data);
         this.initialiseGraph(data);
       })
       .finally(() => {
