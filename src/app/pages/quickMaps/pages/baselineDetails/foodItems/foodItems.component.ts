@@ -156,12 +156,12 @@ export class FoodItemsComponent implements AfterViewInit {
               const groupedChartData: ChartDataSets = result['dataset']['data'];
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-              let colourCode = '';
               if (groupedChartDataAtCurrentIndex) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                colourCode = this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+                return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+              } else {
+                return '#000';
               }
-              return this.genColorHex(colourCode);
             },
           },
         ],

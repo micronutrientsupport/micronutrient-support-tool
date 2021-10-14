@@ -53,6 +53,11 @@ export interface ChartJSObject {
       yAxes: [
         {
           id?: string;
+          ticks?: {
+            min?: number;
+            max?: number;
+            stepSize?: number;
+          };
           stacked?: boolean;
           display?: boolean;
           scaleLabel?: {
