@@ -20,7 +20,6 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
