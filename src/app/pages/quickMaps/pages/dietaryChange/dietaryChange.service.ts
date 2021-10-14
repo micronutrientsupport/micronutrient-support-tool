@@ -23,7 +23,7 @@ export class DietaryChangeService {
    */
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public parameterChangedObs = this.parameterChangedSrc.asObservable();
+  public readonly parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
 
