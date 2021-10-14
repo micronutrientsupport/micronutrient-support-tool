@@ -1,4 +1,3 @@
-import { DictionaryType } from '../api/dictionaryType.enum';
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { Dictionary } from '../_lib_code/objects/dictionary';
 import { Exportable } from './exportable.interface';
