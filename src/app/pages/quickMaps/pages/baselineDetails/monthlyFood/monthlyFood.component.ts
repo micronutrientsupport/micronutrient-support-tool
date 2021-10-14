@@ -139,7 +139,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
           });
         });
 
-        console.log(stackedChartData);
+        // console.log(stackedChartData);
 
         this.errorSrc.next(false);
         this.chartData = null;
