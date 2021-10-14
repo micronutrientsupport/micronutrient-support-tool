@@ -27,7 +27,6 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -156,12 +155,12 @@ export class FoodItemsComponent implements AfterViewInit {
               const groupedChartData: ChartDataSets = result['dataset']['data'];
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-              let colourCode = '';
               if (groupedChartDataAtCurrentIndex) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                colourCode = this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+                return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+              } else {
+                return '#000';
               }
-              return this.genColorHex(colourCode);
             },
           },
         ],

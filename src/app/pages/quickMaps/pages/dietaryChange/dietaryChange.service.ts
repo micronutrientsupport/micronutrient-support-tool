@@ -29,7 +29,7 @@ export class DietaryChangeService {
 
   // private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector) {
+  constructor() {
     // this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init

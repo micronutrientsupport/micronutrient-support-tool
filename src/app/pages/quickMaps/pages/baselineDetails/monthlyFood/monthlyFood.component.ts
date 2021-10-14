@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -22,6 +22,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
+import ColorHash from 'color-hash-ts';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -121,6 +122,25 @@ export class MonthlyFoodComponent implements AfterViewInit {
         }
 
         this.dataSource = new MatTableDataSource(data);
+
+        const foodTypes = [...new Set(data.map((item) => item.foodGroupName))];
+        const timePeriod = [...new Set(data.map((item) => item.month.name))];
+
+        // Generate the stacked chart
+        const stackedChartData = {
+          labels: timePeriod,
+          datasets: [],
+        };
+        foodTypes.forEach((thing, index) => {
+          stackedChartData.datasets.push({
+            label: foodTypes[index],
+            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+            backgroundColor: this.genColorHex(foodTypes[index]),
+          });
+        });
+
+        // console.log(stackedChartData);
+
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
@@ -129,8 +149,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
         this.cdr.detectChanges();
 
         this.dataSource.sort = this.sort;
-
-        this.initialiseGraph(data);
+        // console.log(data);
+        this.initialiseGraph(stackedChartData);
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -142,95 +162,55 @@ export class MonthlyFoodComponent implements AfterViewInit {
       });
   }
 
-  private initialiseGraph(data: Array<MonthlyFoodGroup>): void {
-    // TODO: needs updating to use new MonthlyFoodGroup data structure
-    // const generatedChart: ChartJSObject = {
-    //   type: 'bar',
-    //   data: {
-    //     labels: data.map((year) => year.month),
-    //     datasets: [
-    //       {
-    //         label: 'Cereal Grains',
-    //         data: data.map((year) => year.cerealGrainsPerc),
-    //         backgroundColor: 'rgba(255, 165, 0, 0.6)',
-    //       },
-    //       {
-    //         label: 'Dairy',
-    //         data: data.map((year) => year.dairyPerc),
-    //         backgroundColor: 'rgba(248,228,165)',
-    //       },
-    //       {
-    //         label: 'Fat',
-    //         data: data.map((year) => year.fatPerc),
-    //         backgroundColor: 'rgba(0, 0, 255, 0.6)',
-    //       },
-    //       {
-    //         label: 'Nuts',
-    //         data: data.map((year) => year.nutsPerc),
-    //         backgroundColor: 'rgba(172, 114, 87, 0.6)',
-    //       },
-    //       {
-    //         label: 'Misc',
-    //         data: data.map((year) => year.miscPerc),
-    //         backgroundColor: 'rgba(238, 130, 238, 0.6)',
-    //       },
-    //       {
-    //         label: 'Fruit',
-    //         data: data.map((year) => year.fruitPerc),
-    //         backgroundColor: 'rgba(100, 181, 220, 0.6)',
-    //       },
-    //       {
-    //         label: 'Meat',
-    //         data: data.map((year) => year.meatPerc),
-    //         backgroundColor: 'rgba(255, 0, 0, 0.6)',
-    //       },
-    //       {
-    //         label: 'Tubers',
-    //         data: data.map((year) => year.tubersPerc),
-    //         backgroundColor: 'rgba(255, 235, 59, 0.6)',
-    //       },
-    //       {
-    //         label: 'Vegetables',
-    //         data: data.map((year) => year.vegetablesPerc),
-    //         backgroundColor: 'rgba(60, 179, 113, 0.6)',
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     title: {
-    //       display: false,
-    //       text: this.title,
-    //     },
-    //     legend: {
-    //       display: true,
-    //       position: 'bottom',
-    //       align: 'center',
-    //     },
-    //     maintainAspectRatio: false,
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           stacked: true,
-    //         },
-    //       ],
-    //       yAxes: [
-    //         {
-    //           stacked: true,
-    //           barPercentage: 0.9,
-    //           categoryPercentage: 1.0,
-    //           scaleLabel: {
-    //             display: true,
-    //             labelString: 'percentage',
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // };
-    // this.chartData = generatedChart;
-    // const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+  private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
+    const generatedChart: ChartJSObject = {
+      type: 'bar',
+      data: stackedChartData,
+      options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [
+            {
+              stacked: true,
+            },
+          ],
+          yAxes: [
+            {
+              stacked: true,
+              barPercentage: 0.9,
+              categoryPercentage: 1.0,
+              ticks: {
+                min: 0,
+                max: 100,
+                stepSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'percentage',
+              },
+            },
+          ],
+        },
+      },
+    };
+    this.chartData = generatedChart;
+    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 
   private openDialog(): void {
