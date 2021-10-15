@@ -43,21 +43,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   public chartPNG: string;
   public chartPDF: string;
 
-  public displayedColumns = [
-    'monthIndex',
-    // 'unitPerc',
-    'vegetablesPerc',
-    'cerealGrainsPerc',
-    'dairyPerc',
-    'fatPerc',
-    'fruitPerc',
-    'meatPerc',
-    'tubersPerc',
-    'nutsPerc',
-    'miscPerc',
-    'supplyTotal',
-    // 'supplyUnit',
-  ];
+  public displayedColumns = [];
 
   private data: Array<MonthlyFoodGroup>;
 
@@ -139,7 +125,22 @@ export class MonthlyFoodComponent implements AfterViewInit {
           });
         });
 
-        // console.log(stackedChartData);
+        // Generate the table
+        this.displayedColumns = foodTypes;
+        this.displayedColumns.unshift('Month');
+        const newTableData = [];
+        const months = [...new Set(data.map((item) => item.month.name))];
+        months.forEach((t, i) => {
+          const content = {};
+          foodTypes.forEach((thing, index) => {
+            content[foodTypes[index]] = data
+              .filter((item) => item.foodGroupName === foodTypes[index] && item.month.name === months[i])
+              .map((item) => item.dietarySupply);
+          });
+          // eslint-disable-next-line @typescript-eslint/dot-notation
+          content['Month'] = months[i];
+          newTableData.push(content);
+        });
 
         this.errorSrc.next(false);
         this.chartData = null;
@@ -147,9 +148,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
         this.cdr.detectChanges();
-
-        this.dataSource.sort = this.sort;
-        // console.log(data);
+        this.initialiseTable(newTableData);
         this.initialiseGraph(stackedChartData);
       })
       .finally(() => {
@@ -160,6 +159,11 @@ export class MonthlyFoodComponent implements AfterViewInit {
         this.errorSrc.next(true);
         throw e;
       });
+  }
+
+  private initialiseTable(data: Array<MonthlyFoodGroup>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
   }
 
   private initialiseGraph(stackedChartData: ChartsJSDataObject): void {

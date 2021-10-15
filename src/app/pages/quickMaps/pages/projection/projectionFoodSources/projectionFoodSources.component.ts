@@ -214,21 +214,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           // Generate the table
           const selectedYearString = String(this.projectionFoodFormGroup.get('year').value);
           const tableData = data.filter((item) => String(item.year) === selectedYearString);
-          // quinquennialPeriod.forEach((currentYear) => {
-          //   const filteredTableData = new Array<MicronutrientProjectionSourceTable>();
-
-          //   foodTypes.forEach((thing, index) => {
-          //     filteredTableData.push({
-          //       year: currentYear,
-          //       foodName: foodTypes[index],
-          //       value: data
-          //         .filter((item) => item.year === currentYear)
-          //         // .filter((item) => item.name === foodTypes[index])
-          //         .map((item) => item.value)[0],
-          //     });
-          //   });
-          //   filteredTableDataArray.push(filteredTableData);
-          // });
 
           this.errorSrc.next(false);
           this.chartData = null;
