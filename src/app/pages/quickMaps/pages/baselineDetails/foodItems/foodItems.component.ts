@@ -185,7 +185,7 @@ export class FoodItemsComponent implements AfterViewInit {
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
               const mnUnit = this.mnUnit;
-              return `${label}: ${Number(value).toPrecision(3)} ${mnUnit}/AFE/day`;
+              return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
             },
           },
         },
