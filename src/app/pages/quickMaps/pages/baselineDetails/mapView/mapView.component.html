@@ -2,10 +2,8 @@
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
       <button id='snapshot' (click)="downloadMap()">DownloadMap</button>
+      <button id='capture' type="button" (click)="captureScreen()">Capture</button>
       <div #map1 id="absolute-map"></div>
-
-
-      id"testmap"
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">

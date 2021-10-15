@@ -46,6 +46,9 @@ import {
 import * as GeoJSON from 'geojson';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -113,6 +116,27 @@ export class MapViewComponent implements AfterViewInit {
       this.colourPalette = this.defaultPalette;
     }
   }
+
+  public captureScreen(): void {
+    // return new Promise((resolve) => {
+    const data = document.getElementById('absolute-map');
+    void html2canvas(data).then((canvas) => {
+      const imgWidth = 180;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const position = 20;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          pdf.save('map.pdf', { returnPromise: true });
+          resolve('resolved'); // resolve is also postponed
+        }, 4000);
+      });
+    });
+  }
+
+  //
 
   public downloadMap(): void {
     this.bla
@@ -272,6 +296,7 @@ export class MapViewComponent implements AfterViewInit {
           features: data.map((item) => item.toFeature()),
         };
         this.initialiseMapAbsolute();
+
         this.initialiseMapThreshold();
         this.areaBounds = this.absoluteDataLayer.getBounds();
 
@@ -416,6 +441,7 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private initialiseMap(mapElement: HTMLElement): L.Map {
+    this.cdr.detectChanges();
     return new LeafletMapHelper()
       .createMap(mapElement)
       .setDefaultBaseLayer()
