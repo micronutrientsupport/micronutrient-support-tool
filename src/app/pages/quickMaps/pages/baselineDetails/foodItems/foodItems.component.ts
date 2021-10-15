@@ -59,7 +59,7 @@ export class FoodItemsComponent implements AfterViewInit {
   constructor(
     private notificationService: NotificationsService,
     private dietDataService: DietDataService,
-    private quickMapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
@@ -114,6 +114,7 @@ export class FoodItemsComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
+        console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
         this.chartData = null;
