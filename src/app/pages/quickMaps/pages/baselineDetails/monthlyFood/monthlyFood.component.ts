@@ -148,7 +148,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
         this.cdr.detectChanges();
-        // console.log(data);
         this.initialiseTable(newTableData);
         this.initialiseGraph(stackedChartData);
       })
