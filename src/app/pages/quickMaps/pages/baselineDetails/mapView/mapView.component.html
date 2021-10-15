@@ -1,9 +1,7 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
-      <button (click)="downloadMap()">DownloadMap</button>
       <div #map1 id="absolute-map"></div>
-
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">

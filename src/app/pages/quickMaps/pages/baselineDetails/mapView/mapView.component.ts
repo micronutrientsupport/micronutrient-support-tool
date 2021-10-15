@@ -29,8 +29,6 @@ import { ColourGradient, ColourGradientObject } from '../../../components/colour
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
-import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
 import { SimpleMapScreenshoter } from 'leaflet-simple-map-screenshoter';
 import * as leafletImage from 'leaflet-image';
 import { DietDataService } from 'src/app/services/dietData.service';
@@ -44,6 +42,7 @@ import * as GeoJSON from 'geojson';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { jsPDF } from 'jspdf';
 import { MapDownloadService } from '../../../components/download/mapDownload.service';
+import html2canvas from 'html2canvas';
 export interface MapDataType {
   name: string;
   value: string;
@@ -60,7 +59,6 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
-  pdfMake: any;
   public snapshot = document.getElementById('snapshot');
   public readonly dataLevelEnum = DataLevel;
   public title = '';
@@ -83,6 +81,7 @@ export class MapViewComponent implements AfterViewInit {
   private absoluteDataLayer: L.GeoJSON;
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
+  private absoluteLegendElement: HTMLDivElement;
 
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
@@ -123,33 +122,45 @@ export class MapViewComponent implements AfterViewInit {
 
   public downloadMap(): void {
     leafletImage(this.absoluteMap, (err, canvas) => {
-      const img = document.createElement('img');
+      const doc = new jsPDF();
       const dimensions = this.absoluteMap.getSize();
-      img.width = dimensions.x;
-      img.height = dimensions.y;
-      img.src = canvas.toDataURL();
-      void this.generatePdf(img.src);
+      const img = canvas.toDataURL();
+      doc.addImage(img, 'PNG', 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
+      // doc.save('bla.pdf');
+
+      // void this.generatePdf(img.src);
+    });
+    void html2canvas(this.absoluteLegendElement, {
+      onclone: (canvas) => {
+        // const doc = new jsPDF();
+        // const dimensions = this.absoluteMap.getSize();
+        // const img = canvas;
+        // doc.addImage(img, 'PNG', 10, 10, dimensions.x * 0.5, dimensions.y * 0.5);
+        // doc.save('legend.pdf');
+      },
+    }).then(() => {
+      // console.debug('img got');
     });
   }
 
-  public async loadPdfMaker() {
-    if (!this.pdfMake) {
-      const pdfMakeModule = await import('pdfmake/build/pdfmake');
-      const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-      this.pdfMake = pdfMakeModule.default;
-      this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
-    }
-  }
+  // public async loadPdfMaker() {
+  //   if (!this.pdfMake) {
+  //     const pdfMakeModule = await import('pdfmake/build/pdfmake');
+  //     const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+  //     this.pdfMake = pdfMakeModule.default;
+  //     this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
+  //   }
+  // }
 
-  public async generatePdf(img: any) {
-    await this.loadPdfMaker();
-    const def = {
-      content: {
-        image: `${img}`,
-      },
-    };
-    this.pdfMake.createPdf(def).open();
-  }
+  // public async generatePdf(img: any) {
+  //   await this.loadPdfMaker();
+  //   const def = {
+  //     content: {
+  //       image: `${img}`,
+  //     },
+  //   };
+  //   this.pdfMake.createPdf(def).open();
+  // }
 
   // jsPDF/ pdfMAke end
 
@@ -376,7 +387,7 @@ export class MapViewComponent implements AfterViewInit {
         previousGradObj = gradObj;
       });
       addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
-
+      this.absoluteLegendElement = div;
       return div;
     };
 
