@@ -1,170 +1,3503 @@
-{
-    "jan": {
-        "mn_supply_total": 1097,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 56,
-        "mn_tubers_perc": 17,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 4,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "feb": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "mar": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 35,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 25,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "apr": {
-        "mn_supply_total": 1902,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 9,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 11,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "may": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 43,
-        "mn_tubers_perc": 9,
-        "mn_nuts_perc": 25,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 1,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "jun": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "jul": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "aug": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "sep": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "oct": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "nov": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    },
-    "dec": {
-        "mn_supply_total": 1082,
-        "mn_supply_unit": "mg",
-        "mn_cereal_grains_perc": 50,
-        "mn_tubers_perc": 19,
-        "mn_nuts_perc": 5,
-        "mn_vegetables_perc": 7,
-        "mn_meat_perc": 10,
-        "mn_fruit_perc": 5,
-        "mn_dairy_perc": 1,
-        "mn_fat_perc": 1,
-        "mn_misc_perc": 1,
-        "mn_unit_perc": "mg"
-    }
-}
+[
+  {
+    "percentageMnConsumed": "24.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "167776.38921328000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "22.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "150527.26557360000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "19.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "134733.50365580000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "9.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "60813.4488334100000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "30223.80000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "29629.86197500000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "26188.8000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14095.37729600000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13742.54334245000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8532.35478460238000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5736.12524000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5130.32909999714640000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4881.77760000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4589.40160000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4304.96843643000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3532.88379200000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2164.07040000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2156.79508081100000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1849.87000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1453.64061979802000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1405.20000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1222.5343900000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1169.51220000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "769.20000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "160.8362259427040000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "156.06600000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "90.27977328624000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "88.12800000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "35.00000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "19.83520000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "10.98000000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3.10080000000000000000000",
+    "monthConsumed": 1,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "27.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "339376.18828084000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "22.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "282833.41557050000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "12.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "159169.91728608000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "10.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "123355.8099829400000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "7.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "89398.03983932500000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "61831.09620000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "54242.8800000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "31383.24160400000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "19304.42324295819030000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13380.41393795000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9211.93090999135800000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8390.39964000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7237.02770024000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7096.87152245000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6162.61809560000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4181.23821400000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3530.13791465600000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3458.40000000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3008.45052474910000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2936.76427000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2135.6804700000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1989.89181000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1389.86160000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "884.74280000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "710.12700000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "305.1282583351600000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "225.74076000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "212.64960000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "152.94823543368000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "135.59280000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "35.30000000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "27.83340000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3.61760000000000000000000",
+    "monthConsumed": 2,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "34.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "575151.35210820000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "23.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "379833.01525468000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "12.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "196889.04861504000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "100123.29071500000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "99680.3188741000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "90434.44080000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "42852.97130400000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "34036.1148000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "19387.06408921917520000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17683.58557474000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13256.80818949000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9985.17298999231500000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9828.01920000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9601.12288000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8368.65120000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8105.08134163603000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8051.43371415000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5867.48003480000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5550.40439200000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3342.74913619100000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3062.40000000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2451.90780000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1898.3826400000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "864.90000000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "447.7409315485580000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "214.31940000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "149.38417621232000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "106.92000000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "85.00000000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "84.15680000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "83.92720000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18.20352000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13.59540000000000000000000",
+    "monthConsumed": 3,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "40.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "832547.98448030000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "20.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "412982.04634472080000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "8.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "171601.77230196000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "124300.98810000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "96115.85120445000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "85163.9346231600000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "57840.11973558000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "54889.4052000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "53432.67014800000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "28248.36856000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "24248.43420296479010000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "15686.07348000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14186.58617998652370000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13710.91574330000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9889.44252995000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9258.66473600000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8493.82703480000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7222.94337727774400000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5439.08400000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5252.56996572700000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4165.72047000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4014.08854000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3817.7916700000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3111.37200000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1404.18580000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "408.2186493000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2043,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "305.13600000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "248.16133446080000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "247.9507982082040000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "149.31280000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "111.30000000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "25.25580000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18.71360000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "15.96000000000000000000000",
+    "monthConsumed": 4,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "35.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "363787.96622470000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "18.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "184150.27772228000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "9.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "92474.7339339200000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "8.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "90783.54394080000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "58697.81378866000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "46801.12230000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "29959.2000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "23916.00000000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "19644.18570400000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17665.10575532500000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13431.41036572336030000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13120.87199200000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12279.79200000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9777.2713500000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9097.88558965000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6679.46733997018800000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4892.03560000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4159.87019139000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3376.58327218800000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3239.09760000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2649.43980000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2636.15000000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2600.48633464497400000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1579.40000000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1165.42800000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1148.17200000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "386.0008821183320000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "134.45600000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "104.66857112744000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "53.99824000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "48.08960000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "43.00000000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3.52800000000000000000000",
+    "monthConsumed": 5,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "32.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "369843.77686546000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "18.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "207047.95227081380000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "7.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "89249.9602693100000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "71823.58622272000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "70551.42257594000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "62201.68726590000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "43122.6852000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "42536.10870000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "25874.08194800000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "25104.26576000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18083.87162240000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17572.25736000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17557.06384805052570000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13266.35265208000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9599.95493040000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8807.37916080000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7724.20219998979200000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6103.6606400000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5921.06268291000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4007.26933228500000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3373.23114000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3319.51618216844000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2836.13000000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1298.60000000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "866.05200000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "418.0287439912480000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "231.92616000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "183.23824209728000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "79.80000000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "48.49040000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "27.41220000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7.10000000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6.74560000000000000000000",
+    "monthConsumed": 6,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "31.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "179236.05758740000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "18.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "103524.87733747000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "10.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "58395.51827072000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "7.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "41535.3278100000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "38782.45934500000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "32139.92471000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18397.2000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18190.21950000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13619.32171600000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "10118.38918400000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8208.00000000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7888.74240000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7184.28273080000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6710.94433260633000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5947.33920000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3593.88213040000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3140.33459999782500000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2445.22707528000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1689.58427000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1523.54438953100000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1237.59900000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "987.04620000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "830.50527326247400000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "591.7426900000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "589.90000000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "152.1096183557600000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "104.26848000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "56.14577875792000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "26.04000000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5.38560000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5.37660000000000000000000",
+    "monthConsumed": 7,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "32.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "32666.04266496000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "17.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17995.11502608000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "12.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12164.83769993000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "7.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7798.9445000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4598.4000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4020.30000000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3145.51081540000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3035.99954000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2689.05608400000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2381.9896100000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2043.68507045000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "984.00000000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "901.60867200000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "873.26400000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "835.70400000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "834.57664270190000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "789.87041584018000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "785.59720000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "779.48519999939100000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "749.37644534000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "332.05069128000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "243.90180000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "226.93000000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "73.90000000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "26.58000000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14.34720000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "11.51210680000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8.08640000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3.6360864945600000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2.66560000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "0.59400000000000000000000",
+    "monthConsumed": 8,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "30.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "367419.54213813000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "17.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "208368.90901987000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "12.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "155370.72253360000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "75232.0554700000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "61032.24102500000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "57276.3432000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "48028.65840000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "44339.64692062000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "35366.41622800000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "33711.73764378500000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18757.51164000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14270.92941694748000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12132.41833088000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "11360.2581400000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "10033.35930998619600000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9379.85760000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9134.60324986000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8340.61102600000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5207.31247127714200000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5064.00000000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3768.71000000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3588.59063363100000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2795.57199000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1338.28200000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1255.60000000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "352.29040000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "306.22458000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "218.1348889528120000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "185.45747099488000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "59.80000000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "50.53500000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "25.76096000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17.13600000000000000000000",
+    "monthConsumed": 9,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "28.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "284265.75501960000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "17.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "176066.81908992000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "17.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "172676.41919240000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "63781.3807841000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "41122.16566500000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "41112.0000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "39932.26020000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "33822.86853900000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "26698.88421200000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "19841.91092260000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "16782.0629900000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12897.44037895187000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12215.64960000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "11426.71920000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9353.12459200000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6951.84229999092300000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6851.99062697000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5194.82600000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5107.82909108128000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3284.86858316700000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2708.42000000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1865.40000000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1720.25820000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "964.10000000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "604.98900000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "245.8600484738320000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "191.46000000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "187.92480000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "121.15888180400000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "48.44700000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "25.89440000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14.00000000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4.63904000000000000000000",
+    "monthConsumed": 10,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "30.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "65435.87168000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "18.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "40245.38642840000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "9.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "20991.0574000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "14458.69248320000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12852.90000000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "11069.71755040000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "8472.0000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "7057.66565000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6108.14604400000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "5717.17440000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3348.02726800000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.4",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2960.35440000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2894.33365883848000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2294.8802800000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2060.31237600000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1901.24869999675200000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1817.98689901000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1479.30940000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1312.38294059250000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1090.12989640500000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "672.65000000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "404.21520000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "247.20000000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "234.30000000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "40.20000000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "33.9368072825600000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "33.10893364184000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12.70080000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6.84720000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1.76320000000000000000000",
+    "monthConsumed": 11,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "26.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "113002.10977046000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2088,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "25.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "108882.73679318000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2041,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "15.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "68533.87079850000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2016,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "6.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "28538.8494500000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2076,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "5.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "22563.78348868000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2034,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "18407.96100000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2007,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "4.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "17298.31950000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2067,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "3.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "13475.6568000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2046,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "2.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "9410.18364000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2087,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "1.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "6366.16951368501980000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2089,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.9",
+    "micronutrientId": "Ca",
+    "dietarySupply": "4041.88113600000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2038,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.8",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3660.10855200000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2084,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.7",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3234.94080000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2179,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2669.46094999866600000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2030,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.6",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2629.14842366000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2056,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.5",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2095.98349560000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2069,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1324.6625700000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2047,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1256.75000000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2049,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.3",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1130.74080000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2074,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "830.54377722568594000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2065,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.2",
+    "micronutrientId": "Ca",
+    "dietarySupply": "767.48678604800000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2066,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "600.60000000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2061,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.1",
+    "micronutrientId": "Ca",
+    "dietarySupply": "599.79420000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2003,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "111.5672539414160000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2033,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "108.00000000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2080,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "99.64200000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2182,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "57.00000000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2140,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "35.53926023264000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2013,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "28.51200000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2070,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "12.95648000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2096,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "3.97800000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2001,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "2.66560000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2063,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  },
+  {
+    "percentageMnConsumed": "0.0",
+    "micronutrientId": "Ca",
+    "dietarySupply": "1.41120000000000000000000",
+    "monthConsumed": 12,
+    "foodGroupId": 2183,
+    "compositionDataId": 21,
+    "consumptionDataId": 1
+  }
+]

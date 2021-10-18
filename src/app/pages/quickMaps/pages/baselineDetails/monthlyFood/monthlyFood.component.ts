@@ -10,11 +10,9 @@ import {
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
-import { MonthlyFoodGroups } from 'src/app/apiAndObjects/objects/monthlyFoodGroups';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { CurrentDataService } from 'src/app/services/currentData.service';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -23,6 +21,8 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
+import { DietDataService } from 'src/app/services/dietData.service';
+import ColorHash from 'color-hash-ts';
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -43,23 +43,9 @@ export class MonthlyFoodComponent implements AfterViewInit {
   public chartPNG: string;
   public chartPDF: string;
 
-  public displayedColumns = [
-    'monthIndex',
-    // 'unitPerc',
-    'vegetablesPerc',
-    'cerealGrainsPerc',
-    'dairyPerc',
-    'fatPerc',
-    'fruitPerc',
-    'meatPerc',
-    'tubersPerc',
-    'nutsPerc',
-    'miscPerc',
-    'supplyTotal',
-    // 'supplyUnit',
-  ];
+  public displayedColumns = [];
 
-  private data: MonthlyFoodGroups;
+  private data: Array<MonthlyFoodGroup>;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -68,7 +54,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   constructor(
     private notificationService: NotificationsService,
-    private currentDataService: CurrentDataService,
+    private dietDataService: DietDataService,
     private quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
@@ -90,13 +76,14 @@ export class MonthlyFoodComponent implements AfterViewInit {
       this.subscriptions.push(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.currentDataService.getMonthlyFoodGroups(
-              this.quickMapsService.country,
-              [this.quickMapsService.micronutrient],
-              this.quickMapsService.dietDataSource,
-            ),
-          );
+          const country = this.quickMapsService.country;
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != country && null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getMonthlyFoodGroups(country, micronutrient, dietDataSource));
+          }
         }),
       );
     } else if (null != this.dialogData) {
@@ -112,26 +99,58 @@ export class MonthlyFoodComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private init(dataPromise: Promise<MonthlyFoodGroups>): void {
+  private init(dataPromise: Promise<Array<MonthlyFoodGroup>>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: MonthlyFoodGroups) => {
+      .then((data: Array<MonthlyFoodGroup>) => {
         this.data = data;
         if (null == data) {
           throw new Error('data error');
         }
 
-        this.dataSource = new MatTableDataSource(data.all);
+        this.dataSource = new MatTableDataSource(data);
+
+        const foodTypes = [...new Set(data.map((item) => item.foodGroupName))];
+        const timePeriod = [...new Set(data.map((item) => item.month.name))];
+
+        // Generate the stacked chart
+        const stackedChartData = {
+          labels: timePeriod,
+          datasets: [],
+        };
+        foodTypes.forEach((thing, index) => {
+          stackedChartData.datasets.push({
+            label: foodTypes[index],
+            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+            backgroundColor: this.genColorHex(foodTypes[index]),
+          });
+        });
+
+        // Generate the table
+        this.displayedColumns = foodTypes;
+        this.displayedColumns.unshift('Month');
+        const newTableData = [];
+        const months = [...new Set(data.map((item) => item.month.name))];
+        months.forEach((t, i) => {
+          const content = {};
+          foodTypes.forEach((thing, index) => {
+            content[foodTypes[index]] = data
+              .filter((item) => item.foodGroupName === foodTypes[index] && item.month.name === months[i])
+              .map((item) => item.dietarySupply);
+          });
+          // eslint-disable-next-line @typescript-eslint/dot-notation
+          content['Month'] = months[i];
+          newTableData.push(content);
+        });
+
         this.errorSrc.next(false);
         this.chartData = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
         this.cdr.detectChanges();
-
-        this.dataSource.sort = this.sort;
-
-        this.initialiseGraph(data.all);
+        this.initialiseTable(newTableData);
+        this.initialiseGraph(stackedChartData);
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -143,59 +162,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
       });
   }
 
-  private initialiseGraph(data: Array<MonthlyFoodGroup>): void {
+  private initialiseTable(data: Array<MonthlyFoodGroup>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+  }
+
+  private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
     const generatedChart: ChartJSObject = {
       type: 'bar',
-      data: {
-        labels: data.map((year) => year.month),
-        datasets: [
-          {
-            label: 'Cereal Grains',
-            data: data.map((year) => year.cerealGrainsPerc),
-            backgroundColor: 'rgba(255, 165, 0, 0.6)',
-          },
-          {
-            label: 'Dairy',
-            data: data.map((year) => year.dairyPerc),
-            backgroundColor: 'rgba(248,228,165)',
-          },
-          {
-            label: 'Fat',
-            data: data.map((year) => year.fatPerc),
-            backgroundColor: 'rgba(0, 0, 255, 0.6)',
-          },
-          {
-            label: 'Nuts',
-            data: data.map((year) => year.nutsPerc),
-            backgroundColor: 'rgba(172, 114, 87, 0.6)',
-          },
-          {
-            label: 'Misc',
-            data: data.map((year) => year.miscPerc),
-            backgroundColor: 'rgba(238, 130, 238, 0.6)',
-          },
-          {
-            label: 'Fruit',
-            data: data.map((year) => year.fruitPerc),
-            backgroundColor: 'rgba(100, 181, 220, 0.6)',
-          },
-          {
-            label: 'Meat',
-            data: data.map((year) => year.meatPerc),
-            backgroundColor: 'rgba(255, 0, 0, 0.6)',
-          },
-          {
-            label: 'Tubers',
-            data: data.map((year) => year.tubersPerc),
-            backgroundColor: 'rgba(255, 235, 59, 0.6)',
-          },
-          {
-            label: 'Vegetables',
-            data: data.map((year) => year.vegetablesPerc),
-            backgroundColor: 'rgba(60, 179, 113, 0.6)',
-          },
-        ],
-      },
+      data: stackedChartData,
       options: {
         title: {
           display: false,
@@ -218,6 +193,11 @@ export class MonthlyFoodComponent implements AfterViewInit {
               stacked: true,
               barPercentage: 0.9,
               categoryPercentage: 1.0,
+              ticks: {
+                min: 0,
+                max: 100,
+                stepSize: 10,
+              },
               scaleLabel: {
                 display: true,
                 labelString: 'percentage',
@@ -227,12 +207,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
         },
       },
     };
-
     this.chartData = generatedChart;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 
   private openDialog(): void {
@@ -244,6 +227,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
 }
 
 export interface MonthlyFoodDialogData {
-  data: MonthlyFoodGroups;
+  data: Array<MonthlyFoodGroup>;
   selectedTab: number;
 }

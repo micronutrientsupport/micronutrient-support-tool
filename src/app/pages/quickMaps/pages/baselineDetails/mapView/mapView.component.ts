@@ -220,16 +220,17 @@ export class MapViewComponent implements AfterViewInit {
         }),
       );
 
-      // respond to parameter updates
+      // respond to parameter updates only if all set
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService.getMicronutrientAvailability(
-              this.quickMapsService.country,
-              this.quickMapsService.micronutrient,
-              this.quickMapsService.dietDataSource,
-            ),
-          );
+          const country = this.quickMapsService.country;
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != country && null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, dietDataSource));
+          }
         }),
       );
     } else if (null != this.dialogData) {

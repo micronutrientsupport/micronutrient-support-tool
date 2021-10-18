@@ -77,7 +77,7 @@ export class StatusChartComponent implements AfterViewInit {
         datasets: [
           {
             label: this.micronutirentName,
-            backgroundColor: 'rgba(0,220,255,0.5)',
+            backgroundColor: () => 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.2)',
             outlierRadius: 3,
@@ -95,7 +95,6 @@ export class StatusChartComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.defThreshold,
@@ -109,7 +108,6 @@ export class StatusChartComponent implements AfterViewInit {
             },
             {
               type: 'line',
-              id: 'abnLine',
               mode: 'horizontal',
               scaleID: 'y-axis-0',
               value: this.abnThreshold,

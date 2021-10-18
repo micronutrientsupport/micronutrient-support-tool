@@ -3,17 +3,18 @@ import { CurrentValue } from './currentValue.interface';
 
 export class CurrentComposition extends BaseObject implements CurrentValue {
   public static readonly KEYS = {
-    VALUE: 'value',
-    UNITS: 'units',
+    FOOD_GENUS_ID: 'foodGenusId',
+    COMPOSITION_DATA_ID: 'compositionDataId',
+    MICRONUTRIENT_ID: 'micronutrientId',
+    VALUE: 'micronutrientValue',
   };
 
   public readonly value: number;
-  public readonly units: string;
+  public readonly units = 'mg/kg';
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.value = this._getNumber(CurrentComposition.KEYS.VALUE);
-    this.units = this._getString(CurrentComposition.KEYS.UNITS);
   }
 }

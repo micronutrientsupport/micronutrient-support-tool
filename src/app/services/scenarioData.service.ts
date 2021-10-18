@@ -13,15 +13,21 @@ import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietar
 import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
 import { CurrentValue } from '../apiAndObjects/objects/currentValue.interface';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
+import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 @Injectable()
 export class ScenarioDataService {
   constructor(private apiService: ApiService) {}
 
-  public getCurrentComposition(foodItem: FoodDictionaryItem, dataSource: DietDataSource): Promise<CurrentComposition> {
+  public getCurrentComposition(
+    foodItem: FoodDictionaryItem,
+    dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
+  ): Promise<CurrentComposition> {
     return this.apiService.endpoints.scenario.getCurrentComposition.call({
       dataSource,
       foodItem,
+      micronutrient,
     });
   }
 
@@ -36,10 +42,11 @@ export class ScenarioDataService {
     dataSource: DietDataSource,
     mode: DietaryChangeMode,
     foodItem: FoodDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
   ): Promise<CurrentValue> {
     switch (mode) {
       case DietaryChangeMode.COMPOSITION:
-        return this.getCurrentComposition(foodItem, dataSource);
+        return this.getCurrentComposition(foodItem, dataSource, micronutrient);
       case DietaryChangeMode.CONSUMPTION:
         return this.getCurrentConsumption(foodItem, dataSource);
     }

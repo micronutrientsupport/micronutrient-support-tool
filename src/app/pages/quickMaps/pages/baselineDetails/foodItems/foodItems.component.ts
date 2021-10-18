@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
+import ColorHash from 'color-hash-ts';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -44,7 +45,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['foodName', 'value'];
+  public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
 
@@ -78,9 +79,13 @@ export class FoodItemsComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService.getTopFoods(this.quickMapsService.micronutrient, this.quickMapsService.dietDataSource),
-          );
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+
+          //  only if all set
+          if (null != micronutrient && null != dietDataSource) {
+            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+          }
         }),
         this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
@@ -138,14 +143,25 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             tree: data,
-            key: 'value',
-            groups: ['foodName'],
+            key: 'dailyMnContribution',
+            groups: ['foodGroupName'],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',
             fontSize: 12,
             fontStyle: 'normal',
-            backgroundColor: '#703aa3',
+            backgroundColor: (result: ChartData) => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartData: ChartDataSets = result['dataset']['data'];
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
+              if (groupedChartDataAtCurrentIndex) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+              } else {
+                return '#000';
+              }
+            },
           },
         ],
       },
@@ -175,7 +191,6 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
-
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
@@ -188,6 +203,11 @@ export class FoodItemsComponent implements AfterViewInit {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 }
 

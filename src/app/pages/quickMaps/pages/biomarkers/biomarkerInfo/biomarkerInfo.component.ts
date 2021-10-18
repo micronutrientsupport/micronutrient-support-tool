@@ -263,7 +263,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         datasets: [
           {
             label: `${this.selectedNutrient}`,
-            backgroundColor: 'rgba(0,220,255,0.5)',
+            backgroundColor: () => 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             outlierColor: 'rgba(0,0,0,0.5)',
             outlierRadius: 4,
@@ -298,7 +298,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           annotations: [
             {
               type: 'line',
-              id: 'defLine',
               mode: 'vertical',
               scaleID: 'x-axis-0',
               value: this.defThreshold,
