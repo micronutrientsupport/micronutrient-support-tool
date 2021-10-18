@@ -170,7 +170,6 @@ export class OptionsComponent {
     switch (this.dietaryChangeService.mode) {
       case DietaryChangeMode.FOOD_ITEM:
         this.changeScenarioValue(changeItem, changeItem.currentValue);
-        this.setChangeItemComposition(changeItem);
         break;
       default:
         changeItem.updatingScenarioValue = true;
