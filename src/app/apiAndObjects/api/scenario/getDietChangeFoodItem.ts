@@ -22,7 +22,7 @@ export class GetDietChangeFoodItem extends Endpoint<
         compositionDataId: Number(params.dataSource.compositionDataId),
         micronutrientId: params.micronutrient.id,
         foodGenusIds: params.changeItems.map((item) => item.foodItem.id),
-        replacementFoodGenusIds: params.changeItems.map((item) => item.scenarioValue),
+        replacementFoodGenusIds: params.changeItems.map((item) => item.scenarioValue.id),
       },
       (headers: HttpHeaders) => (true === params.asGeoJson ? headers.set('Accept', 'application/geo-json') : headers),
     );
