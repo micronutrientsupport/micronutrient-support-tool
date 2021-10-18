@@ -55,7 +55,6 @@ export class ComparisonCardComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private changeItemSubscriptions = new Array<Subscription>();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -80,10 +79,8 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.onExpandClickObs.subscribe(() => this.openDialog()),
           this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+            // respond to quickmaps parameter updates
             this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
-          }),
-          // respond to quickmaps parameter updates
-          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             this.updateBaselineData();
             this.updateScenarioData();
           }),
@@ -95,7 +92,6 @@ export class ComparisonCardComponent implements AfterViewInit {
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
-      this.updateBaselineData();
       this.baselineData = this.dialogData.dataIn.baselineData;
       this.scenarioData = this.dialogData.dataIn.scenarioData;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
@@ -143,24 +139,31 @@ export class ComparisonCardComponent implements AfterViewInit {
     }
   }
   private updateScenarioData(): void {
-    this.startLoading();
-    this.scenarioDataService
-      .getDietChange(
-        this.quickMapsService.dietDataSource,
-        this.quickMapsService.micronutrient,
-        this.dietaryChangeService.mode,
-        this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
-      )
-      .then((data: Array<MnAvailibiltyItem>) => {
-        this.scenarioData = data;
-      })
-      .finally(() => {
-        this.endLoading();
-      })
-      .catch((e) => {
-        this.errorSrc.next(true);
-        throw e;
-      });
+    const country = this.quickMapsService.country;
+    const micronutrient = this.quickMapsService.micronutrient;
+    const dietDataSource = this.quickMapsService.dietDataSource;
+    const useableChangeItems = this.dietaryChangeService.changeItems.filter((item) => item.isUseable());
+
+    if (null != country && null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
+      this.startLoading();
+      this.scenarioDataService
+        .getDietChange(
+          this.quickMapsService.dietDataSource,
+          this.quickMapsService.micronutrient,
+          this.dietaryChangeService.mode,
+          this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
+        )
+        .then((data: Array<MnAvailibiltyItem>) => {
+          this.scenarioData = data;
+        })
+        .finally(() => {
+          this.endLoading();
+        })
+        .catch((e) => {
+          this.errorSrc.next(true);
+          throw e;
+        });
+    }
   }
 
   private openDialog(): void {
