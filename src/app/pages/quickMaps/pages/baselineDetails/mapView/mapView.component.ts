@@ -44,6 +44,7 @@ import * as GeoJSON from 'geojson';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { jsPDF } from 'jspdf';
 import { MapDownloadService } from '../../../components/download/mapDownload.service';
+import html2canvas from 'html2canvas';
 export interface MapDataType {
   name: string;
   value: string;
@@ -98,8 +99,6 @@ export class MapViewComponent implements AfterViewInit {
 
   private tabVisited = new Map<number, boolean>();
 
-  private simpleMapScreenshoterAbs: SimpleMapScreenshoter;
-  private simpleMapScreenshoterthres: SimpleMapScreenshoter;
   private screenshot: SimpleMapScreenshoter = new SimpleMapScreenshoter({ hidden: true });
 
   constructor(
@@ -117,72 +116,84 @@ export class MapViewComponent implements AfterViewInit {
     }
 
     this.mapDownloadService.basemapImgObs.subscribe(() => this.downloadMap());
+    this.mapDownloadService.basemapImgPdfObs.subscribe(() => this.captureScreen());
   }
 
-  // jsPDF / pdfMake
-
+  //  map screenshoter
   public downloadMap(): void {
-    leafletImage(this.absoluteMap, (err, canvas) => {
-      const img = document.createElement('img');
-      const dimensions = this.absoluteMap.getSize();
-      img.width = dimensions.x;
-      img.height = dimensions.y;
-      img.src = canvas.toDataURL();
-      void this.generatePdf(img.src);
+    this.screenshot
+      .takeScreen('image')
+      .then((blob: Blob) => {
+        // console.debug('blob', blob);
+        saveAs(blob, 'screenshot.png');
+      })
+      .catch((e) => {
+        alert(e.toString());
+      });
+  }
+
+  // jsPDF & html2Canvas
+  public captureScreen(): void {
+    const mapData = document.getElementById('absolute-map');
+    void html2canvas(mapData, {
+      useCORS: true,
+      onclone: async () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 2000);
+        }),
+    }).then((canvas) => {
+      const imgWidth = 180;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const positionTop = 20;
+      const positionLeft = 20;
+      pdf.addImage(contentDataURL, 'PNG', positionLeft, positionTop, imgWidth, imgHeight);
+      pdf.save('map.pdf');
     });
   }
 
-  public async loadPdfMaker() {
-    if (!this.pdfMake) {
-      const pdfMakeModule = await import('pdfmake/build/pdfmake');
-      const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-      this.pdfMake = pdfMakeModule.default;
-      this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
-    }
-  }
+  //  // jsPDF / pdfMake
 
-  public async generatePdf(img: any) {
-    await this.loadPdfMaker();
-    const def = {
-      content: {
-        image: `${img}`,
-      },
-    };
-    this.pdfMake.createPdf(def).open();
-  }
-
-  // jsPDF/ pdfMAke end
-
-  // public downloadMap(): void {
-  //   const dimensions = this.absoluteMap.getSize();
-  //   console.debug('dimensions:', dimensions);
-  //   // alert('service working');
+  //  public downloadMap(): void {
+  //   leafletImage(this.absoluteMap, (err, canvas) => {
+  //     const img = document.createElement('img');
+  //     const dimensions = this.absoluteMap.getSize();
+  //     img.width = dimensions.x;
+  //     img.height = dimensions.y;
+  //     img.src = canvas.toDataURL();
+  //     void this.generatePdf(img.src);
+  //   });
   // }
-  // public downloadMap(): void {
-  //   this.screenshot
-  //     .takeScreen('blob')
-  //     .then((blob: Blob) => {
-  //       console.debug('blob', blob);
-  //       saveAs(blob, 'screenshot.png');
-  //     })
-  //     .catch((e) => {
-  //       alert(e.toString());
-  //     });
+  // // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // public async loadPdfMaker() {
+  //   if (!this.pdfMake) {
+  //     const pdfMakeModule = await import('pdfmake/build/pdfmake');
+  //     const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+  //     this.pdfMake = pdfMakeModule.default;
+  //     this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
+  //   }
   // }
+
+  // // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // public async generatePdf(img: any) {
+  //   await this.loadPdfMaker();
+  //   const def = {
+  //     content: {
+  //       image: `${img}`,
+  //     },
+  //   };
+  //   this.pdfMake.createPdf(def).open();
+  // }
+
+  // // jsPDF/ pdfMake end
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
     this.screenshot.addTo(this.absoluteMap);
-    // this.simpleMapScreenshoterAbs = L.simpleMapScreenshoter({hidden: true}).addTo(this.absoluteMap);
-    // this.simpleMapScreenshoter.addTo(this.thresholdMap);
-
-    // const bla: SimpleMapScreenshoter = L.simpleMapScreenshoter({ hidden: false });
-    // bla.addTo(this.absoluteMap);
-    // new SimpleMapScreenshoter({ hidden: true }).addTo(this.absoluteMap);
-
-    // const bla: SimpleMapScreenshoter =  new SimpleMapScreenshoter({ hidden: false }).addTo(this.absoluteMap);
-    // bla.takeScreen();
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -216,7 +227,6 @@ export class MapViewComponent implements AfterViewInit {
           if (null != this.card) {
             this.card.title = this.title;
           }
-          // this.cdr.detectChanges();
         }),
       );
 

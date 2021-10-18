@@ -67,6 +67,10 @@ export class DownloadComponent implements AfterViewInit {
   public exportBasemapImage(): void {
     this.mapDownloadService.takeBasemapScreenShot();
   }
+  public exportMapPDF(): void {
+    this.mapDownloadService.takeMapPDF();
+    console.log(this.mapDownloadService.takeMapPDF());
+  }
 
   exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);

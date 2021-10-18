@@ -1,7 +1,10 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
-      <button (click)="downloadMap()">DownloadMap</button>
+      <button id="snapshot" (click)="downloadMap()">DownloadMap</button>
+      <button id="capture" (click)="captureScreen()">PDF capture</button>
+
+
       <div #map1 id="absolute-map"></div>
 
     </mat-tab>

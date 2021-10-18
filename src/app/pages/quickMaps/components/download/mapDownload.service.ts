@@ -9,7 +9,10 @@ export class MapDownloadService {
   // // eslint-disable-next-line @typescript-eslint/member-ordering
   // public initObservable = this.initSrc.asObservable();
 
-  private readonly basemapImgSrc = new Subject();
+  private basemapImgSrc = new Subject();
+  private basemapImgPdfSrc = new Subject();
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public basemapImgPdfObs = this.basemapImgPdfSrc.asObservable();
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public basemapImgObs = this.basemapImgSrc.asObservable();
 
@@ -17,5 +20,8 @@ export class MapDownloadService {
 
   public takeBasemapScreenShot(): void {
     return this.basemapImgSrc.next();
+  }
+  public takeMapPDF(): void {
+    return this.basemapImgPdfSrc.next();
   }
 }

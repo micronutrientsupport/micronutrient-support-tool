@@ -18,6 +18,7 @@ import { BaselineDescriptionComponent } from './baselineDescription/baselineDesc
 import { RouterModule } from '@angular/router';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
+
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
