@@ -118,21 +118,24 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   public captureScreen(): void {
-    // return new Promise((resolve) => {
-    const data = document.getElementById('absolute-map');
-    void html2canvas(data).then((canvas) => {
+    const mapData = document.getElementById('absolute-map');
+    void html2canvas(mapData, {
+      useCORS: true,
+      onclone: async () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 2000);
+        }),
+    }).then((canvas) => {
       const imgWidth = 180;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const contentDataURL = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
-      const position = 20;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          pdf.save('map.pdf', { returnPromise: true });
-          resolve('resolved'); // resolve is also postponed
-        }, 4000);
-      });
+      const positionTop = 20;
+      const positionLeft = 20;
+      pdf.addImage(contentDataURL, 'PNG', positionLeft, positionTop, imgWidth, imgHeight);
+      pdf.save('map.pdf', { returnPromise: true });
     });
   }
 
