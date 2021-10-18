@@ -7,7 +7,6 @@ import {
   MnAvailibiltyItem,
   MnAvailibiltyItemFeatureProperties,
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
 import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFeatureLayerClass.interface';
@@ -39,7 +38,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     }
   }
 
-  @Input() set scenarioData(data: SubRegionDataItem) {
+  @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
     if (null != data) {
       this.scenarioMapData = data;
       this.initialiseMapScenario(this.colourPalette);
@@ -47,7 +46,7 @@ export class ScenariosMapComponent implements AfterViewInit {
   }
 
   public baselineMapData: Array<MnAvailibiltyItem>;
-  public scenarioMapData: SubRegionDataItem;
+  public scenarioMapData: Array<MnAvailibiltyItem>;
 
   public showSelectScenarioMessage = true;
 

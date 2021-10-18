@@ -3,7 +3,6 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MnAvailibiltyItem } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 
 interface TableObject {
   region: string;
@@ -33,7 +32,7 @@ export class ScenariosTableComponent implements OnInit {
     }
   }
 
-  @Input() set scenarioData(data: SubRegionDataItem) {
+  @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
     if (null != data) {
       this.scenarioTableData = data;
       if (null != this.baselineTableData) {
@@ -47,7 +46,7 @@ export class ScenariosTableComponent implements OnInit {
   private sort: MatSort;
 
   private baselineTableData: Array<MnAvailibiltyItem>;
-  private scenarioTableData: SubRegionDataItem;
+  private scenarioTableData: Array<MnAvailibiltyItem>;
 
   constructor() {}
 
@@ -58,7 +57,10 @@ export class ScenariosTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public createTableObjects(baseLineDetails: Array<MnAvailibiltyItem>, scenarioDetails: SubRegionDataItem): void {
+  public createTableObjects(
+    baseLineDetails: Array<MnAvailibiltyItem>,
+    scenarioDetails: Array<MnAvailibiltyItem>,
+  ): void {
     const baselineTableObjects = new Array<TableObject>();
     const scenarioTableObjects = new Array<TableObject>();
     baseLineDetails.forEach((item) => {
@@ -68,10 +70,10 @@ export class ScenariosTableComponent implements OnInit {
       };
       baselineTableObjects.push(detail);
     });
-    scenarioDetails.geoJson.features.forEach((item) => {
+    scenarioDetails.forEach((item) => {
       const detail: TableObject = {
-        region: item.properties.subregion_name,
-        scenarioSupply: item.properties.mn_absolute,
+        region: item.areaName,
+        scenarioSupply: item.deficientValue,
       };
       scenarioTableObjects.push(detail);
     });

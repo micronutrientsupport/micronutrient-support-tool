@@ -19,7 +19,6 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
@@ -49,7 +48,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   public modeDisplay: DietaryChangeMode;
   // public tempDisplay: ChangeItemsType;
   public baselineData: Array<MnAvailibiltyItem>;
-  public scenarioData: SubRegionDataItem;
+  public scenarioData: Array<MnAvailibiltyItem>;
 
   private loadingCount = 0;
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -148,10 +147,11 @@ export class ComparisonCardComponent implements AfterViewInit {
     this.scenarioDataService
       .getDietChange(
         this.quickMapsService.dietDataSource,
+        this.quickMapsService.micronutrient,
         this.dietaryChangeService.mode,
         this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
       )
-      .then((data: SubRegionDataItem) => {
+      .then((data: Array<MnAvailibiltyItem>) => {
         this.scenarioData = data;
       })
       .finally(() => {
@@ -173,6 +173,6 @@ export class ComparisonCardComponent implements AfterViewInit {
 
 export interface DietaryChangeComparisonCardDialogData {
   baselineData: Array<MnAvailibiltyItem>;
-  scenarioData: SubRegionDataItem;
+  scenarioData: Array<MnAvailibiltyItem>;
   selectedTab: number;
 }
