@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   Component,
   Input,
@@ -35,6 +30,7 @@ import {
   MnAvailibiltyItemFeatureProperties,
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
+import { MapDownloadService } from 'src/app/services/mapDownload.service';
 
 @Component({
   selector: 'app-map-view',
@@ -51,6 +47,7 @@ export class MapViewComponent implements AfterViewInit {
 
   public readonly dataLevelEnum = DataLevel;
   public title = '';
+  public downloadTitle = '';
   public selectedTab: number;
   private data: Array<MnAvailibiltyItem>;
 
@@ -83,6 +80,7 @@ export class MapViewComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private dietDataService: DietDataService,
+    private mapDownloadService: MapDownloadService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -90,6 +88,7 @@ export class MapViewComponent implements AfterViewInit {
       ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
+    this.mapDownloadService.basemapImgPdfObs.subscribe(() => this.exportMapAsPdf());
   }
 
   ngAfterViewInit(): void {
@@ -114,7 +113,7 @@ export class MapViewComponent implements AfterViewInit {
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToTab(3)));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
@@ -125,6 +124,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.countryObs.subscribe((country) => {
           this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+          this.downloadTitle = 'Baseline Map' + (null == country ? '' : ` - ${country.name}`);
           if (null != this.card) {
             this.card.title = this.title;
           }
@@ -167,8 +167,8 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  public navigateToInfoTab(): void {
-    this.selectedTab = 2;
+  public navigateToTab(tab: number): void {
+    this.selectedTab = tab;
     this.cdr.detectChanges();
   }
 
@@ -373,6 +373,14 @@ export class MapViewComponent implements AfterViewInit {
     // console.debug('threshold', this.thresholdDataLayer);
 
     this.refreshThresholdLegend(thresholdGradient);
+  }
+
+  private exportMapAsPdf(): void {
+    this.navigateToTab(0);
+    setTimeout(() => {
+      const mapData = document.getElementById('absolute-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsPDF(mapData, this.downloadTitle);
+    }, 200);
   }
 
   private openDialog(): void {

@@ -8,6 +8,23 @@
       <div #map2 id="threshold-map"></div>
     </mat-tab>
 
+
+    <mat-tab label="Download">
+      <!-- <div class="bmgf-maps-nice-scrollbar"> -->
+      <!-- <div class="status-element">
+          <mat-form-field appearance="outline">
+            <mat-label>Select data</mat-label>
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+      <app-download></app-download>
+
+    </mat-tab>
+
     <mat-tab label="About {{title}}">
       <div class="about-container">
         <h2>About {{title}}</h2>
