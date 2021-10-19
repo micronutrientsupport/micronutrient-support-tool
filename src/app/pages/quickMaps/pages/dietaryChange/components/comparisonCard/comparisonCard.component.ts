@@ -76,32 +76,23 @@ export class ComparisonCardComponent implements AfterViewInit {
       this.card.matMenu = this.menu;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-
       this.subscriptions.push(
-        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
-        }),
-      );
-      // respond to quickmaps parameter updates
-      this.subscriptions.push(
-        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.updateBaselineData();
-          this.updateScenarioData();
-        }),
-      );
-
-      // respond to dietary change parameters updates
-      this.subscriptions.push(
-        this.dietaryChangeService.changeItemsObs.subscribe(() => {
-          this.updateScenarioData();
-        }),
-      );
-      this.subscriptions.push(
-        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.updateBaselineData();
-        }),
+        ...[
+          this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+          this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+            this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
+          }),
+          // respond to quickmaps parameter updates
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+            this.updateBaselineData();
+            this.updateScenarioData();
+          }),
+          // respond to dietary change parameters updates
+          this.dietaryChangeService.changeItemsObs.subscribe(() => {
+            this.updateScenarioData();
+          }),
+        ],
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in

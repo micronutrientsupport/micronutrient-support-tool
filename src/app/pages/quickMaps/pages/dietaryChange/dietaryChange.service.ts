@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
@@ -23,13 +23,13 @@ export class DietaryChangeService {
    */
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public parameterChangedObs = this.parameterChangedSrc.asObservable();
+  public readonly parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
 
   // private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector) {
+  constructor() {
     // this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init

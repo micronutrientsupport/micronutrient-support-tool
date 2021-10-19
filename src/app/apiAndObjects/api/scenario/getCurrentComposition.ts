@@ -3,28 +3,28 @@ import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryIte
 import { CurrentComposition } from '../../objects/currentComposition';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
+import { HttpClient } from '@angular/common/http';
 
 export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurrentCompositionParams> {
   protected callLive(params: GetCurrentCompositionParams): Promise<CurrentComposition> {
-    throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall(['diet', 'scenario', 'composition'], RequestMethod.GET, {
-      foodItem: params.foodItem.id,
+    const callResponsePromise = this.apiCaller.doCall(['food-composition'], RequestMethod.GET, {
+      foodGenusId: params.foodItem.id,
       compositionDataId: params.dataSource.compositionDataId,
+      micronutrientId: params.micronutrient.id,
     });
 
     return this.buildObjectFromResponse(CurrentComposition, callResponsePromise);
   }
 
   protected callMock(): Promise<CurrentComposition> {
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(
       CurrentComposition,
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          const obj = {};
-          obj[CurrentComposition.KEYS.VALUE] = Math.round(Math.random() * 25);
-          obj[CurrentComposition.KEYS.UNITS] = 'mg/kg';
-          resolve(obj);
+          resolve(httpClient.get('/assets/exampleData/food_composition.json').toPromise());
         }, 1500);
       }),
     );
@@ -34,4 +34,5 @@ export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurre
 export interface GetCurrentCompositionParams {
   dataSource: DietDataSource;
   foodItem: FoodDictionaryItem;
+  micronutrient: MicronutrientDictionaryItem;
 }
