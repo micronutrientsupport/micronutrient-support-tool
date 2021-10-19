@@ -1,10 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-
 import {
   Component,
   Input,
@@ -29,10 +22,7 @@ import { ColourGradient, ColourGradientObject } from '../../../components/colour
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 import { ColourPaletteType } from '../../../components/colourObjects/colourPaletteType.enum';
 import { LeafletMapHelper } from 'src/app/other/leafletMapHelper';
-import domtoimage from 'dom-to-image';
-import { saveAs } from 'file-saver';
 import { SimpleMapScreenshoter } from 'leaflet-simple-map-screenshoter';
-import * as leafletImage from 'leaflet-image';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import {
@@ -42,9 +32,8 @@ import {
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
-import { jsPDF } from 'jspdf';
 import { MapDownloadService } from '../../../components/download/mapDownload.service';
-import html2canvas from 'html2canvas';
+
 export interface MapDataType {
   name: string;
   value: string;
@@ -61,10 +50,9 @@ export class MapViewComponent implements AfterViewInit {
   @ViewChild('map1') map1Element: ElementRef;
   @ViewChild('map2') map2Element: ElementRef;
   @Input() card: CardComponent;
-  pdfMake: any;
-  public snapshot = document.getElementById('snapshot');
   public readonly dataLevelEnum = DataLevel;
   public title = '';
+  public downloadTitle = '';
   public selectedTab: number;
 
   public selectedDataType: MapDataType;
@@ -99,8 +87,6 @@ export class MapViewComponent implements AfterViewInit {
 
   private tabVisited = new Map<number, boolean>();
 
-  private screenshot: SimpleMapScreenshoter = new SimpleMapScreenshoter({ hidden: true });
-
   constructor(
     private dialogService: DialogService,
     public quickMapsService: QuickMapsService,
@@ -115,85 +101,12 @@ export class MapViewComponent implements AfterViewInit {
       this.colourPalette = this.defaultPalette;
     }
 
-    this.mapDownloadService.basemapImgObs.subscribe(() => this.downloadMap());
-    this.mapDownloadService.basemapImgPdfObs.subscribe(() => this.captureScreen());
+    this.mapDownloadService.basemapImgPdfObs.subscribe(() => this.exportMapAsPdf());
   }
-
-  //  map screenshoter
-  public downloadMap(): void {
-    this.screenshot
-      .takeScreen('image')
-      .then((blob: Blob) => {
-        // console.debug('blob', blob);
-        saveAs(blob, 'screenshot.png');
-      })
-      .catch((e) => {
-        alert(e.toString());
-      });
-  }
-
-  // jsPDF & html2Canvas
-  public captureScreen(): void {
-    const mapData = document.getElementById('absolute-map');
-    void html2canvas(mapData, {
-      useCORS: true,
-      onclone: async () =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 2000);
-        }),
-    }).then((canvas) => {
-      const imgWidth = 180;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
-      const positionTop = 20;
-      const positionLeft = 20;
-      pdf.addImage(contentDataURL, 'PNG', positionLeft, positionTop, imgWidth, imgHeight);
-      pdf.save('map.pdf');
-    });
-  }
-
-  //  // jsPDF / pdfMake
-
-  //  public downloadMap(): void {
-  //   leafletImage(this.absoluteMap, (err, canvas) => {
-  //     const img = document.createElement('img');
-  //     const dimensions = this.absoluteMap.getSize();
-  //     img.width = dimensions.x;
-  //     img.height = dimensions.y;
-  //     img.src = canvas.toDataURL();
-  //     void this.generatePdf(img.src);
-  //   });
-  // }
-  // // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  // public async loadPdfMaker() {
-  //   if (!this.pdfMake) {
-  //     const pdfMakeModule = await import('pdfmake/build/pdfmake');
-  //     const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-  //     this.pdfMake = pdfMakeModule.default;
-  //     this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
-  //   }
-  // }
-
-  // // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  // public async generatePdf(img: any) {
-  //   await this.loadPdfMaker();
-  //   const def = {
-  //     content: {
-  //       image: `${img}`,
-  //     },
-  //   };
-  //   this.pdfMake.createPdf(def).open();
-  // }
-
-  // // jsPDF/ pdfMake end
 
   ngAfterViewInit(): void {
     this.absoluteMap = this.initialiseMap(this.map1Element.nativeElement);
     this.thresholdMap = this.initialiseMap(this.map2Element.nativeElement);
-    this.screenshot.addTo(this.absoluteMap);
 
     // if displayed within a card component init interactions with the card
     if (null != this.card) {
@@ -213,7 +126,7 @@ export class MapViewComponent implements AfterViewInit {
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToTab(3)));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
@@ -224,6 +137,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.countryObs.subscribe((country) => {
           this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+          this.downloadTitle = 'Baseline Map' + (null == country ? '' : ` - ${country.name}`);
           if (null != this.card) {
             this.card.title = this.title;
           }
@@ -266,8 +180,8 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  public navigateToInfoTab(): void {
-    this.selectedTab = 2;
+  public navigateToTab(tab: number): void {
+    this.selectedTab = tab;
     this.cdr.detectChanges();
   }
   public setDataSelection(dataType: MapDataType): void {
@@ -483,6 +397,14 @@ export class MapViewComponent implements AfterViewInit {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
+  }
+
+  private exportMapAsPdf(): void {
+    this.navigateToTab(0);
+    setTimeout(() => {
+      const mapData = document.getElementById('absolute-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsPDF(mapData, this.downloadTitle);
+    }, 200);
   }
 }
 

@@ -64,15 +64,11 @@ export class DownloadComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  public exportBasemapImage(): void {
-    this.mapDownloadService.takeBasemapScreenShot();
-  }
   public exportMapPDF(): void {
-    this.mapDownloadService.takeMapPDF();
-    console.log(this.mapDownloadService.takeMapPDF());
+    this.mapDownloadService.exportMapAsPDF();
   }
 
-  exportToCsv(): void {
+  public exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
   }
 }
