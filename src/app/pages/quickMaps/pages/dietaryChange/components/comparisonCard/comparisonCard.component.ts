@@ -80,7 +80,8 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // respond to quickmaps parameter updates
-            this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
+            this.title = `${this.quickMapsService.micronutrient.name} comparison`;
+            this.card.title = this.title;
             this.updateBaselineData();
             this.updateScenarioData();
           }),
@@ -95,6 +96,7 @@ export class ComparisonCardComponent implements AfterViewInit {
       this.baselineData = this.dialogData.dataIn.baselineData;
       this.scenarioData = this.dialogData.dataIn.scenarioData;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.title = this.dialogData.dataIn.title;
       this.cdr.detectChanges();
     }
   }
@@ -161,9 +163,11 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<unknown>(ComparisonCardComponent, {
-      data: this.scenarioData,
+    void this.dialogService.openDialogForComponent<DietaryChangeComparisonCardDialogData>(ComparisonCardComponent, {
+      baselineData: this.baselineData,
+      scenarioData: this.scenarioData,
       selectedTab: this.tabGroup.selectedIndex,
+      title: this.title,
     });
   }
 }
@@ -172,4 +176,5 @@ export interface DietaryChangeComparisonCardDialogData {
   baselineData: Array<MnAvailibiltyItem>;
   scenarioData: Array<MnAvailibiltyItem>;
   selectedTab: number;
+  title: string;
 }
