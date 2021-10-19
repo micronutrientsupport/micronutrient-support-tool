@@ -3,6 +3,7 @@ import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
+import { MapDownloadService } from 'src/app/services/mapDownload.service';
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
@@ -48,11 +49,19 @@ export class DownloadComponent implements AfterViewInit {
     '\n' +
     '}';
 
-  constructor(private clipboard: Clipboard, private exportService: ExportService) {}
+  constructor(
+    private clipboard: Clipboard,
+    private exportService: ExportService,
+    private mapDownloadService: MapDownloadService,
+  ) {}
 
   ngAfterViewInit(): void {}
 
-  exportToCsv(): void {
+  public exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
+  }
+
+  public exportMapPDF(): void {
+    this.mapDownloadService.exportMapAsPDF();
   }
 }

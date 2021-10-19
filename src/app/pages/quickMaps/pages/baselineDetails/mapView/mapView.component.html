@@ -1,11 +1,11 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
-      <div #map1></div>
+      <div #map1 id="absolute-map"></div>
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">
-      <div #map2></div>
+      <div #map2 id="threshold-map"></div>
     </mat-tab>
 
     <mat-tab label="About {{title}}">
