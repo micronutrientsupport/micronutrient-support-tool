@@ -16,7 +16,6 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       ['diet', this.getDataLevelSegment(params.dataSource), 'top-foods'],
       RequestMethod.GET,
       {
-        // params.country.id,
         micronutrientId: params.micronutrient.id,
         compositionDataId: params.dataSource.compositionDataId,
         consumptionDataId: params.dataSource.consumptionDataId,
@@ -39,8 +38,8 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
               .toPromise()
               .then((objects: Array<Record<string, unknown>>) => {
                 if (null != objects[0]) {
-                  // change something so that the display changes a little
-                  objects[0].value = Math.floor(Math.random() * 3);
+                  // change something so that the display changes a little (multiply by 0.8 to 0.9)
+                  (objects[0][TopFoodSource.KEYS.DAILY_MN_CONTRIBUTION] as number) *= Math.random() * 0.1 + 0.8;
                 }
                 return objects;
               }),

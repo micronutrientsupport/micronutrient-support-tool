@@ -8,14 +8,17 @@ export class AgeGenderDictionaryItem extends MapsDictionaryItem {
   public static readonly DESC_ATTRIBUTE: string = 'groupName';
   public static readonly KEYS = {
     GROUP: 'supraGroup',
+    IS_DEFAULT: 'isDefault',
   };
 
   public readonly group: string;
+  public readonly isDefault: boolean;
 
   protected constructor(sourceObject: Record<string, unknown>, id: string, name: string, description: string) {
     super(sourceObject, id, name, description);
 
     this.group = this._getString(AgeGenderDictionaryItem.KEYS.GROUP);
+    this.isDefault = this._getBoolean(AgeGenderDictionaryItem.KEYS.IS_DEFAULT);
   }
 
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {

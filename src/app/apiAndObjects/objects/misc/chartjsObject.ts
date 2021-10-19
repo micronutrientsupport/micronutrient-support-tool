@@ -6,7 +6,7 @@ export interface ChartsJSDataObject {
   datasets: Array<{
     data?: Array<any | string>;
     label?: string;
-    backgroundColor?: string;
+    backgroundColor?: (result?: ChartData) => string;
     borderColor?: string;
     outlierColor?: string;
     outlierRadius?: number;
@@ -53,6 +53,11 @@ export interface ChartJSObject {
       yAxes: [
         {
           id?: string;
+          ticks?: {
+            min?: number;
+            max?: number;
+            stepSize?: number;
+          };
           stacked?: boolean;
           display?: boolean;
           scaleLabel?: {
@@ -67,7 +72,7 @@ export interface ChartJSObject {
     annotation?: {
       annotations: Array<{
         type: string;
-        id: string;
+        id?: string;
         mode: string;
         scaleID: string;
         value: number; // data-value at which the line is drawn

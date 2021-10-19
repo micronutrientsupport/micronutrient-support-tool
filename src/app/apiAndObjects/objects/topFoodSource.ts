@@ -3,18 +3,29 @@ import { Exportable } from './exportable.interface';
 
 export class TopFoodSource extends BaseObject implements Exportable {
   public static readonly KEYS = {
-    FOOD_NAME: 'foodName',
-    VALUE: 'mnConsumedPerDay',
+    CONSUMPTION_DATA_ID: 'consumptionDataId',
+    COMPOSITION_DATA_ID: 'compositionDataId',
+    MICRONUTRIENT_ID: 'micronutrientId',
+    DAILY_MN_CONTRIBUTION: 'dailyMnContribution',
+    FOOD_GROUP_ID: 'foodGroupId',
+    FOOD_GROUP_NAME: 'foodGroupName',
+    FOOD_GENUS_ID: 'foodGenusId',
+    FOOD_GENUS_NAME: 'foodGenusName',
+    RANKING: 'ranking',
   };
 
-  public readonly foodName: string;
-  public readonly value: number;
+  public readonly dailyMnContribution: number;
+  public readonly ranking: number;
+  public readonly foodGroupName: string;
+  public readonly foodGenusName: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    this.foodName = this._getString(TopFoodSource.KEYS.FOOD_NAME);
-    this.value = this._getNumber(TopFoodSource.KEYS.VALUE);
+    this.dailyMnContribution = this._getNumber(TopFoodSource.KEYS.DAILY_MN_CONTRIBUTION);
+    this.ranking = this._getNumber(TopFoodSource.KEYS.RANKING);
+    this.foodGroupName = this._getString(TopFoodSource.KEYS.FOOD_GROUP_NAME);
+    this.foodGenusName = this._getString(TopFoodSource.KEYS.FOOD_GENUS_NAME);
   }
 
   public getExportObject(): Record<string, unknown> {

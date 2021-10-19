@@ -3,12 +3,12 @@ import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryIte
 import { CurrentConsumption } from '../../objects/currentConsumption';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';
+import { HttpClient } from '@angular/common/http';
 
 export class GetCurrentConsumption extends Endpoint<CurrentConsumption, GetCurrentConsumptionParams> {
   protected callLive(params: GetCurrentConsumptionParams): Promise<CurrentConsumption> {
-    throw new Error('Method not implemented.');
-    const callResponsePromise = this.apiCaller.doCall(['diet', 'scenario', 'consumption'], RequestMethod.GET, {
-      foodItem: params.foodItem.id,
+    const callResponsePromise = this.apiCaller.doCall(['food-consumption'], RequestMethod.GET, {
+      foodGenusId: params.foodItem.id,
       consumptionDataId: params.dataSource.consumptionDataId,
     });
 
@@ -16,15 +16,13 @@ export class GetCurrentConsumption extends Endpoint<CurrentConsumption, GetCurre
   }
 
   protected callMock(): Promise<CurrentConsumption> {
+    const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectFromResponse(
       CurrentConsumption,
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          const obj = {};
-          obj[CurrentConsumption.KEYS.VALUE] = Math.round(Math.random() * 60);
-          obj[CurrentConsumption.KEYS.UNITS] = 'ml/AME/day';
-          resolve(obj);
+          resolve(httpClient.get('/assets/exampleData/food_consumption.json').toPromise());
         }, 1500);
       }),
     );

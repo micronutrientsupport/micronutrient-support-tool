@@ -127,9 +127,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-
     this.subscriptions.push(
       this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
@@ -137,6 +134,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     );
 
     if (null != this.card) {
+      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+
       this.card.title = this.title;
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -214,21 +214,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           // Generate the table
           const selectedYearString = String(this.projectionFoodFormGroup.get('year').value);
           const tableData = data.filter((item) => String(item.year) === selectedYearString);
-          // quinquennialPeriod.forEach((currentYear) => {
-          //   const filteredTableData = new Array<MicronutrientProjectionSourceTable>();
-
-          //   foodTypes.forEach((thing, index) => {
-          //     filteredTableData.push({
-          //       year: currentYear,
-          //       foodName: foodTypes[index],
-          //       value: data
-          //         .filter((item) => item.year === currentYear)
-          //         // .filter((item) => item.name === foodTypes[index])
-          //         .map((item) => item.value)[0],
-          //     });
-          //   });
-          //   filteredTableDataArray.push(filteredTableData);
-          // });
 
           this.errorSrc.next(false);
           this.chartData = null;
@@ -315,7 +300,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,

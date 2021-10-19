@@ -7,8 +7,6 @@ import { GetDictionary } from '../_lib_code/api/getDictionary';
 import { MapsHttpResponseHandler } from './mapsHttpResponseHandler';
 import { MicronutrientDictionaryItem } from '../objects/dictionaries/micronutrientDictionaryItem';
 import { Endpoint } from '../_lib_code/api/endpoint.abstract';
-import { GetHouseholdHistogramData } from './currentData/getHouseholdHistogramData';
-import { GetMonthlyFoodGroups } from './currentData/getMonthlyFoodGroups';
 import { FoodGroupDictionaryItem } from '../objects/dictionaries/foodGroupDictionaryItem';
 import { GetCurrentComposition } from './scenario/getCurrentComposition';
 import { GetCurrentConsumption } from './scenario/getCurrentConsumption';
@@ -25,6 +23,8 @@ import { GetDietDataSources } from './diet/getDietDataSources';
 import { GetBiomarkerDataSources } from './biomarker/getBiomarkerDataSources';
 import { GetMicronutrientAvailability } from './diet/getMicronutrientAvailability';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryDictionaryItem';
+import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
+import { GetNationalSummary } from './diet/getNationalSummary';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -32,14 +32,12 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    currentData: {
-      getHouseholdHistogramData: new GetHouseholdHistogramData(false),
-      getMonthlyFoodGroups: new GetMonthlyFoodGroups(false),
-    },
     diet: {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
       getDataSources: new GetDietDataSources(ApiService.USE_LIVE_API),
       getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
+      getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
+      getNationalSummary: new GetNationalSummary(ApiService.USE_LIVE_API),
     },
     biomarker: {
       getDataSources: new GetBiomarkerDataSources(ApiService.USE_LIVE_API),
@@ -50,8 +48,8 @@ export class ApiService extends BaseApi {
       getProjectionTotals: new GetProjectionTotals(ApiService.USE_LIVE_API),
     },
     scenario: {
-      getCurrentComposition: new GetCurrentComposition(false),
-      getCurrentConsumption: new GetCurrentConsumption(false),
+      getCurrentComposition: new GetCurrentComposition(ApiService.USE_LIVE_API),
+      getCurrentConsumption: new GetCurrentConsumption(ApiService.USE_LIVE_API),
       getDietChangeComposition: new GetDietChangeComposition(false),
       getDietChangeConsumption: new GetDietChangeConsumption(false),
       getDietChangeFoodItem: new GetDietChangeFoodItem(false),
@@ -72,9 +70,9 @@ export class ApiService extends BaseApi {
     new GetDictionary(DictionaryType.MICRONUTRIENTS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'micronutrients', typeObj: MicronutrientDictionaryItem })
       .setMockObjectsCreatorFunc((injector) => MicronutrientDictionaryItem.getMockItems(injector)),
-    new GetDictionary(DictionaryType.FOOD_GROUPS, false)
+    new GetDictionary(DictionaryType.FOOD_GROUPS, ApiService.USE_LIVE_API)
       .setDefaultParams({ path: 'food-groups', typeObj: FoodGroupDictionaryItem })
-      .setMockObjects(FoodGroupDictionaryItem.createMockItems(5, 5)),
+      .setMockObjectsCreatorFunc((injector) => FoodGroupDictionaryItem.getMockItems(injector)),
     new GetDictionary(DictionaryType.IMPACT_SCENARIOS, ApiService.USE_LIVE_API)
       .setDefaultParams({
         path: 'diet/projections/scenarios',

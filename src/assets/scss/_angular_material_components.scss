@@ -1,3 +1,5 @@
+@import 'scroll';
+
 // Mat Menu Syling
 .mat-menu.mat-menu-panel {
   border-radius: 2px;
@@ -88,4 +90,8 @@ mat-form-field.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
   padding: 0;
   max-width: 45em;
   width: 45em;
+}
+
+.mat-select-panel {
+  @include custom-scroll;
 }
