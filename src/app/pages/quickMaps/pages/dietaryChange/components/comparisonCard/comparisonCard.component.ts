@@ -139,20 +139,14 @@ export class ComparisonCardComponent implements AfterViewInit {
     }
   }
   private updateScenarioData(): void {
-    const country = this.quickMapsService.country;
     const micronutrient = this.quickMapsService.micronutrient;
     const dietDataSource = this.quickMapsService.dietDataSource;
     const useableChangeItems = this.dietaryChangeService.changeItems.filter((item) => item.isUseable());
 
-    if (null != country && null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
+    if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
       this.startLoading();
       this.scenarioDataService
-        .getDietChange(
-          this.quickMapsService.dietDataSource,
-          this.quickMapsService.micronutrient,
-          this.dietaryChangeService.mode,
-          this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
-        )
+        .getDietChange(dietDataSource, micronutrient, this.dietaryChangeService.mode, useableChangeItems)
         .then((data: Array<MnAvailibiltyItem>) => {
           this.scenarioData = data;
         })
