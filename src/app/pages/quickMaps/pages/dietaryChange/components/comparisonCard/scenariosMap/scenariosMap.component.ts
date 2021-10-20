@@ -46,7 +46,7 @@ export class ScenariosMapComponent implements AfterViewInit {
             type: 'FeatureCollection',
             features: data.map((item) => item.toFeature()),
           };
-    this.refreshScenarioLayer(true);
+    this.refreshScenarioLayer(false);
   }
   public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
   private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
@@ -73,7 +73,10 @@ export class ScenariosMapComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
-    this.refreshAllMapContent(true);
+    // give the map a moment, otherwise the bounds setting doesn't work
+    setTimeout(() => {
+      this.refreshAllMapContent(true);
+    }, 1000);
     this.initialiseListeners();
   }
 
@@ -139,7 +142,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     previousLayer: L.GeoJSON,
     featureCollection: FEATURE_COLLECTION_TYPE,
     resetBounds: boolean,
-  ): L.GeoJSON {
+  ): void {
     let newLayer: L.GeoJSON;
     if (null != map) {
       if (null != previousLayer) {
@@ -156,7 +159,6 @@ export class ScenariosMapComponent implements AfterViewInit {
         }
       }
     }
-    return newLayer;
   }
 
   private refreshLegend(): void {
