@@ -1,7 +1,6 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
-import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import {
   FEATURE_TYPE,
   MnAvailibiltyItem,
@@ -26,34 +25,34 @@ export class ScenariosMapComponent implements AfterViewInit {
   @ViewChild('scenarioMap') scenarioMapElement: ElementRef;
 
   @Input() set baselineData(data: Array<MnAvailibiltyItem>) {
-    if (null != data) {
-      this.baselineMapData = data;
-      this.areaFeatureCollection =
-        // create featureCollection from data
-        this.areaFeatureCollection = {
-          type: 'FeatureCollection',
-          features: data.map((item) => item.toFeature()),
-        };
-      this.initialiseMapBaseline(this.colourPalette);
-    }
+    // create featureCollection from data
+    this.baselineFeatureCollection =
+      null == data
+        ? null
+        : {
+            type: 'FeatureCollection',
+            features: data.map((item) => item.toFeature()),
+          };
+    this.refreshBaselineLayer();
   }
 
   @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
-    if (null != data) {
-      this.scenarioMapData = data;
-      this.initialiseMapScenario(this.colourPalette);
-    }
+    // create featureCollection from data
+    this.scenarioFeatureCollection =
+      null == data
+        ? null
+        : {
+            type: 'FeatureCollection',
+            features: data.map((item) => item.toFeature()),
+          };
+    this.refreshScenarioLayer();
   }
-
-  public baselineMapData: Array<MnAvailibiltyItem>;
-  public scenarioMapData: Array<MnAvailibiltyItem>;
-
-  public showSelectScenarioMessage = true;
+  public scenarioFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
+  private baselineFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
   private areaBounds: L.LatLngBounds;
-  private areaFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
   private baselineDataLayer: L.GeoJSON;
   private scenarioDataLayer: L.GeoJSON;
@@ -72,14 +71,13 @@ export class ScenariosMapComponent implements AfterViewInit {
       ColourPalette.setSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
-    this.dietaryChangeService.changeItemsObs.subscribe((items: Array<DietaryChangeItem>) => {
-      this.showSelectScenarioMessage = items.length === 0 || null == items[0].scenarioValue ? true : false;
-    });
   }
 
   public ngAfterViewInit(): void {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
+    this.refreshBaselineLayer();
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
+    this.refreshScenarioLayer();
     this.initialiseListeners();
   }
 
@@ -129,42 +127,46 @@ export class ScenariosMapComponent implements AfterViewInit {
     }, 50);
   }
 
-  private initialiseMapBaseline(colourPalette: ColourPalette): void {
-    if (null != this.baselineDataLayer) {
-      this.baselineMap.removeLayer(this.baselineDataLayer);
-    }
+  private refreshBaselineLayer(): void {
+    if (null != this.baselineMap) {
+      if (null != this.baselineDataLayer) {
+        this.baselineMap.removeLayer(this.baselineDataLayer);
+      }
 
-    const gradient = new ColourGradient(this.baselineRange, colourPalette);
+      const gradient = new ColourGradient(this.baselineRange, this.colourPalette);
 
-    this.baselineDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
-      gradient.getColour(feat.properties.dietarySupply),
-    ).addTo(this.baselineMap);
+      this.baselineDataLayer = this.createGeoJsonLayer(this.baselineFeatureCollection, (feat: FEATURE_TYPE) =>
+        gradient.getColour(feat.properties.dietarySupply),
+      ).addTo(this.baselineMap);
 
-    const bounds = this.baselineDataLayer.getBounds();
-    if (bounds.isValid()) {
-      this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
+      const bounds = this.baselineDataLayer.getBounds();
+      if (bounds.isValid()) {
+        this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
+      }
     }
   }
 
-  private initialiseMapScenario(colourPalette: ColourPalette): void {
-    if (null != this.scenarioDataLayer) {
-      this.scenarioMap.removeLayer(this.scenarioDataLayer);
-    }
-    if (null != this.legend) {
-      this.scenarioMap.removeControl(this.legend);
-    }
+  private refreshScenarioLayer(): void {
+    if (null != this.scenarioMap) {
+      if (null != this.scenarioDataLayer) {
+        this.scenarioMap.removeLayer(this.scenarioDataLayer);
+      }
+      if (null != this.legend) {
+        this.scenarioMap.removeControl(this.legend);
+      }
 
-    const gradient = new ColourGradient(this.baselineRange, colourPalette);
+      const gradient = new ColourGradient(this.baselineRange, this.colourPalette);
 
-    this.scenarioDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
-      gradient.getColour(feat.properties.dietarySupply),
-    ).addTo(this.scenarioMap);
+      this.scenarioDataLayer = this.createGeoJsonLayer(this.scenarioFeatureCollection, (feat: FEATURE_TYPE) =>
+        gradient.getColour(feat.properties.dietarySupply),
+      ).addTo(this.scenarioMap);
 
-    const bounds = this.scenarioDataLayer.getBounds();
-    if (bounds.isValid()) {
-      this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
+      const bounds = this.scenarioDataLayer.getBounds();
+      if (bounds.isValid()) {
+        this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
+      }
+      this.refreshLegend(gradient);
     }
-    this.refreshLegend(gradient);
   }
 
   private refreshLegend(colourGradient: ColourGradient): void {
@@ -214,8 +216,8 @@ export class ScenariosMapComponent implements AfterViewInit {
     </div>`;
   }
 
-  private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
-    return L.geoJSON(this.areaFeatureCollection, {
+  private createGeoJsonLayer(featureCollection, featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
+    return L.geoJSON(featureCollection, {
       style: (feature) => ({
         fillColor: featureColourFunc(feature),
         weight: 2,
@@ -240,11 +242,11 @@ export class ScenariosMapComponent implements AfterViewInit {
       this.scenarioMap.removeControl(this.legend);
     }
 
-    this.baselineDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+    this.baselineDataLayer = this.createGeoJsonLayer(this.baselineFeatureCollection, (feat: FEATURE_TYPE) =>
       colourGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.baselineMap);
 
-    this.scenarioDataLayer = this.createGeoJsonLayer((feat: FEATURE_TYPE) =>
+    this.scenarioDataLayer = this.createGeoJsonLayer(this.scenarioFeatureCollection, (feat: FEATURE_TYPE) =>
       colourGradient.getColour(feat.properties.dietarySupply),
     ).addTo(this.scenarioMap);
 
