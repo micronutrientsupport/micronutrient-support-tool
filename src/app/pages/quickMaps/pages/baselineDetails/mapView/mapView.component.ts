@@ -164,7 +164,7 @@ export class MapViewComponent implements AfterViewInit {
     switch (tabChangeEvent.index) {
       case 0:
         this.absoluteMap.invalidateSize();
-        console.debug('call');
+        // console.debug('call');
         this.mapHTMLElement = document.getElementById('absolute-map') as HTMLDivElement;
         this.mapDownloadService.captureElementAsPDF(this.mapHTMLElement);
         break;
