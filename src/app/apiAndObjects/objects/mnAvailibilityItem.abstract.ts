@@ -5,7 +5,7 @@ export type FEATURE_TYPE = GeoJSON.Feature<GeoJSON.Geometry, MnAvailibiltyItemFe
 
 export abstract class MnAvailibiltyItem extends BaseObject implements Exportable {
   public static readonly KEYS = {
-    // "aggregationAreaId"
+    AREA_ID: 'aggregationAreaId',
     AREA_NAME: 'aggregationAreaName',
     AREA_TYPE: 'aggregationAreaType',
     // "consumptionDataId"
@@ -19,6 +19,7 @@ export abstract class MnAvailibiltyItem extends BaseObject implements Exportable
     DEFICIENT_PERC: 'deficientPercentage',
   };
 
+  public readonly areaId: string;
   public readonly areaName: string;
   public readonly areaType: string;
   public readonly geometry: GeoJSON.Geometry;
@@ -30,6 +31,7 @@ export abstract class MnAvailibiltyItem extends BaseObject implements Exportable
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
+    this.areaId = this._getString(MnAvailibiltyItem.KEYS.AREA_ID);
     this.areaName = this._getString(MnAvailibiltyItem.KEYS.AREA_NAME);
     this.areaType = this._getString(MnAvailibiltyItem.KEYS.AREA_TYPE);
     this.geometry = this._getValue(MnAvailibiltyItem.KEYS.GEOMETRY) as GeoJSON.Geometry;

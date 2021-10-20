@@ -123,6 +123,10 @@ export class OptionsComponent {
   }
 
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
+    // round numbers to 3dp
+    if (typeof newValue === 'number') {
+      newValue = Math.round(newValue * 1000) / 1000;
+    }
     item.scenarioValue = newValue;
     if (item instanceof FoodItemChangeItem) {
       this.setChangeItemComposition(item);
@@ -170,7 +174,6 @@ export class OptionsComponent {
     switch (this.dietaryChangeService.mode) {
       case DietaryChangeMode.FOOD_ITEM:
         this.changeScenarioValue(changeItem, changeItem.currentValue);
-        this.setChangeItemComposition(changeItem);
         break;
       default:
         changeItem.updatingScenarioValue = true;

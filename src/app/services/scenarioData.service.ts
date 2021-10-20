@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { FoodDictionaryItem } from '../apiAndObjects/objects/dictionaries/foodDictionaryItem';
-import { CurrentConsumption } from '../apiAndObjects/objects/currentConsumption';
-import { CurrentComposition } from '../apiAndObjects/objects/currentComposition';
 import {
   CompositionChangeItem,
   ConsumptionChangeItem,
@@ -10,10 +8,12 @@ import {
   FoodItemChangeItem,
 } from '../apiAndObjects/objects/dietaryChange.item';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
-import { SubRegionDataItem } from '../apiAndObjects/objects/subRegionDataItem';
-import { CurrentValue } from '../apiAndObjects/objects/currentValue.interface';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { MnAvailibiltyItem } from '../apiAndObjects/objects/mnAvailibilityItem.abstract';
+import { CurrentConsumption } from '../apiAndObjects/objects/currentConsumption';
+import { CurrentComposition } from '../apiAndObjects/objects/currentComposition';
+import { CurrentValue } from '../apiAndObjects/objects/currentValue.interface';
 
 @Injectable()
 export class ScenarioDataService {
@@ -54,44 +54,52 @@ export class ScenarioDataService {
 
   public getDietChangeComposition(
     dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<CompositionChangeItem>,
-  ): Promise<SubRegionDataItem> {
+  ): Promise<Array<MnAvailibiltyItem>> {
     return this.apiService.endpoints.scenario.getDietChangeComposition.call({
       dataSource,
+      micronutrient,
       changeItems,
     });
   }
 
   public getDietChangeConsumption(
     dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<ConsumptionChangeItem>,
-  ): Promise<SubRegionDataItem> {
+  ): Promise<Array<MnAvailibiltyItem>> {
     return this.apiService.endpoints.scenario.getDietChangeConsumption.call({
       dataSource,
+      micronutrient,
       changeItems,
     });
   }
 
   public getDietChangeFoodItem(
     dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<FoodItemChangeItem>,
-  ): Promise<SubRegionDataItem> {
+  ): Promise<Array<MnAvailibiltyItem>> {
     return this.apiService.endpoints.scenario.getDietChangeFoodItem.call({
       dataSource,
+      micronutrient,
       changeItems,
     });
   }
 
   public getDietChange(
     dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
-  ): Promise<SubRegionDataItem> {
+  ): Promise<Array<MnAvailibiltyItem>> {
     // console.debug('getDietChange', changeItems);
     type promiseFuncType = (
       dataSourcey: DietDataSource,
+      micronutrienty: MicronutrientDictionaryItem,
       changeItemsy: Array<DietaryChangeItem>,
-    ) => Promise<SubRegionDataItem>;
+    ) => Promise<Array<MnAvailibiltyItem>>;
     let promiseFunc: promiseFuncType;
 
     let typeCheckFunc: (item: DietaryChangeItem) => boolean;
@@ -116,6 +124,6 @@ export class ScenarioDataService {
       throw new Error('Incorrect DietaryChangeItem type for DietaryChangeMode');
     }
     promiseFunc = promiseFunc.bind(this) as promiseFuncType;
-    return promiseFunc(dataSource, changeItems);
+    return promiseFunc(dataSource, micronutrient, changeItems);
   }
 }
