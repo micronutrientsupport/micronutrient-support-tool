@@ -12,7 +12,8 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
-import { DietaryChangeService } from '../../../dietaryChange.service';
+
+type FEATURE_COLLECTION_TYPE = GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
 @Component({
   selector: 'app-scenarios-map',
@@ -47,8 +48,8 @@ export class ScenariosMapComponent implements AfterViewInit {
           };
     this.refreshScenarioLayer();
   }
-  public scenarioFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
-  private baselineFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
+  public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
+  private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
 
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
@@ -61,33 +62,25 @@ export class ScenariosMapComponent implements AfterViewInit {
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
-  private colourPalette: ColourPalette;
+  private colourGradient: ColourGradient;
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
   private timeout: NodeJS.Timeout;
 
-  constructor(private dialogService: DialogService, private dietaryChangeService: DietaryChangeService) {
-    this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
-    if (null == this.colourPalette) {
-      ColourPalette.setSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID, this.defaultPalette);
-      this.colourPalette = this.defaultPalette;
-    }
+  constructor(private dialogService: DialogService) {
+    this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
   }
 
   public ngAfterViewInit(): void {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
-    this.refreshBaselineLayer();
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
-    this.refreshScenarioLayer();
+    this.refreshAllMapContent();
     this.initialiseListeners();
   }
 
   public openMapSettings(): void {
     void this.dialogService.openMapSettingsDialog(ScenariosMapComponent.COLOUR_PALETTE_ID).then(() => {
-      this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
-      if (null == this.colourPalette) {
-        this.colourPalette = this.defaultPalette;
-      }
-      this.changeColourRamp(this.colourPalette);
+      this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
+      this.refreshAllMapContent();
     });
   }
 
@@ -127,49 +120,39 @@ export class ScenariosMapComponent implements AfterViewInit {
     }, 50);
   }
 
+  private refreshAllMapContent(): void {
+    this.refreshLegend();
+    this.refreshBaselineLayer();
+    this.refreshScenarioLayer();
+  }
+
   private refreshBaselineLayer(): void {
-    if (null != this.baselineMap) {
-      if (null != this.baselineDataLayer) {
-        this.baselineMap.removeLayer(this.baselineDataLayer);
-      }
-
-      const gradient = new ColourGradient(this.baselineRange, this.colourPalette);
-
-      this.baselineDataLayer = this.createGeoJsonLayer(this.baselineFeatureCollection, (feat: FEATURE_TYPE) =>
-        gradient.getColour(feat.properties.dietarySupply),
-      ).addTo(this.baselineMap);
-
-      const bounds = this.baselineDataLayer.getBounds();
-      if (bounds.isValid()) {
-        this.baselineMap.fitBounds(this.baselineDataLayer.getBounds());
-      }
-    }
+    this.refreshLayer(this.baselineMap, this.baselineDataLayer, this.baselineFeatureCollection);
   }
 
   private refreshScenarioLayer(): void {
-    if (null != this.scenarioMap) {
-      if (null != this.scenarioDataLayer) {
-        this.scenarioMap.removeLayer(this.scenarioDataLayer);
-      }
-      if (null != this.legend) {
-        this.scenarioMap.removeControl(this.legend);
-      }
-
-      const gradient = new ColourGradient(this.baselineRange, this.colourPalette);
-
-      this.scenarioDataLayer = this.createGeoJsonLayer(this.scenarioFeatureCollection, (feat: FEATURE_TYPE) =>
-        gradient.getColour(feat.properties.dietarySupply),
-      ).addTo(this.scenarioMap);
-
-      const bounds = this.scenarioDataLayer.getBounds();
-      if (bounds.isValid()) {
-        this.scenarioMap.fitBounds(this.scenarioDataLayer.getBounds());
-      }
-      this.refreshLegend(gradient);
-    }
+    this.refreshLayer(this.scenarioMap, this.scenarioDataLayer, this.scenarioFeatureCollection);
   }
 
-  private refreshLegend(colourGradient: ColourGradient): void {
+  private refreshLayer(map: L.Map, previousLayer: L.GeoJSON, featureCollection: FEATURE_COLLECTION_TYPE): L.GeoJSON {
+    let newLayer: L.GeoJSON;
+    if (null != map) {
+      if (null != previousLayer) {
+        map.removeLayer(previousLayer);
+      }
+      newLayer = this.createGeoJsonLayer(featureCollection, (feat: FEATURE_TYPE) =>
+        this.colourGradient.getColour(feat.properties.dietarySupply),
+      ).addTo(map);
+
+      const bounds = newLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(newLayer.getBounds());
+      }
+    }
+    return newLayer;
+  }
+
+  private refreshLegend(): void {
     if (null != this.legend) {
       this.scenarioMap.removeControl(this.legend);
     }
@@ -189,7 +172,7 @@ export class ScenariosMapComponent implements AfterViewInit {
       };
 
       let previousGradObj: ColourGradientObject;
-      colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
+      this.colourGradient.gradientObjects.forEach((gradObj: ColourGradientObject) => {
         let text = '';
         if (null == previousGradObj) {
           text = `0 - ${gradObj.lessThanTestValue}`;
@@ -199,7 +182,7 @@ export class ScenariosMapComponent implements AfterViewInit {
         addItemToHtml(gradObj.hexString, text);
         previousGradObj = gradObj;
       });
-      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
+      addItemToHtml(this.colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
 
       return div;
     };
@@ -232,24 +215,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     });
   }
 
-  private changeColourRamp(colourPalette: ColourPalette): void {
-    const colourGradient = new ColourGradient(this.baselineRange, colourPalette);
-
-    this.baselineMap.removeLayer(this.baselineDataLayer);
-    this.scenarioMap.removeLayer(this.scenarioDataLayer);
-
-    if (null != this.legend) {
-      this.scenarioMap.removeControl(this.legend);
-    }
-
-    this.baselineDataLayer = this.createGeoJsonLayer(this.baselineFeatureCollection, (feat: FEATURE_TYPE) =>
-      colourGradient.getColour(feat.properties.dietarySupply),
-    ).addTo(this.baselineMap);
-
-    this.scenarioDataLayer = this.createGeoJsonLayer(this.scenarioFeatureCollection, (feat: FEATURE_TYPE) =>
-      colourGradient.getColour(feat.properties.dietarySupply),
-    ).addTo(this.scenarioMap);
-
-    this.refreshLegend(colourGradient);
+  private setColorGradient(colourPalette: ColourPalette): void {
+    this.colourGradient = new ColourGradient(this.baselineRange, colourPalette ?? this.defaultPalette);
   }
 }
