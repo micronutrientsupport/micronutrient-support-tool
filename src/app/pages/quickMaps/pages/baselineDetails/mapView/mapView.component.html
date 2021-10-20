@@ -1,28 +1,20 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
+      <button class="leaflet-screenshot" (click)="exportMapAsImage(absoluteMapDiv)"><i
+          class="fas fa-camera"></i></button>
       <div #map1 id="absolute-map"></div>
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">
+      <button class="leaflet-screenshot" (click)="exportMapAsImage(thresholdMapDiv)"><i
+          class="fas fa-camera"></i></button>
       <div #map2 id="threshold-map"></div>
     </mat-tab>
 
 
     <mat-tab label="Download">
-      <!-- <div class="bmgf-maps-nice-scrollbar"> -->
-      <!-- <div class="status-element">
-          <mat-form-field appearance="outline">
-            <mat-label>Select data</mat-label>
-            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div> -->
-      <app-download [mapDownloadId]="'test'"></app-download>
-
+      <app-download></app-download>
     </mat-tab>
 
     <mat-tab label="About {{title}}">

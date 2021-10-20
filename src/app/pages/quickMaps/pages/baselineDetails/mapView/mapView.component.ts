@@ -34,7 +34,6 @@ import {
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
-import domtoimage from 'dom-to-image';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -53,7 +52,8 @@ export class MapViewComponent implements AfterViewInit {
   public downloadTitle = '';
   public selectedTab: number;
 
-  public mapHTMLElement: HTMLDivElement;
+  public absoluteMapDiv: HTMLDivElement;
+  public thresholdMapDiv: HTMLDivElement;
 
   private data: Array<MnAvailibiltyItem>;
 
@@ -62,7 +62,6 @@ export class MapViewComponent implements AfterViewInit {
   );
   private colourPalette: ColourPalette;
 
-  private pngData;
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
@@ -164,12 +163,10 @@ export class MapViewComponent implements AfterViewInit {
     switch (tabChangeEvent.index) {
       case 0:
         this.absoluteMap.invalidateSize();
-        // console.debug('call');
-        this.mapHTMLElement = document.getElementById('absolute-map') as HTMLDivElement;
-        this.mapDownloadService.captureElementAsPDF(this.mapHTMLElement);
         break;
       case 1:
         this.thresholdMap.invalidateSize();
+        this.thresholdMapDiv = document.getElementById('threshold-map') as HTMLDivElement;
         break;
     }
     if (!this.tabVisited.has(tabChangeEvent.index)) {
@@ -180,6 +177,14 @@ export class MapViewComponent implements AfterViewInit {
   public navigateToTab(tab: number): void {
     this.selectedTab = tab;
     this.cdr.detectChanges();
+  }
+
+  public exportMapAsImage(mapDiv: HTMLDivElement): void {
+    if (mapDiv.id === 'threshold-map') {
+      this.mapDownloadService.captureElementAsImage(mapDiv, `${this.downloadTitle}-threshold-values`);
+    } else {
+      this.mapDownloadService.captureElementAsImage(mapDiv, `${this.downloadTitle}-absolute-values`);
+    }
   }
 
   private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
@@ -294,17 +299,12 @@ export class MapViewComponent implements AfterViewInit {
         previousGradObj = gradObj;
       });
       addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
-
-      this.pngData = div;
+      this.absoluteMapDiv = document.getElementById('absolute-map') as HTMLDivElement;
 
       return div;
     };
 
     this.absoluteLegend.addTo(this.absoluteMap);
-    // setTimeout(() => {
-    //   this.mapHTMLElement = document.getElementById('absolute-map') as HTMLDivElement;
-    //   this.mapDownloadService.captureElementAsPDF(this.mapHTMLElement);
-    // }, 2000);
   }
 
   private triggerFitBounds(tabIndex: number): void {
@@ -389,18 +389,6 @@ export class MapViewComponent implements AfterViewInit {
     // console.debug('threshold', this.thresholdDataLayer);
 
     this.refreshThresholdLegend(thresholdGradient);
-  }
-
-  private exportMapAsPdf(): void {
-    const fileSaver = require('file-saver');
-    domtoimage.toBlob(this.pngData).then((blob) => {
-      fileSaver.saveAs(blob, 'my-node.png');
-    });
-    // this.navigateToTab(0);
-    // setTimeout(() => {
-    //   const mapData = document.getElementById('absolute-map') as HTMLDivElement;
-    //   this.mapDownloadService.captureElementAsPDF(mapData, this.downloadTitle);
-    // }, 200);
   }
 
   private openDialog(): void {
