@@ -13,6 +13,7 @@ import { MapDownloadService } from 'src/app/services/mapDownload.service';
 export class DownloadComponent implements AfterViewInit {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
+  @Input() mapDownloadId: string;
   @Input() dataArray: Array<Exportable>;
 
   public year = new Date().getFullYear();
@@ -55,13 +56,16 @@ export class DownloadComponent implements AfterViewInit {
     private mapDownloadService: MapDownloadService,
   ) {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    // console.debug(this.mapDownloadPDF);
+  }
 
   public exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
   }
 
   public exportMapPDF(): void {
-    this.mapDownloadService.exportMapAsPDF();
+    // console.debug(this.mapDownloadPDF);
+    this.mapDownloadService.saveMap(this.mapDownloadId);
   }
 }

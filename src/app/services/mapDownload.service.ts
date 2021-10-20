@@ -10,14 +10,15 @@ export class MapDownloadService {
   private basemapImgPdfSrc = new Subject();
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public basemapImgPdfObs = this.basemapImgPdfSrc.asObservable();
+  private pdf = new jsPDF();
 
   constructor() {}
 
-  public exportMapAsPDF(): void {
-    return this.basemapImgPdfSrc.next();
-  }
+  // public exportMapAsPDF(): void {
+  //   return this.basemapImgPdfSrc.next();
+  // }
 
-  public captureElementAsPDF(mapData: HTMLDivElement, id: string): void {
+  public captureElementAsPDF(mapData: HTMLDivElement): void {
     void html2canvas(mapData, {
       useCORS: true,
       onclone: async () =>
@@ -30,11 +31,13 @@ export class MapDownloadService {
       const imgWidth = 180;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jsPDF();
       const positionTop = 20;
       const positionLeft = 20;
-      pdf.addImage(contentDataURL, 'PNG', positionLeft, positionTop, imgWidth, imgHeight);
-      pdf.save(`${id}.pdf`);
+      this.pdf.addImage(contentDataURL, 'PNG', positionLeft, positionTop, imgWidth, imgHeight);
     });
+  }
+
+  public saveMap(id: string): void {
+    this.pdf.save(`${id}.pdf`);
   }
 }

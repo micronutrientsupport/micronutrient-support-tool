@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Component,
   Input,
@@ -31,7 +34,7 @@ import {
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
-
+import domtoimage from 'dom-to-image';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -49,6 +52,9 @@ export class MapViewComponent implements AfterViewInit {
   public title = '';
   public downloadTitle = '';
   public selectedTab: number;
+
+  public mapHTMLElement: HTMLDivElement;
+
   private data: Array<MnAvailibiltyItem>;
 
   private defaultPalette = ColourPalette.PALETTES.find(
@@ -56,6 +62,7 @@ export class MapViewComponent implements AfterViewInit {
   );
   private colourPalette: ColourPalette;
 
+  private pngData;
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
@@ -88,7 +95,6 @@ export class MapViewComponent implements AfterViewInit {
       ColourPalette.setSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID, this.defaultPalette);
       this.colourPalette = this.defaultPalette;
     }
-    this.mapDownloadService.basemapImgPdfObs.subscribe(() => this.exportMapAsPdf());
   }
 
   ngAfterViewInit(): void {
@@ -158,6 +164,9 @@ export class MapViewComponent implements AfterViewInit {
     switch (tabChangeEvent.index) {
       case 0:
         this.absoluteMap.invalidateSize();
+        console.debug('call');
+        this.mapHTMLElement = document.getElementById('absolute-map') as HTMLDivElement;
+        this.mapDownloadService.captureElementAsPDF(this.mapHTMLElement);
         break;
       case 1:
         this.thresholdMap.invalidateSize();
@@ -286,10 +295,16 @@ export class MapViewComponent implements AfterViewInit {
       });
       addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
 
+      this.pngData = div;
+
       return div;
     };
 
     this.absoluteLegend.addTo(this.absoluteMap);
+    // setTimeout(() => {
+    //   this.mapHTMLElement = document.getElementById('absolute-map') as HTMLDivElement;
+    //   this.mapDownloadService.captureElementAsPDF(this.mapHTMLElement);
+    // }, 2000);
   }
 
   private triggerFitBounds(tabIndex: number): void {
@@ -377,11 +392,15 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   private exportMapAsPdf(): void {
-    this.navigateToTab(0);
-    setTimeout(() => {
-      const mapData = document.getElementById('absolute-map') as HTMLDivElement;
-      this.mapDownloadService.captureElementAsPDF(mapData, this.downloadTitle);
-    }, 200);
+    const fileSaver = require('file-saver');
+    domtoimage.toBlob(this.pngData).then((blob) => {
+      fileSaver.saveAs(blob, 'my-node.png');
+    });
+    // this.navigateToTab(0);
+    // setTimeout(() => {
+    //   const mapData = document.getElementById('absolute-map') as HTMLDivElement;
+    //   this.mapDownloadService.captureElementAsPDF(mapData, this.downloadTitle);
+    // }, 200);
   }
 
   private openDialog(): void {
