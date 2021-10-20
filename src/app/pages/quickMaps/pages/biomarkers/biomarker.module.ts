@@ -20,6 +20,7 @@ import { StatusMapsComponent } from './biomarkerStatus/statusMaps/statusMaps.com
 import { StatusTableComponent } from './biomarkerStatus/statusTable/statusTable.component';
 import { StatusChartComponent } from './biomarkerStatus/statusChart/statusChart.component';
 import { StatusDownloadComponent } from './biomarkerStatus/statusDownload/statusDownload.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,8 @@ import { StatusDownloadComponent } from './biomarkerStatus/statusDownload/status
     ComponentsModule,
     DialogModule,
     RouterModule,
+    ClipboardModule,
   ],
+  providers: [],
 })
 export class BiomarkerModule {}
