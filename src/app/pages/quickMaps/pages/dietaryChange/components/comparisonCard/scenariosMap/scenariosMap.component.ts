@@ -34,7 +34,7 @@ export class ScenariosMapComponent implements AfterViewInit {
             type: 'FeatureCollection',
             features: data.map((item) => item.toFeature()),
           };
-    this.refreshBaselineLayer();
+    this.refreshBaselineLayer(true);
   }
 
   @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
@@ -46,7 +46,7 @@ export class ScenariosMapComponent implements AfterViewInit {
             type: 'FeatureCollection',
             features: data.map((item) => item.toFeature()),
           };
-    this.refreshScenarioLayer();
+    this.refreshScenarioLayer(true);
   }
   public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
   private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
@@ -73,14 +73,14 @@ export class ScenariosMapComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
-    this.refreshAllMapContent();
+    this.refreshAllMapContent(true);
     this.initialiseListeners();
   }
 
   public openMapSettings(): void {
     void this.dialogService.openMapSettingsDialog(ScenariosMapComponent.COLOUR_PALETTE_ID).then(() => {
       this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
-      this.refreshAllMapContent();
+      this.refreshAllMapContent(false);
     });
   }
 
@@ -120,21 +120,26 @@ export class ScenariosMapComponent implements AfterViewInit {
     }, 50);
   }
 
-  private refreshAllMapContent(): void {
+  private refreshAllMapContent(resetBounds: boolean): void {
     this.refreshLegend();
-    this.refreshBaselineLayer();
-    this.refreshScenarioLayer();
+    this.refreshBaselineLayer(resetBounds);
+    this.refreshScenarioLayer(resetBounds);
   }
 
-  private refreshBaselineLayer(): void {
-    this.refreshLayer(this.baselineMap, this.baselineDataLayer, this.baselineFeatureCollection);
+  private refreshBaselineLayer(resetBounds: boolean): void {
+    this.refreshLayer(this.baselineMap, this.baselineDataLayer, this.baselineFeatureCollection, resetBounds);
   }
 
-  private refreshScenarioLayer(): void {
-    this.refreshLayer(this.scenarioMap, this.scenarioDataLayer, this.scenarioFeatureCollection);
+  private refreshScenarioLayer(resetBounds: boolean): void {
+    this.refreshLayer(this.scenarioMap, this.scenarioDataLayer, this.scenarioFeatureCollection, resetBounds);
   }
 
-  private refreshLayer(map: L.Map, previousLayer: L.GeoJSON, featureCollection: FEATURE_COLLECTION_TYPE): L.GeoJSON {
+  private refreshLayer(
+    map: L.Map,
+    previousLayer: L.GeoJSON,
+    featureCollection: FEATURE_COLLECTION_TYPE,
+    resetBounds: boolean,
+  ): L.GeoJSON {
     let newLayer: L.GeoJSON;
     if (null != map) {
       if (null != previousLayer) {
@@ -144,9 +149,11 @@ export class ScenariosMapComponent implements AfterViewInit {
         this.colourGradient.getColour(feat.properties.dietarySupply),
       ).addTo(map);
 
-      const bounds = newLayer.getBounds();
-      if (bounds.isValid()) {
-        map.fitBounds(newLayer.getBounds());
+      if (resetBounds) {
+        const bounds = newLayer.getBounds();
+        if (bounds.isValid()) {
+          map.fitBounds(newLayer.getBounds());
+        }
       }
     }
     return newLayer;
