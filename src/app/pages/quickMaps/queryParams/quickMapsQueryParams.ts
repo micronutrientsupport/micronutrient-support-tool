@@ -7,7 +7,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { EnumTools } from 'src/utility/enumTools';
-import { DietaryChangeMode } from './pages/dietaryChange/dietaryChangeMode.enum';
+import { DietaryChangeMode } from '../pages/dietaryChange/dietaryChangeMode.enum';
 
 export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {

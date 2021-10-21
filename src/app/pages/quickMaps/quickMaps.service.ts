@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
@@ -12,6 +11,7 @@ import { DietDataService } from 'src/app/services/dietData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Accessor, NullableAccessor } from 'src/utility/accessor';
+import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
 
 @Injectable()
 export class QuickMapsService {

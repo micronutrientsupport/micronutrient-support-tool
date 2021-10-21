@@ -7,8 +7,8 @@ import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/mi
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
-import { QuickMapsQueryParams } from './quickMapsQueryParams';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
 
 /**
  * Service provided in app module as that's where the routing is controlled from.
@@ -80,13 +80,15 @@ export class QuickMapsRouteGuardService implements CanActivate {
   private getRequiredNavForMicronutrientValidation(snapshot: ActivatedRouteSnapshot): Promise<AppRoute> {
     const appRoute = (snapshot.data as RouteData).appRoute;
     // don't allow diet projection page access if micronutrient not in IMPACT model
-    return (appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
-      ? Promise.resolve(null)
-      : this.quickMapsParameters
-          .getMicronutrient(snapshot.queryParamMap)
-          .then((micronutrient: MicronutrientDictionaryItem) =>
-            micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
-          )) as Promise<AppRoute>;
+    return (
+      appRoute !== AppRoutes.QUICK_MAPS_PROJECTION
+        ? Promise.resolve(null)
+        : this.quickMapsParameters
+            .getMicronutrient(snapshot.queryParamMap)
+            .then((micronutrient: MicronutrientDictionaryItem) =>
+              micronutrient.isInImpact ? null : AppRoutes.QUICK_MAPS_BASELINE,
+            )
+    ) as Promise<AppRoute>;
   }
 
   private validateMeasureForRoute(snapshot: ActivatedRouteSnapshot): Promise<boolean> {

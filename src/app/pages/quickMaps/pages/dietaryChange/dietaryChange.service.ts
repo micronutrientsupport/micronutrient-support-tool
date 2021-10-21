@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { Accessor } from 'src/utility/accessor';
-import { QuickMapsQueryParams } from '../../quickMapsQueryParams';
+import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 
 @Injectable()
