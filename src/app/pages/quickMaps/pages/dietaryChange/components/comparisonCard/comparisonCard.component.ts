@@ -148,7 +148,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
       this.startLoading();
       this.scenarioDataService
-        .getDietChange(dietDataSource, micronutrient, this.dietaryChangeService.mode, useableChangeItems)
+        .getDietChange(dietDataSource, micronutrient, this.dietaryChangeService.mode.get(), useableChangeItems)
         .then((data: Array<MnAvailibiltyItem>) => {
           this.scenarioData = data;
         })

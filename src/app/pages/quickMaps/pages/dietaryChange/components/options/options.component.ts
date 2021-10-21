@@ -72,14 +72,12 @@ export class OptionsComponent {
         throw err;
       });
     this.subscriptions.push(
-      ...[
-        dietaryChangeService.modeObs.subscribe((mode) => {
-          this.modeChanged(mode);
-        }),
-        quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.refreshAllChangeItems();
-        }),
-      ],
+      dietaryChangeService.mode.obs.subscribe((mode) => {
+        this.modeChanged(mode);
+      }),
+      quickMapsService.dietParameterChangedObs.subscribe(() => {
+        this.refreshAllChangeItems();
+      }),
     );
   }
   public changeMode(event: MatRadioChange): void {
@@ -91,11 +89,11 @@ export class OptionsComponent {
     }
     if (confirmed) {
       this.dietaryChangeService.setChangeItems([]);
-      this.dietaryChangeService.setMode(event.value);
+      this.dietaryChangeService.mode.set(event.value);
     } else {
       // set the mode back
       setTimeout(() => {
-        this.locallySelectedMode = this.dietaryChangeService.mode;
+        this.locallySelectedMode = this.dietaryChangeService.mode.get();
         this.cdr.markForCheck();
       }, 0);
     }
@@ -171,7 +169,7 @@ export class OptionsComponent {
   }
 
   private applyChangeItemChange(changeItem: DietaryChangeItem): void {
-    switch (this.dietaryChangeService.mode) {
+    switch (this.dietaryChangeService.mode.get()) {
       case DietaryChangeMode.FOOD_ITEM:
         this.changeScenarioValue(changeItem, changeItem.currentValue);
         break;
@@ -180,7 +178,7 @@ export class OptionsComponent {
         void this.scenarioDataService
           .getCurrentValue(
             this.quickMapsService.dietDataSource.get(),
-            this.dietaryChangeService.mode,
+            this.dietaryChangeService.mode.get(),
             changeItem.foodItem,
             this.quickMapsService.micronutrient.get(),
           )
@@ -288,7 +286,7 @@ export class OptionsComponent {
   }
 
   private makeChangeItem(): DietaryChangeItem {
-    switch (this.dietaryChangeService.mode) {
+    switch (this.dietaryChangeService.mode.get()) {
       case DietaryChangeMode.COMPOSITION:
         return new CompositionChangeItem();
       case DietaryChangeMode.CONSUMPTION:

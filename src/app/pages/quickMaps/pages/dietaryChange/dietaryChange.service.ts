@@ -1,18 +1,14 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { Accessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from '../../quickMapsQueryParams';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 
 @Injectable()
 export class DietaryChangeService {
-  private initSrc = new BehaviorSubject<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public initObservable = this.initSrc.asObservable();
-
-  private readonly modeSrc = new BehaviorSubject<DietaryChangeMode>(DietaryChangeMode.COMPOSITION);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public modeObs = this.modeSrc.asObservable();
+  public readonly init = new Accessor<boolean>(false);
+  public readonly mode = new Accessor<DietaryChangeMode>(DietaryChangeMode.COMPOSITION);
 
   private readonly changeItemsSrc = new BehaviorSubject<Array<DietaryChangeItem>>([]);
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -34,20 +30,12 @@ export class DietaryChangeService {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    this.setMode(this.quickMapsParameters.getScenarioMode());
+    this.mode.set(this.quickMapsParameters.getScenarioMode());
 
     this.initSubscriptions();
-    this.initSrc.next(true);
+    this.init.set(true);
   }
 
-  public get mode(): DietaryChangeMode {
-    return this.modeSrc.value;
-  }
-  public setMode(mode: DietaryChangeMode, force = false): void {
-    if (null != mode) {
-      this.setValue(this.modeSrc, mode, force);
-    }
-  }
   public get changeItems(): Array<DietaryChangeItem> {
     return this.changeItemsSrc.value;
   }
@@ -69,7 +57,7 @@ export class DietaryChangeService {
 
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
-    this.modeObs.subscribe(() => this.parameterChanged());
+    this.mode.obs.subscribe(() => this.parameterChanged());
     this.changeItemsObs.subscribe(() => this.parameterChanged());
   }
 
