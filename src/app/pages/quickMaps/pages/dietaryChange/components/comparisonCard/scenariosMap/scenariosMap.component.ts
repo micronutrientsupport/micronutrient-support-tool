@@ -1,6 +1,7 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
+import { Subscription } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import {
   FEATURE_TYPE,
@@ -14,6 +15,8 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { MapDownloadService } from 'src/app/services/mapDownload.service';
 import { DietaryChangeService } from '../../../dietaryChange.service';
 
 @Component({
@@ -46,10 +49,18 @@ export class ScenariosMapComponent implements AfterViewInit {
     }
   }
 
+  @Input() set nutrient(nutrient: string) {
+    if (null != nutrient) {
+      this.downloadTitle = `${nutrient}-comparison-maps`;
+    }
+  }
+
   public baselineMapData: Array<MnAvailibiltyItem>;
   public scenarioMapData: SubRegionDataItem;
 
   public showSelectScenarioMessage = true;
+
+  public downloadTitle = '';
 
   private baselineMap: L.Map;
   private scenarioMap: L.Map;
@@ -67,7 +78,14 @@ export class ScenariosMapComponent implements AfterViewInit {
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
   private timeout: NodeJS.Timeout;
 
-  constructor(private dialogService: DialogService, private dietaryChangeService: DietaryChangeService) {
+  private mapWrapperDiv: HTMLDivElement;
+
+  constructor(
+    private dialogService: DialogService,
+    private dietaryChangeService: DietaryChangeService,
+    private quickmapsService: QuickMapsService,
+    private mapDownloadService: MapDownloadService,
+  ) {
     this.colourPalette = ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID);
     if (null == this.colourPalette) {
       ColourPalette.setSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID, this.defaultPalette);
@@ -92,6 +110,11 @@ export class ScenariosMapComponent implements AfterViewInit {
       }
       this.changeColourRamp(this.colourPalette);
     });
+  }
+
+  public exportMapAsImage(): void {
+    this.mapWrapperDiv = document.getElementById('comparison-map-wrapper') as HTMLDivElement;
+    this.mapDownloadService.captureElementAsImage(this.mapWrapperDiv, this.downloadTitle);
   }
 
   private initialiseBaselineMap(mapElement: HTMLElement): L.Map {

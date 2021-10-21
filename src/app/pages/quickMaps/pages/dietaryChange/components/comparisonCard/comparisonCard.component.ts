@@ -50,6 +50,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   // public tempDisplay: ChangeItemsType;
   public baselineData: Array<MnAvailibiltyItem>;
   public scenarioData: SubRegionDataItem;
+  public nutrient = '';
 
   private loadingCount = 0;
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -81,7 +82,9 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.onExpandClickObs.subscribe(() => this.openDialog()),
           this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-            this.card.title = `${this.quickMapsService.micronutrient.name} comparison`;
+            this.nutrient = this.quickMapsService.micronutrient.name;
+            this.title = `${this.quickMapsService.micronutrient.name} comparison`;
+            this.card.title = this.title;
           }),
           // respond to quickmaps parameter updates
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {

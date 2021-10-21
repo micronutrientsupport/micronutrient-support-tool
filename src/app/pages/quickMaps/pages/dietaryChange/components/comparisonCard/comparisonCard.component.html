@@ -12,7 +12,8 @@
         <div *ngFor="let item of tempDisplay">{{item.foodItem}} {{item.changeValuesObs | async}}</div>
       </div> -->
       <div>
-        <app-scenarios-map [baselineData]="baselineData" [scenarioData]="scenarioData"></app-scenarios-map>
+        <app-scenarios-map [nutrient]="nutrient" [baselineData]="baselineData" [scenarioData]="scenarioData">
+        </app-scenarios-map>
       </div>
     </mat-tab>
     <mat-tab label="Table">

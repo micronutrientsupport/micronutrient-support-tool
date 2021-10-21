@@ -1,6 +1,7 @@
-<div class="maps-container">
+<div id="comparison-map-wrapper" class="maps-container">
     <div class="map">
         <span class="title">Baseline</span>
+        <a class="leaflet-screenshot" (click)="exportMapAsImage()"><i class="fas fa-camera"></i></a>
         <div #baselineMap></div>
     </div>
     <div class="map">
