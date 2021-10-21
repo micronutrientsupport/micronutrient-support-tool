@@ -22,6 +22,8 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -54,8 +56,9 @@ export class OptionsComponent {
     private cdr: ChangeDetectorRef,
     public quickMapsService: QuickMapsService,
     public dietaryChangeService: DietaryChangeService,
-    dictionaryService: DictionaryService,
+    public dictionaryService: DictionaryService,
     private scenarioDataService: ScenarioDataService,
+    public dialogService: DialogService,
   ) {
     this.loading = true;
     void dictionaryService
@@ -87,17 +90,19 @@ export class OptionsComponent {
     // only show confirmation if anything will be lost
     const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
     if (this.dietaryChangeService.changeItems.length > 1 || lastItem.isUseable()) {
-      confirmed = confirm('ARE YOU SURE');
-    }
-    if (confirmed) {
-      this.dietaryChangeService.setChangeItems([]);
-      this.dietaryChangeService.setMode(event.value);
-    } else {
-      // set the mode back
-      setTimeout(() => {
-        this.locallySelectedMode = this.dietaryChangeService.mode;
-        this.cdr.markForCheck();
-      }, 0);
+      void this.dialogService.openScenarioChangeWarningDialog().then((data: DialogData) => {
+        confirmed = data.dataOut as boolean;
+        if (confirmed) {
+          this.dietaryChangeService.setChangeItems([]);
+          this.dietaryChangeService.setMode(event.value);
+        } else {
+          // set the mode back
+          setTimeout(() => {
+            this.locallySelectedMode = this.dietaryChangeService.mode;
+            this.cdr.markForCheck();
+          }, 0);
+        }
+      });
     }
   }
 

@@ -10,7 +10,7 @@ import { InvalidParametersDialogComponent } from './invalidParametersDialog/inva
 import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
-import { ScenarioChangeWarningComponent } from './scenariochangewarning/scenariochangewarning.component';
+import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
