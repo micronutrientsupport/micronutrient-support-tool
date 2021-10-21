@@ -180,21 +180,21 @@ export class QuickMapsService {
 
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
-    this.country.observable.subscribe(() => this.parameterChanged());
-    this.micronutrient.observable.subscribe(() => this.parameterChanged());
-    this.measure.observable.subscribe(() => this.parameterChanged());
+    this.country.obs.subscribe(() => this.parameterChanged());
+    this.micronutrient.obs.subscribe(() => this.parameterChanged());
+    this.measure.obs.subscribe(() => this.parameterChanged());
     this.dietDataSourceObs.subscribe(() => this.parameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.parameterChanged());
     this.ageGenderObs.subscribe(() => this.parameterChanged());
 
-    this.country.observable.subscribe(() => this.dietParameterChanged());
-    this.micronutrient.observable.subscribe(() => this.dietParameterChanged());
-    this.measure.observable.subscribe(() => this.dietParameterChanged());
+    this.country.obs.subscribe(() => this.dietParameterChanged());
+    this.micronutrient.obs.subscribe(() => this.dietParameterChanged());
+    this.measure.obs.subscribe(() => this.dietParameterChanged());
     this.dietDataSourceObs.subscribe(() => this.dietParameterChanged());
 
-    this.country.observable.subscribe(() => this.biomarkerParameterChanged());
-    this.micronutrient.observable.subscribe(() => this.biomarkerParameterChanged());
-    this.measure.observable.subscribe(() => this.biomarkerParameterChanged());
+    this.country.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.micronutrient.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.measure.obs.subscribe(() => this.biomarkerParameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.biomarkerParameterChanged());
     this.ageGenderObs.subscribe(() => this.biomarkerParameterChanged());
   }

@@ -92,7 +92,7 @@ export class FoodItemsComponent implements AfterViewInit {
             this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
           }
         }),
-        this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
         }),
       );

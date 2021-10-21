@@ -4,7 +4,7 @@
       <div class="bmgf-maps-nice-scrollbar">
         <div class="status-chart-header">
           Histogram of <strong>{{ (quickMapsService.ageGenderObs | async)?.name }}</strong> in
-          {{ (quickMapsService.country.observable | async)?.name }}
+          {{ (quickMapsService.country.obs | async)?.name }}
         </div>
         <mat-form-field *ngIf="null != chartData" appearance="fill">
           <mat-label>Bin selection</mat-label>

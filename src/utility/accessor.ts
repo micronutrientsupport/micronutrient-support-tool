@@ -1,12 +1,12 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export class Accessor<T = unknown> {
-  public readonly observable: Observable<T>;
+  public readonly obs: Observable<T>;
   private readonly src: BehaviorSubject<T>;
 
   constructor(value: T) {
     this.src = new BehaviorSubject<T>(value);
-    this.observable = this.src.asObservable();
+    this.obs = this.src.asObservable();
   }
 
   public get(): T {

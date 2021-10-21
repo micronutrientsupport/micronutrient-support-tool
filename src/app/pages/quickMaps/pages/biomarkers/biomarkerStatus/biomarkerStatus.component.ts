@@ -127,7 +127,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     this.subscriptions.push(
       this.card.onExpandClickObs.subscribe(() => this.openDialog()),
       this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
-      this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
       }),
       this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {

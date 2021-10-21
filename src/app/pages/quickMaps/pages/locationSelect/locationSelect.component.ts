@@ -37,7 +37,7 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     // fails to find element if not taked out of flow
     setTimeout(() => {
       void this.initialiseMap().then(() => {
-        this.quickMapsService.country.observable.subscribe((country) => this.selectFeature(this.getLayer(country)));
+        this.quickMapsService.country.obs.subscribe((country) => this.selectFeature(this.getLayer(country)));
         this.e2eLeaflet.setReference('leafletObject', this.map);
       });
     }, 0);

@@ -128,7 +128,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.subscriptions.push(
-      this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
       }),
     );

@@ -92,7 +92,7 @@ export class SideNavContentComponent implements OnInit {
         });
 
         this.subscriptions.push(
-          this.quickMapsService.country.observable.subscribe((value) => {
+          this.quickMapsService.country.obs.subscribe((value) => {
             const geographyType = this.regionDictionary.getItems().includes(value)
               ? GeographyTypes.REGION
               : GeographyTypes.COUNTRY;
@@ -103,7 +103,7 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsService.micronutrient.observable.subscribe((value) => {
+          this.quickMapsService.micronutrient.obs.subscribe((value) => {
             // really only used on first load to pre-select correct type
             const mndType = null != value ? value.type : MicronutrientType.VITAMIN;
             this.mndChange(mndType);

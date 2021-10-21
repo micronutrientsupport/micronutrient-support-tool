@@ -123,7 +123,7 @@ export class MapViewComponent implements AfterViewInit {
       );
 
       this.subscriptions.push(
-        this.quickMapsService.country.observable.subscribe((country) => {
+        this.quickMapsService.country.obs.subscribe((country) => {
           this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
           if (null != this.card) {
             this.card.title = this.title;

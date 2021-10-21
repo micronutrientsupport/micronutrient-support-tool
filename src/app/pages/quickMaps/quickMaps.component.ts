@@ -37,7 +37,7 @@ export class QuickMapsComponent implements OnInit {
     // quickmaps having been here before, since the service exists from last time.
     let subs: Subscription;
     // eslint-disable-next-line prefer-const
-    subs = this.quickMapsService.init.observable.subscribe((initialised) => {
+    subs = this.quickMapsService.init.obs.subscribe((initialised) => {
       if (initialised) {
         if (null != subs) {
           // unsubscribe as only need to do it once.
