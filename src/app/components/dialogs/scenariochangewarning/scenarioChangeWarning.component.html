@@ -1,5 +1,9 @@
 <app-base-dialog [data]="data" [title]="'Are you sure you want to change scenario?'">
-    <p>any progress will be lost</p>
-    <button mat-raised-button (click)="closeDialog()">Cancel</button>
-    <button mat-raised-button (click)="allowChange()">OK</button>
+    <div class="wrapper">
+        <p>The current scenario will be lost.</p>
+        <span class="button-wrapper">
+            <button mat-raised-button (click)="closeDialog()">Cancel</button>
+            <button mat-raised-button color="warn" (click)="allowChange()">OK</button>
+        </span>
+    </div>
 </app-base-dialog>
