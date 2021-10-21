@@ -80,7 +80,7 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // respond to quickmaps parameter updates
-            this.title = `${this.quickMapsService.micronutrient.name} comparison`;
+            this.title = `${this.quickMapsService.micronutrient.get()?.name} comparison`;
             this.card.title = this.title;
             this.updateBaselineData();
             this.updateScenarioData();
@@ -121,7 +121,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 
   private updateBaselineData(): void {
     const country = this.quickMapsService.country.get();
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const dietDataSource = this.quickMapsService.dietDataSource;
 
     if (null != country && null != micronutrient && null != dietDataSource) {
@@ -141,7 +141,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     }
   }
   private updateScenarioData(): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const dietDataSource = this.quickMapsService.dietDataSource;
     const useableChangeItems = this.dietaryChangeService.changeItems.filter((item) => item.isUseable());
 

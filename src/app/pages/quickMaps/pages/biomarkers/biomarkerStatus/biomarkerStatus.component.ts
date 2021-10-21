@@ -123,27 +123,16 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
     this.subscriptions.push(
-      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+      this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
       }),
-    );
-
-    this.subscriptions.push(
       this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
-    );
-
-    this.card.showExpand = true;
-    this.card.showSettingsMenu = true;
-    this.card.matMenu = this.menu;
-    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-
-    this.subscriptions.push(
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.init();
         // this.initMapData(
@@ -155,6 +144,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         // );
       }),
     );
+
+    this.card.showExpand = true;
+    this.card.showSettingsMenu = true;
+    this.card.matMenu = this.menu;
+    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
   }
 
   public navigateToInfoTab(): void {
@@ -199,7 +193,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   }
 
   private init(): void {
-    const mnName = this.quickMapsService.micronutrient.name;
+    const mnName = this.quickMapsService.micronutrient.get()?.name;
     const agName = this.quickMapsService.ageGenderGroup.name;
     const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
     const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);

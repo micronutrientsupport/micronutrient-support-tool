@@ -66,22 +66,15 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-
     this.subscriptions.push(
-      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+      this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
       }),
-    );
-
-    this.subscriptions.push(
       this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
-    );
-
-    this.subscriptions.push(
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.createBins();
         this.init();

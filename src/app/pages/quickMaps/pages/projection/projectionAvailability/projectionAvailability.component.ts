@@ -84,7 +84,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // projections only available if isInImpact flag set
             const country = this.quickMapsService.country.get();
-            const micronutrient = this.quickMapsService.micronutrient;
+            const micronutrient = this.quickMapsService.micronutrient.get();
             if (null != micronutrient && micronutrient.isInImpact) {
               this.title = 'Projected ' + micronutrient.name + ' availability to 2050';
               this.card.title = this.title;
@@ -141,7 +141,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       });
   }
   private initialiseTable(data: Array<ProjectedAvailability>): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     this.columns = [
       { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => element.country },
       { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => element.year },
@@ -165,7 +165,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {

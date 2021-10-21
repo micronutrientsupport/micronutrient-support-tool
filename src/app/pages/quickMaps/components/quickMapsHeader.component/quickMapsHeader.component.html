@@ -25,9 +25,9 @@
     routerLinkActive="active-route">Baseline
   </a>
   <a class="mode-select-button quickmaps-projection-link" mat-raised-button [routerLink]="
-      (quickMapsService.micronutrientObs | async).isInImpact ? (ROUTES.QUICK_MAPS_PROJECTION | route) : null
+      (quickMapsService.micronutrient.observable | async)?.isInImpact ? (ROUTES.QUICK_MAPS_PROJECTION | route) : null
     " [queryParams]="route.queryParams | async" routerLinkActive="active-route"
-    [disabled]="!(quickMapsService.micronutrientObs | async).isInImpact">Explore projections to 2050
+    [disabled]="!(quickMapsService.micronutrient.observable | async)?.isInImpact">Explore projections to 2050
   </a>
   <a class="mode-select-button quickmaps-dieray-change-link" mat-raised-button
     [routerLink]="ROUTES.QUICK_MAPS_DIETARY_CHANGE | route" [queryParams]="route.queryParams | async"

@@ -93,7 +93,7 @@ export class EstimateComponent {
     void this.projectionDataService
       .getProjectionSummaries(
         this.quickMapsService.country.get(),
-        this.quickMapsService.micronutrient,
+        this.quickMapsService.micronutrient.get(),
         this.baselineScenario,
       )
       .catch(() => null)

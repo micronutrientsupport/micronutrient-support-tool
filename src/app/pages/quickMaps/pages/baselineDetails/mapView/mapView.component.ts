@@ -136,7 +136,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
-          const micronutrient = this.quickMapsService.micronutrient;
+          const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource;
 
           //  only if all set

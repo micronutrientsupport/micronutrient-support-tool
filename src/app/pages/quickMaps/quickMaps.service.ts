@@ -18,11 +18,7 @@ export class QuickMapsService {
   public readonly init = new Accessor<boolean>(false);
   public readonly slim = new Accessor<boolean>(false);
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
-
-  private readonly micronutrientSrc = new BehaviorSubject<MicronutrientDictionaryItem>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public micronutrientObs = this.micronutrientSrc.asObservable();
-
+  public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
   private readonly measureSrc = new BehaviorSubject<MicronutrientMeasureType>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public measureObs = this.measureSrc.asObservable();
@@ -74,7 +70,7 @@ export class QuickMapsService {
 
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
-      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
+      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.micronutrient.set(micronutrient)),
       this.quickMapsParameters.getAgeGenderGroup().then((ageGenderGroupFromParams) =>
         (null != ageGenderGroupFromParams
           ? // use one from params
@@ -86,7 +82,9 @@ export class QuickMapsService {
         ).then((ageGenderGroup) => this.setAgeGenderGroup(ageGenderGroup)),
       ),
     ])
-      .then(() => this.setInitialDataSources(this.country.get(), this.measure, this.micronutrient, this.ageGenderGroup))
+      .then(() =>
+        this.setInitialDataSources(this.country.get(), this.measure, this.micronutrient.get(), this.ageGenderGroup),
+      )
       .then(() => {
         this.initSubscriptions();
         this.init.set(true);
@@ -103,13 +101,6 @@ export class QuickMapsService {
         clearInterval(interval);
       }
     }, 10);
-  }
-
-  public get micronutrient(): MicronutrientDictionaryItem {
-    return this.micronutrientSrc.value;
-  }
-  public setMicronutrient(micronutrient: MicronutrientDictionaryItem, force = false): void {
-    this.setValue(this.micronutrientSrc, micronutrient, force);
   }
 
   public get measure(): MicronutrientMeasureType {
@@ -153,8 +144,7 @@ export class QuickMapsService {
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.country.get()?.id;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
-      null != this.micronutrient ? this.micronutrient.id : null;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrient.get()?.id;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID] =
       null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
@@ -195,19 +185,19 @@ export class QuickMapsService {
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
     this.country.observable.subscribe(() => this.parameterChanged());
-    this.micronutrientObs.subscribe(() => this.parameterChanged());
+    this.micronutrient.observable.subscribe(() => this.parameterChanged());
     this.measureObs.subscribe(() => this.parameterChanged());
     this.dietDataSourceObs.subscribe(() => this.parameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.parameterChanged());
     this.ageGenderObs.subscribe(() => this.parameterChanged());
 
     this.country.observable.subscribe(() => this.dietParameterChanged());
-    this.micronutrientObs.subscribe(() => this.dietParameterChanged());
+    this.micronutrient.observable.subscribe(() => this.dietParameterChanged());
     this.measureObs.subscribe(() => this.dietParameterChanged());
     this.dietDataSourceObs.subscribe(() => this.dietParameterChanged());
 
     this.country.observable.subscribe(() => this.biomarkerParameterChanged());
-    this.micronutrientObs.subscribe(() => this.biomarkerParameterChanged());
+    this.micronutrient.observable.subscribe(() => this.biomarkerParameterChanged());
     this.measureObs.subscribe(() => this.biomarkerParameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.biomarkerParameterChanged());
     this.ageGenderObs.subscribe(() => this.biomarkerParameterChanged());

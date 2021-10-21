@@ -82,7 +82,7 @@ export class SideNavContentComponent implements OnInit {
 
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.country.get(), Validators.required],
-          micronutrient: [this.quickMapsService.micronutrient, Validators.required],
+          micronutrient: [this.quickMapsService.micronutrient.get(), Validators.required],
           measure: [this.quickMapsService.measure, Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderGroup: [
@@ -103,7 +103,7 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsService.micronutrientObs.subscribe((value) => {
+          this.quickMapsService.micronutrient.observable.subscribe((value) => {
             // really only used on first load to pre-select correct type
             const mndType = null != value ? value.type : MicronutrientType.VITAMIN;
             this.mndChange(mndType);
@@ -118,7 +118,7 @@ export class SideNavContentComponent implements OnInit {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
-            this.quickMapsService.setMicronutrient(value);
+            this.quickMapsService.micronutrient.set(value);
             this.updateDataMeasureOptions();
           }),
         );
@@ -207,7 +207,7 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private updateDataMeasureOptions(): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
 
     this.measureDietEnabled = null != micronutrient && micronutrient.isDiet;
     this.measureBiomarkerEnabled = null != micronutrient && micronutrient.isBiomarker;
@@ -243,7 +243,7 @@ export class SideNavContentComponent implements OnInit {
     let dataSourcePromise: Promise<Array<Named>> = Promise.resolve([] as Array<Named>);
     // no point in calling API if required parameters aren't set
     const country = this.quickMapsService.country.get();
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const measure = this.quickMapsService.measure;
     const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 

@@ -18,7 +18,8 @@
             <td mat-cell *matCellDef="let element">{{ element.foodGroupName }}</td>
           </ng-container>
           <ng-container matColumnDef="dailyMnContribution">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ (quickMapsService.micronutrientObs | async)?.id }}
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ (quickMapsService.micronutrient.observable |
+              async)?.id }}
               (mg/AFE/day)</th>
             <td mat-cell *matCellDef="let element">{{ element.dailyMnContribution | sigFig:4 }}</td>
           </ng-container>

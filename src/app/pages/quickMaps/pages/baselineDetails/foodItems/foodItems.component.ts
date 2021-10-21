@@ -73,13 +73,12 @@ export class FoodItemsComponent implements AfterViewInit {
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-
-      // respond to parameter updates
       this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+        this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+        // respond to parameter updates
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          const micronutrient = this.quickMapsService.micronutrient;
+          const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource;
           this.title =
             'Top 20 food items apparent intake for ' +
@@ -93,7 +92,7 @@ export class FoodItemsComponent implements AfterViewInit {
             this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
           }
         }),
-        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.quickMapsService.micronutrient.observable.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
         }),
       );
