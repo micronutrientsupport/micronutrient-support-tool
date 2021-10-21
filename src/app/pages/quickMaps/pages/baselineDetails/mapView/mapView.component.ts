@@ -166,7 +166,6 @@ export class MapViewComponent implements AfterViewInit {
         break;
       case 1:
         this.thresholdMap.invalidateSize();
-        this.thresholdMapDiv = document.getElementById('threshold-map') as HTMLDivElement;
         break;
     }
     if (!this.tabVisited.has(tabChangeEvent.index)) {
@@ -179,11 +178,13 @@ export class MapViewComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  public exportMapAsImage(mapDiv: HTMLDivElement): void {
-    if (mapDiv.id === 'threshold-map') {
-      this.mapDownloadService.captureElementAsImage(mapDiv, `${this.downloadTitle}-threshold-values`);
+  public exportMapAsImage(id: string): void {
+    if (id === 'threshold') {
+      this.thresholdMapDiv = document.getElementById('threshold-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsImage(this.thresholdMapDiv, `${this.downloadTitle}-threshold-values`);
     } else {
-      this.mapDownloadService.captureElementAsImage(mapDiv, `${this.downloadTitle}-absolute-values`);
+      this.absoluteMapDiv = document.getElementById('absolute-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsImage(this.absoluteMapDiv, `${this.downloadTitle}-absolute-values`);
     }
   }
 
@@ -299,7 +300,6 @@ export class MapViewComponent implements AfterViewInit {
         previousGradObj = gradObj;
       });
       addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
-      this.absoluteMapDiv = document.getElementById('absolute-map') as HTMLDivElement;
 
       return div;
     };
