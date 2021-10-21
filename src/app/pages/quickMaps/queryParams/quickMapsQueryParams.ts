@@ -6,81 +6,74 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { EnumTools } from 'src/utility/enumTools';
 import { DietaryChangeMode } from '../pages/dietaryChange/dietaryChangeMode.enum';
+import { Converter } from './converters/converter.abstract';
+import { DictItemConverter } from './converters/dictItemConverter';
+import { EnumConverter } from './converters/enumConverter';
+import { QuickMapsQueryParamKey } from './quickMapsQueryParamKey.enum';
 
 export class QuickMapsQueryParams {
-  public static readonly QUERY_PARAM_KEYS = {
-    COUNTRY_ID: 'country-id',
-    MICRONUTRIENT_ID: 'mnd-id',
-    MEASURE: 'measure',
-    AGE_GENDER_GROUP_ID: 'age-gender-group-id',
-    SCENARIO_MODE: 'sm',
-  };
-
   private readonly dictionariesService: DictionaryService;
   private readonly router: Router;
   private readonly route: ActivatedRoute;
 
-  constructor(injector: Injector) {
+  constructor(private injector: Injector) {
     this.dictionariesService = injector.get<DictionaryService>(DictionaryService);
     this.router = injector.get<Router>(Router);
     this.route = injector.get<ActivatedRoute>(ActivatedRoute);
   }
 
-  public getCountryId(queryParamMap?: ParamMap): string {
-    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID);
-  }
-  public getCountry(queryParamMap?: ParamMap): Promise<CountryDictionaryItem> {
-    return this.dictionariesService
-      .getDictionary(DictionaryType.COUNTRIES)
-      .then((dict) => dict.getItem(this.getCountryId(queryParamMap)));
-  }
-  public getAgeGenderGroupId(queryParamMap?: ParamMap): string {
-    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID);
-  }
-  public getAgeGenderGroup(queryParamMap?: ParamMap): Promise<AgeGenderDictionaryItem> {
-    return this.dictionariesService
-      .getDictionary(DictionaryType.AGE_GENDER_GROUPS)
-      .then((dict) => dict.getItem(this.getAgeGenderGroupId(queryParamMap)));
+  public get<T>(converter: Converter<T>, queryParamMap?: ParamMap): Converter<T> {
+    return converter.setString(this.params(queryParamMap).get(converter.queryStringkey));
   }
 
-  public getMicronutrientId(queryParamMap?: ParamMap): string {
-    return this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID);
+  public getCountry(queryParamMap?: ParamMap): Promise<CountryDictionaryItem> {
+    return this.get(
+      new DictItemConverter<CountryDictionaryItem>(QuickMapsQueryParamKey.COUNTRY_ID, DictionaryType.COUNTRIES),
+      queryParamMap,
+    ).getItem(this.injector);
   }
   public getMicronutrient(queryParamMap?: ParamMap): Promise<MicronutrientDictionaryItem> {
-    return this.dictionariesService
-      .getDictionary(DictionaryType.MICRONUTRIENTS)
-      .then((dict) => dict.getItem(this.getMicronutrientId(queryParamMap)));
+    return this.get(
+      new DictItemConverter<MicronutrientDictionaryItem>(
+        QuickMapsQueryParamKey.MICRONUTRIENT_ID,
+        DictionaryType.MICRONUTRIENTS,
+      ),
+      queryParamMap,
+    ).getItem(this.injector);
+  }
+  public getAgeGenderGroup(queryParamMap?: ParamMap): Promise<AgeGenderDictionaryItem> {
+    return this.get(
+      new DictItemConverter<AgeGenderDictionaryItem>(
+        QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID,
+        DictionaryType.AGE_GENDER_GROUPS,
+      ),
+      queryParamMap,
+    ).getItem(this.injector);
   }
 
-  public getMeasure(queryParamMap?: ParamMap): MicronutrientMeasureType {
-    return EnumTools.getEnumFromValue(
-      this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE),
-      MicronutrientMeasureType,
-    );
+  public getMeasure(queryParamMap?: ParamMap): Promise<MicronutrientMeasureType> {
+    return this.get(
+      new EnumConverter<MicronutrientMeasureType>(QuickMapsQueryParamKey.MEASURE, MicronutrientMeasureType, true),
+      queryParamMap,
+    ).getItem();
   }
 
-  public getScenarioMode(queryParamMap?: ParamMap): DietaryChangeMode {
-    return EnumTools.getEnumFromValue(
-      Number(this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE)),
-      DietaryChangeMode,
-    );
+  public getScenarioMode(queryParamMap?: ParamMap): Promise<DietaryChangeMode> {
+    return this.get(
+      new EnumConverter<DietaryChangeMode>(QuickMapsQueryParamKey.SCENARIO_MODE, DietaryChangeMode, false),
+      queryParamMap,
+    ).getItem();
   }
 
-  public setQueryParams(params: Record<string, string | Array<string>>): void {
-    // console.debug('setQueryParams', params);
+  public setQueryParams(converters: Array<Converter>): void {
     const stringParams: Record<string, string> = {};
     // convert Array values to strings
-    Object.keys(params).forEach((key: string) => {
-      if (null != params[key]) {
-        if (Array.isArray(params[key])) {
-          params[key] = (params[key] as Array<string>).join(',');
-        }
-        const trimmedValue = null == params[key] ? '' : (params[key] as string).trim();
-        if (trimmedValue.length > 0) {
-          stringParams[key] = trimmedValue;
-        }
+    converters.forEach((converter: Converter) => {
+      // console.debug('converter', converter, converter.getString());
+      const trimmedValue = converter.getString().trim();
+      if (trimmedValue.length > 0) {
+        stringParams[converter.queryStringkey] = trimmedValue;
       }
     });
     void this.router.navigate([], {
@@ -90,25 +83,6 @@ export class QuickMapsQueryParams {
       queryParamsHandling: 'merge',
     });
   }
-
-  // public static arrayValuesSame(array1: Array<string>, array2: Array<string>): boolean {
-  //   array1 = this.filterAndSortArray(array1);
-  //   array2 = this.filterAndSortArray(array2);
-
-  //   return (
-  //     (array1.length === array2.length)
-  //     && (array1.every((item: string, index: number) => (index === array2.indexOf(item))))
-  //   );
-  // }
-
-  // public static filterAndSortArray(array: Array<string>): Array<string> {
-  //   array = (null == array) ? [] : array.slice(); // copy;
-  //   return array
-  //     .map((item: string) => item.trim()) // trim
-  //     .filter((item: string) => (item.length > 0)) // remove empty values
-  //     .filter((item: string, index: number, thisArray: Array<string>) => (thisArray.indexOf(item) === index)) // remove duplicates
-  //     .sort();
-  // }
 
   private params(queryParamMap?: ParamMap): ParamMap {
     // console.debug('this.route.snapshot.queryParamMap', this.route.snapshot);

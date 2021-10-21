@@ -100,20 +100,20 @@ export class QuickMapsRouteGuardService implements CanActivate {
    */
   private getRequiredNavForMeasureValidation(snapshot: ActivatedRouteSnapshot): Promise<AppRoute> {
     const appRoute = (snapshot.data as RouteData).appRoute;
-    const measure = this.quickMapsParameters.getMeasure(snapshot.queryParamMap);
     // console.debug('validateMeasureForRoute', measure, snapshot);
 
-    let navRoute: AppRoute; // route to navigate to
-    if (MicronutrientMeasureType.DIET === measure && !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)) {
-      navRoute = AppRoutes.QUICK_MAPS_BASELINE;
-    } else if (
-      MicronutrientMeasureType.BIOMARKER === measure &&
-      !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)
-    ) {
-      navRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
-    }
-
-    return Promise.resolve(navRoute);
+    return this.quickMapsParameters.getMeasure(snapshot.queryParamMap).then((measure) => {
+      let navRoute: AppRoute; // route to navigate to
+      if (MicronutrientMeasureType.DIET === measure && !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)) {
+        navRoute = AppRoutes.QUICK_MAPS_BASELINE;
+      } else if (
+        MicronutrientMeasureType.BIOMARKER === measure &&
+        !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_BIOMARKER)
+      ) {
+        navRoute = AppRoutes.QUICK_MAPS_BIOMARKER;
+      }
+      return navRoute;
+    });
   }
 
   private validateParamsConsistency(queryParamMap: ParamMap): Promise<boolean> {
@@ -121,18 +121,24 @@ export class QuickMapsRouteGuardService implements CanActivate {
       this.quickMapsParameters.getCountry(queryParamMap),
       this.quickMapsParameters.getMicronutrient(queryParamMap),
       this.quickMapsParameters.getAgeGenderGroup(queryParamMap),
-    ]).then((values: [CountryDictionaryItem, MicronutrientDictionaryItem, AgeGenderDictionaryItem]) => {
-      const country = values.shift() as CountryDictionaryItem;
-      const micronutrient = values.shift() as MicronutrientDictionaryItem;
-      const ageGenderGroup = values.shift() as AgeGenderDictionaryItem;
-      const measure = this.quickMapsParameters.getMeasure(queryParamMap);
+      this.quickMapsParameters.getMeasure(queryParamMap),
+    ]).then(
+      (
+        values: [CountryDictionaryItem, MicronutrientDictionaryItem, AgeGenderDictionaryItem, MicronutrientMeasureType],
+      ) => {
+        // console.debug('values', values);
+        const country = values.shift() as CountryDictionaryItem;
+        const micronutrient = values.shift() as MicronutrientDictionaryItem;
+        const ageGenderGroup = values.shift() as AgeGenderDictionaryItem;
+        const measure = values.shift() as MicronutrientMeasureType;
 
-      return null == country || null == micronutrient || null == measure
-        ? false
-        : Promise.all([this.validateAgeGenderGroup(measure, ageGenderGroup)]).then((valids: Array<boolean>) =>
-            valids.every((valid) => true === valid),
-          );
-    });
+        return null == country || null == micronutrient || null == measure
+          ? false
+          : Promise.all([this.validateAgeGenderGroup(measure, ageGenderGroup)]).then((valids: Array<boolean>) =>
+              valids.every((valid) => true === valid),
+            );
+      },
+    );
   }
 
   private validateAgeGenderGroup(

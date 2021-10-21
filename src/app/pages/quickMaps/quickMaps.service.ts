@@ -12,6 +12,9 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Accessor, NullableAccessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
+import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enum';
+import { DictItemConverter } from './queryParams/converters/dictItemConverter';
+import { StringConverter } from './queryParams/converters/converter.abstract';
 
 @Injectable()
 export class QuickMapsService {
@@ -55,8 +58,6 @@ export class QuickMapsService {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    this.measure.set(this.quickMapsParameters.getMeasure());
-
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
       this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.micronutrient.set(micronutrient)),
@@ -70,6 +71,7 @@ export class QuickMapsService {
               .then((dict) => dict.getItems<AgeGenderDictionaryItem>().find((item) => item.isDefault))
         ).then((ageGenderGroup) => this.ageGenderGroup.set(ageGenderGroup)),
       ),
+      this.quickMapsParameters.getMeasure().then((measure) => this.measure.set(measure)),
     ])
       .then(() =>
         this.setInitialDataSources(
@@ -108,12 +110,16 @@ export class QuickMapsService {
   }
 
   public updateQueryParams(): void {
-    const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.country.get()?.id;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrient.get()?.id;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure.get();
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID] = this.ageGenderGroup.get()?.id;
-    this.quickMapsParameters.setQueryParams(paramsObj);
+    this.quickMapsParameters.setQueryParams([
+      new DictItemConverter(QuickMapsQueryParamKey.COUNTRY_ID, DictionaryType.COUNTRIES).setItem(this.country.get()),
+      new DictItemConverter(QuickMapsQueryParamKey.MICRONUTRIENT_ID, DictionaryType.MICRONUTRIENTS).setItem(
+        this.micronutrient.get(),
+      ),
+      new StringConverter(QuickMapsQueryParamKey.MEASURE).setItem(this.measure.get()),
+      new DictItemConverter(QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID, DictionaryType.AGE_GENDER_GROUPS).setItem(
+        this.ageGenderGroup.get(),
+      ),
+    ]);
   }
 
   private parameterChanged(): void {
