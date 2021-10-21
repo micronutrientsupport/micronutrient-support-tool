@@ -122,7 +122,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   private updateBaselineData(): void {
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const dietDataSource = this.quickMapsService.dietDataSource;
+    const dietDataSource = this.quickMapsService.dietDataSource.get();
 
     if (null != country && null != micronutrient && null != dietDataSource) {
       this.startLoading();
@@ -142,7 +142,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
   private updateScenarioData(): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const dietDataSource = this.quickMapsService.dietDataSource;
+    const dietDataSource = this.quickMapsService.dietDataSource.get();
     const useableChangeItems = this.dietaryChangeService.changeItems.filter((item) => item.isUseable());
 
     if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {

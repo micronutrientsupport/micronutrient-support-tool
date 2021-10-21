@@ -179,7 +179,7 @@ export class OptionsComponent {
         changeItem.updatingScenarioValue = true;
         void this.scenarioDataService
           .getCurrentValue(
-            this.quickMapsService.dietDataSource,
+            this.quickMapsService.dietDataSource.get(),
             this.dietaryChangeService.mode,
             changeItem.foodItem,
             this.quickMapsService.micronutrient.get(),
@@ -223,7 +223,7 @@ export class OptionsComponent {
         void this.scenarioDataService
           .getCurrentComposition(
             foodChangeItem.foodItem,
-            this.quickMapsService.dietDataSource,
+            this.quickMapsService.dietDataSource.get(),
             this.quickMapsService.micronutrient.get(),
           )
           .then((currentComposition: CurrentComposition) => {
@@ -238,7 +238,7 @@ export class OptionsComponent {
         void this.scenarioDataService
           .getCurrentComposition(
             foodChangeItem.scenarioValue,
-            this.quickMapsService.dietDataSource,
+            this.quickMapsService.dietDataSource.get(),
             this.quickMapsService.micronutrient.get(),
           )
           .then((currentComposition: CurrentComposition) => {

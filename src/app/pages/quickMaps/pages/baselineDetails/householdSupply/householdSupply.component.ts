@@ -77,7 +77,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource;
+          const dietDataSource = this.quickMapsService.dietDataSource.get();
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {
             this.init(

@@ -79,7 +79,7 @@ export class FoodItemsComponent implements AfterViewInit {
         // respond to parameter updates
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource;
+          const dietDataSource = this.quickMapsService.dietDataSource.get();
           this.title =
             'Top 20 food items apparent intake for ' +
             micronutrient?.id +
