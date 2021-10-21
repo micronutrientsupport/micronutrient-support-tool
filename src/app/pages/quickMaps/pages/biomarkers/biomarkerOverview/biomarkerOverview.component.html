@@ -6,7 +6,7 @@
       Status</strong>
     in
     <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
-    ({{ (quickMapsService.biomarkerDataSourceObs | async)?.year }})
+    ({{ (quickMapsService.biomarkerDataSource.obs | async)?.year }})
   </span>
   <span class="separator"></span>
   <span>

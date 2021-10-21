@@ -17,7 +17,7 @@
             Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
           </div>
           <div class="item">
-            Data Source: <strong>{{ (quickMapsService.biomarkerDataSourceObs | async)?.name }}</strong>
+            Data Source: <strong>{{ (quickMapsService.biomarkerDataSource.obs | async)?.name }}</strong>
           </div>
         </div>
       </mat-panel-title>
