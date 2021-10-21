@@ -75,15 +75,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+          const country = this.quickMapsService.country.get();
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
           this.title =
             'Monthly apparent micronutrient intake for ' +
             this.quickMapsService.micronutrient.id +
             ' in ' +
-            this.quickMapsService.country.name;
+            country?.name;
           this.card.title = this.title;
-          const country = this.quickMapsService.country;
-          const micronutrient = this.quickMapsService.micronutrient;
-          const dietDataSource = this.quickMapsService.dietDataSource;
 
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {

@@ -1,6 +1,7 @@
 <div class="container">
   <span>
-    <strong>{{ (quickMapsService.countryObs| async).name }} {{ (quickMapsService.micronutrientObs| async).name }}
+    <strong>{{ (quickMapsService.country.observable | async)?.name }} {{ (quickMapsService.micronutrientObs| async).name
+      }}
       Status</strong>
     in
     <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>

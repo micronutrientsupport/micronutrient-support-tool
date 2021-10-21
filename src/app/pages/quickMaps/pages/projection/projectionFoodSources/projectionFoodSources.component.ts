@@ -180,7 +180,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.projectionDataService
         .getProjectionSources(
           this.projectionFoodFormGroup.get('groupedBy').value,
-          this.quickMapsService.country,
+          this.quickMapsService.country.get(),
           this.quickMapsService.micronutrient,
           this.projectionFoodFormGroup.get('scenario').value.id,
         )

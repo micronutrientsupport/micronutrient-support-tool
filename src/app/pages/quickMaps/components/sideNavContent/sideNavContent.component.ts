@@ -81,7 +81,7 @@ export class SideNavContentComponent implements OnInit {
         this.ageGenderGroupsDictionary = dicts.shift();
 
         this.quickMapsForm = this.fb.group({
-          nation: [this.quickMapsService.country, Validators.required],
+          nation: [this.quickMapsService.country.get(), Validators.required],
           micronutrient: [this.quickMapsService.micronutrient, Validators.required],
           measure: [this.quickMapsService.measure, Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
@@ -92,7 +92,7 @@ export class SideNavContentComponent implements OnInit {
         });
 
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe((value) => {
+          this.quickMapsService.country.observable.subscribe((value) => {
             const geographyType = this.regionDictionary.getItems().includes(value)
               ? GeographyTypes.REGION
               : GeographyTypes.COUNTRY;
@@ -112,7 +112,7 @@ export class SideNavContentComponent implements OnInit {
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
-            this.quickMapsService.setCountry(value);
+            this.quickMapsService.country.set(value);
             this.updateDataSources();
           }),
         );
@@ -242,7 +242,7 @@ export class SideNavContentComponent implements OnInit {
   private updateDataSources(): void {
     let dataSourcePromise: Promise<Array<Named>> = Promise.resolve([] as Array<Named>);
     // no point in calling API if required parameters aren't set
-    const country = this.quickMapsService.country;
+    const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient;
     const measure = this.quickMapsService.measure;
     const ageGenderGroup = this.quickMapsService.ageGenderGroup;

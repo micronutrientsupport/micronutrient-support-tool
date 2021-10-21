@@ -120,7 +120,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
 
   private updateBaselineData(): void {
-    const country = this.quickMapsService.country;
+    const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient;
     const dietDataSource = this.quickMapsService.dietDataSource;
 

@@ -75,15 +75,17 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService
-              .getHouseholdSummaries(
-                this.quickMapsService.country,
-                this.quickMapsService.micronutrient,
-                this.quickMapsService.dietDataSource,
-              )
-              .then((data) => this.householdSummariesToSummarizedData(data)),
-          );
+          const country = this.quickMapsService.country.get();
+          const micronutrient = this.quickMapsService.micronutrient;
+          const dietDataSource = this.quickMapsService.dietDataSource;
+          //  only if all set
+          if (null != country && null != micronutrient && null != dietDataSource) {
+            this.init(
+              this.dietDataService
+                .getHouseholdSummaries(country, micronutrient, dietDataSource)
+                .then((data) => this.householdSummariesToSummarizedData(data)),
+            );
+          }
         }),
       );
     } else if (null != this.dialogData) {

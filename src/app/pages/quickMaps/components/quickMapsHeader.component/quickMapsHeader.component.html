@@ -2,7 +2,8 @@
   <div class="item-center">
     <div>
       <h1 class="qm-title">
-        {{ (quickMapsService.countryObs | async)?.name }} {{quickMapsService.measureObs | async | titlecase}} Data
+        {{ (quickMapsService.country.observable | async)?.name }} {{quickMapsService.measureObs | async | titlecase}}
+        Data
       </h1>
     </div>
   </div>
