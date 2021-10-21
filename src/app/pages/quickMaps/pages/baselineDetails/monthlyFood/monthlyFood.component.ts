@@ -130,13 +130,31 @@ export class MonthlyFoodComponent implements AfterViewInit {
           datasets: [],
         };
 
-        foodTypes.forEach((thing, index) => {
-          monthlyChartData.datasets.push({
-            label: foodTypes[index],
-            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
-            backgroundColor: this.genColorHex(foodTypes[index]),
-          });
+        monthlyChartData.datasets.push({
+          label: 'other',
+          data: data.filter((item) => item.percentageConsumed <= 5),
+          backgroundColor: 'grey',
         });
+
+        // foodTypes.forEach((thing, index) => {
+        //   monthlyChartData.datasets.push(
+        //     {
+        //       label: foodTypes[index],
+        //       data: data
+        //         .filter((item) => item.foodGroupName === foodTypes[index])
+        //         .map((item) => item.percentageConsumed),
+        //       backgroundColor: this.genColorHex(foodTypes[index]),
+        //     },
+
+        //     {
+        //       label: 'other',
+        //       data: data
+        //         .filter((item) => item.foodGroupName === foodTypes[index])
+        //         .map((item) => item.percentageConsumed <= 5),
+        //       backgroundColor: 'grey',
+        //     },
+        //   );
+        // });
 
         // Generate the table
         this.displayedColumns = foodTypes;
