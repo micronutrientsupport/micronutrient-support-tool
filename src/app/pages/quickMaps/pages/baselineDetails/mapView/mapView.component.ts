@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   Component,
   Input,
@@ -35,7 +30,7 @@ import {
   MnAvailibiltyItemFeatureProperties,
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
-
+import { MapDownloadService } from 'src/app/services/mapDownload.service';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -51,7 +46,12 @@ export class MapViewComponent implements AfterViewInit {
 
   public readonly dataLevelEnum = DataLevel;
   public title = '';
+  public downloadTitle = '';
   public selectedTab: number;
+
+  public absoluteMapDiv: HTMLDivElement;
+  public thresholdMapDiv: HTMLDivElement;
+
   private data: Array<MnAvailibiltyItem>;
 
   private defaultPalette = ColourPalette.PALETTES.find(
@@ -83,6 +83,7 @@ export class MapViewComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
     private dietDataService: DietDataService,
+    private mapDownloadService: MapDownloadService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -114,7 +115,7 @@ export class MapViewComponent implements AfterViewInit {
       });
 
       this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToTab(2)));
       this.subscriptions.push(
         this.card.onResizeObs.subscribe(() => {
           this.absoluteMap.invalidateSize();
@@ -125,6 +126,7 @@ export class MapViewComponent implements AfterViewInit {
       this.subscriptions.push(
         this.quickMapsService.countryObs.subscribe((country) => {
           this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
+          this.downloadTitle = 'Baseline Map' + (null == country ? '' : ` - ${country.name}`);
           if (null != this.card) {
             this.card.title = this.title;
           }
@@ -168,9 +170,19 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  public navigateToInfoTab(): void {
-    this.selectedTab = 2;
+  public navigateToTab(tab: number): void {
+    this.selectedTab = tab;
     this.cdr.detectChanges();
+  }
+
+  public exportMapAsImage(id: string): void {
+    if (id === 'threshold') {
+      this.thresholdMapDiv = document.getElementById('threshold-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsImage(this.thresholdMapDiv, `${this.downloadTitle}-threshold-values`);
+    } else {
+      this.absoluteMapDiv = document.getElementById('absolute-map') as HTMLDivElement;
+      this.mapDownloadService.captureElementAsImage(this.absoluteMapDiv, `${this.downloadTitle}-absolute-values`);
+    }
   }
 
   private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
