@@ -50,9 +50,9 @@ export class ApiService extends BaseApi {
     scenario: {
       getCurrentComposition: new GetCurrentComposition(ApiService.USE_LIVE_API),
       getCurrentConsumption: new GetCurrentConsumption(ApiService.USE_LIVE_API),
-      getDietChangeComposition: new GetDietChangeComposition(false),
-      getDietChangeConsumption: new GetDietChangeConsumption(false),
-      getDietChangeFoodItem: new GetDietChangeFoodItem(false),
+      getDietChangeComposition: new GetDietChangeComposition(ApiService.USE_LIVE_API),
+      getDietChangeConsumption: new GetDietChangeConsumption(ApiService.USE_LIVE_API),
+      getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
     misc: {},
   };

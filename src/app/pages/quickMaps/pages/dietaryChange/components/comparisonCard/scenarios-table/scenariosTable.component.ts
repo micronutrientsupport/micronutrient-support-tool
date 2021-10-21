@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MnAvailibiltyItem } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 
 interface TableObject {
   region: string;
@@ -16,73 +15,44 @@ interface TableObject {
   templateUrl: './scenariosTable.component.html',
   styleUrls: ['../../../../expandableTabGroup.scss', './scenariosTable.component.scss'],
 })
-export class ScenariosTableComponent implements OnInit {
-  @ViewChild(MatSort, { static: false }) set matSort(ms: MatSort) {
-    this.sort = ms;
-    if (this.dataSource) {
-      this.dataSource.sort = this.sort;
-    }
-  }
+export class ScenariosTableComponent implements AfterViewInit {
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   @Input() set baselineData(data: Array<MnAvailibiltyItem>) {
-    if (null != data) {
-      this.baselineTableData = data;
-      if (null != this.scenarioTableData) {
-        this.createTableObjects(this.baselineTableData, this.scenarioTableData);
-      }
-    }
+    this.baselineAvailabilityData = data;
+    this.refreshTableObjects();
   }
 
-  @Input() set scenarioData(data: SubRegionDataItem) {
-    if (null != data) {
-      this.scenarioTableData = data;
-      if (null != this.baselineTableData) {
-        this.createTableObjects(this.baselineTableData, this.scenarioTableData);
-      }
-    }
+  @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
+    this.scenarioAvailabilityData = data;
+    this.refreshTableObjects();
   }
 
   public displayedColumns = ['region', 'baselineSupply', 'scenarioSupply'];
-  public dataSource: MatTableDataSource<TableObject>;
-  private sort: MatSort;
+  public dataSource = new MatTableDataSource<TableObject>();
 
-  private baselineTableData: Array<MnAvailibiltyItem>;
-  private scenarioTableData: SubRegionDataItem;
+  private baselineAvailabilityData: Array<MnAvailibiltyItem>;
+  private scenarioAvailabilityData: Array<MnAvailibiltyItem>;
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  public initialiseTable(tableData: Array<TableObject>): void {
-    this.dataSource = new MatTableDataSource(tableData);
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 
-  public createTableObjects(baseLineDetails: Array<MnAvailibiltyItem>, scenarioDetails: SubRegionDataItem): void {
-    const baselineTableObjects = new Array<TableObject>();
-    const scenarioTableObjects = new Array<TableObject>();
-    baseLineDetails.forEach((item) => {
-      const detail: TableObject = {
-        region: item.areaName,
-        baselineSupply: item.dietarySupply,
-      };
-      baselineTableObjects.push(detail);
-    });
-    scenarioDetails.geoJson.features.forEach((item) => {
-      const detail: TableObject = {
-        region: item.properties.subregion_name,
-        scenarioSupply: item.properties.mn_absolute,
-      };
-      scenarioTableObjects.push(detail);
-    });
-
-    const tableData = baselineTableObjects.map((baselineItem: TableObject) => ({
-      ...scenarioTableObjects.find(
-        (scenarioItem: TableObject) => scenarioItem.region === baselineItem.region && scenarioItem,
-      ),
-      ...baselineItem,
-    }));
-
-    this.initialiseTable(tableData);
+  private refreshTableObjects(): void {
+    const tableObjects = new Array<TableObject>();
+    if (null != this.baselineAvailabilityData && null != this.scenarioAvailabilityData) {
+      this.baselineAvailabilityData.forEach((baselineItem) => {
+        const scenarioItem = this.scenarioAvailabilityData.find((item) => item.areaId === baselineItem.areaId);
+        const detail: TableObject = {
+          region: baselineItem.areaName,
+          baselineSupply: baselineItem.dietarySupply,
+          scenarioSupply: null == scenarioItem ? null : scenarioItem.dietarySupply,
+        };
+        tableObjects.push(detail);
+      });
+    }
+    this.dataSource.data = tableObjects;
   }
 }
