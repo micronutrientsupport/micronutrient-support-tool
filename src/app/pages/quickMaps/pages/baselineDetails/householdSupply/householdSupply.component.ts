@@ -114,6 +114,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           overviewMap.set(roundedValue, 0);
         }
         overviewMap.set(roundedValue, overviewMap.get(roundedValue) + 1);
+
+        // const thresholdValue = Math.ceil(householdSummary.deficientValue / stepSize) * stepSize;
+        // if (!overviewMap.has(thresholdValue)) {
+        //   overviewMap.set(thresholdValue, 0);
+        // }
+        // overviewMap.set(thresholdValue, overviewMap.get(thresholdValue) + 1);
       });
 
       // iterate through from min value to max in steps of x
@@ -226,7 +232,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
               borderColor: 'black',
               label: {
                 enabled: true,
-                content: 'Threshold',
+                content: 'Threshold for AFE',
               },
             },
           ],
