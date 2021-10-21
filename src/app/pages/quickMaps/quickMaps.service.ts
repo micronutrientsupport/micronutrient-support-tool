@@ -14,7 +14,7 @@ import { Accessor, NullableAccessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enum';
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
-import { StringConverter } from './queryParams/converters/converter.abstract';
+import { StringConverter } from './queryParams/converters/stringConverter';
 
 @Injectable()
 export class QuickMapsService {

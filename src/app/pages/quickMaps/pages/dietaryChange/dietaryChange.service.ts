@@ -5,7 +5,7 @@ import { Accessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey.enum';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
-import { NumberConverter } from '../../queryParams/converters/converter.abstract';
+import { NumberConverter } from '../../queryParams/converters/numberConverter';
 
 @Injectable()
 export class DietaryChangeService {

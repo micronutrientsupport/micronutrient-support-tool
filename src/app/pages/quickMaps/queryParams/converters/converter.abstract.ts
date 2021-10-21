@@ -20,21 +20,3 @@ export abstract class Converter<T = unknown> {
   public abstract getString(): string;
   public abstract getItem(injector?: Injector, dependencies?: Promise<unknown>): Promise<T>;
 }
-
-export class StringConverter extends Converter<string> {
-  public getString(): string {
-    return this.item ?? '';
-  }
-  public getItem(): Promise<string> {
-    return Promise.resolve(this.stringValue);
-  }
-}
-
-export class NumberConverter extends Converter<number> {
-  public getString(): string {
-    return null == this.item ? '' : String(this.item);
-  }
-  public getItem(): Promise<number> {
-    return Promise.resolve(Number(this.stringValue));
-  }
-}
