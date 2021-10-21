@@ -10,7 +10,8 @@
             Micronutrient: <strong>{{ (quickMapsService.micronutrient.observable | async)?.name }}</strong>
           </div>
           <div class="item">
-            Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measureObs | async }} Data</strong>
+            Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measure.observable | async }}
+              Data</strong>
           </div>
           <div class="item">
             Data level:

@@ -83,7 +83,7 @@ export class SideNavContentComponent implements OnInit {
         this.quickMapsForm = this.fb.group({
           nation: [this.quickMapsService.country.get(), Validators.required],
           micronutrient: [this.quickMapsService.micronutrient.get(), Validators.required],
-          measure: [this.quickMapsService.measure, Validators.required],
+          measure: [this.quickMapsService.measure.get(), Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderGroup: [
             this.quickMapsService.ageGenderGroup,
@@ -124,7 +124,7 @@ export class SideNavContentComponent implements OnInit {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
-            this.quickMapsService.setMeasure(value);
+            this.quickMapsService.measure.set(value);
             // force re-validation of age-gender group
             this.quickMapsForm.get('ageGenderGroup').updateValueAndValidity();
             this.updateDataSources();
@@ -189,7 +189,7 @@ export class SideNavContentComponent implements OnInit {
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
       this.navigate(
-        this.quickMapsService.measure === MicronutrientMeasureType.DIET
+        this.quickMapsService.measure.get() === MicronutrientMeasureType.DIET
           ? AppRoutes.QUICK_MAPS_BASELINE
           : AppRoutes.QUICK_MAPS_BIOMARKER,
       );
@@ -244,11 +244,11 @@ export class SideNavContentComponent implements OnInit {
     // no point in calling API if required parameters aren't set
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const measure = this.quickMapsService.measure;
+    const measure = this.quickMapsService.measure.get();
     const ageGenderGroup = this.quickMapsService.ageGenderGroup;
 
     if (null != country && null != micronutrient && null != measure) {
-      switch (this.quickMapsService.measure) {
+      switch (measure) {
         case MicronutrientMeasureType.DIET: {
           dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
           break;

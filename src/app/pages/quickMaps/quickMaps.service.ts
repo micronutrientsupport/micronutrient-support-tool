@@ -19,9 +19,7 @@ export class QuickMapsService {
   public readonly slim = new Accessor<boolean>(false);
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
   public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
-  private readonly measureSrc = new BehaviorSubject<MicronutrientMeasureType>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public measureObs = this.measureSrc.asObservable();
+  public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
 
   private readonly dietDataSourceSrc = new BehaviorSubject<DietDataSource>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -66,7 +64,7 @@ export class QuickMapsService {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    this.setMeasure(this.quickMapsParameters.getMeasure());
+    this.measure.set(this.quickMapsParameters.getMeasure());
 
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
@@ -83,7 +81,12 @@ export class QuickMapsService {
       ),
     ])
       .then(() =>
-        this.setInitialDataSources(this.country.get(), this.measure, this.micronutrient.get(), this.ageGenderGroup),
+        this.setInitialDataSources(
+          this.country.get(),
+          this.measure.get(),
+          this.micronutrient.get(),
+          this.ageGenderGroup,
+        ),
       )
       .then(() => {
         this.initSubscriptions();
@@ -101,13 +104,6 @@ export class QuickMapsService {
         clearInterval(interval);
       }
     }, 10);
-  }
-
-  public get measure(): MicronutrientMeasureType {
-    return this.measureSrc.value;
-  }
-  public setMeasure(measure: MicronutrientMeasureType, force = false): void {
-    this.setValue(this.measureSrc, measure, force);
   }
 
   public get dietDataSource(): DietDataSource {
@@ -145,7 +141,7 @@ export class QuickMapsService {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.country.get()?.id;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrient.get()?.id;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure.get();
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID] =
       null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
     this.quickMapsParameters.setQueryParams(paramsObj);
@@ -186,19 +182,19 @@ export class QuickMapsService {
     // set up the parameter changed triggers on param changes
     this.country.observable.subscribe(() => this.parameterChanged());
     this.micronutrient.observable.subscribe(() => this.parameterChanged());
-    this.measureObs.subscribe(() => this.parameterChanged());
+    this.measure.observable.subscribe(() => this.parameterChanged());
     this.dietDataSourceObs.subscribe(() => this.parameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.parameterChanged());
     this.ageGenderObs.subscribe(() => this.parameterChanged());
 
     this.country.observable.subscribe(() => this.dietParameterChanged());
     this.micronutrient.observable.subscribe(() => this.dietParameterChanged());
-    this.measureObs.subscribe(() => this.dietParameterChanged());
+    this.measure.observable.subscribe(() => this.dietParameterChanged());
     this.dietDataSourceObs.subscribe(() => this.dietParameterChanged());
 
     this.country.observable.subscribe(() => this.biomarkerParameterChanged());
     this.micronutrient.observable.subscribe(() => this.biomarkerParameterChanged());
-    this.measureObs.subscribe(() => this.biomarkerParameterChanged());
+    this.measure.observable.subscribe(() => this.biomarkerParameterChanged());
     this.biomarkerDataSourceObs.subscribe(() => this.biomarkerParameterChanged());
     this.ageGenderObs.subscribe(() => this.biomarkerParameterChanged());
   }

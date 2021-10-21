@@ -1,9 +1,8 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export class Accessor<T = unknown> {
-  private readonly src: BehaviorSubject<T>;
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly observable: Observable<T>;
+  private readonly src: BehaviorSubject<T>;
 
   constructor(value: T) {
     this.src = new BehaviorSubject<T>(value);
