@@ -9,10 +9,7 @@ import { DietaryChangeMode } from './dietaryChangeMode.enum';
 export class DietaryChangeService {
   public readonly init = new Accessor<boolean>(false);
   public readonly mode = new Accessor<DietaryChangeMode>(DietaryChangeMode.COMPOSITION);
-
-  private readonly changeItemsSrc = new BehaviorSubject<Array<DietaryChangeItem>>([]);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public changeItemsObs = this.changeItemsSrc.asObservable();
+  public readonly changeItems = new Accessor<Array<DietaryChangeItem>>([]);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
@@ -36,29 +33,16 @@ export class DietaryChangeService {
     this.init.set(true);
   }
 
-  public get changeItems(): Array<DietaryChangeItem> {
-    return this.changeItemsSrc.value;
-  }
-  public setChangeItems(changeItems: Array<DietaryChangeItem>, force = false): void {
-    this.setValue(this.changeItemsSrc, changeItems, force);
-  }
-
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
     paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE] = null == this.mode ? null : String(this.mode);
     this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
-  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
-    if (force || srcRef.value !== value) {
-      srcRef.next(value);
-    }
-  }
-
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
     this.mode.obs.subscribe(() => this.parameterChanged());
-    this.changeItemsObs.subscribe(() => this.parameterChanged());
+    this.changeItems.obs.subscribe(() => this.parameterChanged());
   }
 
   private parameterChanged(): void {

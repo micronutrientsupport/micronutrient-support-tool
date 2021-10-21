@@ -83,12 +83,13 @@ export class OptionsComponent {
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
     // only show confirmation if anything will be lost
-    const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
-    if (this.dietaryChangeService.changeItems.length > 1 || lastItem.isUseable()) {
+    const changeItems = this.dietaryChangeService.changeItems.get();
+    const lastItem = changeItems[changeItems.length - 1];
+    if (changeItems.length > 1 || lastItem.isUseable()) {
       confirmed = confirm('ARE YOU SURE');
     }
     if (confirmed) {
-      this.dietaryChangeService.setChangeItems([]);
+      this.dietaryChangeService.changeItems.set([]);
       this.dietaryChangeService.mode.set(event.value);
     } else {
       // set the mode back
@@ -146,14 +147,14 @@ export class OptionsComponent {
   }
 
   public deleteChangeItem(changeItem: DietaryChangeItem): void {
-    const newItems = this.dietaryChangeService.changeItems.filter((item) => item !== changeItem);
-    this.dietaryChangeService.setChangeItems(newItems);
+    const newItems = this.dietaryChangeService.changeItems.get().filter((item) => item !== changeItem);
+    this.dietaryChangeService.changeItems.set(newItems);
     this.itemsChanged();
   }
 
   public addChangeItem(): void {
     // doesn't need to trigger update as new item isn't fully formed
-    this.dietaryChangeService.changeItems.push(this.makeChangeItem());
+    this.dietaryChangeService.changeItems.get().push(this.makeChangeItem());
     this.addItemDisabled = true;
 
     this.updateFilteredFoodItems();
@@ -164,7 +165,7 @@ export class OptionsComponent {
     clearTimeout(this.refreshAllChangeItemsTimeout);
     this.refreshAllChangeItemsTimeout = setTimeout(() => {
       // call for all change items to trigger updates
-      this.dietaryChangeService.changeItems.forEach((item) => this.applyChangeItemChange(item));
+      this.dietaryChangeService.changeItems.get().forEach((item) => this.applyChangeItemChange(item));
     }, 200);
   }
 
@@ -193,9 +194,9 @@ export class OptionsComponent {
   private updateFilteredFoodItems(): void {
     if (null != this.foodGroupsDict) {
       const editableChangeItem =
-        this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
+        this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
       const selectedGroup = null != editableChangeItem ? editableChangeItem.foodGroup : null;
-      const usedFoodItems = this.dietaryChangeService.changeItems.map((item) => item.foodItem);
+      const usedFoodItems = this.dietaryChangeService.changeItems.get().map((item) => item.foodItem);
 
       const availableFoodItems = this.foodGroupsDict
         .getItems()
@@ -249,7 +250,8 @@ export class OptionsComponent {
   }
 
   private itemsChanged(): void {
-    const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
+    const lastItem =
+      this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
 
     if (null != lastItem) {
       this.addItemDisabled = !lastItem.isUseable();
@@ -260,7 +262,7 @@ export class OptionsComponent {
     clearTimeout(this.itemsChangedTimeout);
     this.itemsChangedTimeout = setTimeout(() => {
       // force as array is the same ref
-      this.dietaryChangeService.setChangeItems(this.dietaryChangeService.changeItems, true);
+      this.dietaryChangeService.changeItems.set(this.dietaryChangeService.changeItems.get(), true);
     }, 500);
   }
 
@@ -269,7 +271,7 @@ export class OptionsComponent {
     this.locallySelectedMode = newMode;
     this.modeText = DietaryChangeMode[newMode];
 
-    if (this.dietaryChangeService.changeItems.length === 0) {
+    if (this.dietaryChangeService.changeItems.get().length === 0) {
       this.addChangeItem();
     }
     switch (newMode) {

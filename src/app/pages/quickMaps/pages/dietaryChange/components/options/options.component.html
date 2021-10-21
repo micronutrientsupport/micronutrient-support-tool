@@ -41,7 +41,7 @@
 
         <!-- start change items -->
         <ng-container *ngFor="
-      let changeItem of dietaryChangeService.changeItemsObs | async;
+      let changeItem of dietaryChangeService.changeItems.obs | async;
       last as isLast;
       count as count" class="item-row">
           <span>
