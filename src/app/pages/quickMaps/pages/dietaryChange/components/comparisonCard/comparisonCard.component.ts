@@ -19,7 +19,6 @@ import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DietaryChangeService } from '../../dietaryChange.service';
 import { DietaryChangeMode } from '../../dietaryChangeMode.enum';
-import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { MatMenu } from '@angular/material/menu';
 import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
@@ -49,7 +48,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   public modeDisplay: DietaryChangeMode;
   // public tempDisplay: ChangeItemsType;
   public baselineData: Array<MnAvailibiltyItem>;
-  public scenarioData: SubRegionDataItem;
+  public scenarioData: Array<MnAvailibiltyItem>;
   public nutrient = '';
 
   private loadingCount = 0;
@@ -57,7 +56,6 @@ export class ComparisonCardComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private changeItemSubscriptions = new Array<Subscription>();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -99,10 +97,10 @@ export class ComparisonCardComponent implements AfterViewInit {
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
-      this.updateBaselineData();
       this.baselineData = this.dialogData.dataIn.baselineData;
       this.scenarioData = this.dialogData.dataIn.scenarioData;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
+      this.title = this.dialogData.dataIn.title;
       this.cdr.detectChanges();
     }
   }
@@ -147,35 +145,40 @@ export class ComparisonCardComponent implements AfterViewInit {
     }
   }
   private updateScenarioData(): void {
-    this.startLoading();
-    this.scenarioDataService
-      .getDietChange(
-        this.quickMapsService.dietDataSource,
-        this.dietaryChangeService.mode,
-        this.dietaryChangeService.changeItems.filter((item) => item.isUseable()),
-      )
-      .then((data: SubRegionDataItem) => {
-        this.scenarioData = data;
-      })
-      .finally(() => {
-        this.endLoading();
-      })
-      .catch((e) => {
-        this.errorSrc.next(true);
-        throw e;
-      });
+    const micronutrient = this.quickMapsService.micronutrient;
+    const dietDataSource = this.quickMapsService.dietDataSource;
+    const useableChangeItems = this.dietaryChangeService.changeItems.filter((item) => item.isUseable());
+
+    if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
+      this.startLoading();
+      this.scenarioDataService
+        .getDietChange(dietDataSource, micronutrient, this.dietaryChangeService.mode, useableChangeItems)
+        .then((data: Array<MnAvailibiltyItem>) => {
+          this.scenarioData = data;
+        })
+        .finally(() => {
+          this.endLoading();
+        })
+        .catch((e) => {
+          this.errorSrc.next(true);
+          throw e;
+        });
+    }
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<unknown>(ComparisonCardComponent, {
-      data: this.scenarioData,
+    void this.dialogService.openDialogForComponent<DietaryChangeComparisonCardDialogData>(ComparisonCardComponent, {
+      baselineData: this.baselineData,
+      scenarioData: this.scenarioData,
       selectedTab: this.tabGroup.selectedIndex,
+      title: this.title,
     });
   }
 }
 
 export interface DietaryChangeComparisonCardDialogData {
   baselineData: Array<MnAvailibiltyItem>;
-  scenarioData: SubRegionDataItem;
+  scenarioData: Array<MnAvailibiltyItem>;
   selectedTab: number;
+  title: string;
 }

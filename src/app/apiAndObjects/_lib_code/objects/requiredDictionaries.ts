@@ -1,9 +1,17 @@
 import { Dictionary } from './dictionary';
 import { DictionaryItem } from './dictionaryItem.interface';
 
+/**
+ * Accessor object for accessing a set of Dictionaries
+ */
 export class RequiredDictionaries {
   protected readonly dictionaries = new Map<unknown, Dictionary>();
 
+  /**
+   * @param dictionariesTypes Array of dictionary identifiers
+   * @param dictionaries Array of dictionaries
+   * @returns whether all of the dictionariesTypes exist in dictionaries
+   */
   public static validateDictionaries(dictionariesTypes: Array<unknown>, dictionaries: Array<Dictionary>): boolean {
     // console.debug('validateDictionaries', dictionariesTypes, dictionaries);
     return (
@@ -22,7 +30,9 @@ export class RequiredDictionaries {
   }
 
   /**
-   * Add dictionaries.
+   * Adds dictionaries.
+   *
+   * @param dictionaries Array of Dictionaries to add.
    */
   public addDictionaries(dictionaries: Array<Dictionary>): void {
     dictionaries = null == dictionaries ? [] : dictionaries;
@@ -31,20 +41,21 @@ export class RequiredDictionaries {
   }
 
   /**
-   * Get a dictionary.
-   * (Generics for convenience.)
+   * @param dictionaryType Identifier that references the required Dictionary
+   * @returns The matching Dictionary, or null if not exists (Generics for convenience.)
    */
   public getDictionary<DICTIONARY_TYPE = Dictionary>(dictionaryType: unknown): DICTIONARY_TYPE {
     const requiredDict = this.dictionaries.get(dictionaryType);
     if (null == requiredDict) {
       console.warn('Can\'t get dictionary', dictionaryType);
     }
-    return (requiredDict as unknown) as DICTIONARY_TYPE;
+    return requiredDict as unknown as DICTIONARY_TYPE;
   }
 
   /**
-   * Get an item from a dictionary.
-   * (Generics for convenience.)
+   * @param dictionaryType Identifier that references the required Dictionary
+   * @param dictionaryItemId Identifier that references the required DictionaryItem, on the referenced Dictionary
+   * @returns The matching DictionaryItem, or null if Dictionary or item does not exists (Generics for convenience.)
    */
   public getDictionaryItem<ITEM_TYPE = DictionaryItem>(
     dictionaryType: unknown,

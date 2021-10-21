@@ -59,7 +59,7 @@ export class FoodItemsComponent implements AfterViewInit {
   constructor(
     private notificationService: NotificationsService,
     private dietDataService: DietDataService,
-    private quickMapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
@@ -79,6 +79,12 @@ export class FoodItemsComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+          this.title =
+            'Top 20 food items apparent intake for ' +
+            this.quickMapsService.micronutrient.id +
+            ' in ' +
+            this.quickMapsService.country.name;
+          this.card.title = this.title;
           const micronutrient = this.quickMapsService.micronutrient;
           const dietDataSource = this.quickMapsService.dietDataSource;
 
@@ -114,6 +120,7 @@ export class FoodItemsComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
+        console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
         this.chartData = null;
@@ -185,7 +192,7 @@ export class FoodItemsComponent implements AfterViewInit {
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
               const mnUnit = this.mnUnit;
-              return `${label}: ${Number(value).toPrecision(3)} ${mnUnit}/capita/day`;
+              return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
             },
           },
         },
