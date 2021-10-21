@@ -130,7 +130,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
       }),
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
+      this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
@@ -194,7 +194,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   private init(): void {
     const mnName = this.quickMapsService.micronutrient.get()?.name;
-    const agName = this.quickMapsService.ageGenderGroup.name;
+    const agName = this.quickMapsService.ageGenderGroup.get().name;
     const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
     const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
     this.title = titlePrefix + titleSuffix;

@@ -86,7 +86,7 @@ export class SideNavContentComponent implements OnInit {
           measure: [this.quickMapsService.measure.get(), Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderGroup: [
-            this.quickMapsService.ageGenderGroup,
+            this.quickMapsService.ageGenderGroup.get(),
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
         });
@@ -132,7 +132,7 @@ export class SideNavContentComponent implements OnInit {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('ageGenderGroup').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
-            this.quickMapsService.setAgeGenderGroup(value);
+            this.quickMapsService.ageGenderGroup.set(value);
             this.updateDataSources();
           }),
         );
@@ -245,7 +245,7 @@ export class SideNavContentComponent implements OnInit {
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
     const measure = this.quickMapsService.measure.get();
-    const ageGenderGroup = this.quickMapsService.ageGenderGroup;
+    const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     if (null != country && null != micronutrient && null != measure) {
       switch (measure) {

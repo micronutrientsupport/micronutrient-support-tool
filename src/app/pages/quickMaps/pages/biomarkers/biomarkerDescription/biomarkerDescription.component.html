@@ -14,7 +14,7 @@
               Data</strong>
           </div>
           <div class="item">
-            Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
+            Age-gender group: <strong>{{ (quickMapsService.ageGenderGroup.obs | async).name }}</strong>
           </div>
           <div class="item">
             Data Source: <strong>{{ (quickMapsService.biomarkerDataSource.obs | async)?.name }}</strong>

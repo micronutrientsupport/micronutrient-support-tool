@@ -5,7 +5,7 @@
       }}
       Status</strong>
     in
-    <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
+    <strong>{{ (quickMapsService.ageGenderGroup.obs | async).name }}</strong>
     ({{ (quickMapsService.biomarkerDataSource.obs | async)?.year }})
   </span>
   <span class="separator"></span>
