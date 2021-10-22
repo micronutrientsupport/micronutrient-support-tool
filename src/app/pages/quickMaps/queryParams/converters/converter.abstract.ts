@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { QuickMapsQueryParamKey } from '../quickMapsQueryParamKey.enum';
 
 export abstract class Converter<T = unknown> {
@@ -18,5 +17,5 @@ export abstract class Converter<T = unknown> {
     return this;
   }
   public abstract getString(): string;
-  public abstract getItem(injector?: Injector, ...dependencies: Array<Promise<unknown>>): Promise<T>;
+  public abstract getItem(...dependencies: Array<unknown>): Promise<T>;
 }

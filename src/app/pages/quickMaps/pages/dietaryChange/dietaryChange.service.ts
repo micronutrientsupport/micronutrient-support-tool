@@ -9,6 +9,10 @@ import { NumberConverter } from '../../queryParams/converters/numberConverter';
 import { DietaryChangeItemsConverter } from '../../queryParams/converters/dietaryChangeItemConverter';
 import { QuickMapsService } from '../../quickMaps.service';
 import { ParamMap } from '@angular/router';
+import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
+import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Injectable()
 export class DietaryChangeService {
@@ -28,7 +32,12 @@ export class DietaryChangeService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(private injector: Injector, private quickmapsService: QuickMapsService) {
+  constructor(
+    private injector: Injector,
+    private quickmapsService: QuickMapsService,
+    private scenarioDataService: ScenarioDataService,
+    private dictionaryService: DictionaryService,
+  ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // wait until quickmaps service is ready
@@ -75,13 +84,24 @@ export class DietaryChangeService {
   }
 
   private getScenarioItems(queryParamMap?: ParamMap): Promise<Array<DietaryChangeItem>> {
-    return this.quickMapsParameters
-      .get(new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS), queryParamMap)
-      .getItem(
-        this.injector,
-        this.quickMapsParameters.getScenarioMode(),
-        Promise.resolve(this.quickmapsService.dietDataSource.get()),
-        this.quickMapsParameters.getMicronutrient(),
+    return this.dictionaryService
+      .getDictionary(DictionaryType.FOOD_GROUPS)
+      .then((foodGroupsDict) =>
+        this.quickMapsParameters
+          .get(new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS), queryParamMap)
+          .getItem(
+            new DietaryChangeItemFactory(
+              this.scenarioDataService,
+              foodGroupsDict,
+              this.mode,
+              this.quickmapsService.dietDataSource,
+              this.quickmapsService.micronutrient,
+            ),
+            this.injector,
+            this.quickMapsParameters.getScenarioMode(),
+            Promise.resolve(this.quickmapsService.dietDataSource.get()),
+            this.quickMapsParameters.getMicronutrient(),
+          ),
       );
   }
 }
