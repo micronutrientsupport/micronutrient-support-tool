@@ -133,21 +133,20 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       }),
     );
 
+    this.subscriptions.push(
+      this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+        this.micronutrientName = this.quickMapsService.micronutrient.get()?.name;
+        this.title = 'Projection Food Sources for ' + this.micronutrientName;
+        this.card.title = this.title;
+      }),
+    );
+
     if (null != this.card) {
-      this.card.title = this.title;
+      this.card.onExpandClickObs.subscribe(() => this.openDialog());
+      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab());
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-
-      this.subscriptions.push(
-        this.card.onExpandClickObs.subscribe(() => this.openDialog()),
-        this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
-        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.micronutrientName = this.quickMapsService.micronutrient.get()?.name;
-          this.title = 'Projection Food Sources for ' + this.micronutrientName;
-          this.card.title = this.title;
-          this.init();
-        }),
-      );
+      this.init();
     } else if (null != this.dialogData) {
       this.init();
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
