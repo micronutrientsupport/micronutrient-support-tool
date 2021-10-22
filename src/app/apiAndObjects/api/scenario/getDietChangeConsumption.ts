@@ -1,4 +1,4 @@
-import { ConsumptionChangeItem } from '../../objects/dietaryChange.item';
+import { ConsumptionChangeItem } from '../../objects/dietaryChangeItem';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';

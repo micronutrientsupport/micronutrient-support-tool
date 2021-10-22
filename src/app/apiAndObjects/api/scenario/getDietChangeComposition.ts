@@ -1,4 +1,4 @@
-import { CompositionChangeItem } from '../../objects/dietaryChange.item';
+import { CompositionChangeItem } from '../../objects/dietaryChangeItem';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';

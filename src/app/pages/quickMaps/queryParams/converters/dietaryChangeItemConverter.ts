@@ -10,7 +10,7 @@ import {
   ConsumptionChangeItem,
   DietaryChangeItem,
   FoodItemChangeItem,
-} from 'src/app/apiAndObjects/objects/dietaryChange.item';
+} from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryService } from 'src/app/services/dictionary.service';

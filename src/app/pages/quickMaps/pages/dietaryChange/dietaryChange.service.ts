@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { Accessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey.enum';

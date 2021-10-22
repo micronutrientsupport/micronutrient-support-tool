@@ -6,7 +6,7 @@ import {
   ConsumptionChangeItem,
   DietaryChangeItem,
   FoodItemChangeItem,
-} from '../apiAndObjects/objects/dietaryChange.item';
+} from '../apiAndObjects/objects/dietaryChangeItem';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';

@@ -4,7 +4,7 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DietaryChangeMode } from '../pages/dietaryChange/dietaryChangeMode.enum';

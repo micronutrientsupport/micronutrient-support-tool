@@ -17,7 +17,7 @@ import {
   ConsumptionChangeItem,
   DietaryChangeItem,
   FoodItemChangeItem,
-} from 'src/app/apiAndObjects/objects/dietaryChange.item';
+} from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
