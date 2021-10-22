@@ -44,7 +44,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourPaletteId);
   }
 
-  public openInvalidParametersDialog(): Promise<DialogData> {
+  public openInvalidParametersDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('invalidParametersDialog', InvalidParametersDialogComponent);
   }
 
