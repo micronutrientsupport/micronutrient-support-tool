@@ -79,9 +79,11 @@ export class ComparisonCardComponent implements AfterViewInit {
           this.card.onExpandClickObs.subscribe(() => this.openDialog()),
           this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-            // respond to quickmaps parameter updates
             this.title = `${this.quickMapsService.micronutrient.get()?.name} comparison`;
             this.card.title = this.title;
+          }),
+          // respond to quickmaps parameter updates
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             this.updateBaselineData();
             this.updateScenarioData();
           }),
