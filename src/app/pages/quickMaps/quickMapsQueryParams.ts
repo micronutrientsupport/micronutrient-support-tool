@@ -7,6 +7,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { EnumTools } from 'src/utility/enumTools';
+import { DietaryChangeMode } from './pages/dietaryChange/dietaryChangeMode.enum';
 
 export class QuickMapsQueryParams {
   public static readonly QUERY_PARAM_KEYS = {
@@ -14,6 +15,7 @@ export class QuickMapsQueryParams {
     MICRONUTRIENT_ID: 'mnd-id',
     MEASURE: 'measure',
     AGE_GENDER_GROUP_ID: 'age-gender-group-id',
+    SCENARIO_MODE: 'sm',
   };
 
   private readonly dictionariesService: DictionaryService;
@@ -59,6 +61,13 @@ export class QuickMapsQueryParams {
     );
   }
 
+  public getScenarioMode(queryParamMap?: ParamMap): DietaryChangeMode {
+    return EnumTools.getEnumFromValue(
+      Number(this.params(queryParamMap).get(QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE)),
+      DietaryChangeMode,
+    );
+  }
+
   public setQueryParams(params: Record<string, string | Array<string>>): void {
     // console.debug('setQueryParams', params);
     const stringParams: Record<string, string> = {};
@@ -78,7 +87,7 @@ export class QuickMapsQueryParams {
       relativeTo: this.route,
       replaceUrl: true, // replace in history
       queryParams: stringParams,
-      // queryParamsHandling: 'merge', // merges with what's already there, but unused params are removed
+      queryParamsHandling: 'merge',
     });
   }
 

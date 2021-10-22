@@ -30,7 +30,7 @@ export class ApiCaller {
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
-    // console.log('doCall', url, requestMethod, queryParams, bodyData);
+    // console.debug('doCall', url, requestMethod, queryParams, bodyData);
     const options = {
       headers: null != headerFilter ? headerFilter(this.headers) : this.headers,
       params: queryParams,
@@ -78,7 +78,7 @@ export class ApiCaller {
   }
 
   /**
-   * Removed an http header that was previously added
+   * Removes an http header that was previously added
    *
    * @param key Header key
    */

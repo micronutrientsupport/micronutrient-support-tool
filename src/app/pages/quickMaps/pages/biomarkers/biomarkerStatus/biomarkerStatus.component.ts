@@ -24,8 +24,10 @@ import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataIt
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
-import { DietDataService } from 'src/app/services/dietData.service';
+
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { DietDataService } from 'src/app/services/dietData.service';
+
 export interface BiomarkerStatusDialogData {
   data: any;
   selectedTab: number;
@@ -48,6 +50,10 @@ interface simpleDataObject {
 }
 
 export interface BiomarkerDataType {
+  name: string;
+  value: string;
+}
+export interface BiomarkerMediaType {
   name: string;
   value: string;
 }
@@ -77,11 +83,18 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public outlierControl = new FormControl(true);
   public dataTypes = new FormControl();
   public characteristics = new FormControl();
+
   public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },
     { name: 'Prevalence of Excess', value: 'poe' },
     { name: 'Combined deficiency and excess', value: 'cde' },
     { name: 'Concentration Data', value: 'cda' },
+  ];
+
+  public mediaList: Array<BiomarkerMediaType> = [
+    { name: 'Map', value: 'map' },
+    { name: 'Table', value: 'table' },
+    { name: 'Chart', value: 'chart' },
   ];
 
   public characteristicList: Array<BiomarkerCharacteristicType> = [
@@ -100,6 +113,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public mineralData: Array<BiomarkerStatusData>;
   public selectedDataType: BiomarkerDataType;
   public selectedCharacteristicType: BiomarkerCharacteristicType;
+  public selectedMediaType: BiomarkerMediaType;
 
   // Copied in from MapView, structure will be similar but will however may change
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
@@ -118,32 +132,23 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
+
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
+
   ngAfterViewInit(): void {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-    this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-    this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
 
     this.subscriptions.push(
-      this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+      this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+      this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
       }),
-    );
-
-    this.subscriptions.push(
-      this.quickMapsService.ageGenderObs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
+      this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
-    );
-
-    this.card.showExpand = true;
-    this.card.showSettingsMenu = true;
-    this.card.matMenu = this.menu;
-    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-
-    this.subscriptions.push(
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.init();
         // this.initMapData(
@@ -155,6 +160,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         // );
       }),
     );
+
+    this.card.showExpand = true;
+    this.card.showSettingsMenu = true;
+    this.card.matMenu = this.menu;
+    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
   }
 
   public navigateToInfoTab(): void {
@@ -197,10 +207,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public setDataSelection(dataType: BiomarkerDataType): void {
     this.selectedDataType = dataType;
   }
-
+  public setMediaSelection(mediaType: BiomarkerMediaType): void {
+    this.selectedMediaType = mediaType;
+  }
   private init(): void {
-    const mnName = this.quickMapsService.micronutrient.name;
-    const agName = this.quickMapsService.ageGenderGroup.name;
+    const mnName = this.quickMapsService.micronutrient.get()?.name;
+    const agName = this.quickMapsService.ageGenderGroup.get().name;
     const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
     const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
     this.title = titlePrefix + titleSuffix;

@@ -12,6 +12,8 @@ import { UnknownLeafletFeatureLayerClass } from 'src/app/other/unknownLeafletFea
 import { ColourGradient, ColourGradientObject } from 'src/app/pages/quickMaps/components/colourObjects/colourGradient';
 import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/colourPalette';
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { MapDownloadService } from 'src/app/services/mapDownload.service';
 
 type FEATURE_COLLECTION_TYPE = GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
@@ -48,6 +50,11 @@ export class ScenariosMapComponent implements AfterViewInit {
           };
     this.refreshScenarioLayer(false);
   }
+  public baselineMapData: Array<MnAvailibiltyItem>;
+  // public scenarioMapData: SubRegionDataItem;
+
+  public showSelectScenarioMessage = true;
+
   public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
   private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
 
@@ -64,9 +71,14 @@ export class ScenariosMapComponent implements AfterViewInit {
   );
   private colourGradient: ColourGradient;
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
+  private mapWrapperDiv: HTMLDivElement;
   private timeout: NodeJS.Timeout;
 
-  constructor(private dialogService: DialogService) {
+  constructor(
+    private dialogService: DialogService,
+    private mapDownloadService: MapDownloadService,
+    private quickMapsService: QuickMapsService,
+  ) {
     this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
   }
 
@@ -85,6 +97,14 @@ export class ScenariosMapComponent implements AfterViewInit {
       this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
       this.refreshAllMapContent(false);
     });
+  }
+
+  public exportMapAsImage(): void {
+    this.mapWrapperDiv = document.getElementById('comparison-map-wrapper') as HTMLDivElement;
+    this.mapDownloadService.captureElementAsImage(
+      this.mapWrapperDiv,
+      `${this.quickMapsService.micronutrient.get()?.name}-comparison-maps`,
+    );
   }
 
   private initialiseBaselineMap(mapElement: HTMLElement): L.Map {

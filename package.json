@@ -1,6 +1,6 @@
 {
   "name": "micronutrient-support-tool",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -51,7 +51,9 @@
     "chartjs-plugin-annotation": "^0.5.7",
     "chroma-js": "^2.1.2",
     "color-hash-ts": "0.0.7",
+    "dom-to-image": "^2.6.0",
     "fastest-levenshtein": "^1.0.12",
+    "file-saver": "^2.0.5",
     "leaflet": "^1.7.1",
     "moment-es6": "^1.0.0",
     "ng-navigator-share": "^1.0.4",

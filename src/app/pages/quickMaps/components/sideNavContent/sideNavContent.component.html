@@ -1,4 +1,4 @@
-<div class="heading-row" [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+<div class="heading-row" [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''">
   <button class="minimize-button" mat-icon-button type="button" [disabled]="sideNavToggleLock.value"
     (click)="minimiseSideNav()" aria-label="Toggle sidebar">
     <i class="fas fa-caret-left"></i>
@@ -10,10 +10,10 @@
   </mat-slide-toggle>
 </div>
 
-<div *ngIf="null != quickMapsForm && (quickMapsService.slimObservable | async) === false"
+<div *ngIf="null != quickMapsForm && (quickMapsService.slim.obs | async) === false"
   class="bmgf-maps-nice-scrollbar scroll-area">
   <form [formGroup]="quickMapsForm" id="quickMapsForm"
-    [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav' : ''">
+    [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav' : ''">
     <fieldset name="geographyOfInterest">
       <legend>
         <span class="field-title">
@@ -136,6 +136,6 @@
 </div>
 
 <div class="footer-row" [class.show]="showGoButton"
-  [ngClass]="(quickMapsService.slimObservable | async) ? 'slim-sidenav heading' : ''">
+  [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''">
   <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
 </div>

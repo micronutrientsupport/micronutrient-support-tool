@@ -1,17 +1,24 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Absolute Values">
-      <div #map1></div>
+      <a class="leaflet-screenshot" (click)="exportMapAsImage('absolute')"><i class="fas fa-camera"></i></a>
+      <div #map1 id="absolute-map"></div>
     </mat-tab>
 
     <mat-tab label="Variation from Threshold">
-      <div #map2></div>
+      <a class="leaflet-screenshot" (click)="exportMapAsImage('threshold')"><i class="fas fa-camera"></i></a>
+      <div #map2 id="threshold-map"></div>
     </mat-tab>
+
+
+    <!-- <mat-tab label="Download">
+      <app-download></app-download>
+    </mat-tab> -->
 
     <mat-tab label="About {{title}}">
       <div class="about-container">
         <h2>About {{title}}</h2>
-        <div *ngIf="dataLevelEnum.HOUSEHOLD === (quickMapsService.dietDataSourceObs | async)?.dataLevel">
+        <div *ngIf="dataLevelEnum.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
           <p>The map provides a spatial overview for the selected micronutrient and geography of interest. The map is
             zoomable and using ‘hover’ will enable viewing of data for individual areas.</p>
 
@@ -23,7 +30,7 @@
             be deficient, based the apparent intake and the requirements of the specific demographic data for each
             household.</p>
         </div>
-        <div *ngIf="dataLevelEnum.COUNTRY === (quickMapsService.dietDataSourceObs | async)?.dataLevel">
+        <div *ngIf="dataLevelEnum.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
           <p>The map shows the national summary for the selected micronutrient and geography of interest, because it is
             based on a combination of national FAO Food Balance Sheet (FBS) data, and locally relevant Food Composition
             Table data. The map is zoomable and using ‘hover’ will enable viewing of the numerical data.</p>
