@@ -5,7 +5,7 @@ import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
-import { ScenarioChangeWarningComponent } from './scenarioChange_Warning/scenarioChangeWarning.component';
+import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable({
