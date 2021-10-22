@@ -106,7 +106,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   }
 
   public navigateToInfoTab(): void {
-    this.selectedTab = 3;
+    this.selectedTab = 4;
     this.cdr.detectChanges();
   }
 
