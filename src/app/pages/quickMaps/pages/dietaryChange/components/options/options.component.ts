@@ -90,7 +90,7 @@ export class OptionsComponent {
     // only show confirmation if anything will be lost
     const lastItem = this.dietaryChangeService.changeItems[this.dietaryChangeService.changeItems.length - 1];
     if (this.dietaryChangeService.changeItems.length > 1 || lastItem.isUseable()) {
-      void this.dialogService.openScenarioChangeWarningDialog().then((data: DialogData<boolean>) => {
+      void this.dialogService.openScenarioChangeWarningDialog(confirmed).then((data: DialogData<boolean>) => {
         confirmed = data.dataOut as boolean;
         if (confirmed) {
           this.dietaryChangeService.setChangeItems([]);
