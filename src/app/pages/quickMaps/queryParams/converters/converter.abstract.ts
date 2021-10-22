@@ -18,5 +18,5 @@ export abstract class Converter<T = unknown> {
     return this;
   }
   public abstract getString(): string;
-  public abstract getItem(injector?: Injector, dependencies?: Promise<unknown>): Promise<T>;
+  public abstract getItem(injector?: Injector, ...dependencies: Array<Promise<unknown>>): Promise<T>;
 }

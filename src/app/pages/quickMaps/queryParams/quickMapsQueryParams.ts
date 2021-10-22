@@ -67,12 +67,6 @@ export class QuickMapsQueryParams {
       queryParamMap,
     ).getItem();
   }
-  public getScenarioItems(queryParamMap?: ParamMap): Promise<Array<DietaryChangeItem>> {
-    return this.get(new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS), queryParamMap).getItem(
-      this.injector,
-      this.getScenarioMode(),
-    );
-  }
 
   public setQueryParams(converters: Array<Converter>): void {
     const stringParams: Record<string, string> = {};

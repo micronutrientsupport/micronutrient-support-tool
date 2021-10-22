@@ -69,14 +69,7 @@ export class OptionsComponent {
               subs.unsubscribe();
             }
             this.updateFilteredFoodItems();
-            this.subscriptions.push(
-              dietaryChangeService.mode.obs.subscribe((mode) => {
-                this.modeChanged(mode);
-              }),
-              quickMapsService.dietParameterChangedObs.subscribe(() => {
-                this.refreshAllChangeItems();
-              }),
-            );
+            this.evaluateAddButtonEnabled();
           }
         });
       })
@@ -87,6 +80,19 @@ export class OptionsComponent {
       .catch((err) => {
         throw err;
       });
+
+    this.subscriptions.push(
+      dietaryChangeService.mode.obs.subscribe((mode) => {
+        this.modeChanged(mode);
+      }),
+      quickMapsService.dietParameterChangedObs.subscribe(() => {
+        // don't trigger when first subscribe as that will reset the loaded in values.
+        // wait until data loaded before reacting
+        if (dietaryChangeService.init.get()) {
+          this.refreshAllChangeItems();
+        }
+      }),
+    );
   }
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
@@ -162,8 +168,8 @@ export class OptionsComponent {
   public addChangeItem(): void {
     // doesn't need to trigger update as new item isn't fully formed
     this.dietaryChangeService.changeItems.get().push(this.makeChangeItem());
-    this.addItemDisabled = true;
 
+    this.evaluateAddButtonEnabled();
     this.updateFilteredFoodItems();
   }
 
@@ -258,14 +264,17 @@ export class OptionsComponent {
     }
   }
 
-  private itemsChanged(): void {
+  private evaluateAddButtonEnabled(): void {
     const lastItem =
       this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
 
     if (null != lastItem) {
       this.addItemDisabled = !lastItem.isUseable();
     }
+  }
 
+  private itemsChanged(): void {
+    this.evaluateAddButtonEnabled();
     // console.debug('itemsChanged');
     // wait for inactivity before triggering update
     clearTimeout(this.itemsChangedTimeout);

@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
 import { Accessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
@@ -7,6 +7,8 @@ import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 import { NumberConverter } from '../../queryParams/converters/numberConverter';
 import { DietaryChangeItemsConverter } from '../../queryParams/converters/dietaryChangeItemConverter';
+import { QuickMapsService } from '../../quickMaps.service';
+import { ParamMap } from '@angular/router';
 
 @Injectable()
 export class DietaryChangeService {
@@ -26,16 +28,27 @@ export class DietaryChangeService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector) {
+  constructor(private injector: Injector, private quickmapsService: QuickMapsService) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
-    // set from query params etc. on init
-    void Promise.all([
-      this.quickMapsParameters.getScenarioMode().then((mode) => this.mode.set(mode)),
-      this.quickMapsParameters.getScenarioItems().then((items) => this.changeItems.set(items)),
-    ]).then(() => {
-      this.initSubscriptions();
-      this.init.set(true);
+    // wait until quickmaps service is ready
+    let subs: Subscription;
+    // eslint-disable-next-line prefer-const
+    subs = quickmapsService.init.obs.subscribe((inited) => {
+      if (inited) {
+        if (null != subs) {
+          subs.unsubscribe();
+        }
+
+        // set from query params etc. on init
+        void Promise.all([
+          this.quickMapsParameters.getScenarioMode().then((mode) => this.mode.set(mode)),
+          this.getScenarioItems().then((items) => this.changeItems.set(items)),
+        ]).then(() => {
+          this.initSubscriptions();
+          this.init.set(true);
+        });
+      }
     });
   }
 
@@ -59,5 +72,16 @@ export class DietaryChangeService {
       this.updateQueryParams();
       this.parameterChangedSrc.next();
     }, 100);
+  }
+
+  private getScenarioItems(queryParamMap?: ParamMap): Promise<Array<DietaryChangeItem>> {
+    return this.quickMapsParameters
+      .get(new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS), queryParamMap)
+      .getItem(
+        this.injector,
+        this.quickMapsParameters.getScenarioMode(),
+        Promise.resolve(this.quickmapsService.dietDataSource.get()),
+        this.quickMapsParameters.getMicronutrient(),
+      );
   }
 }
