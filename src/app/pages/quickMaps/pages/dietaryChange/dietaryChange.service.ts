@@ -35,7 +35,7 @@ export class DietaryChangeService {
 
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE] = null == this.mode ? null : String(this.mode);
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE] = null == this.mode ? null : String(this.mode.get());
     this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
