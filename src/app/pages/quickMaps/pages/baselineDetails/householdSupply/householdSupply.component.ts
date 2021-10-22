@@ -75,15 +75,17 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       // respond to parameter updates
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          this.init(
-            this.dietDataService
-              .getHouseholdSummaries(
-                this.quickMapsService.country,
-                this.quickMapsService.micronutrient,
-                this.quickMapsService.dietDataSource,
-              )
-              .then((data) => this.householdSummariesToSummarizedData(data)),
-          );
+          const country = this.quickMapsService.country.get();
+          const micronutrient = this.quickMapsService.micronutrient.get();
+          const dietDataSource = this.quickMapsService.dietDataSource.get();
+          //  only if all set
+          if (null != country && null != micronutrient && null != dietDataSource) {
+            this.init(
+              this.dietDataService
+                .getHouseholdSummaries(country, micronutrient, dietDataSource)
+                .then((data) => this.householdSummariesToSummarizedData(data)),
+            );
+          }
         }),
       );
     } else if (null != this.dialogData) {
@@ -167,6 +169,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: SummarizedData): void {
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const generatedChart: ChartJSObject = {
       plugins: [ChartAnnotation],
       type: 'bar',
@@ -197,7 +200,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: `${this.quickMapsService.micronutrient.name} in ${this.quickMapsService.micronutrient.unit}/capita/day`,
+                labelString: `${micronutrient?.name} in ${micronutrient?.unit}/capita/day`,
               },
               display: true,
               id: 'x-axis-0',

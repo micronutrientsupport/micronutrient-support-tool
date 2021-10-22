@@ -91,7 +91,11 @@ export class EstimateComponent {
   private updateProjectionSummary(): void {
     this.loading = true;
     void this.projectionDataService
-      .getProjectionSummaries(this.quickMapsService.country, this.quickMapsService.micronutrient, this.baselineScenario)
+      .getProjectionSummaries(
+        this.quickMapsService.country.get(),
+        this.quickMapsService.micronutrient.get(),
+        this.baselineScenario,
+      )
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
         this.projectionsSummary = summary;

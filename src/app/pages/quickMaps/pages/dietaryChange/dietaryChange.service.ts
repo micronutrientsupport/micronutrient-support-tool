@@ -1,21 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { Accessor } from 'src/utility/accessor';
+import { QuickMapsQueryParams } from '../../quickMapsQueryParams';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 
 @Injectable()
 export class DietaryChangeService {
-  private initSrc = new BehaviorSubject<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public initObservable = this.initSrc.asObservable();
-
-  private readonly modeSrc = new BehaviorSubject<DietaryChangeMode>(DietaryChangeMode.COMPOSITION);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public modeObs = this.modeSrc.asObservable();
-
-  private readonly changeItemsSrc = new BehaviorSubject<Array<DietaryChangeItem>>([]);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public changeItemsObs = this.changeItemsSrc.asObservable();
+  public readonly init = new Accessor<boolean>(false);
+  public readonly mode = new Accessor<DietaryChangeMode>(DietaryChangeMode.COMPOSITION);
+  public readonly changeItems = new Accessor<Array<DietaryChangeItem>>([]);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
@@ -27,61 +21,35 @@ export class DietaryChangeService {
 
   private parameterChangeTimeout: NodeJS.Timeout;
 
-  // private readonly quickMapsParameters: QuickMapsQueryParams;
+  private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor() {
-    // this.quickMapsParameters = new QuickMapsQueryParams(injector);
+  constructor(injector: Injector) {
+    this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    // this.setMeasure(this.quickMapsParameters.getMeasure());
-    // this.setDataLevel(this.quickMapsParameters.getDataLevel());
+    this.mode.set(this.quickMapsParameters.getScenarioMode());
 
     this.initSubscriptions();
-    this.initSrc.next(true);
+    this.init.set(true);
   }
 
-  public get mode(): DietaryChangeMode {
-    return this.modeSrc.value;
-  }
-  public setMode(mode: DietaryChangeMode, force = false): void {
-    this.setValue(this.modeSrc, mode, force);
-  }
-  public get changeItems(): Array<DietaryChangeItem> {
-    return this.changeItemsSrc.value;
-  }
-  public setChangeItems(changeItems: Array<DietaryChangeItem>, force = false): void {
-    this.setValue(this.changeItemsSrc, changeItems, force);
-  }
-
-  // public updateQueryParams(): void {
-  //   const paramsObj = {} as Record<string, string | Array<string>>;
-  //   paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
-  //   paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
-  //     null != this.micronutrient ? this.micronutrient.id : null;
-  //   paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
-  //   paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.DATA_LEVEL] = this.dataLevel;
-  //   paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP] =
-  //     null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
-  //   this.quickMapsParameters.setQueryParams(paramsObj);
-  // }
-
-  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
-    if (force || srcRef.value !== value) {
-      srcRef.next(value);
-    }
+  public updateQueryParams(): void {
+    const paramsObj = {} as Record<string, string | Array<string>>;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE] = null == this.mode ? null : String(this.mode.get());
+    this.quickMapsParameters.setQueryParams(paramsObj);
   }
 
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
-    this.modeObs.subscribe(() => this.parameterChanged());
-    this.changeItemsObs.subscribe(() => this.parameterChanged());
+    this.mode.obs.subscribe(() => this.parameterChanged());
+    this.changeItems.obs.subscribe(() => this.parameterChanged());
   }
 
   private parameterChanged(): void {
-    // this.updateQueryParams();
     // ensure not triggered too many times in quick succession
     clearTimeout(this.parameterChangeTimeout);
     this.parameterChangeTimeout = setTimeout(() => {
+      this.updateQueryParams();
       this.parameterChangedSrc.next();
     }, 100);
   }
