@@ -12,10 +12,11 @@ export class Accessor<T = unknown> {
   public get(): T {
     return this.src.value;
   }
-  public set(value: T, force = false): void {
+  public set(value: T, force = false): T {
     if (force || this.src.value !== value) {
       this.src.next(value);
     }
+    return this.get();
   }
 }
 

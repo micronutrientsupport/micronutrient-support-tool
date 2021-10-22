@@ -5,4 +5,5 @@ export enum QuickMapsQueryParamKey {
   MEASURE = 'measure',
   AGE_GENDER_GROUP_ID = 'age-gender-group-id',
   SCENARIO_MODE = 'sm',
+  SCENARIO_ITEMS = 'si',
 }

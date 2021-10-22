@@ -174,7 +174,7 @@ export class QuickMapsService {
     micronutrient: MicronutrientDictionaryItem,
     ageGenderGroup: AgeGenderDictionaryItem,
   ): Promise<void> {
-    const promises = new Array<Promise<void>>();
+    const promises = new Array<Promise<unknown>>();
     if (MicronutrientMeasureType.DIET === measure) {
       promises.push(
         this.dietDataService.getDataSources(country, micronutrient, true).then((ds) => this.dietDataSource.set(ds[0])), // always first item

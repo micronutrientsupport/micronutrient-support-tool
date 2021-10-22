@@ -6,6 +6,7 @@ import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey.enum';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
 import { NumberConverter } from '../../queryParams/converters/numberConverter';
+import { DietaryChangeItemsConverter } from '../../queryParams/converters/dietaryChangeItemConverter';
 
 @Injectable()
 export class DietaryChangeService {
@@ -29,7 +30,10 @@ export class DietaryChangeService {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    void Promise.all([this.quickMapsParameters.getScenarioMode().then((mode) => this.mode.set(mode))]).then(() => {
+    void Promise.all([
+      this.quickMapsParameters.getScenarioMode().then((mode) => this.mode.set(mode)),
+      this.quickMapsParameters.getScenarioItems().then((items) => this.changeItems.set(items)),
+    ]).then(() => {
       this.initSubscriptions();
       this.init.set(true);
     });
@@ -38,6 +42,7 @@ export class DietaryChangeService {
   public updateQueryParams(): void {
     this.quickMapsParameters.setQueryParams([
       new NumberConverter(QuickMapsQueryParamKey.SCENARIO_MODE).setItem(this.mode.get()),
+      new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS).setItem(this.changeItems.get()),
     ]);
   }
 

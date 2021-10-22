@@ -110,7 +110,7 @@
           <ng-template #foodChangeElseBlock>
             <span>replace with</span>
             <mat-form-field appearance="outline">
-              <mat-select #groupSelect [value]="changeItem.currentValueFoodItemGroup"
+              <mat-select #groupSelect [value]="changeItem.scenarioFoodItemGroup"
                 (selectionChange)="changeFoodChangeScenarioGroup(changeItem, $event.value)"
                 placeholder="Food Item Group">
                 <ng-container *ngIf="null != changeItem.foodItem">

@@ -5,17 +5,18 @@ import { FoodGroupDictionaryItem } from './dictionaries/foodGroupDictionaryItem'
 export abstract class DietaryChangeItem<T = any> {
   public foodGroup: FoodGroupDictionaryItem;
   public foodItem: FoodDictionaryItem;
-  public currentValue: T;
+  public currentValue: T; // not used for FoodItemChangeItem
   public scenarioValue: T;
   public updatingScenarioValue = false;
 
   public updatingComposition = false;
   public updatingScenarioComposition = false;
 
-  // only used in FoodItemChangeItem.  I know that's not great. Will try to make that better.
+  // only used in FoodItemChangeItem.  I know that's not great but breaks in the template if not here.
+  // Will try to make that better.
   public currentComposition: CurrentComposition;
   public scenarioComposition: CurrentComposition;
-  public currentValueFoodItemGroup: FoodGroupDictionaryItem;
+  public scenarioFoodItemGroup: FoodGroupDictionaryItem;
 
   public isUseable(): boolean {
     return null != this.foodItem && null != this.scenarioValue;
@@ -28,7 +29,7 @@ export abstract class DietaryChangeItem<T = any> {
     this.scenarioValue = null;
     this.currentComposition = null;
     this.scenarioComposition = null;
-    this.currentValueFoodItemGroup = null;
+    this.scenarioFoodItemGroup = null;
     this.updatingScenarioValue = false;
     this.updatingComposition = false;
     this.updatingScenarioComposition = false;

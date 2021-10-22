@@ -62,7 +62,23 @@ export class OptionsComponent {
       .getDictionary(DictionaryType.FOOD_GROUPS)
       .then((dict) => {
         this.foodGroupsDict = dict;
-        this.updateFilteredFoodItems();
+        // after service has loaded in query data etc
+        const subs = dietaryChangeService.init.obs.subscribe((init) => {
+          if (init) {
+            if (null != subs) {
+              subs.unsubscribe();
+            }
+            this.updateFilteredFoodItems();
+            this.subscriptions.push(
+              dietaryChangeService.mode.obs.subscribe((mode) => {
+                this.modeChanged(mode);
+              }),
+              quickMapsService.dietParameterChangedObs.subscribe(() => {
+                this.refreshAllChangeItems();
+              }),
+            );
+          }
+        });
       })
       .finally(() => {
         this.loading = false;
@@ -71,14 +87,6 @@ export class OptionsComponent {
       .catch((err) => {
         throw err;
       });
-    this.subscriptions.push(
-      dietaryChangeService.mode.obs.subscribe((mode) => {
-        this.modeChanged(mode);
-      }),
-      quickMapsService.dietParameterChangedObs.subscribe(() => {
-        this.refreshAllChangeItems();
-      }),
-    );
   }
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
@@ -106,7 +114,6 @@ export class OptionsComponent {
     changeItem.clear();
     changeItem.foodGroup = selectedFoodItem.group;
     changeItem.foodItem = selectedFoodItem;
-
     this.applyChangeItemChange(changeItem);
   }
 
@@ -140,7 +147,7 @@ export class OptionsComponent {
   }
 
   public changeFoodChangeScenarioGroup(item: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
-    item.currentValueFoodItemGroup = group;
+    item.scenarioFoodItemGroup = group;
     item.scenarioValue = null;
     item.scenarioComposition = null;
     this.itemsChanged();
@@ -172,7 +179,7 @@ export class OptionsComponent {
   private applyChangeItemChange(changeItem: DietaryChangeItem): void {
     switch (this.dietaryChangeService.mode.get()) {
       case DietaryChangeMode.FOOD_ITEM:
-        this.changeScenarioValue(changeItem, changeItem.currentValue);
+        this.changeScenarioValue(changeItem, changeItem.foodItem);
         break;
       default:
         changeItem.updatingScenarioValue = true;
@@ -197,6 +204,8 @@ export class OptionsComponent {
         this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
       const selectedGroup = null != editableChangeItem ? editableChangeItem.foodGroup : null;
       const usedFoodItems = this.dietaryChangeService.changeItems.get().map((item) => item.foodItem);
+      // for these purposes the last change item isn't classed as used as the fooditem is still selectable
+      usedFoodItems.pop();
 
       const availableFoodItems = this.foodGroupsDict
         .getItems()
@@ -214,7 +223,7 @@ export class OptionsComponent {
     }
   }
 
-  private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
+  private setChangeItemComposition(foodChangeItem: FoodItemChangeItem): void {
     if (null != foodChangeItem.foodItem) {
       if (null == foodChangeItem.currentComposition) {
         foodChangeItem.currentComposition = null;
