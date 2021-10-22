@@ -11,40 +11,18 @@ import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Accessor, NullableAccessor } from 'src/utility/accessor';
 
 @Injectable()
 export class QuickMapsService {
-  private initSrc = new BehaviorSubject<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public initObservable = this.initSrc.asObservable();
-
-  private slimSubject = new BehaviorSubject<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public slimObservable = this.slimSubject.asObservable();
-
-  private readonly countrySrc = new BehaviorSubject<CountryDictionaryItem>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public countryObs = this.countrySrc.asObservable();
-
-  private readonly micronutrientSrc = new BehaviorSubject<MicronutrientDictionaryItem>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public micronutrientObs = this.micronutrientSrc.asObservable();
-
-  private readonly measureSrc = new BehaviorSubject<MicronutrientMeasureType>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public measureObs = this.measureSrc.asObservable();
-
-  private readonly dietDataSourceSrc = new BehaviorSubject<DietDataSource>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public dietDataSourceObs = this.dietDataSourceSrc.asObservable();
-
-  private readonly biomarkerDataSourceSrc = new BehaviorSubject<BiomarkerDataSource>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public biomarkerDataSourceObs = this.biomarkerDataSourceSrc.asObservable();
-
-  private readonly ageGenderGroupSrc = new BehaviorSubject<AgeGenderDictionaryItem>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public ageGenderObs = this.ageGenderGroupSrc.asObservable();
+  public readonly init = new Accessor<boolean>(false);
+  public readonly slim = new Accessor<boolean>(false);
+  public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
+  public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
+  public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
+  public readonly dietDataSource = new NullableAccessor<DietDataSource>(null);
+  public readonly biomarkerDataSource = new NullableAccessor<BiomarkerDataSource>(null);
+  public readonly ageGenderGroup = new NullableAccessor<AgeGenderDictionaryItem>(null);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
@@ -77,11 +55,11 @@ export class QuickMapsService {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
-    this.setMeasure(this.quickMapsParameters.getMeasure());
+    this.measure.set(this.quickMapsParameters.getMeasure());
 
     void Promise.all([
-      this.quickMapsParameters.getCountry().then((country) => this.setCountry(country)),
-      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.setMicronutrient(micronutrient)),
+      this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
+      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.micronutrient.set(micronutrient)),
       this.quickMapsParameters.getAgeGenderGroup().then((ageGenderGroupFromParams) =>
         (null != ageGenderGroupFromParams
           ? // use one from params
@@ -90,18 +68,25 @@ export class QuickMapsService {
             this.dictionaryService
               .getDictionary(DictionaryType.AGE_GENDER_GROUPS)
               .then((dict) => dict.getItems<AgeGenderDictionaryItem>().find((item) => item.isDefault))
-        ).then((ageGenderGroup) => this.setAgeGenderGroup(ageGenderGroup)),
+        ).then((ageGenderGroup) => this.ageGenderGroup.set(ageGenderGroup)),
       ),
     ])
-      .then(() => this.setInitialDataSources(this.country, this.measure, this.micronutrient, this.ageGenderGroup))
+      .then(() =>
+        this.setInitialDataSources(
+          this.country.get(),
+          this.measure.get(),
+          this.micronutrient.get(),
+          this.ageGenderGroup.get(),
+        ),
+      )
       .then(() => {
         this.initSubscriptions();
-        this.initSrc.next(true);
+        this.init.set(true);
       });
   }
 
   public sideNavToggle(): void {
-    this.slimSubject.next(!this.slimSubject.value);
+    this.slim.set(!this.slim.get());
     // ensure content reacts to change in size
     let count = 0;
     const interval = setInterval(() => {
@@ -112,73 +97,23 @@ export class QuickMapsService {
     }, 10);
   }
 
-  public get country(): CountryDictionaryItem {
-    return this.countrySrc.value;
-  }
-  public setCountry(country: CountryDictionaryItem, force = false): void {
-    this.setValue(this.countrySrc, country, force);
-  }
-
-  public get micronutrient(): MicronutrientDictionaryItem {
-    return this.micronutrientSrc.value;
-  }
-  public setMicronutrient(micronutrient: MicronutrientDictionaryItem, force = false): void {
-    this.setValue(this.micronutrientSrc, micronutrient, force);
-  }
-
-  public get measure(): MicronutrientMeasureType {
-    return this.measureSrc.value;
-  }
-  public setMeasure(measure: MicronutrientMeasureType, force = false): void {
-    this.setValue(this.measureSrc, measure, force);
-  }
-
-  public get dietDataSource(): DietDataSource {
-    return this.dietDataSourceSrc.value;
-  }
-  public setDietDataSource(dataSource: DietDataSource, force = false): void {
-    this.setValue(this.dietDataSourceSrc, dataSource, force);
-  }
-
-  public get biomarkerDataSource(): BiomarkerDataSource {
-    return this.biomarkerDataSourceSrc.value;
-  }
-  public setBiomarkerDataSource(dataSource: BiomarkerDataSource, force = false): void {
-    this.setValue(this.biomarkerDataSourceSrc, dataSource, force);
-  }
-
   public get dataSource(): DietDataSource | BiomarkerDataSource {
-    return this.dietDataSourceSrc.value ?? this.biomarkerDataSourceSrc.value;
+    return this.dietDataSource.get() ?? this.biomarkerDataSource.get();
   }
   public setDataSource(dataSource: DietDataSource | BiomarkerDataSource, force = false): void {
     const newDietVal = dataSource instanceof DietDataSource ? dataSource : null;
+    this.dietDataSource.set(newDietVal, force);
     const newBiomarkerVal = dataSource instanceof BiomarkerDataSource ? dataSource : null;
-    this.setDietDataSource(newDietVal, force);
-    this.setBiomarkerDataSource(newBiomarkerVal, force);
-  }
-
-  public get ageGenderGroup(): AgeGenderDictionaryItem {
-    return this.ageGenderGroupSrc.value;
-  }
-  public setAgeGenderGroup(ageGenderGroup: AgeGenderDictionaryItem, force = false): void {
-    this.setValue(this.ageGenderGroupSrc, ageGenderGroup, force);
+    this.biomarkerDataSource.set(newBiomarkerVal, force);
   }
 
   public updateQueryParams(): void {
     const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = null != this.country ? this.country.id : null;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] =
-      null != this.micronutrient ? this.micronutrient.id : null;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID] =
-      null != this.ageGenderGroup ? this.ageGenderGroup.id : null;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.COUNTRY_ID] = this.country.get()?.id;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MICRONUTRIENT_ID] = this.micronutrient.get()?.id;
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.MEASURE] = this.measure.get();
+    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.AGE_GENDER_GROUP_ID] = this.ageGenderGroup.get()?.id;
     this.quickMapsParameters.setQueryParams(paramsObj);
-  }
-
-  protected setValue<T>(srcRef: BehaviorSubject<T>, value: T, force: boolean): void {
-    if (force || srcRef.value !== value) {
-      srcRef.next(value);
-    }
   }
 
   private parameterChanged(): void {
@@ -208,23 +143,23 @@ export class QuickMapsService {
 
   private initSubscriptions(): void {
     // set up the parameter changed triggers on param changes
-    this.countryObs.subscribe(() => this.parameterChanged());
-    this.micronutrientObs.subscribe(() => this.parameterChanged());
-    this.measureObs.subscribe(() => this.parameterChanged());
-    this.dietDataSourceObs.subscribe(() => this.parameterChanged());
-    this.biomarkerDataSourceObs.subscribe(() => this.parameterChanged());
-    this.ageGenderObs.subscribe(() => this.parameterChanged());
+    this.country.obs.subscribe(() => this.parameterChanged());
+    this.micronutrient.obs.subscribe(() => this.parameterChanged());
+    this.measure.obs.subscribe(() => this.parameterChanged());
+    this.dietDataSource.obs.subscribe(() => this.parameterChanged());
+    this.biomarkerDataSource.obs.subscribe(() => this.parameterChanged());
+    this.ageGenderGroup.obs.subscribe(() => this.parameterChanged());
 
-    this.countryObs.subscribe(() => this.dietParameterChanged());
-    this.micronutrientObs.subscribe(() => this.dietParameterChanged());
-    this.measureObs.subscribe(() => this.dietParameterChanged());
-    this.dietDataSourceObs.subscribe(() => this.dietParameterChanged());
+    this.country.obs.subscribe(() => this.dietParameterChanged());
+    this.micronutrient.obs.subscribe(() => this.dietParameterChanged());
+    this.measure.obs.subscribe(() => this.dietParameterChanged());
+    this.dietDataSource.obs.subscribe(() => this.dietParameterChanged());
 
-    this.countryObs.subscribe(() => this.biomarkerParameterChanged());
-    this.micronutrientObs.subscribe(() => this.biomarkerParameterChanged());
-    this.measureObs.subscribe(() => this.biomarkerParameterChanged());
-    this.biomarkerDataSourceObs.subscribe(() => this.biomarkerParameterChanged());
-    this.ageGenderObs.subscribe(() => this.biomarkerParameterChanged());
+    this.country.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.micronutrient.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.measure.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.biomarkerDataSource.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.ageGenderGroup.obs.subscribe(() => this.biomarkerParameterChanged());
   }
 
   private setInitialDataSources(
@@ -236,19 +171,19 @@ export class QuickMapsService {
     const promises = new Array<Promise<void>>();
     if (MicronutrientMeasureType.DIET === measure) {
       promises.push(
-        this.dietDataService.getDataSources(country, micronutrient, true).then((ds) => this.setDietDataSource(ds[0])), // always first item
+        this.dietDataService.getDataSources(country, micronutrient, true).then((ds) => this.dietDataSource.set(ds[0])), // always first item
       );
     } else {
-      this.setDietDataSource(null);
+      this.dietDataSource.set(null);
     }
     if (MicronutrientMeasureType.BIOMARKER === measure) {
       promises.push(
         this.biomarkerDataService
           .getDataSources(country, micronutrient, ageGenderGroup, true)
-          .then((ds) => this.setBiomarkerDataSource(ds[0])), // always first item
+          .then((ds) => this.biomarkerDataSource.set(ds[0])), // always first item
       );
     } else {
-      this.setBiomarkerDataSource(null);
+      this.biomarkerDataSource.set(null);
     }
     return Promise.all(promises).then(() => {});
   }

@@ -124,7 +124,7 @@ export class MapViewComponent implements AfterViewInit {
       );
 
       this.subscriptions.push(
-        this.quickMapsService.countryObs.subscribe((country) => {
+        this.quickMapsService.country.obs.subscribe((country) => {
           this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
           this.downloadTitle = 'Baseline Map' + (null == country ? '' : ` - ${country.name}`);
           if (null != this.card) {
@@ -137,9 +137,9 @@ export class MapViewComponent implements AfterViewInit {
       // respond to parameter updates only if all set
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          const country = this.quickMapsService.country;
-          const micronutrient = this.quickMapsService.micronutrient;
-          const dietDataSource = this.quickMapsService.dietDataSource;
+          const country = this.quickMapsService.country.get();
+          const micronutrient = this.quickMapsService.micronutrient.get();
+          const dietDataSource = this.quickMapsService.dietDataSource.get();
 
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {

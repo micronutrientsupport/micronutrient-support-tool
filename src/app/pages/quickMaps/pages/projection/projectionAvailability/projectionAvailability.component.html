@@ -9,8 +9,9 @@
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
         <div class="heading">
-          <h2>Projected {{ (quickMapsService.micronutrientObs | async)?.name | lowercase }} availability to 2050</h2>
-          <h4>The data shows the projected {{ (quickMapsService.micronutrientObs | async)?.name | lowercase }}
+          <h2>Projected {{ (quickMapsService.micronutrient.obs | async)?.name | lowercase }} availability to 2050
+          </h2>
+          <h4>The data shows the projected {{ (quickMapsService.micronutrient.obs | async)?.name | lowercase }}
             availability per capita per day</h4>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>

@@ -81,18 +81,18 @@ export class SideNavContentComponent implements OnInit {
         this.ageGenderGroupsDictionary = dicts.shift();
 
         this.quickMapsForm = this.fb.group({
-          nation: [this.quickMapsService.country, Validators.required],
-          micronutrient: [this.quickMapsService.micronutrient, Validators.required],
-          measure: [this.quickMapsService.measure, Validators.required],
+          nation: [this.quickMapsService.country.get(), Validators.required],
+          micronutrient: [this.quickMapsService.micronutrient.get(), Validators.required],
+          measure: [this.quickMapsService.measure.get(), Validators.required],
           dataSource: [this.quickMapsService.dataSource, Validators.required],
           ageGenderGroup: [
-            this.quickMapsService.ageGenderGroup,
+            this.quickMapsService.ageGenderGroup.get(),
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
         });
 
         this.subscriptions.push(
-          this.quickMapsService.countryObs.subscribe((value) => {
+          this.quickMapsService.country.obs.subscribe((value) => {
             const geographyType = this.regionDictionary.getItems().includes(value)
               ? GeographyTypes.REGION
               : GeographyTypes.COUNTRY;
@@ -103,7 +103,7 @@ export class SideNavContentComponent implements OnInit {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsService.micronutrientObs.subscribe((value) => {
+          this.quickMapsService.micronutrient.obs.subscribe((value) => {
             // really only used on first load to pre-select correct type
             const mndType = null != value ? value.type : MicronutrientType.VITAMIN;
             this.mndChange(mndType);
@@ -112,19 +112,19 @@ export class SideNavContentComponent implements OnInit {
 
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
-            this.quickMapsService.setCountry(value);
+            this.quickMapsService.country.set(value);
             this.updateDataSources();
           }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('micronutrient').valueChanges.subscribe((value: MicronutrientDictionaryItem) => {
-            this.quickMapsService.setMicronutrient(value);
+            this.quickMapsService.micronutrient.set(value);
             this.updateDataMeasureOptions();
           }),
         );
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
-            this.quickMapsService.setMeasure(value);
+            this.quickMapsService.measure.set(value);
             // force re-validation of age-gender group
             this.quickMapsForm.get('ageGenderGroup').updateValueAndValidity();
             this.updateDataSources();
@@ -132,7 +132,7 @@ export class SideNavContentComponent implements OnInit {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('ageGenderGroup').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
-            this.quickMapsService.setAgeGenderGroup(value);
+            this.quickMapsService.ageGenderGroup.set(value);
             this.updateDataSources();
           }),
         );
@@ -189,7 +189,7 @@ export class SideNavContentComponent implements OnInit {
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
       this.navigate(
-        this.quickMapsService.measure === MicronutrientMeasureType.DIET
+        this.quickMapsService.measure.get() === MicronutrientMeasureType.DIET
           ? AppRoutes.QUICK_MAPS_BASELINE
           : AppRoutes.QUICK_MAPS_BIOMARKER,
       );
@@ -207,7 +207,7 @@ export class SideNavContentComponent implements OnInit {
   }
 
   private updateDataMeasureOptions(): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
 
     this.measureDietEnabled = null != micronutrient && micronutrient.isDiet;
     this.measureBiomarkerEnabled = null != micronutrient && micronutrient.isBiomarker;
@@ -242,13 +242,13 @@ export class SideNavContentComponent implements OnInit {
   private updateDataSources(): void {
     let dataSourcePromise: Promise<Array<Named>> = Promise.resolve([] as Array<Named>);
     // no point in calling API if required parameters aren't set
-    const country = this.quickMapsService.country;
-    const micronutrient = this.quickMapsService.micronutrient;
-    const measure = this.quickMapsService.measure;
-    const ageGenderGroup = this.quickMapsService.ageGenderGroup;
+    const country = this.quickMapsService.country.get();
+    const micronutrient = this.quickMapsService.micronutrient.get();
+    const measure = this.quickMapsService.measure.get();
+    const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     if (null != country && null != micronutrient && null != measure) {
-      switch (this.quickMapsService.measure) {
+      switch (measure) {
         case MicronutrientMeasureType.DIET: {
           dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
           break;

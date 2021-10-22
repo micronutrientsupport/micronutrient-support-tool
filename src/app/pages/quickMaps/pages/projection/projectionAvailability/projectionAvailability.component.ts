@@ -83,8 +83,8 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         this.subscriptions.push(
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // projections only available if isInImpact flag set
-            const country = this.quickMapsService.country;
-            const micronutrient = this.quickMapsService.micronutrient;
+            const country = this.quickMapsService.country.get();
+            const micronutrient = this.quickMapsService.micronutrient.get();
             if (null != micronutrient && micronutrient.isInImpact) {
               this.title = 'Projected ' + micronutrient.name + ' availability to 2050';
               this.card.title = this.title;
@@ -122,7 +122,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
           throw new Error('data error');
         }
         const filteredData: Array<ProjectedAvailability> = this.data.filter(
-          (item: ProjectedAvailability) => item.country === this.quickMapsService.country.id,
+          (item: ProjectedAvailability) => item.country === this.quickMapsService.country.get()?.id,
         );
         // console.debug('filteredData', filteredData);
         this.errorSrc.next(false);
@@ -141,7 +141,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       });
   }
   private initialiseTable(data: Array<ProjectedAvailability>): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     this.columns = [
       { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => element.country },
       { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => element.year },
@@ -165,7 +165,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    const micronutrient = this.quickMapsService.micronutrient;
+    const micronutrient = this.quickMapsService.micronutrient.get();
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {

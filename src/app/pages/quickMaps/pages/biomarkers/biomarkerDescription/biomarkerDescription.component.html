@@ -4,19 +4,20 @@
       <mat-panel-title>
         <div class="content-container">
           <div class="item">
-            Nation: <strong>{{ (quickMapsService.countryObs | async)?.name }}</strong>
+            Nation: <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Micronutrient: <strong>{{ (quickMapsService.micronutrientObs | async)?.name }}</strong>
+            Micronutrient: <strong>{{ (quickMapsService.micronutrient.obs | async)?.name }}</strong>
           </div>
           <div class="item">
-            Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measureObs | async }} Data</strong>
+            Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measure.obs | async }}
+              Data</strong>
           </div>
           <div class="item">
-            Age-gender group: <strong>{{ (quickMapsService.ageGenderObs | async).name }}</strong>
+            Age-gender group: <strong>{{ (quickMapsService.ageGenderGroup.obs | async).name }}</strong>
           </div>
           <div class="item">
-            Data Source: <strong>{{ (quickMapsService.biomarkerDataSourceObs | async)?.name }}</strong>
+            Data Source: <strong>{{ (quickMapsService.biomarkerDataSource.obs | async)?.name }}</strong>
           </div>
         </div>
       </mat-panel-title>

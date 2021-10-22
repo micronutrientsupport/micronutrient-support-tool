@@ -73,27 +73,26 @@ export class FoodItemsComponent implements AfterViewInit {
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
-      this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-      this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-
-      // respond to parameter updates
       this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+        this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+        // respond to parameter updates
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+          const micronutrient = this.quickMapsService.micronutrient.get();
+          const dietDataSource = this.quickMapsService.dietDataSource.get();
           this.title =
             'Top 20 food items apparent intake for ' +
-            this.quickMapsService.micronutrient.id +
+            micronutrient?.id +
             ' in ' +
-            this.quickMapsService.country.name;
+            this.quickMapsService.country.get()?.name;
           this.card.title = this.title;
-          const micronutrient = this.quickMapsService.micronutrient;
-          const dietDataSource = this.quickMapsService.dietDataSource;
 
           //  only if all set
           if (null != micronutrient && null != dietDataSource) {
             this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
           }
         }),
-        this.quickMapsService.micronutrientObs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
+        this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
           this.mnUnit = null == micronutrient ? '' : micronutrient.unit;
         }),
       );

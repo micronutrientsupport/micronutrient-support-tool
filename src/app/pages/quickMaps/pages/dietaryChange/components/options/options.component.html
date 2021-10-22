@@ -24,7 +24,7 @@
         <span></span>
         <span class="options-header">Food Item Group:</span>
         <span class="options-header">Food Item:</span>
-        <ng-container *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else elseBlock">
+        <ng-container *ngIf="(dietaryChangeService.mode.obs | async) !== MODE_ENUM.FOOD_ITEM; else elseBlock">
           <span class="options-header centre">Current {{modeText | lowercase}}<br>
             <span class="options-header-units">({{units}})</span>
           </span>
@@ -41,7 +41,7 @@
 
         <!-- start change items -->
         <ng-container *ngFor="
-      let changeItem of dietaryChangeService.changeItemsObs | async;
+      let changeItem of dietaryChangeService.changeItems.obs | async;
       last as isLast;
       count as count" class="item-row">
           <span>
@@ -55,7 +55,7 @@
             <span>{{changeItem.foodItem?.group.name}}</span>
             <span>
               {{changeItem.foodItem?.name}}
-              {{((dietaryChangeService.modeObs | async) === MODE_ENUM.FOOD_ITEM)
+              {{((dietaryChangeService.mode.obs | async) === MODE_ENUM.FOOD_ITEM)
               ? ' ('+changeItem.currentComposition?.value + ' ' + changeItem.currentComposition?.units + ')'
               : ''}}</span>
           </ng-container>
@@ -86,7 +86,7 @@
           </ng-template>
 
           <ng-container
-            *ngIf="(dietaryChangeService.modeObs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
+            *ngIf="(dietaryChangeService.mode.obs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
             <span *ngIf="!changeItem.updatingScenarioValue; else loadingBlock" class="current-value">
               {{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}
             </span>
