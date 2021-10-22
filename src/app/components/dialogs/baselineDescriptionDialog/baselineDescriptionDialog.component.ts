@@ -12,7 +12,7 @@ import { DialogData } from '../baseDialogService.abstract';
 export class BaselineDescriptionDialogComponent {
   public copyLinkUrl: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private clipboard: Clipboard,
     private snackbarService: SnackbarService,
   ) {}
