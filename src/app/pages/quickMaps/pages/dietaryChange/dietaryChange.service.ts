@@ -34,7 +34,7 @@ export class DietaryChangeService {
 
   constructor(
     private injector: Injector,
-    private quickmapsService: QuickMapsService,
+    private quickMapsService: QuickMapsService,
     private scenarioDataService: ScenarioDataService,
     private dictionaryService: DictionaryService,
   ) {
@@ -43,7 +43,7 @@ export class DietaryChangeService {
     // wait until quickmaps service is ready
     let subs: Subscription;
     // eslint-disable-next-line prefer-const
-    subs = quickmapsService.init.obs.subscribe((inited) => {
+    subs = quickMapsService.init.obs.subscribe((inited) => {
       if (inited) {
         if (null != subs) {
           subs.unsubscribe();
@@ -94,12 +94,12 @@ export class DietaryChangeService {
               this.scenarioDataService,
               foodGroupsDict,
               this.mode,
-              this.quickmapsService.dietDataSource,
-              this.quickmapsService.micronutrient,
+              this.quickMapsService.dietDataSource,
+              this.quickMapsService.micronutrient,
             ),
             this.injector,
             this.quickMapsParameters.getScenarioMode(),
-            Promise.resolve(this.quickmapsService.dietDataSource.get()),
+            Promise.resolve(this.quickMapsService.dietDataSource.get()),
             this.quickMapsParameters.getMicronutrient(),
           ),
       );
