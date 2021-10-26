@@ -66,11 +66,14 @@ export class OptionsComponent {
       .then((dict) => {
         this.foodGroupsDict = dict;
         // after service has loaded in query data etc
-        const subs = dietaryChangeService.init.obs.subscribe((init) => {
+        let subs: Subscription;
+        // eslint-disable-next-line prefer-const
+        subs = dietaryChangeService.init.obs.subscribe((init) => {
           if (init) {
             if (null != subs) {
               subs.unsubscribe();
             }
+            this.ensureAtLeastOneChangeItem();
             this.updateFilteredFoodItems();
             this.evaluateAddButtonEnabled();
           }
@@ -289,14 +292,18 @@ export class OptionsComponent {
     }, 500);
   }
 
+  private ensureAtLeastOneChangeItem(): void {
+    if (this.dietaryChangeService.changeItems.get().length === 0) {
+      this.addChangeItem();
+    }
+  }
   private modeChanged(newMode: DietaryChangeMode): void {
     console.log('value:', newMode);
     this.locallySelectedMode = newMode;
     this.modeText = DietaryChangeMode[newMode];
 
-    if (this.dietaryChangeService.changeItems.get().length === 0) {
-      this.addChangeItem();
-    }
+    this.ensureAtLeastOneChangeItem();
+
     switch (newMode) {
       case DietaryChangeMode.COMPOSITION:
         this.units = 'mg/kg';

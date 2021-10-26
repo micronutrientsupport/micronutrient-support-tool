@@ -20,12 +20,16 @@ export class DietaryChangeItemsConverter extends Converter<Array<DietaryChangeIt
   }
   public getItem(dietaryChangeItemFactory: DietaryChangeItemFactory): Promise<Array<DietaryChangeItem>> {
     return Promise.all(
-      this.stringValue.split(',').map((itemString) => {
-        const foodItemId = itemString.split('-')[0];
-        const scenarioValue = itemString.split('-')[1];
+      (this.stringValue ?? '')
+        .split(',')
+        .map((thisString) => thisString.trim())
+        .filter((thisString) => thisString.length > 0)
+        .map((itemString) => {
+          const foodItemId = itemString.split('-')[0];
+          const scenarioValue = itemString.split('-')[1];
 
-        return dietaryChangeItemFactory.makeItem(foodItemId, scenarioValue);
-      }),
+          return dietaryChangeItemFactory.makeItem(foodItemId, scenarioValue);
+        }),
     );
   }
 }
