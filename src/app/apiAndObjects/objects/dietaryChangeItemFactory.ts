@@ -24,32 +24,11 @@ export class DietaryChangeItemFactory {
     private micronutrientAccessor: Accessor<MicronutrientDictionaryItem>,
   ) {}
 
-  public makeItem(
-    foodItem: string | FoodDictionaryItem,
-    scenarioValue: string | number | FoodDictionaryItem,
-  ): Promise<DietaryChangeItem> {
-    const foodDictItem =
-      typeof foodItem === 'string' ? this.getFoodItemByIdFromDict(this.foodGroupsDict, foodItem) : foodItem;
+  //TODO: maybe just add to makeItem
+  public updateItem(changeItem: DietaryChangeItem): Promise<DietaryChangeItem> {
     const mode = this.modeAccessor.get();
     const dds = this.dietDataSourceAccessor.get();
     const micronutrient = this.micronutrientAccessor.get();
-
-    const changeItem = this.makeChangeItem(mode);
-    changeItem.foodItem = foodDictItem;
-    changeItem.foodGroup = foodDictItem?.group;
-
-    if (changeItem instanceof FoodItemChangeItem) {
-      changeItem.scenarioValue =
-        scenarioValue instanceof FoodDictionaryItem
-          ? scenarioValue
-          : this.getFoodItemByIdFromDict(this.foodGroupsDict, String(scenarioValue));
-      changeItem.scenarioFoodItemGroup = changeItem.scenarioValue?.group;
-    } else {
-      changeItem.scenarioValue = Number(scenarioValue);
-    }
-
-    // TODO: now validate what we've got
-
     // call out for other values
     return Promise.all([
       this.setCurrentValues(changeItem, mode, dds, micronutrient),
@@ -61,25 +40,60 @@ export class DietaryChangeItemFactory {
     });
   }
 
+  public makeItem(
+    foodItem?: string | FoodDictionaryItem,
+    scenarioValue?: string | number | FoodDictionaryItem,
+  ): Promise<DietaryChangeItem> {
+    const mode = this.modeAccessor.get();
+    const changeItem = this.makeChangeItem(mode);
+
+    if (null != foodItem) {
+      const foodDictItem =
+        typeof foodItem === 'string' ? this.getFoodItemByIdFromDict(this.foodGroupsDict, foodItem) : foodItem;
+
+      changeItem.foodItem = foodDictItem;
+      changeItem.foodGroup = foodDictItem?.group;
+    }
+
+    if (null != scenarioValue) {
+      if (changeItem instanceof FoodItemChangeItem) {
+        changeItem.scenarioValue =
+          scenarioValue instanceof FoodDictionaryItem
+            ? scenarioValue
+            : this.getFoodItemByIdFromDict(this.foodGroupsDict, String(scenarioValue));
+        changeItem.scenarioFoodItemGroup = changeItem.scenarioValue?.group;
+      } else {
+        changeItem.scenarioValue = Number(scenarioValue);
+      }
+    }
+
+    // call out for other values
+    return this.updateItem(changeItem);
+  }
+
   private setCurrentValues(
     changeItem: DietaryChangeItem,
     mode: DietaryChangeMode,
     dds: DietDataSource,
     micronutrient: MicronutrientDictionaryItem,
   ): Promise<void> {
-    return changeItem instanceof FoodItemChangeItem
-      ? Promise.resolve()
-      : new Promise<void>((resolve) => {
-          changeItem.updatingScenarioValue = true;
-          resolve(
-            this.scenarioDataService
-              .getCurrentValue(dds, mode, changeItem.foodItem, micronutrient)
-              .then((currentValue: CurrentValue) => {
-                changeItem.currentValue = currentValue.value;
-              })
-              .finally(() => (changeItem.updatingScenarioValue = false)),
-          );
-        });
+    if (changeItem instanceof FoodItemChangeItem || null == changeItem.foodItem) {
+      changeItem.currentValue = null;
+      changeItem.updatingScenarioValue = false;
+      return Promise.resolve();
+    } else {
+      return new Promise<void>((resolve) => {
+        changeItem.updatingScenarioValue = true;
+        resolve(
+          this.scenarioDataService
+            .getCurrentValue(dds, mode, changeItem.foodItem, micronutrient)
+            .then((currentValue: CurrentValue) => {
+              changeItem.currentValue = currentValue.value;
+            })
+            .finally(() => (changeItem.updatingScenarioValue = false)),
+        );
+      });
+    }
   }
 
   private setCompositions(
@@ -87,37 +101,44 @@ export class DietaryChangeItemFactory {
     dds: DietDataSource,
     micronutrient: MicronutrientDictionaryItem,
   ): Promise<void> {
-    return !(changeItem instanceof FoodItemChangeItem)
-      ? Promise.resolve()
-      : Promise.all([
-          new Promise<void>((resolve) => {
-            changeItem.updatingComposition = true;
+    if (!(changeItem instanceof FoodItemChangeItem) || null == changeItem.foodItem) {
+      changeItem.currentComposition = null;
+      changeItem.updatingComposition = null;
+      changeItem.scenarioComposition = null;
+      changeItem.updatingScenarioComposition = false;
+      return Promise.resolve();
+    } else {
+      return Promise.all([
+        new Promise<void>((resolve) => {
+          changeItem.updatingComposition = true;
+          resolve(
+            this.scenarioDataService
+              .getCurrentComposition(changeItem.foodItem, dds, micronutrient)
+              .then((currentComposition: CurrentComposition) => {
+                changeItem.currentComposition = currentComposition;
+              })
+              .finally(() => (changeItem.updatingComposition = false)),
+          );
+        }),
+        new Promise<void>((resolve) => {
+          changeItem.scenarioComposition = null;
+          if (null == changeItem.scenarioValue) {
+            changeItem.updatingScenarioComposition = false;
+            resolve();
+          } else {
+            changeItem.updatingScenarioComposition = true;
             resolve(
               this.scenarioDataService
-                .getCurrentComposition(changeItem.foodItem, dds, micronutrient)
-                .then((currentComposition: CurrentComposition) => {
-                  changeItem.currentComposition = currentComposition;
+                .getCurrentComposition(changeItem.scenarioValue, dds, micronutrient)
+                .then((scenarioComposition: CurrentComposition) => {
+                  changeItem.scenarioComposition = scenarioComposition;
                 })
-                .finally(() => (changeItem.updatingComposition = false)),
+                .finally(() => (changeItem.updatingScenarioComposition = false)),
             );
-          }),
-          new Promise<void>((resolve) => {
-            if (null == changeItem.scenarioValue) {
-              resolve();
-            } else {
-              changeItem.scenarioComposition = null;
-              changeItem.updatingScenarioComposition = true;
-              resolve(
-                this.scenarioDataService
-                  .getCurrentComposition(changeItem.scenarioValue, dds, micronutrient)
-                  .then((scenarioComposition: CurrentComposition) => {
-                    changeItem.scenarioComposition = scenarioComposition;
-                  })
-                  .finally(() => (changeItem.updatingScenarioComposition = false)),
-              );
-            }
-          }),
-        ]).then(() => Promise.resolve());
+          }
+        }),
+      ]).then(() => Promise.resolve());
+    }
   }
 
   private getFoodItemByIdFromDict(foodGroupDict: Dictionary, itemId: string): FoodDictionaryItem {

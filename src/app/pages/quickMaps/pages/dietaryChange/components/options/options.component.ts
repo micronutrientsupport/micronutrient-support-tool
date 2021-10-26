@@ -12,18 +12,14 @@ import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
-import {
-  CompositionChangeItem,
-  ConsumptionChangeItem,
-  DietaryChangeItem,
-  FoodItemChangeItem,
-} from 'src/app/apiAndObjects/objects/dietaryChangeItem';
+import { DietaryChangeItem, FoodItemChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -47,6 +43,7 @@ export class OptionsComponent {
 
   public addItemDisabled = true;
 
+  private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
   private itemsChangedTimeout: NodeJS.Timeout;
@@ -61,10 +58,29 @@ export class OptionsComponent {
     public dialogService: DialogService,
   ) {
     this.loading = true;
+
+    this.subscriptions.push(
+      quickMapsService.dietParameterChangedObs.subscribe(() => {
+        // don't trigger when first subscribe as that will reset the loaded in values.
+        // wait until data loaded before reacting
+        if (dietaryChangeService.init.get()) {
+          this.refreshAllChangeItems();
+        }
+      }),
+    );
+
     void dictionaryService
       .getDictionary(DictionaryType.FOOD_GROUPS)
       .then((dict) => {
         this.foodGroupsDict = dict;
+
+        this.dietaryChangeItemFactory = new DietaryChangeItemFactory(
+          this.scenarioDataService,
+          this.foodGroupsDict,
+          this.dietaryChangeService.mode,
+          this.quickMapsService.dietDataSource,
+          this.quickMapsService.micronutrient,
+        );
         // after service has loaded in query data etc
         let subs: Subscription;
         // eslint-disable-next-line prefer-const
@@ -73,6 +89,14 @@ export class OptionsComponent {
             if (null != subs) {
               subs.unsubscribe();
             }
+            this.subscriptions.push(
+              dietaryChangeService.mode.obs.subscribe((mode) => {
+                this.modeChanged(mode);
+              }),
+              dietaryChangeService.changeItems.obs.subscribe(() => {
+                this.updateFilteredFoodItems();
+              }),
+            );
             this.ensureAtLeastOneChangeItem();
             this.updateFilteredFoodItems();
             this.evaluateAddButtonEnabled();
@@ -86,19 +110,6 @@ export class OptionsComponent {
       .catch((err) => {
         throw err;
       });
-
-    this.subscriptions.push(
-      dietaryChangeService.mode.obs.subscribe((mode) => {
-        this.modeChanged(mode);
-      }),
-      quickMapsService.dietParameterChangedObs.subscribe(() => {
-        // don't trigger when first subscribe as that will reset the loaded in values.
-        // wait until data loaded before reacting
-        if (dietaryChangeService.init.get()) {
-          this.refreshAllChangeItems();
-        }
-      }),
-    );
   }
   public changeMode(event: MatRadioChange): void {
     let confirmed = true;
@@ -132,14 +143,14 @@ export class OptionsComponent {
   }
 
   public foodGroupSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
-    const initiallyUseable = changeItem.isUseable();
-    changeItem.clear();
-    changeItem.foodGroup = event.value as FoodGroupDictionaryItem;
-    this.updateFilteredFoodItems();
-    if (initiallyUseable) {
-      this.itemsChanged();
-    }
-    this.cdr.markForCheck();
+    const foodItemPos = this.dietaryChangeService.changeItems.get().indexOf(changeItem);
+    void this.dietaryChangeItemFactory.makeItem().then((newChangeItem) => {
+      // replace change item
+      const newChangeItems = this.dietaryChangeService.changeItems.get().slice();
+      newChangeItem.foodGroup = event.value as FoodGroupDictionaryItem;
+      newChangeItems.splice(foodItemPos, 1, newChangeItem);
+      this.dietaryChangeService.changeItems.set(newChangeItems);
+    });
   }
 
   public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
@@ -175,10 +186,11 @@ export class OptionsComponent {
 
   public addChangeItem(): void {
     // doesn't need to trigger update as new item isn't fully formed
-    this.dietaryChangeService.changeItems.get().push(this.makeChangeItem());
-
-    this.evaluateAddButtonEnabled();
-    this.updateFilteredFoodItems();
+    void this.dietaryChangeItemFactory.makeItem().then((item) => {
+      this.dietaryChangeService.changeItems.get().push(item);
+      this.evaluateAddButtonEnabled();
+      this.updateFilteredFoodItems();
+    });
   }
 
   private refreshAllChangeItems(): void {
@@ -191,6 +203,8 @@ export class OptionsComponent {
   }
 
   private applyChangeItemChange(changeItem: DietaryChangeItem): void {
+    //Use this, if the func is even needed!!
+    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, changeItem.scenarioValue).then((item) => {});
     switch (this.dietaryChangeService.mode.get()) {
       case DietaryChangeMode.FOOD_ITEM:
         this.changeScenarioValue(changeItem, changeItem.foodItem);
@@ -314,17 +328,6 @@ export class OptionsComponent {
       case DietaryChangeMode.FOOD_ITEM:
         this.units = '';
         break;
-    }
-  }
-
-  private makeChangeItem(): DietaryChangeItem {
-    switch (this.dietaryChangeService.mode.get()) {
-      case DietaryChangeMode.COMPOSITION:
-        return new CompositionChangeItem();
-      case DietaryChangeMode.CONSUMPTION:
-        return new ConsumptionChangeItem();
-      case DietaryChangeMode.FOOD_ITEM:
-        return new FoodItemChangeItem();
     }
   }
 }
