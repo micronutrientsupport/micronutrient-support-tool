@@ -44,7 +44,7 @@ export class OptionsComponent {
   private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
-  private itemsChangedTimeout: NodeJS.Timeout;
+  private scenarioValueChangeTimeout: NodeJS.Timeout;
   private refreshAllChangeItemsTimeout: NodeJS.Timeout;
 
   constructor(
@@ -145,48 +145,56 @@ export class OptionsComponent {
     });
   }
 
-  public changeScenarioValue(item: DietaryChangeItem, newValue: string | number | FoodDictionaryItem): void {
+  public changeScenarioValue(changeItem: DietaryChangeItem, newValue: string | number | FoodDictionaryItem): void {
     if (typeof newValue === 'string') {
       newValue = Number(newValue);
     }
     // round numbers to 3dp
     if (typeof newValue === 'number') {
+      newValue = Math.max(0, newValue);
       newValue = Math.round(newValue * 1000) / 1000;
+      // update the display value temporarily before pushing changes through properly
+      changeItem.scenarioValue = newValue;
     }
-    item.scenarioValue = newValue;
-    item.isUseable = true;
-    if (item instanceof FoodItemChangeItem) {
-      this.setChangeItemComposition(item);
-    } else {
-    }
-    this.itemsChanged();
+
+    // wait for inactivity before triggering update
+    clearTimeout(this.scenarioValueChangeTimeout);
+    this.scenarioValueChangeTimeout = setTimeout(() => {
+      void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, newValue).then((newChangeItem) => {
+        this.replaceFoodItem(changeItem, newChangeItem);
+      });
+    }, 500);
   }
-  public changeFoodChangeScenarioGroup(item: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
-    item.scenarioFoodItemGroup = group;
-    item.scenarioValue = null;
-    item.scenarioComposition = null;
-    this.itemsChanged();
+  public changeFoodChangeScenarioGroup(changeItem: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
+    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem).then((newChangeItem) => {
+      newChangeItem.scenarioFoodItemGroup = group;
+      this.replaceFoodItem(changeItem, newChangeItem);
+    });
   }
 
   public deleteChangeItem(changeItem: DietaryChangeItem): void {
-    const newItems = this.dietaryChangeService.changeItems.get().filter((item) => item !== changeItem);
-    this.dietaryChangeService.changeItems.set(newItems);
-    this.itemsChanged();
+    this.replaceFoodItem(changeItem);
   }
 
   public addChangeItem(): void {
     // doesn't need to trigger update as new item isn't fully formed
     void this.dietaryChangeItemFactory.makeItem().then((item) => {
-      this.dietaryChangeService.changeItems.get().push(item);
-      this.updateFilteredFoodItems();
+      const newItems = this.dietaryChangeService.changeItems.get().slice();
+      newItems.push(item);
+      this.setFoodItems(newItems);
     });
   }
 
-  private replaceFoodItem(oldChangeItem: DietaryChangeItem, newChangeItem: DietaryChangeItem): void {
+  private replaceFoodItem(oldChangeItem: DietaryChangeItem, newChangeItem?: DietaryChangeItem): void {
     const foodItemPos = this.dietaryChangeService.changeItems.get().indexOf(oldChangeItem);
-    const newChangeItems = this.dietaryChangeService.changeItems.get().slice();
+    let newChangeItems = this.dietaryChangeService.changeItems.get().slice();
     newChangeItems.splice(foodItemPos, 1, newChangeItem);
-    this.dietaryChangeService.changeItems.set(newChangeItems);
+    newChangeItems = newChangeItems.filter((item) => null != item);
+    this.setFoodItems(newChangeItems);
+  }
+
+  private setFoodItems(items: Array<DietaryChangeItem>): void {
+    this.dietaryChangeService.changeItems.set(items);
   }
 
   private refreshAllChangeItems(): void {
@@ -245,51 +253,6 @@ export class OptionsComponent {
       this.filteredFoodItems =
         null == selectedGroup ? [] : availableFoodItems.filter((item) => item.group === selectedGroup);
     }
-  }
-
-  private setChangeItemComposition(foodChangeItem: FoodItemChangeItem): void {
-    if (null != foodChangeItem.foodItem) {
-      if (null == foodChangeItem.currentComposition) {
-        foodChangeItem.currentComposition = null;
-        foodChangeItem.updatingComposition = true;
-        void this.scenarioDataService
-          .getCurrentComposition(
-            foodChangeItem.foodItem,
-            this.quickMapsService.dietDataSource.get(),
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentComposition: CurrentComposition) => {
-            foodChangeItem.currentComposition = currentComposition;
-            this.cdr.markForCheck();
-          })
-          .finally(() => (foodChangeItem.updatingComposition = false));
-      }
-      if (foodChangeItem instanceof FoodItemChangeItem && null != foodChangeItem.scenarioValue) {
-        foodChangeItem.scenarioComposition = null;
-        foodChangeItem.updatingScenarioComposition = true;
-        void this.scenarioDataService
-          .getCurrentComposition(
-            foodChangeItem.scenarioValue,
-            this.quickMapsService.dietDataSource.get(),
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentComposition: CurrentComposition) => {
-            foodChangeItem.scenarioComposition = currentComposition;
-            this.cdr.markForCheck();
-          })
-          .finally(() => (foodChangeItem.updatingScenarioComposition = false));
-      }
-    }
-  }
-
-  private itemsChanged(): void {
-    // console.debug('itemsChanged');
-    // wait for inactivity before triggering update
-    clearTimeout(this.itemsChangedTimeout);
-    this.itemsChangedTimeout = setTimeout(() => {
-      // force as array is the same ref
-      this.dietaryChangeService.changeItems.set(this.dietaryChangeService.changeItems.get(), true);
-    }, 500);
   }
 
   private ensureAtLeastOneChangeItem(): void {
