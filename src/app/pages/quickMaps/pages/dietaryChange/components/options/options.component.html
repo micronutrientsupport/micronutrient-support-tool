@@ -101,7 +101,7 @@
                 <mat-form-field *ngIf="!changeItem.updatingScenarioValue; else loadingBlock">
                   <input autocomplete="off" type="number" matInput [value]="changeItem.scenarioValue"
                     [disabled]="null == changeItem.currentValue"
-                    (change)="changeScenarioValueFromEvent(changeItem, $event)" aria-label="Scenario value">
+                    (change)="changeScenarioValue(changeItem, $event.target['value'])" aria-label="Scenario value">
                 </mat-form-field>
 
               </div>

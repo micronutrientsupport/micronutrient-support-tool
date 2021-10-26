@@ -145,7 +145,10 @@ export class OptionsComponent {
     });
   }
 
-  public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
+  public changeScenarioValue(item: DietaryChangeItem, newValue: string | number | FoodDictionaryItem): void {
+    if (typeof newValue === 'string') {
+      newValue = Number(newValue);
+    }
     // round numbers to 3dp
     if (typeof newValue === 'number') {
       newValue = Math.round(newValue * 1000) / 1000;
@@ -158,12 +161,6 @@ export class OptionsComponent {
     }
     this.itemsChanged();
   }
-  public changeScenarioValueFromEvent(item: DietaryChangeItem, event: Event): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const value = event.target['value'];
-    this.changeScenarioValue(item, typeof value === 'string' ? Number(value) : value);
-  }
-
   public changeFoodChangeScenarioGroup(item: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
     item.scenarioFoodItemGroup = group;
     item.scenarioValue = null;
