@@ -36,6 +36,15 @@ export class DietaryChangeItemFactory {
       // eslint-disable-next-line arrow-body-style
     ]).then(() => {
       // console.debug('ietm', changeItem);
+
+      if (changeItem instanceof FoodItemChangeItem) {
+        changeItem.isUseable = null != changeItem.scenarioComposition;
+      } else {
+        if (null == changeItem.scenarioValue) {
+          changeItem.scenarioValue = changeItem.currentValue as number;
+        }
+        changeItem.isUseable = null != changeItem.scenarioValue;
+      }
       return changeItem;
     });
   }
@@ -88,7 +97,11 @@ export class DietaryChangeItemFactory {
           this.scenarioDataService
             .getCurrentValue(dds, mode, changeItem.foodItem, micronutrient)
             .then((currentValue: CurrentValue) => {
-              changeItem.currentValue = currentValue.value;
+              if (null == currentValue) {
+                changeItem.noData = true;
+              } else {
+                changeItem.currentValue = currentValue.value;
+              }
             })
             .finally(() => (changeItem.updatingScenarioValue = false)),
         );

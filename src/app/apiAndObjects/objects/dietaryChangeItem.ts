@@ -12,15 +12,18 @@ export abstract class DietaryChangeItem<T = any> {
   public updatingComposition = false;
   public updatingScenarioComposition = false;
 
+  public noData = false;
+  public isUseable = false;
+
   // only used in FoodItemChangeItem.  I know that's not great but breaks in the template if not here.
   // Will try to make that better.
   public currentComposition: CurrentComposition;
   public scenarioComposition: CurrentComposition;
   public scenarioFoodItemGroup: FoodGroupDictionaryItem;
 
-  public isUseable(): boolean {
-    return null != this.foodItem && null != this.scenarioValue;
-  }
+  // public isUseable(): boolean {
+  //   return null != this.foodItem && null != this.scenarioValue;
+  // }
 
   public clear(): void {
     this.foodGroup = null;

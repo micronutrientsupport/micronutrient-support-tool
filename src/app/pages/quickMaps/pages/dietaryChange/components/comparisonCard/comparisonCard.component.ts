@@ -145,7 +145,7 @@ export class ComparisonCardComponent implements AfterViewInit {
   private updateScenarioData(): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
     const dietDataSource = this.quickMapsService.dietDataSource.get();
-    const useableChangeItems = this.dietaryChangeService.changeItems.get().filter((item) => item.isUseable());
+    const useableChangeItems = this.dietaryChangeService.changeItems.get().filter((item) => item.isUseable);
 
     if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
       this.startLoading();

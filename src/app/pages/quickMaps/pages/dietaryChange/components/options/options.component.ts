@@ -41,8 +41,6 @@ export class OptionsComponent {
   public modeText: string;
   public locallySelectedMode: DietaryChangeMode;
 
-  public addItemDisabled = true;
-
   private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
@@ -97,9 +95,8 @@ export class OptionsComponent {
                 this.updateFilteredFoodItems();
               }),
             );
-            this.ensureAtLeastOneChangeItem();
-            this.updateFilteredFoodItems();
-            this.evaluateAddButtonEnabled();
+            // this.ensureAtLeastOneChangeItem();
+            // this.updateFilteredFoodItems();
           }
         });
       })
@@ -116,7 +113,7 @@ export class OptionsComponent {
     // only show confirmation if anything will be lost
     const changeItems = this.dietaryChangeService.changeItems.get();
     const lastItem = changeItems[changeItems.length - 1];
-    if (changeItems.length > 1 || lastItem.isUseable()) {
+    if (changeItems.length > 1 || lastItem.isUseable) {
       void this.dialogService.openScenarioChangeWarningDialog(confirmed).then((data: DialogData<boolean>) => {
         confirmed = data.dataOut as boolean;
         if (confirmed) {
@@ -136,20 +133,15 @@ export class OptionsComponent {
   public foodItemSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
     // console.debug('foodItemSelectChange', event);
     const selectedFoodItem = event.value as FoodDictionaryItem;
-    changeItem.clear();
-    changeItem.foodGroup = selectedFoodItem.group;
-    changeItem.foodItem = selectedFoodItem;
-    this.applyChangeItemChange(changeItem);
+    void this.dietaryChangeItemFactory.makeItem(selectedFoodItem).then((newChangeItem) => {
+      this.replaceFoodItem(changeItem, newChangeItem);
+    });
   }
 
   public foodGroupSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
-    const foodItemPos = this.dietaryChangeService.changeItems.get().indexOf(changeItem);
     void this.dietaryChangeItemFactory.makeItem().then((newChangeItem) => {
-      // replace change item
-      const newChangeItems = this.dietaryChangeService.changeItems.get().slice();
       newChangeItem.foodGroup = event.value as FoodGroupDictionaryItem;
-      newChangeItems.splice(foodItemPos, 1, newChangeItem);
-      this.dietaryChangeService.changeItems.set(newChangeItems);
+      this.replaceFoodItem(changeItem, newChangeItem);
     });
   }
 
@@ -159,6 +151,7 @@ export class OptionsComponent {
       newValue = Math.round(newValue * 1000) / 1000;
     }
     item.scenarioValue = newValue;
+    item.isUseable = true;
     if (item instanceof FoodItemChangeItem) {
       this.setChangeItemComposition(item);
     } else {
@@ -188,9 +181,15 @@ export class OptionsComponent {
     // doesn't need to trigger update as new item isn't fully formed
     void this.dietaryChangeItemFactory.makeItem().then((item) => {
       this.dietaryChangeService.changeItems.get().push(item);
-      this.evaluateAddButtonEnabled();
       this.updateFilteredFoodItems();
     });
+  }
+
+  private replaceFoodItem(oldChangeItem: DietaryChangeItem, newChangeItem: DietaryChangeItem): void {
+    const foodItemPos = this.dietaryChangeService.changeItems.get().indexOf(oldChangeItem);
+    const newChangeItems = this.dietaryChangeService.changeItems.get().slice();
+    newChangeItems.splice(foodItemPos, 1, newChangeItem);
+    this.dietaryChangeService.changeItems.set(newChangeItems);
   }
 
   private refreshAllChangeItems(): void {
@@ -286,17 +285,7 @@ export class OptionsComponent {
     }
   }
 
-  private evaluateAddButtonEnabled(): void {
-    const lastItem =
-      this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
-
-    if (null != lastItem) {
-      this.addItemDisabled = !lastItem.isUseable();
-    }
-  }
-
   private itemsChanged(): void {
-    this.evaluateAddButtonEnabled();
     // console.debug('itemsChanged');
     // wait for inactivity before triggering update
     clearTimeout(this.itemsChangedTimeout);

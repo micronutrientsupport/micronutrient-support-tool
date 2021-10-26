@@ -88,7 +88,10 @@
           <ng-container
             *ngIf="(dietaryChangeService.mode.obs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
             <span *ngIf="!changeItem.updatingScenarioValue; else loadingBlock" class="current-value">
-              {{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}
+              <span *ngIf="!changeItem.noData">
+                {{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}
+              </span>
+              <span *ngIf="changeItem.noData">No Data</span>
             </span>
             <div class="flex-row">
               <button mat-raised-button type="button" class="btn btn-danger"
@@ -139,17 +142,17 @@
               </span>
             </div>
           </ng-template>
-
+          <span *ngIf="isLast">
+            <button mat-raised-button [disabled]="!changeItem.isUseable" (click)="addChangeItem()"
+              aria-label="Add food item">
+              <mat-icon aria-label="Add food item">add_circle_outline</mat-icon>
+              Add food Item
+            </button>
+          </span>
         </ng-container>
         <!-- end changeable selection food items -->
 
       </div>
-      <span>
-        <button mat-raised-button [disabled]="addItemDisabled" (click)="addChangeItem()" aria-label="Add food item">
-          <mat-icon aria-label="Add food item">add_circle_outline</mat-icon>
-          Add food Item
-        </button>
-      </span>
     </div>
   </ng-container>
 </div>
