@@ -20,23 +20,6 @@ export abstract class DietaryChangeItem<T = any> {
   public currentComposition: CurrentComposition;
   public scenarioComposition: CurrentComposition;
   public scenarioFoodItemGroup: FoodGroupDictionaryItem;
-
-  // public isUseable(): boolean {
-  //   return null != this.foodItem && null != this.scenarioValue;
-  // }
-
-  public clear(): void {
-    this.foodGroup = null;
-    this.foodItem = null;
-    this.currentValue = null;
-    this.scenarioValue = null;
-    this.currentComposition = null;
-    this.scenarioComposition = null;
-    this.scenarioFoodItemGroup = null;
-    this.updatingScenarioValue = false;
-    this.updatingComposition = false;
-    this.updatingScenarioComposition = false;
-  }
 }
 
 export class CompositionChangeItem extends DietaryChangeItem<number> {}

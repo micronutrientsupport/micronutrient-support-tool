@@ -24,31 +24,6 @@ export class DietaryChangeItemFactory {
     private micronutrientAccessor: Accessor<MicronutrientDictionaryItem>,
   ) {}
 
-  //TODO: maybe just add to makeItem
-  public updateItem(changeItem: DietaryChangeItem): Promise<DietaryChangeItem> {
-    const mode = this.modeAccessor.get();
-    const dds = this.dietDataSourceAccessor.get();
-    const micronutrient = this.micronutrientAccessor.get();
-    // call out for other values
-    return Promise.all([
-      this.setCurrentValues(changeItem, mode, dds, micronutrient),
-      this.setCompositions(changeItem, dds, micronutrient),
-      // eslint-disable-next-line arrow-body-style
-    ]).then(() => {
-      // console.debug('ietm', changeItem);
-
-      if (changeItem instanceof FoodItemChangeItem) {
-        changeItem.isUseable = null != changeItem.scenarioComposition;
-      } else {
-        if (null == changeItem.scenarioValue) {
-          changeItem.scenarioValue = changeItem.currentValue as number;
-        }
-        changeItem.isUseable = null != changeItem.scenarioValue;
-      }
-      return changeItem;
-    });
-  }
-
   public makeItem(
     foodItem?: string | FoodDictionaryItem,
     scenarioValue?: string | number | FoodDictionaryItem,
@@ -76,8 +51,28 @@ export class DietaryChangeItemFactory {
       }
     }
 
+    const dds = this.dietDataSourceAccessor.get();
+    const micronutrient = this.micronutrientAccessor.get();
     // call out for other values
-    return this.updateItem(changeItem);
+    return Promise.all([
+      this.setCurrentValues(changeItem, mode, dds, micronutrient),
+      this.setCompositions(changeItem, dds, micronutrient),
+      // eslint-disable-next-line arrow-body-style
+    ]).then(() => {
+      // console.debug('ietm', changeItem);
+
+      // set usable flag
+      if (changeItem instanceof FoodItemChangeItem) {
+        changeItem.isUseable = null != changeItem.scenarioComposition;
+      } else {
+        if (null == changeItem.scenarioValue) {
+          // default to current value
+          changeItem.scenarioValue = changeItem.currentValue as number;
+        }
+        changeItem.isUseable = null != changeItem.scenarioValue;
+      }
+      return changeItem;
+    });
   }
 
   private setCurrentValues(
