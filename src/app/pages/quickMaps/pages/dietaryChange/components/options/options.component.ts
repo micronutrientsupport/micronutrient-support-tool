@@ -105,26 +105,28 @@ export class OptionsComponent {
         throw err;
       });
   }
+
   public changeMode(event: MatRadioChange): void {
-    let confirmed = true;
     // only show confirmation if anything will be lost
     const changeItems = this.dietaryChangeService.changeItems.get();
     const lastItem = changeItems[changeItems.length - 1];
-    if (changeItems.length > 1 || lastItem.isUseable) {
-      void this.dialogService.openScenarioChangeWarningDialog(confirmed).then((data: DialogData<boolean>) => {
-        confirmed = data.dataOut as boolean;
-        if (confirmed) {
-          this.setFoodItems([]);
-          this.dietaryChangeService.mode.set(event.value);
-        } else {
-          // set the mode back
-          setTimeout(() => {
-            this.locallySelectedMode = this.dietaryChangeService.mode.get();
-            this.cdr.markForCheck();
-          }, 0);
-        }
-      });
-    }
+
+    void (
+      changeItems.length > 1 || lastItem.isUseable
+        ? this.dialogService.openScenarioChangeWarningDialog().then((data) => data.dataOut)
+        : Promise.resolve(true)
+    ).then((confirmed) => {
+      if (confirmed) {
+        this.setFoodItems([]);
+        this.dietaryChangeService.mode.set(event.value);
+      } else {
+        // set the mode back
+        setTimeout(() => {
+          this.locallySelectedMode = this.dietaryChangeService.mode.get();
+          this.cdr.markForCheck();
+        }, 0);
+      }
+    });
   }
 
   public foodItemSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
