@@ -11,11 +11,9 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
 import { DietaryChangeItem, FoodItemChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
-import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
@@ -44,6 +42,7 @@ export class OptionsComponent {
   private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
+  private updatingScenarioValue = false;
   private scenarioValueChangeTimeout: NodeJS.Timeout;
   private refreshAllChangeItemsTimeout: NodeJS.Timeout;
 
@@ -95,8 +94,6 @@ export class OptionsComponent {
                 this.updateFilteredFoodItems();
               }),
             );
-            // this.ensureAtLeastOneChangeItem();
-            // this.updateFilteredFoodItems();
           }
         });
       })
@@ -117,7 +114,7 @@ export class OptionsComponent {
       void this.dialogService.openScenarioChangeWarningDialog(confirmed).then((data: DialogData<boolean>) => {
         confirmed = data.dataOut as boolean;
         if (confirmed) {
-          this.dietaryChangeService.changeItems.set([]);
+          this.setFoodItems([]);
           this.dietaryChangeService.mode.set(event.value);
         } else {
           // set the mode back
@@ -153,17 +150,20 @@ export class OptionsComponent {
     if (typeof newValue === 'number') {
       newValue = Math.max(0, newValue);
       newValue = Math.round(newValue * 1000) / 1000;
-      // update the display value temporarily before pushing changes through properly
+      // update the display value but delay triggering changes elsewhere
       changeItem.scenarioValue = newValue;
-    }
-
-    // wait for inactivity before triggering update
-    clearTimeout(this.scenarioValueChangeTimeout);
-    this.scenarioValueChangeTimeout = setTimeout(() => {
+      // wait for inactivity before triggering update
+      clearTimeout(this.scenarioValueChangeTimeout);
+      this.scenarioValueChangeTimeout = setTimeout(() => {
+        // slice to make a new array so will trigger a change
+        this.setFoodItems(this.dietaryChangeService.changeItems.get().slice());
+      }, 500);
+    } else {
+      // we're in food item comparison mode, so change it straight away
       void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, newValue).then((newChangeItem) => {
         this.replaceFoodItem(changeItem, newChangeItem);
       });
-    }, 500);
+    }
   }
   public changeFoodChangeScenarioGroup(changeItem: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
     void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem).then((newChangeItem) => {
@@ -201,33 +201,11 @@ export class OptionsComponent {
     // ensure not triggered too many times in quick succession
     clearTimeout(this.refreshAllChangeItemsTimeout);
     this.refreshAllChangeItemsTimeout = setTimeout(() => {
-      // call for all change items to trigger updates
-      this.dietaryChangeService.changeItems.get().forEach((item) => this.applyChangeItemChange(item));
+      const newChangeItemProms = this.dietaryChangeService.changeItems
+        .get()
+        .map((item) => this.dietaryChangeItemFactory.makeItem(item.foodItem));
+      void Promise.all(newChangeItemProms).then((items) => this.setFoodItems(items));
     }, 200);
-  }
-
-  private applyChangeItemChange(changeItem: DietaryChangeItem): void {
-    //Use this, if the func is even needed!!
-    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, changeItem.scenarioValue).then((item) => {});
-    switch (this.dietaryChangeService.mode.get()) {
-      case DietaryChangeMode.FOOD_ITEM:
-        this.changeScenarioValue(changeItem, changeItem.foodItem);
-        break;
-      default:
-        changeItem.updatingScenarioValue = true;
-        void this.scenarioDataService
-          .getCurrentValue(
-            this.quickMapsService.dietDataSource.get(),
-            this.dietaryChangeService.mode.get(),
-            changeItem.foodItem,
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentValue: CurrentValue) => {
-            changeItem.currentValue = currentValue.value;
-            this.changeScenarioValue(changeItem, currentValue.value);
-          })
-          .finally(() => (changeItem.updatingScenarioValue = false));
-    }
   }
 
   private updateFilteredFoodItems(): void {
@@ -261,7 +239,7 @@ export class OptionsComponent {
     }
   }
   private modeChanged(newMode: DietaryChangeMode): void {
-    console.log('value:', newMode);
+    // console.log('value:', newMode);
     this.locallySelectedMode = newMode;
     this.modeText = DietaryChangeMode[newMode];
 
