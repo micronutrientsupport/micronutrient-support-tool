@@ -23,6 +23,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import ColorHash from 'color-hash-ts';
+
 @Component({
   selector: 'app-monthly-food',
   templateUrl: './monthlyFood.component.html',
@@ -39,8 +40,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
   public selectedTab: number;
 
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
-  public chartData: ChartJSObject;
+  public chartDataStack: ChartJSObject;
+  public chartDataLine: ChartJSObject;
+
+  // public chartStackPNG: string;
+  // public chartLinePNG: string;
   public chartPNG: string;
+
   public chartPDF: string;
 
   public displayedColumns = [];
@@ -96,7 +102,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   }
 
   public navigateToInfoTab(): void {
-    this.selectedTab = 3;
+    this.selectedTab = 4;
     this.cdr.detectChanges();
   }
 
@@ -115,12 +121,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
         const timePeriod = [...new Set(data.map((item) => item.month.name))];
 
         // Generate the stacked chart
-        const stackedChartData = {
+        const monthlyChartData = {
           labels: timePeriod,
           datasets: [],
         };
+
         foodTypes.forEach((thing, index) => {
-          stackedChartData.datasets.push({
+          monthlyChartData.datasets.push({
             label: foodTypes[index],
             data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
             backgroundColor: this.genColorHex(foodTypes[index]),
@@ -145,13 +152,16 @@ export class MonthlyFoodComponent implements AfterViewInit {
         });
 
         this.errorSrc.next(false);
-        this.chartData = null;
+        this.chartDataStack = null;
+        this.chartDataLine = null;
+
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
         this.cdr.detectChanges();
         this.initialiseTable(newTableData);
-        this.initialiseGraph(stackedChartData);
+        this.initialiseStackedGraph(monthlyChartData);
+        this.initialiseLineGraph(monthlyChartData);
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -168,10 +178,10 @@ export class MonthlyFoodComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
+  private initialiseStackedGraph(monthlyChartData: ChartsJSDataObject): void {
     const generatedChart: ChartJSObject = {
       type: 'bar',
-      data: stackedChartData,
+      data: monthlyChartData,
       options: {
         title: {
           display: false,
@@ -208,7 +218,52 @@ export class MonthlyFoodComponent implements AfterViewInit {
         },
       },
     };
-    this.chartData = generatedChart;
+    this.chartDataStack = generatedChart;
+    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+  }
+  private initialiseLineGraph(monthlyChartData: ChartsJSDataObject): void {
+    const generatedChart: ChartJSObject = {
+      type: 'line',
+      data: monthlyChartData,
+      options: {
+        title: {
+          display: false,
+          text: this.title,
+        },
+        legend: {
+          display: true,
+          position: 'bottom',
+          align: 'center',
+        },
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [
+            {
+              stacked: false,
+            },
+          ],
+          yAxes: [
+            {
+              stacked: true,
+              barPercentage: 0.9,
+              categoryPercentage: 1.0,
+              ticks: {
+                min: 0,
+                max: 100,
+                stepSize: 10,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'percentage',
+              },
+            },
+          ],
+        },
+      },
+    };
+    this.chartDataLine = generatedChart;
     const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
