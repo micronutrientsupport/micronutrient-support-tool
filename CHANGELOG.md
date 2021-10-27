@@ -1,5 +1,33 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.1.0...v1.1.1) (2021-10-27)
+
+
+### Bug Fixes
+
+* fixed merge issues ([906782f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/906782f79755314b7427ac4cf1e78f74ba2ff9f1))
+* link to info tab fixed ([dbae007](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/dbae0078a4f01973a82322a3db9b741f9a0e0d15))
+
+
+### Miscellaneous
+
+* add scenario "No Data" message and continue trying to simplify scenario component ([afd54ef](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/afd54ef74c2e0af29b25ba657c1d1d790dfa8170))
+* consolidate scenario changeItem updating flags ([4899c9c](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4899c9c5c33efa253f7a48a1d44ab9bffb068237))
+* continue making options component simpler ([1c55589](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/1c55589f74337ce4b8a1ed6ffc4340389ff81f04))
+* continue making options component simpler and improve scenario value user interaction when in composition/consumption mode ([3eb9aaf](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3eb9aaf5e1036cd5d15ff7364602b15e35ec1926))
+* finished making options component simpler ([0b494c5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0b494c5f7384eca6a9bd91237b95704c004aff1e))
+* fix scenario mode change confirm ([3b0fc84](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3b0fc8495548595fdc4af6d7ac751698d989f524))
+* no change ([10e1066](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/10e1066429ab624df5fc570777b29a3f5ccd01d8))
+* now that we're merging params instead of overwriting, leave in empty values to override old ones ([40fcee3](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/40fcee3578ce34e8158bc16f27b69b4c1a99da57))
+* refactor to use a factory to make dietChange items, which will be rolled to use in the options component too ([f1a318a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/f1a318a075eb8620f4c3a02d3e6f4acec742fb56))
+* remove superfluous function ([9b399f7](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9b399f7a72e7fd5964789baf0fd538fe06f856d1))
+* remove unused code ([8f0678a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8f0678a965fa7477a8026a7eb27e7376a5eb150d))
+* rename misnamed file ([ea1887d](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/ea1887da710e45f813a0bedfe811bc4249d7d82a))
+* scenario change items to the query string and load in on refresh **PROGRESS** ([fc129ff](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fc129ffcb6c569f1f946f9eb4f3827d87158de5f))
+* start to try to make options component simpler, using dietaryChangeItemFactory ([6283c75](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6283c75a07f81081a119438cf4414d9d928c391e))
+* tweaks to fix js errors and ensure that at least one change item is available in the options component ([95e8cee](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/95e8cee164d100392ee0ffcf4b85f3e223d38ae6))
+* update case ([0ef0b3e](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0ef0b3e55bd5240573800b82b72302586db99693))
+
 ## [1.1.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.0.0...v1.1.0) (2021-10-22)
 
 
