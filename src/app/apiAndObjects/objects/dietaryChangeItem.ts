@@ -7,10 +7,8 @@ export abstract class DietaryChangeItem<T = any> {
   public foodItem: FoodDictionaryItem;
   public currentValue: T; // not used for FoodItemChangeItem
   public scenarioValue: T;
-  public updatingScenarioValue = false; // used for current value too ?!
-
-  public updatingComposition = false;
-  public updatingScenarioComposition = false;
+  public updatingCurrent = false;
+  public updatingScenario = false;
 
   public noData = false;
   public isUseable = false;

@@ -83,11 +83,11 @@ export class DietaryChangeItemFactory {
   ): Promise<void> {
     if (changeItem instanceof FoodItemChangeItem || null == changeItem.foodItem) {
       changeItem.currentValue = null;
-      changeItem.updatingScenarioValue = false;
+      changeItem.updatingCurrent = false;
       return Promise.resolve();
     } else {
       return new Promise<void>((resolve) => {
-        changeItem.updatingScenarioValue = true;
+        changeItem.updatingCurrent = true;
         resolve(
           this.scenarioDataService
             .getCurrentValue(dds, mode, changeItem.foodItem, micronutrient)
@@ -98,7 +98,7 @@ export class DietaryChangeItemFactory {
                 changeItem.currentValue = currentValue.value;
               }
             })
-            .finally(() => (changeItem.updatingScenarioValue = false)),
+            .finally(() => (changeItem.updatingCurrent = false)),
         );
       });
     }
@@ -111,37 +111,37 @@ export class DietaryChangeItemFactory {
   ): Promise<void> {
     if (!(changeItem instanceof FoodItemChangeItem) || null == changeItem.foodItem) {
       changeItem.currentComposition = null;
-      changeItem.updatingComposition = null;
+      changeItem.updatingCurrent = null;
       changeItem.scenarioComposition = null;
-      changeItem.updatingScenarioComposition = false;
+      changeItem.updatingScenario = false;
       return Promise.resolve();
     } else {
       return Promise.all([
         new Promise<void>((resolve) => {
-          changeItem.updatingComposition = true;
+          changeItem.updatingCurrent = true;
           resolve(
             this.scenarioDataService
               .getCurrentComposition(changeItem.foodItem, dds, micronutrient)
               .then((currentComposition: CurrentComposition) => {
                 changeItem.currentComposition = currentComposition;
               })
-              .finally(() => (changeItem.updatingComposition = false)),
+              .finally(() => (changeItem.updatingCurrent = false)),
           );
         }),
         new Promise<void>((resolve) => {
           changeItem.scenarioComposition = null;
           if (null == changeItem.scenarioValue) {
-            changeItem.updatingScenarioComposition = false;
+            changeItem.updatingScenario = false;
             resolve();
           } else {
-            changeItem.updatingScenarioComposition = true;
+            changeItem.updatingScenario = true;
             resolve(
               this.scenarioDataService
                 .getCurrentComposition(changeItem.scenarioValue, dds, micronutrient)
                 .then((scenarioComposition: CurrentComposition) => {
                   changeItem.scenarioComposition = scenarioComposition;
                 })
-                .finally(() => (changeItem.updatingScenarioComposition = false)),
+                .finally(() => (changeItem.updatingScenario = false)),
             );
           }
         }),

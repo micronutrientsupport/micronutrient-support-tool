@@ -77,7 +77,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <span *ngIf="!changeItem.updatingComposition; else loadingBlock">{{(null == changeItem.currentComposition)
+              <span *ngIf="!changeItem.updatingCurrent; else loadingBlock">{{(null == changeItem.currentComposition)
                 ? '' :
                 changeItem.currentComposition.value + ' (' + changeItem.currentComposition.units +
                 ')'}}
@@ -87,7 +87,7 @@
 
           <ng-container
             *ngIf="(dietaryChangeService.mode.obs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
-            <span *ngIf="!changeItem.updatingScenarioValue; else loadingBlock" class="current-value">
+            <span *ngIf="!changeItem.updatingCurrent; else loadingBlock" class="current-value">
               <span *ngIf="!changeItem.noData">
                 {{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}
               </span>
@@ -98,7 +98,7 @@
                 [disabled]="null == changeItem.currentValue"
                 (click)="changeScenarioValue(changeItem, changeItem.scenarioValue * 0.95)">-5%</button>
               <div class="mat-form-field-scenario">
-                <mat-form-field *ngIf="!changeItem.updatingScenarioValue; else loadingBlock">
+                <mat-form-field *ngIf="!changeItem.updatingCurrent; else loadingBlock">
                   <input autocomplete="off" type="number" min="0" matInput [value]="changeItem.scenarioValue"
                     [disabled]="null == changeItem.currentValue"
                     (change)="changeScenarioValue(changeItem, $event.target['value'])" aria-label="Scenario value">
@@ -134,7 +134,7 @@
                   </ng-container>
                 </mat-select>
               </mat-form-field>
-              <span *ngIf="!changeItem.updatingScenarioComposition; else loadingBlock">{{(null ==
+              <span *ngIf="!changeItem.updatingScenario; else loadingBlock">{{(null ==
                 changeItem.scenarioComposition) ?
                 '' :
                 changeItem.scenarioComposition.value + ' (' + changeItem.scenarioComposition.units +

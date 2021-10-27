@@ -16,7 +16,6 @@ import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
 
 @Unsubscriber('subscriptions')
@@ -42,7 +41,6 @@ export class OptionsComponent {
   private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
-  private updatingScenarioValue = false;
   private scenarioValueChangeTimeout: NodeJS.Timeout;
   private refreshAllChangeItemsTimeout: NodeJS.Timeout;
 
