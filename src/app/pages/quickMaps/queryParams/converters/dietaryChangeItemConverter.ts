@@ -10,7 +10,7 @@ export class DietaryChangeItemsConverter extends Converter<Array<DietaryChangeIt
 
   public getString(): string {
     return this.item
-      .filter((item) => item.isUseable)
+      .filter((item) => item.isComplete)
       .map((item) =>
         item instanceof FoodItemChangeItem
           ? [item.foodItem.id, String(item.scenarioValue.id)].join('-')

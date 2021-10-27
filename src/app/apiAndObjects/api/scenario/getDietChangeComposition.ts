@@ -1,4 +1,4 @@
-import { CompositionChangeItem } from '../../objects/dietaryChangeItem';
+import { NumberChangeItem } from '../../objects/dietaryChangeItem';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';
@@ -62,6 +62,6 @@ export class GetDietChangeComposition extends Endpoint<
 export interface GetDietChangeCompositionParams {
   dataSource: DietDataSource;
   micronutrient: MicronutrientDictionaryItem;
-  changeItems: Array<CompositionChangeItem>;
+  changeItems: Array<NumberChangeItem>;
   asGeoJson?: boolean;
 }

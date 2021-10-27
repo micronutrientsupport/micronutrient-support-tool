@@ -55,9 +55,10 @@
             <span>{{changeItem.foodItem?.group.name}}</span>
             <span>
               {{changeItem.foodItem?.name}}
-              {{((dietaryChangeService.mode.obs | async) === MODE_ENUM.FOOD_ITEM)
-              ? ' ('+changeItem.currentComposition?.value + ' ' + changeItem.currentComposition?.units + ')'
-              : ''}}</span>
+              <ng-container *ngIf="((dietaryChangeService.mode.obs | async) === MODE_ENUM.FOOD_ITEM)">
+                ({{(changeItem | cast: FoodItemChangeItem).currentComposition?.valueAndUnits || 'No Data'}})
+              </ng-container>
+            </span>
           </ng-container>
           <ng-template #lastItemBlock>
             <mat-form-field appearance="outline">
@@ -77,11 +78,12 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <span *ngIf="!changeItem.updatingCurrent; else loadingBlock">{{(null == changeItem.currentComposition)
-                ? '' :
-                changeItem.currentComposition.value + ' (' + changeItem.currentComposition.units +
-                ')'}}
-              </span>
+              <ng-container
+                *ngIf="(((dietaryChangeService.mode.obs | async) === MODE_ENUM.FOOD_ITEM) && (null !== changeItem.foodItem))">
+                <span *ngIf="!changeItem.updatingCurrent; else loadingBlock">
+                  {{(changeItem | cast:FoodItemChangeItem).currentComposition?.valueAndUnits || 'No Data'}}
+                </span>
+              </ng-container>
             </div>
           </ng-template>
 
@@ -89,31 +91,32 @@
             *ngIf="(dietaryChangeService.mode.obs | async) !== MODE_ENUM.FOOD_ITEM; else foodChangeElseBlock">
             <span *ngIf="!changeItem.updatingCurrent; else loadingBlock" class="current-value">
               <span *ngIf="!changeItem.noData">
-                {{(null == changeItem.currentValue) ? '---' : changeItem.currentValue}}
+                {{(null == (changeItem | cast: NumberChangeItem).currentValue) ? '---' : (changeItem | cast:
+                NumberChangeItem).currentValue}}
               </span>
               <span *ngIf="changeItem.noData">No Data</span>
             </span>
             <div class="flex-row">
               <button mat-raised-button type="button" class="btn btn-danger"
-                [disabled]="null == changeItem.currentValue"
+                [disabled]="null == (changeItem | cast: NumberChangeItem).currentValue"
                 (click)="changeScenarioValue(changeItem, changeItem.scenarioValue * 0.95)">-5%</button>
               <div class="mat-form-field-scenario">
                 <mat-form-field *ngIf="!changeItem.updatingCurrent; else loadingBlock">
                   <input autocomplete="off" type="number" min="0" matInput [value]="changeItem.scenarioValue"
-                    [disabled]="null == changeItem.currentValue"
+                    [disabled]="null == (changeItem | cast: NumberChangeItem).currentValue"
                     (change)="changeScenarioValue(changeItem, $event.target['value'])" aria-label="Scenario value">
                 </mat-form-field>
 
               </div>
               <button mat-raised-button type=" button" class="btn btn-success"
                 (click)="changeScenarioValue(changeItem, changeItem.scenarioValue * 1.05)"
-                [disabled]="null == changeItem.currentValue">+5%</button>
+                [disabled]="null == (changeItem | cast: NumberChangeItem).currentValue">+5%</button>
             </div>
           </ng-container>
           <ng-template #foodChangeElseBlock>
             <span>replace with</span>
             <mat-form-field appearance="outline">
-              <mat-select #groupSelect [value]="changeItem.scenarioFoodItemGroup"
+              <mat-select #groupSelect [value]="(changeItem | cast: FoodItemChangeItem).scenarioFoodItemGroup"
                 (selectionChange)="changeFoodChangeScenarioGroup(changeItem, $event.value)"
                 placeholder="Food Item Group">
                 <ng-container *ngIf="null != changeItem.foodItem">
@@ -134,16 +137,15 @@
                   </ng-container>
                 </mat-select>
               </mat-form-field>
-              <span *ngIf="!changeItem.updatingScenario; else loadingBlock">{{(null ==
-                changeItem.scenarioComposition) ?
-                '' :
-                changeItem.scenarioComposition.value + ' (' + changeItem.scenarioComposition.units +
-                ')'}}
-              </span>
+              <ng-container *ngIf="(null !== changeItem.scenarioValue)">
+                <span *ngIf="!changeItem.updatingScenario; else loadingBlock">
+                  {{(changeItem | cast:FoodItemChangeItem).scenarioComposition?.valueAndUnits || 'No Data'}}
+                </span>
+              </ng-container>
             </div>
           </ng-template>
           <span *ngIf="isLast">
-            <button mat-raised-button [disabled]="!changeItem.isUseable" (click)="addChangeItem()"
+            <button mat-raised-button [disabled]="!changeItem.isComplete" (click)="addChangeItem()"
               aria-label="Add food item">
               <mat-icon aria-label="Add food item">add_circle_outline</mat-icon>
               Add food Item

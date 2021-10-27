@@ -11,7 +11,11 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { DietaryChangeItem, FoodItemChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
+import {
+  DietaryChangeItem,
+  FoodItemChangeItem,
+  NumberChangeItem,
+} from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
@@ -26,8 +30,10 @@ import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryC
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionsComponent {
-  public ROUTES = AppRoutes;
-  public MODE_ENUM = DietaryChangeMode;
+  public readonly ROUTES = AppRoutes;
+  public readonly MODE_ENUM = DietaryChangeMode;
+  public readonly FoodItemChangeItem = FoodItemChangeItem;
+  public readonly NumberChangeItem = NumberChangeItem;
 
   public loading: boolean;
   public foodGroupsDict: Dictionary;
@@ -110,7 +116,7 @@ export class OptionsComponent {
     const lastItem = changeItems[changeItems.length - 1];
 
     void (
-      changeItems.length > 1 || lastItem.isUseable
+      changeItems.length > 1 || lastItem.isComplete
         ? this.dialogService.openScenarioChangeWarningDialog().then((data) => data.dataOut)
         : Promise.resolve(true)
     ).then((confirmed) => {
@@ -129,6 +135,7 @@ export class OptionsComponent {
 
   public foodItemSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
     // console.debug('foodItemSelectChange', event);
+    changeItem.updatingCurrent = true;
     const selectedFoodItem = event.value as FoodDictionaryItem;
     void this.dietaryChangeItemFactory.makeItem(selectedFoodItem).then((newChangeItem) => {
       this.replaceFoodItem(changeItem, newChangeItem);
@@ -159,14 +166,15 @@ export class OptionsComponent {
         this.setFoodItems(this.dietaryChangeService.changeItems.get().slice());
       }, 500);
     } else {
+      changeItem.updatingScenario = true;
       // we're in food item comparison mode, so change it straight away
       void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, newValue).then((newChangeItem) => {
         this.replaceFoodItem(changeItem, newChangeItem);
       });
     }
   }
-  public changeFoodChangeScenarioGroup(changeItem: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
-    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem).then((newChangeItem) => {
+  public changeFoodChangeScenarioGroup(changeItem: DietaryChangeItem, group: FoodGroupDictionaryItem): void {
+    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem).then((newChangeItem: FoodItemChangeItem) => {
       newChangeItem.scenarioFoodItemGroup = group;
       this.replaceFoodItem(changeItem, newChangeItem);
     });
@@ -201,9 +209,12 @@ export class OptionsComponent {
     // ensure not triggered too many times in quick succession
     clearTimeout(this.refreshAllChangeItemsTimeout);
     this.refreshAllChangeItemsTimeout = setTimeout(() => {
-      const newChangeItemProms = this.dietaryChangeService.changeItems
-        .get()
-        .map((item) => this.dietaryChangeItemFactory.makeItem(item.foodItem));
+      const newChangeItemProms = this.dietaryChangeService.changeItems.get().map((item) => {
+        // mark current items updating
+        item.updatingCurrent = true;
+        item.updatingScenario = true;
+        return this.dietaryChangeItemFactory.makeItem(item.foodItem);
+      });
       void Promise.all(newChangeItemProms).then((items) => this.setFoodItems(items));
     }, 200);
   }
