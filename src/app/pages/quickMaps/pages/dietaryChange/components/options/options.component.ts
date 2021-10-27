@@ -11,19 +11,16 @@ import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { FoodDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { CurrentComposition } from 'src/app/apiAndObjects/objects/currentComposition';
 import {
-  CompositionChangeItem,
-  ConsumptionChangeItem,
   DietaryChangeItem,
   FoodItemChangeItem,
-} from 'src/app/apiAndObjects/objects/dietaryChange.item';
+  NumberChangeItem,
+} from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSelectChange } from '@angular/material/select';
-import { CurrentValue } from 'src/app/apiAndObjects/objects/currentValue.interface';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -33,8 +30,10 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionsComponent {
-  public ROUTES = AppRoutes;
-  public MODE_ENUM = DietaryChangeMode;
+  public readonly ROUTES = AppRoutes;
+  public readonly MODE_ENUM = DietaryChangeMode;
+  public readonly FoodItemChangeItem = FoodItemChangeItem;
+  public readonly NumberChangeItem = NumberChangeItem;
 
   public loading: boolean;
   public foodGroupsDict: Dictionary;
@@ -45,11 +44,10 @@ export class OptionsComponent {
   public modeText: string;
   public locallySelectedMode: DietaryChangeMode;
 
-  public addItemDisabled = true;
-
+  private dietaryChangeItemFactory: DietaryChangeItemFactory;
   private subscriptions = new Array<Subscription>();
 
-  private itemsChangedTimeout: NodeJS.Timeout;
+  private scenarioValueChangeTimeout: NodeJS.Timeout;
   private refreshAllChangeItemsTimeout: NodeJS.Timeout;
 
   constructor(
@@ -61,11 +59,47 @@ export class OptionsComponent {
     public dialogService: DialogService,
   ) {
     this.loading = true;
+
+    this.subscriptions.push(
+      quickMapsService.dietParameterChangedObs.subscribe(() => {
+        // don't trigger when first subscribe as that will reset the loaded in values.
+        // wait until data loaded before reacting
+        if (dietaryChangeService.init.get()) {
+          this.refreshAllChangeItems();
+        }
+      }),
+    );
+
     void dictionaryService
       .getDictionary(DictionaryType.FOOD_GROUPS)
       .then((dict) => {
         this.foodGroupsDict = dict;
-        this.updateFilteredFoodItems();
+
+        this.dietaryChangeItemFactory = new DietaryChangeItemFactory(
+          this.scenarioDataService,
+          this.foodGroupsDict,
+          this.dietaryChangeService.mode,
+          this.quickMapsService.dietDataSource,
+          this.quickMapsService.micronutrient,
+        );
+        // after service has loaded in query data etc
+        let subs: Subscription;
+        // eslint-disable-next-line prefer-const
+        subs = dietaryChangeService.init.obs.subscribe((init) => {
+          if (init) {
+            if (null != subs) {
+              subs.unsubscribe();
+            }
+            this.subscriptions.push(
+              dietaryChangeService.mode.obs.subscribe((mode) => {
+                this.modeChanged(mode);
+              }),
+              dietaryChangeService.changeItems.obs.subscribe(() => {
+                this.updateFilteredFoodItems();
+              }),
+            );
+          }
+        });
       })
       .finally(() => {
         this.loading = false;
@@ -74,126 +108,115 @@ export class OptionsComponent {
       .catch((err) => {
         throw err;
       });
-    this.subscriptions.push(
-      dietaryChangeService.mode.obs.subscribe((mode) => {
-        this.modeChanged(mode);
-      }),
-      quickMapsService.dietParameterChangedObs.subscribe(() => {
-        this.refreshAllChangeItems();
-      }),
-    );
   }
+
   public changeMode(event: MatRadioChange): void {
-    let confirmed = true;
     // only show confirmation if anything will be lost
     const changeItems = this.dietaryChangeService.changeItems.get();
     const lastItem = changeItems[changeItems.length - 1];
-    if (changeItems.length > 1 || lastItem.isUseable()) {
-      void this.dialogService.openScenarioChangeWarningDialog(confirmed).then((data: DialogData<boolean>) => {
-        confirmed = data.dataOut as boolean;
-        if (confirmed) {
-          this.dietaryChangeService.changeItems.set([]);
-          this.dietaryChangeService.mode.set(event.value);
-        } else {
-          // set the mode back
-          setTimeout(() => {
-            this.locallySelectedMode = this.dietaryChangeService.mode.get();
-            this.cdr.markForCheck();
-          }, 0);
-        }
-      });
-    }
+
+    void (
+      changeItems.length > 1 || lastItem.isComplete
+        ? this.dialogService.openScenarioChangeWarningDialog().then((data) => data.dataOut)
+        : Promise.resolve(true)
+    ).then((confirmed) => {
+      if (confirmed) {
+        this.setFoodItems([]);
+        this.dietaryChangeService.mode.set(event.value);
+      } else {
+        // set the mode back
+        setTimeout(() => {
+          this.locallySelectedMode = this.dietaryChangeService.mode.get();
+          this.cdr.markForCheck();
+        }, 0);
+      }
+    });
   }
 
   public foodItemSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
     // console.debug('foodItemSelectChange', event);
+    changeItem.updatingCurrent = true;
     const selectedFoodItem = event.value as FoodDictionaryItem;
-    changeItem.clear();
-    changeItem.foodGroup = selectedFoodItem.group;
-    changeItem.foodItem = selectedFoodItem;
-
-    this.applyChangeItemChange(changeItem);
+    void this.dietaryChangeItemFactory.makeItem(selectedFoodItem).then((newChangeItem) => {
+      this.replaceFoodItem(changeItem, newChangeItem);
+    });
   }
 
   public foodGroupSelectChange(event: MatSelectChange, changeItem: DietaryChangeItem): void {
-    const initiallyUseable = changeItem.isUseable();
-    changeItem.clear();
-    changeItem.foodGroup = event.value as FoodGroupDictionaryItem;
-    this.updateFilteredFoodItems();
-    if (initiallyUseable) {
-      this.itemsChanged();
-    }
-    this.cdr.markForCheck();
+    void this.dietaryChangeItemFactory.makeItem().then((newChangeItem) => {
+      newChangeItem.foodGroup = event.value as FoodGroupDictionaryItem;
+      this.replaceFoodItem(changeItem, newChangeItem);
+    });
   }
 
-  public changeScenarioValue(item: DietaryChangeItem, newValue: number | FoodDictionaryItem): void {
+  public changeScenarioValue(changeItem: DietaryChangeItem, newValue: string | number | FoodDictionaryItem): void {
+    if (typeof newValue === 'string') {
+      newValue = Number(newValue);
+    }
     // round numbers to 3dp
     if (typeof newValue === 'number') {
+      newValue = Math.max(0, newValue);
       newValue = Math.round(newValue * 1000) / 1000;
-    }
-    item.scenarioValue = newValue;
-    if (item instanceof FoodItemChangeItem) {
-      this.setChangeItemComposition(item);
+      // update the display value but delay triggering changes elsewhere
+      changeItem.scenarioValue = newValue;
+      // wait for inactivity before triggering update
+      clearTimeout(this.scenarioValueChangeTimeout);
+      this.scenarioValueChangeTimeout = setTimeout(() => {
+        // slice to make a new array so will trigger a change
+        this.setFoodItems(this.dietaryChangeService.changeItems.get().slice());
+      }, 500);
     } else {
+      changeItem.updatingScenario = true;
+      // we're in food item comparison mode, so change it straight away
+      void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem, newValue).then((newChangeItem) => {
+        this.replaceFoodItem(changeItem, newChangeItem);
+      });
     }
-    this.itemsChanged();
   }
-  public changeScenarioValueFromEvent(item: DietaryChangeItem, event: Event): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const value = event.target['value'];
-    this.changeScenarioValue(item, typeof value === 'string' ? Number(value) : value);
-  }
-
-  public changeFoodChangeScenarioGroup(item: FoodItemChangeItem, group: FoodGroupDictionaryItem): void {
-    item.currentValueFoodItemGroup = group;
-    item.scenarioValue = null;
-    item.scenarioComposition = null;
-    this.itemsChanged();
+  public changeFoodChangeScenarioGroup(changeItem: DietaryChangeItem, group: FoodGroupDictionaryItem): void {
+    void this.dietaryChangeItemFactory.makeItem(changeItem.foodItem).then((newChangeItem: FoodItemChangeItem) => {
+      newChangeItem.scenarioFoodItemGroup = group;
+      this.replaceFoodItem(changeItem, newChangeItem);
+    });
   }
 
   public deleteChangeItem(changeItem: DietaryChangeItem): void {
-    const newItems = this.dietaryChangeService.changeItems.get().filter((item) => item !== changeItem);
-    this.dietaryChangeService.changeItems.set(newItems);
-    this.itemsChanged();
+    this.replaceFoodItem(changeItem);
   }
 
   public addChangeItem(): void {
     // doesn't need to trigger update as new item isn't fully formed
-    this.dietaryChangeService.changeItems.get().push(this.makeChangeItem());
-    this.addItemDisabled = true;
+    void this.dietaryChangeItemFactory.makeItem().then((item) => {
+      const newItems = this.dietaryChangeService.changeItems.get().slice();
+      newItems.push(item);
+      this.setFoodItems(newItems);
+    });
+  }
 
-    this.updateFilteredFoodItems();
+  private replaceFoodItem(oldChangeItem: DietaryChangeItem, newChangeItem?: DietaryChangeItem): void {
+    const foodItemPos = this.dietaryChangeService.changeItems.get().indexOf(oldChangeItem);
+    let newChangeItems = this.dietaryChangeService.changeItems.get().slice();
+    newChangeItems.splice(foodItemPos, 1, newChangeItem);
+    newChangeItems = newChangeItems.filter((item) => null != item);
+    this.setFoodItems(newChangeItems);
+  }
+
+  private setFoodItems(items: Array<DietaryChangeItem>): void {
+    this.dietaryChangeService.changeItems.set(items);
   }
 
   private refreshAllChangeItems(): void {
     // ensure not triggered too many times in quick succession
     clearTimeout(this.refreshAllChangeItemsTimeout);
     this.refreshAllChangeItemsTimeout = setTimeout(() => {
-      // call for all change items to trigger updates
-      this.dietaryChangeService.changeItems.get().forEach((item) => this.applyChangeItemChange(item));
+      const newChangeItemProms = this.dietaryChangeService.changeItems.get().map((item) => {
+        // mark current items updating
+        item.updatingCurrent = true;
+        item.updatingScenario = true;
+        return this.dietaryChangeItemFactory.makeItem(item.foodItem);
+      });
+      void Promise.all(newChangeItemProms).then((items) => this.setFoodItems(items));
     }, 200);
-  }
-
-  private applyChangeItemChange(changeItem: DietaryChangeItem): void {
-    switch (this.dietaryChangeService.mode.get()) {
-      case DietaryChangeMode.FOOD_ITEM:
-        this.changeScenarioValue(changeItem, changeItem.currentValue);
-        break;
-      default:
-        changeItem.updatingScenarioValue = true;
-        void this.scenarioDataService
-          .getCurrentValue(
-            this.quickMapsService.dietDataSource.get(),
-            this.dietaryChangeService.mode.get(),
-            changeItem.foodItem,
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentValue: CurrentValue) => {
-            changeItem.currentValue = currentValue.value;
-            this.changeScenarioValue(changeItem, currentValue.value);
-          })
-          .finally(() => (changeItem.updatingScenarioValue = false));
-    }
   }
 
   private updateFilteredFoodItems(): void {
@@ -202,6 +225,8 @@ export class OptionsComponent {
         this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
       const selectedGroup = null != editableChangeItem ? editableChangeItem.foodGroup : null;
       const usedFoodItems = this.dietaryChangeService.changeItems.get().map((item) => item.foodItem);
+      // for these purposes the last change item isn't classed as used as the fooditem is still selectable
+      usedFoodItems.pop();
 
       const availableFoodItems = this.foodGroupsDict
         .getItems()
@@ -219,66 +244,18 @@ export class OptionsComponent {
     }
   }
 
-  private setChangeItemComposition(foodChangeItem: DietaryChangeItem): void {
-    if (null != foodChangeItem.foodItem) {
-      if (null == foodChangeItem.currentComposition) {
-        foodChangeItem.currentComposition = null;
-        foodChangeItem.updatingComposition = true;
-        void this.scenarioDataService
-          .getCurrentComposition(
-            foodChangeItem.foodItem,
-            this.quickMapsService.dietDataSource.get(),
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentComposition: CurrentComposition) => {
-            foodChangeItem.currentComposition = currentComposition;
-            this.cdr.markForCheck();
-          })
-          .finally(() => (foodChangeItem.updatingComposition = false));
-      }
-      if (foodChangeItem instanceof FoodItemChangeItem && null != foodChangeItem.scenarioValue) {
-        foodChangeItem.scenarioComposition = null;
-        foodChangeItem.updatingScenarioComposition = true;
-        void this.scenarioDataService
-          .getCurrentComposition(
-            foodChangeItem.scenarioValue,
-            this.quickMapsService.dietDataSource.get(),
-            this.quickMapsService.micronutrient.get(),
-          )
-          .then((currentComposition: CurrentComposition) => {
-            foodChangeItem.scenarioComposition = currentComposition;
-            this.cdr.markForCheck();
-          })
-          .finally(() => (foodChangeItem.updatingScenarioComposition = false));
-      }
-    }
-  }
-
-  private itemsChanged(): void {
-    const lastItem =
-      this.dietaryChangeService.changeItems.get()[this.dietaryChangeService.changeItems.get().length - 1];
-
-    if (null != lastItem) {
-      this.addItemDisabled = !lastItem.isUseable();
-    }
-
-    // console.debug('itemsChanged');
-    // wait for inactivity before triggering update
-    clearTimeout(this.itemsChangedTimeout);
-    this.itemsChangedTimeout = setTimeout(() => {
-      // force as array is the same ref
-      this.dietaryChangeService.changeItems.set(this.dietaryChangeService.changeItems.get(), true);
-    }, 500);
-  }
-
-  private modeChanged(newMode: DietaryChangeMode): void {
-    console.log('value:', newMode);
-    this.locallySelectedMode = newMode;
-    this.modeText = DietaryChangeMode[newMode];
-
+  private ensureAtLeastOneChangeItem(): void {
     if (this.dietaryChangeService.changeItems.get().length === 0) {
       this.addChangeItem();
     }
+  }
+  private modeChanged(newMode: DietaryChangeMode): void {
+    // console.log('value:', newMode);
+    this.locallySelectedMode = newMode;
+    this.modeText = DietaryChangeMode[newMode];
+
+    this.ensureAtLeastOneChangeItem();
+
     switch (newMode) {
       case DietaryChangeMode.COMPOSITION:
         this.units = 'mg/kg';
@@ -289,17 +266,6 @@ export class OptionsComponent {
       case DietaryChangeMode.FOOD_ITEM:
         this.units = '';
         break;
-    }
-  }
-
-  private makeChangeItem(): DietaryChangeItem {
-    switch (this.dietaryChangeService.mode.get()) {
-      case DietaryChangeMode.COMPOSITION:
-        return new CompositionChangeItem();
-      case DietaryChangeMode.CONSUMPTION:
-        return new ConsumptionChangeItem();
-      case DietaryChangeMode.FOOD_ITEM:
-        return new FoodItemChangeItem();
     }
   }
 }

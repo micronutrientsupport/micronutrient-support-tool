@@ -10,6 +10,7 @@ import { DietaryChangeService } from '../dietaryChange.service';
 import { ComparisonCardComponent } from './comparisonCard/comparisonCard.component';
 import { DescriptionComponent } from './description/description.component';
 import { OptionsComponent } from './options/options.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { OptionsComponent } from './options/options.component';
     OptionsComponent,
     ComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ComponentsModule, DialogModule, FormsModule],
+  imports: [CommonModule, AppMaterialModule, ComponentsModule, DialogModule, FormsModule, PipesModule],
   providers: [DietaryChangeService],
   exports: [
     ScenariosMapComponent,

@@ -5,7 +5,7 @@ import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../diet/mnAv
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { MnAvailibiltyItem } from '../../objects/mnAvailibilityItem.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
-import { FoodItemChangeItem } from '../../objects/dietaryChange.item';
+import { FoodItemChangeItem } from '../../objects/dietaryChangeItem';
 
 export class GetDietChangeFoodItem extends Endpoint<
   Array<MN_AVAILABILITY_TYPE>,
