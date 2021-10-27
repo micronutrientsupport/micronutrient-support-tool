@@ -72,9 +72,7 @@ export class QuickMapsQueryParams {
     converters.forEach((converter: Converter) => {
       // console.debug('converter', converter, converter.getString());
       const trimmedValue = converter.getString().trim();
-      if (trimmedValue.length > 0) {
-        stringParams[converter.queryStringkey] = trimmedValue;
-      }
+      stringParams[converter.queryStringkey] = trimmedValue;
     });
     void this.router.navigate([], {
       relativeTo: this.route,
