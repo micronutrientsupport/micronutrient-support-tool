@@ -18,6 +18,7 @@ export class DietaryChangeItemsConverter extends Converter<Array<DietaryChangeIt
       )
       .join(',');
   }
+
   public getItem(dietaryChangeItemFactory: DietaryChangeItemFactory): Promise<Array<DietaryChangeItem>> {
     return Promise.all(
       (this.stringValue ?? '')
