@@ -5,9 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 import { UnmatchedTotals } from 'src/app/apiAndObjects/objects/unmatchedTotals';
 import { Subscription } from 'rxjs';
 
