@@ -10,6 +10,7 @@ import { ApiModule } from './apiAndObjects/api.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { NgxFeedbackModule } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    NgxFeedbackModule,
   ],
   exports: [],
   providers: [Title, Meta],

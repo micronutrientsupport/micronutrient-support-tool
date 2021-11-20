@@ -1,7 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ChildActivationEnd,
+  GuardsCheckEnd,
+  GuardsCheckStart,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
+import { detect } from 'detect-browser';
+import { NgxFeedbackService } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
 import { Subscription } from 'rxjs';
+import { ApiService } from './apiAndObjects/api/api.service';
+import { PostFeedbackParams } from './apiAndObjects/api/feedback/postFeedback';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
 @Component({
@@ -9,7 +20,7 @@ import { PageLoadingService } from './services/pageLoadingService.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'micronutrient-support-tool';
   public showLightFooter = false;
 
@@ -19,6 +30,8 @@ export class AppComponent {
     public pageLoadingService: PageLoadingService,
     private titleService: Title,
     private metaService: Meta,
+    private apiService: ApiService,
+    private readonly feedbackService: NgxFeedbackService,
   ) {
     router.events.subscribe((event) => {
       // console.debug('router event', event);
@@ -51,7 +64,18 @@ export class AppComponent {
         // console.log('GuardEnd');
       }
     });
+  }
 
+  ngOnInit(): void {
+    this.feedbackService.listenForFeedbacks().subscribe((data: PostFeedbackParams) => {
+      const browser = detect();
+      data.page = window.location.href;
+      data.browser = `${browser.name.charAt(0).toUpperCase()}${browser.name.slice(1)}: ${browser.version}`;
+      data.os = browser.os;
+      data.height = window.innerHeight;
+      data.width = window.innerWidth;
+      void this.apiService.endpoints.misc.postFeedback.call(data);
+    });
   }
 
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
@@ -71,8 +95,7 @@ export class AppComponent {
       } else {
         this.metaService.updateTag({ name: tagName, content });
       }
-    }
-    else {
+    } else {
       this.metaService.removeTag(`name='${tagName}'`);
     }
   }
