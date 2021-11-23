@@ -74,12 +74,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         .find((item) => item.isBaseline);
       // if displayed within a card component init interactions with the card
       if (null != this.card) {
-        this.card.title = this.title;
-        this.card.showExpand = true;
-        this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-        this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-        this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
-        // respond to parameter updates
         this.subscriptions.push(
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // projections only available if isInImpact flag set
@@ -98,9 +92,15 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             }
           }),
         );
+        this.card.showExpand = true;
+        this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+        this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+        this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+        // respond to parameter updates
       } else if (null != this.dialogData) {
         // if displayed within a dialog use the data passed in
         this.init(Promise.resolve(this.dialogData.dataIn.data), Promise.resolve(this.dialogData.dataIn.summary));
+        this.title = this.dialogData.dataIn.title;
         this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
         this.cdr.detectChanges();
       }
@@ -256,6 +256,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<ProjectionAvailabilityDialogData>(ProjectionAvailabilityComponent, {
+      title: this.title,
       data: this.data,
       summary: this.projectionsSummary,
       selectedTab: this.tabGroup.selectedIndex,
@@ -264,6 +265,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProjectionAvailabilityDialogData {
+  title: string;
   data: Array<ProjectedAvailability>;
   summary: ProjectionsSummary;
   selectedTab: number;

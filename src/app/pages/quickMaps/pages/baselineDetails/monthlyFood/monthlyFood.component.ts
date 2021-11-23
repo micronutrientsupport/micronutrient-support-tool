@@ -96,6 +96,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -276,6 +277,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<MonthlyFoodDialogData>(MonthlyFoodComponent, {
+      title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
@@ -283,6 +285,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 }
 
 export interface MonthlyFoodDialogData {
+  title: string;
   data: Array<MonthlyFoodGroup>;
   selectedTab: number;
 }

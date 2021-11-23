@@ -78,6 +78,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource.get();
+          this.title = 'Household apparent micronutrient intake for ' + micronutrient?.id + ' in ' + country?.name;
+          this.card.title = this.title;
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {
             this.init(
@@ -91,6 +93,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -252,6 +255,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<HouseholdSupplyDialogData>(HouseholdSupplyComponent, {
+      title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
@@ -270,6 +274,7 @@ interface SummarizedData {
 }
 
 export interface HouseholdSupplyDialogData {
+  title: string;
   data: SummarizedData;
   selectedTab: number;
 }
