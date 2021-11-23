@@ -86,15 +86,18 @@
           <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.DIET" [disabled]="!measureDietEnabled">
             Diet Data
           </mat-button-toggle>
-          <mat-button-toggle #biomarkerToggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
+          <!-- <mat-button-toggle #biomarkerToggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
             [disabled]="!measureBiomarkerEnabled">
+            Biomarker Data
+          </mat-button-toggle> -->
+          <mat-button-toggle disabled>
             Biomarker Data
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </fieldset>
 
-    <div [hidden]="!biomarkerToggle.checked">
+    <!-- <div [hidden]="!biomarkerToggle.checked">
       <fieldset>
         <legend>
           <div class="field-title">
@@ -111,7 +114,7 @@
           </mat-select>
         </mat-form-field>
       </fieldset>
-    </div>
+    </div> -->
 
     <fieldset>
       <legend class="flex-row">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import {
   ActivatedRoute,
@@ -17,7 +17,7 @@ import { PageLoadingService } from './services/pageLoadingService.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'micronutrient-support-tool';
   public showLightFooter = false;
 
@@ -58,10 +58,12 @@ export class AppComponent {
         this.pageLoadingService.endLoading();
         // console.log('GuardEnd');
       }
-
-      // Load snippet for plausible.io
-      this.loadAnalyticsSnippet();
     });
+  }
+
+  ngOnInit(): void {
+    // Inject snippet for plausible.io at app startup
+    this.loadAnalyticsSnippet();
   }
 
   private loadAnalyticsSnippet() {
