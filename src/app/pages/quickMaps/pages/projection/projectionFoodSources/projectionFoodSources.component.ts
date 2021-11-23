@@ -90,7 +90,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private fb: FormBuilder,
     private sigFig: SignificantFiguresPipe,
     private dialogService: DialogService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionFoodSourcesDialogData>,
   ) {
     // 2010 to 2050 in 5 year jumps
     for (let i = 0; i < 9; i++) {
@@ -133,20 +133,21 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       }),
     );
 
-    this.subscriptions.push(
-      this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-        this.micronutrientName = this.quickMapsService.micronutrient.get()?.name;
-        this.title = 'Projection Food Sources for ' + this.micronutrientName;
-        this.card.title = this.title;
-      }),
-    );
-
     if (null != this.card) {
-      this.card.onExpandClickObs.subscribe(() => this.openDialog());
-      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab());
+      this.card.title = this.title;
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-      this.init();
+
+      this.subscriptions.push(
+        this.card.onExpandClickObs.subscribe(() => this.openDialog()),
+        this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
+        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+          this.micronutrientName = this.quickMapsService.micronutrient.get()?.name;
+          this.title = 'Projection Food Sources for ' + this.micronutrientName;
+          this.card.title = this.title;
+          this.init();
+        }),
+      );
     } else if (null != this.dialogData) {
       this.init();
       this.title = this.dialogData.dataIn.title;
