@@ -13,6 +13,7 @@ import { NgxFeedbackService } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
 import { Subscription } from 'rxjs';
 import { ApiService } from './apiAndObjects/api/api.service';
 import { PostFeedbackParams } from './apiAndObjects/api/feedback/postFeedback';
+import { environment } from 'src/environments/environment.base';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
 @Component({
@@ -76,6 +77,19 @@ export class AppComponent implements OnInit {
       data.width = window.innerWidth;
       void this.apiService.endpoints.misc.postFeedback.call(data);
     });
+
+    // Load snippet for plausible.io
+    this.loadAnalyticsSnippet();
+  }
+
+  private loadAnalyticsSnippet() {
+    const analyticsScript = document.createElement('script');
+    analyticsScript.type = 'text/javascript';
+    analyticsScript.async = true;
+    analyticsScript.defer = true;
+    analyticsScript.src = environment.analyticsSnippetUrl;
+    analyticsScript.dataset.domain = environment.analyticsDomain;
+    document.body.appendChild(analyticsScript);
   }
 
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
