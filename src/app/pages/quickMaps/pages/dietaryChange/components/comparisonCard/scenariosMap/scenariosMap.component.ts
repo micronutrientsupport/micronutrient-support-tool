@@ -150,11 +150,17 @@ export class ScenariosMapComponent implements AfterViewInit {
   }
 
   private refreshBaselineLayer(resetBounds: boolean): void {
-    this.refreshLayer(this.baselineMap, this.baselineDataLayer, this.baselineFeatureCollection, resetBounds);
+    this.refreshLayer(this.baselineMap, this.baselineDataLayer, this.baselineFeatureCollection, resetBounds, 'base');
   }
 
   private refreshScenarioLayer(resetBounds: boolean): void {
-    this.refreshLayer(this.scenarioMap, this.scenarioDataLayer, this.scenarioFeatureCollection, resetBounds);
+    this.refreshLayer(
+      this.scenarioMap,
+      this.scenarioDataLayer,
+      this.scenarioFeatureCollection,
+      resetBounds,
+      'scenario',
+    );
   }
 
   private refreshLayer(
@@ -162,6 +168,7 @@ export class ScenariosMapComponent implements AfterViewInit {
     previousLayer: L.GeoJSON,
     featureCollection: FEATURE_COLLECTION_TYPE,
     resetBounds: boolean,
+    type: string,
   ): void {
     let newLayer: L.GeoJSON;
     if (null != map) {
@@ -171,6 +178,12 @@ export class ScenariosMapComponent implements AfterViewInit {
       newLayer = this.createGeoJsonLayer(featureCollection, (feat: FEATURE_TYPE) =>
         this.colourGradient.getColour(feat.properties.dietarySupply),
       ).addTo(map);
+
+      if (type === 'base') {
+        this.baselineDataLayer = newLayer;
+      } else {
+        this.scenarioDataLayer = newLayer;
+      }
 
       if (resetBounds) {
         const bounds = newLayer.getBounds();
