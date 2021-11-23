@@ -72,26 +72,26 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         .shift()
         .getItems<ImpactScenarioDictionaryItem>()
         .find((item) => item.isBaseline);
-      this.subscriptions.push(
-        this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-          // projections only available if isInImpact flag set
-          const country = this.quickMapsService.country.get();
-          const micronutrient = this.quickMapsService.micronutrient.get();
-          if (null != micronutrient && micronutrient.isInImpact) {
-            this.title = 'Projected ' + micronutrient.name + ' availability to 2050';
-            this.card.title = this.title;
-            //  only if all set
-            if (null != country && null != micronutrient) {
-              this.init(
-                this.projectionDataService.getProjectedAvailabilities(country, micronutrient),
-                this.projectionDataService.getProjectionSummaries(country, micronutrient, this.baselineScenario),
-              );
-            }
-          }
-        }),
-      );
       // if displayed within a card component init interactions with the card
       if (null != this.card) {
+        this.subscriptions.push(
+          this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+            // projections only available if isInImpact flag set
+            const country = this.quickMapsService.country.get();
+            const micronutrient = this.quickMapsService.micronutrient.get();
+            if (null != micronutrient && micronutrient.isInImpact) {
+              this.title = 'Projected ' + micronutrient.name + ' availability to 2050';
+              this.card.title = this.title;
+              //  only if all set
+              if (null != country && null != micronutrient) {
+                this.init(
+                  this.projectionDataService.getProjectedAvailabilities(country, micronutrient),
+                  this.projectionDataService.getProjectionSummaries(country, micronutrient, this.baselineScenario),
+                );
+              }
+            }
+          }),
+        );
         this.card.showExpand = true;
         this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
         this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
