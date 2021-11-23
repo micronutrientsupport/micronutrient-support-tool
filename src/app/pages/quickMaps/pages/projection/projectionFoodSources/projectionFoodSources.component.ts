@@ -149,6 +149,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.init();
     } else if (null != this.dialogData) {
       this.init();
+      this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -299,6 +300,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
+      title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
@@ -306,6 +308,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 }
 
 export interface ProjectionFoodSourcesDialogData {
+  title: string;
   data: Array<MicronutrientProjectionSource>;
   selectedTab: number;
 }
