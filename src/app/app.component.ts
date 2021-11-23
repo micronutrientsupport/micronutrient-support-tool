@@ -62,12 +62,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load snippet for plausible.io
+    // Inject snippet for plausible.io at app startup
     this.loadAnalyticsSnippet();
   }
 
   private loadAnalyticsSnippet() {
-    console.log('calling analytics');
     const analyticsScript = document.createElement('script');
     analyticsScript.type = 'text/javascript';
     analyticsScript.async = true;
