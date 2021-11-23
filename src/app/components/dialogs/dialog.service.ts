@@ -5,6 +5,7 @@ import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
+import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable({
@@ -43,7 +44,11 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('mapSettings', MapSettingsDialogComponent, false, colourPaletteId);
   }
 
-  public openInvalidParametersDialog(): Promise<DialogData> {
+  public openInvalidParametersDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('invalidParametersDialog', InvalidParametersDialogComponent);
+  }
+
+  public openScenarioChangeWarningDialog(): Promise<DialogData<unknown, boolean>> {
+    return this.openDialog('scenarioChangeWarningDialog', ScenarioChangeWarningComponent, false);
   }
 }

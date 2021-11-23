@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { FoodDictionaryItem } from '../apiAndObjects/objects/dictionaries/foodDictionaryItem';
-import {
-  CompositionChangeItem,
-  ConsumptionChangeItem,
-  DietaryChangeItem,
-  FoodItemChangeItem,
-} from '../apiAndObjects/objects/dietaryChange.item';
+import { NumberChangeItem, DietaryChangeItem, FoodItemChangeItem } from '../apiAndObjects/objects/dietaryChangeItem';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -55,7 +50,7 @@ export class ScenarioDataService {
   public getDietChangeComposition(
     dataSource: DietDataSource,
     micronutrient: MicronutrientDictionaryItem,
-    changeItems: Array<CompositionChangeItem>,
+    changeItems: Array<NumberChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
     return this.apiService.endpoints.scenario.getDietChangeComposition.call({
       dataSource,
@@ -67,7 +62,7 @@ export class ScenarioDataService {
   public getDietChangeConsumption(
     dataSource: DietDataSource,
     micronutrient: MicronutrientDictionaryItem,
-    changeItems: Array<ConsumptionChangeItem>,
+    changeItems: Array<NumberChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
     return this.apiService.endpoints.scenario.getDietChangeConsumption.call({
       dataSource,
@@ -106,11 +101,11 @@ export class ScenarioDataService {
 
     switch (mode) {
       case DietaryChangeMode.COMPOSITION:
-        typeCheckFunc = (item) => item instanceof CompositionChangeItem;
+        typeCheckFunc = (item) => item instanceof NumberChangeItem;
         promiseFunc = this.getDietChangeComposition;
         break;
       case DietaryChangeMode.CONSUMPTION:
-        typeCheckFunc = (item) => item instanceof ConsumptionChangeItem;
+        typeCheckFunc = (item) => item instanceof NumberChangeItem;
         promiseFunc = this.getDietChangeConsumption;
         break;
       case DietaryChangeMode.FOOD_ITEM:

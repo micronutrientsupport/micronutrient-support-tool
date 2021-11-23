@@ -1,5 +1,46 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.0.0...v1.1.0) (2021-10-22)
+
+
+### Features
+
+* added argument to new dialog window ([4442b38](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4442b38023a6e9a5bcf7818bb7599b8b2ebdc11f))
+* added screenshot functionality to comparison maps ([fa81d4a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fa81d4afe6451e64e70785639746158ae64591d4))
+* added type to dialog data ([0dd3b1f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0dd3b1fb0769e339f136ae69eae75cc6f59e22d7))
+* biomarker-status-download component including media 7 data dropdown ([2cfe4e6](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/2cfe4e61ade7129cb2337d4b01b3e7b03883bdad))
+* created new info dialog ([c348e95](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/c348e953c3c627a86e43508c2566584315210f84))
+* functioning as expected ([278f9ce](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/278f9cef4c24e014be9cb989847d6b15e60957f8))
+* image DL now working for baseline maps ([6eab969](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6eab969b092c2caba18189e0aaf2c320b874c855))
+
+
+### Bug Fixes
+
+* changed styling to pass cypress tests ([cb21d73](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/cb21d73ca377c93e1a4278e0f4d7c387a5f37c6b))
+
+
+### Miscellaneous
+
+* add comments to _lib api code (copied from apiHelper project) ([3c6f966](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3c6f96635380244b3d657e01fcae019daee72b9e))
+* add the scenario mode to the query string and use it on load ([41fb9a0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/41fb9a0a6dc2258c4b9b195577f8aa054dd23c22))
+* build fix ([6216bf5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6216bf53ed5f1df13835acf72865a181d69e4a0b))
+* changed folder name ([617dd94](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/617dd940f3ca4dc21db871c9c1998a9abf7f98af))
+* changed title ([8046e85](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8046e8558b697b54388a7462fc4036d22b28b3d7))
+* fix scenario mode query string value ([b68cd93](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/b68cd93f716eb3e4a7c677ba3a37afa7b4c4775c))
+* improve code by using new Accessor object in quickmaps WIP ([eb5666a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/eb5666ac85e55900aa2e3c800ad9943ef83ef537))
+* improve code by using new Accessor object in quickmaps WIP ([229e0ea](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/229e0eaadc23d9c8b80e83f974e9989730b38e3d))
+* improve code by using new Accessor object in quickmaps WIP ([47a73b4](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/47a73b466a3aab2b38d5b96b00600120c4b065e6))
+* improve code by using new Accessor object in quickmaps WIP ([3e59f06](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3e59f068574ebb4e178b4f6dc31ea27450dd5dcd))
+* improve code by using new Accessor object in quickmaps WIP ([515db84](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/515db84bb11945e848545cecaf7b9b70aa040414))
+* improve code by using new Accessor object in quickmaps WIP ([e186bf7](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/e186bf7b616d4ec4d94a1111f9ef1cd8091838a4))
+* improve code by using new Accessor object in quickmaps WIP ([8a351cd](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8a351cdeb854047e997f83ab864942cf1e231364))
+* improve code by using new Accessor object in quickmaps WIP ([ec9c08b](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/ec9c08bd4f9fba7f4c87861ee53a2d524e1b81d4))
+* improve code by using new Accessor object in quickmaps WIP ([64e0d30](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/64e0d30121170f815302ea1de8d6c09b9bccddd5))
+* minor tidy of elements ([9fad03d](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9fad03d1ca9e2199945a9c376f0c3a9774230dff))
+* pulled develop, resolved conflicts ([1418426](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/1418426f7e667a87a97b746dbae88ffb4ef81849))
+* renamed file folder ([12bcf27](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/12bcf279c80cbf893acf33fa9d2aaade0f1e9bda))
+* resrolved conflicts ([e6584cc](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/e6584cc60b8dd6fe9dc180c83f279bb335539fd8))
+
 ## 1.0.0 (2021-10-20)
 
 

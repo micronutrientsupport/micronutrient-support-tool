@@ -1,9 +1,18 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChange.item';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { Accessor } from 'src/utility/accessor';
-import { QuickMapsQueryParams } from '../../quickMapsQueryParams';
+import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
+import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey.enum';
 import { DietaryChangeMode } from './dietaryChangeMode.enum';
+import { NumberConverter } from '../../queryParams/converters/numberConverter';
+import { DietaryChangeItemsConverter } from '../../queryParams/converters/dietaryChangeItemConverter';
+import { QuickMapsService } from '../../quickMaps.service';
+import { ParamMap } from '@angular/router';
+import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
+import { ScenarioDataService } from 'src/app/services/scenarioData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Injectable()
 export class DietaryChangeService {
@@ -23,20 +32,40 @@ export class DietaryChangeService {
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
-  constructor(injector: Injector) {
+  constructor(
+    private injector: Injector,
+    private quickMapsService: QuickMapsService,
+    private scenarioDataService: ScenarioDataService,
+    private dictionaryService: DictionaryService,
+  ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
-    // set from query params etc. on init
-    this.mode.set(this.quickMapsParameters.getScenarioMode());
+    // wait until quickmaps service is ready
+    let subs: Subscription;
+    // eslint-disable-next-line prefer-const
+    subs = quickMapsService.init.obs.subscribe((inited) => {
+      if (inited) {
+        if (null != subs) {
+          subs.unsubscribe();
+        }
 
-    this.initSubscriptions();
-    this.init.set(true);
+        // set from query params etc. on init
+        void Promise.all([
+          this.quickMapsParameters.getScenarioMode().then((mode) => this.mode.set(mode)),
+          this.getScenarioItems().then((items) => this.changeItems.set(items)),
+        ]).then(() => {
+          this.initSubscriptions();
+          this.init.set(true);
+        });
+      }
+    });
   }
 
   public updateQueryParams(): void {
-    const paramsObj = {} as Record<string, string | Array<string>>;
-    paramsObj[QuickMapsQueryParams.QUERY_PARAM_KEYS.SCENARIO_MODE] = null == this.mode ? null : String(this.mode.get());
-    this.quickMapsParameters.setQueryParams(paramsObj);
+    this.quickMapsParameters.setQueryParams([
+      new NumberConverter(QuickMapsQueryParamKey.SCENARIO_MODE).setItem(this.mode.get()),
+      new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS).setItem(this.changeItems.get()),
+    ]);
   }
 
   private initSubscriptions(): void {
@@ -52,5 +81,27 @@ export class DietaryChangeService {
       this.updateQueryParams();
       this.parameterChangedSrc.next();
     }, 100);
+  }
+
+  private getScenarioItems(queryParamMap?: ParamMap): Promise<Array<DietaryChangeItem>> {
+    return this.dictionaryService
+      .getDictionary(DictionaryType.FOOD_GROUPS)
+      .then((foodGroupsDict) =>
+        this.quickMapsParameters
+          .get(new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS), queryParamMap)
+          .getItem(
+            new DietaryChangeItemFactory(
+              this.scenarioDataService,
+              foodGroupsDict,
+              this.mode,
+              this.quickMapsService.dietDataSource,
+              this.quickMapsService.micronutrient,
+            ),
+            this.injector,
+            this.quickMapsParameters.getScenarioMode(),
+            Promise.resolve(this.quickMapsService.dietDataSource.get()),
+            this.quickMapsParameters.getMicronutrient(),
+          ),
+      );
   }
 }

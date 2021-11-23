@@ -12,5 +12,7 @@ export const environment = {
   // gitTag: '{GIT-TAG}', // populated during pipeline
   // gitBranchName: '{GIT-BRANCH-NAME}', // populated during pipeline
   apiBaseUrl: 'https://api.micronutrient.support/v2',
+  analyticsSnippetUrl: 'https://stats.micronutrient.support/js/plausible.js',
+  analyticsDomain: 'preview.micronutrient.support',
   useLiveApi: true,
 };

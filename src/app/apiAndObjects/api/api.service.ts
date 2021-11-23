@@ -25,6 +25,7 @@ import { GetMicronutrientAvailability } from './diet/getMicronutrientAvailabilit
 import { CountryDictionaryItem } from '../objects/dictionaries/countryDictionaryItem';
 import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
 import { GetNationalSummary } from './diet/getNationalSummary';
+import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -38,6 +39,7 @@ export class ApiService extends BaseApi {
       getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
       getNationalSummary: new GetNationalSummary(ApiService.USE_LIVE_API),
+      getUnmatchedTotals: new GetUnmatchedTotals(ApiService.USE_LIVE_API),
     },
     biomarker: {
       getDataSources: new GetBiomarkerDataSources(ApiService.USE_LIVE_API),

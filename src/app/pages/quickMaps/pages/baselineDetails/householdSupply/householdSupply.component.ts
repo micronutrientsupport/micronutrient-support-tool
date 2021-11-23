@@ -35,7 +35,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
 
-  public title = 'National overview';
+  public title = 'Household apparent micronutrient intake at national scale - histogram';
   public selectedTab: number;
 
   public chartData: ChartJSObject;
@@ -116,6 +116,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           overviewMap.set(roundedValue, 0);
         }
         overviewMap.set(roundedValue, overviewMap.get(roundedValue) + 1);
+
+        // const thresholdValue = Math.ceil(householdSummary.deficientValue / stepSize) * stepSize;
+        // if (!overviewMap.has(thresholdValue)) {
+        //   overviewMap.set(thresholdValue, 0);
+        // }
+        // overviewMap.set(thresholdValue, overviewMap.get(thresholdValue) + 1);
       });
 
       // iterate through from min value to max in steps of x
@@ -200,7 +206,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: `${micronutrient?.name} in ${micronutrient?.unit}/capita/day`,
+                labelString: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
               },
               display: true,
               id: 'x-axis-0',
@@ -229,7 +235,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
               borderColor: 'black',
               label: {
                 enabled: true,
-                content: 'Threshold',
+                content: 'Threshold for AFE',
               },
             },
           ],

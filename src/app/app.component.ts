@@ -1,7 +1,15 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, ChildActivationEnd, GuardsCheckEnd, GuardsCheckStart, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ChildActivationEnd,
+  GuardsCheckEnd,
+  GuardsCheckStart,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment.base';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
 @Component({
@@ -50,8 +58,20 @@ export class AppComponent {
         this.pageLoadingService.endLoading();
         // console.log('GuardEnd');
       }
-    });
 
+      // Load snippet for plausible.io
+      this.loadAnalyticsSnippet();
+    });
+  }
+
+  private loadAnalyticsSnippet() {
+    const analyticsScript = document.createElement('script');
+    analyticsScript.type = 'text/javascript';
+    analyticsScript.async = true;
+    analyticsScript.defer = true;
+    analyticsScript.src = environment.analyticsSnippetUrl;
+    analyticsScript.dataset.domain = environment.analyticsDomain;
+    document.body.appendChild(analyticsScript);
   }
 
   private getActivatedRoute(activatedRoute: ActivatedRoute): ActivatedRoute {
@@ -71,8 +91,7 @@ export class AppComponent {
       } else {
         this.metaService.updateTag({ name: tagName, content });
       }
-    }
-    else {
+    } else {
       this.metaService.removeTag(`name='${tagName}'`);
     }
   }
