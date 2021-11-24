@@ -189,7 +189,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
           text: this.title,
         },
         legend: {
-          display: true,
+          display: false,
           position: 'bottom',
           align: 'center',
         },
@@ -234,7 +234,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
           text: this.title,
         },
         legend: {
-          display: true,
+          display: false,
           position: 'bottom',
           align: 'center',
         },
