@@ -17,7 +17,7 @@ jobs:
           header: lighthouse
           message: |
             Running Lighthouse audit...
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.4.0
       - name: Use Node.js 12.x
         uses: actions/setup-node@v2.4.1
         with:
@@ -40,7 +40,7 @@ jobs:
       #       ${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps
       #     uploadArtifacts: true
       #     temporaryPublicStorage: true
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2.4.0
       - run: mkdir /tmp/artifacts
       - name: Run Lighthouse
         uses: foo-software/lighthouse-check-action@master
