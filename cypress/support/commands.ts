@@ -5,21 +5,3 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /// <reference types="Cypress" />
-
-Cypress.Commands.add('terminalLog', (violations: any) => {
-  cy.task(
-    'log',
-    `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${
-      violations.length === 1 ? 'was' : 'were'
-    } detected`,
-  );
-  // pluck specific keys to keep the table readable
-  const violationData = violations.map(({ id, impact, description, nodes }) => ({
-    id,
-    impact,
-    description,
-    nodes: nodes.length,
-  }));
-
-  cy.task('table', violationData);
-});
