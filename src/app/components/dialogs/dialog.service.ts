@@ -48,7 +48,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('invalidParametersDialog', InvalidParametersDialogComponent);
   }
 
-  public openScenarioChangeWarningDialog(): Promise<DialogData<unknown, boolean>> {
+  public openScenarioChangeWarningDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('scenarioChangeWarningDialog', ScenarioChangeWarningComponent, false);
   }
 }

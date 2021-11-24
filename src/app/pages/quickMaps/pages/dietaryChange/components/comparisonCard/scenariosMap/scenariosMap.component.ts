@@ -1,6 +1,7 @@
 import { AfterViewInit, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
+import { Subscription } from 'rxjs';
 import {
   FEATURE_TYPE,
   MnAvailibiltyItem,
@@ -14,6 +15,7 @@ import { ColourPalette } from 'src/app/pages/quickMaps/components/colourObjects/
 import { ColourPaletteType } from 'src/app/pages/quickMaps/components/colourObjects/colourPaletteType.enum';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
+import { DietaryChangeService } from '../../../dietaryChange.service';
 
 type FEATURE_COLLECTION_TYPE = GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
 
@@ -40,6 +42,8 @@ export class ScenariosMapComponent implements AfterViewInit {
   }
 
   @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
+    // console.debug(data);
+    // console.debug('call from map');
     // create featureCollection from data
     this.scenarioFeatureCollection =
       null == data
@@ -48,12 +52,12 @@ export class ScenariosMapComponent implements AfterViewInit {
             type: 'FeatureCollection',
             features: data.map((item) => item.toFeature()),
           };
+    this.showMessage = null == this.scenarioFeatureCollection;
     this.refreshScenarioLayer(false);
   }
   public baselineMapData: Array<MnAvailibiltyItem>;
-  // public scenarioMapData: SubRegionDataItem;
 
-  public showSelectScenarioMessage = true;
+  public showMessage = true;
 
   public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
   private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
@@ -73,16 +77,27 @@ export class ScenariosMapComponent implements AfterViewInit {
   private baselineRange = [10, 50, 100, 250, 500, 1000, 1500];
   private mapWrapperDiv: HTMLDivElement;
   private timeout: NodeJS.Timeout;
+  private subscriptions = new Array<Subscription>();
 
   constructor(
     private dialogService: DialogService,
     private mapDownloadService: MapDownloadService,
     private quickMapsService: QuickMapsService,
+    private dietaryChangeService: DietaryChangeService,
   ) {
     this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
   }
 
   public ngAfterViewInit(): void {
+    this.subscriptions.push(
+      this.dietaryChangeService.mode.obs.subscribe(() => {
+        // this.scenarioFeatureCollection = null;
+        // console.debug('this', this.scenarioFeatureCollection);
+        // this.showMessage = true;
+        // this.scenarioFeatureCollection = null;
+        // this.refreshScenarioLayer(false);
+      }),
+    );
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);
     this.scenarioMap = this.initialiseScenarioMap(this.scenarioMapElement.nativeElement);
     // give the map a moment, otherwise the bounds setting doesn't work
