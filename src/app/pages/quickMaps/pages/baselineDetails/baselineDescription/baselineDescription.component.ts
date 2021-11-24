@@ -33,7 +33,7 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     const dietDataSource = this.quickMapsService.dietDataSource.get();
-    console.log('Init, dataSource=', dietDataSource);
+    // console.log('Init, dataSource=', dietDataSource);
     if (null != dietDataSource) {
       this.init(this.dietDataService.getUnmatchedTotals(dietDataSource));
     }
@@ -43,7 +43,7 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
     this.subscriptions.push(
       this.quickMapsService.dietParameterChangedObs.subscribe(() => {
         const dietDataSource = this.quickMapsService.dietDataSource.get();
-        console.log('Refresh, dataSource=', dietDataSource);
+        // console.log('Refresh, dataSource=', dietDataSource);
         //  only if all set
         if (null != dietDataSource) {
           this.init(this.dietDataService.getUnmatchedTotals(dietDataSource));
@@ -60,7 +60,7 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
     void dataPromise.then((data) => {
       this.unmatchedTotals = data[0];
 
-      console.log(this.unmatchedTotals);
+      // console.log(this.unmatchedTotals);
       this.cdr.detectChanges();
     });
   }

@@ -119,7 +119,7 @@ export class FoodItemsComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
-        console.log('top 20 table data: ', data);
+        // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
         this.chartData = null;
