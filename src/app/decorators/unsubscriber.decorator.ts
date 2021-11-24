@@ -39,7 +39,7 @@ export function Unsubscriber(unsubscribePropertyNames: string | Array<string> = 
       // console.debug('onDestroy', constructor);
       propNames.forEach((propName: string) => {
         if (undefined === this[propName]) {
-          console.log('Cannot unsubscribe from undefined:', propName, this);
+          // console.log('Cannot unsubscribe from undefined:', propName, this);
         } else {
           unsubscribeProperty(this[propName]);
         }
