@@ -109,6 +109,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-  constructor() {}
-}
+export class AppRoutingModule {}

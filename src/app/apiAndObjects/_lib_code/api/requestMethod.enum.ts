@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 export enum RequestMethod {
   GET,
   POST,

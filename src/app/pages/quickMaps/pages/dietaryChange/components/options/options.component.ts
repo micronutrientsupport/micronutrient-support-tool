@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
 import { Subscription } from 'rxjs';

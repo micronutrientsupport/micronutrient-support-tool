@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { Component } from '@angular/core';
@@ -21,7 +20,7 @@ export class QuickMapsHeaderComponent {
     private sharingService: SharingService,
   ) {}
 
-  public share(text: string, title?: string): Promise<any> {
+  public share(text: string, title?: string): Promise<unknown> {
     return this.sharingService.share(text, title, window.location.href);
   }
 }

@@ -1,5 +1,3 @@
-/// <reference path="../../support/index.d.ts" />
-
 describe('Page: project objectives Tests', () => {
   it('wakes up', () => {
     cy.visit('/project-objectives');

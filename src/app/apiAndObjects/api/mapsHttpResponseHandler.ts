@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injector } from '@angular/core';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { ApiResponse } from './apiResponse.interface';
@@ -11,7 +8,7 @@ export class MapsHttpResponseHandler {
     this.notificationsService = injector.get<NotificationsService>(NotificationsService);
   }
 
-  public static createMockResponseObject(dataIn: any, success = true): Promise<ApiResponse> {
+  public static createMockResponseObject(dataIn: unknown, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (success) {
@@ -25,7 +22,7 @@ export class MapsHttpResponseHandler {
     });
   }
 
-  public handleSuccess(res: ApiResponse): Promise<any> {
+  public handleSuccess(res: ApiResponse): Promise<unknown> {
     // console.debug(res);
     return new Promise((resolve, reject) => {
       // validate that it has a data attribute

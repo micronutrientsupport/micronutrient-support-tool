@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/dot-notation */
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
@@ -11,7 +10,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
   styleUrls: ['./description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DescriptionComponent implements OnInit {
+export class DescriptionComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -20,6 +19,4 @@ export class DescriptionComponent implements OnInit {
   public error = false;
 
   constructor(public quickMapsService: QuickMapsService, private cdr: ChangeDetectorRef) {}
-
-  ngOnInit(): void {}
 }

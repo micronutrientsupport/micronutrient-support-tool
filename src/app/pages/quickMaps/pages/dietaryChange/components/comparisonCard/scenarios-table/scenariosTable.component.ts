@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,8 +32,6 @@ export class ScenariosTableComponent implements AfterViewInit {
 
   private baselineAvailabilityData: Array<MnAvailibiltyItem>;
   private scenarioAvailabilityData: Array<MnAvailibiltyItem>;
-
-  constructor() {}
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;

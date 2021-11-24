@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
 import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
@@ -37,7 +35,7 @@ export class MapSettingsDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const preSelectItem = this.selectionList.options.find((item) => item.value === this.selectedPalette.name);
-    if ((null != preSelectItem) && (!preSelectItem.selected)) {
+    if (null != preSelectItem && !preSelectItem.selected) {
       // fixes ExpressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
         preSelectItem.toggle();
@@ -83,5 +81,4 @@ export class MapSettingsDialogComponent implements AfterViewInit {
       ${colours[0]},${colours[1]},${colours[2]})`;
     this.customGradientDefined = true;
   }
-
 }

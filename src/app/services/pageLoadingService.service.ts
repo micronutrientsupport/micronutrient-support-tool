@@ -2,17 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PageLoadingService {
-
   private isLoadingSrc = new BehaviorSubject<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public isLoadingObs = this.isLoadingSrc.asObservable();
 
   private loadingCount = 0;
-
-  constructor() { }
 
   public getIsLoading(): boolean {
     return this.isLoadingSrc.value;
@@ -31,5 +28,4 @@ export class PageLoadingService {
     this.loadingCount = 0;
     this.isLoadingSrc.next(false);
   }
-
 }
