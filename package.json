@@ -46,7 +46,7 @@
     "@types/chart.js": "^2.9.34",
     "angular-gridster2": "^11.2.0",
     "chart.js": "^2.9.4",
-    "chartjs-chart-box-and-violin-plot": "^2.4.0",
+    "chartjs-chart-box-and-violin-plot": "^3.0.0",
     "chartjs-chart-treemap": "github:micronutrientsupport/chartjs-chart-treemap#v0.2.3-patch",
     "chartjs-plugin-annotation": "^0.5.7",
     "chroma-js": "^2.1.2",
