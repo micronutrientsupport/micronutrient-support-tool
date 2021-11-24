@@ -12,11 +12,12 @@
       <button *ngIf="showInfo" (click)="functionInfo()" mat-icon-button aria-label="Info icon">
         <mat-icon>info</mat-icon>
       </button>
-      <span class="example-spacer">{{title}}</span>
+      <span class="title-spacer">{{title}}</span>
       <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button aria-label="Modal icon">
         <mat-icon>launch</mat-icon>
       </button>
     </mat-toolbar>
+
     <span *ngIf="error">Error...</span>
     <div *ngIf="!error" mat-align-tabs="center" class="card-content-wrapper">
       <ng-content></ng-content>
