@@ -42,8 +42,6 @@ export class ScenariosMapComponent implements AfterViewInit {
   }
 
   @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
-    // console.debug(data);
-    // console.debug('call from map');
     // create featureCollection from data
     this.scenarioFeatureCollection =
       null == data
