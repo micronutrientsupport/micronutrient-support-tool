@@ -1,4 +1,4 @@
-import { AfterViewInit, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ElementRef, Input } from '@angular/core';
 import { Component, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
@@ -52,12 +52,9 @@ export class ScenariosMapComponent implements AfterViewInit {
             type: 'FeatureCollection',
             features: data.map((item) => item.toFeature()),
           };
-    this.showMessage = null == this.scenarioFeatureCollection;
     this.refreshScenarioLayer(false);
   }
   public baselineMapData: Array<MnAvailibiltyItem>;
-
-  public showMessage = true;
 
   public scenarioFeatureCollection: FEATURE_COLLECTION_TYPE;
   private baselineFeatureCollection: FEATURE_COLLECTION_TYPE;
@@ -84,18 +81,18 @@ export class ScenariosMapComponent implements AfterViewInit {
     private mapDownloadService: MapDownloadService,
     private quickMapsService: QuickMapsService,
     private dietaryChangeService: DietaryChangeService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
   }
 
   public ngAfterViewInit(): void {
+    // Subscribes to scenario mode change event and resets scenario map.
     this.subscriptions.push(
       this.dietaryChangeService.mode.obs.subscribe(() => {
-        // this.scenarioFeatureCollection = null;
-        // console.debug('this', this.scenarioFeatureCollection);
-        // this.showMessage = true;
-        // this.scenarioFeatureCollection = null;
-        // this.refreshScenarioLayer(false);
+        this.scenarioFeatureCollection = null;
+        this.refreshScenarioLayer(false);
+        this.cdr.markForCheck();
       }),
     );
     this.baselineMap = this.initialiseBaselineMap(this.baselineMapElement.nativeElement);

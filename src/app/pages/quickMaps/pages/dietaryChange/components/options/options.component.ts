@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
 import { Subscription } from 'rxjs';
@@ -126,7 +123,6 @@ export class OptionsComponent {
       if (confirmed) {
         this.setFoodItems([]);
         this.dietaryChangeService.mode.set(event.value);
-        this.dietaryChangeService.scenarioReset();
       } else {
         // set the mode back
         setTimeout(() => {

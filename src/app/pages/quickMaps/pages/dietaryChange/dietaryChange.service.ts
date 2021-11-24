@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { DietaryChangeItem } from 'src/app/apiAndObjects/objects/dietaryChangeItem';
 import { Accessor } from 'src/utility/accessor';
 import { QuickMapsQueryParams } from '../../queryParams/quickMapsQueryParams';
@@ -27,10 +27,6 @@ export class DietaryChangeService {
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly parameterChangedObs = this.parameterChangedSrc.asObservable();
-
-  private readonly scenarioChangedSrc = new Subject<void>();
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  public readonly scenarioChangedObs = this.scenarioChangedSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
 
@@ -70,10 +66,6 @@ export class DietaryChangeService {
       new NumberConverter(QuickMapsQueryParamKey.SCENARIO_MODE).setItem(this.mode.get()),
       new DietaryChangeItemsConverter(QuickMapsQueryParamKey.SCENARIO_ITEMS).setItem(this.changeItems.get()),
     ]);
-  }
-
-  public scenarioReset(): void {
-    this.scenarioChangedSrc.next();
   }
 
   private initSubscriptions(): void {
