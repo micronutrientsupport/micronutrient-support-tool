@@ -1,5 +1,3 @@
-/// <reference path="../../../support/index.d.ts" />
-
 describe('Quick maps - Projections', () => {
   it('checks page for a11y compliance', () => {
     cy.visit(

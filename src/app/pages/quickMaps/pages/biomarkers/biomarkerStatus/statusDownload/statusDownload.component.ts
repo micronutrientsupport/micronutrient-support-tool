@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ExportService } from 'src/app/services/export.service';
-
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
 import { BiomarkerDataType, BiomarkerMediaType } from '../biomarkerStatus.component';
@@ -10,7 +9,7 @@ import { BiomarkerDataType, BiomarkerMediaType } from '../biomarkerStatus.compon
   templateUrl: './statusDownload.component.html',
   styleUrls: ['./statusDownload.component.scss'],
 })
-export class StatusDownloadComponent implements OnInit {
+export class StatusDownloadComponent {
   @Input() set biomarkerData(micronutrientName: string) {
     if (null != micronutrientName) {
       this.micronutirentName = micronutrientName;
@@ -78,8 +77,6 @@ export class StatusDownloadComponent implements OnInit {
     '}';
 
   constructor(private exportService: ExportService, private clipboard: Clipboard) {}
-
-  ngOnInit(): void {}
 
   exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);

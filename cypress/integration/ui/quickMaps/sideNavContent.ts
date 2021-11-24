@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/dot-notation */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/// <reference path="../../../support/index.d.ts" />
-
 import { Interception } from 'cypress/types/net-stubbing';
 import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import * as L from 'leaflet';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -15,7 +15,7 @@ import { QuickMapsService } from '../../quickMaps.service';
   templateUrl: './locationSelect.component.html',
   styleUrls: ['./locationSelect.component.scss'],
 })
-export class LocationSelectComponent implements OnInit, AfterViewInit {
+export class LocationSelectComponent implements AfterViewInit {
   @ViewChild('drawer') public sidenav: MatSidenav;
   @ViewChild('map') mapElement: ElementRef;
 
@@ -30,8 +30,6 @@ export class LocationSelectComponent implements OnInit, AfterViewInit {
     public dictionaryService: DictionaryService,
     private e2eLeaflet: E2ELeaflet,
   ) {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     // fails to find element if not taked out of flow

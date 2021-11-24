@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/indent */
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';

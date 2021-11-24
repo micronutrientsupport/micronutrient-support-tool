@@ -151,7 +151,7 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
   /**
    * Override and throw a new Error('my error') if params invalid
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   protected validateParams(mergedParams: PARAMS_TYPE, overrideParams: PARAMS_TYPE, defaultParams: PARAMS_TYPE): void {}
 
   /**

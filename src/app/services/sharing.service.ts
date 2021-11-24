@@ -11,7 +11,7 @@ export class SharingService {
     private modalService: DialogService,
   ) {}
 
-  public share(text: string, title?: string, url?: string): Promise<any> {
+  public share(text: string, title?: string, url?: string): Promise<unknown> {
     if (!this.ngNavigatorShareService.canShare()) {
       console.log('This service/api is not supported in your Browser');
       return this.modalService.openShareDialog(window.location.href);

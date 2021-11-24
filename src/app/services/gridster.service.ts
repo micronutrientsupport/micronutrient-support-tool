@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import { Injectable } from '@angular/core';
 import { GridsterItem } from 'angular-gridster2';
 import { DataLevel } from '../apiAndObjects/objects/enums/dataLevel.enum';
@@ -21,8 +20,6 @@ export enum GridsterWidgets {
 
 @Injectable()
 export class GridsterService {
-  constructor() {}
-
   public resetGrid(
     source: GridsterSource,
     level: DataLevel,
@@ -51,7 +48,7 @@ export class GridsterService {
         if (null == dashboard.find((testWidget) => testWidget.type === widgetType)) {
           dashboard.push(
             this.resetItemPositionAndSize(
-              ({ type: widgetType } as unknown) as GridsterItem,
+              { type: widgetType } as unknown as GridsterItem,
               dashboard.length,
               defaultWidth,
               defaultHeight,
