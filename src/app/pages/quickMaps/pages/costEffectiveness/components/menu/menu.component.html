@@ -3,10 +3,10 @@
         <mat-icon>question_mark</mat-icon>
     </button>
     <mat-button-toggle-group #group="matButtonToggleGroup">
-        <mat-button-toggle value="left">
+        <mat-button-toggle value="create">
             Create Interventions
         </mat-button-toggle>
-        <mat-button-toggle value="center">
+        <mat-button-toggle value="compare">
             Compare Interventions
         </mat-button-toggle>
     </mat-button-toggle-group>
@@ -14,3 +14,5 @@
         <mat-icon matBadge="3" matBadgeOverlap="false">shopping_basket</mat-icon>
     </span>
 </div>
+<app-intervention-creation *ngIf="group.value === 'create'"></app-intervention-creation>
+<app-intervention-comparison *ngIf="group.value === 'compare'"></app-intervention-comparison>
