@@ -179,6 +179,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private initialiseGraph(data: SummarizedData): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
+    console.log('HHS: ', micronutrient.name);
     const generatedChart: ChartJSObject = {
       plugins: [ChartAnnotation],
       type: 'bar',
