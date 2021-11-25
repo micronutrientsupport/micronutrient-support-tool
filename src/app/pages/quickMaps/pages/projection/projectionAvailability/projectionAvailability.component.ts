@@ -118,7 +118,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.loadingSrc.next(true);
     Promise.all([dataPromise, summaryPromise])
       .then((results: [Array<ProjectedAvailability>, ProjectionsSummary]) => {
-        // console.debug('init', results);
         this.data = results[0];
         this.projectionsSummary = results[1];
         if (null == this.data) {
@@ -128,12 +127,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         const filteredData: Array<ProjectedAvailability> = this.data.filter(
           (item: ProjectedAvailability) => item.country === this.quickMapsService.country.get()?.id,
         );
-        // console.debug('filteredData', filteredData);
         this.errorSrc.next(false);
         this.chartData = null;
 
-        const micronutrient = this.quickMapsService.micronutrient.get();
-        console.log('pre init: ', micronutrient.id);
         this.initialiseGraph(filteredData);
         // show table and init paginator and sorter
         this.initialiseTable(filteredData);
@@ -149,7 +145,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
   private initialiseTable(data: Array<ProjectedAvailability>): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    console.log('table init: ', micronutrient.id);
     this.columns = [
       { columnDef: 'country', header: 'Country', cell: (element: ProjectedAvailability) => element.country },
       { columnDef: 'year', header: 'Year', cell: (element: ProjectedAvailability) => element.year },
@@ -174,7 +169,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   }
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    console.log('chart init: ', micronutrient.id);
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {
