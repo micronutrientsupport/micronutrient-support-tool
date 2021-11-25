@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-footer-light',
@@ -8,4 +9,5 @@ import { AppRoutes } from 'src/app/routes/routes';
 })
 export class FooterLightComponent {
   public ROUTES = AppRoutes;
+  public version = environment.version;
 }
