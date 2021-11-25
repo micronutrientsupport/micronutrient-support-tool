@@ -8,3 +8,28 @@
   position: absolute;
   z-index: 10000;
 }
+
+::ng-deep .ngx-feedback-modal__container {
+  transform: translate(-350px, -250px) !important;
+}
+
+@media screen and (max-width: 700px) {
+  ::ng-deep .ngx-feedback-modal__container {
+    width: 100vw !important;
+    height: 100vh;
+    transform: none !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 11000 !important;
+  }
+
+  ::ng-deep .ng-star-inserted:not(.ngx-feedback-modal__boxes) {
+    flex-direction: column !important;
+    align-items: center;
+    width: 90%;
+
+    & > div {
+      width: 90% !important;
+    }
+  }
+}
