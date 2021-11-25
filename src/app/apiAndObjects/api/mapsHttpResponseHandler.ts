@@ -22,7 +22,7 @@ export class MapsHttpResponseHandler {
     });
   }
 
-  public handleSuccess(res: ApiResponse): Promise<unknown> {
+  public handleSuccess(res: ApiResponse, fullResponse = false): Promise<unknown> {
     // console.debug(res);
     return new Promise((resolve, reject) => {
       // validate that it has a data attribute
@@ -33,8 +33,13 @@ export class MapsHttpResponseHandler {
           response: res,
         });
       } else {
-        // return the data element
-        resolve(res.data);
+        if (fullResponse) {
+          // return the full response
+          resolve(res);
+        } else {
+          // return the data element
+          resolve(res.data);
+        }
       }
     });
   }

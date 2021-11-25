@@ -24,6 +24,7 @@ import { ScenariosMapComponent } from './scenariosMap/scenariosMap.component';
 import { ScenarioDataService } from 'src/app/services/scenarioData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { MnAvailibiltyItem } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
+import { ExtendedRespose } from 'src/app/apiAndObjects/objects/mnAvailibilityCountryItem';
 
 @Unsubscriber(['subscriptions', 'changeItemSubscriptions'])
 @Component({
@@ -48,6 +49,8 @@ export class ComparisonCardComponent implements AfterViewInit {
   public modeDisplay: DietaryChangeMode;
   // public tempDisplay: ChangeItemsType;
   public baselineData: Array<MnAvailibiltyItem>;
+  public binRange: number[];
+  public defaultBinRange = [10, 50, 100, 250, 500, 1000, 1500];
   public scenarioData: Array<MnAvailibiltyItem>;
 
   private loadingCount = 0;
@@ -96,6 +99,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.baselineData = this.dialogData.dataIn.baselineData;
+      this.binRange = this.dialogData.dataIn.binRange;
       this.scenarioData = this.dialogData.dataIn.scenarioData;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.title = this.dialogData.dataIn.title;
@@ -130,8 +134,19 @@ export class ComparisonCardComponent implements AfterViewInit {
       this.startLoading();
       this.dietDataService
         .getMicronutrientAvailability(country, micronutrient, dietDataSource)
-        .then((data: Array<MnAvailibiltyItem>) => {
-          this.baselineData = data;
+        .then((data: ExtendedRespose<MnAvailibiltyItem>) => {
+          this.baselineData = data.data;
+
+          if (data.meta.bins) {
+            const range = data.meta.bins.data as number[];
+            if (range[0] === 0) {
+              // Remove initial 0
+              range.shift();
+            }
+            this.binRange = range;
+          } else {
+            this.binRange = this.defaultBinRange;
+          }
         })
         .finally(() => {
           this.endLoading();
@@ -168,6 +183,7 @@ export class ComparisonCardComponent implements AfterViewInit {
     void this.dialogService.openDialogForComponent<DietaryChangeComparisonCardDialogData>(ComparisonCardComponent, {
       baselineData: this.baselineData,
       scenarioData: this.scenarioData,
+      binRange: this.binRange,
       selectedTab: this.tabGroup.selectedIndex,
       title: this.title,
     });
@@ -177,6 +193,7 @@ export class ComparisonCardComponent implements AfterViewInit {
 export interface DietaryChangeComparisonCardDialogData {
   baselineData: Array<MnAvailibiltyItem>;
   scenarioData: Array<MnAvailibiltyItem>;
+  binRange: number[];
   selectedTab: number;
   title: string;
 }

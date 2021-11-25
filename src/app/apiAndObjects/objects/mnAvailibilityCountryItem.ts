@@ -9,3 +9,13 @@ export class MnAvailibiltyCountryItem extends MnAvailibiltyItem {
     super(sourceObject);
   }
 }
+
+export interface ExtendedRespose<Type> {
+  data: Type[];
+  meta: {
+    [key: string]: {
+      desc: string;
+      data: unknown;
+    };
+  };
+}

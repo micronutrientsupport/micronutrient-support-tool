@@ -31,6 +31,7 @@ import {
 } from 'src/app/apiAndObjects/objects/mnAvailibilityItem.abstract';
 import * as GeoJSON from 'geojson';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
+import { ExtendedRespose } from 'src/app/apiAndObjects/objects/mnAvailibilityCountryItem';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
@@ -61,6 +62,7 @@ export class MapViewComponent implements AfterViewInit {
 
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
+  private absoluteDefaultRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
 
@@ -149,7 +151,12 @@ export class MapViewComponent implements AfterViewInit {
       );
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
-      this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.init(
+        Promise.resolve({
+          data: this.dialogData.dataIn.data,
+          meta: { bins: { desc: '', data: this.dialogData.dataIn.absoluteRange } },
+        }),
+      );
       this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
@@ -185,11 +192,21 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
-  private init(dataPromise: Promise<Array<MnAvailibiltyItem>>): void {
+  private init(dataPromise: Promise<ExtendedRespose<MnAvailibiltyItem>>): void {
     this.loadingSrc.next(true);
     dataPromise
-      .then((data: Array<MnAvailibiltyItem>) => {
-        this.data = data;
+      .then((data: ExtendedRespose<MnAvailibiltyItem>) => {
+        this.data = data.data;
+        if (data.meta.bins) {
+          const range = data.meta.bins.data as number[];
+          if (range[0] === 0) {
+            // Remove initial 0
+            range.shift();
+          }
+          this.absoluteRange = range;
+        } else {
+          this.absoluteRange = this.absoluteDefaultRange;
+        }
         if (null == data) {
           throw new Error('data error');
         }
@@ -198,7 +215,7 @@ export class MapViewComponent implements AfterViewInit {
         // create featureCollection from data
         this.areaFeatureCollection = {
           type: 'FeatureCollection',
-          features: data.map((item) => item.toFeature()),
+          features: data.data.map((item) => item.toFeature()),
         };
         this.initialiseMapAbsolute();
         this.initialiseMapThreshold();
@@ -392,6 +409,7 @@ export class MapViewComponent implements AfterViewInit {
     void this.dialogService.openDialogForComponent<MapViewDialogData>(MapViewComponent, {
       title: this.title,
       data: this.data,
+      absoluteRange: this.absoluteRange,
       selectedTab: this.tabGroup.selectedIndex,
     });
   }
@@ -400,5 +418,6 @@ export class MapViewComponent implements AfterViewInit {
 export interface MapViewDialogData {
   title: string;
   data: Array<MnAvailibiltyItem>;
+  absoluteRange: number[];
   selectedTab: number;
 }

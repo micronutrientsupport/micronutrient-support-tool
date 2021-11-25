@@ -4,7 +4,7 @@ import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/cou
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietaryHouseholdSummary } from '../apiAndObjects/objects/dietaryHouseholdSummary';
 import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
-import { MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
+import { ExtendedRespose, MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
 import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
@@ -36,7 +36,7 @@ export class DietDataService {
     country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
     dataSource: DietDataSource,
-  ): Promise<Array<MnAvailibiltyCountryItem> | Array<MnAvailibiltyHouseholdItem>> {
+  ): Promise<ExtendedRespose<MnAvailibiltyCountryItem> | ExtendedRespose<MnAvailibiltyHouseholdItem>> {
     return this.apiService.endpoints.diet.getMicronutrientAvailability.call({
       country,
       micronutrient,
