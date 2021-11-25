@@ -20,6 +20,7 @@ import { ExportService } from 'src/app/services/export.service';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { CostEffectivenessModule } from './pages/costEffectiveness/costEffectiveness.module';
 @NgModule({
   declarations: [QuickMapsComponent, LocationSelectComponent],
   imports: [
@@ -38,6 +39,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
     QuickMapsComponentsModule,
     PipesModule,
     DietaryChangeModule,
+    CostEffectivenessModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService],
 })

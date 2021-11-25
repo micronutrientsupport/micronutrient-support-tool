@@ -1,0 +1,31 @@
+<div class="container">
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header class="desc-header">
+            <mat-panel-title>
+                <div class="content-container">
+                    <div class="item">
+                        Nation: <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>
+                    </div>
+                    <div class="item">
+                        Micronutrient: <strong>{{ (quickMapsService.micronutrient.obs | async)?.name }}</strong>
+                    </div>
+                    <div class="item">
+                        Underlying Metric: <strong class="capitalize-text">{{ quickMapsService.measure.obs | async }}
+                            Data</strong>
+                    </div>
+                    <div class="item">
+                        Data level:
+                        <strong class="capitalize-text"> {{ (quickMapsService.dietDataSource.obs | async)?.dataLevel }}
+                        </strong>
+                    </div>
+                </div>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore
+            magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </div>
+    </mat-expansion-panel>
+</div>
