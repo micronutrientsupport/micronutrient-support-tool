@@ -74,14 +74,21 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         .find((item) => item.isBaseline);
       // if displayed within a card component init interactions with the card
       if (null != this.card) {
+        this.card.showExpand = true;
+        this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+        this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
+        this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+
         this.subscriptions.push(
           this.quickMapsService.dietParameterChangedObs.subscribe(() => {
             // projections only available if isInImpact flag set
             const country = this.quickMapsService.country.get();
             const micronutrient = this.quickMapsService.micronutrient.get();
+
             if (null != micronutrient && micronutrient.isInImpact) {
               this.title = 'Projected ' + micronutrient.name + ' availability to 2050';
               this.card.title = this.title;
+
               //  only if all set
               if (null != country && null != micronutrient) {
                 this.init(
@@ -92,10 +99,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
             }
           }),
         );
-        this.card.showExpand = true;
-        this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
-        this.subscriptions.push(this.card.onExpandClickObs.subscribe(() => this.openDialog()));
-        this.subscriptions.push(this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()));
+
         // respond to parameter updates
       } else if (null != this.dialogData) {
         // if displayed within a dialog use the data passed in
@@ -114,7 +118,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.loadingSrc.next(true);
     Promise.all([dataPromise, summaryPromise])
       .then((results: [Array<ProjectedAvailability>, ProjectionsSummary]) => {
-        // console.debug('init', data);
         this.data = results[0];
         this.projectionsSummary = results[1];
         if (null == this.data) {
@@ -124,9 +127,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         const filteredData: Array<ProjectedAvailability> = this.data.filter(
           (item: ProjectedAvailability) => item.country === this.quickMapsService.country.get()?.id,
         );
-        // console.debug('filteredData', filteredData);
         this.errorSrc.next(false);
         this.chartData = null;
+
         this.initialiseGraph(filteredData);
         // show table and init paginator and sorter
         this.initialiseTable(filteredData);
@@ -223,7 +226,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
               const value: number = dataItem as number;
               const sigFigLength = Math.ceil(Math.log10(value + 1));
               const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
             },
           },
@@ -239,7 +241,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
               borderColor: 'rgba(200,0,0,0.5)',
               label: {
                 enabled: true,
-                // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 content: 'Threshold: ' + this.projectionsSummary.recommended,
                 backgroundColor: 'rgba(200,0,0,0.8)',
               },
@@ -249,7 +250,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       },
     };
     this.chartData = generatedChart;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
@@ -263,7 +263,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     });
   }
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ProjectionAvailabilityDialogData {
   title: string;
   data: Array<ProjectedAvailability>;

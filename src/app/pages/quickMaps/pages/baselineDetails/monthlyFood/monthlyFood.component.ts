@@ -33,29 +33,18 @@ import ColorHash from 'color-hash-ts';
 export class MonthlyFoodComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
-
   @Input() card: CardComponent;
-
   public title = 'Monthly apparent micronutrient intake';
   public selectedTab: number;
-
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
   public chartDataStack: ChartJSObject;
   public chartDataLine: ChartJSObject;
-
-  // public chartStackPNG: string;
-  // public chartLinePNG: string;
   public chartPNG: string;
-
   public chartPDF: string;
-
   public displayedColumns = [];
-
   private data: Array<MonthlyFoodGroup>;
-
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
   private subscriptions = new Array<Subscription>();
 
   constructor(
