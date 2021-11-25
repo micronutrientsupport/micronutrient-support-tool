@@ -92,6 +92,11 @@ export class AppRoutes {
     segments: 'dietary-change',
     parent: AppRoutes.QUICK_MAPS_DIET,
   };
+  public static readonly QUICK_MAPS_COST_EFFECTIVENESS = {
+    ...BASE_ROUTE,
+    segments: 'cost-effectiveness',
+    parent: AppRoutes.QUICK_MAPS_DIET,
+  };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,
     segments: 'biomarker',
