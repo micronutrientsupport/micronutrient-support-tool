@@ -41,6 +41,12 @@ export class ScenariosMapComponent implements AfterViewInit {
     this.refreshBaselineLayer(true);
   }
 
+  @Input() set binRange(range: number[]) {
+    this.baselineRange = range;
+    this.setColorGradient(ColourPalette.getSelectedPalette(ScenariosMapComponent.COLOUR_PALETTE_ID));
+    this.refreshLegend();
+  }
+
   @Input() set scenarioData(data: Array<MnAvailibiltyItem>) {
     // create featureCollection from data
     this.scenarioFeatureCollection =

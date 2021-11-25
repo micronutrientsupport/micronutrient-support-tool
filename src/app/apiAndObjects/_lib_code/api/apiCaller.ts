@@ -28,6 +28,7 @@ export class ApiCaller {
     queryParams: Record<string, string | Array<string>> = {},
     bodyData: Record<string, unknown> | FormData | Array<unknown> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
+    fullResponse?: boolean,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
     // console.debug('doCall', url, requestMethod, queryParams, bodyData);
@@ -57,7 +58,11 @@ export class ApiCaller {
     if (response != null) {
       return response
         .toPromise()
-        .then((responseJson: unknown) => this.httpCallErrorHandler.handleSuccess(responseJson))
+        .then((responseJson: unknown) =>
+          fullResponse
+            ? this.httpCallErrorHandler.handleSuccess(responseJson, true)
+            : this.httpCallErrorHandler.handleSuccess(responseJson),
+        )
         .catch((res: unknown) => {
           console.log('doCall handleError', res);
           return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
