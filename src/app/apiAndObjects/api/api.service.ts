@@ -25,6 +25,7 @@ import { GetMicronutrientAvailability } from './diet/getMicronutrientAvailabilit
 import { CountryDictionaryItem } from '../objects/dictionaries/countryDictionaryItem';
 import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
 import { GetNationalSummary } from './diet/getNationalSummary';
+import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
 
 @Injectable()
@@ -56,7 +57,9 @@ export class ApiService extends BaseApi {
       getDietChangeConsumption: new GetDietChangeConsumption(ApiService.USE_LIVE_API),
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
-    misc: {},
+    misc: {
+      postFeedback: new postFeedback(ApiService.USE_LIVE_API),
+    },
   };
 
   private _dictionaries = [

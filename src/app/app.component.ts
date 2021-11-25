@@ -8,7 +8,11 @@ import {
   NavigationEnd,
   Router,
 } from '@angular/router';
+import { detect } from 'detect-browser';
+import { NgxFeedbackService } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
 import { Subscription } from 'rxjs';
+import { ApiService } from './apiAndObjects/api/api.service';
+import { PostFeedbackParams } from './apiAndObjects/api/feedback/postFeedback';
 import { environment } from 'src/environments/environment.base';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
@@ -27,6 +31,8 @@ export class AppComponent implements OnInit {
     public pageLoadingService: PageLoadingService,
     private titleService: Title,
     private metaService: Meta,
+    private apiService: ApiService,
+    private readonly feedbackService: NgxFeedbackService,
   ) {
     router.events.subscribe((event) => {
       // console.debug('router event', event);
@@ -62,6 +68,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.feedbackService.listenForFeedbacks().subscribe((data: PostFeedbackParams) => {
+      const browser = detect();
+      data.page = window.location.href;
+      data.browser = `${browser.name.charAt(0).toUpperCase()}${browser.name.slice(1)}: ${browser.version}`;
+      data.os = browser.os;
+      data.height = window.innerHeight;
+      data.width = window.innerWidth;
+      void this.apiService.endpoints.misc.postFeedback.call(data);
+    });
+
     // Inject snippet for plausible.io at app startup
     this.loadAnalyticsSnippet();
   }
