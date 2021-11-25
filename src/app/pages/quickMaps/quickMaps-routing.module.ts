@@ -4,6 +4,7 @@ import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
+import { CostEffectivenessComponent } from './pages/costEffectiveness/costEffectiveness.component';
 import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
@@ -60,6 +61,18 @@ const routes: Routes = [
         data: {
           appRoute: AppRoutes.QUICK_MAPS_DIETARY_CHANGE,
           title: 'Quick MAPS - Simple dietary change scenarios',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+        canActivate: [QuickMapsRouteGuardService],
+      },
+      {
+        path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),
+        component: CostEffectivenessComponent,
+        data: {
+          appRoute: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+          title: 'Quick MAPS - Explore cost effectiveness scenarios',
           keywords: '',
           description: '',
           showLightFooter: true,

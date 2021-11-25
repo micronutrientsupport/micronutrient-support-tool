@@ -1,0 +1,65 @@
+@import 'src/assets/scss/_colour';
+
+.mat-expansion-panel.mat-expanded,
+.mat-expansion-panel-header,
+.mat-expansion-panel-header:hover,
+.mat-expansion-panel.mat-expanded:hover {
+  height: 100% !important;
+  background: $color_background_form;
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled='true']) {
+  background: $color_background_form;
+}
+
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+}
+
+.container {
+  margin-bottom: 10px;
+}
+
+.content-container {
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  gap: 5px;
+}
+
+.item {
+  flex: 1;
+  margin: 5px 0;
+}
+
+.desc-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.data-level-select-wrapper ::ng-deep {
+  & .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  & .mat-form-field-underline {
+    bottom: 0;
+  }
+  & .mat-form-field-infix {
+    width: 150px;
+  }
+}
+
+.capitalize-text,
+.data-level-select-wrapper ::ng-deep .mat-select-value,
+::ng-deep .data-level-select .capitalize-text {
+  text-transform: capitalize;
+}
