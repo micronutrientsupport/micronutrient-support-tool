@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  .menu-container {
+    width: 60%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .mat-button-toggle-group {
+      width: 50%;
+    }
+    span mat-icon {
+      font-size: 30px;
+    }
+  }
+}
