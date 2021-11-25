@@ -32,11 +32,13 @@ import {
 import * as GeoJSON from 'geojson';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
 import { ExtendedRespose } from 'src/app/apiAndObjects/objects/mnAvailibilityCountryItem';
+import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 @Component({
   selector: 'app-map-view',
   templateUrl: './mapView.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './mapView.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SignificantFiguresPipe],
 })
 export class MapViewComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'map-view';
@@ -49,35 +51,27 @@ export class MapViewComponent implements AfterViewInit {
   public title = '';
   public downloadTitle = '';
   public selectedTab: number;
-
   public absoluteMapDiv: HTMLDivElement;
   public thresholdMapDiv: HTMLDivElement;
-
   private data: Array<MnAvailibiltyItem>;
-
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
   );
   private colourPalette: ColourPalette;
-
   private absoluteMap: L.Map;
   private absoluteDataLayer: L.GeoJSON;
   private absoluteDefaultRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteRange = [10, 50, 100, 250, 500, 1000, 1500];
   private absoluteLegend: L.Control;
-
   private thresholdMap: L.Map;
   private thresholdDataLayer: L.GeoJSON;
   private thresholdRange = [10, 20, 40, 60, 80, 99];
   private thresholdLegend: L.Control;
   private areaBounds: L.LatLngBounds;
   private areaFeatureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry, MnAvailibiltyItemFeatureProperties>;
-
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
   private subscriptions = new Array<Subscription>();
-
   private tabVisited = new Map<number, boolean>();
 
   constructor(
@@ -86,6 +80,7 @@ export class MapViewComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private dietDataService: DietDataService,
     private mapDownloadService: MapDownloadService,
+    private sigFig: SignificantFiguresPipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MapViewDialogData>,
   ) {
     this.colourPalette = ColourPalette.getSelectedPalette(MapViewComponent.COLOUR_PALETTE_ID);
@@ -125,23 +120,26 @@ export class MapViewComponent implements AfterViewInit {
         }),
       );
 
-      this.subscriptions.push(
-        this.quickMapsService.country.obs.subscribe((country) => {
-          this.title = 'Map View' + (null == country ? '' : ` - ${country.name}`);
-          this.downloadTitle = 'Baseline Map' + (null == country ? '' : ` - ${country.name}`);
-          if (null != this.card) {
-            this.card.title = this.title;
-          }
-          // this.cdr.detectChanges();
-        }),
-      );
-
       // respond to parameter updates only if all set
       this.subscriptions.push(
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource.get();
+
+          this.title =
+            'Median apparent intake of ' +
+            micronutrient.name +
+            ' by ' +
+            dietDataSource.dataLevel +
+            ' at ' +
+            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
+            ' level, ' +
+            country.name;
+          this.downloadTitle = 'Baseline Map';
+          if (null != this.card) {
+            this.card.title = this.title;
+          }
 
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {
@@ -328,21 +326,31 @@ export class MapViewComponent implements AfterViewInit {
       (0 === tabIndex ? this.absoluteMap : this.thresholdMap).fitBounds(this.areaBounds);
     }
   }
-
-  // TODO: reword
   // <aggregationAreaType>: <aggregationAreaName>
   // Dietary Availability (AFE): <dietarySupply><unit> per day
   // Prevalence of deficiency (EAR): <deficientPercentage> of sample households (<deficientCount>/<household_count)
   //
-  // what about when data level is country??
   private getTooltip(feature: FEATURE_TYPE): string {
     const props = feature.properties;
-    return `
-    <div>
-      ${props.areaType}:<b>${props.areaName}</b><br/>
-      Absolute value: ${props.dietarySupply}${props.unit}<br/>
-      Threshold: ${props.deficientPercentage}%<br/>
-    </div>`;
+    console.log(props);
+    if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+      return `
+      <div>
+        Region: <b>${props.areaName}</b><br/>
+        Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per day<br/>
+        Prevalence of Deficiency (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
+      </div>`;
+    } else {
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+      const defThreshold = props.dietarySupply < props.deficientValue ? 'Below' : 'Above';
+      return `
+      <div>
+        Region: <b>${props.areaName}</b><br/>
+        Dietary Availability: ${dietarySupplySF} ${props.unit} per capita per day<br/>
+        ${defThreshold} the threshold for deficiency<br/>
+      </div>`;
+    }
   }
   private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
     return L.geoJSON(this.areaFeatureCollection, {
