@@ -191,6 +191,6 @@ export class QuickMapsService {
     } else {
       this.biomarkerDataSource.set(null);
     }
-    return Promise.all(promises).then(() => {});
+    return Promise.all(promises).then();
   }
 }

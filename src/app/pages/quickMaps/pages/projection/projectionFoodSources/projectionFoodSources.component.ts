@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import {
   ChangeDetectionStrategy,
   Input,
@@ -90,7 +86,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private fb: FormBuilder,
     private sigFig: SignificantFiguresPipe,
     private dialogService: DialogService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionFoodSourcesDialogData>,
   ) {
     // 2010 to 2050 in 5 year jumps
     for (let i = 0; i < 9; i++) {
@@ -150,6 +146,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       );
     } else if (null != this.dialogData) {
       this.init();
+      this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -300,6 +297,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<ProjectionFoodSourcesDialogData>(ProjectionFoodSourcesComponent, {
+      title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
@@ -307,6 +305,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 }
 
 export interface ProjectionFoodSourcesDialogData {
+  title: string;
   data: Array<MicronutrientProjectionSource>;
   selectedTab: number;
 }

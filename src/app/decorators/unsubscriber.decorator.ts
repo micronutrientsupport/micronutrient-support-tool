@@ -1,19 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/dot-notation */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 /**
  * Attempts to unsubscribe from any subscriptions that have been signed up to
  * when the ngOnDestroy method is called on a object with a lifecycle.
  */
 export function Unsubscriber(unsubscribePropertyNames: string | Array<string> = []): (constructor: unknown) => void {
-
   const tryUnsubscribe = (property) => {
     // console.debug('tryUnsubscribe', variable);
     if (
-      (null != property) // not null
-      && (typeof property.unsubscribe === 'function')
+      null != property && // not null
+      typeof property.unsubscribe === 'function'
     ) {
       // console.debug('Unsubscribe', variable);
       property.unsubscribe();
@@ -35,17 +29,17 @@ export function Unsubscriber(unsubscribePropertyNames: string | Array<string> = 
   };
 
   return (constructor: unknown) => {
-    const propNames = (Array.isArray(unsubscribePropertyNames)) ? unsubscribePropertyNames : [unsubscribePropertyNames];
+    const propNames = Array.isArray(unsubscribePropertyNames) ? unsubscribePropertyNames : [unsubscribePropertyNames];
 
     // tslint:disable-next-line: no-string-literal
     const original = constructor['prototype'].ngOnDestroy;
 
     // tslint:disable-next-line: no-string-literal
-    constructor['prototype'].ngOnDestroy = function(...args): void {
+    constructor['prototype'].ngOnDestroy = function (...args): void {
       // console.debug('onDestroy', constructor);
       propNames.forEach((propName: string) => {
         if (undefined === this[propName]) {
-          console.log('Cannot unsubscribe from undefined:', propName, this);
+          // console.log('Cannot unsubscribe from undefined:', propName, this);
         } else {
           unsubscribeProperty(this[propName]);
         }

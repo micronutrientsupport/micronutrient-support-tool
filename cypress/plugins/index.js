@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
 
 module.exports = (on) => {

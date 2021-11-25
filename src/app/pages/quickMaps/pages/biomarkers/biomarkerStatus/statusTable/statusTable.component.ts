@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ interface TableObject {
   templateUrl: './statusTable.component.html',
   styleUrls: ['./statusTable.component.scss'],
 })
-export class StatusTableComponent implements OnInit {
+export class StatusTableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() set biomarkerData(data: Array<BiomarkerStatusData>) {
@@ -39,10 +39,6 @@ export class StatusTableComponent implements OnInit {
   public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
   public dataSource: MatTableDataSource<TableObject>;
   public totalSamples: number;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   private generateTable(data: Array<BiomarkerStatusData>) {
     const n = data.length;

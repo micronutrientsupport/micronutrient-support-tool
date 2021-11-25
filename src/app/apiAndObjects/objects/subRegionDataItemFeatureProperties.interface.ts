@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 export interface SubRegionDataItemFeatureProperties {
   country_id: string;
   mn_absolute: number;

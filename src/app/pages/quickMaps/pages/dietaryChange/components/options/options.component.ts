@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { AppRoutes } from 'src/app/routes/routes';
 import { Subscription } from 'rxjs';
@@ -21,6 +20,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { FoodGroupDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/foodGroupDictionaryItem';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DietaryChangeItemFactory } from 'src/app/apiAndObjects/objects/dietaryChangeItemFactory';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 
 @Unsubscriber('subscriptions')
 @Component({
@@ -117,7 +117,7 @@ export class OptionsComponent {
 
     void (
       changeItems.length > 1 || lastItem.isComplete
-        ? this.dialogService.openScenarioChangeWarningDialog().then((data) => data.dataOut)
+        ? this.dialogService.openScenarioChangeWarningDialog().then((data: DialogData) => data.dataOut as boolean)
         : Promise.resolve(true)
     ).then((confirmed) => {
       if (confirmed) {

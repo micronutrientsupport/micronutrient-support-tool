@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -49,7 +47,7 @@ export class StatusChartComponent implements AfterViewInit {
   public outlierControl = new FormControl(true);
   public micronutirentName: string;
 
-  private outlierSet: any[] = [];
+  private outlierSet: unknown[] = [];
 
   constructor(private qcService: QuickchartService) {}
 
@@ -64,7 +62,6 @@ export class StatusChartComponent implements AfterViewInit {
     ]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public initialiseBoxChart(data: any): void {
     this.boxChartData = {
       plugins: [ChartAnnotation],
@@ -378,7 +375,7 @@ export class StatusChartComponent implements AfterViewInit {
   }
 
   // Return the correct interface to dislpay outliers
-  private randomBoxPlot(min: any, max: any) {
+  private randomBoxPlot(min: number, max: number) {
     const values = this.randomValues(5, min, max).sort((a, b) => a - b);
 
     return {

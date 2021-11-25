@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@angular/core';
 import { ChartJSObject } from '../apiAndObjects/objects/misc/chartjsObject';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const QuickChart = require('quickchart-js');
 
 @Injectable()
 export class QuickchartService {
-  constructor() {}
   /**
    *
    * @param chartData - object containing type, data, labels and options for your chart

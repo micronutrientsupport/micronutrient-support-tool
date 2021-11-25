@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 
 @Injectable({

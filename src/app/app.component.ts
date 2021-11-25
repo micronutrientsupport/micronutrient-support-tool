@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       void this.apiService.endpoints.misc.postFeedback.call(data);
     });
 
-    // Load snippet for plausible.io
+    // Inject snippet for plausible.io at app startup
     this.loadAnalyticsSnippet();
   }
 

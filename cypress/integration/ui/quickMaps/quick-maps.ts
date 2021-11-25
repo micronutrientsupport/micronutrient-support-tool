@@ -1,5 +1,3 @@
-/// <reference path="../../../support/index.d.ts" />
-
 export const populateSelectValues = (): void => {
   cy.get('[name="nation"]', { timeout: 10000 }).first().click({ force: true });
   cy.get('mat-option > .mat-option-text', { timeout: 10000 }).contains('Malawi').click({ force: true });

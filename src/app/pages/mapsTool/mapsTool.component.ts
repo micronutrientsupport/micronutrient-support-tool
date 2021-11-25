@@ -11,7 +11,7 @@ export class MapsToolComponent {
   public ROUTES = AppRoutes;
   constructor(private sharingService: SharingService) {}
 
-  public share(text: string, title?: string, url?: string): Promise<any> {
+  public share(text: string, title?: string, url?: string): Promise<unknown> {
     return this.sharingService.share(text, title, url);
   }
 }

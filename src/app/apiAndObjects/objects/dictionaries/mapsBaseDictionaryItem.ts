@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BaseDictionaryItem } from '../../_lib_code/objects/baseDictionaryItem';
 
 export class MapsDictionaryItem extends BaseDictionaryItem {

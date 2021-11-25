@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import {
   ChangeDetectionStrategy,
   Input,
@@ -99,6 +98,7 @@ export class FoodItemsComponent implements AfterViewInit {
     } else if (null != this.dialogData) {
       // if displayed within a dialog use the data passed in
       this.init(Promise.resolve(this.dialogData.dataIn.data));
+      this.title = this.dialogData.dataIn.title;
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
@@ -119,7 +119,7 @@ export class FoodItemsComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
-        console.log('top 20 table data: ', data);
+        // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
         this.chartData = null;
@@ -206,6 +206,7 @@ export class FoodItemsComponent implements AfterViewInit {
 
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<FoodItemsDialogData>(FoodItemsComponent, {
+      title: this.title,
       data: this.data,
       selectedTab: this.tabGroup.selectedIndex,
     });
@@ -218,6 +219,7 @@ export class FoodItemsComponent implements AfterViewInit {
 }
 
 export interface FoodItemsDialogData {
+  title: string;
   data: Array<TopFoodSource>;
   selectedTab: number;
 }

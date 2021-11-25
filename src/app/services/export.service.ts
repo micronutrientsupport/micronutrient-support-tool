@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { Exportable } from '../apiAndObjects/objects/exportable.interface';

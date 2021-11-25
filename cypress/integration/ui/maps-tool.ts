@@ -1,5 +1,3 @@
-/// <reference path="../../support/index.d.ts" />
-
 describe('Page: Maps Tool Tests', () => {
   it('wakes up', () => {
     cy.visit('/maps-tool');

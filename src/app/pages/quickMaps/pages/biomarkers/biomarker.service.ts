@@ -6,10 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class BiomarkerService {
   private changeColourRampSrc = new Subject<null>();
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public changeColourRampObservable = this.changeColourRampSrc.asObservable();
-
-  constructor() {}
 
   public changeColourRamp(): void {
     this.changeColourRampSrc.next();
