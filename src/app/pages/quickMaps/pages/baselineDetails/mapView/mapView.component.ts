@@ -326,22 +326,31 @@ export class MapViewComponent implements AfterViewInit {
       (0 === tabIndex ? this.absoluteMap : this.thresholdMap).fitBounds(this.areaBounds);
     }
   }
-
-  // TODO: reword
   // <aggregationAreaType>: <aggregationAreaName>
   // Dietary Availability (AFE): <dietarySupply><unit> per day
   // Prevalence of deficiency (EAR): <deficientPercentage> of sample households (<deficientCount>/<household_count)
   //
-  // what about when data level is country??
   private getTooltip(feature: FEATURE_TYPE): string {
     const props = feature.properties;
-    const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
-    return `
-    <div>
-      Region: <b>${props.areaName}</b><br/>
-      Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per day<br/>
-      Prevalence of Deficiency (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
-    </div>`;
+    console.log(props);
+    if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+      return `
+      <div>
+        Region: <b>${props.areaName}</b><br/>
+        Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per day<br/>
+        Prevalence of Deficiency (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
+      </div>`;
+    } else {
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+      const defThreshold = props.dietarySupply < props.deficientValue ? 'Below' : 'Above';
+      return `
+      <div>
+        Region: <b>${props.areaName}</b><br/>
+        Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per capita per day<br/>
+        ${defThreshold} the threshold for deficiency<br/>
+      </div>`;
+    }
   }
   private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
     return L.geoJSON(this.areaFeatureCollection, {
