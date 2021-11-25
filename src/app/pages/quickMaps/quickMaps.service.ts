@@ -84,9 +84,6 @@ export class QuickMapsService {
       .then(() => {
         this.initSubscriptions();
         this.init.set(true);
-
-        const micronutrient = this.micronutrient.get();
-        console.log('QMS Original: ', micronutrient.name);
       });
   }
 
