@@ -1,12 +1,16 @@
 @import 'src/assets/scss/_colour';
 
+:host {
+  width: 100%;
+}
 .button::ng-deep {
   padding: 10px;
   margin: 15px;
   justify-content: space-between;
 }
 .container {
-  border: 1px black;
+  border: solid 1px $color_primary;
+  border-radius: 5px;
 }
 .content-container {
   display: flex;

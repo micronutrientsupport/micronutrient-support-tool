@@ -1,5 +1,76 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.1.0...v1.2.0) (2021-11-25)
+
+
+### Features
+
+* add feedback component and API wiring ([eb346de](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/eb346de7430ffa8eb6bcbff18109db61bf6d2d05))
+* add umatched totals API endpoint.  Display data in baseline summary card.  Populate baseline more details modal ([ff8a9de](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/ff8a9de53d9c50536d132da64c92861620d04802))
+* added components and basic scaffolding ([33c9726](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/33c97262ca4438a33a95b386b70e4f89e2d2373f))
+* added routing and gridster options for page ([fd84eca](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fd84ecaef828ff70a328c0ee7dd457c14e0f0edf))
+* expand card dialog sets title accordingly for household supply ([6bf2352](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6bf235233902f8a9cd033ae300f405d600bd38c8))
+* expand card dialog sets title accordingly for monthly food ([8094e71](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8094e7187612fca9c62b017a869704e49126a492))
+* expand card dialog sets title accordingly for top 20 food items ([02975b0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/02975b009f48cb304435027d22d51b2c84c21611))
+* expand card dialog sets titles accordingly for projections tab ([a654305](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/a654305f1d08989c4b2ed1dc81cc6324bccbf9ff))
+* map now resets on scenario change ([aa42a44](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/aa42a441629feb30beb56a155971e39a0b019185))
+* map title is more useful and mouse hover shows more info about area ([5bebb13](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/5bebb139601f5a00bd84d94b7c0ae5cde3c1fc2b))
+* show correct map popup for current data close [#692](https://www.github.com/micronutrientsupport/micronutrient-support-tool/issues/692) ([92f7bbc](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/92f7bbc820fd7658b6611d978cd1ba090c0a66d8))
+* update api handler to support full response return rather than just data array.  Add support for setting choropleth bins from API meta response ([e902328](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/e902328f090e1c7bd98bae74cc21c08b0b2b589f))
+* updated service with new function ([db438df](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/db438dff5316b72854a36db16f77e6cb01dee9d0))
+
+
+### Bug Fixes
+
+* add basic responsive styling ([a4ea2cf](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/a4ea2cf69a64de265a737484e3a6bd00334801af))
+* card title text does not overlap dialog button closes [#682](https://www.github.com/micronutrientsupport/micronutrient-support-tool/issues/682) ([b3ba0fa](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/b3ba0fa42741205ed1d41a00025d2b45cb70de6e))
+* close [#652](https://www.github.com/micronutrientsupport/micronutrient-support-tool/issues/652) ([f2d9d10](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/f2d9d10be1cfa056f9948038a322b52ac4753b9d))
+* commented out the biomarker option in qm sidebar to close [#665](https://www.github.com/micronutrientsupport/micronutrient-support-tool/issues/665) ([d19f1f9](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/d19f1f9c5914d463954112c4b942143d7469a398))
+* fixed merge issues ([906782f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/906782f79755314b7427ac4cf1e78f74ba2ff9f1))
+* link to info tab fixed ([dbae007](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/dbae0078a4f01973a82322a3db9b741f9a0e0d15))
+* remove abreviation ([84dc495](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/84dc495c945cadb9ff247c3a2c48bb70f15f4edf))
+* remove the legend below the monthly charts for increased legibility ([f941d44](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/f941d443f10cb7430aeda7b62055f1c02d97b76b))
+* resolve issue with dialogs using initial accessor values ([efacfff](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/efacfff19265ed43b936db897ac6bf176e216c76))
+* tidy and close [#666](https://www.github.com/micronutrientsupport/micronutrient-support-tool/issues/666) ([8d63ef9](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8d63ef9d0888e154e7282966fa52c0dabceb6afa))
+
+
+### Miscellaneous
+
+* add plausible analytics js snippet ([bdc8555](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/bdc855574a2ad09e78d990cb32286f0bb89f244f))
+* add scenario "No Data" message and continue trying to simplify scenario component ([afd54ef](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/afd54ef74c2e0af29b25ba657c1d1d790dfa8170))
+* consolidate scenario changeItem updating flags ([4899c9c](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4899c9c5c33efa253f7a48a1d44ab9bffb068237))
+* continue making options component simpler ([1c55589](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/1c55589f74337ce4b8a1ed6ffc4340389ff81f04))
+* continue making options component simpler and improve scenario value user interaction when in composition/consumption mode ([3eb9aaf](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3eb9aaf5e1036cd5d15ff7364602b15e35ec1926))
+* display version number in tool footer ([3eca2d9](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3eca2d9d18855c79f342c393612edb094218f6b4))
+* finished making options component simpler ([0b494c5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0b494c5f7384eca6a9bd91237b95704c004aff1e))
+* fix scenario mode change confirm ([3b0fc84](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/3b0fc8495548595fdc4af6d7ac751698d989f524))
+* hadn't saved file doh ([321e0a0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/321e0a0d3105e4c86af06c75d9ab21d5d5a05535))
+* housekeeping ([9b33f72](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9b33f72e958b2a1af5dfa5b23969af1a2727f0c8))
+* housekeeping ([240ca4d](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/240ca4d3330fdd7fae56b1b8aa573a8213c556aa))
+* merge develop ([7a1673e](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7a1673eab8a247eb63e01746c856a8cbb6db05a3))
+* merge develop branch ([4e1ee85](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4e1ee85e27b0281b2ad7be06e365120d191f6303))
+* minor code refactor ([2cf34b0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/2cf34b02a25bd5e3b563e4e1fba3a16398677544))
+* minor updates ([2431cd2](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/2431cd2a663735f3a6988927b09c9567c0fec9c5))
+* no change ([10e1066](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/10e1066429ab624df5fc570777b29a3f5ccd01d8))
+* now that we're merging params instead of overwriting, leave in empty values to override old ones ([40fcee3](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/40fcee3578ce34e8158bc16f27b69b4c1a99da57))
+* pulled develop, pushing ([85d7f96](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/85d7f96d16cc2c36e94ee5287992968080126d27))
+* refactor to use a factory to make dietChange items, which will be rolled to use in the options component too ([f1a318a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/f1a318a075eb8620f4c3a02d3e6f4acec742fb56))
+* remove old code ([6a5cc66](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6a5cc66cd04662366dc996de9996a6375a60ed81))
+* remove peacock colours, for now ([e6a9711](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/e6a9711f05ed513b592bd4d42e806391dc35faf6))
+* remove redundant file ([505b00e](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/505b00e78006196300ed12cbb1cfe79f07349914))
+* remove superfluous function ([9b399f7](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9b399f7a72e7fd5964789baf0fd538fe06f856d1))
+* remove unused code ([8f0678a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8f0678a965fa7477a8026a7eb27e7376a5eb150d))
+* removed some logging to tidy ([b7f9d93](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/b7f9d93267693e20c13a8ce2f5a690129a6a98d9))
+* rename misnamed file ([ea1887d](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/ea1887da710e45f813a0bedfe811bc4249d7d82a))
+* rollback some deps as ng version too low ([354e939](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/354e939f836a0204d9f1a2eeb2fd56346085dc5a))
+* scenario change items to the query string and load in on refresh **PROGRESS** ([fc129ff](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fc129ffcb6c569f1f946f9eb4f3827d87158de5f))
+* start to try to make options component simpler, using dietaryChangeItemFactory ([6283c75](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/6283c75a07f81081a119438cf4414d9d928c391e))
+* tag version of ngx-feedback-maps ([9600bc0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9600bc084b3c87a4df6413ba1483e3cbb3517810))
+* tidy unused imports ([d7813e6](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/d7813e62d0a909fa36476ed7b163fcdfcec01cd4))
+* tweaks to fix js errors and ensure that at least one change item is available in the options component ([95e8cee](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/95e8cee164d100392ee0ffcf4b85f3e223d38ae6))
+* update case ([0ef0b3e](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0ef0b3e55bd5240573800b82b72302586db99693))
+* update gh action versions ([016d60c](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/016d60c821c7b88f95a40d87d61651ecb7dc2208))
+
 ## [1.1.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.0.0...v1.1.0) (2021-10-22)
 
 
