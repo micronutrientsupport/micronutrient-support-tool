@@ -96,7 +96,7 @@ export class LocationSelectComponent implements AfterViewInit {
 
     this.selectedFeatureLayer = layer;
     if (null != this.selectedFeatureLayer) {
-      console.log('layer type', this.selectedFeatureLayer);
+      // console.log('layer type', this.selectedFeatureLayer);
       this.selectedFeatureLayer.setStyle({
         weight: 5,
         color: '#703AA3',

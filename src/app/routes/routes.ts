@@ -72,6 +72,11 @@ export class AppRoutes {
     segments: '',
     parent: AppRoutes.QUICK_MAPS,
   };
+  public static readonly QUICK_MAPS_NO_RESULTS = {
+    ...BASE_ROUTE,
+    segments: 'noResults',
+    parent: AppRoutes.QUICK_MAPS,
+  };
   public static readonly QUICK_MAPS_DIET = {
     ...BASE_ROUTE,
     segments: 'diet',
