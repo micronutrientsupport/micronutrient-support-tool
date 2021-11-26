@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
+import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
+import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -20,6 +22,8 @@ import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenario
     InvalidParametersDialogComponent,
     BaselineDescriptionDialogComponent,
     ScenarioChangeWarningComponent,
+    CostEffectivenessInfoDialogComponent,
+    CostEffectivenessSelectionDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule],
   exports: [BaseDialogComponent],
