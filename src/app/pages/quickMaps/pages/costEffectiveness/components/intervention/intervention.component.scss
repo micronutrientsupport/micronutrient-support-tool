@@ -1,0 +1,78 @@
+@import 'src/assets/scss/_colour';
+
+:host {
+  width: 100%;
+}
+.button::ng-deep {
+  padding: 10px;
+  margin: 15px;
+  justify-content: space-between;
+}
+.container {
+  border: solid 1px $color_primary;
+  border-radius: 5px;
+}
+.content-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  font-size: 18px;
+  gap: 5px;
+}
+.column-container {
+  // display: flex;
+  // flex-flow: row wrap;
+  // align-items: center;
+  // justify-content: space-between;
+  width: 50%;
+  text-align: right;
+}
+.item-container {
+  display: flex;
+  width: 75%;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+
+  padding: 5px;
+}
+.button-container {
+  display: inline;
+  margin: 15px;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.item {
+  flex: 1;
+  margin: 2px 0;
+}
+
+.int-header {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 18px;
+}
+
+.flex-col {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.editTitle {
+  color: $color_primary;
+  margin: 20px;
+  font-size: 14px;
+}
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}

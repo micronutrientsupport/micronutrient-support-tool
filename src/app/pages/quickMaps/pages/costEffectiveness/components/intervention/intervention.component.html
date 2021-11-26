@@ -1,0 +1,46 @@
+<div class="container">
+    <mat-card>
+        <mat-card-title class="int-header">
+            <div class="title">
+                <strong>Wheat flour fortification</strong>
+
+                <span class="editTitle">
+                    <mat-icon>edit</mat-icon>Rename
+                </span>
+            </div>
+        </mat-card-title>
+
+        <div class="flex-col">
+            <div class="content-container">
+                <div class="item-container">
+                    <div class="item">
+                        Base year: <strong>2021</strong>
+                    </div>
+                    <div class="item">
+                        10-year total cost: : <strong>$$$</strong>
+                    </div>
+
+                </div>
+                <div class="item-container">
+                    <div class="item">
+                        Assumptions: <button mat-raised-button type=" button" (click)="onConfirmAssumptions()"
+                            [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status1 }}</button>
+                    </div>
+                    <div class="item">
+                        Costs: <button mat-raised-button type=" button" (click)="onConfirmCosts()"
+                            [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status2 }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="column-container">
+                <div class="button-container">
+                    <button mat-raised-button type=" button" class="btn btn-primary">Delete</button>
+                </div>
+                <div class="button-container">
+                    <button mat-raised-button color="primary">Review</button>
+                </div>
+            </div>
+
+        </div>
+    </mat-card>
+</div>
