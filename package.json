@@ -40,7 +40,7 @@
     "@angular/router": "~11.2.14",
     "@angular/service-worker": "~11.2.14",
     "@asymmetrik/ngx-leaflet": "^8.1.0",
-    "@ctrl/ngx-chartjs": "^4.1.1",
+    "@ctrl/ngx-chartjs": "^5.0.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material/layout-grid": "^11.0.0",
     "@types/chart.js": "^2.9.34",
