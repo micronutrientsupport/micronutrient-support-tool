@@ -1,0 +1,23 @@
+@import 'src/assets/scss/_colour.scss';
+
+.centredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  text-align: center;
+  height: 100%;
+
+  img {
+    max-width: 350px;
+    margin: 30px;
+  }
+}
+
+@media (max-width: 800px) {
+  .centredContent {
+    margin-top: 30px;
+    margin-bottom: 300px;
+  }
+}

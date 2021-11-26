@@ -7,6 +7,7 @@ import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
 import { CostEffectivenessComponent } from './pages/costEffectiveness/costEffectiveness.component';
 import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
+import { NoResultsComponent } from './pages/noResults/noResults.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
@@ -27,6 +28,19 @@ const routes: Routes = [
           hideQuickMapsHeader: true,
           showLightFooter: true,
           showQuickMapsGoButton: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.QUICK_MAPS_NO_RESULTS.getRouterPath(),
+        component: NoResultsComponent,
+        data: {
+          appRoute: AppRoutes.QUICK_MAPS_NO_RESULTS,
+          title: 'Quick MAPS',
+          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
+          description: 'Quick Maps no results found',
+          hideQuickMapsHeader: true,
+          showLightFooter: true,
+          showQuickMapsGoButton: false,
         } as RouteData,
       },
       {
