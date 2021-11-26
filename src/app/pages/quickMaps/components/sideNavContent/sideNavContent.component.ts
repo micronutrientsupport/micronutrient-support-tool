@@ -286,7 +286,7 @@ export class SideNavContentComponent {
     setTimeout(() => {
       void this.routeGuardService.getRequiredNavRoute().then((requiredRoute: AppRoute) => {
         if (null != requiredRoute) {
-          console.debug('Should Nav', requiredRoute);
+          // console.debug('Should Nav', requiredRoute);
           this.navigate(requiredRoute);
         }
       });
