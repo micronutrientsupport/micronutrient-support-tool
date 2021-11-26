@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.2.0...v1.2.1) (2021-11-26)
+
+
+### Bug Fixes
+
+* dietary change scenarios no longer erros when retrieving map colour grad ([4aa1a98](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4aa1a98ee90757d934425371ac602fae1700d0e1))
+
 ## [1.2.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.1.0...v1.2.0) (2021-11-25)
 
 
