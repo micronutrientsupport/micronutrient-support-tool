@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 @Component({
   selector: 'app-intervention-creation',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./interventionCreation.component.scss'],
 })
 export class InterventionCreationComponent implements OnInit {
-  constructor() {
+  constructor(public quickMapsService: QuickMapsService) {
     // add content
   }
 
