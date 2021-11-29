@@ -13,6 +13,7 @@ import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
+import { CostEffectivenessInterventionInfoDialogComponent } from './costEffectivenessInterventionInfoDialog/costEffectivenessInterventionInfoDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -24,6 +25,7 @@ import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSe
     ScenarioChangeWarningComponent,
     CostEffectivenessInfoDialogComponent,
     CostEffectivenessSelectionDialogComponent,
+    CostEffectivenessInterventionInfoDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule],
   exports: [BaseDialogComponent],
