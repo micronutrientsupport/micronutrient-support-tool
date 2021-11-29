@@ -6,6 +6,7 @@ export enum GridsterSource {
   BASELINE,
   PROJECTION,
   DIETARY_CHANGE,
+  COST_EFFECTIVENESS,
 }
 
 export enum GridsterWidgets {
@@ -16,6 +17,7 @@ export enum GridsterWidgets {
   PROJ_AVAILABILITY = 'widgetProjAvail',
   PROJ_FOOD_SOURCE = 'widgetProjFoodSources',
   DIET_CHANGE_COMPARISON = 'widgetDietChangeComparison',
+  COST_EFFECTIVENESS_COMPARISION = 'widgetCostEffectivenessComparison ',
 }
 
 @Injectable()

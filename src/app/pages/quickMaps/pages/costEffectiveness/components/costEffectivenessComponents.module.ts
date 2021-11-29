@@ -6,6 +6,10 @@ import { MenuComponent } from './menu/menu.component';
 import { InterventionCreationComponent } from './interventionCreation/interventionCreation.component';
 import { InterventionComparisonComponent } from './interventionComparison/interventionComparison.component';
 import { InterventionComponent } from './intervention/intervention.component';
+import { InterventionComparisonCardComponent } from './interventionComparison/interventionComparisonCard/interventionComparisonCard.component';
+import { GridsterModule } from 'angular-gridster2';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 @NgModule({
   declarations: [
     DescriptionComponent,
@@ -13,14 +17,16 @@ import { InterventionComponent } from './intervention/intervention.component';
     InterventionCreationComponent,
     InterventionComparisonComponent,
     InterventionComponent,
+    InterventionComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule],
+  imports: [CommonModule, AppMaterialModule, GridsterModule, ComponentsModule, DialogModule],
   exports: [
     DescriptionComponent,
     MenuComponent,
     InterventionCreationComponent,
     InterventionComparisonComponent,
     InterventionComponent,
+    InterventionComparisonCardComponent,
   ],
 })
 export class CostEffectivenessComponentsModule {}
