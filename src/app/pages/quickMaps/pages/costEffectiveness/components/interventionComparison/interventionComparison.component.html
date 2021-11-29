@@ -1,1 +1,30 @@
-<p>intervention-comparison works!</p>
+<div class="info-wrapper">
+    <span class="centre-align">
+        <h2>Select interventions to compare</h2>
+    </span>
+    <span>
+        You have saved effectiveness predictions and cost estimates for the intervention listed below. Click the boxes
+        for interventions you would like to include in a comparison of cost-effectiveness.
+    </span>
+    <div class="interventions">
+        <span>Existing Interventions <a mat-flat-button color="primary">Select All</a></span>
+        <ng-container *ngFor="let intervention of interventions">
+            <span class="intervention">
+                <mat-checkbox color="primary" value="{{intervention.name}}">{{intervention.name}}</mat-checkbox>
+                <span>
+                    <a mat-flat-button>
+                        <mat-icon>clear</mat-icon> Delete
+                    </a>
+                    <a mat-flat-button color="primary">
+                        <mat-icon>edit</mat-icon> Edit
+                    </a>
+                </span>
+            </span>
+        </ng-container>
+    </div>
+    <span class="centre-align">
+        <button mat-raised-button color="primary">
+            Compare
+        </button>
+    </span>
+</div>

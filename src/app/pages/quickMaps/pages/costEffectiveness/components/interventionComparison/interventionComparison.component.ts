@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Interventions } from '../../intervention';
 
 @Component({
   selector: 'app-intervention-comparison',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./interventionComparison.component.scss'],
 })
 export class InterventionComparisonComponent implements OnInit {
+  public interventions = Interventions;
+
   constructor() {
     // add content
   }
