@@ -11,14 +11,11 @@
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.32); // same as .cdk-overlay-dark-backdrop
-    border: 3px black;
   }
 }
 ::ng-deep .base-dialog {
   & .mat-dialog-container {
     padding: 2em;
-    background-color: $color_background_form;
-    border-radius: 20px;
   }
   & .mat-dialog-container,
   & .mat-dialog-container > *,
@@ -80,7 +77,4 @@
   &:hover {
     // background-color: $close_button_hover_background_colour
   }
-}
-
-.scroll-wrapper {
 }
