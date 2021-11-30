@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
-import { CostEffectivenessInterventionInfoDialogComponent } from './costEffectivenessInterventionInfoDialog/costEffectivenessInterventionInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
@@ -33,9 +32,6 @@ export class DialogService extends BaseDialogService {
     });
   }
 
-  public openCEInterventionDialog(): Promise<DialogData> {
-    return this.openDialog('costEffectivenessInterventionInfoDialog', CostEffectivenessInterventionInfoDialogComponent);
-  }
   public openCESelectionDialog(): Promise<DialogData> {
     return this.openDialog('costEffectivenessSelectionDialog', CostEffectivenessSelectionDialogComponent);
   }

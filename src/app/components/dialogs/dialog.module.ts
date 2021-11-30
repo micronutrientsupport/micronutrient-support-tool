@@ -13,7 +13,8 @@ import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
-import { CostEffectivenessInterventionInfoDialogComponent } from './costEffectivenessInterventionInfoDialog/costEffectivenessInterventionInfoDialog.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -25,9 +26,9 @@ import { CostEffectivenessInterventionInfoDialogComponent } from './costEffectiv
     ScenarioChangeWarningComponent,
     CostEffectivenessInfoDialogComponent,
     CostEffectivenessSelectionDialogComponent,
-    CostEffectivenessInterventionInfoDialogComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule],
+  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
   exports: [BaseDialogComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DialogModule {}

@@ -8,39 +8,26 @@
     <h3><strong>Select and intervention</strong></h3>
 
     <mat-form-field appearance="outline">
-        <!-- <mat-select placeholder="Select an intervention"> -->
-        <mat-label>Existing interventions</mat-label>
-        <mat-optgroup label="Select an intervention">
-            <select matNativeControl placeholder="Select an intervention">
-
-
-                <mat-option>Wheat flour fortification
-                        <button mat-mini-fab color="primary" (click)="openCEInterventionDialog()">
-                        <mat-icon>question_mark</mat-icon>
-                    </button>
-                </mat-option>
-                <mat-option>Supplementation
-                    <button mat-mini-fab color="primary" (click)="openCEInterventionDialog()">
-                        <mat-icon>question_mark</mat-icon>
-                    </button>
-                </mat-option>
-                <mat-option>Salt fortification
-                    <button mat-mini-fab color="primary" (click)="openCEInterventionDialog()">
-                        <mat-icon>question_mark</mat-icon>
-                    </button>
-                </mat-option>
-            </select>
-        </mat-optgroup>
-        <!-- </mat-select> -->
+        <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="interventionNameValue"
+            matNativeControl>
+            <mat-label>Existing interventions</mat-label>
+            <mat-option *ngFor="let item of interventionArray" [value]="item">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
+    <div>
+        <h3>{{interventionNameValue.name}} </h3>
+        <small> {{ interventionNameValue.value }}</small>
+    </div>
+
+
 
     <div class="button-container">
         <button mat-raised-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
-    </div>
-    <div class="button-container">
+        <!-- </div>
+    <div class="button-container"> -->
         <button mat-raised-button color="primary">Create</button>
     </div>
-
-
 
 </app-base-dialog>

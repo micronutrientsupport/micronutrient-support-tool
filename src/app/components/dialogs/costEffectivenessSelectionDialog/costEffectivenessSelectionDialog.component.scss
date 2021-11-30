@@ -1,7 +1,15 @@
 h2,
 p {
   align-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 mat-label {
   color: grey;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
