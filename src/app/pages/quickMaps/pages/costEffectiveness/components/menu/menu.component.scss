@@ -1,3 +1,5 @@
+@import 'src/assets/scss/_colour';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -7,11 +9,40 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+
     .mat-button-toggle-group {
-      width: 50%;
+      width: 30%;
+      padding: 10px;
+      background-color: $color_background_form;
+      display: flex;
+
+      justify-content: space-evenly;
+      align-items: center;
     }
     span mat-icon {
       font-size: 30px;
     }
   }
+}
+.button-text {
+  white-space: pre-wrap;
+  color: $color_primary;
+}
+#pointer {
+  width: 150px;
+
+  height: auto;
+  position: relative;
+  display: inline-block;
+
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+
+#carved {
+  width: 150px;
+  height: auto;
+  position: relative;
+  display: inline-block;
+  overflow-wrap: break-word;
+  clip-path: polygon(75% 0%, 100% 0%, 100% 100%, 0% 100%, 25% 50%, 0% 0%);
 }

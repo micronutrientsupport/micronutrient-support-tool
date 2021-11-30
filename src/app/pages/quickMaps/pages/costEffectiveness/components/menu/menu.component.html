@@ -2,14 +2,20 @@
     <button mat-mini-fab color="primary">
         <mat-icon (click)="openCEInfoDialog()">question_mark</mat-icon>
     </button>
+
+
+
     <mat-button-toggle-group [value]="'create'" #group="matButtonToggleGroup">
-        <mat-button-toggle value="create">
-            Create Interventions
+        <mat-button-toggle id="pointer" value="create">
+            <span class="button-text"> Create Interventions</span>
         </mat-button-toggle>
-        <mat-button-toggle value="compare">
-            Compare Interventions
+
+        <mat-button-toggle id="carved" value="compare">
+            <span class="button-text"> Compare Intervention</span>
         </mat-button-toggle>
     </mat-button-toggle-group>
+
+
     <span matTooltip="Select interventions to compare them.">
         <mat-icon matBadge="3" matBadgeOverlap="false">shopping_basket</mat-icon>
     </span>
