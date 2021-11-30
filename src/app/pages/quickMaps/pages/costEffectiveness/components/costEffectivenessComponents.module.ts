@@ -7,8 +7,6 @@ import { InterventionCreationComponent } from './interventionCreation/interventi
 import { InterventionComparisonComponent } from './interventionComparison/interventionComparison.component';
 import { InterventionComponent } from './intervention/intervention.component';
 import { InterventionComparisonCardComponent } from './interventionComparison/interventionComparisonCard/interventionComparisonCard.component';
-import { GridsterModule } from 'angular-gridster2';
-import { ComponentsModule } from 'src/app/components/components.module';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 @NgModule({
   declarations: [
@@ -19,7 +17,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     InterventionComponent,
     InterventionComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, GridsterModule, ComponentsModule, DialogModule],
+  imports: [CommonModule, AppMaterialModule, DialogModule],
   exports: [
     DescriptionComponent,
     MenuComponent,
