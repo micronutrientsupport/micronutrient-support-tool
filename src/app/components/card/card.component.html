@@ -19,12 +19,9 @@
     </mat-toolbar>
 
     <div *ngIf="error" class="centredContent">
-      <!-- <div class="centredContent"> -->
-      <!-- <img class="header-image" src="/assets/images/webp/maps-min.webp"> -->
       <h2 class="mat-headline">Content unavailable</h2>
       <h3 class="mat-title">We are unable to display this content right now. Please adjust your search or try again
         soon.</h3>
-      <!-- </div> -->
     </div>
     <div *ngIf="!error" mat-align-tabs="center" class="card-content-wrapper">
       <ng-content></ng-content>
