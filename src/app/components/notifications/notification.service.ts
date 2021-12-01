@@ -6,25 +6,32 @@ import { NotificationType } from './notificationType.enum';
 
 @Injectable()
 export class NotificationsService {
+  constructor(private newNotification: MatSnackBar) {}
 
-  constructor(private newNotification: MatSnackBar) {
-  }
-
-  public sendInformative(message: string, boldMessage?: string, duration = 3000): void {
+  public sendInformative(message: string, description?: string, duration = 3000): void {
     const notificationData: NotificationData = {
-      type: NotificationType.INFORMATION, message: message, boldMessage: boldMessage, duration: duration
+      type: NotificationType.INFORMATION,
+      message: message,
+      description: description,
+      duration: duration,
     };
     this.sendNotification(notificationData);
   }
-  public sendNegative(message: string, boldMessage?: string, duration = 12000): void {
+  public sendNegative(message: string, description?: string, duration = 12000): void {
     const notificationData: NotificationData = {
-      type: NotificationType.NEGATIVE, message: message, boldMessage: boldMessage, duration: duration
+      type: NotificationType.NEGATIVE,
+      message: message,
+      description: description,
+      duration: duration,
     };
     this.sendNotification(notificationData);
   }
-  public sendPositive(message: string, boldMessage?: string, duration = 3000): void {
+  public sendPositive(message: string, description?: string, duration = 3000): void {
     const notificationData: NotificationData = {
-      type: NotificationType.POSITIVE, message: message, boldMessage: boldMessage, duration: duration
+      type: NotificationType.POSITIVE,
+      message: message,
+      description: description,
+      duration: duration,
     };
     this.sendNotification(notificationData);
   }
@@ -32,8 +39,7 @@ export class NotificationsService {
     this.newNotification.openFromComponent(NotificationComponent, {
       panelClass: ['maps-snackbar'],
       duration: notificationData.duration,
-      data: notificationData
+      data: notificationData,
     });
   }
-
 }
