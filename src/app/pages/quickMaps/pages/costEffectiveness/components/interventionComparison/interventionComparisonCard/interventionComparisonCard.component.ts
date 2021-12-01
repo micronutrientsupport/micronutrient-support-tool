@@ -28,6 +28,7 @@ export class InterventionComparisonCardComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (null != this.card) {
       // if displayed within a card component init interactions with the card
+      this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab());
       this.card.showExpand = true;
       this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
       this.card.title = this.title;
@@ -38,6 +39,11 @@ export class InterventionComparisonCardComponent implements AfterViewInit {
       this.title = this.dialogData.dataIn.title;
       this.cdr.detectChanges();
     }
+  }
+
+  public navigateToInfoTab(): void {
+    this.selectedTab = 4;
+    this.cdr.detectChanges();
   }
 
   private openDialog(): void {
