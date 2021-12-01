@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
+import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
+import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
@@ -30,6 +32,12 @@ export class DialogService extends BaseDialogService {
     });
   }
 
+  public openCESelectionDialog(): Promise<DialogData> {
+    return this.openDialog('costEffectivenessSelectionDialog', CostEffectivenessSelectionDialogComponent);
+  }
+  public openCEInfoDialog(): Promise<DialogData> {
+    return this.openDialog('costEffectivenessInfoDialog', CostEffectivenessInfoDialogComponent);
+  }
   public openScenarioTypeDialog(): Promise<DialogData> {
     return this.openDialog('scenarioTypeDialog', ScenarioTypeDialogComponent);
   }

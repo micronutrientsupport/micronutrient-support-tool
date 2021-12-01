@@ -11,6 +11,10 @@ import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
+import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
+import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -20,8 +24,11 @@ import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenario
     InvalidParametersDialogComponent,
     BaselineDescriptionDialogComponent,
     ScenarioChangeWarningComponent,
+    CostEffectivenessInfoDialogComponent,
+    CostEffectivenessSelectionDialogComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule],
+  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
   exports: [BaseDialogComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DialogModule {}

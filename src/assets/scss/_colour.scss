@@ -9,6 +9,7 @@ $_primary_pallete: (
   700: #5d2c91,
   800: #532588,
   900: #411877,
+  A50: #d5c5ec,
   A100: #cfb0ff,
   A200: #b07dff,
   A400: #924aff,
@@ -65,7 +66,7 @@ $_accent_pallete: (
 );
 
 $color_primary: map_get($_primary_pallete, A700);
-$color_primary_dark: map_get($_primary_pallete, A500);
+$color_primary_dark: map_get($_primary_pallete, 900);
 $color_accent: #bf1f34;
 $color_grey: #4f4f4f;
 $color_blue: #1d3557;
