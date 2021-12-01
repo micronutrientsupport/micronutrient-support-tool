@@ -1,3 +1,5 @@
+@import 'src/assets/scss/_colour.scss';
+
 .holding-container {
   border-radius: 5px;
   color: white;
@@ -34,12 +36,12 @@
     margin-bottom: 0.2rem;
     color: #000000;
     font-family: 'Quicksand';
-    font-size: 1.4rem;
+    font-size: 16px;
     font-weight: 700;
   }
   .message-emitted {
     padding: 2px;
-    font-size: 1.2rem;
+    font-size: 16px;
     margin-left: 0.5em;
     color: #000000;
   }
