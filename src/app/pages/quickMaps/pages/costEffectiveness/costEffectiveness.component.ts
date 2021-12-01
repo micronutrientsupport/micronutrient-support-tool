@@ -44,7 +44,6 @@ export class CostEffectivenessComponent implements OnInit {
     private cdr: ChangeDetectorRef,
   ) {
     this.costEffectivenessService.interventionComparisonActiveObs.subscribe((showCard: boolean) => {
-      console.debug(showCard);
       this.enableComparisonCard = showCard;
       this.cdr.markForCheck();
     });

@@ -9,7 +9,6 @@ import { Interventions } from '../../intervention';
 })
 export class InterventionComparisonComponent implements OnInit {
   public interventions = Interventions;
-  public comparisonVisable = false;
 
   constructor(private costEffectivenessService: CostEffectivenessService) {}
 
@@ -18,8 +17,6 @@ export class InterventionComparisonComponent implements OnInit {
   }
 
   public compareScenario(): void {
-    this.comparisonVisable = !this.comparisonVisable;
-    this.costEffectivenessService.setInterventionComparisonStatus(this.comparisonVisable);
-    console.debug(this.comparisonVisable);
+    this.costEffectivenessService.setInterventionComparisonStatus(true);
   }
 }
