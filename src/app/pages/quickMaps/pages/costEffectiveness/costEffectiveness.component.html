@@ -1,16 +1,12 @@
-<!-- <mat-fab-menu #fabMenu matTooltip="Dashboard Layout" [matTooltipDisabled]="fabMenu.isActive" class="fab-layout"
-    color="accent" [fabButtons]="layoutOptions" icon="dashboard_customize"
-    (onFabMenuItemSelected)="layoutChange($event)">
-</mat-fab-menu> -->
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
     <app-ce-description></app-ce-description>
     <app-ce-menu></app-ce-menu>
-    <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-        <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
-            <!-- Comparison card -->
-            <!-- <app-dc-comparison-card *ngSwitchCase="WIDGETS.DIET_CHANGE_COMPARISON" [card]="card"></app-dc-comparison-card> -->
-            <app-intervention-comparison-card *ngSwitchCase="WIDGETS.COST_EFFECTIVENESS_COMPARISION" [card]="card">
-            </app-intervention-comparison-card>
-        </app-card>
-    </gridster-item>
+    <div *ngIf="enableComparisonCard">
+        <gridster-item [item]="widget" *ngFor="let widget of dashboard">
+            <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+                <app-intervention-comparison-card *ngSwitchCase="WIDGETS.COST_EFFECTIVENESS_COMPARISION" [card]="card">
+                </app-intervention-comparison-card>
+            </app-card>
+        </gridster-item>
+    </div>
 </gridster>

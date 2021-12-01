@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CostEffectivenessService } from '../../costEffectiveness.service';
 import { Interventions } from '../../intervention';
 
 @Component({
@@ -8,12 +9,17 @@ import { Interventions } from '../../intervention';
 })
 export class InterventionComparisonComponent implements OnInit {
   public interventions = Interventions;
+  public comparisonVisable = false;
 
-  constructor() {
-    //
-  }
+  constructor(private costEffectivenessService: CostEffectivenessService) {}
 
   ngOnInit(): void {
     //
+  }
+
+  public compareScenario(): void {
+    this.comparisonVisable = !this.comparisonVisable;
+    this.costEffectivenessService.setInterventionComparisonStatus(this.comparisonVisable);
+    console.debug(this.comparisonVisable);
   }
 }

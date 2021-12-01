@@ -1,9 +1,9 @@
-import { MatFabMenu } from '@angular-material-extensions/fab-menu';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
 import { QuickMapsService } from '../../quickMaps.service';
+import { CostEffectivenessService } from './costEffectiveness.service';
 // eslint-disable-next-line no-shadow
 enum GridsterLayoutOptions {
   DEFAULT_VIEW = 0,
@@ -13,6 +13,7 @@ enum GridsterLayoutOptions {
   selector: 'app-costEffectiveness',
   templateUrl: './costEffectiveness.component.html',
   styleUrls: ['./costEffectiveness.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostEffectivenessComponent implements OnInit {
   public gridsterSource = GridsterSource;
@@ -25,20 +26,7 @@ export class CostEffectivenessComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  public layoutOptions: MatFabMenu[] = [
-    {
-      id: GridsterLayoutOptions.DEFAULT_VIEW,
-      icon: 'view_agenda',
-      tooltip: 'List View',
-      tooltipPosition: 'before',
-    },
-    {
-      id: GridsterLayoutOptions.GRID_VIEW,
-      icon: 'grid_view',
-      tooltip: 'Grid View',
-      tooltipPosition: 'before',
-    },
-  ];
+  public enableComparisonCard: boolean;
 
   private readonly defaultWidgetHeight = 3;
   private readonly defaultWidgetWidth = 8;
@@ -49,7 +37,18 @@ export class CostEffectivenessComponent implements OnInit {
     [DataLevel.HOUSEHOLD, [this.WIDGETS.COST_EFFECTIVENESS_COMPARISION]],
   ]);
 
-  constructor(private quickMapsService: QuickMapsService, public gridsterService: GridsterService) {}
+  constructor(
+    private quickMapsService: QuickMapsService,
+    public gridsterService: GridsterService,
+    private costEffectivenessService: CostEffectivenessService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.costEffectivenessService.interventionComparisonActiveObs.subscribe((showCard: boolean) => {
+      console.debug(showCard);
+      this.enableComparisonCard = showCard;
+      this.cdr.markForCheck();
+    });
+  }
 
   ngOnInit(): void {
     this.options = {
