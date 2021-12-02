@@ -187,14 +187,12 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
 
     const datasets = new Array<ChartDataset>();
     // Iterate through each scenario array and create ChartDataset object to be injected into chart
-    scenarioArrays.forEach((array: Array<ProjectedAvailability>, i) => {
+    scenarioArrays.forEach((array: Array<ProjectedAvailability>) => {
       const scenarioDetails: ChartDataset = {
         label: array[0].scenario,
         data: array.map((item) => item.data[micronutrient.id].value),
         fill: false,
-        borderColor: ColourPalette.PROJECTION_SCENARIO_COLOURS[i]
-          ? ColourPalette.PROJECTION_SCENARIO_COLOURS[i]
-          : ColourPalette.generateRandomColour(),
+        borderColor: ColourPalette.generateRandomColour(array[0].scenario),
       };
       datasets.push(scenarioDetails);
     });
