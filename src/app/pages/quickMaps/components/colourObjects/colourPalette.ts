@@ -1,4 +1,5 @@
 import chroma from 'chroma-js';
+import ColorHash from 'color-hash-ts';
 import { ColourPaletteType } from './colourPaletteType.enum';
 
 export const CUSTOM_PALETTE_NAME = 'Custom palette';
@@ -22,6 +23,7 @@ export class ColourPalette {
       '#882255',
     ]),
   ];
+  public static readonly PROJECTION_SCENARIO_COLOURS = ['#6FCF97', '#9B51E0', '#FF3E7A', '#88CCEE', '#DDCC77'];
   private static readonly SELECTED_PALETTE_KEY = 'selected';
   private static readonly CUSTOM_PALETTE_KEY = 'custom';
   constructor(public readonly name: ColourPaletteType, public readonly colourHexArray: Array<string>) {}
@@ -37,6 +39,10 @@ export class ColourPalette {
   }
   public static setCustomPalette(id: string, palette: ColourPalette): void {
     return ColourPalette.setPalette(id, ColourPalette.CUSTOM_PALETTE_KEY, palette);
+  }
+  public static generateRandomColour(value: string): string {
+    const colorHash = new ColorHash();
+    return colorHash.hex(value);
   }
 
   private static getPaletteKey(id: string, paletteType: string): string {
