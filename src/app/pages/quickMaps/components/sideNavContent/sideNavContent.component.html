@@ -140,5 +140,6 @@
 
 <div class="footer-row" [class.show]="showGoButton"
   [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''">
-  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View results</button>
+  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
+    [disabled]="btnViewResultsActive === false">View results</button>
 </div>

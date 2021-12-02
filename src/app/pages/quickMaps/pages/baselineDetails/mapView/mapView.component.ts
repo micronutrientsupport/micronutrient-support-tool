@@ -206,6 +206,7 @@ export class MapViewComponent implements AfterViewInit {
           this.absoluteRange = this.absoluteDefaultRange;
         }
         if (null == data) {
+          void this.dialogService.openInvalidParametersDialog();
           throw new Error('data error');
         }
         this.errorSrc.next(false);
@@ -215,6 +216,7 @@ export class MapViewComponent implements AfterViewInit {
           type: 'FeatureCollection',
           features: data.data.map((item) => item.toFeature()),
         };
+
         this.initialiseMapAbsolute();
         this.initialiseMapThreshold();
         this.areaBounds = this.absoluteDataLayer.getBounds();
@@ -332,7 +334,7 @@ export class MapViewComponent implements AfterViewInit {
   //
   private getTooltip(feature: FEATURE_TYPE): string {
     const props = feature.properties;
-    console.log(props);
+
     if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
       const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
       return `

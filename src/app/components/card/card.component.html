@@ -18,7 +18,11 @@
       </button>
     </mat-toolbar>
 
-    <span *ngIf="error">Error...</span>
+    <div *ngIf="error" class="centredContent">
+      <h2 class="mat-headline">Content unavailable</h2>
+      <h3 class="mat-title">We are unable to display this content right now. Please adjust your search or try again
+        soon.</h3>
+    </div>
     <div *ngIf="!error" mat-align-tabs="center" class="card-content-wrapper">
       <ng-content></ng-content>
       <div *ngIf="loading" class="loading-indicator">
