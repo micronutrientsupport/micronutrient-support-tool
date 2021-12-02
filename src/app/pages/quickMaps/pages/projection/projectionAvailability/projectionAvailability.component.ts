@@ -170,39 +170,36 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
     // console.debug(data);
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const datasets = this.data.reduce((res, obj: ProjectedAvailability) => {
+    const rawData = this.data.reduce((res, obj: ProjectedAvailability) => {
       if (!res[obj.scenario]) {
         res[obj.scenario] = [];
       }
       res[obj.scenario].push(obj);
       return res;
     }, {});
+    // console.debug(scenarioSets);
+    const scenarioArrays: Array<ProjectedAvailability[]> = Object.entries(rawData).map((array) => array[1]) as Array<
+      ProjectedAvailability[]
+    >;
+
+    const datasets = new Array<ChartDataset>();
+    scenarioArrays.forEach((array: Array<ProjectedAvailability>) => {
+      const bla: ChartDataset = {
+        label: array[0].scenario,
+        data: array.map((item) => item.data[micronutrient.id].value),
+        fill: false,
+        borderColor: '#9B51E0',
+      };
+      datasets.push(bla);
+    });
     console.debug(datasets);
+
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {
-        labels: data.filter((item) => item.scenario === 'SSP1').map((item) => item.year),
+        labels: scenarioArrays[0].map((item) => item.year),
         // TODO: loop through scenarios from db so these three aren't hard-coded?
-        datasets: [
-          {
-            label: 'SSP1',
-            data: data.filter((item) => item.scenario === 'SSP1').map((item) => item.data[micronutrient.id].value),
-            fill: false,
-            borderColor: '#6FCF97',
-          },
-          {
-            label: 'SSP2',
-            data: data.filter((item) => item.scenario === 'SSP2').map((item) => item.data[micronutrient.id].value),
-            fill: false,
-            borderColor: '#9B51E0',
-          },
-          {
-            label: 'SSP3',
-            data: data.filter((item) => item.scenario === 'SSP3').map((item) => item.data[micronutrient.id].value),
-            fill: false,
-            borderColor: '#FF3E7A',
-          },
-        ],
+        datasets: datasets,
       },
       options: {
         maintainAspectRatio: false,
@@ -277,4 +274,11 @@ export interface ProjectionAvailabilityDialogData {
   data: Array<ProjectedAvailability>;
   summary: ProjectionsSummary;
   selectedTab: number;
+}
+
+export interface ChartDataset {
+  label: string;
+  data: number[];
+  fill: boolean;
+  borderColor: string;
 }
