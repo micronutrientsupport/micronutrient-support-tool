@@ -27,6 +27,7 @@ import { ProjectionDataService } from 'src/app/services/projectionData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
+import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 @Component({
   selector: 'app-proj-avail',
   templateUrl: './projectionAvailability.component.html',
@@ -168,37 +169,40 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    // console.debug(data);
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const rawData = this.data.reduce((res, obj: ProjectedAvailability) => {
+
+    // Create new objects, each object represents a scenario case delievered by API
+    const rawData = data.reduce((res, obj: ProjectedAvailability) => {
       if (!res[obj.scenario]) {
         res[obj.scenario] = [];
       }
       res[obj.scenario].push(obj);
       return res;
     }, {});
-    // console.debug(scenarioSets);
+
+    // Create multiple arrays for each scenario object
     const scenarioArrays: Array<ProjectedAvailability[]> = Object.entries(rawData).map((array) => array[1]) as Array<
       ProjectedAvailability[]
     >;
 
     const datasets = new Array<ChartDataset>();
-    scenarioArrays.forEach((array: Array<ProjectedAvailability>) => {
-      const bla: ChartDataset = {
+    // Iterate through each scenario array and create ChartDataset object to be injected into chart
+    scenarioArrays.forEach((array: Array<ProjectedAvailability>, i) => {
+      const scenarioDetails: ChartDataset = {
         label: array[0].scenario,
         data: array.map((item) => item.data[micronutrient.id].value),
         fill: false,
-        borderColor: '#9B51E0',
+        borderColor: ColourPalette.PROJECTION_SCENARIO_COLOURS[i]
+          ? ColourPalette.PROJECTION_SCENARIO_COLOURS[i]
+          : ColourPalette.generateRandomColour(),
       };
-      datasets.push(bla);
+      datasets.push(scenarioDetails);
     });
-    console.debug(datasets);
 
     const generatedChart: ChartJSObject = {
       type: 'line',
       data: {
         labels: scenarioArrays[0].map((item) => item.year),
-        // TODO: loop through scenarios from db so these three aren't hard-coded?
         datasets: datasets,
       },
       options: {
