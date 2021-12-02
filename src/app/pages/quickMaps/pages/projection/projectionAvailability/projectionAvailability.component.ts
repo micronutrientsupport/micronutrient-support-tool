@@ -170,14 +170,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
     // console.debug(data);
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const datasets = new Array<ProjectedAvailability[]>();
-    this.data.forEach((item: ProjectedAvailability, i) => {
-      const newArray = new Array<ProjectedAvailability>();
-      if (item.scenario[i] === item.scenario[i++]) {
-        newArray.push(item);
+    const datasets = this.data.reduce((res, obj: ProjectedAvailability) => {
+      if (!res[obj.scenario]) {
+        res[obj.scenario] = [];
       }
-      datasets.push(newArray);
-    });
+      res[obj.scenario].push(obj);
+      return res;
+    }, {});
     console.debug(datasets);
     const generatedChart: ChartJSObject = {
       type: 'line',
