@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.1](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.3.0...v1.3.1) (2021-12-03)
+
+
+### Miscellaneous
+
+* correctly set treemap units depending on data level ([c1bd329](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/c1bd329b395935c0dfb41717793b83becafb6a6b))
+
 ## [1.3.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.2.0...v1.3.0) (2021-12-03)
 
 
