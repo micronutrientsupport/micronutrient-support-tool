@@ -196,10 +196,6 @@ mat-slide-toggle {
 }
 
 :host::ng-deep {
-  & .mat-tooltip {
-    font-size: 12px;
-  }
-
   & .mat-slide-toggle-label {
     padding: 1em;
   }
