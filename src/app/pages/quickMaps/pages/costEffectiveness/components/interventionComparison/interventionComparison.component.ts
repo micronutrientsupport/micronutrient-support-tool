@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CostEffectivenessService } from '../../costEffectiveness.service';
+import { Interventions } from '../../intervention';
 
 @Component({
   selector: 'app-intervention-comparison',
@@ -6,11 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./interventionComparison.component.scss'],
 })
 export class InterventionComparisonComponent implements OnInit {
-  constructor() {
-    // add content
-  }
+  public interventions = Interventions;
+
+  constructor(private costEffectivenessService: CostEffectivenessService) {}
 
   ngOnInit(): void {
-    // add content
+    //
+  }
+
+  public compareScenario(): void {
+    this.costEffectivenessService.setInterventionComparisonStatus(true);
   }
 }

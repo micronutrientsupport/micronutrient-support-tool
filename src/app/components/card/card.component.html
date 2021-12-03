@@ -5,20 +5,24 @@
       <button *ngIf="showSettings" (click)="functionSettings()" mat-icon-button aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
-      <button *ngIf="showSettingsMenu" (click)="functionSettingsMenu()" [matMenuTriggerFor]="matMenu" mat-icon-button
-        aria-label="Settings icon">
+      <button *ngIf="showSettingsMenu" [disabled]="error" (click)="functionSettingsMenu()" [matMenuTriggerFor]="matMenu"
+        mat-icon-button aria-label="Settings icon">
         <mat-icon>settings</mat-icon>
       </button>
-      <button *ngIf="showInfo" (click)="functionInfo()" mat-icon-button aria-label="Info icon">
+      <button *ngIf="showInfo" [disabled]="error" (click)="functionInfo()" mat-icon-button aria-label="Info icon">
         <mat-icon>info</mat-icon>
       </button>
       <span class="title-spacer">{{title}}</span>
-      <button *ngIf="showExpand" (click)="functionExpand()" mat-icon-button aria-label="Modal icon">
+      <button *ngIf="showExpand" [disabled]="error" (click)="functionExpand()" mat-icon-button aria-label="Modal icon">
         <mat-icon>launch</mat-icon>
       </button>
     </mat-toolbar>
 
-    <span *ngIf="error">Error...</span>
+    <div *ngIf="error" class="centredContent">
+      <h2 class="mat-headline">Content unavailable</h2>
+      <h3 class="mat-title">We are unable to display this content right now. Please adjust your search or try again
+        soon.</h3>
+    </div>
     <div *ngIf="!error" mat-align-tabs="center" class="card-content-wrapper">
       <ng-content></ng-content>
       <div *ngIf="loading" class="loading-indicator">

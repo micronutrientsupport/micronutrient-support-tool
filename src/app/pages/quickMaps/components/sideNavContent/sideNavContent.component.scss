@@ -7,7 +7,7 @@
 }
 
 .scroll-area {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   flex: 1 1;
 }
 
@@ -122,8 +122,11 @@ h3 {
 
 .footer-row {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   visibility: hidden;
+  text-align: center;
+  padding: 5px 5px 0px 5px;
 
   &.show {
     visibility: visible;
@@ -132,6 +135,12 @@ h3 {
   & button {
     margin: 1em 0;
   }
+}
+
+.results-text {
+  font-size: 12px;
+  font-weight: bold;
+  color: #bf1f34;
 }
 
 .slim-sidenav {
@@ -187,10 +196,6 @@ mat-slide-toggle {
 }
 
 :host::ng-deep {
-  & .mat-tooltip {
-    font-size: 12px;
-  }
-
   & .mat-slide-toggle-label {
     padding: 1em;
   }

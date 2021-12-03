@@ -21,8 +21,9 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CostEffectivenessModule } from './pages/costEffectiveness/costEffectiveness.module';
+import { NoResultsComponent } from './pages/noResults/noResults.component';
 @NgModule({
-  declarations: [QuickMapsComponent, LocationSelectComponent],
+  declarations: [QuickMapsComponent, LocationSelectComponent, NoResultsComponent],
   imports: [
     CommonModule,
     QuickMapsRoutingModule,

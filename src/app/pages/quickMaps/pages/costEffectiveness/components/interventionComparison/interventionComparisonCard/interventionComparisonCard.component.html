@@ -1,0 +1,37 @@
+<ng-template #componentTemplate>
+
+    <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
+        <mat-tab label="Effectiveness">
+
+        </mat-tab>
+
+        <mat-tab label="Cost">
+        </mat-tab>
+
+        <mat-tab label="Cost-Effectiveness">
+        </mat-tab>
+
+        <mat-tab label="About {{title}}">
+            <div class="about-container">
+                <h2>About {{title}}</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim id
+                    est laborum.</p>
+            </div>
+
+        </mat-tab>
+
+    </mat-tab-group>
+</ng-template>
+
+<ng-container *ngIf="null != dialogData; else componentTemplate">
+    <app-base-dialog [data]="dialogData" [title]="title">
+        <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+    </app-base-dialog>
+</ng-container>

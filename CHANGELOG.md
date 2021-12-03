@@ -1,5 +1,58 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.2.0...v1.3.0) (2021-12-03)
+
+
+### Features
+
+* added 697 intervention selection dialog ([95bcd1f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/95bcd1f3134807e95a4ba94c4f96ae46e0544f9b))
+* added 697 intervention selection dialog ([bbbbc28](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/bbbbc288f4d0f279c7d373dd9bd84fe8888c2d34))
+* added card functionality to comparison ([7a5de45](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7a5de4590b31d801efcfe3668bf74049d1a872bb))
+* added navigate to info tab functionality ([227d8c6](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/227d8c675603ee4f08fe7e9fac75aafeef1aa6e7))
+* added two further components ([17b7cf5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/17b7cf5b008a9a02acb8694b9057d3d5303fd3db))
+* allow missing data options in quickmaps to fail gracefully with area to guide users ([7826d3e](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7826d3e4a163b5bb5b4eccce8a487ca5277f13fd))
+* card appearing accordingly ([87a58d5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/87a58d5023a8f3a5c5cafedab6a330ee010a52bb))
+* ce intervention card added ([378c56f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/378c56f01cc92ca4bc6f47cb5e3ffc880e13fbfd))
+* ce intervention selection modal + containing modal for  intervention information ([fff6527](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fff652787f82953a6ded6a22ebbd90f459dae186))
+* created menu component and added components ([5630a12](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/5630a122bb0d4e1eed0e7954744165bca809bb88))
+* created set colours for projeection chart. If > 4 scenarios returned a random colour will be generated ([fab631f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fab631f329ac0575a7d5c279e9807ea0484c4708))
+* created temporary intervention object and use it to display interventions in comparison page ([7d4c024](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7d4c0244ae20e933ba3920490323feda13edda60))
+* fleshed out menu and create interventions ([84b1e9f](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/84b1e9f0019299617fa86225481c664a362e1680))
+* if card content unavailable disable the card toolbar options ([637ca22](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/637ca22dc1747b27941a09318865913f9d9aa51a))
+* improve no data placeholder content and add more info to no side bar results ([8458d4a](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/8458d4adae0886e4b0a46be5ba5e3f85adeca2ea))
+* make the card error display less stark and tweak notification display ([0c373fa](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0c373fa223e4f1aaa881bd3b2be4e588134cda89))
+* programmatically generating scenarios to be displayed on a map ([74faef8](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/74faef8af86bba5c079dabe887de911245f9f32a))
+* returneing multiple arrays based on scenario using reduce function ([f551535](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/f551535d3290523c2db2b413e585d4e67d1ebda1))
+* simplified the pr tenplate to remove cruft ([7f376f2](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7f376f2dec494f7d131f75103815fd980d01d8ed))
+* updated navigate to info tab and removed debugs ([07e5ed4](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/07e5ed40f4bc93bae53d4ef73e6494cd1de7f597))
+* using reduce to create new arrays ([b7d28bd](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/b7d28bd93fec052bb4616603a6d8497d6bf01769))
+* using SR's ColourHash functionality, moved to ColourPalette class and serving both projection charts ([75328af](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/75328af44c892a32df40f91f6bee062fc8cb259f))
+
+
+### Bug Fixes
+
+* cypress tests failing a11y support ([5839cf5](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/5839cf571c498e0ff45db830fd09f99b8a3d34b4))
+* dietary change scenarios no longer erros when retrieving map colour grad ([4aa1a98](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4aa1a98ee90757d934425371ac602fae1700d0e1))
+* light footer no longer crops copyright link offscreen in mobile mode ([5378945](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/53789457ba19adefc20a27d5024ebaa9cb18905f))
+* minor changes to routes to pass tests ([245619b](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/245619b57ff25f5d2994442093b32192f481fde6))
+* share panel width ([484e521](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/484e5210ce129cf99dc4a70a2c980bcca01043c5))
+* tooltips have more contrast and larger text for legibility ([57e2aaa](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/57e2aaac818265e5a1537e68a14e55627c2c910f))
+
+
+### Miscellaneous
+
+* added cypress studio and minor dep updates ([fdfd510](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/fdfd510adcdef822b21e4e1923698674ea517e15))
+* **deps-dev:** bump @commitlint/config-conventional ([38b18b0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/38b18b071286118773397a045ddac4c9866fbaf9))
+* **deps:** bump GoogleCloudPlatform/release-please-action ([996cbbc](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/996cbbc022c178706973dbc90ab5a0c2bef683f5))
+* disabled cost effectiveness scenarios tab ([e6295a0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/e6295a06ef666e81d6793eeacf351751dbb28ffe))
+* housekeeping ([9d8c8ea](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/9d8c8eaa217458f5eb89b18c4b05a75809eff5c4))
+* housekeeping ([7cec810](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/7cec8107414ec8409ebb7a6d8b8ad1f029453838))
+* made correction on wrong branch. disabled button no longer takes user to cost effective scenario page ([4b1e3a6](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/4b1e3a616cd11ba96ade353d9aab5425d7761190))
+* replaced placeholder text ([18ce7ef](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/18ce7ef4b06e33059b8e364cf5f177e3ebbe5606))
+* replaced placeholder text, pulled from develop ([b2e9ae4](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/b2e9ae44f716e2b95c870c9400739d735abf7f28))
+* reset the button to be disabled ([67fb046](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/67fb04642a8b7c20dce04f379def4a80e7786235))
+* rolled back dep updates due to conflicts ([0edfc20](https://www.github.com/micronutrientsupport/micronutrient-support-tool/commit/0edfc201763b7677d876132f670d7ed51e74317e))
+
 ## [1.2.0](https://www.github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.1.0...v1.2.0) (2021-11-25)
 
 

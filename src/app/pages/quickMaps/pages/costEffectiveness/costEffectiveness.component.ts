@@ -1,12 +1,19 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
-import { GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
 import { QuickMapsService } from '../../quickMaps.service';
-
+import { CostEffectivenessService } from './costEffectiveness.service';
+// eslint-disable-next-line no-shadow
+enum GridsterLayoutOptions {
+  DEFAULT_VIEW = 0,
+  GRID_VIEW = 1,
+}
 @Component({
   selector: 'app-costEffectiveness',
   templateUrl: './costEffectiveness.component.html',
   styleUrls: ['./costEffectiveness.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostEffectivenessComponent implements OnInit {
   public gridsterSource = GridsterSource;
@@ -19,7 +26,28 @@ export class CostEffectivenessComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  public enableComparisonCard: boolean;
+
+  private readonly defaultWidgetHeight = 3;
+  private readonly defaultWidgetWidth = 8;
+  private readonly defaultWidgetColumns = 1;
+
+  private dataLevelWidgetTypesMap: Map<DataLevel, Array<GridsterWidgets>> = new Map([
+    [DataLevel.COUNTRY, [this.WIDGETS.COST_EFFECTIVENESS_COMPARISION]],
+    [DataLevel.HOUSEHOLD, [this.WIDGETS.COST_EFFECTIVENESS_COMPARISION]],
+  ]);
+
+  constructor(
+    private quickMapsService: QuickMapsService,
+    public gridsterService: GridsterService,
+    private costEffectivenessService: CostEffectivenessService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.costEffectivenessService.interventionComparisonActiveObs.subscribe((showCard: boolean) => {
+      this.enableComparisonCard = showCard;
+      this.cdr.markForCheck();
+    });
+  }
 
   ngOnInit(): void {
     this.options = {
@@ -75,5 +103,43 @@ export class CostEffectivenessComponent implements OnInit {
         },
       },
     };
+    // When the quick maps params change trigger the boxes to reset
+    this.quickMapsService.dietParameterChangedObs.subscribe(() => {
+      this.layoutChange();
+    });
+  }
+
+  public layoutChange(id?: string | number): void {
+    let width: number;
+    let height: number;
+    let widgetCols: number;
+    switch (id) {
+      default: {
+        width = this.defaultWidgetWidth;
+        height = this.defaultWidgetHeight;
+        widgetCols = this.defaultWidgetColumns;
+        break;
+      }
+      case GridsterLayoutOptions.GRID_VIEW: {
+        width = 6;
+        height = 4;
+        widgetCols = 2;
+        break;
+      }
+    }
+
+    this.dashboard = this.gridsterService.resetGrid(
+      this.gridsterSource.BASELINE,
+      this.quickMapsService.dietDataSource.get()?.dataLevel,
+      this.dashboard.slice(),
+      this.dataLevelWidgetTypesMap,
+      width,
+      height,
+      widgetCols,
+    );
+
+    if (this.options.api && this.options.api.optionsChanged) {
+      this.options.api.optionsChanged();
+    }
   }
 }

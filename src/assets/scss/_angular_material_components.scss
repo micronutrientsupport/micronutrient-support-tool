@@ -95,3 +95,10 @@ mat-form-field.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
 .mat-select-panel {
   @include custom-scroll;
 }
+
+mat-tooltip-component .mat-tooltip {
+  font-family: 'Quicksand';
+  font-size: 14px;
+  color: white;
+  background-color: black;
+}

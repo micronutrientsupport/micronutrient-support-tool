@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -22,49 +22,45 @@ import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { Named } from 'src/app/apiAndObjects/objects/named.interface';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
   templateUrl: './sideNavContent.component.html',
   styleUrls: ['./sideNavContent.component.scss'],
 })
-export class SideNavContentComponent implements OnInit {
+export class SideNavContentComponent {
   @Input() showGoButton: boolean; // indicates if we're on the location select page or not
   public readonly ROUTES = AppRoutes;
   public readonly MICRONUTRIENT_TYPE_ENUM = MicronutrientType;
   public readonly MICRONUTRIENT_MEASURE_TYPE_ENUM = MicronutrientMeasureType;
   public readonly GEOGRAPHY_TYPE_ENUM = GeographyTypes;
-
   public countriesDictionary: Dictionary;
   public regionDictionary: Dictionary;
   public micronutrientsDictionary: Dictionary;
   public ageGenderGroupsDictionary: Dictionary;
-
   public measureDietEnabled = false;
   public measureBiomarkerEnabled = false;
-
   public selectedGeographyType: GeographyTypes;
   public selectedMndType: MicronutrientType;
-
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<Named>();
-
   public quickMapsForm: FormGroup;
-
   public sideNavToggleLock = new FormControl(false);
-
+  public btnViewResultsActive = false;
   private subscriptions = new Array<Subscription>();
 
   constructor(
-    private fb: FormBuilder,
     public dictionariesService: DictionaryService,
-    private dietDataService: DietDataService,
-    private biomarkerDataService: BiomarkerDataService,
-    private router: Router,
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
     public routeGuardService: QuickMapsRouteGuardService,
+    private fb: FormBuilder,
+    private dietDataService: DietDataService,
+    private biomarkerDataService: BiomarkerDataService,
+    private router: Router,
+    private dialogService: DialogService,
   ) {
     void dictionariesService
       .getDictionaries([
@@ -143,18 +139,6 @@ export class SideNavContentComponent implements OnInit {
 
         this.updateDataMeasureOptions();
       });
-  }
-
-  ngOnInit(): void {
-    // If selections are made that invalidates the current page, navigate
-    this.subscriptions.push(
-      this.quickMapsService.parameterChangedObs.subscribe(() => {
-        // only if not showing the "view results" button (on location select page)
-        if (!this.showGoButton) {
-          this.checkCurrentRouteValid();
-        }
-      }),
-    );
   }
 
   public mndChange(type: MicronutrientType): void {
@@ -262,10 +246,29 @@ export class SideNavContentComponent implements OnInit {
     }
     void dataSourcePromise.then((options: Array<Named>) => {
       this.dataSources = options;
-
-      // if only one option, preselect
-      if (1 === options.length) {
-        this.quickMapsForm.get('dataSource').setValue(options[0]);
+      if (null != country && null != micronutrient && null != measure) {
+        if (options.length === 0) {
+          if (!this.showGoButton) {
+            // valid data --> invalid data
+            this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
+          } else {
+            // location page with invalid data
+            this.btnViewResultsActive = false;
+          }
+        } else if (options.length >= 1) {
+          this.quickMapsForm.get('dataSource').setValue(options[0]);
+          if (!this.showGoButton) {
+            // valid data --> valid data
+            void this.routeGuardService.getRequiredNavRoute().then((requiredRoute: AppRoute) => {
+              if (null != requiredRoute) {
+                this.navigate(requiredRoute);
+              }
+            });
+          } else {
+            // location page with valid data
+            this.btnViewResultsActive = true;
+          }
+        }
       }
     });
   }

@@ -19,7 +19,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import ColorHash from 'color-hash-ts';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
@@ -31,6 +30,7 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
 import { ProjectionDataService } from 'src/app/services/projectionData.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -203,7 +203,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             stackedChartData.datasets.push({
               label: foodTypes[index],
               data: data.filter((item) => item.name === foodTypes[index]).map((item) => item.value),
-              backgroundColor: this.genColorHex(foodTypes[index]),
+              backgroundColor: ColourPalette.generateRandomColour(foodTypes[index]),
             });
           });
 
@@ -288,11 +288,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-  }
-
-  private genColorHex(foodTypeIndex: string) {
-    const colorHash = new ColorHash();
-    return colorHash.hex(foodTypeIndex);
   }
 
   private openDialog(): void {
