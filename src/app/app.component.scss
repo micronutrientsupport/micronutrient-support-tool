@@ -4,6 +4,11 @@
   width: 100vw;
 }
 
+::ng-deep .feedback-button__container {
+  right: -55px !important;
+  font-family: 'Quicksand' !important;
+}
+
 ::ng-deep ngx-feedback-main-btn {
   position: absolute;
   z-index: 10000;
@@ -21,15 +26,14 @@
     top: 0 !important;
     left: 0 !important;
     z-index: 11000 !important;
+    overflow-y: scroll;
   }
 
+  ::ng-deep .ngx-feedback-modal__textarea {
+    width: 100% !important;
+  }
   ::ng-deep .ng-star-inserted:not(.ngx-feedback-modal__boxes) {
     flex-direction: column !important;
     align-items: center;
-    width: 90%;
-
-    & > div {
-      width: 90% !important;
-    }
   }
 }
