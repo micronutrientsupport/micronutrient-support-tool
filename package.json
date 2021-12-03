@@ -72,7 +72,7 @@
     "@angular-eslint/eslint-plugin": "4.3.0",
     "@angular-eslint/eslint-plugin-template": "4.3.0",
     "@angular-eslint/schematics": "4.0.0",
-    "@angular-eslint/template-parser": "4.3.0",
+    "@angular-eslint/template-parser": "13.0.1",
     "@angular/cli": "~11.2.14",
     "@angular/compiler-cli": "~11.2.14",
     "@angular/localize": "^11.2.14",
