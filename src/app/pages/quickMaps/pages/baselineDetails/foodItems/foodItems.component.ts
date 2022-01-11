@@ -26,6 +26,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -47,6 +48,8 @@ export class FoodItemsComponent implements AfterViewInit {
   public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
+
+  public readonly DATA_LEVEL = DataLevel;
 
   private data: Array<TopFoodSource>;
 
@@ -191,7 +194,11 @@ export class FoodItemsComponent implements AfterViewInit {
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
               const mnUnit = this.mnUnit;
-              return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
+              if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.COUNTRY) {
+                return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/capita/day`;
+              } else {
+                return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
+              }
             },
           },
         },
