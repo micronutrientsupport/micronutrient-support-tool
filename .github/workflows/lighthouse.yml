@@ -19,7 +19,7 @@ jobs:
             Running Lighthouse audit...
       - uses: actions/checkout@v1
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: 12.x
       - name: Waiting for 200 from Netlify
@@ -52,7 +52,7 @@ jobs:
           urls: "${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps"
           sha: ${{ github.sha }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: Lighthouse reports
           path: /tmp/artifacts
