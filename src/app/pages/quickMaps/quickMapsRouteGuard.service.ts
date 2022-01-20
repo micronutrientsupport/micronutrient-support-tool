@@ -99,7 +99,6 @@ export class QuickMapsRouteGuardService implements CanActivate {
    */
   private getRequiredNavForMeasureValidation(snapshot: ActivatedRouteSnapshot): Promise<AppRoute> {
     const appRoute = (snapshot.data as RouteData).appRoute;
-    return Promise.resolve(appRoute);
     // console.debug('validateMeasureForRoute', measure, snapshot);
 
     return this.quickMapsParameters.getMeasure(snapshot.queryParamMap).then((measure) => {
