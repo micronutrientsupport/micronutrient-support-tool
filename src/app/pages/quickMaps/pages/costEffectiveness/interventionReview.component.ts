@@ -3,6 +3,7 @@ import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angu
 import { QuickMapsService } from '../../quickMaps.service';
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
+import { AppRoutes } from 'src/app/routes/routes';
 
 @Component({
   selector: 'app-intervention-review',
@@ -10,6 +11,7 @@ import { RouteData } from 'src/app/app-routing.module';
   styleUrls: ['./interventionReview.component.scss'],
 })
 export class InterventionReviewComponent implements OnInit {
+  public ROUTES = AppRoutes;
   public showHeader = false;
   public showGoButton = false;
 

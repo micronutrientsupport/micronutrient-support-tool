@@ -1,8 +1,18 @@
-<div role="main">
+<div rlie="main">
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav [disableClose]="true" opened mode="side"
       [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
-      I am the intervention sidebar
+      <ul>
+        <li>Baseline assumptions</li>
+        <li>Compliance over time</li>
+        <li>Point of consumption</li>
+        <li>Review of program assumptions</li>
+        <li>Industry information</li>
+        <li>Monitoring information</li>
+        <li>Startup/Scaleup costs</li>
+        <li>Recurring costs</li>
+        <li>Cost summary</li>
+      </ul>
     </mat-sidenav>
     <div class="sidenav-content" [class.header-present]="showHeader">
       <router-outlet></router-outlet>

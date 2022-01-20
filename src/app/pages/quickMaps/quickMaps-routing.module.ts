@@ -108,6 +108,11 @@ const routes: Routes = [
     ],
   },
   {
+    path: AppRoutes.INTERVENTION_REVIEW.getRouterPath(),
+    loadChildren: () =>
+      import('./pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

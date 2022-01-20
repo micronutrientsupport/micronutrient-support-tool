@@ -18,16 +18,14 @@ const routes: Routes = [
     component: InterventionReviewComponent,
     children: [
       {
-        path: AppRoutes.INTERVENTION_REVIEW_BASELINE.getRouterPath(),
+        path: '',
         component: InterventionBaselineComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_BASELINE,
-          title: 'Quick MAPS',
-          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
-          description: 'Quick Maps form for selecting and filtering search criteria',
-          hideQuickMapsHeader: true,
+          title: '',
+          keywords: '',
+          description: '',
           showLightFooter: true,
-          showQuickMapsGoButton: true,
         } as RouteData,
       },
       {
@@ -35,12 +33,10 @@ const routes: Routes = [
         component: InterventionAssumptionsReviewComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW,
-          title: 'Quick MAPS',
-          keywords: 'Micronutrients, maps, policy, quick maps, form, selection',
-          description: 'Quick Maps no results found',
-          hideQuickMapsHeader: true,
+          title: '',
+          keywords: '',
+          description: '',
           showLightFooter: true,
-          showQuickMapsGoButton: false,
         } as RouteData,
       },
       {
@@ -48,10 +44,9 @@ const routes: Routes = [
         component: InterventionComplianceComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_COMPLIANCE,
-          title: 'Quick MAPS - Baseline',
-          keywords: 'Micronutrients, maps, policy, project objectives',
-          description:
-            'Baseline estimates of dietary MN supplies and deficiency risks in the selected country or region.',
+          title: '',
+          keywords: '',
+          description: '',
           showLightFooter: true,
         } as RouteData,
       },
@@ -60,10 +55,9 @@ const routes: Routes = [
         component: InterventionCostSummaryComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
-          title: 'Quick MAPS - Projections to 2050',
-          keywords:
-            'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
-          description: 'Projections of food system changes under various scenarios.',
+          title: '',
+          keywords: '',
+          description: '',
           showLightFooter: true,
         } as RouteData,
       },
@@ -72,7 +66,7 @@ const routes: Routes = [
         component: InterventionIndustryInformationomponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_INDUSTRY_INFORMATION,
-          title: 'Quick MAPS - Simple dietary change scenarios',
+          title: '',
           keywords: '',
           description: '',
           showLightFooter: true,
@@ -83,7 +77,7 @@ const routes: Routes = [
         component: InterventionMonitoringInformationComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_MONITORING_INFORMATION,
-          title: 'Quick MAPS - Explore cost effectiveness scenarios',
+          title: '',
           keywords: '',
           description: '',
           showLightFooter: true,
@@ -94,7 +88,7 @@ const routes: Routes = [
         component: InterventionRecurringCostsComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
-          title: 'Quick Maps - Biomarker',
+          title: '',
           keywords: '',
           description: '',
           showLightFooter: true,
@@ -105,7 +99,7 @@ const routes: Routes = [
         component: InterventionStartupScaleupCostsComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
-          title: 'Quick Maps - Biomarker',
+          title: '',
           keywords: '',
           description: '',
           showLightFooter: true,

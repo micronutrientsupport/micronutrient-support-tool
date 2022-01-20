@@ -12,8 +12,24 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { InterventionReviewComponent } from './interventionReview.component';
 import { InterventionReviewRoutingModule } from './interventionReview-routing.module';
+import { InterventionBaselineComponent } from './pages/interventionBaseline/interventionBaseline.component';
+import { InterventionComplianceComponent } from './pages/interventionCompliance/interventionCompliance.component';
+import { InterventionCostSummaryComponent } from './pages/interventionCostSummary/interventionCostSummary.component';
+import { InterventionIndustryInformationomponent } from './pages/interventionIndustryInformation/interventionIndustryInformation.component';
+import { InterventionMonitoringInformationComponent } from './pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
+import { InterventionRecurringCostsComponent } from './pages/interventionRecurringCosts/interventionRecurringCosts.component';
+import { InterventionStartupScaleupCostsComponent } from './pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
 @NgModule({
-  declarations: [InterventionReviewComponent],
+  declarations: [
+    InterventionReviewComponent,
+    InterventionBaselineComponent,
+    InterventionComplianceComponent,
+    InterventionCostSummaryComponent,
+    InterventionIndustryInformationomponent,
+    InterventionMonitoringInformationComponent,
+    InterventionRecurringCostsComponent,
+    InterventionStartupScaleupCostsComponent,
+  ],
   imports: [
     CommonModule,
     InterventionReviewRoutingModule,
@@ -25,5 +41,6 @@ import { InterventionReviewRoutingModule } from './interventionReview-routing.mo
     RoutesModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService],
+  exports: [],
 })
 export class InterventionReviewModule {}
