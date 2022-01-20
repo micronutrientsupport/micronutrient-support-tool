@@ -97,6 +97,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
   {
+    path: AppRoutes.INTERVENTION_REVIEW.getRouterPath(),
+    loadChildren: () =>
+      import('./pages/quickMaps/pages/costEffectiveness/interventionReview.module').then(
+        (m) => m.InterventionReviewModule,
+      ),
+  },
+  {
     path: '**',
     resolve: {
       path: PathResolveService,

@@ -1,0 +1,11 @@
+<div role="main">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [disableClose]="true" opened mode="side"
+      [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
+      I am the intervention sidebar
+    </mat-sidenav>
+    <div class="sidenav-content" [class.header-present]="showHeader">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+</div>
