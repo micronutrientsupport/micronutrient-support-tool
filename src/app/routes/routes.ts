@@ -119,7 +119,7 @@ export class AppRoutes {
   public static readonly INTERVENTION_REVIEW_BASELINE = {
     ...BASE_ROUTE,
     segments: 'intervention-baseline',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW = {
     ...BASE_ROUTE,
