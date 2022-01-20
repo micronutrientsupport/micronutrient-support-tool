@@ -124,37 +124,37 @@ export class AppRoutes {
   public static readonly INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW = {
     ...BASE_ROUTE,
     segments: 'intervention-assumptions-review',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_COMPLIANCE = {
     ...BASE_ROUTE,
     segments: 'intervention-compliance',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_COST_SUMMARY = {
     ...BASE_ROUTE,
     segments: 'intervention-cost-summary',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_INDUSTRY_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-industry-information',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_MONITORING_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-monitoring-information',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_RECURRING_COSTS = {
     ...BASE_ROUTE,
     segments: 'intervention-recurring-costs',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS = {
     ...BASE_ROUTE,
     segments: 'intervention-startup-scaleup-costs',
-    parent: AppRoutes.INTERVENTION_REVIEW,
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
 }
 

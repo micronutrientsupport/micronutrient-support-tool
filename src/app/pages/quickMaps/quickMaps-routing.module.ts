@@ -112,10 +112,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
   },
-  {
-    path: '**',
-    redirectTo: '',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: '',
+  // },
 ];
 
 @NgModule({

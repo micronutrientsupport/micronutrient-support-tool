@@ -22,6 +22,7 @@ import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module'
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CostEffectivenessModule } from './pages/costEffectiveness/costEffectiveness.module';
 import { NoResultsComponent } from './pages/noResults/noResults.component';
+import { InterventionReviewModule } from './pages/costEffectiveness/interventionReview.module';
 @NgModule({
   declarations: [QuickMapsComponent, LocationSelectComponent, NoResultsComponent],
   imports: [
@@ -41,6 +42,7 @@ import { NoResultsComponent } from './pages/noResults/noResults.component';
     PipesModule,
     DietaryChangeModule,
     CostEffectivenessModule,
+    InterventionReviewModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService],
 })

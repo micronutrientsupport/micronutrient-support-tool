@@ -18,7 +18,7 @@ const routes: Routes = [
     component: InterventionReviewComponent,
     children: [
       {
-        path: '',
+        path: AppRoutes.INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW.getRouterPath(),
         component: InterventionBaselineComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_BASELINE,
