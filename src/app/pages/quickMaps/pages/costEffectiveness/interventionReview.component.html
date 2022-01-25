@@ -1,0 +1,11 @@
+<div rlie="main">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [disableClose]="true" opened mode="side"
+      [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
+      <app-intervention-sidenav-content></app-intervention-sidenav-content>
+    </mat-sidenav>
+    <div class="sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+</div>

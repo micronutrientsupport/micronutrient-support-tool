@@ -1,20 +1,20 @@
 <div class="menu-container">
-    <button mat-mini-fab color="primary">
-        <mat-icon (click)="openCEInfoDialog()">question_mark</mat-icon>
-    </button>
-    <mat-button-toggle-group [value]="'create'" #group="matButtonToggleGroup">
-        <mat-button-toggle value="create">
-            Create Interventions
-        </mat-button-toggle>
-        <mat-button-toggle value="compare">
-            Compare Interventions
-        </mat-button-toggle>
-    </mat-button-toggle-group>
-    <span matTooltip="Select interventions to compare them.">
-        <mat-icon matBadge="3" matBadgeOverlap="false">shopping_basket</mat-icon>
-    </span>
+  <button mat-mini-fab color="primary">
+    <mat-icon (click)="openCEInfoDialog()">question_mark</mat-icon>
+  </button>
+  <mat-button-toggle-group [value]="'create'" #group="matButtonToggleGroup">
+    <mat-button-toggle value="create">
+      Create Interventions
+    </mat-button-toggle>
+    <mat-button-toggle value="compare">
+      Compare Interventions
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <span matTooltip="Select interventions to compare them.">
+    <mat-icon matBadge="?" matBadgeOverlap="false">shopping_basket</mat-icon>
+  </span>
 </div>
 <div>
-    <app-intervention-creation *ngIf="group.value === 'create'"></app-intervention-creation>
-    <app-intervention-comparison *ngIf="group.value === 'compare'"></app-intervention-comparison>
+  <app-intervention-creation *ngIf="group.value === 'create'"></app-intervention-creation>
+  <app-intervention-comparison *ngIf="group.value === 'compare'"></app-intervention-comparison>
 </div>

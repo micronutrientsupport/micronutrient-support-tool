@@ -108,9 +108,14 @@ const routes: Routes = [
     ],
   },
   {
-    path: '**',
-    redirectTo: '',
+    path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath() + '**',
+    loadChildren: () =>
+      import('./pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
   },
+  // {
+  //   path: '**',
+  //   redirectTo: '',
+  // },
 ];
 
 @NgModule({

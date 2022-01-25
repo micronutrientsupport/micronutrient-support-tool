@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { AppRoutes } from 'src/app/routes/routes';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -13,6 +14,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 export class InterventionComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  public ROUTES = AppRoutes;
   toggle = true;
   status1 = 'Confirmed';
   status2 = 'Confirmed';

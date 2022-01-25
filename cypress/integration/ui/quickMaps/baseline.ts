@@ -20,26 +20,9 @@ describe('Quick maps - Baseline', () => {
   });
 
   /* ==== Test Created with Cypress Studio ==== */
-  it('baseline data visible', function () {
-    /* ==== Generated with Cypress Studio ==== */
-    cy.visit(
-      'http://localhost:8100/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=',
-    );
-    cy.get('.content-container > :nth-child(1) > strong').should('have.text', 'Malawi');
-    cy.get('.content-container > :nth-child(2) > strong').should('have.text', 'Calcium');
-    cy.get(':nth-child(3) > .capitalize-text').should('have.text', 'diet Data');
-    cy.get(':nth-child(4) > .capitalize-text').should('have.text', ' country ');
-    cy.get('#absolute-map').should('be.visible');
-    cy.get('#treemap').should('be.visible');
-    /* ==== End Cypress Studio ==== */
-  });
-
-  /* ==== Test Created with Cypress Studio ==== */
   it('baseline description panel show/hide', function () {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit(
-      'http://localhost:8100/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=',
-    );
+    cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
     cy.get('.mat-expansion-panel-body').should('be.visible');
     cy.get('.mat-expansion-indicator').click();
     cy.get('.mat-expansion-panel-body').should('be.hidden');
@@ -51,9 +34,7 @@ describe('Quick maps - Baseline', () => {
   /* ==== Test Created with Cypress Studio ==== */
   it('baseline estimate panel showing correct data', function () {
     /* ==== Generated with Cypress Studio ==== */
-    cy.visit(
-      'http://localhost:8100/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=',
-    );
+    cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
     cy.get('.nation > .estimateValue').should('be.visible');
     cy.get('.nation > .estimateValue').should('have.text', ' 296 ');
     cy.get('.vitamin > .estimateValue').should('be.visible');
