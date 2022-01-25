@@ -34,6 +34,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 @NgModule({
   imports: [
     MatAutocompleteModule,
@@ -72,6 +73,7 @@ import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
     MatTooltipModule,
     MatTreeModule,
     MatFabMenuModule,
+    CdkStepperModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -110,6 +112,7 @@ import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
     MatTooltipModule,
     MatTreeModule,
     MatFabMenuModule,
+    CdkStepperModule,
   ],
 })
 export class AppMaterialModule {}

@@ -2,17 +2,7 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav [disableClose]="true" opened mode="side"
       [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
-      <ul>
-        <li>Baseline assumptions</li>
-        <li>Compliance over time</li>
-        <li>Point of consumption</li>
-        <li>Review of program assumptions</li>
-        <li>Industry information</li>
-        <li>Monitoring information</li>
-        <li>Startup/Scaleup costs</li>
-        <li>Recurring costs</li>
-        <li>Cost summary</li>
-      </ul>
+      <app-intervention-sidenav-content></app-intervention-sidenav-content>
     </mat-sidenav>
     <div class="sidenav-content">
       <router-outlet></router-outlet>

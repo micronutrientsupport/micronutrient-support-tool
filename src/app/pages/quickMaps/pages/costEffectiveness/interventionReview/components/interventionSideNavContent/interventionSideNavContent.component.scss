@@ -1,0 +1,24 @@
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f1ecf6;
+  padding: 10px;
+  background-color: $color_background_form;
+}
+.intervention-steps {
+  width: 100%;
+  background-color: $color_background_form;
+}
+::ng-deep .mat-vertical-stepper-header {
+  pointer-events: none !important;
+}

@@ -3,14 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionReviewComponent } from './interventionReview.component';
-import { InterventionAssumptionsReviewComponent } from './pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
-import { InterventionBaselineComponent } from './pages/interventionBaseline/interventionBaseline.component';
-import { InterventionComplianceComponent } from './pages/interventionCompliance/interventionCompliance.component';
-import { InterventionCostSummaryComponent } from './pages/interventionCostSummary/interventionCostSummary.component';
-import { InterventionIndustryInformationomponent } from './pages/interventionIndustryInformation/interventionIndustryInformation.component';
-import { InterventionMonitoringInformationComponent } from './pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
-import { InterventionRecurringCostsComponent } from './pages/interventionRecurringCosts/interventionRecurringCosts.component';
-import { InterventionStartupScaleupCostsComponent } from './pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
+import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
+import { InterventionBaselineComponent } from './interventionReview/pages/interventionBaseline/interventionBaseline.component';
+import { InterventionComplianceComponent } from './interventionReview/pages/interventionCompliance/interventionCompliance.component';
+import { InterventionConsumptionComponent } from './interventionReview/pages/interventionConsumption/interventionConsumption.component';
+import { InterventionCostSummaryComponent } from './interventionReview/pages/interventionCostSummary/interventionCostSummary.component';
+import { InterventionIndustryInformationomponent } from './interventionReview/pages/interventionIndustryInformation/interventionIndustryInformation.component';
+import { InterventionMonitoringInformationComponent } from './interventionReview/pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
+import { InterventionRecurringCostsComponent } from './interventionReview/pages/interventionRecurringCosts/interventionRecurringCosts.component';
+import { InterventionStartupScaleupCostsComponent } from './interventionReview/pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,17 @@ const routes: Routes = [
         component: InterventionComplianceComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_COMPLIANCE,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_CONSUMPTION.getRouterPath(),
+        component: InterventionConsumptionComponent,
+        data: {
+          appRoute: AppRoutes.INTERVENTION_REVIEW_CONSUMPTION,
           title: '',
           keywords: '',
           description: '',

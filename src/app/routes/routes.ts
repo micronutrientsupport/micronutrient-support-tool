@@ -131,6 +131,11 @@ export class AppRoutes {
     segments: 'intervention-compliance',
     parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
   };
+  public static readonly INTERVENTION_REVIEW_CONSUMPTION = {
+    ...BASE_ROUTE,
+    segments: 'intervention-consumption',
+    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+  };
   public static readonly INTERVENTION_REVIEW_COST_SUMMARY = {
     ...BASE_ROUTE,
     segments: 'intervention-cost-summary',

@@ -16,7 +16,6 @@ router-outlet ::ng-deep + * {
   bottom: $footer_light_height;
   left: 0;
   right: 0;
-  background-color: aqua;
 }
 
 // fix the footer position
