@@ -1,8 +1,6 @@
 <div class="container">
   <div class="content">
-    <p>Intervention name: {{ interventionName }}</p>
-    <h1>Point of consumption</h1>
-    <p>Summary panel</p>
+    <app-intervention-description></app-intervention-description>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route"
