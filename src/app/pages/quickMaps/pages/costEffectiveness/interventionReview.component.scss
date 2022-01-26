@@ -8,6 +8,7 @@ router-outlet ::ng-deep + * {
 
 .mat-sidenav {
   border: 0;
+  width: 320px;
 }
 
 .sidenav-container {

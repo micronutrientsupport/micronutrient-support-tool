@@ -10,6 +10,7 @@ export class InterventionCostSummaryComponent {
   constructor(private intSideNavService: InterventionSideNavContentService) {}
   public ROUTES = AppRoutes;
   public pageStepperPosition = 8;
+  public interventionName = 'IntName';
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }

@@ -19,6 +19,16 @@
   width: 100%;
   background-color: $color_background_form;
 }
-::ng-deep .mat-vertical-stepper-header {
-  pointer-events: none !important;
+.intervention-stage-info {
+  font-size: 14px;
+}
+.intervention-review-title {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px;
+}
+.intervention-review-subtitle {
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
 }

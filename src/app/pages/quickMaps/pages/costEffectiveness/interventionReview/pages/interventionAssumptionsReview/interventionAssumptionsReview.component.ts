@@ -10,6 +10,7 @@ export class InterventionAssumptionsReviewComponent {
   constructor(private intSideNavService: InterventionSideNavContentService) {}
   public ROUTES = AppRoutes;
   public pageStepperPosition = 3;
+  public interventionName = 'IntName';
   public ngAfterViewInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
