@@ -8,7 +8,7 @@ import { Intervention } from '../apiAndObjects/objects/intervention';
 export class InterventionDataService {
   constructor(private apiService: ApiService) {}
 
-  public getIntervention(id: string): Promise<Array<Intervention>> {
+  public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
     });

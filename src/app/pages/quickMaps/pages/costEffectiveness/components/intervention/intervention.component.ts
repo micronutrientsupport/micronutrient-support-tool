@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { AppRoutes } from 'src/app/routes/routes';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
   styleUrls: ['./intervention.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InterventionComponent implements OnInit {
+export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
 
   public ROUTES = AppRoutes;
@@ -22,15 +20,6 @@ export class InterventionComponent implements OnInit {
   public loading = false;
   public error = false;
 
-  constructor(public interventionDataService: InterventionDataService) {
-    this.interventionDataService.getIntervention('1').then((data: Array<Intervention>) => {
-      console.debug('data:', data);
-    });
-  }
-
-  ngOnInit(): void {
-    //to be continued
-  }
   onConfirmAssumptions(): void {
     this.toggle = !this.toggle;
     this.status1 = this.toggle ? 'Confirmed' : 'Not confirmed';

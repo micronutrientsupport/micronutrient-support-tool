@@ -3,20 +3,20 @@ import { Intervention } from '../../objects/intervention';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class GetIntervention extends CacheableEndpoint<Array<Intervention>, GetInverventionsParams, Intervention> {
+export class GetIntervention extends CacheableEndpoint<Intervention, GetInverventionsParams, Intervention> {
   protected getCacheKey(params: GetInverventionsParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetInverventionsParams): Promise<Array<Intervention>> {
+  protected callLive(params: GetInverventionsParams): Promise<Intervention> {
     const callResponsePromise = this.apiCaller.doCall(['interventions', params.id], RequestMethod.GET, {
       id: params.id,
     });
 
-    return this.buildObjectsFromResponse(Intervention, callResponsePromise);
+    return this.buildObjectFromResponse(Intervention, callResponsePromise);
   }
 
-  protected callMock(): Promise<Array<Intervention>> {
+  protected callMock(): Promise<Intervention> {
     // const httpClient = this.injector.get<HttpClient>(HttpClient);
     // return this.buildObjectsFromResponse(
     //   MonthlyFoodGroup,
