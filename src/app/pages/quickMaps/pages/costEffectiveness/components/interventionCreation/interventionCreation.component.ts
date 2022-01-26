@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
@@ -13,6 +14,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 })
 export class InterventionCreationComponent implements OnInit {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
+  public selectedInterventions: Array<InterventionsDictionaryItem> = [];
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -30,6 +32,10 @@ export class InterventionCreationComponent implements OnInit {
   }
 
   public openCESelectionDialog(): void {
-    void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems);
+    void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
+      console.debug('selected intervention:', data.dataOut);
+      this.selectedInterventions.push(data.dataOut);
+      // this.selectedInterventions.push(selectedIntervention);
+    });
   }
 }
