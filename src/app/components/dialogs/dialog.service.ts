@@ -1,6 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
@@ -32,8 +33,13 @@ export class DialogService extends BaseDialogService {
     });
   }
 
-  public openCESelectionDialog(): Promise<DialogData> {
-    return this.openDialog('costEffectivenessSelectionDialog', CostEffectivenessSelectionDialogComponent);
+  public openCESelectionDialog(interventions: Array<InterventionsDictionaryItem>): Promise<DialogData> {
+    return this.openDialog(
+      'costEffectivenessSelectionDialog',
+      CostEffectivenessSelectionDialogComponent,
+      false,
+      interventions,
+    );
   }
   public openCEInfoDialog(): Promise<DialogData> {
     return this.openDialog('costEffectivenessInfoDialog', CostEffectivenessInfoDialogComponent);

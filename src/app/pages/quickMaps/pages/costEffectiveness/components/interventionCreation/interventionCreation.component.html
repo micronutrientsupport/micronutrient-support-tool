@@ -13,4 +13,8 @@
     </button>
 </div>
 <h2>Selected interventions</h2>
-<app-ce-intervention></app-ce-intervention>
+
+<!-- <div *ngFor="let intervention of selectedInterventions"> -->
+<app-ce-intervention *ngFor="let intervention of selectedInterventions" [intervention]="intervention">
+</app-ce-intervention>
+<!-- </div> -->

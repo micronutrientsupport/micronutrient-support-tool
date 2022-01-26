@@ -27,6 +27,7 @@ import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
 import { GetNationalSummary } from './diet/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
+import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -57,6 +58,7 @@ export class ApiService extends BaseApi {
       getDietChangeConsumption: new GetDietChangeConsumption(ApiService.USE_LIVE_API),
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
+
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
     },
@@ -90,6 +92,10 @@ export class ApiService extends BaseApi {
         typeObj: AgeGenderDictionaryItem,
       })
       .setMockObjectsCreatorFunc((injector) => AgeGenderDictionaryItem.getMockItems(injector)),
+    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API).setDefaultParams({
+      path: 'interventions',
+      typeObj: InterventionsDictionaryItem,
+    }),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {
