@@ -1,0 +1,35 @@
+@import 'src/assets/scss/_colour';
+
+.intervention-summary-title {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 10px;
+}
+.intervention-summary-panel {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  height: 50px;
+  background-color: $color_background_form;
+  border-radius: 10px;
+
+  .item {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+      //
+    }
+    .value {
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  }
+}

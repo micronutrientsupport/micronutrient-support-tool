@@ -22,11 +22,19 @@ export class InterventionSideNavContentComponent {
   @ViewChild('interventionStepper', { static: false }) stepper: MatStepper;
   public currentStepPosition = 0;
 
-  // Note: as the stepper is set to linear, if you try and set the
-  // stepper position other than 0 it will appear not to be working
   public setStepperPosition(position: number): void {
     setTimeout(() => {
       this.stepper.selectedIndex = position;
+    });
+  }
+  public stepperPrevious(): void {
+    setTimeout(() => {
+      this.stepper.previous();
+    });
+  }
+  public stepperNext(): void {
+    setTimeout(() => {
+      this.stepper.next();
     });
   }
 }
