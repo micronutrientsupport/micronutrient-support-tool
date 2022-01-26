@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -12,8 +11,8 @@ import { AppRoutes } from 'src/app/routes/routes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @Input() intervention: InterventionsDictionaryItem;
+
   public ROUTES = AppRoutes;
   toggle = true;
   status1 = 'Confirmed';

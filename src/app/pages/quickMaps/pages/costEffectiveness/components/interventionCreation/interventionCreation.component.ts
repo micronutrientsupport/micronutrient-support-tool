@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -11,6 +11,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
   styleUrls: ['./interventionCreation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionCreationComponent implements OnInit {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
@@ -20,6 +21,7 @@ export class InterventionCreationComponent implements OnInit {
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private dictionariesService: DictionaryService,
+    private cdr: ChangeDetectorRef,
   ) {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
@@ -35,6 +37,7 @@ export class InterventionCreationComponent implements OnInit {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
       console.debug('selected intervention:', data.dataOut);
       this.selectedInterventions.push(data.dataOut);
+      this.cdr.detectChanges();
       // this.selectedInterventions.push(selectedIntervention);
     });
   }
