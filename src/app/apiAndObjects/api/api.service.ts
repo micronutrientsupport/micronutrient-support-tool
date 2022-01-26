@@ -28,6 +28,7 @@ import { GetNationalSummary } from './diet/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
+import { GetIntervention } from './intervention/getIntervention';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -58,7 +59,9 @@ export class ApiService extends BaseApi {
       getDietChangeConsumption: new GetDietChangeConsumption(ApiService.USE_LIVE_API),
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
-
+    intervention: {
+      getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
+    },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
     },
