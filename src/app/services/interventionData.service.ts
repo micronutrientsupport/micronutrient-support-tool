@@ -13,4 +13,9 @@ export class InterventionDataService {
       id,
     });
   }
+  public getInterventionData(id: string): Promise<Intervention> {
+    return this.apiService.endpoints.intervention.getInterventionData.call({
+      id,
+    });
+  }
 }

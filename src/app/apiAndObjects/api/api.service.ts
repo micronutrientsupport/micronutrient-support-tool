@@ -29,6 +29,12 @@ import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
 import { GetIntervention } from './intervention/getIntervention';
+import { GetInterventionData } from './intervention/getInterventioData';
+import { GetInterventionFoodVehicleStandards } from './intervention/getInterventionFoodVehicleStandards';
+import { GetInterventionIndustryInformation } from './intervention/getInterventionIndustryInformation';
+import { GetInterventionMonitoringInformation } from './intervention/getInterventionMonitoringInformation';
+import { GetInterventionRecurringCosts } from './intervention/getInterventionRecurringCosts';
+import { GetInterventionStartupCosts } from './intervention/getInterventionStartupCosts';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -61,6 +67,12 @@ export class ApiService extends BaseApi {
     },
     intervention: {
       getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
+      getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
+      getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),
+      getInterventionIndustryInformation: new GetInterventionIndustryInformation(ApiService.USE_LIVE_API),
+      getInterventionMonitoringInformation: new GetInterventionMonitoringInformation(ApiService.USE_LIVE_API),
+      getInterventionRecurringCosts: new GetInterventionRecurringCosts(ApiService.USE_LIVE_API),
+      getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
     },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
