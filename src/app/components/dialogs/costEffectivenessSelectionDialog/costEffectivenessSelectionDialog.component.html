@@ -11,7 +11,7 @@
         <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="interventionNameValue"
             matNativeControl>
             <mat-label>Existing interventions</mat-label>
-            <mat-option *ngFor="let item of interventionArray" [value]="item">
+            <mat-option *ngFor="let item of interventions" [value]="item.id">
                 {{item.name}}
             </mat-option>
         </mat-select>

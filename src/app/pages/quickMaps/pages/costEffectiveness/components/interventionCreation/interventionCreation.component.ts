@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 
 @Component({
   selector: 'app-intervention-creation',
@@ -8,7 +12,16 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
   styleUrls: ['./interventionCreation.component.scss'],
 })
 export class InterventionCreationComponent implements OnInit {
-  constructor(public quickMapsService: QuickMapsService, private dialogService: DialogService) {
+  public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
+
+  constructor(
+    public quickMapsService: QuickMapsService,
+    private dialogService: DialogService,
+    private dictionariesService: DictionaryService,
+  ) {
+    void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
+      this.interventionsDictionaryItems = dicts.shift().getItems();
+    });
     // add content
   }
 
@@ -17,6 +30,6 @@ export class InterventionCreationComponent implements OnInit {
   }
 
   public openCESelectionDialog(): void {
-    void this.dialogService.openCESelectionDialog();
+    void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems);
   }
 }

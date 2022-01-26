@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DialogData } from '../baseDialogService.abstract';
 
 interface NameValue {
@@ -13,6 +14,7 @@ interface NameValue {
   styleUrls: ['./costEffectivenessSelectionDialog.component.scss'],
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
+  public interventions: Array<InterventionsDictionaryItem>;
   public readonly interventionArray: NameValue[] = [
     { name: 'Wheat fortification', value: 'Lorem Ipsum Paragraph1' },
     { name: 'Supplementation', value: 'Lorem Ipsum Paragraph2' },
@@ -20,7 +22,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   ];
   public interventionNameValue: NameValue = {};
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
-    // add content
+    this.interventions = dialogData.dataIn;
   }
 
   ngOnInit(): void {
