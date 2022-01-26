@@ -31,3 +31,9 @@ router-outlet ::ng-deep + * {
   flex-direction: column;
   height: 100%;
 }
+
+@media screen and (max-width: 800px) {
+  .intervention-sidenav {
+    display: none;
+  }
+}

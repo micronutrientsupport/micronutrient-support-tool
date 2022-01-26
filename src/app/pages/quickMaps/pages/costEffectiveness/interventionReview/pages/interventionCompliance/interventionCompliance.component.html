@@ -1,10 +1,16 @@
-<div class="content">
-  <p>Breadcrumbs</p>
-  <h1>Compliance over time</h1>
-  <p>Summary panel</p>
-  <a class="mode-select-button quickmaps-cost-effectivness-link" mat-raised-button
-    [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route" queryParamsHandling="preserve">Back</a>
-  <a class="mode-select-button quickmaps-cost-effectivness-link" mat-raised-button
-    [routerLink]="ROUTES.INTERVENTION_REVIEW_CONSUMPTION | route" queryParamsHandling="preserve">Confirm and
-    continue</a>
+<div class="container">
+  <div class="content">
+    <p>Intervention name: ThisIsTheInterventionName</p>
+    <h1>Compliance over time</h1>
+    <p>Summary panel</p>
+  </div>
+  <footer>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route"
+      queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <a class="intervention-navigation-confirm" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_CONSUMPTION | route" queryParamsHandling="preserve">Confirm and
+      continue</a>
+  </footer>
 </div>
