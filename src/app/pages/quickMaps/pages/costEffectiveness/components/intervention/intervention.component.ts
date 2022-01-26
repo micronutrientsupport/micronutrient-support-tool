@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
-import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { AppRoutes } from 'src/app/routes/routes';
-
+import { InterventionDataService } from 'src/app/services/interventionData.service';
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
@@ -22,8 +22,10 @@ export class InterventionComponent implements OnInit {
   public loading = false;
   public error = false;
 
-  constructor(public quickMapsService: QuickMapsService) {
-    //to be continued
+  constructor(public interventionDataService: InterventionDataService) {
+    this.interventionDataService.getIntervention('1').then((data: Array<Intervention>) => {
+      console.debug('data:', data);
+    });
   }
 
   ngOnInit(): void {
