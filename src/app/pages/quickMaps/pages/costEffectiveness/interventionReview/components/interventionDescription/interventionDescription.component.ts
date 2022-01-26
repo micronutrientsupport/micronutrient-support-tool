@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 @Component({
   selector: 'app-intervention-description',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class InterventionDescriptionComponent {
   public interventionName = 'IntName';
+  constructor(public quickMapsService: QuickMapsService) {}
 }

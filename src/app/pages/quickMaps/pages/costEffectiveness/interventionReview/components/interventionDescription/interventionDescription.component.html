@@ -1,5 +1,6 @@
 <p>Intervention name: {{ interventionName }}</p>
-<div class="intervention-summary-title">Intervention Description</div>
+<div class="intervention-summary-title">{{ (quickMapsService.micronutrient.obs | async)?.name }} intervention in {{
+  (quickMapsService.country.obs | async)?.name }}</div>
 <div class="intervention-summary-panel">
   <div class="item">
     <div class="title">Food Vehicle:</div>
