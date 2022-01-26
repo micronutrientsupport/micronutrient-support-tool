@@ -10,6 +10,7 @@ export class InterventionStartupScaleupCostsComponent {
   constructor(private intSideNavService: InterventionSideNavContentService) {}
   public ROUTES = AppRoutes;
   public pageStepperPosition = 6;
+  public interventionName = 'IntName';
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }

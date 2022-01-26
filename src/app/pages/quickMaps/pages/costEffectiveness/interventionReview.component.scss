@@ -8,6 +8,7 @@ router-outlet ::ng-deep + * {
 
 .mat-sidenav {
   border: 0;
+  width: 320px;
 }
 
 .sidenav-container {
@@ -30,4 +31,10 @@ router-outlet ::ng-deep + * {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .intervention-sidenav {
+    display: none;
+  }
 }

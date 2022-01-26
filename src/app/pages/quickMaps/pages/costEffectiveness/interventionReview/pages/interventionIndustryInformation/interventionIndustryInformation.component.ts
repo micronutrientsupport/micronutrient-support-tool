@@ -10,6 +10,7 @@ export class InterventionIndustryInformationomponent {
   constructor(private intSideNavService: InterventionSideNavContentService) {}
   public ROUTES = AppRoutes;
   public pageStepperPosition = 4;
+  public interventionName = 'IntName';
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }

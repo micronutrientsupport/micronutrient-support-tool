@@ -24,6 +24,7 @@ import { InterventionReviewComponentsModule } from './interventionReview/compone
 import { InterventionConsumptionComponent } from './interventionReview/pages/interventionConsumption/interventionConsumption.component';
 import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
+import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
 @NgModule({
   declarations: [
     InterventionReviewComponent,
@@ -36,6 +37,7 @@ import { InterventionSideNavContentService } from './interventionReview/componen
     InterventionStartupScaleupCostsComponent,
     InterventionConsumptionComponent,
     InterventionAssumptionsReviewComponent,
+    InterventionDescriptionComponent,
   ],
   imports: [
     CommonModule,

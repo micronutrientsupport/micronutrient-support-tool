@@ -10,4 +10,8 @@ import { environment } from 'src/environments/environment';
 export class FooterLightComponent {
   public ROUTES = AppRoutes;
   public version = environment.version;
+  public currentYear: number;
+  constructor() {
+    this.currentYear = new Date().getFullYear();
+  }
 }
