@@ -12,16 +12,42 @@ export class InterventionRecurringCosts extends BaseObject implements Named {
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly recurringCosts: string;
+  public readonly recurringCosts: Array<RecurringCosts>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    // this.name = this._getString(InterventionRecurringCosts.KEYS.NAME);
-
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
-
     this.interventionId = this._getNumber(InterventionRecurringCosts.KEYS.INTERVENTION_ID);
-    this.recurringCosts = this._getString(InterventionRecurringCosts.KEYS.RECURRING_COSTS);
+    this.recurringCosts = this._getArray(InterventionRecurringCosts.KEYS.RECURRING_COSTS);
   }
+}
+
+export interface RecurringCosts {
+  category: RecurringCostsCategory;
+  costs: Array<Costs>;
+}
+export interface Costs {
+  section: string;
+  costBreakdown: Array<CostBreakdown>;
+  year0Total: number;
+  year1Total: number;
+}
+export interface CostBreakdown {
+  name: string;
+  rowIndex: number;
+  year0: number;
+  year0Default: number;
+  year0Edited: number;
+  year1: number;
+  year1Default: number;
+  year1Edited: number;
+  rowUnits: string;
+  isEditable: boolean;
+  dataSource: string;
+  dataSourceDefault: string;
+  dataCitation: string;
+}
+export enum RecurringCostsCategory {
+  GOVERNMENT = 'Government-related recurring monitoring and management costs',
+  RECURRING = 'Recurring premix costs',
 }
