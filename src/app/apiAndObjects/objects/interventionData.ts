@@ -27,10 +27,6 @@ export class InterventionData extends BaseObject implements Named {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    // this.name = this._getString(InterventionData.KEYS.NAME);
-
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
-
     this.interventionId = this._getNumber(InterventionData.KEYS.INTERVENTION_ID);
     this.baselineAssumptions = this._getString(InterventionData.KEYS.BASELINE_ASSUMPTION);
     this.foodVehicleStandard = this._getString(InterventionData.KEYS.FOOD_VEHICLE_STANDARD);
