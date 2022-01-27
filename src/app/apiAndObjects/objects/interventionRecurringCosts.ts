@@ -17,10 +17,6 @@ export class InterventionRecurringCosts extends BaseObject implements Named {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    // this.name = this._getString(InterventionRecurringCosts.KEYS.NAME);
-
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
-
     this.interventionId = this._getNumber(InterventionRecurringCosts.KEYS.INTERVENTION_ID);
     this.recurringCosts = this._getArray(InterventionRecurringCosts.KEYS.RECURRING_COSTS);
   }
