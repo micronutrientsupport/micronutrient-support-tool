@@ -12,7 +12,7 @@ export class InterventionMonitoringInformation extends BaseObject implements Nam
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly monitoringInformation: Array<MonitoringInfo>;
+  public readonly monitoringInformation: Array<MonitoringInformation>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -22,7 +22,7 @@ export class InterventionMonitoringInformation extends BaseObject implements Nam
   }
 }
 
-export interface MonitoringInfo {
+export interface MonitoringInformation {
   year0: number;
   year1: number;
   year2: number;

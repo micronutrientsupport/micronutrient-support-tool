@@ -12,7 +12,7 @@ export class InterventionRecurringCosts extends BaseObject implements Named {
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly recurringCosts: Array<RecurringCosts>;
+  public readonly recurringCosts: Array<RecurringCost>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -22,7 +22,7 @@ export class InterventionRecurringCosts extends BaseObject implements Named {
   }
 }
 
-export interface RecurringCosts {
+export interface RecurringCost {
   category: RecurringCostsCategory;
   costs: Array<Costs>;
 }

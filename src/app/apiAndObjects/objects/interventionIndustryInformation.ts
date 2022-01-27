@@ -12,7 +12,7 @@ export class InterventionIndustryInformation extends BaseObject implements Named
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly industryInformation: Array<IndustryInfo>;
+  public readonly industryInformation: Array<IndustryInformation>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -22,7 +22,7 @@ export class InterventionIndustryInformation extends BaseObject implements Named
   }
 }
 
-export interface IndustryInfo {
+export interface IndustryInformation {
   year0: number;
   year1: number;
   year2: number;

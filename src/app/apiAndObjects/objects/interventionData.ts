@@ -1,5 +1,11 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { DataLevel } from './enums/dataLevel.enum';
+import { BaselineAssumptions } from './interventionBaselineAssumptions';
+import { FoodVehicleStandard } from './InterventionFoodVehicleStandards';
+import { IndustryInformation } from './interventionIndustryInformation';
+import { MonitoringInformation } from './interventionMonitoringInformation';
+import { RecurringCost } from './interventionRecurringCosts';
+import { StartUpScaleUpCost } from './interventionStartupCosts';
 import { Named } from './named.interface';
 
 export class InterventionData extends BaseObject implements Named {
@@ -8,7 +14,7 @@ export class InterventionData extends BaseObject implements Named {
     BASELINE_ASSUMPTION: 'baselineAssumptions',
     FOOD_VEHICLE_STANDARD: 'foodVehicleStandard',
     INDUSTRY_INFORMATION: 'industryInformation',
-    MONITORING_INFO: 'monitoringInformation',
+    MONITORING_INFORMATION: 'monitoringInformation',
     STARTUP_COST: 'startupScaleupCosts',
     RECURRING_COST: 'recurringCosts',
   };
@@ -17,22 +23,22 @@ export class InterventionData extends BaseObject implements Named {
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly baselineAssumptions: string;
-  public readonly foodVehicleStandard: string;
-  public readonly industryInformation: string;
-  public readonly monitoringInformation: string;
-  public readonly startupScaleupCosts: string;
-  public readonly recurringCosts: string;
+  public readonly baselineAssumptions: BaselineAssumptions | unknown;
+  public readonly foodVehicleStandard: Array<FoodVehicleStandard>;
+  public readonly industryInformation: Array<IndustryInformation>;
+  public readonly monitoringInformation: Array<MonitoringInformation>;
+  public readonly startupScaleupCosts: Array<StartUpScaleUpCost>;
+  public readonly recurringCosts: Array<RecurringCost>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.interventionId = this._getNumber(InterventionData.KEYS.INTERVENTION_ID);
     this.baselineAssumptions = this._getString(InterventionData.KEYS.BASELINE_ASSUMPTION);
-    this.foodVehicleStandard = this._getString(InterventionData.KEYS.FOOD_VEHICLE_STANDARD);
-    this.industryInformation = this._getString(InterventionData.KEYS.INDUSTRY_INFORMATION);
-    this.monitoringInformation = this._getString(InterventionData.KEYS.MONITORING_INFO);
-    this.startupScaleupCosts = this._getString(InterventionData.KEYS.STARTUP_COST);
-    this.recurringCosts = this._getString(InterventionData.KEYS.RECURRING_COST);
+    this.foodVehicleStandard = this._getArray(InterventionData.KEYS.FOOD_VEHICLE_STANDARD);
+    this.industryInformation = this._getArray(InterventionData.KEYS.INDUSTRY_INFORMATION);
+    this.monitoringInformation = this._getArray(InterventionData.KEYS.MONITORING_INFORMATION);
+    this.startupScaleupCosts = this._getArray(InterventionData.KEYS.STARTUP_COST);
+    this.recurringCosts = this._getArray(InterventionData.KEYS.RECURRING_COST);
   }
 }
