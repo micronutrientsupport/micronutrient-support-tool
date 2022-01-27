@@ -119,7 +119,7 @@ export class ApiService extends BaseApi {
     this.addDictionaries(this._dictionaries);
 
     // add endpoints
-    Object.values(this.endpoints).forEach((group: Record<string, Endpoint<any, any>>) => {
+    Object.values(this.endpoints).forEach((group: Record<string, Endpoint<unknown, unknown>>) => {
       this.addEndpoints(Object.values(group));
     });
 

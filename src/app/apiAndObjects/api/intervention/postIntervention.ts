@@ -2,7 +2,7 @@ import { InterventionResponse } from '../../objects/interventionResponse';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
-export class postFeedback extends Endpoint<InterventionResponse, PostInterventionParams, InterventionResponse> {
+export class PostIntervention extends Endpoint<InterventionResponse, PostInterventionParams, InterventionResponse> {
   protected callLive(params: PostInterventionParams): Promise<InterventionResponse> {
     const callResponsePromise = this.apiCaller.doCall(['feedback'], RequestMethod.POST, null, {
       id: params.id,

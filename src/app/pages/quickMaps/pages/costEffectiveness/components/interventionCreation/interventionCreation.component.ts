@@ -35,7 +35,6 @@ export class InterventionCreationComponent implements OnInit {
 
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
-      console.debug('selected intervention:', data.dataOut);
       this.selectedInterventions.push(data.dataOut);
       this.cdr.detectChanges();
       // this.selectedInterventions.push(selectedIntervention);
