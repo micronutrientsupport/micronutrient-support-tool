@@ -12,16 +12,39 @@ export class InterventionStartupCosts extends BaseObject implements Named {
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly startupScaleupCosts: string;
+  public readonly startupScaleupCosts: Array<StartUpScaleUpCost>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    // this.name = this._getString(InterventionStartupCosts.KEYS.NAME);
-
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
-
     this.interventionId = this._getNumber(InterventionStartupCosts.KEYS.INTERVENTION_ID);
-    this.startupScaleupCosts = this._getString(InterventionStartupCosts.KEYS.STARTUP_COSTS);
+    this.startupScaleupCosts = this._getArray(InterventionStartupCosts.KEYS.STARTUP_COSTS);
   }
+}
+export interface StartUpScaleUpCost {
+  category: string;
+  costs: Array<Costs>;
+}
+
+export interface Costs {
+  section: string;
+  costBreakdown: Array<CostBreakdown>;
+  year0Total: number;
+  year1Total: number;
+}
+
+export interface CostBreakdown {
+  name: string;
+  rowIndex: number;
+  year0: number;
+  year0Default: number;
+  year0Edited: number;
+  year1: number;
+  year1Default: number;
+  year1Edited: number;
+  rowUnits: string;
+  isEditable: boolean;
+  dataSource: string;
+  dataSourceDefault: string;
+  dataCitation: string;
 }

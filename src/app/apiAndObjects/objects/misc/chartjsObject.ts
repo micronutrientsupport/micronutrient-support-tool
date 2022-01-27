@@ -4,7 +4,7 @@ import { TopFoodSource } from '../topFoodSource';
 export interface ChartsJSDataObject {
   labels?: Array<string | number>;
   datasets: Array<{
-    data?: Array<any | string>;
+    data?: Array<unknown | string>;
     label?: string;
     backgroundColor?: (result?: ChartData) => string;
     borderColor?: string;
