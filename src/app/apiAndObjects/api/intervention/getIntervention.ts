@@ -1,4 +1,3 @@
-/* tslint:disable: no-string-literal */
 import { Intervention } from '../../objects/intervention';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';

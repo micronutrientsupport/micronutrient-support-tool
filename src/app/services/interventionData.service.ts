@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
+import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/InterventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
@@ -40,6 +41,11 @@ export class InterventionDataService {
   }
   public getInterventionStartupCosts(id: string): Promise<InterventionStartupCosts> {
     return this.apiService.endpoints.intervention.getInterventionStartupCosts.call({
+      id,
+    });
+  }
+  public getInterventionBaselineAssumptions(id: string): Promise<InterventionBaselineAssumptions> {
+    return this.apiService.endpoints.intervention.getInterventionBaselineAssumptions.call({
       id,
     });
   }
