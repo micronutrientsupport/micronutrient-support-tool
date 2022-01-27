@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AppRoutes } from 'src/app/routes/routes';

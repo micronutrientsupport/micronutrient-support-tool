@@ -12,16 +12,27 @@ export class InterventionFoodVehicleStandards extends BaseObject implements Name
   public readonly dataLevel: DataLevel;
 
   public readonly interventionId: number;
-  public readonly foodVehicleStandard: string;
+  public readonly foodVehicleStandard: Array<FoodVehicleStandard>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-
-    // this.name = this._getString(InterventionFoodVehicleStandards.KEYS.NAME);
-
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
-
     this.interventionId = this._getNumber(InterventionFoodVehicleStandards.KEYS.INTERVENTION_ID);
-    this.foodVehicleStandard = this._getString(InterventionFoodVehicleStandards.KEYS.FOOD_VEHICLE_STANDARD);
+    this.foodVehicleStandard = this._getArray(InterventionFoodVehicleStandards.KEYS.FOOD_VEHICLE_STANDARD);
   }
+}
+export interface FoodVehicleStandard {
+  micronutrient: string;
+  compounds: Array<Compounds>;
+}
+export interface Compounds {
+  compound: string;
+  targetVal: number;
+  targetValDefault: number;
+  targetValEdited: number;
+  rowIndex: number;
+  rowUnits: string;
+  isEditable: boolean;
+  dataSource: string;
+  dataSourceDefault: string;
+  dataCitation: string;
 }

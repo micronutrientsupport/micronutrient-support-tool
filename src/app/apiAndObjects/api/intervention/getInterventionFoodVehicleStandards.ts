@@ -1,5 +1,3 @@
-/* tslint:disable: no-string-literal */
-
 import { InterventionFoodVehicleStandards } from '../../objects/InterventionFoodVehicleStandards';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
