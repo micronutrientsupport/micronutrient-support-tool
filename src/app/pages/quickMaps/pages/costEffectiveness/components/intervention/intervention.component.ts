@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { InterventionFoodVehicleStandards } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
+
+import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
+
 import { AppRoutes } from 'src/app/routes/routes';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
@@ -19,6 +24,15 @@ export class InterventionComponent {
   public readonly DATA_LEVEL = DataLevel;
   public loading = false;
   public error = false;
+
+  constructor(private InterventionDataService: InterventionDataService) {}
+  ngOnInit(): void {
+    this.InterventionDataService.getInterventionFoodVehicleStandards(this.intervention.id).then(
+      (data: InterventionFoodVehicleStandards) => {
+        console.debug(data);
+      },
+    );
+  }
 
   onConfirmAssumptions(): void {
     this.toggle = !this.toggle;

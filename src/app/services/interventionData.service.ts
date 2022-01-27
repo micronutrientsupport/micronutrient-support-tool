@@ -4,6 +4,7 @@ import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/InterventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
+import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 
@@ -25,6 +26,11 @@ export class InterventionDataService {
   }
   public getInterventionFoodVehicleStandards(id: string): Promise<InterventionFoodVehicleStandards> {
     return this.apiService.endpoints.intervention.getInterventionFoodVehicleStandards.call({
+      id,
+    });
+  }
+  public getInterventionMonitoringInformation(id: string): Promise<InterventionMonitoringInformation> {
+    return this.apiService.endpoints.intervention.getInterventionMonitoringInformation.call({
       id,
     });
   }
