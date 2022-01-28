@@ -15,7 +15,7 @@ import { InterventionReviewRoutingModule } from './interventionReview-routing.mo
 import { InterventionBaselineComponent } from './interventionReview/pages/interventionBaseline/interventionBaseline.component';
 import { InterventionComplianceComponent } from './interventionReview/pages/interventionCompliance/interventionCompliance.component';
 import { InterventionCostSummaryComponent } from './interventionReview/pages/interventionCostSummary/interventionCostSummary.component';
-import { InterventionIndustryInformationomponent } from './interventionReview/pages/interventionIndustryInformation/interventionIndustryInformation.component';
+import { InterventionIndustryInformationComponent } from './interventionReview/pages/interventionIndustryInformation/interventionIndustryInformation.component';
 import { InterventionMonitoringInformationComponent } from './interventionReview/pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
 import { InterventionRecurringCostsComponent } from './interventionReview/pages/interventionRecurringCosts/interventionRecurringCosts.component';
 import { InterventionStartupScaleupCostsComponent } from './interventionReview/pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
@@ -25,13 +25,14 @@ import { InterventionConsumptionComponent } from './interventionReview/pages/int
 import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   declarations: [
     InterventionReviewComponent,
     InterventionBaselineComponent,
     InterventionComplianceComponent,
     InterventionCostSummaryComponent,
-    InterventionIndustryInformationomponent,
+    InterventionIndustryInformationComponent,
     InterventionMonitoringInformationComponent,
     InterventionRecurringCostsComponent,
     InterventionStartupScaleupCostsComponent,
@@ -50,6 +51,7 @@ import { InterventionDescriptionComponent } from './interventionReview/component
     RoutesModule,
     CostEffectivenessComponentsModule,
     InterventionReviewComponentsModule,
+    MatFormFieldModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],
