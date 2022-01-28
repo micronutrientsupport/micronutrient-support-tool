@@ -27,3 +27,13 @@ footer {
     color: white;
   }
 }
+
+.title {
+  border: solid 1px #9b51e0;
+  margin: 1em;
+  padding: 10px;
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
