@@ -40,6 +40,7 @@ export class InterventionComplianceComponent {
     this.interventionDataService
       .getInterventionBaselineAssumptions('1')
       .then((data: InterventionBaselineAssumptions) => {
+        console.debug(data);
         this.createTableObject(data);
       });
   }
@@ -54,5 +55,9 @@ export class InterventionComplianceComponent {
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
     console.debug(dataArray);
     this.dataSource = new MatTableDataSource(dataArray);
+  }
+
+  public formatNumberForDisplay(value: number): number {
+    return Math.round(value * 100) / 1; // rounds the number to two decimal places and creates a percentage
   }
 }
