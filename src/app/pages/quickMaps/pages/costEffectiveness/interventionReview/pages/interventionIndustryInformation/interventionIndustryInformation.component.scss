@@ -1,6 +1,7 @@
 @use '../interventionReviewPages.scss';
 
 @import 'src/assets/scss/_colour';
+
 .header-container {
   display: flex;
   border: 1px solid $color_primary;
@@ -26,7 +27,7 @@
 ::ng-deep th.mat-header-cell.column-title,
 ::ng-deep td.mat-cell.column-title {
   border-bottom-style: none !important;
-  width: 65px !important;
+  width: 60px !important;
   text-align: center !important;
 }
 // ::ng-deep .row-title {
@@ -37,19 +38,24 @@
 //   width: 45px !important;
 // }
 input {
-  display: block;
+  // display: block;
   font-family: inherit;
   font-size: 100%;
   margin: 0;
   box-sizing: border-box;
-  width: 100%;
+  width: 85%;
   padding: 5px;
   height: 30px;
   border-radius: 5px;
   border: black 0.5px solid;
+  text-align: center;
+
   align-items: center;
   justify-content: center;
   align-content: center;
+  &.ng-touched {
+    border: 1px solid red;
+  }
 }
 table {
   width: 100%;

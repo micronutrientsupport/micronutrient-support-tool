@@ -15,6 +15,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 })
 export class InterventionIndustryInformationComponent {
   publiciIndustryInformation: IndustryInformation;
+  public testInput: number;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
