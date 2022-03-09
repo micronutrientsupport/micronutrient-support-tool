@@ -37,3 +37,23 @@ footer {
     font-weight: 600;
   }
 }
+
+// Stage 2 & 4
+.lower-table-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  .focus-mn {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+    justify-content: flex-end;
+    .mn-title {
+      color: $color_primary;
+      font-weight: bold;
+      display: flex;
+      justify-content: end;
+      margin-top: 2em;
+    }
+  }
+}
