@@ -13,7 +13,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
   styleUrls: ['./interventionCreation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InterventionCreationComponent implements OnInit {
+export class InterventionCreationComponent {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
   public selectedInterventions: Array<InterventionsDictionaryItem> = [];
 
@@ -26,18 +26,12 @@ export class InterventionCreationComponent implements OnInit {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
     });
-    // add content
-  }
-
-  ngOnInit(): void {
-    // add content
   }
 
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
       this.selectedInterventions.push(data.dataOut);
       this.cdr.detectChanges();
-      // this.selectedInterventions.push(selectedIntervention);
     });
   }
 }
