@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
+import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
@@ -62,5 +63,8 @@ export class DialogService extends BaseDialogService {
 
   public openScenarioChangeWarningDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('scenarioChangeWarningDialog', ScenarioChangeWarningComponent, false);
+  }
+  public openCEResetDialog(): Promise<DialogData<boolean>> {
+    return this.openDialog('openCEResetDialog', CeResetDialogComponent, false);
   }
 }

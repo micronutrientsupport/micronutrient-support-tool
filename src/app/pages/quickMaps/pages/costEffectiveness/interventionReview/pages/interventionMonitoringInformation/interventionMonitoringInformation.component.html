@@ -93,9 +93,19 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <div>
-      <button mat-icon-button>
-        <mat-icon>redo</mat-icon> Reset default values
-      </button>
+      <tr class="static-review-elements">
+        <button class="item-reset" mat-icon-button (click)="resetValues()">
+          <mat-icon class="red-icon">redo</mat-icon> Reset to default values
+        </button>
+        <div class="item-group">
+          <div class="item">Focus MN<div class='box purple'></div>
+          </div>
+          <div class="item">User defined values<div class='box blue'></div>
+          </div>
+          <div class="item">Units <strong>(mg/kg)</strong>
+          </div>
+        </div>
+      </tr>
     </div>
 
   </div>
