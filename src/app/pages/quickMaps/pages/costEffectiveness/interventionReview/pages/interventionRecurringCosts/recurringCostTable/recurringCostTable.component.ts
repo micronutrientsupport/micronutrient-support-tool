@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { CostBreakdown } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-recurring-cost-table',
@@ -27,14 +28,16 @@ export class RecurringCostTableComponent implements OnInit {
     'year9Total',
   ];
 
+  constructor(private dialogService: DialogService) {}
+
   ngOnInit(): void {
-    console.debug(this.recurringCost);
     if (null != this.recurringCost) {
       this.dataSource = new MatTableDataSource(this.recurringCost.costs);
     }
   }
 
   public openSectionCostReviewDialog(costBreakdown: CostBreakdown): void {
+    this.dialogService.openSectionCostReviewDialog(costBreakdown as CostBreakdown);
     console.debug(costBreakdown);
   }
 }

@@ -2,6 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
+import { CostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
@@ -12,6 +13,7 @@ import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialo
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
+import { SectionCostReviewDialogComponent } from './sectionCostReviewDialog/sectionCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
@@ -69,8 +71,11 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openCEResetDialog', CeResetDialogComponent, false);
   }
 
-  //openMnAdditionDialog
   public openMnAdditionDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
+  }
+
+  public openSectionCostReviewDialog(costBreakdown: CostBreakdown): Promise<DialogData<CostBreakdown>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionCostReviewDialogComponent, false, costBreakdown);
   }
 }
