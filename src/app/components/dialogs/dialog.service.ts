@@ -4,10 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
+import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
+import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
@@ -62,5 +64,13 @@ export class DialogService extends BaseDialogService {
 
   public openScenarioChangeWarningDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('scenarioChangeWarningDialog', ScenarioChangeWarningComponent, false);
+  }
+  public openCEResetDialog(): Promise<DialogData<boolean>> {
+    return this.openDialog('openCEResetDialog', CeResetDialogComponent, false);
+  }
+
+  //openMnAdditionDialog
+  public openMnAdditionDialog(): Promise<DialogData<boolean>> {
+    return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
 }

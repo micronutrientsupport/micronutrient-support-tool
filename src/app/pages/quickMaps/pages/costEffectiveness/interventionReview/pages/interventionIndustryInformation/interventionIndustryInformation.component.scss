@@ -1,1 +1,62 @@
 @use '../interventionReviewPages.scss';
+
+@import 'src/assets/scss/_colour';
+
+.header-container {
+  display: flex;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+
+  & .wideItem {
+    flex-grow: 1;
+    display: flex;
+    margin: 1em 0.5em;
+  }
+}
+::ng-deep th.mat-header-cell.row-title,
+::ng-deep td.mat-cell.row-title {
+  border-bottom-style: none !important;
+  width: 200px !important;
+  text-align: right !important;
+  margin: 10px;
+}
+
+::ng-deep th.mat-header-cell.column-title,
+::ng-deep td.mat-cell.column-title {
+  border-bottom-style: none !important;
+  width: 60px !important;
+  text-align: center !important;
+}
+// ::ng-deep .row-title {
+//   width: 65px !important;
+//   text-align: right !important;
+// }
+// ::ng-deep th {
+//   width: 45px !important;
+// }
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 85%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  &.ng-touched {
+    border: 1px solid red;
+  }
+}
+table {
+  width: 100%;
+}

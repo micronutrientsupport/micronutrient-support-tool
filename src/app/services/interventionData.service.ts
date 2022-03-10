@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NullableAccessor } from 'src/utility/accessor';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
@@ -13,8 +14,6 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
   providedIn: 'root',
 })
 export class InterventionDataService {
-  constructor(private apiService: ApiService) {}
-
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
@@ -55,4 +54,6 @@ export class InterventionDataService {
       id,
     });
   }
+
+  constructor(private apiService: ApiService) {}
 }

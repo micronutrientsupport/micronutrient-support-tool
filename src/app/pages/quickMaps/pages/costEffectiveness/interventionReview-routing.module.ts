@@ -8,7 +8,7 @@ import { InterventionBaselineComponent } from './interventionReview/pages/interv
 import { InterventionComplianceComponent } from './interventionReview/pages/interventionCompliance/interventionCompliance.component';
 import { InterventionConsumptionComponent } from './interventionReview/pages/interventionConsumption/interventionConsumption.component';
 import { InterventionCostSummaryComponent } from './interventionReview/pages/interventionCostSummary/interventionCostSummary.component';
-import { InterventionIndustryInformationomponent } from './interventionReview/pages/interventionIndustryInformation/interventionIndustryInformation.component';
+import { InterventionIndustryInformationComponent } from './interventionReview/pages/interventionIndustryInformation/interventionIndustryInformation.component';
 import { InterventionMonitoringInformationComponent } from './interventionReview/pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
 import { InterventionRecurringCostsComponent } from './interventionReview/pages/interventionRecurringCosts/interventionRecurringCosts.component';
 import { InterventionStartupScaleupCostsComponent } from './interventionReview/pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
@@ -75,7 +75,7 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.INTERVENTION_REVIEW_INDUSTRY_INFORMATION.getRouterPath(),
-        component: InterventionIndustryInformationomponent,
+        component: InterventionIndustryInformationComponent,
         data: {
           appRoute: AppRoutes.INTERVENTION_REVIEW_INDUSTRY_INFORMATION,
           title: '',
