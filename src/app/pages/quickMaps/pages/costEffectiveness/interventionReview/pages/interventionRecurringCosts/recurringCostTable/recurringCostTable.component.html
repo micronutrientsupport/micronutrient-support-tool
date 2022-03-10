@@ -1,47 +1,52 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">
     <ng-container matColumnDef="section">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Intervention year</th>
-        <td mat-cell *matCellDef="let element">{{element.section}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button color="primary" (click)="openSectionCostReviewDialog(element.costBreakdown)">
+                <mat-icon>edit</mat-icon>
+                {{element.section}}
+            </button>
+        </td>
     </ng-container>
     <ng-container matColumnDef="year0Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
-        <td mat-cell *matCellDef="let element">{{element.year0Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year0Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year1Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
-        <td mat-cell *matCellDef="let element">{{element.year1Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year1Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year2Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2023</th>
-        <td mat-cell *matCellDef="let element">{{element.year2Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year2Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year3Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2024</th>
-        <td mat-cell *matCellDef="let element">{{element.year3Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year3Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year4Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2025</th>
-        <td mat-cell *matCellDef="let element">{{element.year4Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year4Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year5Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2026</th>
-        <td mat-cell *matCellDef="let element">{{element.year5Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year5Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year6Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2027</th>
-        <td mat-cell *matCellDef="let element">{{element.year6Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year6Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year7Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2028</th>
-        <td mat-cell *matCellDef="let element">{{element.year7Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year7Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year8Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2029</th>
-        <td mat-cell *matCellDef="let element">{{element.year8Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year8Total | currency: 'USD'}}</td>
     </ng-container>
     <ng-container matColumnDef="year9Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2030</th>
-        <td mat-cell *matCellDef="let element">{{element.year9Total}}</td>
+        <td mat-cell *matCellDef="let element">{{element.year9Total | currency: 'USD'}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>

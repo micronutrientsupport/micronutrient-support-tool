@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { CostBreakdown } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 
 @Component({
   selector: 'app-recurring-cost-table',
@@ -33,5 +34,9 @@ export class RecurringCostTableComponent implements OnInit {
     if (null != this.recurringCost) {
       this.dataSource = new MatTableDataSource(this.recurringCost.costs);
     }
+  }
+
+  public openSectionCostReviewDialog(costBreakdown: CostBreakdown): void {
+    console.debug(costBreakdown);
   }
 }

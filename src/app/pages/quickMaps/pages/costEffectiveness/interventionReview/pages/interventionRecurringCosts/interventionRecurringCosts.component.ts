@@ -19,12 +19,10 @@ export class InterventionRecurringCostsComponent {
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    private cdr: ChangeDetectorRef,
   ) {
     this.subscriptions.push(
       void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
         this.recurringCosts = data.recurringCosts;
-        // this.cdr.detectChanges();
         console.debug('data', data);
       }),
     );
