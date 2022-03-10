@@ -77,20 +77,16 @@ div:not(.box) {
 .item-reset {
   flex-grow: 1;
 }
-.item {
-  flex-grow: 5;
-  // width: 20%;
+.item-bottom-row {
+  flex-grow: 1;
   justify-content: center;
   margin: 15px;
   align-items: center;
   display: inline-block;
   white-space: nowrap;
-  align-items: flex-end;
-  align-content: flex-end;
+  justify-content: flex-end;
 }
 .item-group {
   width: 40%;
   display: inline-block;
-  align-items: flex-end;
-  align-content: flex-end;
 }

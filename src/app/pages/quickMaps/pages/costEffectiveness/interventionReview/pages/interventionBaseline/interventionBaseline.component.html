@@ -3,8 +3,63 @@
     <app-intervention-description></app-intervention-description>
     <div class="header-container">
       <div class="wideItem left-text">
-        <h2>Title</h2>
+        <h2>Baseline Assumptions</h2>
       </div>
+    </div>
+
+    <div class="intervention-baseline-panel">
+
+      <div class="item"> Potentially fortifiable [] in the food system(%)</div>
+      <div class="item"><input type="number" class="item-input"> <button mat-icon-button>GFDx
+          <i class="fas fa-arrow-right"></i>
+        </button></div>
+      <div class="item"></div>
+    </div>
+
+    <div class="intervention-baseline-panel">
+
+      <div class="item"> Potentially fortifiable [] in the food system(%)</div>
+      <div class="item"><input type="number" class="item-input"> <button mat-icon-button>GFDx
+          <i class="fas fa-arrow-right"></i>
+        </button></div>
+      <div class="item"></div>
+    </div>
+
+
+
+    <div class="header-row">
+      <div class="subheader-container">
+        <div class="wideItem left-text">
+
+          <h2>Food vehicle standard/target fortification levels</h2>
+        </div>
+      </div>
+      <div class="subheader-container">
+        <div class="wideItem left-text">
+
+          <h2>Baseline compliance/fortification in practice</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <tr class="static-review-elements">
+        <button class="item-reset" mat-icon-button (click)="addMN()">
+          <mat-icon class="red-icon">add</mat-icon> Add mcronutrient
+        </button>
+        <button class="item-reset" mat-icon-button (click)="resetValues()">
+          <mat-icon class="red-icon">redo</mat-icon> Reset to default values
+        </button>
+        <div class="item-group">
+          <div class="item-bottom-row ">Focus MN<div class='box purple'></div>
+          </div>
+          <div class="item-bottom-row ">User defined values<div class='box blue'></div>
+          </div>
+          <div class="item-bottom-row ">Units <strong>(mg/kg)</strong>
+          </div>
+        </div>
+      </tr>
     </div>
     <footer>
       <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
