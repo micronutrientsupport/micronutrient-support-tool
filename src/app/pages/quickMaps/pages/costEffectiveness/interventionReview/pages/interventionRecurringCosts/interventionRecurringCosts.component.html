@@ -1,6 +1,13 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+    <div *ngFor="let recurringCost of recurringCosts">
+      <div class="title">
+        <span>{{recurringCost.category}}</span>
+      </div>
+      <app-recurring-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost">
+      </app-recurring-cost-table>
+    </div>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button

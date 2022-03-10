@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { InterventionRecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { AppRoutes } from 'src/app/routes/routes';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 @Component({
   selector: 'app-intervention-recurring-costs',
@@ -7,10 +10,25 @@ import { InterventionSideNavContentService } from '../../components/intervention
   styleUrls: ['./interventionRecurringCosts.component.scss'],
 })
 export class InterventionRecurringCostsComponent {
-  constructor(private intSideNavService: InterventionSideNavContentService) {}
   public ROUTES = AppRoutes;
   public pageStepperPosition = 7;
   public interventionName = 'IntName';
+  private subscriptions = new Array<Subscription>();
+  public recurringCosts: Array<RecurringCost>;
+
+  constructor(
+    private intSideNavService: InterventionSideNavContentService,
+    private interventionDataService: InterventionDataService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.subscriptions.push(
+      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
+        this.recurringCosts = data.recurringCosts;
+        // this.cdr.detectChanges();
+        console.debug('data', data);
+      }),
+    );
+  }
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
