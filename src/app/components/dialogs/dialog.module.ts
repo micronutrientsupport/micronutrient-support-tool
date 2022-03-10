@@ -17,6 +17,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
+import { SectionCostReviewDialogComponent } from './sectionCostReviewDialog/sectionCostReviewDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -30,6 +31,7 @@ import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.c
     CostEffectivenessSelectionDialogComponent,
     CeResetDialogComponent,
     MnAdditionDialogComponent,
+    SectionCostReviewDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
   exports: [BaseDialogComponent],

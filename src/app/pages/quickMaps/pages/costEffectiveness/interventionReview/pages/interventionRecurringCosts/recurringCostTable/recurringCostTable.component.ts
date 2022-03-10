@@ -27,8 +27,6 @@ export class RecurringCostTableComponent implements OnInit {
     'year9Total',
   ];
 
-  // constructor() {}
-
   ngOnInit(): void {
     console.debug(this.recurringCost);
     if (null != this.recurringCost) {
