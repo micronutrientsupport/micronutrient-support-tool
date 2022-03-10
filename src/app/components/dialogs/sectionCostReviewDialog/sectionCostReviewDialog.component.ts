@@ -13,19 +13,20 @@ export class SectionCostReviewDialogComponent {
   public dataSource = new MatTableDataSource();
 
   public displayHeaders = [
-    'section',
-    'year0Total',
-    'year1Total',
-    'year2Total',
-    'year3Total',
-    'year4Total',
-    'year5Total',
-    'year6Total',
-    'year7Total',
-    'year8Total',
-    'year9Total',
+    'name',
+    'year0',
+    'year1',
+    'year2',
+    'year3',
+    'year4',
+    'year5',
+    'year6',
+    'year7',
+    'year8',
+    'year9',
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<CostBreakdown>) {}
-  // ngOnInit(): void {}
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Array<CostBreakdown>>) {
+    this.dataSource = new MatTableDataSource(dialogData.dataIn);
+  }
 }
