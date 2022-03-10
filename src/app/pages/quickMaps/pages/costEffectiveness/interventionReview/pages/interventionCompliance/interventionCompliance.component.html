@@ -1,6 +1,185 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+    <div class="title">
+      <span>Review of program assumptions</span>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 tableFullWidth">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Intervention year</th>
+        <td mat-cell *matCellDef="let element">{{element.title}}</td>
+      </ng-container>
+      <ng-container matColumnDef="standard">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Standard</th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+      <ng-container matColumnDef="year0">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
+        <td mat-cell *matCellDef="let element">{{element.year0 | percent}}</td>
+      </ng-container>
+      <ng-container matColumnDef="year1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year1)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2023</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year2)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year3">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2024</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year3)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year4">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2025</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year4)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year5">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2026</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year5)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year6">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2027</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year6)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year7">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2028</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year7)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year8">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2029</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year8)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year9">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2030</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-form-field class="example-full-width">
+            <input matInput type="number" [value]="formatNumberForDisplay(element.year9)">
+            <mat-icon matSuffix>percent</mat-icon>
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="assumptionsDisplayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: assumptionsDisplayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+      </tr>
+    </table>
+    <div class="title">
+      <span>Average nutrient level (mg/kg) among all food vehicle at point of fortification</span>
+    </div>
+    <div class="lower-table-wrapper">
+      <div class="focus-mn">
+        <span>Focus micronutrient</span>
+        <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
+      </div>
+      <table mat-table [dataSource]="newDataSource" matSort class="mat-elevation-z8 tableFullWidth">
+        <ng-container matColumnDef="standard">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Standard</th>
+          <td mat-cell *matCellDef="let element">{{element.standard}}</td>
+        </ng-container>
+        <ng-container matColumnDef="year0">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
+          <td mat-cell *matCellDef="let element">{{element.year0}}</td>
+        </ng-container>
+        <ng-container matColumnDef="year1">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year1 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2023</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year2 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year3">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2024</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year3 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year4">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2025</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year4 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year5">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2026</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year5 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year6">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2027</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year6 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year7">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2028</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year7 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year8">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2029</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year8 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="year9">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>2030</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.year9 | number:'1.1-2'}}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="averageNutrientDisplayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: averageNutrientDisplayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+        </tr>
+      </table>
+    </div>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route"
