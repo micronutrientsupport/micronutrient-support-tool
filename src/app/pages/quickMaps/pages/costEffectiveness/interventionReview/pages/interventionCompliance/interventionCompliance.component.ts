@@ -64,13 +64,12 @@ export class InterventionComplianceComponent {
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
-          this.interventionDataService
-            .getInterventionFoodVehicleStandards('1')
-            .then((data: InterventionFoodVehicleStandards) => {
-              // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-              //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-              // });
-            });
+          this.interventionDataService.getInterventionFoodVehicleStandards('1');
+          // .then((data: InterventionFoodVehicleStandards) => {
+          // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+          //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+          // });
+          // });
         }
       }),
       void this.interventionDataService
