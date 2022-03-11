@@ -25,6 +25,12 @@ import { InterventionConsumptionComponent } from './interventionReview/pages/int
 import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
+import { InterventionCostSummaryQuickUndiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalUndiscounted/tableTotalUndiscounted.component';
+import { InterventionCostSummaryDetailedCostsGraphComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/graphCosts/graphCosts.component';
+import { InterventionCostSummaryDetailedRecurringTableComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/tableRecurringCosts/tableRecurringCosts.component';
+import { InterventionCostSummaryDetailedStartupTableComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/tableStartupCosts/tableStartupCosts.component';
+import { InterventionCostSummaryQuickTotalGraphComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/graphTotal/graphTotal.component';
+import { InterventionCostSummaryQuickDiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalDiscounted/tableTotalDiscounted.component';
 @NgModule({
   declarations: [
     InterventionReviewComponent,
@@ -38,6 +44,12 @@ import { InterventionDescriptionComponent } from './interventionReview/component
     InterventionConsumptionComponent,
     InterventionAssumptionsReviewComponent,
     InterventionDescriptionComponent,
+    InterventionCostSummaryQuickUndiscountedTableComponent,
+    InterventionCostSummaryQuickDiscountedTableComponent,
+    InterventionCostSummaryQuickTotalGraphComponent,
+    InterventionCostSummaryDetailedStartupTableComponent,
+    InterventionCostSummaryDetailedRecurringTableComponent,
+    InterventionCostSummaryDetailedCostsGraphComponent,
   ],
   imports: [
     CommonModule,
