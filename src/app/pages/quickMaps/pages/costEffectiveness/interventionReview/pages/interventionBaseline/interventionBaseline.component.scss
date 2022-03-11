@@ -106,3 +106,14 @@ div:not(.box) {
   padding: 10px;
   height: 50px;
 }
+.double-cell {
+  display: flex;
+  justify-content: center;
+}
+input {
+  width: 50px;
+}
+th {
+  white-space: pre-wrap;
+  word-break: normal;
+}

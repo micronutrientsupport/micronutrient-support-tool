@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
+import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
+import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/ceFortificationInfoDialogcomponent';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
@@ -72,5 +74,11 @@ export class DialogService extends BaseDialogService {
   //openMnAdditionDialog
   public openMnAdditionDialog(): Promise<DialogData<boolean>> {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
+  }
+  public openFortificationInfoDialog(): Promise<DialogData> {
+    return this.openDialog('ceFortificationInfoDialog', CeFortificationInfoDialogComponent);
+  }
+  public openCalculatedFortificationInfoDialog(): Promise<DialogData> {
+    return this.openDialog('ceCalculatedFortificationInfoDialog', CeCalculatedFortificationInfoDialogComponent);
   }
 }
