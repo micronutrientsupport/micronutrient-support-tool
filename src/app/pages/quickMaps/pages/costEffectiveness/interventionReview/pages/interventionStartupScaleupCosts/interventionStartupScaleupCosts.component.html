@@ -1,13 +1,14 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
-  </div>
-  <div *ngFor="let recurringCost of startupCosts">
-    <div class="title">
-      <span>{{recurringCost.category}}</span>
+    <div *ngFor="let startupCost of startupCosts">
+      <div class="title">
+        <span>{{startupCost.category}}</span>
+      </div>
+      <app-reusable-cost-table *ngIf="null != startupCosts" [startUpScaleUpCost]="startupCost"
+        [headers]="displayHeaders">
+      </app-reusable-cost-table>
     </div>
-    <!-- <app-recurring-cost-table *ngIf="null != startupCosts" [startupCosts]="startupCosts">
-    </app-recurring-cost-table> -->
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
