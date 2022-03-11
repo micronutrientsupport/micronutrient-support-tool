@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" matSort class="tableFullWidth">
+<table mat-table *ngIf="null != recurringCost" [dataSource]="dataSource" matSort class="tableFullWidth">
     <ng-container matColumnDef="section">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element">
@@ -48,8 +48,32 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>2030</th>
         <td mat-cell *matCellDef="let element">{{element.year9Total | currency: 'USD'}}</td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
+    <tr mat-header-row *matHeaderRowDef="headers;"></tr>
+    <tr mat-row *matRowDef="let row; columns: headers"></tr>
+    <tr class="mat-row" *matNoDataRow>
+    </tr>
+</table>
+
+<table mat-table *ngIf="null != startUpScaleUpCost" [dataSource]="dataSource" matSort class="tableFullWidth">
+    <ng-container matColumnDef="section">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button color="primary" (click)="openSectionCostReviewDialog(element)">
+                <mat-icon>edit</mat-icon>
+                {{element.section}}
+            </button>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="year0Total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
+        <td mat-cell *matCellDef="let element">{{element.year0Total | currency: 'USD'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="year1Total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
+        <td mat-cell *matCellDef="let element">{{element.year1Total | currency: 'USD'}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="headers;"></tr>
+    <tr mat-row *matRowDef="let row; columns: headers"></tr>
     <tr class="mat-row" *matNoDataRow>
     </tr>
 </table>
