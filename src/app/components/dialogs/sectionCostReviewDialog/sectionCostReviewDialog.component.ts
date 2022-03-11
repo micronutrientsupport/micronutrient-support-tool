@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -27,7 +27,7 @@ export class SectionCostReviewDialogComponent {
     'year9',
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Costs>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCosts>) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costBreakdown);
     this.title = dialogData.dataIn.section;
   }

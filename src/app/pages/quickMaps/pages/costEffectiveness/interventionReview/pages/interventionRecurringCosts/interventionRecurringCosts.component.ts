@@ -15,6 +15,19 @@ export class InterventionRecurringCostsComponent {
   public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
   public recurringCosts: Array<RecurringCost>;
+  public displayHeaders = [
+    'section',
+    'year0Total',
+    'year1Total',
+    'year2Total',
+    'year3Total',
+    'year4Total',
+    'year5Total',
+    'year6Total',
+    'year7Total',
+    'year8Total',
+    'year9Total',
+  ];
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,

@@ -2,6 +2,13 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
   </div>
+  <div *ngFor="let recurringCost of startupCosts">
+    <div class="title">
+      <span>{{recurringCost.category}}</span>
+    </div>
+    <!-- <app-recurring-cost-table *ngIf="null != startupCosts" [startupCosts]="startupCosts">
+    </app-recurring-cost-table> -->
+  </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.INTERVENTION_REVIEW_MONITORING_INFORMATION | route" queryParamsHandling="preserve">Back</a>
