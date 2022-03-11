@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
-import { CostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
@@ -75,7 +75,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
 
-  public openSectionCostReviewDialog(costBreakdown: CostBreakdown): Promise<DialogData<CostBreakdown>> {
-    return this.openDialog('openSectionCostReviewDialog', SectionCostReviewDialogComponent, false, costBreakdown);
+  public openSectionCostReviewDialog(costs: Costs): Promise<DialogData<Costs>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionCostReviewDialogComponent, false, costs);
   }
 }

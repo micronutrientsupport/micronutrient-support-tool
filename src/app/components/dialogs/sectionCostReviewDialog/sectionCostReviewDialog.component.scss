@@ -1,3 +1,5 @@
+@import 'src/assets/scss/_colour.scss';
+
 .button-container {
   width: 50%;
   display: flex;
@@ -8,4 +10,14 @@
 table {
   // width: 95%;
   margin: 0 1em;
+}
+
+.title {
+  border: solid 1px $color_primary;
+  margin: 1em;
+  padding: 10px;
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
 }

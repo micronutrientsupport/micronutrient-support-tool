@@ -1,5 +1,8 @@
 <app-base-dialog [data]="dialogData">
     <div class="bmgf-maps-nice-scrollbar">
+        <div class="title">
+            <span>{{title}}</span>
+        </div>
         <table mat-table [dataSource]="dataSource" matSort class="tableFullWidth">
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>

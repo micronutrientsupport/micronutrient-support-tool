@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { CostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -11,6 +11,7 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class SectionCostReviewDialogComponent {
   public dataSource = new MatTableDataSource();
+  public title = '';
 
   public displayHeaders = [
     'name',
@@ -26,7 +27,8 @@ export class SectionCostReviewDialogComponent {
     'year9',
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Array<CostBreakdown>>) {
-    this.dataSource = new MatTableDataSource(dialogData.dataIn);
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Costs>) {
+    this.dataSource = new MatTableDataSource(dialogData.dataIn.costBreakdown);
+    this.title = dialogData.dataIn.section;
   }
 }

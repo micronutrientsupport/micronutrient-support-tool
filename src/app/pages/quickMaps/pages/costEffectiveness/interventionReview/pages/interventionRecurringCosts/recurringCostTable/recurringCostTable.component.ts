@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { CostBreakdown, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
@@ -35,8 +35,8 @@ export class RecurringCostTableComponent implements OnInit {
     }
   }
 
-  public openSectionCostReviewDialog(costBreakdown: CostBreakdown): void {
-    this.dialogService.openSectionCostReviewDialog(costBreakdown);
-    console.debug(costBreakdown);
+  public openSectionCostReviewDialog(costs: Costs): void {
+    this.dialogService.openSectionCostReviewDialog(costs);
+    console.debug(costs);
   }
 }
