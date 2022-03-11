@@ -15,6 +15,7 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
   public interventionName = 'IntName';
 
   public startupCosts: Array<StartUpScaleUpCost>;
+  public displayHeaders = ['section', 'year0Total', 'year1Total'];
 
   private subscriptions = new Array<Subscription>();
 

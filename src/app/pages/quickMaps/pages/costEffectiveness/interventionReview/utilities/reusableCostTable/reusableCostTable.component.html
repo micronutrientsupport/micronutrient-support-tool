@@ -1,4 +1,4 @@
-<table mat-table *ngIf="null != recurringCost" [dataSource]="dataSource" matSort class="tableFullWidth">
+<table mat-table *ngIf="null != recurringCost" [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="section">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element">
@@ -54,7 +54,7 @@
     </tr>
 </table>
 
-<table mat-table *ngIf="null != startUpScaleUpCost" [dataSource]="dataSource" matSort class="tableFullWidth">
+<table mat-table *ngIf="null != startUpScaleUpCost" [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="section">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element">

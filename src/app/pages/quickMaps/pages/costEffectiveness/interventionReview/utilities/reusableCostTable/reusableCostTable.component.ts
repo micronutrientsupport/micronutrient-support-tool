@@ -5,9 +5,9 @@ import { StartUpCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
-  selector: 'app-recurring-cost-table',
-  templateUrl: './recurringCostTable.component.html',
-  styleUrls: ['./recurringCostTable.component.scss'],
+  selector: 'app-reusable-cost-table',
+  templateUrl: './reusableCostTable.component.html',
+  styleUrls: ['./reusableCostTable.component.scss'],
 })
 export class RecurringCostTableComponent implements OnInit {
   @Input() recurringCost?: RecurringCost;
