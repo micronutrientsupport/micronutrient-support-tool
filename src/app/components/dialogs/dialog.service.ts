@@ -77,11 +77,25 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
 
-  public openSectionRecurringCostReviewDialog(costs: RecurringCosts): Promise<DialogData<RecurringCosts>> {
-    return this.openDialog('openSectionCostReviewDialog', SectionRecurringCostReviewDialogComponent, false, costs);
+  public openSectionRecurringCostReviewDialog(
+    costs: RecurringCosts,
+    width = '80vw',
+    height = '80vh',
+  ): Promise<DialogData<RecurringCosts>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionRecurringCostReviewDialogComponent, false, costs, {
+      width: width,
+      height: height,
+    });
   }
 
-  public openSectionStartUpCostReviewDialog(costs: StartUpCosts): Promise<DialogData<StartUpCosts>> {
-    return this.openDialog('openSectionCostReviewDialog', SectionStartUpCostReviewDialogComponent, false, costs);
+  public openSectionStartUpCostReviewDialog(
+    costs: StartUpCosts,
+    width = '80vw',
+    height = '80vh',
+  ): Promise<DialogData<StartUpCosts>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionStartUpCostReviewDialogComponent, false, costs, {
+      width: width,
+      height: height,
+    });
   }
 }
