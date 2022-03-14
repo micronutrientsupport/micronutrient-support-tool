@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -10,7 +10,7 @@ import { DialogData } from '../baseDialogService.abstract';
   styleUrls: ['./sectionRecurringCostReviewDialog.component.scss'],
 })
 export class SectionRecurringCostReviewDialogComponent {
-  public dataSource = new MatTableDataSource();
+  public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
   public title = '';
 
   public displayHeaders = [
@@ -30,5 +30,9 @@ export class SectionRecurringCostReviewDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCosts>) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costBreakdown);
     this.title = dialogData.dataIn.section;
+  }
+
+  public getTotalCost(yearKey: string): number {
+    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
 }
