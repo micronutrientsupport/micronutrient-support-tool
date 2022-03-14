@@ -78,7 +78,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource.get();
-          this.title = 'Household apparent micronutrient intake for ' + micronutrient?.id + ' in ' + country?.name;
+          this.title = 'Household apparent micronutrient intake for ' + micronutrient?.name + ' in ' + country?.name;
           this.card.title = this.title;
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {
@@ -238,7 +238,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
               borderColor: 'black',
               label: {
                 enabled: true,
-                content: 'Threshold for AFE',
+                content: 'Threshold for inadequacy for AFEs',
               },
             },
           ],
