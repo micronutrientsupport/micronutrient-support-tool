@@ -1,0 +1,136 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { Chart } from 'chart.js';
+
+@Component({
+  selector: 'app-recurring-cost-graph',
+  templateUrl: './recurringCostGraph.component.html',
+  styleUrls: ['./recurringCostGraph.component.scss']
+})
+export class RecurringCostGraphComponent implements OnInit {
+
+  recurringCostChart: ChartJSObject;
+  @Input() recurringCost: RecurringCost;
+  chartColours: Array<string> = [
+    '#ba7a8c',
+    '#1c0d31',
+    '#dca9a7',
+    '#763671',
+    '#98557d',
+    '#461e53',
+  ]
+
+  ngOnInit(): void {
+    if (null != this.recurringCost) {
+      const recurringCostLabels = [...new Set(this.recurringCost.costs.map((item) => item.section))];
+
+      // init the pie chart
+      const recurringCostsData: ChartsJSDataObject  = {
+        labels: recurringCostLabels,
+        datasets: [{
+          label: this.recurringCost.category,
+          data: [],
+          backgroundColor: () => this.chartColours,
+          hoverBorderColor: this.chartColours,
+          borderWidth: 0,
+          hoverBorderWidth: 3,
+          hoverOffset: 5
+        }],
+      };
+
+      this.recurringCost.costs.forEach((cost, index) => {
+          let total = 0;
+          Object.entries(cost).forEach(([key, value]) => {
+            if (/year\dTotal/.test(key))
+              total += +value
+          });
+          recurringCostsData.datasets[0].data.push(Number(total).toFixed(2));
+      });
+
+      this.initialisePieChart(recurringCostsData);
+
+    }
+  }
+
+  private initialisePieChart(recurringCostsData: ChartsJSDataObject): void {
+    const generatedChart: ChartJSObject = {
+      type: 'pie',
+      data: recurringCostsData,
+      options: {
+        legend: {
+          display: true,
+          position: 'right',
+          onClick: function(event) {
+            return null;
+          },
+          labels: {
+            generateLabels: (chart) => {
+                console.log(typeof chart)
+                const data = chart.data;
+                if (data.labels.length && data.datasets.length) {
+                    return data.labels.map(function(label, i) {
+                      const meta = chart.getDatasetMeta(0);
+                      const ds = data.datasets[0];
+                      const arc = meta.data[i];
+                      const custom = arc && arc.custom || {};
+                      const getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                      const arcOpts = chart.options.elements.arc;
+                      const fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor(), i, arcOpts.backgroundColor);
+                      const stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                      const bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+                      // value of the current label
+                      const value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                      return {
+                        // add the value to the string
+                        text: label + " (" + (+value).toLocaleString('en-US', {minimumFractionDigits: 2,
+                                                                                maximumFractionDigits: 2,
+                                                                                style: 'currency',
+                                                                                currency: 'USD'
+                                                                                }) + ")",
+                        fillStyle: fill,
+                        strokeStyle: stroke,
+                        lineWidth: bw,
+                        hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                        index: i
+                      };
+                     });
+                } else {
+                    return [];
+                }
+            }
+          }
+        },
+        tooltips: {
+          callbacks: {
+            title: (item: Chart.ChartTooltipItem, data: Chart.ChartData) => {
+              return data.labels[item[0].index]
+            },
+            label: (item: Chart.ChartTooltipItem, data: Chart.ChartData) => {
+              const dataset_value = data.datasets[item.datasetIndex].data[item.index]
+              return (+dataset_value).toLocaleString('en-US', {minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+                style: 'currency',
+                currency: 'USD'
+                });
+            },
+          },
+          backgroundColor: '#fff',
+          titleFontSize: 16,
+          titleFontColor: '#000',
+          bodyFontSize: 14,
+          bodyFontColor: '#000',
+          // displayColors: false,
+          borderWidth: 1,
+          borderColor: '#000'
+        },
+        maintainAspectRatio: false,
+      }
+    };
+
+    this.recurringCostChart = generatedChart;
+  }
+
+}

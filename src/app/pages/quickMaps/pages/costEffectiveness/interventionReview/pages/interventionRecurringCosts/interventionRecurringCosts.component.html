@@ -11,7 +11,15 @@
           </app-recurring-cost-table>
         </div>
       </mat-tab>
-      <mat-tab label="Graphs"> Graph content </mat-tab>
+      <mat-tab label="Graphs">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <app-recurring-cost-graph *ngIf="null != recurringCosts" [recurringCost]="recurringCost">
+          </app-recurring-cost-graph>
+        </div>
+      </mat-tab>
     </mat-tab-group>
 
   </div>
