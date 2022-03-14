@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { SectionCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -32,6 +33,7 @@ import { SectionCostReviewDialogComponent } from './sectionRecurringCostReviewDi
     CeResetDialogComponent,
     MnAdditionDialogComponent,
     SectionCostReviewDialogComponent,
+    SectionStartUpCostReviewDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
   exports: [BaseDialogComponent],
