@@ -66,7 +66,6 @@ export class RecurringCostGraphComponent implements OnInit {
           },
           labels: {
             generateLabels: (chart) => {
-                console.log(typeof chart)
                 const data = chart.data;
                 if (data.labels.length && data.datasets.length) {
                     return data.labels.map(function(label, i) {
@@ -100,7 +99,8 @@ export class RecurringCostGraphComponent implements OnInit {
                 } else {
                     return [];
                 }
-            }
+            },
+            usePointStyle: true,
           }
         },
         tooltips: {
@@ -122,7 +122,6 @@ export class RecurringCostGraphComponent implements OnInit {
           titleFontColor: '#000',
           bodyFontSize: 14,
           bodyFontColor: '#000',
-          // displayColors: false,
           borderWidth: 1,
           borderColor: '#000'
         },

@@ -45,6 +45,7 @@ export interface ChartJSObject {
       position?: string;
       align?: string;
       labels?: {
+        usePointStyle?: boolean;
         generateLabels?: (chart: any) => {
             text: string
             fillStyle: any;

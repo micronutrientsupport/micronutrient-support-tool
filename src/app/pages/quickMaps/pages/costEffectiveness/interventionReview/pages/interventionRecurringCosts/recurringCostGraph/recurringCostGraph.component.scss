@@ -1,5 +1,3 @@
-
-
 .pie-chart-container {
     display: block;
     height: 200px;
@@ -11,17 +9,32 @@
 
 }
 
-// .card {
+.pie-chart {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-//     height: 200px;
-// }
+@media only screen and (max-width: 900px) {
+    .pie-chart {
+        width: 100%;
+    }
+}
 
-// .my-card {
-//     background-color: #fafafa;
-//     width: 80%;
-//     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
-//     display: block;
-//     position: relative;
-//     padding: 16px;
-//     border-radius: 4px;
-// }
+@media only screen and (min-width: 900px) {
+    .pie-chart {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .pie-chart {
+        width: 66%;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .pie-chart {
+        width: 50%;
+    }
+}
