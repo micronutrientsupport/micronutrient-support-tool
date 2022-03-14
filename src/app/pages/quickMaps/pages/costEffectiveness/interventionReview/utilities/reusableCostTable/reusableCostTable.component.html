@@ -2,7 +2,7 @@
     <ng-container matColumnDef="section">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element">
-            <button mat-button color="primary" (click)="openSectionCostReviewDialog(element)">
+            <button mat-button color="primary" (click)="openSectionRecurringCostReviewDialog(element)">
                 <mat-icon>edit</mat-icon>
                 {{element.section}}
             </button>
@@ -58,7 +58,7 @@
     <ng-container matColumnDef="section">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element">
-            <button mat-button color="primary" (click)="openSectionCostReviewDialog(element)">
+            <button mat-button color="primary" (click)="openSectionStartUpCostReviewDialog(element)">
                 <mat-icon>edit</mat-icon>
                 {{element.section}}
             </button>
