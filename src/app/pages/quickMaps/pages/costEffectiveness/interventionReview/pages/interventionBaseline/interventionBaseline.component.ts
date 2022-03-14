@@ -57,7 +57,9 @@ export class InterventionBaselineComponent {
   }
   public dataSource = new MatTableDataSource();
   public FVdataSource = new MatTableDataSource();
-
+  public btnVal = 'GFDx';
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  public buttonValue: boolean = true;
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
 
@@ -103,9 +105,9 @@ export class InterventionBaselineComponent {
     this.FVdataSource = new MatTableDataSource(fvdata);
   }
 
-  baselinedisplayedColumns = ['title', 'baseline_value', 'gfdx'];
-  baselineFVdisplayedColumns = ['compound', 'targetVal'];
-
+  baselinedisplayedColumns = ['title', 'baseline_value'];
+  // baselineFVdisplayedColumns = ['compound', 'targetVal'];
+  baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
     // .then((data: DialogData) => {
@@ -123,5 +125,8 @@ export class InterventionBaselineComponent {
   }
   public openCalculatedFortificationInfoDialog(): void {
     void this.dialogService.openCalculatedFortificationInfoDialog();
+  }
+  public inputType(): void {
+    this.buttonValue = !this.buttonValue;
   }
 }

@@ -4,6 +4,7 @@ import {
   IndustryInformation,
   InterventionIndustryInformation,
 } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -16,6 +17,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionIndustryInformationComponent {
   publiciIndustryInformation: IndustryInformation;
   public testInput: number;
+  public dialogService: DialogService;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -52,5 +54,12 @@ export class InterventionIndustryInformationComponent {
   private init(data: InterventionIndustryInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.industryInformation);
+  }
+
+  public resetValues(): void {
+    void this.dialogService.openCEResetDialog();
+    // .then((data: DialogData) => {
+    // this.selectedInterventions.push(data.dataOut);
+    // });
   }
 }

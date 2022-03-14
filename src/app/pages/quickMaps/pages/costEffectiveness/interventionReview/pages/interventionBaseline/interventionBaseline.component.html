@@ -38,31 +38,37 @@
 
       <ng-container matColumnDef="baseline_value">
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year0>
-
+          <div class="double-cell">
+            <input type="number" matInput required [value]=element.year0>
+            <span>
+              <button mat-icon-button color="primary" (click)="inputType()">
+                {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+            </span>
+          </div>
         </td>
       </ng-container>
-      <ng-container matColumnDef="gfdx">
-        <td class="column-title" mat-cell *matCellDef="let element">gfdx
 
-        </td>
-      </ng-container>
-
+      <span>
+        <button mat-icon-button color="primary" (click)="inputType()">
+          {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+        </button>
+      </span>
       <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
       <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
     </table>
 
     <div class="header-row">
-      <div class="subheader-container">
-        <div class="title">
-          <span>Food vehicle standard/target fortification levels</span>
-        </div>
+      <!-- <div class="subheader-container"> -->
+      <div class="title">
+        <span>Food vehicle standard/target fortification levels</span>
       </div>
-      <div class="subheader-container">
-        <div class="title">
-          <span>Baseline compliance/fortification in practice</span>
-        </div>
+      <!-- </div> -->
+      <!-- <div class="subheader-container"> -->
+      <div class="title">
+        <span>Baseline compliance/fortification in practice</span>
       </div>
+      <!-- </div> -->
     </div>
 
     <div class="lower-table-wrapper">
@@ -95,26 +101,30 @@
             <div class="double-cell">
               <input type="number" matInput required [value]=element.targetVal>
               <span>
-                gfdx
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
               </span>
             </div>
           </td>
 
         </ng-container>
-        <!-- 
+
 
         <ng-container matColumnDef="avgVal">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
             fortifiable food vehicle at point of fortification
-            <button mat-mini-fab color="primary">
-              <mat-icon (click)="openFortificationInfoDialog()">question_mark</mat-icon>
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
+              <mat-icon class="icon-display">question_mark</mat-icon>
             </button>
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
               <input type="number" matInput required [value]=element.targetVal>
               <span>
-                gfdx
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
               </span>
             </div>
           </td>
@@ -127,16 +137,19 @@
             <div class="double-cell">
               <input type="number" matInput required [value]=element.targetVal>
               <span>
-                gfdx
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input" }}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
               </span>
             </div>
           </td>
         </ng-container>
+
         <ng-container matColumnDef="calcFort">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
             all food vehicle
-            <button mat-mini-fab color="primary">
-              <mat-icon (click)="openCalculatedFortificationInfoDialog()">question_mark</mat-icon>
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openCalculatedFortificationInfoDialog()">
+              <mat-icon class="icon-display">question_mark</mat-icon>
             </button>
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
@@ -145,7 +158,7 @@
 
             </div>
           </td>
-        </ng-container> -->
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>

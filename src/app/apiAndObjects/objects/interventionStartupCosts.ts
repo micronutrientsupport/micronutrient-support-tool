@@ -23,21 +23,21 @@ export class InterventionStartupCosts extends BaseObject implements Named {
 }
 export interface StartUpScaleUpCost {
   category: StartUpScaleUpCostCategoryType;
-  costs: Array<Costs>;
+  costs: Array<StartupCost>;
 }
 
 export enum StartUpScaleUpCostCategoryType {
   GOVERNMENT = 'Government-related start-up/scale-up costs',
   INDUSTRY = 'Industry-related start-up/scale-up costs',
 }
-export interface Costs {
+export interface StartupCost {
   section: string;
-  costBreakdown: Array<CostBreakdown>;
+  costBreakdown: Array<StartupCost>;
   year0Total: number;
   year1Total: number;
 }
 
-export interface CostBreakdown {
+export interface StartupCostBreakdown {
   name: string;
   rowIndex: number;
   year0: number;

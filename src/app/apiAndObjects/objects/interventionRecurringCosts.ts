@@ -24,15 +24,15 @@ export class InterventionRecurringCosts extends BaseObject implements Named {
 
 export interface RecurringCost {
   category: RecurringCostsCategory;
-  costs: Array<Costs>;
+  costs: Array<RecurringCost>;
 }
-export interface Costs {
+export interface RecurringCost {
   section: string;
-  costBreakdown: Array<CostBreakdown>;
+  costBreakdown: Array<RecurringCostBreakdown>;
   year0Total: number;
   year1Total: number;
 }
-export interface CostBreakdown {
+export interface RecurringCostBreakdown {
   name: string;
   rowIndex: number;
   year0: number;
