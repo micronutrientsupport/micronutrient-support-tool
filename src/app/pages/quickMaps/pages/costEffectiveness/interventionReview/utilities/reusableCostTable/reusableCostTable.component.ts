@@ -36,4 +36,8 @@ export class RecurringCostTableComponent implements OnInit {
     this.dialogService.openSectionStartUpCostReviewDialog(costs);
     console.debug(costs);
   }
+
+  public getTotalCost(yearKey: string): number {
+    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
+  }
 }
