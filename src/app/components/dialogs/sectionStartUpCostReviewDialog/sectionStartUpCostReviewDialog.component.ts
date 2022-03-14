@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { CostBreakdown, StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -10,7 +10,7 @@ import { DialogData } from '../baseDialogService.abstract';
   styleUrls: ['./sectionStartUpCostReviewDialog.component.scss'],
 })
 export class SectionStartUpCostReviewDialogComponent {
-  public dataSource = new MatTableDataSource();
+  public dataSource = new MatTableDataSource<CostBreakdown>();
   public title = '';
 
   public displayHeaders = ['name', 'year0', 'year1'];
@@ -18,5 +18,9 @@ export class SectionStartUpCostReviewDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costBreakdown);
     this.title = dialogData.dataIn.section;
+  }
+
+  public getTotalCost(yearKey: string): number {
+    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
 }
