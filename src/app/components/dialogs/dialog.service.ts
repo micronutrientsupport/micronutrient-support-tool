@@ -13,7 +13,7 @@ import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialo
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
-import { SectionCostReviewDialogComponent } from './sectionCostReviewDialog/sectionCostReviewDialog.component';
+import { SectionCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
