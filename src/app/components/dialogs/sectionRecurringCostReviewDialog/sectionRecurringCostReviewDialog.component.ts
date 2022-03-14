@@ -9,7 +9,7 @@ import { DialogData } from '../baseDialogService.abstract';
   templateUrl: './sectionRecurringCostReviewDialog.component.html',
   styleUrls: ['./sectionRecurringCostReviewDialog.component.scss'],
 })
-export class SectionCostReviewDialogComponent {
+export class SectionRecurringCostReviewDialogComponent {
   public dataSource = new MatTableDataSource();
   public title = '';
 

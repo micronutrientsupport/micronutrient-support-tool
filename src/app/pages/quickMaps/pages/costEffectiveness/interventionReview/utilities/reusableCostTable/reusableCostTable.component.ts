@@ -27,8 +27,13 @@ export class RecurringCostTableComponent implements OnInit {
     }
   }
 
-  public openSectionCostReviewDialog(costs: RecurringCosts | RecurringCosts): void {
-    this.dialogService.openSectionCostReviewDialog(costs);
+  public openSectionRecurringCostReviewDialog(costs: RecurringCosts): void {
+    this.dialogService.openSectionRecurringCostReviewDialog(costs);
+    console.debug(costs);
+  }
+
+  public openSectionStartUpCostReviewDialog(costs: StartUpCosts): void {
+    this.dialogService.openSectionStartUpCostReviewDialog(costs);
     console.debug(costs);
   }
 }

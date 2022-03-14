@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
@@ -13,7 +14,8 @@ import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialo
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenarioChangeWarning.component';
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
-import { SectionCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
@@ -75,7 +77,11 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
 
-  public openSectionCostReviewDialog(costs: RecurringCosts): Promise<DialogData<RecurringCosts>> {
-    return this.openDialog('openSectionCostReviewDialog', SectionCostReviewDialogComponent, false, costs);
+  public openSectionRecurringCostReviewDialog(costs: RecurringCosts): Promise<DialogData<RecurringCosts>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionRecurringCostReviewDialogComponent, false, costs);
+  }
+
+  public openSectionStartUpCostReviewDialog(costs: StartUpCosts): Promise<DialogData<StartUpCosts>> {
+    return this.openDialog('openSectionCostReviewDialog', SectionStartUpCostReviewDialogComponent, false, costs);
   }
 }
