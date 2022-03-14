@@ -5,9 +5,9 @@ import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurr
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
-  selector: 'app-section-cost-review-dialog',
-  templateUrl: './sectionCostReviewDialog.component.html',
-  styleUrls: ['./sectionCostReviewDialog.component.scss'],
+  selector: 'app-section-recurring-cost-review-dialog',
+  templateUrl: './sectionRecurringCostReviewDialog.component.html',
+  styleUrls: ['./sectionRecurringCostReviewDialog.component.scss'],
 })
 export class SectionCostReviewDialogComponent {
   public dataSource = new MatTableDataSource();
