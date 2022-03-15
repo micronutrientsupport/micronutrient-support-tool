@@ -1,0 +1,45 @@
+@use '../../../interventionReview.component.scss';
+
+@import 'src/assets/scss/_colour';
+div:not(.box) {
+  margin-bottom: 15px;
+}
+
+.box {
+  height: 20px;
+  width: 20px;
+  border: 1px solid white;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 5px;
+  margin: 5px;
+}
+.purple {
+  background-color: $color_primary;
+}
+
+.blue {
+  background-color: blue;
+}
+.static-review-elements {
+  display: flex;
+  // align-items: center;
+  padding: 10px;
+  height: 50px;
+}
+.item-reset {
+  flex-grow: 1;
+}
+.item-bottom-row {
+  flex-grow: 1;
+  justify-content: center;
+  margin: 15px;
+  align-items: center;
+  display: inline-block;
+  white-space: nowrap;
+  justify-content: flex-end;
+}
+.item-group {
+  width: 40%;
+  display: inline-block;
+}
