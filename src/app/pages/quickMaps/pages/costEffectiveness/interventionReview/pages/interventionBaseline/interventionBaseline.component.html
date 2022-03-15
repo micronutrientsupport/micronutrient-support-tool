@@ -7,28 +7,7 @@
     </div>
 
 
-
-    <!-- <div class="intervention-baseline-panel">
-
-      <div class="item"> Potentially fortifiable [] in the food system(%)</div>
-      <div class="item"><input type="number" class="item-input"> <button mat-icon-button>GFDx
-          <i class="fas fa-arrow-right"></i>
-        </button></div>
-      <div class="item"></div>
-    </div>
-
-    <div class="intervention-baseline-panel">
-
-      <div class="item"> Fortifiable [] that is actually fortified to the standard(%)</div>
-      <div class="item"><input type="number" class="item-input"> <button mat-icon-button>GFDx
-          <i class="fas fa-arrow-right"></i>
-        </button></div>
-      <div class="item"></div>
-    </div> -->
-
-    <!-- add table -->
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="title">
         <td class="column-title" mat-cell *matCellDef="let element">
@@ -60,16 +39,15 @@
     </table>
 
     <div class="header-row">
-      <!-- <div class="subheader-container"> -->
+
       <div class="title">
         <span>Food vehicle standard/target fortification levels</span>
       </div>
-      <!-- </div> -->
-      <!-- <div class="subheader-container"> -->
+
       <div class="title">
         <span>Baseline compliance/fortification in practice</span>
       </div>
-      <!-- </div> -->
+
     </div>
 
     <div class="lower-table-wrapper">
@@ -78,7 +56,7 @@
         <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
       </div>
 
-      <table mat-table [dataSource]="FVdataSource" class="mat-elevation-z8">
+      <table mat-table [dataSource]="FVdataSource">
 
         <ng-container matColumnDef="compound">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Compound </th>
@@ -98,9 +76,6 @@
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
               <input type="number" matInput required [value]="selectedCompound.targetVal">
-              <!-- <span>
-                {{selectedItem | json}}
-              </span> -->
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
@@ -110,7 +85,11 @@
           </td>
 
         </ng-container>
+        <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
+      </table>
 
+      <table mat-table [dataSource]="complianceFortificationDatasource">
 
         <ng-container matColumnDef="avgVal">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
@@ -121,7 +100,10 @@
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]=element.targetVal>
+              <!-- <input type="number" matInput required [value]=element.targetVal> -->
+              <span>
+                {{element.calcAverageAtPointOfFortification}}
+              </span>
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
@@ -136,7 +118,10 @@
             (mg/kg) among fortifiable food vehicle at point of fortificationn </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]=element.targetVal>
+              <span>
+                {{element.optionalUserEnteredAverageAtPointOfFortification}}
+              </span>
+              <!-- <input type="number" matInput required [value]=element.targetVal> -->
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input" }}<mat-icon>arrow_right_alt</mat-icon>
@@ -155,15 +140,17 @@
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]=element.targetVal>
-
+              <!-- <input type="number" matInput required [value]=element.targetVal> -->
+              <span>
+                {{element.calcAverageFortificationLevelAmongAll}}
+              </span>
             </div>
           </td>
         </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="baselineFVpracticedisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineFVpracticedisplayedColumns;"></tr>
       </table>
+
     </div>
     <div>
       <tr class="static-review-elements">
@@ -183,13 +170,14 @@
         </div>
       </tr>
     </div>
-    <footer>
-      <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
-        queryParamsHandling="preserve">Save and close</a>
-      <a class="intervention-navigation-confirm" mat-stroked-button
-        [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route" queryParamsHandling="preserve">Confirm and
-        continue</a>
-    </footer>
-
   </div>
+
+  <footer>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <a class="intervention-navigation-confirm" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route" queryParamsHandling="preserve">Confirm and
+      continue</a>
+  </footer>
+
 </div>

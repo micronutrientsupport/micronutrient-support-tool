@@ -23,21 +23,26 @@ import { InterventionSideNavContentService } from '../../components/intervention
   styleUrls: ['./interventionBaseline.component.scss'],
 })
 export class InterventionBaselineComponent implements OnInit {
-  public selectedCompound: FoodVehicleCompound;
-
-  public compounds: Array<FoodVehicleCompound>;
-  // public selectedCompound: Compounds;
-  public activeNutrientFVS: Array<FoodVehicleStandard>;
-  public dataSource = new MatTableDataSource();
-  public FVdataSource = new MatTableDataSource();
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  public toggle: boolean = true;
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  public buttonValue: boolean = true;
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
+  public selectedCompound: FoodVehicleCompound;
+  public activeNutrientFVS: Array<FoodVehicleStandard>;
+
+  // TODO: Assign these to correct variables
+  public toggle = true;
+  public buttonValue = true;
+
+  public dataSource = new MatTableDataSource();
+  baselinedisplayedColumns = ['title', 'baseline_value'];
+
+  public FVdataSource = new MatTableDataSource();
+  public baselineFVdisplayedColumns = ['compound', 'targetVal'];
+
+  public complianceFortificationDatasource = new MatTableDataSource();
+  public baselineFVpracticedisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
 
   private subscriptions = new Array<Subscription>();
+
   constructor(
     public quickMapsService: QuickMapsService,
     private interventionDataService: InterventionDataService,
@@ -59,58 +64,45 @@ export class InterventionBaselineComponent implements OnInit {
             });
         }
       }),
+      void this.interventionDataService
+        .getInterventionBaselineAssumptions('1')
+        .then((data: InterventionBaselineAssumptions) => {
+          this.createBaselineTableObject(data);
+          this.createBaselineComplianceFortificationPractice(data);
+        }),
     );
   }
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
-
-    //get Baseline Assumptions
-    void this.interventionDataService
-      .getInterventionBaselineAssumptions('1')
-      .then((data: InterventionBaselineAssumptions) => {
-        this.createBaselineTableObject(data);
-      });
-    //get Food Vehicle Standards
-    // void this.interventionDataService
-    //   .getInterventionFoodVehicleStandards('1')
-    //   .then((fvdata: InterventionFoodVehicleStandards) => {
-    //     this.createFVTableObject(fvdata);
-    //   });
   }
 
   public createBaselineTableObject(data: InterventionBaselineAssumptions): void {
     const dataArray = [];
-
     const rawData = data.baselineAssumptions as BaselineAssumptions;
-
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
     this.dataSource = new MatTableDataSource(dataArray);
   }
+
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
     this.selectedCompound = fvdata[0].compounds[0];
-    // const FVdataArray = [];
-
-    // const rawData = fvdata.foodVehicleStandard as FoodVehicleStandard[];
-
-    // FVdataArray.push(rawData[0].compounds[0]);
-
-    console.debug(fvdata);
-    // console.debug(rawData[0].micronutrient);
-    // console.debug('Compound 1: ', rawData[0].compounds[0].compound);
-
     this.FVdataSource = new MatTableDataSource(fvdata);
-
-    console.log('fvdata[0]: ', fvdata[0]);
-
-    console.log('fvdata[0].compounds[0]: ', fvdata[0].compounds[0]);
-
-    console.log('fvdata[0].compounds[0].targetVal: ', fvdata[0].compounds[0].targetVal);
   }
 
-  baselinedisplayedColumns = ['title', 'baseline_value'];
-  baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
-  // baselineFVdisplayedColumns = ['compound'];
+  public createBaselineComplianceFortificationPractice(data: InterventionBaselineAssumptions): void {
+    const baselineInterventionAssumptionData = data.baselineAssumptions as BaselineAssumptions;
+    const calcAverageAtPointOfFortification =
+      baselineInterventionAssumptionData.actuallyFortified.year0 *
+      baselineInterventionAssumptionData.potentiallyFortified.year0;
+    const tableObject: ComplianceFortificationTableObject = {
+      calcAverageAtPointOfFortification: calcAverageAtPointOfFortification,
+      optionalUserEnteredAverageAtPointOfFortification:
+        calcAverageAtPointOfFortification * calcAverageAtPointOfFortification,
+      calcAverageFortificationLevelAmongAll: 0.8,
+    };
+    this.complianceFortificationDatasource = new MatTableDataSource([tableObject]);
+  }
+
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
     // .then((data: DialogData) => {
@@ -132,4 +124,10 @@ export class InterventionBaselineComponent implements OnInit {
   public inputType(): void {
     this.buttonValue = !this.buttonValue;
   }
+}
+
+interface ComplianceFortificationTableObject {
+  calcAverageAtPointOfFortification: number;
+  optionalUserEnteredAverageAtPointOfFortification: number;
+  calcAverageFortificationLevelAmongAll: number;
 }
