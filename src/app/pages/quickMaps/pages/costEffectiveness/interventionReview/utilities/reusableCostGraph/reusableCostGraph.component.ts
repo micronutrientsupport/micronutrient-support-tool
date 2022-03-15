@@ -10,12 +10,12 @@ import { StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionSt
   styleUrls: ['./reusableCostGraph.component.scss']
 })
 export class ReusableCostGraphComponent implements OnInit {
-  
+
   costChart: ChartJSObject;
   @Input() costData: RecurringCost | StartUpScaleUpCost;
 
   chartColours: Array<string> = [
-    '#ba7a8c',
+    '#703aa3',
     '#1c0d31',
     '#dca9a7',
     '#763671',
