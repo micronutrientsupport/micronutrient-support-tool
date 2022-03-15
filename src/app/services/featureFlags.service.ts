@@ -16,6 +16,10 @@ export class FeatureFlagsService {
     });
   }
 
+  public isDisabled(flag: string): boolean {
+    return !this.unleashClient.isEnabled(flag);
+  }
+
   public isEnabled(flag: string): boolean {
     return this.unleashClient.isEnabled(flag);
   }
