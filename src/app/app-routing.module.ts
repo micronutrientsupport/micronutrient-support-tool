@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Data } from '@angular/router';
 import { NotFoundComponent } from './components/notFound/notFound.component';
+import { FeatureFlagGuard } from './guards/featureFlagGuard';
 import { EducationalResourcesComponent } from './pages/educationalResources/educationalResources.component';
 import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
