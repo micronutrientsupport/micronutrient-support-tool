@@ -9,8 +9,7 @@ export class FeatureFlagDirective implements OnInit {
 
   constructor(
     private viewContainer: ViewContainerRef,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private templateRef: TemplateRef<any>,
+    private templateRef: TemplateRef<unknown>,
     private featureFlagsService: FeatureFlagsService,
   ) {}
 
