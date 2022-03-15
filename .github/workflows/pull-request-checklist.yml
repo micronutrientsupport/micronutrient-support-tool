@@ -2,7 +2,7 @@ name: PR check
 on: pull_request
 jobs:
   checklist:
-    name: "Post checklist for PR review"
+    name: 'Post checklist for PR review'
     runs-on: ubuntu-latest
     steps:
       - name: PR checklist
