@@ -5,9 +5,18 @@
       <div class="title">
         <span>{{startupCost.category}}</span>
       </div>
-      <app-reusable-cost-table *ngIf="null != startupCosts" [startUpScaleUpCost]="startupCost"
-        [headers]="displayHeaders">
-      </app-reusable-cost-table>
+      <div class="row-container">
+        <div class="startUpTable">
+          <app-reusable-cost-table *ngIf="null != startupCosts" [startUpScaleUpCost]="startupCost"
+            [headers]="displayHeaders">
+          </app-reusable-cost-table>
+        </div>
+        <div class="divider"></div>
+        <div class="startUpGraph">
+          <app-reusable-cost-graph *ngIf="null != startupCosts" [costData]="startupCost">
+          </app-reusable-cost-graph>
+        </div>
+      </div>
     </div>
   </div>
   <footer>

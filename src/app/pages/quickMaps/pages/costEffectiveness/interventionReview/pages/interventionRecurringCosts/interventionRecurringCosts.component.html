@@ -7,12 +7,22 @@
           <div class="title">
             <span>{{recurringCost.category}}</span>
           </div>
-          <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
-            [headers]="displayHeaders">
-          </app-reusable-cost-table>
+          <div class="recurringCostTable">
+            <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
+              [headers]="displayHeaders">
+            </app-reusable-cost-table>
+          </div>
         </div>
       </mat-tab>
-      <mat-tab label="Graphs"> Graph content </mat-tab>
+      <mat-tab label="Graphs">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+          </app-reusable-cost-graph>
+        </div>
+      </mat-tab>
     </mat-tab-group>
 
   </div>

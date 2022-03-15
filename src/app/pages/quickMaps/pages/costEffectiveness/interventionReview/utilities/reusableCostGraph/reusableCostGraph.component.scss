@@ -1,0 +1,42 @@
+.pie-chart-container {
+    display: block;
+    height: 200px;
+    width: 100%;
+}
+
+::ng-deep.pie-chart > div > canvas {
+    height: 200px !important;
+
+}
+
+.pie-chart {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+// @media only screen and (max-width: 900px) {
+//     .pie-chart {
+//         width: 100%;
+//     }
+// }
+
+// @media only screen and (min-width: 900px) {
+//     .pie-chart {
+//         width: 80%;
+//     }
+// }
+
+// @media only screen and (min-width: 1200px) {
+//     .pie-chart {
+//         width: 66%;
+//     }
+// }
+
+// @media only screen and (min-width: 1400px) {
+//     .pie-chart {
+//         width: 50%;
+//     }
+// }
