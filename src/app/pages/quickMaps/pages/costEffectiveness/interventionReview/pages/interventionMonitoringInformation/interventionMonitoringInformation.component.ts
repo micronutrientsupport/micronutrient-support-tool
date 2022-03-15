@@ -17,8 +17,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionMonitoringInformationComponent {
   constructor(
     public quickMapsService: QuickMapsService,
-    private dialogService: DialogService,
-    private dictionariesService: DictionaryService,
+
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
@@ -52,12 +51,5 @@ export class InterventionMonitoringInformationComponent {
   private init(data: InterventionMonitoringInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.monitoringInformation);
-  }
-
-  public resetValues(): void {
-    void this.dialogService.openCEResetDialog();
-    // .then((data: DialogData) => {
-    // this.selectedInterventions.push(data.dataOut);
-    // });
   }
 }

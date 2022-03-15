@@ -17,7 +17,6 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionIndustryInformationComponent {
   publiciIndustryInformation: IndustryInformation;
   public testInput: number;
-  public dialogService: DialogService;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -54,12 +53,5 @@ export class InterventionIndustryInformationComponent {
   private init(data: InterventionIndustryInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.industryInformation);
-  }
-
-  public resetValues(): void {
-    void this.dialogService.openCEResetDialog();
-    // .then((data: DialogData) => {
-    // this.selectedInterventions.push(data.dataOut);
-    // });
   }
 }

@@ -107,12 +107,6 @@ export class InterventionBaselineComponent implements OnInit {
     this.complianceFortificationDatasource = new MatTableDataSource([tableObject]);
   }
 
-  public resetValues(): void {
-    void this.dialogService.openCEResetDialog();
-    // .then((data: DialogData) => {
-    // this.selectedInterventions.push(data.dataOut);
-    // });
-  }
   public addMN(): void {
     void this.dialogService.openMnAdditionDialog();
     // .then((data: DialogData) => {
