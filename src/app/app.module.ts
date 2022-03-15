@@ -1,5 +1,5 @@
 import { BrowserModule, Meta, Title } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +11,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NgxFeedbackModule } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
+import { FeatureFlagsFactory } from './services/featureFlags.factory';
+import { FeatureFlagsService } from './services/featureFlags.service';
+import { DirectivesModule } from './directives/directives.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,9 +33,19 @@ import { NgxFeedbackModule } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     NgxFeedbackModule,
+    DirectivesModule,
   ],
   exports: [],
-  providers: [Title, Meta],
+  providers: [
+    Title,
+    Meta,
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: FeatureFlagsFactory.preloadFeatureFlags,
+      deps: [FeatureFlagsService],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
