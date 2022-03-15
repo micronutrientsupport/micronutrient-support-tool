@@ -36,18 +36,14 @@ export class InterventionBaselineComponent {
   ) {
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        console.debug('mn', mn);
         if (null != mn) {
           this.interventionDataService
             .getInterventionFoodVehicleStandards('1')
             .then((data: InterventionFoodVehicleStandards) => {
-              console.debug('data', data);
               if (null != data) {
                 this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  console.debug(standard.micronutrient.includes(mn.name.toLocaleLowerCase()));
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
-                console.debug(this.activeNutrientFVS);
                 this.createFVTableObject(this.activeNutrientFVS);
               }
             });
@@ -86,10 +82,6 @@ export class InterventionBaselineComponent {
     const rawData = data.baselineAssumptions as BaselineAssumptions;
 
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
-
-    // console.debug(rawData);
-    // console.debug(rawData.actuallyFortified.title);
-
     this.dataSource = new MatTableDataSource(dataArray);
   }
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
@@ -99,7 +91,7 @@ export class InterventionBaselineComponent {
 
     // FVdataArray.push(rawData[0].compounds[0]);
 
-    // console.debug(rawData);
+    console.debug(fvdata);
     // console.debug(rawData[0].micronutrient);
     // console.debug('Compound 1: ', rawData[0].compounds[0].compound);
 
@@ -114,7 +106,8 @@ export class InterventionBaselineComponent {
 
   baselinedisplayedColumns = ['title', 'baseline_value'];
   // baselineFVdisplayedColumns = ['compound', 'targetVal'];
-  baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
+  // baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
+  baselineFVdisplayedColumns = ['compound'];
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
     // .then((data: DialogData) => {
