@@ -82,35 +82,25 @@
 
         <ng-container matColumnDef="compound">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Compound </th>
-          <!-- <td class="column-title" mat-cell *matCellDef="let element">
-            {{element.micronutrient}}
-          </td> -->
           <td class="column-title" mat-cell *matCellDef="let element">
-            <!-- <span *ngFor="let item of element.compounds">
-              {{item.compound}}
-            </span> -->
-            <!-- <mat-form-field appearance="outline">
-              <mat-select (empty)="null" [(ngModel)]="selectedCompound" matNativeControl>
-                <mat-option *ngFor="let compound of compounds" [value]="compound">
-                  {{compound.compound}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field> -->
             <mat-form-field appearance="outline">
-              <mat-select (empty)="null" matNativeControl>
-                <mat-option *ngFor="let item of element.compounds" [value]="item.compound">
+              <mat-select [(ngModel)]="selectedCompound" matNativeControl>
+                <mat-option *ngFor="let item of element.compounds" [value]="item">
                   {{item.compound}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </td>
         </ng-container>
-        <!-- <ng-container matColumnDef="targetVal">
+        <ng-container matColumnDef="targetVal">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Standard/target nutrient level at point of
             fortification (mg/kg) </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]=element.targetVal>
+              <input type="number" matInput required [value]="selectedCompound.targetVal">
+              <!-- <span>
+                {{selectedItem | json}}
+              </span> -->
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
@@ -169,7 +159,7 @@
 
             </div>
           </td>
-        </ng-container> -->
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>

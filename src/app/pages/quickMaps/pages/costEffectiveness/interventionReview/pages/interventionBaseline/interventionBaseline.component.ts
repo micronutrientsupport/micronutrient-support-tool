@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -7,7 +7,7 @@ import {
   InterventionBaselineAssumptions,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
-  Compounds,
+  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
@@ -22,10 +22,20 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionBaseline.component.html',
   styleUrls: ['./interventionBaseline.component.scss'],
 })
-export class InterventionBaselineComponent {
-  public compounds: Array<Compounds>;
-  public selectedCompound: Compounds;
+export class InterventionBaselineComponent implements OnInit {
+  public selectedCompound: FoodVehicleCompound;
+
+  public compounds: Array<FoodVehicleCompound>;
+  // public selectedCompound: Compounds;
   public activeNutrientFVS: Array<FoodVehicleStandard>;
+  public dataSource = new MatTableDataSource();
+  public FVdataSource = new MatTableDataSource();
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  public toggle: boolean = true;
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  public buttonValue: boolean = true;
+  public ROUTES = AppRoutes;
+  public pageStepperPosition = 0;
 
   private subscriptions = new Array<Subscription>();
   constructor(
@@ -51,14 +61,6 @@ export class InterventionBaselineComponent {
       }),
     );
   }
-  public dataSource = new MatTableDataSource();
-  public FVdataSource = new MatTableDataSource();
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  public toggle: boolean = true;
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  public buttonValue: boolean = true;
-  public ROUTES = AppRoutes;
-  public pageStepperPosition = 0;
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
@@ -76,6 +78,7 @@ export class InterventionBaselineComponent {
     //     this.createFVTableObject(fvdata);
     //   });
   }
+
   public createBaselineTableObject(data: InterventionBaselineAssumptions): void {
     const dataArray = [];
 
@@ -85,6 +88,7 @@ export class InterventionBaselineComponent {
     this.dataSource = new MatTableDataSource(dataArray);
   }
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
+    this.selectedCompound = fvdata[0].compounds[0];
     // const FVdataArray = [];
 
     // const rawData = fvdata.foodVehicleStandard as FoodVehicleStandard[];
@@ -105,9 +109,8 @@ export class InterventionBaselineComponent {
   }
 
   baselinedisplayedColumns = ['title', 'baseline_value'];
-  // baselineFVdisplayedColumns = ['compound', 'targetVal'];
-  // baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
-  baselineFVdisplayedColumns = ['compound'];
+  baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
+  // baselineFVdisplayedColumns = ['compound'];
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
     // .then((data: DialogData) => {
