@@ -53,6 +53,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     InterventionReviewComponentsModule,
     MatFormFieldModule,
     FormsModule,
+    PipesModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],

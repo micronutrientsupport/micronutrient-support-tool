@@ -25,6 +25,8 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionBaselineComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
+
+  public baselineAssumptions: BaselineAssumptions;
   public selectedCompound: FoodVehicleCompound;
   public activeNutrientFVS: Array<FoodVehicleStandard>;
 
@@ -39,7 +41,8 @@ export class InterventionBaselineComponent implements OnInit {
   public baselineFVdisplayedColumns = ['compound', 'targetVal'];
 
   public complianceFortificationDatasource = new MatTableDataSource();
-  public baselineFVpracticedisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
+  public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
+  public optionalUserEnteredAverageAtPointOfFortification = 0;
 
   private subscriptions = new Array<Subscription>();
 
@@ -60,16 +63,17 @@ export class InterventionBaselineComponent implements OnInit {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
                 this.createFVTableObject(this.activeNutrientFVS);
+                void this.interventionDataService
+                  .getInterventionBaselineAssumptions('1')
+                  .then((data: InterventionBaselineAssumptions) => {
+                    this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+                    this.createBaselineTableObject();
+                    this.createBaselineComplianceFortificationPractice();
+                  });
               }
             });
         }
       }),
-      void this.interventionDataService
-        .getInterventionBaselineAssumptions('1')
-        .then((data: InterventionBaselineAssumptions) => {
-          this.createBaselineTableObject(data);
-          this.createBaselineComplianceFortificationPractice(data);
-        }),
     );
   }
 
@@ -77,10 +81,9 @@ export class InterventionBaselineComponent implements OnInit {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
-  public createBaselineTableObject(data: InterventionBaselineAssumptions): void {
+  public createBaselineTableObject(): void {
     const dataArray = [];
-    const rawData = data.baselineAssumptions as BaselineAssumptions;
-    dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
+    dataArray.push(this.baselineAssumptions.actuallyFortified, this.baselineAssumptions.potentiallyFortified);
     this.dataSource = new MatTableDataSource(dataArray);
   }
 
@@ -89,16 +92,17 @@ export class InterventionBaselineComponent implements OnInit {
     this.FVdataSource = new MatTableDataSource(fvdata);
   }
 
-  public createBaselineComplianceFortificationPractice(data: InterventionBaselineAssumptions): void {
-    const baselineInterventionAssumptionData = data.baselineAssumptions as BaselineAssumptions;
+  public createBaselineComplianceFortificationPractice(): void {
     const calcAverageAtPointOfFortification =
-      baselineInterventionAssumptionData.actuallyFortified.year0 *
-      baselineInterventionAssumptionData.potentiallyFortified.year0;
+      this.selectedCompound.targetVal * this.baselineAssumptions.potentiallyFortified.year0;
+    const optionalUserEnteredAverageAtPointOfFortification = this.optionalUserEnteredAverageAtPointOfFortification;
+    const calcAverageFortificationLevelAmongAll =
+      optionalUserEnteredAverageAtPointOfFortification * calcAverageAtPointOfFortification;
+
     const tableObject: ComplianceFortificationTableObject = {
       calcAverageAtPointOfFortification: calcAverageAtPointOfFortification,
-      optionalUserEnteredAverageAtPointOfFortification:
-        calcAverageAtPointOfFortification * calcAverageAtPointOfFortification,
-      calcAverageFortificationLevelAmongAll: 0.8,
+      optionalUserEnteredAverageAtPointOfFortification: optionalUserEnteredAverageAtPointOfFortification,
+      calcAverageFortificationLevelAmongAll: calcAverageFortificationLevelAmongAll,
     };
     this.complianceFortificationDatasource = new MatTableDataSource([tableObject]);
   }

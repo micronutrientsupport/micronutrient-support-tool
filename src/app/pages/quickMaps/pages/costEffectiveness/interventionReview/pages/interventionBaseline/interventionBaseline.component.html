@@ -75,7 +75,7 @@
             fortification (mg/kg) </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]="selectedCompound.targetVal">
+              <input type="number" matInput required [value]="selectedCompound?.targetVal">
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
@@ -89,6 +89,8 @@
         <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
       </table>
 
+
+      <!-- TODO: update table below to static table -->
       <table mat-table [dataSource]="complianceFortificationDatasource">
 
         <ng-container matColumnDef="avgVal">
@@ -100,9 +102,8 @@
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <!-- <input type="number" matInput required [value]=element.targetVal> -->
               <span>
-                {{element.calcAverageAtPointOfFortification}}
+                {{selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0}}
               </span>
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
@@ -118,10 +119,7 @@
             (mg/kg) among fortifiable food vehicle at point of fortificationn </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <span>
-                {{element.optionalUserEnteredAverageAtPointOfFortification}}
-              </span>
-              <!-- <input type="number" matInput required [value]=element.targetVal> -->
+              <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
               <span>
                 <button mat-icon-button color="primary" (click)="inputType()">
                   {{buttonValue?"GFDx":"User Input" }}<mat-icon>arrow_right_alt</mat-icon>
@@ -140,15 +138,15 @@
           </th>
           <td class="column-title" mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <!-- <input type="number" matInput required [value]=element.targetVal> -->
               <span>
-                {{element.calcAverageFortificationLevelAmongAll}}
+                {{(optionalUserEnteredAverageAtPointOfFortification * baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.potentiallyFortified.year0) | sigFig:3}}
               </span>
             </div>
           </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="baselineFVpracticedisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: baselineFVpracticedisplayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="baselineComplianceDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineComplianceDisplayedColumns;"></tr>
       </table>
 
     </div>
