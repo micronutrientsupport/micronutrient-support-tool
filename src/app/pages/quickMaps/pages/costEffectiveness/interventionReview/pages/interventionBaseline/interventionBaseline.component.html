@@ -41,8 +41,8 @@
           <div class="double-cell">
             <input type="number" matInput required [value]=element.year0>
             <span>
-              <button mat-icon-button color="primary" (click)="inputType()">
-                {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+              <button mat-icon-button color="primary" (click)="toggle = !toggle">
+                {{ toggle ? "GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
               </button>
             </span>
           </div>

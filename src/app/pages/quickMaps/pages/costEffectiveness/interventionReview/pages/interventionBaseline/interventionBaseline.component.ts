@@ -57,7 +57,8 @@ export class InterventionBaselineComponent {
   }
   public dataSource = new MatTableDataSource();
   public FVdataSource = new MatTableDataSource();
-  public btnVal = 'GFDx';
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  public toggle: boolean = true;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   public buttonValue: boolean = true;
   public ROUTES = AppRoutes;
@@ -103,6 +104,12 @@ export class InterventionBaselineComponent {
     // console.debug('Compound 1: ', rawData[0].compounds[0].compound);
 
     this.FVdataSource = new MatTableDataSource(fvdata);
+
+    console.log('fvdata[0]: ', fvdata[0]);
+
+    console.log('fvdata[0].compounds[0]: ', fvdata[0].compounds[0]);
+
+    console.log('fvdata[0].compounds[0].targetVal: ', fvdata[0].compounds[0].targetVal);
   }
 
   baselinedisplayedColumns = ['title', 'baseline_value'];
