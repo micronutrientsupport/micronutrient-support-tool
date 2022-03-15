@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UnleashClient } from 'unleash-proxy-client';
-import { environment } from 'src/environments/environment.base';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FeatureFlagsService {
