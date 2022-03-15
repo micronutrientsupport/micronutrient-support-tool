@@ -17,8 +17,8 @@
           <div class="title">
             <span>{{recurringCost.category}}</span>
           </div>
-          <app-recurring-cost-graph *ngIf="null != recurringCosts" [recurringCost]="recurringCost">
-          </app-recurring-cost-graph>
+          <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+          </app-reusable-cost-graph>
         </div>
       </mat-tab>
     </mat-tab-group>

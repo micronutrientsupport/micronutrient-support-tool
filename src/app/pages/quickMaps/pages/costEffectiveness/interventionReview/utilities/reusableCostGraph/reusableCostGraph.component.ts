@@ -2,16 +2,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { Chart } from 'chart.js';
+import { StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 
 @Component({
-  selector: 'app-recurring-cost-graph',
-  templateUrl: './recurringCostGraph.component.html',
-  styleUrls: ['./recurringCostGraph.component.scss']
+  selector: 'app-reusable-cost-graph',
+  templateUrl: './reusableCostGraph.component.html',
+  styleUrls: ['./reusableCostGraph.component.scss']
 })
-export class RecurringCostGraphComponent implements OnInit {
+export class ReusableCostGraphComponent implements OnInit {
+  
+  costChart: ChartJSObject;
+  @Input() costData: RecurringCost | StartUpScaleUpCost;
 
-  recurringCostChart: ChartJSObject;
-  @Input() recurringCost: RecurringCost;
   chartColours: Array<string> = [
     '#ba7a8c',
     '#1c0d31',
@@ -22,41 +24,40 @@ export class RecurringCostGraphComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    if (null != this.recurringCost) {
-      const recurringCostLabels = [...new Set(this.recurringCost.costs.map((item) => item.section))];
-
-      // init the pie chart
-      const recurringCostsData: ChartsJSDataObject  = {
-        labels: recurringCostLabels,
-        datasets: [{
-          label: this.recurringCost.category,
-          data: [],
-          backgroundColor: () => this.chartColours,
-          hoverBorderColor: this.chartColours,
-          borderWidth: 0,
-          hoverBorderWidth: 3,
-          hoverOffset: 5
-        }],
-      };
-
-      this.recurringCost.costs.forEach((cost, index) => {
-          let total = 0;
-          Object.entries(cost).forEach(([key, value]) => {
-            if (/year\dTotal/.test(key))
-              total += +value
-          });
-          recurringCostsData.datasets[0].data.push(Number(total).toFixed(2));
-      });
-
-      this.initialisePieChart(recurringCostsData);
-
+    if (null != this.costData) {
+      this.initialiseCostPieChart(this.costData);
     }
   }
 
-  private initialisePieChart(recurringCostsData: ChartsJSDataObject): void {
+  private initialiseCostPieChart(costData: any){
+    const chartLabels = <Array<string>>[...new Set(costData.costs.map((item) => item.section))];
+
+    // init the pie chart
+    const chartData: ChartsJSDataObject  = {
+      labels: chartLabels,
+      datasets: [{
+        label: costData.category,
+        data: [],
+        backgroundColor: () => this.chartColours,
+        hoverBorderColor: this.chartColours,
+        borderWidth: 0,
+        hoverBorderWidth: 3,
+        hoverOffset: 5
+      }],
+    };
+
+    costData.costs.forEach((cost, index) => {
+        let total = 0;
+        Object.entries(cost).forEach(([key, value]) => {
+          if (/year\dTotal/.test(key))
+            total += +value
+        });
+        chartData.datasets[0].data.push(Number(total).toFixed(2));
+    });
+
     const generatedChart: ChartJSObject = {
       type: 'pie',
-      data: recurringCostsData,
+      data: chartData,
       options: {
         legend: {
           display: true,
@@ -129,7 +130,6 @@ export class RecurringCostGraphComponent implements OnInit {
       }
     };
 
-    this.recurringCostChart = generatedChart;
+    this.costChart = generatedChart;
   }
-
 }
