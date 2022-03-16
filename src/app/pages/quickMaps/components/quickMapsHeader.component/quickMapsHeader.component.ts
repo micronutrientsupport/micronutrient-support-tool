@@ -5,6 +5,7 @@ import { QuickMapsService } from '../../quickMaps.service';
 import { SharingService } from 'src/app/services/sharing.service';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { GridsterSource } from 'src/app/services/gridster.service';
+import { FeatureFlagsService } from 'src/app/services/featureFlags.service';
 @Component({
   selector: 'app-quick-maps-header',
   templateUrl: './quickMapsHeader.component.html',
@@ -18,6 +19,7 @@ export class QuickMapsHeaderComponent {
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
     private sharingService: SharingService,
+    public featureFlagsServive: FeatureFlagsService,
   ) {}
 
   public share(text: string, title?: string): Promise<unknown> {

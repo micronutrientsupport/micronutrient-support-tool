@@ -14,5 +14,11 @@ export const environment = {
   apiBaseUrl: 'https://api.micronutrient.support/v2',
   analyticsSnippetUrl: 'https://stats.micronutrient.support/js/plausible.js',
   analyticsDomain: 'preview.micronutrient.support',
+
+  unleashUrl: 'https://feature-flags.micronutrient.support/',
+  unleashSecret: 'proxy-key',
+  unleashAppName: 'MAPS Tool',
+  unleashEnvironment: 'development',
+
   useLiveApi: true,
 };

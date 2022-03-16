@@ -6,6 +6,7 @@ describe('Page: Educational resources Tests', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/educational-resources');
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });
