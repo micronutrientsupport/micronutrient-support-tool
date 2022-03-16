@@ -21,7 +21,6 @@ export class InterventionIndustryInformationComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
-    // this.init(this.interventionDataService.getInterventionIndustryInformation('1'));
     this.interventionDataService
       .getInterventionIndustryInformation('1')
       .then((data: InterventionIndustryInformation) => {
@@ -50,7 +49,6 @@ export class InterventionIndustryInformationComponent {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
   private init(data: InterventionIndustryInformation): void {
-    // console.debug(data);
     this.dataSource = new MatTableDataSource(data.industryInformation);
   }
 }
