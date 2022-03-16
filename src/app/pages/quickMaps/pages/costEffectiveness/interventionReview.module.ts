@@ -27,8 +27,8 @@ import { InterventionSideNavContentService } from './interventionReview/componen
 import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReusableCostGraphComponent } from './interventionReview/utilities/reusableCostGraph/reusableCostGraph.component';
-import { RecurringCostTableComponent } from './interventionReview/utilities/reusableCostTable/reusableCostTable.component';
-import { InterventionReviewFooterComponent } from './interventionReview/utilities/reusableInterventionReviewFooter/reusableInterventionReviewFooter.component';
+import { ReusableCostTableComponent } from './interventionReview/utilities/reusableCostTable/reusableCostTable.component';
+import { InterventionFooterDetailsComponent } from './interventionReview/utilities/reusableInterventionReviewFooter/reusableInterventionReviewFooter.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +44,8 @@ import { InterventionReviewFooterComponent } from './interventionReview/utilitie
     InterventionAssumptionsReviewComponent,
     InterventionDescriptionComponent,
     ReusableCostGraphComponent,
-    RecurringCostTableComponent,
-    InterventionReviewFooterComponent,
+    ReusableCostTableComponent,
+    InterventionFooterDetailsComponent,
   ],
   imports: [
     CommonModule,

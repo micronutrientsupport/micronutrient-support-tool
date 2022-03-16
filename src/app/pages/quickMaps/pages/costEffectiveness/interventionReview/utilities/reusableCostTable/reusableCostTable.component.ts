@@ -9,7 +9,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   templateUrl: './reusableCostTable.component.html',
   styleUrls: ['./reusableCostTable.component.scss'],
 })
-export class RecurringCostTableComponent implements OnInit {
+export class ReusableCostTableComponent implements OnInit {
   @Input() recurringCost?: RecurringCost;
   @Input() startUpScaleUpCost?: StartUpScaleUpCost;
   @Input() headers: Array<string>;

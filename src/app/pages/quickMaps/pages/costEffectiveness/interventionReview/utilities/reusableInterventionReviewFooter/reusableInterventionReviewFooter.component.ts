@@ -6,7 +6,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   templateUrl: './reusableInterventionReviewFooter.component.html',
   styleUrls: ['./reusableInterventionReviewFooter.component.scss'],
 })
-export class InterventionReviewFooterComponent implements OnInit {
+export class InterventionFooterDetailsComponent implements OnInit {
   constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {
