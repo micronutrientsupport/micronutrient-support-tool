@@ -6,6 +6,7 @@ describe('Page: Help Tests', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/help');
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });

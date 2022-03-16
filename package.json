@@ -6,7 +6,10 @@
     "start": "ng serve",
     "start-prod": "node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng serve --prod",
     "build": "ng build",
-    "build:prod": "ng build --prod",
+    "build:prod": "ng build --configuration=production",
+    "build:staging-branch": "ng build --configuration=production,staging-branch",
+    "build:staging-develop": "ng build --configuration=production,staging-develop",
+    "build:qa": "ng build --configuration=production,qa",
     "test": "ng test",
     "lint": "eslint \"*/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix",
@@ -64,6 +67,7 @@
     "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
     "rxjs": "~6.6.7",
     "save": "^2.4.0",
+    "unleash-proxy-client": "^1.11.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
