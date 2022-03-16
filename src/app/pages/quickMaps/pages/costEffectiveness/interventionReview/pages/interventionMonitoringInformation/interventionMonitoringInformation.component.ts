@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { InterventionIndustryInformation } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
-import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
-import { DictionaryService } from 'src/app/services/dictionary.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 @Component({

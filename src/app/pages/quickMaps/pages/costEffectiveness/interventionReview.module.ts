@@ -28,7 +28,7 @@ import { InterventionDescriptionComponent } from './interventionReview/component
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReusableCostGraphComponent } from './interventionReview/utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './interventionReview/utilities/reusableCostTable/reusableCostTable.component';
-import { InterventionFooterDetailsComponent } from './interventionReview/utilities/reusableInterventionReviewFooter/reusableInterventionReviewFooter.component';
+import { InterventionStepDetailsComponent } from './interventionReview/utilities/interventionStepDetails/interventionStepDetails.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { InterventionFooterDetailsComponent } from './interventionReview/utiliti
     InterventionDescriptionComponent,
     ReusableCostGraphComponent,
     ReusableCostTableComponent,
-    InterventionFooterDetailsComponent,
+    InterventionStepDetailsComponent,
   ],
   imports: [
     CommonModule,

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   IndustryInformation,
   InterventionIndustryInformation,
 } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';

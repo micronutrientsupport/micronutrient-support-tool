@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { NullableAccessor } from 'src/utility/accessor';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';

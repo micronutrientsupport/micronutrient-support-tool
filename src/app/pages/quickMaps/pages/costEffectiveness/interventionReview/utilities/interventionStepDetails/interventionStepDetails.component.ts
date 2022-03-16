@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
-  selector: 'app-reusable-intervention-review-footer',
-  templateUrl: './reusableInterventionReviewFooter.component.html',
-  styleUrls: ['./reusableInterventionReviewFooter.component.scss'],
+  selector: 'app-intervention-step-details',
+  templateUrl: './interventionStepDetails.component.html',
+  styleUrls: ['./interventionStepDetails.component.scss'],
 })
-export class InterventionFooterDetailsComponent implements OnInit {
+export class InterventionStepDetailsComponent implements OnInit {
   constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {
