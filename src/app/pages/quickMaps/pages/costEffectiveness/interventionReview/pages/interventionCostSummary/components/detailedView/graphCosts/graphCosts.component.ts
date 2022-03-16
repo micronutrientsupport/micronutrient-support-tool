@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { Costs } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 export class InterventionCostSummaryDetailedCostsGraphComponent implements OnInit {
   @Input() recurringCost: RecurringCost;
 
-  public dataSource = new MatTableDataSource<Costs>();
+  public dataSource = new MatTableDataSource<RecurringCosts>();
   public displayHeaders = [
     'section',
     'year0Total',
@@ -35,7 +35,7 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     }
   }
 
-  public openSectionCostReviewDialog(costs: Costs): void {
+  public openSectionCostReviewDialog(costs: RecurringCosts): void {
     console.debug(costs);
   }
 }
