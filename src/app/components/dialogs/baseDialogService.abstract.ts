@@ -55,7 +55,7 @@ export abstract class BaseDialogService {
         data: dialogData,
         id: dialogId,
         hasBackdrop: null == parentElement,
-        disableClose: closable,
+        disableClose: !closable,
         ...configIn,
       };
 

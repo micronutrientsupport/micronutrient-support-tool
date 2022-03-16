@@ -29,8 +29,8 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
   }
 
-  public openDialogForComponent<T = unknown>(
-    contentComponent: ComponentType<unknown>,
+  public openDialogForComponent<T = any>(
+    contentComponent: ComponentType<any>,
     data?: T,
     width = '80vw',
     height = '80vh',
