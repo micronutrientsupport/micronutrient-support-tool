@@ -6,6 +6,7 @@ describe('Page: Home Tests', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/');
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });
@@ -36,7 +37,7 @@ describe('Page: Home Tests', () => {
   });
 
   /* ==== Test Created with Cypress Studio ==== */
-  it('test test', function() {
+  it('test test', function () {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('http://localhost:8100/');
     cy.get('h1').should('have.text', 'Micronutrient Action Policy Support (MAPS) Tool');
