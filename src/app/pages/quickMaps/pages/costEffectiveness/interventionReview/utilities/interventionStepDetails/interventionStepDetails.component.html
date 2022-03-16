@@ -1,15 +1,18 @@
-<div>
-    <tr class="static-review-elements">
-        <button class="item-reset" mat-icon-button (click)="resetValues()">
+<div class="static-review-elements">
+    <div class="button-wrapper">
+        <button *ngIf="showAddMn" class="item-reset" mat-flat-button (click)="addMN()">
+            <mat-icon class="red-icon">add</mat-icon> Add micronutrient
+        </button>
+        <button *ngIf="resetDefaultValues" class="item-reset" mat-flat-button (click)="resetValues()">
             <mat-icon class="red-icon">redo</mat-icon> Reset to default values
         </button>
-        <div class="item-group">
-            <div class="item-bottom-row">Focus MN<div class='box purple'></div>
-            </div>
-            <div class="item-bottom-row">User defined values<div class='box blue'></div>
-            </div>
-            <div class="item-bottom-row">Units <strong>(mg/kg)</strong>
-            </div>
+    </div>
+    <div class="item-group">
+        <div *ngIf="showFocusMn" class="item-bottom-row">Focus MN<div class='box purple'></div>
         </div>
-    </tr>
+        <div *ngIf="showUserValues" class="item-bottom-row">User defined values<div class='box blue'></div>
+        </div>
+        <div *ngIf="showMnUnits" class="item-bottom-row">Units <strong>(mg/kg)</strong>
+        </div>
+    </div>
 </div>

@@ -4,7 +4,7 @@
     <div class="title">
       <span> Industry Information </span>
     </div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="labelText">
         <th class="row-title" mat-header-cell *matHeaderCellDef> Intervention year </th>
         <td class="row-title" mat-cell *matCellDef="let element">
@@ -79,7 +79,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <app-intervention-step-details></app-intervention-step-details>
+
+    <app-intervention-step-details [showAddMn]="true" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true"></app-intervention-step-details>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button

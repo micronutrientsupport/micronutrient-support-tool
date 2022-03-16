@@ -107,12 +107,6 @@ export class InterventionBaselineComponent implements OnInit {
     this.complianceFortificationDatasource = new MatTableDataSource([tableObject]);
   }
 
-  public addMN(): void {
-    void this.dialogService.openMnAdditionDialog();
-    // .then((data: DialogData) => {
-    // this.selectedInterventions.push(data.dataOut);
-    // });
-  }
   public openFortificationInfoDialog(): void {
     void this.dialogService.openFortificationInfoDialog();
   }

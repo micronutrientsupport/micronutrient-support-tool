@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
@@ -7,6 +7,12 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./interventionStepDetails.component.scss'],
 })
 export class InterventionStepDetailsComponent implements OnInit {
+  @Input('showAddMn') public showAddMn = false;
+  @Input('resetDefaultValues') public resetDefaultValues = false;
+  @Input('showFocusMn') public showFocusMn = false;
+  @Input('showUserValues') public showUserValues = false;
+  @Input('showMnUnits') public showMnUnits = false;
+
   constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {
@@ -15,5 +21,9 @@ export class InterventionStepDetailsComponent implements OnInit {
 
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
+  }
+
+  public addMN(): void {
+    void this.dialogService.openMnAdditionDialog();
   }
 }

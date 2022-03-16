@@ -1,6 +1,5 @@
-@use '../../../interventionReview.component.scss';
-
 @import 'src/assets/scss/_colour';
+
 div:not(.box) {
   margin-bottom: 15px;
 }
@@ -14,6 +13,7 @@ div:not(.box) {
   border-radius: 5px;
   margin: 5px;
 }
+
 .purple {
   background-color: $color_primary;
 }
@@ -21,15 +21,16 @@ div:not(.box) {
 .blue {
   background-color: blue;
 }
+
 .static-review-elements {
+  width: 95%;
   display: flex;
-  // align-items: center;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   height: 50px;
 }
-.item-reset {
-  flex-grow: 1;
-}
+
 .item-bottom-row {
   flex-grow: 1;
   justify-content: center;
@@ -39,7 +40,14 @@ div:not(.box) {
   white-space: nowrap;
   justify-content: flex-end;
 }
+
 .item-group {
   width: 40%;
   display: inline-block;
+}
+
+.button-wrapper {
+  button {
+    margin: 0 0.5em;
+  }
 }
