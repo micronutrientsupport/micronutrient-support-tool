@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatFabMenuModule } from '@angular-material-extensions/fab-menu';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
   imports: [
     MatAutocompleteModule,
@@ -89,6 +90,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
     MatDialogModule,
     MatDividerModule,
     MatExpansionModule,
+    MatFormFieldModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,

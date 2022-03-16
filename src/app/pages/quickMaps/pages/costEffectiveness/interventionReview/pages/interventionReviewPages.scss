@@ -27,3 +27,39 @@ footer {
     color: white;
   }
 }
+
+.title {
+  border: solid 1px $color_primary;
+  margin: 1em;
+  padding: 10px;
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+// Stage 2 & 4
+.lower-table-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  .focus-mn {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+    span {
+      display: flex;
+      justify-content: end;
+    }
+    .mn-title {
+      color: $color_primary;
+      font-weight: bold;
+      margin-top: 2em;
+    }
+  }
+}
+
+table {
+  width: 95%;
+  margin: 0 2em;
+}

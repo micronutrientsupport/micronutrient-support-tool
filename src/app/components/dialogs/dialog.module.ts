@@ -15,6 +15,12 @@ import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDia
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
+import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
+import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/ceFortificationInfoDialogcomponent';
+import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
+import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
+import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -26,6 +32,12 @@ import { FormsModule } from '@angular/forms';
     ScenarioChangeWarningComponent,
     CostEffectivenessInfoDialogComponent,
     CostEffectivenessSelectionDialogComponent,
+    CeResetDialogComponent,
+    MnAdditionDialogComponent,
+    CeFortificationInfoDialogComponent,
+    CeCalculatedFortificationInfoDialogComponent,
+    SectionRecurringCostReviewDialogComponent,
+    SectionStartUpCostReviewDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
   exports: [BaseDialogComponent],

@@ -1,6 +1,87 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+    <div class="title">
+      <span> Industry Information </span>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="labelText">
+        <th class="row-title" mat-header-cell *matHeaderCellDef> Intervention year </th>
+        <td class="row-title" mat-cell *matCellDef="let element">
+          {{element.labelText}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year0">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2021 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year0>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year1">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2022 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year1>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year2">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2023 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year2>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year3">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2024 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year3>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year4">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2025 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year4>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year5">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2026 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year5>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year6">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2027</th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year6>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year7">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2028 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year7>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year8">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2029 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year8>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year9">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> 2030 </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required [value]=element.year9>
+        </td>
+      </ng-container>
+      <ng-container>
+        <th class="column-title" mat-header-cell *matHeaderCellDef> Source </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <input type="number" matInput required>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <app-intervention-step-details [showAddMn]="true" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true"></app-intervention-step-details>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button

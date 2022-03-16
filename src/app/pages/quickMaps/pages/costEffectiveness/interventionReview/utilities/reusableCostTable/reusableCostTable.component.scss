@@ -1,0 +1,9 @@
+@use '../../../interventionReview.component.scss';
+
+table {
+  width: 95%;
+  margin-left: 2em;
+  tr.mat-footer-row {
+    font-weight: bold;
+  }
+}

@@ -1,6 +1,30 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+    <mat-tab-group>
+      <mat-tab label="Tables">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <div class="recurringCostTable">
+            <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
+              [headers]="displayHeaders">
+            </app-reusable-cost-table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Graphs">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+          </app-reusable-cost-graph>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
