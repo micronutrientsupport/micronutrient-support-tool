@@ -38,4 +38,8 @@ export class InterventionCostSummaryQuickDiscountedTableComponent implements OnI
   public openSectionCostReviewDialog(costs: RecurringCosts): void {
     console.debug(costs);
   }
+
+  public getTotalCost(yearKey: string): number {
+    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
+  }
 }

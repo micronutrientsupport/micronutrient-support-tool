@@ -13,19 +13,7 @@ export class InterventionCostSummaryDetailedStartupTableComponent implements OnI
   @Input() recurringCost: RecurringCost;
 
   public dataSource = new MatTableDataSource<RecurringCosts>();
-  public displayHeaders = [
-    'section',
-    'year0Total',
-    'year1Total',
-    'year2Total',
-    'year3Total',
-    'year4Total',
-    'year5Total',
-    'year6Total',
-    'year7Total',
-    'year8Total',
-    'year9Total',
-  ];
+  public displayHeaders = ['section', 'year0Total', 'year1Total'];
 
   constructor(private dialogService: DialogService) {}
 
