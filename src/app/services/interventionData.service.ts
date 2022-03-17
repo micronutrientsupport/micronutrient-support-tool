@@ -13,8 +13,6 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
   providedIn: 'root',
 })
 export class InterventionDataService {
-  constructor(private apiService: ApiService) {}
-
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
@@ -55,4 +53,6 @@ export class InterventionDataService {
       id,
     });
   }
+
+  constructor(private apiService: ApiService) {}
 }

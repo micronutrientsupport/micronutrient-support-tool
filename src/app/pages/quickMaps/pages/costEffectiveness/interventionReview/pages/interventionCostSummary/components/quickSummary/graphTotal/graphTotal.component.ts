@@ -1,19 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-intervention-cost-summary-quick-total-graph',
   templateUrl: './graphTotal.component.html',
   styleUrls: ['./graphTotal.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
   @Input() recurringCost: RecurringCost;
   public chartData: ChartJSObject;
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.initialiseGraph();
@@ -23,28 +19,23 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     console.debug(costs);
   }
 
+  // TODO: This is dummy data until API calls are available to populate
   private initialiseGraph(): void {
     const generatedChart: ChartJSObject = {
       type: 'bar',
       data: {
-        labels: ['Chocolate', 'Vanilla', 'Strawberry'],
+        labels: ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
         datasets: [
           {
-            label: 'Blue',
-            backgroundColor: () => '#ff9084',
-            data: [3, 7, 4],
+            label: 'Undiscounted',
+            backgroundColor: () => '#809ec2',
+            data: [0, 2, 3, 2, 8, 9, 10, 11, 12, 13],
             fill: true,
           },
           {
-            label: 'Red',
-            backgroundColor: () => '#0220',
-            data: [4, 3, 5],
-            fill: true,
-          },
-          {
-            label: 'Green',
-            backgroundColor: () => '#ee2384',
-            data: [7, 2, 6],
+            label: 'Discounted',
+            backgroundColor: () => '#9c85c0',
+            data: [0, 1.5, 2, 3, 9, 9.5, 10.5, 10, 10, 15],
             fill: true,
           },
         ],
@@ -52,7 +43,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
       options: {
         title: {
           display: true,
-          text: 'bing',
+          text: 'Total annual wheat flour fortification costs',
         },
         responsive: true,
         maintainAspectRatio: false,
@@ -63,10 +54,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
         scales: {
           xAxes: [
             {
-              // scaleLabel: {
-              //   display: true,
-              //   labelString: 'bong',
-              // },
               display: true,
               id: 'x-axis-0',
             },
@@ -75,7 +62,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'Count',
+                labelString: 'Thousands of 2021 USD',
               },
 
               display: true,
@@ -88,10 +75,5 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
 
     this.chartData = generatedChart;
     console.log(this.chartData);
-    // this.cdr.detectChanges();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 }

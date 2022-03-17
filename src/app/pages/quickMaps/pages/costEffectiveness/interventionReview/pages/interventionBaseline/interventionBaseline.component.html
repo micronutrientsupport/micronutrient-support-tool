@@ -1,6 +1,159 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+    <div class="title">
+
+      <span>Baseline Assumptions</span>
+    </div>
+
+
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="title">
+        <td class="column-title" mat-cell *matCellDef="let element">
+          {{element.title}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="baseline_value">
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div class="double-cell">
+            <input type="number" matInput required [value]=element.year0>
+            <span matPrefix>%&nbsp;</span>
+            <span>
+              <button mat-icon-button color="primary" (click)="toggle = !toggle">
+                {{ toggle ? "GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <span>
+        <button mat-icon-button color="primary" (click)="inputType()">
+          {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+        </button>
+      </span>
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+      <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
+    </table>
+
+    <div class="header-row">
+
+      <div class="title">
+        <span>Food vehicle standard/target fortification levels</span>
+      </div>
+
+      <div class="title">
+        <span>Baseline compliance/fortification in practice</span>
+      </div>
+
+    </div>
+
+    <div class="lower-table-wrapper">
+      <div class="focus-mn">
+        <span>Focus micronutrient</span>
+        <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
+      </div>
+
+      <table mat-table [dataSource]="FVdataSource">
+
+        <ng-container matColumnDef="compound">
+          <th class="row-title" mat-header-cell *matHeaderCellDef> Compound </th>
+          <td class="column-title" mat-cell *matCellDef="let element">
+            <mat-form-field appearance="outline">
+              <mat-select [(ngModel)]="selectedCompound" matNativeControl>
+                <mat-option *ngFor="let item of element.compounds" [value]="item">
+                  {{item.compound}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="targetVal">
+          <th class="row-title" mat-header-cell *matHeaderCellDef> Standard/target nutrient level at point of
+            fortification (mg/kg) </th>
+          <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+              <input type="number" matInput required [value]="selectedCompound?.targetVal">
+              <span>
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </span>
+            </div>
+          </td>
+
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
+      </table>
+
+
+      <!-- TODO: update table below to static table -->
+      <table mat-table [dataSource]="complianceFortificationDatasource">
+
+        <ng-container matColumnDef="avgVal">
+          <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
+            fortifiable food vehicle at point of fortification
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
+              <mat-icon class="icon-display">question_mark</mat-icon>
+            </button>
+          </th>
+          <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+              <span>
+                {{selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0}}
+              </span>
+              <span>
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="optFort">
+          <th class="row-title" mat-header-cell *matHeaderCellDef> Optional user-entered average fortification level
+            (mg/kg) among fortifiable food vehicle at point of fortificationn </th>
+          <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+              <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
+              <span>
+                <button mat-icon-button color="primary" (click)="inputType()">
+                  {{buttonValue?"GFDx":"User Input" }}<mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="calcFort">
+          <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
+            all food vehicle
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openCalculatedFortificationInfoDialog()">
+              <mat-icon class="icon-display">question_mark</mat-icon>
+            </button>
+          </th>
+          <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+              <span>
+                {{(optionalUserEnteredAverageAtPointOfFortification * baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.potentiallyFortified.year0) | sigFig:3}}
+              </span>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="baselineComplianceDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineComplianceDisplayedColumns;"></tr>
+      </table>
+
+    </div>
+
+    <app-intervention-step-details [showAddMn]="true" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true"></app-intervention-step-details>
+
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"

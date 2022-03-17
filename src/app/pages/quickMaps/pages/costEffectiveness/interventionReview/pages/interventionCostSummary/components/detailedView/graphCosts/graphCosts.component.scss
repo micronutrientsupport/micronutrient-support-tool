@@ -1,0 +1,17 @@
+.bar-chart-container {
+  display: block;
+  height: 500px;
+  width: 100%;
+}
+
+::ng-deep.bar-chart > div > canvas {
+  height: 500px !important;
+}
+
+.bar-chart {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

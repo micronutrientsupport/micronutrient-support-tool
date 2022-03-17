@@ -6,6 +6,7 @@ describe('Page: Home Tests', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/');
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });
@@ -33,15 +34,5 @@ describe('Page: Home Tests', () => {
     cy.get('#shareContentPanel > h2').contains('Share this page');
     cy.get('.cdk-overlay-backdrop').click(-50, -50, { force: true });
     cy.get('#sharingDialog').should('not.exist');
-  });
-
-  /* ==== Test Created with Cypress Studio ==== */
-  it('test test', function() {
-    /* ==== Generated with Cypress Studio ==== */
-    cy.visit('http://localhost:8100/');
-    cy.get('h1').should('have.text', 'Micronutrient Action Policy Support (MAPS) Tool');
-    cy.get('.mdc-layout-grid__cell--align-middle > .mat-focus-indicator > .mat-button-wrapper').should('be.visible');
-    cy.get(':nth-child(1) > .basic-card > img').should('have.attr', 'alt', 'placeholder');
-    /* ==== End Cypress Studio ==== */
   });
 });

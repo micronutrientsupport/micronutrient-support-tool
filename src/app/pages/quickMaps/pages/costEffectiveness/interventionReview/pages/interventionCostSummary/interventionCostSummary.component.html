@@ -8,18 +8,20 @@
           <h2>Quick summary</h2>
           <p>Quick summary overview shows the total and discounted intervention costs for the upcoming 10 years.</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
-            <!-- <mat-tab label="Table">
+            <mat-tab label="Table">
 
               <app-intervention-cost-summary-quick-undiscounted-table>
               </app-intervention-cost-summary-quick-undiscounted-table>
               <app-intervention-cost-summary-quick-discounted-table>
               </app-intervention-cost-summary-quick-discounted-table>
 
-            </mat-tab> -->
+            </mat-tab>
             <mat-tab label="Graph">
               <app-intervention-cost-summary-quick-total-graph></app-intervention-cost-summary-quick-total-graph>
             </mat-tab>
-            <mat-tab label="Download"></mat-tab>
+            <mat-tab label="Download">
+              <app-download></app-download>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </mat-tab>
@@ -38,7 +40,9 @@
             <mat-tab label="Graph">
               <app-intervention-cost-summary-detailed-total-graph></app-intervention-cost-summary-detailed-total-graph>
             </mat-tab>
-            <mat-tab label="Download"></mat-tab>
+            <mat-tab label="Download">
+              <app-download></app-download>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </mat-tab>

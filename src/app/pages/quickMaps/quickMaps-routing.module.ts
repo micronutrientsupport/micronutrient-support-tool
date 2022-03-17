@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RouteData } from 'src/app/app-routing.module';
+import { FeatureFlagGuard } from 'src/app/guards/featureFlagGuard';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
@@ -84,14 +85,16 @@ const routes: Routes = [
       {
         path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),
         component: CostEffectivenessComponent,
+        canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
+        canLoad: [FeatureFlagGuard],
         data: {
+          featureFlag: 'CE-Enable',
           appRoute: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
           title: 'Quick MAPS - Explore cost effectiveness scenarios',
           keywords: '',
           description: '',
           showLightFooter: true,
         } as RouteData,
-        canActivate: [QuickMapsRouteGuardService],
       },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),

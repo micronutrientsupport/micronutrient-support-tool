@@ -1,0 +1,26 @@
+@import 'src/assets/scss/_colour.scss';
+
+.button-container {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  margin: 1em 0;
+}
+
+table {
+  width: 100%;
+  //   margin: 0 1em;
+  tr.mat-footer-row {
+    font-weight: bold;
+  }
+}
+
+.title {
+  border: solid 1px $color_primary;
+  margin: 1em;
+  padding: 10px;
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}

@@ -6,7 +6,7 @@ export interface ChartsJSDataObject {
   datasets: Array<{
     data?: Array<unknown | string>;
     label?: string;
-    backgroundColor?: (result?: ChartData) => string;
+    backgroundColor?: (result?: ChartData) => string | Array<string>;
     borderColor?: string;
     outlierColor?: string;
     outlierRadius?: number;
@@ -19,6 +19,12 @@ export interface ChartsJSDataObject {
     fontFamily?: string;
     fontSize?: number;
     fontStyle?: string;
+    hoverBorderColor?: string | Array<string>;
+    hoverOffset?: number;
+    hoverBorderWidth?: number;
+    hoverBackgroundColor?: string;
+    spacing?: number;
+    borderWidth?: number;
   }>;
 }
 
@@ -33,10 +39,23 @@ export interface ChartJSObject {
     animation?: ChartAnimationOptions;
     maintainAspectRatio?: boolean;
     responsive?: boolean;
+    aspectRatio?: number;
     legend?: {
       display: boolean;
       position?: string;
       align?: string;
+      labels?: {
+        usePointStyle?: boolean;
+        generateLabels?: (chart: any) => {
+            text: string
+            fillStyle: any;
+            strokeStyle: any;
+            lineWidth: any;
+            hidden: boolean;
+            index: number;
+        };
+      }
+      onClick?: (event) => any
     };
     scales?: {
       xAxes: [
@@ -87,9 +106,17 @@ export interface ChartJSObject {
     };
     tooltips?: {
       callbacks?: {
-        title?: () => string;
+        title?: (item: ChartTooltipItem, data: ChartData) => any;
         label?: (item: ChartTooltipItem, result: ChartData) => string;
       };
+      backgroundColor?: Array<string> | string;
+      titleFontSize?: number;
+      titleFontColor?: string;
+      bodyFontColor?: string;
+      bodyFontSize?: number;
+      displayColors?: boolean;
+      borderColor?: string;
+      borderWidth?: number;
     };
   };
   plugins?: Array<unknown>;

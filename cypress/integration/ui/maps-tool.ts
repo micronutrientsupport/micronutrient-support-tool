@@ -6,6 +6,7 @@ describe('Page: Maps Tool Tests', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/maps-tool');
+    cy.wait(1000);
     cy.injectAxe();
     cy.checkA11y(null, null, cy.terminalLog);
   });

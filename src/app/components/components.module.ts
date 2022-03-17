@@ -13,6 +13,7 @@ import { CardComponent } from './card/card.component';
 import { NotificationModule } from './notifications/notification.module';
 import { NotFoundComponent } from './notFound/notFound.component';
 import { DownloadComponent } from '../pages/quickMaps/components/download/download.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DownloadComponent } from '../pages/quickMaps/components/download/downlo
     ClipboardModule,
     DialogModule,
     NotificationModule,
+    DirectivesModule,
   ],
   exports: [
     HeaderComponent,
