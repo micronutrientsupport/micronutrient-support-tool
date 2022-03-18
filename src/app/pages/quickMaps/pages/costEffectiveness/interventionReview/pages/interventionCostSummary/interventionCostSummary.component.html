@@ -1,6 +1,52 @@
 <div class="container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
+
+    <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
+      <mat-tab label="Quick Summary">
+        <div class="tab-content">
+          <h2>Quick summary</h2>
+          <p>Quick summary overview shows the total and discounted intervention costs for the upcoming 10 years.</p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+            <mat-tab label="Table">
+
+              <app-intervention-cost-summary-quick-undiscounted-table>
+              </app-intervention-cost-summary-quick-undiscounted-table>
+              <app-intervention-cost-summary-quick-discounted-table>
+              </app-intervention-cost-summary-quick-discounted-table>
+
+            </mat-tab>
+            <mat-tab label="Graph">
+              <app-intervention-cost-summary-quick-total-graph></app-intervention-cost-summary-quick-total-graph>
+            </mat-tab>
+            <mat-tab label="Download">
+              <app-download></app-download>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Detailed view">
+        <div class="tab-content">
+          <h2>Detailed view</h2>
+          <p>Detailed summary shows intervention costs grouped by activity for the upcoming 10 years.</p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+            <mat-tab label="Table">
+              <app-intervention-cost-summary-detailed-startup-table>
+              </app-intervention-cost-summary-detailed-startup-table>
+              <app-intervention-cost-summary-detailed-recurring-table>
+              </app-intervention-cost-summary-detailed-recurring-table>
+            </mat-tab>
+            <mat-tab label="Graph">
+              <app-intervention-cost-summary-detailed-total-graph></app-intervention-cost-summary-detailed-total-graph>
+            </mat-tab>
+            <mat-tab label="Download">
+              <app-download></app-download>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
