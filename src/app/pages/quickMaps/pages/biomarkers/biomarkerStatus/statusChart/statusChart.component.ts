@@ -123,7 +123,6 @@ export class StatusChartComponent implements AfterViewInit {
     this.boxChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public initialiseBarChart(dataObj: any, type: string): void {
     let title = '';
     switch (type) {

@@ -47,15 +47,15 @@ export interface ChartJSObject {
       labels?: {
         usePointStyle?: boolean;
         generateLabels?: (chart: any) => {
-            text: string
-            fillStyle: any;
-            strokeStyle: any;
-            lineWidth: any;
-            hidden: boolean;
-            index: number;
+          text: string;
+          fillStyle: string;
+          strokeStyle: string;
+          lineWidth: string;
+          hidden: boolean;
+          index: number;
         };
-      }
-      onClick?: (event) => any
+      };
+      onClick?: (event) => unknown;
     };
     scales?: {
       xAxes: [
@@ -106,7 +106,7 @@ export interface ChartJSObject {
     };
     tooltips?: {
       callbacks?: {
-        title?: (item: ChartTooltipItem, data: ChartData) => any;
+        title?: (item: ChartTooltipItem, data: ChartData) => unknown;
         label?: (item: ChartTooltipItem, result: ChartData) => string;
       };
       backgroundColor?: Array<string> | string;

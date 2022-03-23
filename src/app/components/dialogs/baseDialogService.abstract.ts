@@ -32,9 +32,9 @@ export abstract class BaseDialogService {
     return data;
   }
 
-  protected openDialog<DataInType = any, DataOutType = any>(
+  protected openDialog<DataInType = unknown, DataOutType = unknown>(
     dialogId: string,
-    contentComponent: ComponentType<any>,
+    contentComponent: ComponentType<unknown>,
     closable = true,
     customData?: DataInType,
     configIn: MatDialogConfig = {},

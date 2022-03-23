@@ -2,7 +2,7 @@ import { CurrentComposition } from './currentComposition';
 import { FoodDictionaryItem } from './dictionaries/foodDictionaryItem';
 import { FoodGroupDictionaryItem } from './dictionaries/foodGroupDictionaryItem';
 
-export abstract class DietaryChangeItem<T = any> {
+export abstract class DietaryChangeItem<T = unknown> {
   public foodGroup: FoodGroupDictionaryItem;
   public updatingCurrent = false;
   public updatingScenario = false;
