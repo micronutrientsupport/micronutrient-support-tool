@@ -68,9 +68,6 @@ export class OptionsComponent {
           this.refreshAllChangeItems();
         }
       }),
-      dietaryChangeService.mode.obs.subscribe((value: DietaryChangeMode) => {
-        console.debug('value', value);
-      }),
     );
 
     void dictionaryService

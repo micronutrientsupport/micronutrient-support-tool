@@ -2,7 +2,8 @@ import { CurrentComposition } from './currentComposition';
 import { FoodDictionaryItem } from './dictionaries/foodDictionaryItem';
 import { FoodGroupDictionaryItem } from './dictionaries/foodGroupDictionaryItem';
 
-export abstract class DietaryChangeItem<T = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export abstract class DietaryChangeItem<T = any> {
   public foodGroup: FoodGroupDictionaryItem;
   public updatingCurrent = false;
   public updatingScenario = false;
