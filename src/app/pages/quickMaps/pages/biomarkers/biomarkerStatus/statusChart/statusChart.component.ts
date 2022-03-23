@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
@@ -62,7 +64,7 @@ export class StatusChartComponent implements AfterViewInit {
     ]);
   }
 
-  public initialiseBoxChart(data: any): void {
+  public initialiseBoxChart(data: Array<BoxPlotData>): void {
     this.boxChartData = {
       plugins: [ChartAnnotation],
       type: 'boxplot',
@@ -190,7 +192,7 @@ export class StatusChartComponent implements AfterViewInit {
     this.showOutliers = this.outlierControl.value;
     if (!this.showOutliers) {
       // Hide outliers
-      this.boxChartData.data.datasets[0].data.forEach((data: any) => {
+      this.boxChartData.data.datasets[0].data.forEach((data: BoxPlotData) => {
         this.outlierSet.push(data.outliers);
         data.outliers = null;
       });
@@ -374,10 +376,10 @@ export class StatusChartComponent implements AfterViewInit {
   }
 
   // Return the correct interface to dislpay outliers
-  private randomBoxPlot(min: number, max: number) {
+  private randomBoxPlot(min: number, max: number): BoxPlotData {
     const values = this.randomValues(5, min, max).sort((a, b) => a - b);
 
-    return {
+    const data: BoxPlotData = {
       min: values[0],
       q1: values[1],
       median: values[2],
@@ -387,5 +389,16 @@ export class StatusChartComponent implements AfterViewInit {
         .fill(1)
         .map(() => Math.round(Math.random() * 120)),
     };
+
+    return data;
   }
+}
+
+interface BoxPlotData {
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+  outliers: Array<number>;
 }
