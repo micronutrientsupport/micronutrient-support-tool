@@ -100,6 +100,7 @@ export abstract class BaseDialogService {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface DialogData<DataInType = any, DataOutType = any> {
   closable: boolean;
   requiresRefreshOnClose: boolean;
