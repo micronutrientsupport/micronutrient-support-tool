@@ -25,10 +25,17 @@ import { InterventionConsumptionComponent } from './interventionReview/pages/int
 import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
+import { InterventionCostSummaryQuickUndiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalUndiscounted/tableTotalUndiscounted.component';
+import { InterventionCostSummaryDetailedCostsGraphComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/graphCosts/graphCosts.component';
+import { InterventionCostSummaryDetailedRecurringTableComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/tableRecurringCosts/tableRecurringCosts.component';
+import { InterventionCostSummaryDetailedStartupTableComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/tableStartupCosts/tableStartupCosts.component';
+import { InterventionCostSummaryQuickTotalGraphComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/graphTotal/graphTotal.component';
+import { InterventionCostSummaryQuickDiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalDiscounted/tableTotalDiscounted.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReusableCostGraphComponent } from './interventionReview/utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './interventionReview/utilities/reusableCostTable/reusableCostTable.component';
 import { InterventionStepDetailsComponent } from './interventionReview/utilities/interventionStepDetails/interventionStepDetails.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +50,12 @@ import { InterventionStepDetailsComponent } from './interventionReview/utilities
     InterventionConsumptionComponent,
     InterventionAssumptionsReviewComponent,
     InterventionDescriptionComponent,
+    InterventionCostSummaryQuickUndiscountedTableComponent,
+    InterventionCostSummaryQuickDiscountedTableComponent,
+    InterventionCostSummaryQuickTotalGraphComponent,
+    InterventionCostSummaryDetailedStartupTableComponent,
+    InterventionCostSummaryDetailedRecurringTableComponent,
+    InterventionCostSummaryDetailedCostsGraphComponent,
     ReusableCostGraphComponent,
     ReusableCostTableComponent,
     InterventionStepDetailsComponent,
@@ -61,6 +74,7 @@ import { InterventionStepDetailsComponent } from './interventionReview/utilities
     MatFormFieldModule,
     FormsModule,
     PipesModule,
+    ComponentsModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],
