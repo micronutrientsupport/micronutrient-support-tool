@@ -122,8 +122,22 @@ export class InterventionBaselineComponent implements OnInit {
   public addMN(): void {
     void this.dialogService
       .openMnAdditionDialog()
-      .then((dialogData: DialogData<Array<DictionaryItem>, Array<DictionaryItem>>) => {
-        console.debug(dialogData.dataOut);
+      .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>) => {
+        const mnArray = dialogData.dataOut;
+
+        mnArray.forEach((mn: MicronutrientDictionaryItem) => {
+          this.interventionDataService
+            .getInterventionFoodVehicleStandards('1')
+            .then((data: InterventionFoodVehicleStandards) => {
+              if (null != data) {
+                const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+                });
+                console.debug(addedNutrientFVS);
+                // add nutrient here??
+              }
+            });
+        });
       });
   }
 }

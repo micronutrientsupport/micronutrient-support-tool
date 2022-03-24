@@ -16,11 +16,12 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class MnAdditionDialogComponent implements OnInit {
   public micronutrientsDictionary: Dictionary;
-  public mNsFiltered = new Array<DictionaryItem>();
-  public mNsSelected = new Array<DictionaryItem>();
+  public mNsFiltered = new Array<MicronutrientDictionaryItem>();
+  public mNsSelected = new Array<MicronutrientDictionaryItem>();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Array<DictionaryItem>, Array<DictionaryItem>>,
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>,
     private readonly dictionariesService: DictionaryService,
   ) {
     void dictionariesService.getDictionaries([DictionaryType.MICRONUTRIENTS]).then((dicts: Array<Dictionary>) => {
@@ -43,7 +44,9 @@ export class MnAdditionDialogComponent implements OnInit {
   }
 
   public filterSortMn(): void {
-    this.mNsFiltered = this.micronutrientsDictionary.getItems().sort((a, b) => (a.name < b.name ? -1 : 1));
+    this.mNsFiltered = this.micronutrientsDictionary
+      .getItems()
+      .sort((a, b) => (a.name < b.name ? -1 : 1)) as Array<MicronutrientDictionaryItem>;
   }
 
   public mnSelectionChange(event: MatOptionSelectionChange): void {
