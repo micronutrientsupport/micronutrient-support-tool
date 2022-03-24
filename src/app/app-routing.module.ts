@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Data } from '@angular/router';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { FeatureFlagGuard } from './guards/featureFlagGuard';
 import { EducationalResourcesComponent } from './pages/educationalResources/educationalResources.component';
 import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -42,6 +41,7 @@ const routes: Routes = [
     component: MapsToolComponent,
     data: {
       appRoute: AppRoutes.MAPS_TOOL,
+
       title: 'Tools',
       keywords: `Micronutrients, maps, tools, data, interventions, projections,
       deficiency risks, food fortification, food system changes, national, sub-national`,

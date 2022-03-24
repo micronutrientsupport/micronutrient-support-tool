@@ -1,7 +1,6 @@
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { FeedbackResponse } from '../../objects/feedbackResponse';
-import { param } from 'cypress/types/jquery';
 
 export class postFeedback extends Endpoint<FeedbackResponse, PostFeedbackParams, FeedbackResponse> {
   protected callLive(params: PostFeedbackParams): Promise<FeedbackResponse> {
@@ -17,7 +16,7 @@ export class postFeedback extends Endpoint<FeedbackResponse, PostFeedbackParams,
     });
     return this.buildObjectFromResponse(FeedbackResponse, callResponsePromise);
   }
-  protected callMock(params: PostFeedbackParams): Promise<FeedbackResponse> {
+  protected callMock(): Promise<FeedbackResponse> {
     const promise = Promise.resolve({ success: true });
     return this.buildObjectFromResponse(FeedbackResponse, promise);
   }

@@ -11,7 +11,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventions: Array<InterventionsDictionaryItem>;
   public selectedIntervention: InterventionsDictionaryItem;
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
-    this.interventions = dialogData.dataIn;
+    this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
   }
 
   ngOnInit(): void {

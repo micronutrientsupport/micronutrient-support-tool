@@ -19,7 +19,7 @@ export class PostIntervention extends Endpoint<InterventionResponse, PostInterve
     });
     return this.buildObjectFromResponse(InterventionResponse, callResponsePromise);
   }
-  protected callMock(params: PostInterventionParams): Promise<InterventionResponse> {
+  protected callMock(): Promise<InterventionResponse> {
     const promise = Promise.resolve({ success: true });
     return this.buildObjectFromResponse(InterventionResponse, promise);
   }

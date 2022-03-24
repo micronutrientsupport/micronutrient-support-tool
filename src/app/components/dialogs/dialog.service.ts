@@ -41,7 +41,9 @@ export class DialogService extends BaseDialogService {
     });
   }
 
-  public openCESelectionDialog(interventions: Array<InterventionsDictionaryItem>): Promise<DialogData> {
+  public openCESelectionDialog(
+    interventions: Array<InterventionsDictionaryItem>,
+  ): Promise<DialogData<Array<InterventionsDictionaryItem>>> {
     return this.openDialog(
       'costEffectivenessSelectionDialog',
       CostEffectivenessSelectionDialogComponent,

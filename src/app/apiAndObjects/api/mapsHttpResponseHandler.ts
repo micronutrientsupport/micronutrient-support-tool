@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { ApiResponse } from './apiResponse.interface';
@@ -47,7 +48,7 @@ export class MapsHttpResponseHandler {
   /*
    * Creates an error for a promise.
    */
-  public handleError(res: any): Promise<any> {
+  public handleError(res: HttpErrorResponse): Promise<unknown> {
     // TODO: Check response meta
     // TODO: Output to console?
     // console.debug(res);
