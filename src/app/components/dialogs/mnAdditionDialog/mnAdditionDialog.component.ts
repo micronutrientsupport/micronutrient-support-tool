@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -8,20 +11,29 @@ import { DialogData } from '../baseDialogService.abstract';
   styleUrls: ['./mnAdditionDialog.component.scss'],
 })
 export class MnAdditionDialogComponent implements OnInit {
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
-    //add content
+  public micronutrientsDictionary: Dictionary;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    private readonly dictionariesService: DictionaryService,
+  ) {
+    void dictionariesService.getDictionaries([DictionaryType.MICRONUTRIENTS]).then((dicts: Array<Dictionary>) => {
+      this.micronutrientsDictionary = dicts.shift();
+      console.debug(this.micronutrientsDictionary);
+    });
   }
 
   ngOnInit(): void {
     //add content
   }
+
   public closeDialog(): void {
-    this.dialog.closeAll();
+    this.dialogData.close();
   }
 
   public addMN(): void {
     //add additional micronutrient
     //
-    this.dialog.closeAll();
+    this.dialogData.close();
   }
 }
