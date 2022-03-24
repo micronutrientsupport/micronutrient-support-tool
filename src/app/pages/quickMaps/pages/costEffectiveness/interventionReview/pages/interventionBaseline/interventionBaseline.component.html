@@ -150,9 +150,11 @@
       </table>
 
     </div>
-
-    <app-intervention-step-details [showAddMn]="true" [resetDefaultValues]="true" [showFocusMn]="true"
-      [showUserValues]="true" [showMnUnits]="true"></app-intervention-step-details>
+    <button class="item-reset" mat-flat-button (click)="addMN()">
+      <mat-icon class="red-icon">add</mat-icon> Add micronutrient
+    </button>
+    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
+      [showMnUnits]="true"></app-intervention-step-details>
 
   </div>
   <footer>

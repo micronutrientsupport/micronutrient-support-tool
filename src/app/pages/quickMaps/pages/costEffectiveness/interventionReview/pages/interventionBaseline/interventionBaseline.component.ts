@@ -116,6 +116,10 @@ export class InterventionBaselineComponent implements OnInit {
   public inputType(): void {
     this.buttonValue = !this.buttonValue;
   }
+
+  public addMN(): void {
+    void this.dialogService.openMnAdditionDialog();
+  }
 }
 
 interface ComplianceFortificationTableObject {
