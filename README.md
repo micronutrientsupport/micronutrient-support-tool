@@ -24,6 +24,8 @@ Install the [Prettier](https://github.com/prettier/prettier-vscode) VSCode forma
 
 Linting is provided by ESLint as TSLint is [deprecated](https://medium.com/palantir/tslint-in-2019-1a144c2317a9).
 
+Run `nvm use` to ensure you are using the defined version of Node for this project. If you do not have the version installed use `nvm install` to setup.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:8100/`. The app will automatically reload if you change any of the source files.

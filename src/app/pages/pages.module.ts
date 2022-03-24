@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppMaterialModule } from '../app-material.module';
+import { DirectivesModule } from '../directives/directives.module';
 import { RoutesModule } from '../routes/routes.module';
 import { EducationalResourcesComponent } from './educationalResources/educationalResources.component';
 import { HelpComponent } from './help/help.component';
@@ -20,7 +21,7 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     ProjectObjectivesComponent,
     StyleGuideComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule],
+  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule, DirectivesModule],
   providers: [],
   exports: [],
 })

@@ -1,0 +1,38 @@
+@use '../interventionReviewPages.scss';
+
+.row-container {
+    display: grid;
+    grid-template-areas: "table divider graph";
+    grid-template-columns: minmax(50%, 1fr) 1fr 45%;
+    grid-gap: 10px;
+}
+
+.startUpTable {
+    grid-area: table;
+}
+  
+.startUpGraph {
+    grid-area: graph;
+}
+
+.divider {
+    grid-area: divider;
+    border-left: 2px solid #703aa3 !important;
+}
+
+@media (max-width: 1200px) {
+    .row-container {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "table"
+        "graph";
+      grid-template-rows: auto;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .divider {
+        border-left: 1px solid #703aa3 !important;
+        height: 100% !important;
+    }
+}

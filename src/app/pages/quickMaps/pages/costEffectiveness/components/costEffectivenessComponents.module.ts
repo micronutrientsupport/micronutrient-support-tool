@@ -8,6 +8,8 @@ import { InterventionComparisonComponent } from './interventionComparison/interv
 import { InterventionComponent } from './intervention/intervention.component';
 import { InterventionComparisonCardComponent } from './interventionComparison/interventionComparisonCard/interventionComparisonCard.component';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
+import { RouterModule } from '@angular/router';
+import { RoutesModule } from 'src/app/routes/routes.module';
 @NgModule({
   declarations: [
     DescriptionComponent,
@@ -17,7 +19,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
     InterventionComponent,
     InterventionComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, DialogModule],
+  imports: [CommonModule, AppMaterialModule, DialogModule, RouterModule, RoutesModule],
   exports: [
     DescriptionComponent,
     MenuComponent,

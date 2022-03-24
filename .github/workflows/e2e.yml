@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2.11.7
+        uses: cypress-io/github-action@v3.0.2
         with:
           # build: npm run build
           start: npm run start-prod
@@ -18,14 +18,14 @@ jobs:
           wait-on-timeout: 120
 
       - name: Upload Cypress Screenshots
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
       - name: Upload Cypress videos
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-videos

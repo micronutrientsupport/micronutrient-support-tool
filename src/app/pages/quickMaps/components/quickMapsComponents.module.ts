@@ -10,6 +10,7 @@ import { EstimateComponent } from './estimate/estimate.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 @NgModule({
   declarations: [SideNavContentComponent, QuickMapsHeaderComponent, EstimateComponent],
   imports: [
@@ -22,6 +23,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     MatProgressSpinnerModule,
     RouterModule,
     PipesModule,
+    DirectivesModule,
   ],
   exports: [SideNavContentComponent, QuickMapsHeaderComponent, EstimateComponent],
 })

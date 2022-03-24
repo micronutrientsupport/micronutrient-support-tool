@@ -27,6 +27,15 @@ import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
 import { GetNationalSummary } from './diet/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
+import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
+import { GetIntervention } from './intervention/getIntervention';
+import { GetInterventionData } from './intervention/getInterventioData';
+import { GetInterventionFoodVehicleStandards } from './intervention/getInterventionFoodVehicleStandards';
+import { GetInterventionIndustryInformation } from './intervention/getInterventionIndustryInformation';
+import { GetInterventionMonitoringInformation } from './intervention/getInterventionMonitoringInformation';
+import { GetInterventionRecurringCosts } from './intervention/getInterventionRecurringCosts';
+import { GetInterventionStartupCosts } from './intervention/getInterventionStartupCosts';
+import { GetInterventionBaselineAssumptions } from './intervention/getInterventionBaselineAssumptions';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -56,6 +65,16 @@ export class ApiService extends BaseApi {
       getDietChangeComposition: new GetDietChangeComposition(ApiService.USE_LIVE_API),
       getDietChangeConsumption: new GetDietChangeConsumption(ApiService.USE_LIVE_API),
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
+    },
+    intervention: {
+      getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
+      getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
+      getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),
+      getInterventionIndustryInformation: new GetInterventionIndustryInformation(ApiService.USE_LIVE_API),
+      getInterventionMonitoringInformation: new GetInterventionMonitoringInformation(ApiService.USE_LIVE_API),
+      getInterventionRecurringCosts: new GetInterventionRecurringCosts(ApiService.USE_LIVE_API),
+      getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
+      getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
     },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
@@ -90,6 +109,10 @@ export class ApiService extends BaseApi {
         typeObj: AgeGenderDictionaryItem,
       })
       .setMockObjectsCreatorFunc((injector) => AgeGenderDictionaryItem.getMockItems(injector)),
+    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API).setDefaultParams({
+      path: 'interventions',
+      typeObj: InterventionsDictionaryItem,
+    }),
   ];
 
   constructor(httpClient: HttpClient, injector: Injector) {
@@ -98,7 +121,7 @@ export class ApiService extends BaseApi {
     this.addDictionaries(this._dictionaries);
 
     // add endpoints
-    Object.values(this.endpoints).forEach((group: Record<string, Endpoint<any, any>>) => {
+    Object.values(this.endpoints).forEach((group: Record<string, Endpoint<unknown, unknown>>) => {
       this.addEndpoints(Object.values(group));
     });
 

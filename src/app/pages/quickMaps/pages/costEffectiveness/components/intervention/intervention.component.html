@@ -1,27 +1,27 @@
 <div class="container">
-    <mat-card>
-        <mat-card-title class="int-header">
-            <div class="title">
-                <strong>Wheat flour fortification</strong>
+  <mat-card>
+    <mat-card-title class="int-header">
+      <div class="title">
+        <strong> {{intervention.name}}</strong>
 
-                <span class="editTitle">
-                    <mat-icon>edit</mat-icon>Rename
-                </span>
-            </div>
-        </mat-card-title>
+        <span class="editTitle">
+          <mat-icon>edit</mat-icon>Rename
+        </span>
+      </div>
+    </mat-card-title>
 
-        <div class="flex-col">
-            <div class="content-container">
-                <div class="item-container">
-                    <div class="item">
-                        Base year: <strong>2021</strong>
-                    </div>
-                    <div class="item">
-                        10-year total cost: : <strong>$$$</strong>
-                    </div>
+    <div class="flex-col">
+      <div class="content-container">
+        <div class="item-container">
+          <div class="item">
+            Base year: <strong>{{intervention.baseYear}}</strong>
+          </div>
+          <div class="item">
+            10-year total cost: : <strong>${{intervention.tenYearTotalCost}}</strong>
+          </div>
 
-                </div>
-                <div class="item-container">
+        </div>
+        <!-- <div class="item-container">
                     <div class="item">
                         Assumptions: <button mat-raised-button type=" button" (click)="onConfirmAssumptions()"
                             [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status1 }}</button>
@@ -30,17 +30,17 @@
                         Costs: <button mat-raised-button type=" button" (click)="onConfirmCosts()"
                             [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status2 }}</button>
                     </div>
-                </div>
-            </div>
-            <div class="column-container">
-                <div class="button-container">
-                    <button mat-raised-button type=" button" class="btn btn-primary">Delete</button>
-                </div>
-                <div class="button-container">
-                    <button mat-raised-button color="primary">Review</button>
-                </div>
-            </div>
-
+                </div> -->
+      </div>
+      <div class="column-container">
+        <div class="button-container">
+          <button mat-raised-button type=" button" class="btn btn-primary">Delete</button>
         </div>
-    </mat-card>
+        <div class="button-container">
+          <a mat-raised-button color="primary" [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route">Review</a>
+        </div>
+      </div>
+
+    </div>
+  </mat-card>
 </div>

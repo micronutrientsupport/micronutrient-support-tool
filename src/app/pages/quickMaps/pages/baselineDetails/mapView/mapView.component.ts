@@ -130,9 +130,7 @@ export class MapViewComponent implements AfterViewInit {
           this.title =
             'Median apparent intake of ' +
             micronutrient.name +
-            ' by ' +
-            dietDataSource.dataLevel +
-            ' at ' +
+            ' (AFE) at ' +
             (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
             ' level, ' +
             country.name;
@@ -341,7 +339,7 @@ export class MapViewComponent implements AfterViewInit {
       <div>
         Region: <b>${props.areaName}</b><br/>
         Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per day<br/>
-        Prevalence of Deficiency (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
+        Prevalence of inadequate apparent intake (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
       </div>`;
     } else {
       const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);

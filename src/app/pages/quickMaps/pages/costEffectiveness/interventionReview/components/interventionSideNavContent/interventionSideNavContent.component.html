@@ -1,0 +1,48 @@
+<div class="content">
+  <span class="intervention-review-title">Intervention details</span>
+  <span class="intervention-review-subtitle">Review/edit the information in the steps below</span>
+
+  <mat-vertical-stepper class="intervention-steps" #interventionStepper [selectedIndex]="currentStepPosition">
+    <mat-step>
+      <ng-template matStepLabel>Baseline assumptions</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Compliance over time</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Point of consumption</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Review of program assumptions</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Industry information</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Monitoring information</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Startup/Scaleup costs</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Recurring costs</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Cost summary</ng-template>
+      <div class="intervention-stage-info">Information about this step.</div>
+    </mat-step>
+
+    <!-- Keep icons as numbers -->
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{index +1}}
+    </ng-template>
+  </mat-vertical-stepper>
+</div>

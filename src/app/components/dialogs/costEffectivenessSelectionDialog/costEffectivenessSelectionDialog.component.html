@@ -5,20 +5,20 @@
         intervention.
     </p>
     <hr>
-    <h3><strong>Select and intervention</strong></h3>
+    <h3><strong>Select an intervention</strong></h3>
 
     <mat-form-field appearance="outline">
-        <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="interventionNameValue"
+        <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedIntervention"
             matNativeControl>
             <mat-label>Existing interventions</mat-label>
-            <mat-option *ngFor="let item of interventionArray" [value]="item">
-                {{item.name}}
+            <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+                {{intervention.name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
     <div>
-        <h3>{{interventionNameValue.name}} </h3>
-        <small> {{ interventionNameValue.value }}</small>
+        <h3>{{selectedIntervention?.name}} </h3>
+        <small> {{ selectedIntervention?.description }}</small>
     </div>
 
 
@@ -27,7 +27,7 @@
         <button mat-raised-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
         <!-- </div>
     <div class="button-container"> -->
-        <button mat-raised-button color="primary">Create</button>
+        <button mat-raised-button color="primary" (click)="createIntervention()">Create</button>
     </div>
 
 </app-base-dialog>

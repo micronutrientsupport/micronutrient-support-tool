@@ -102,3 +102,19 @@ mat-tooltip-component .mat-tooltip {
   color: white;
   background-color: black;
 }
+
+.mat-vertical-stepper-header {
+  pointer-events: none !important;
+}
+.mat-step-label-selected .mat-step-text-label {
+  font-size: 20px;
+  font-weight: bold;
+}
+.mat-step {
+  background-color: white;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+.mat-stepper-vertical-line:before {
+  display: none;
+}

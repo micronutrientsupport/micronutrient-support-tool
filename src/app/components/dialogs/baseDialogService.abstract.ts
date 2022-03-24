@@ -54,21 +54,26 @@ export abstract class BaseDialogService {
         panelClass: 'base-dialog',
         data: dialogData,
         id: dialogId,
-        hasBackdrop: (null == parentElement),
+        hasBackdrop: null == parentElement,
         disableClose: !closable,
         ...configIn,
       };
 
-
       this.addCustomBackdrop(parentElement);
       dialogRef = this.dialog.open(contentComponent, config);
 
-      void dialogRef.afterClosed().toPromise().then(() => {
-        if (null != parentElement) {
-          this.tryRemoveCustomBackdrop(parentElement);
-        }
-      });
-      return dialogRef.afterClosed().toPromise().then(() => dialogData);
+      void dialogRef
+        .afterClosed()
+        .toPromise()
+        .then(() => {
+          if (null != parentElement) {
+            this.tryRemoveCustomBackdrop(parentElement);
+          }
+        });
+      return dialogRef
+        .afterClosed()
+        .toPromise()
+        .then(() => dialogData);
     }
   }
 
@@ -84,7 +89,7 @@ export abstract class BaseDialogService {
     }
   }
   protected tryRemoveCustomBackdrop(parentElement: HTMLElement): void {
-    if ((null != parentElement) && (this.customBackdropCounts.has(parentElement))) {
+    if (null != parentElement && this.customBackdropCounts.has(parentElement)) {
       this.customBackdropCounts.set(parentElement, this.customBackdropCounts.get(parentElement) - 1);
       if (0 === this.customBackdropCounts.get(parentElement)) {
         this.customBackdropCounts.delete(parentElement);

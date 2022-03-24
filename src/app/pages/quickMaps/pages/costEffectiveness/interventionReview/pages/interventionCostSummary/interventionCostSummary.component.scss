@@ -1,0 +1,12 @@
+@use '../interventionReviewPages.scss';
+@import 'src/assets/scss/_colour.scss';
+
+table {
+  width: 100%;
+}
+
+.nested-tab-group {
+  width: 100%;
+  background-color: #fcfbfd;
+  border: 1px solid $color_primary;
+}

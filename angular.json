@@ -23,7 +23,11 @@
               "papaparse/papaparse.min.js",
               "chartjs-chart-treemap",
               "chartjs-plugin-annotation",
-              "color-hash-ts"
+              "color-hash-ts",
+              "unleash-proxy-client",
+              "merge-options",
+              "file-saver",
+              "dom-to-image"
             ],
             "outputPath": "dist/micronutrient-support-tool",
             "index": "src/index.html",
@@ -45,6 +49,30 @@
             "scripts": []
           },
           "configurations": {
+            "staging-branch": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging-branch.ts"
+                }
+              ]
+            },
+            "staging-develop": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging-develop.ts"
+                }
+              ]
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="content">
+    <app-intervention-description></app-intervention-description>
+    <mat-tab-group>
+      <mat-tab label="Tables">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <div class="recurringCostTable">
+            <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
+              [headers]="displayHeaders">
+            </app-reusable-cost-table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Graphs">
+        <div *ngFor="let recurringCost of recurringCosts">
+          <div class="title">
+            <span>{{recurringCost.category}}</span>
+          </div>
+          <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+          </app-reusable-cost-graph>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+  <footer>
+    <a class="intervention-navigation" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS | route" queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <a class="intervention-navigation-confirm" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_COST_SUMMARY | route" queryParamsHandling="preserve">Confirm and
+      continue</a>
+  </footer>
+</div>
