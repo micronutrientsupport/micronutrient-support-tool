@@ -46,6 +46,7 @@ export interface ChartJSObject {
       align?: string;
       labels?: {
         usePointStyle?: boolean;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         generateLabels?: (chart: any) => {
           text: string;
           fillStyle: string;

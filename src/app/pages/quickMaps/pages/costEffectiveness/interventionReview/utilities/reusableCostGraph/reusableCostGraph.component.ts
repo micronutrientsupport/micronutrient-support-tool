@@ -21,7 +21,7 @@ export class ReusableCostGraphComponent implements OnInit {
     }
   }
 
-  private initialiseCostPieChart(costData: any) {
+  private initialiseCostPieChart(costData) {
     const chartLabels = <Array<string>>[...new Set(costData.costs.map((item) => item.section))];
 
     // init the pie chart
@@ -40,7 +40,7 @@ export class ReusableCostGraphComponent implements OnInit {
       ],
     };
 
-    costData.costs.forEach((cost, index) => {
+    costData.costs.forEach((cost) => {
       let total = 0;
       Object.entries(cost).forEach(([key, value]) => {
         if (/year\dTotal/.test(key)) total += +value;
@@ -55,7 +55,7 @@ export class ReusableCostGraphComponent implements OnInit {
         legend: {
           display: true,
           position: 'right',
-          onClick: function (event) {
+          onClick: () => {
             return null;
           },
           labels: {
