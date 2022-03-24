@@ -1,6 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2, TemplateRef, ViewContainerRef } from '@angular/core';
-import { FeatureFlagsService } from '../services/featureFlags.service';
-
+import { Directive, ElementRef, Input, Renderer2, ViewContainerRef } from '@angular/core';
 @Directive({
   selector: '[appFeatureFlagDisable]',
 })
@@ -15,11 +13,5 @@ export class FeatureFlagDisableDirective {
     this.viewContainer.clear();
   }
 
-  // @Input() appFeatureFlagDisable: string;
-  constructor(
-    private viewContainer: ViewContainerRef,
-    private renderer: Renderer2,
-    private el: ElementRef,
-    private featureFlagsService: FeatureFlagsService,
-  ) {}
+  constructor(private viewContainer: ViewContainerRef, private renderer: Renderer2, private el: ElementRef) {}
 }

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { RecurringCost, InterventionRecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
