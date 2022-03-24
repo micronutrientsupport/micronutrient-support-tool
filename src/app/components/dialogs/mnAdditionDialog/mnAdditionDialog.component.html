@@ -2,8 +2,9 @@
     <h2>Add micronutrient</h2>
     <p>Select what micronutrient you want to add</p>
     <mat-form-field appearance="fill">
-        <mat-select id="qmSelectMND" name="micronutrient" formControlName="micronutrient">
-            <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{ mnd.name }}</mat-option>
+        <mat-select>
+            <mat-option (onSelectionChange)="mnSelectionChange($event)" *ngFor="let mnd of mNsFiltered" [value]="mnd">{{
+                mnd.name }}</mat-option>
         </mat-select>
         <!-- <mat-error>Please select MND ({{groupMND.value}})</mat-error> -->
     </mat-form-field>

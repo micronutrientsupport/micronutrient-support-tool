@@ -11,6 +11,8 @@ import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
+import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -118,7 +120,11 @@ export class InterventionBaselineComponent implements OnInit {
   }
 
   public addMN(): void {
-    void this.dialogService.openMnAdditionDialog();
+    void this.dialogService
+      .openMnAdditionDialog()
+      .then((dialogData: DialogData<Array<DictionaryItem>, Array<DictionaryItem>>) => {
+        console.debug(dialogData.dataOut);
+      });
   }
 }
 
