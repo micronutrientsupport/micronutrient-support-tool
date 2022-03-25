@@ -11,7 +11,6 @@ import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
-import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
@@ -45,6 +44,9 @@ export class InterventionBaselineComponent implements OnInit {
   public complianceFortificationDatasource = new MatTableDataSource();
   public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
   public optionalUserEnteredAverageAtPointOfFortification = 0;
+
+  public addedMnDatasource = new MatTableDataSource();
+  public addedFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal'];
 
   private subscriptions = new Array<Subscription>();
 
@@ -90,6 +92,7 @@ export class InterventionBaselineComponent implements OnInit {
   }
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
+    console.debug('upper', fvdata);
     this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
   }
@@ -124,6 +127,7 @@ export class InterventionBaselineComponent implements OnInit {
       .openMnAdditionDialog()
       .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>) => {
         const mnArray = dialogData.dataOut;
+        const mnFoodVehicleDataArr = [];
 
         mnArray.forEach((mn: MicronutrientDictionaryItem) => {
           this.interventionDataService
@@ -133,12 +137,17 @@ export class InterventionBaselineComponent implements OnInit {
                 const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
-                console.debug(addedNutrientFVS);
-                // add nutrient here??
+                mnFoodVehicleDataArr.push(addedNutrientFVS);
+                this.createLowerTable(addedNutrientFVS);
+                console.debug('lower', addedNutrientFVS);
               }
             });
         });
       });
+  }
+
+  public createLowerTable(arr: Array<FoodVehicleStandard>): void {
+    this.addedMnDatasource = new MatTableDataSource(arr);
   }
 }
 
