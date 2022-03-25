@@ -1,6 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
+import {
+  CostSummary,
+  InterventionCostSummary,
+  SummaryCostBreakdown,
+} from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { RecurringCost, InterventionRecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -18,7 +23,7 @@ export class InterventionCostSummaryComponent {
   public pageStepperPosition = 8;
   public interventionName = 'IntName';
   public selectedTab: number;
-  public recurringCosts: Array<RecurringCost>;
+  public summaryCosts: InterventionCostSummary;
   public startupCosts: Array<StartUpScaleUpCost>;
 
   private subscriptions = new Array<Subscription>();
@@ -28,14 +33,14 @@ export class InterventionCostSummaryComponent {
     private interventionDataService: InterventionDataService,
   ) {
     this.subscriptions.push(
-      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
-        this.recurringCosts = data.recurringCosts;
-        console.debug('data', data);
+      void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
+        this.summaryCosts = data;
+        console.debug('summaryCosts ', data);
       }),
-      void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
-        this.startupCosts = data.startupScaleupCosts;
-        console.debug('data', data);
-      }),
+      // void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
+      //   this.startupCosts = data.startupScaleupCosts;
+      //   console.debug('data', data);
+      // }),
     );
   }
   public ngOnInit(): void {
