@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-intervention-cost-summary-quick-total-graph',
   templateUrl: './graphTotal.component.html',
@@ -10,9 +12,12 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
   @Input() summaryCosts: InterventionCostSummary;
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
+
+  constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
 
   ngOnInit(): void {
-    console.log('graph data: ', this.summaryCosts);
     this.initialiseGraph();
   }
 
@@ -20,7 +25,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     console.debug(costs);
   }
 
-  // TODO: This is dummy data until API calls are available to populate
   private initialiseGraph(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
@@ -80,6 +84,16 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     };
 
     this.chartData = generatedChart;
-    console.log(this.chartData);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.interventionDataService.setInterventionSummaryChartPNG(
+      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
+    );
+    this.interventionDataService.setInterventionSummaryChartPDF(
+      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
+    );
+
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 }

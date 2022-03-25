@@ -24,7 +24,7 @@
               </app-intervention-cost-summary-quick-total-graph>
             </mat-tab>
             <mat-tab label="Download">
-              <app-download></app-download>
+              <app-download [chartDownloadPNG]="chartSummaryPNG" [chartDownloadPDF]="chartSummaryPDF"></app-download>
             </mat-tab>
           </mat-tab-group>
         </div>

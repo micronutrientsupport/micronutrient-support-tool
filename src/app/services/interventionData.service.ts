@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
@@ -14,6 +15,11 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
   providedIn: 'root',
 })
 export class InterventionDataService {
+  private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
+  public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
+  private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
+  public interventionSummaryChartPDFObs = this.interventionSummaryChartPDFSrc.asObservable();
+
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
@@ -58,6 +64,13 @@ export class InterventionDataService {
     return this.apiService.endpoints.intervention.getInterventionCostSummary.call({
       id,
     });
+  }
+
+  public setInterventionSummaryChartPNG(chart: string): void {
+    this.interventionSummaryChartPNGSrc.next(chart);
+  }
+  public setInterventionSummaryChartPDF(chart: string): void {
+    this.interventionSummaryChartPDFSrc.next(chart);
   }
 
   constructor(private apiService: ApiService) {}
