@@ -92,8 +92,5 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     this.interventionDataService.setInterventionSummaryChartPDF(
       this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
     );
-
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 }
