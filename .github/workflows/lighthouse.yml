@@ -18,10 +18,10 @@ jobs:
           message: |
             Running Lighthouse audit...
       - uses: actions/checkout@v1
-      - name: Use Node.js 12.x
+      - name: Use Node.js 14
         uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 14
       - name: Waiting for 200 from Netlify
         uses: probablyup/wait-for-netlify-action@3.2.0
         id: waitForNetlifyDeploy
