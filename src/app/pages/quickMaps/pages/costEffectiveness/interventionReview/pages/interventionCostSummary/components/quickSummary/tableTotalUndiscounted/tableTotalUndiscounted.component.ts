@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { InterventionCostSummary, SummaryCostBreakdown } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
-import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 

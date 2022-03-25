@@ -1,13 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
-import {
-  CostSummary,
-  InterventionCostSummary,
-  SummaryCostBreakdown,
-} from 'src/app/apiAndObjects/objects/InterventionCostSummary';
-import { RecurringCost, InterventionRecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -24,7 +18,6 @@ export class InterventionCostSummaryComponent {
   public interventionName = 'IntName';
   public selectedTab: number;
   public summaryCosts: InterventionCostSummary;
-  // public startupCosts: Array<StartUpScaleUpCost>;
 
   private subscriptions = new Array<Subscription>();
 
@@ -35,12 +28,7 @@ export class InterventionCostSummaryComponent {
     this.subscriptions.push(
       void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
         this.summaryCosts = data;
-        // console.debug('summaryCosts ', this.summaryCosts);
       }),
-      // void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
-      //   this.startupCosts = data.startupScaleupCosts;
-      //   console.debug('data', data);
-      // }),
     );
   }
   public ngOnInit(): void {
