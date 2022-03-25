@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 @Component({
@@ -8,10 +8,11 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
   styleUrls: ['./graphTotal.component.scss'],
 })
 export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
-  @Input() recurringCost: RecurringCost;
+  @Input() summaryCosts: InterventionCostSummary;
   public chartData: ChartJSObject;
 
   ngOnInit(): void {
+    console.log('graph data: ', this.summaryCosts);
     this.initialiseGraph();
   }
 
@@ -21,6 +22,11 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
 
   // TODO: This is dummy data until API calls are available to populate
   private initialiseGraph(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+
     const generatedChart: ChartJSObject = {
       type: 'bar',
       data: {
@@ -29,13 +35,13 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
           {
             label: 'Undiscounted',
             backgroundColor: () => '#809ec2',
-            data: [0, 2, 3, 2, 8, 9, 10, 11, 12, 13],
+            data: unDiscountedValues,
             fill: true,
           },
           {
             label: 'Discounted',
             backgroundColor: () => '#9c85c0',
-            data: [0, 1.5, 2, 3, 9, 9.5, 10.5, 10, 10, 15],
+            data: discountedValues,
             fill: true,
           },
         ],

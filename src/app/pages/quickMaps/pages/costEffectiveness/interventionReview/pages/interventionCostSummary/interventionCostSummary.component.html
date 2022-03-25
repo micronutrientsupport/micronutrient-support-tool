@@ -19,7 +19,9 @@
 
             </mat-tab>
             <mat-tab label="Graph">
-              <app-intervention-cost-summary-quick-total-graph></app-intervention-cost-summary-quick-total-graph>
+              <app-intervention-cost-summary-quick-total-graph *ngIf="null != summaryCosts"
+                [summaryCosts]="summaryCosts">
+              </app-intervention-cost-summary-quick-total-graph>
             </mat-tab>
             <mat-tab label="Download">
               <app-download></app-download>
