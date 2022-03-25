@@ -47,5 +47,6 @@ export class InterventionMonitoringInformationComponent {
   private init(data: InterventionMonitoringInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.monitoringInformation);
+    console.log('MON DS: ', this.dataSource);
   }
 }

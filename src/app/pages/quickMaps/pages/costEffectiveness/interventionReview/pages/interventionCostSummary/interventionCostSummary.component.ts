@@ -24,7 +24,7 @@ export class InterventionCostSummaryComponent {
   public interventionName = 'IntName';
   public selectedTab: number;
   public summaryCosts: InterventionCostSummary;
-  public startupCosts: Array<StartUpScaleUpCost>;
+  // public startupCosts: Array<StartUpScaleUpCost>;
 
   private subscriptions = new Array<Subscription>();
 
@@ -35,7 +35,7 @@ export class InterventionCostSummaryComponent {
     this.subscriptions.push(
       void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
         this.summaryCosts = data;
-        console.debug('summaryCosts ', data);
+        // console.debug('summaryCosts ', this.summaryCosts);
       }),
       // void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
       //   this.startupCosts = data.startupScaleupCosts;

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { InterventionCostSummary, SummaryCostBreakdown } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -10,28 +11,36 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./tableTotalUndiscounted.component.scss'],
 })
 export class InterventionCostSummaryQuickUndiscountedTableComponent implements OnInit {
-  @Input() recurringCost: RecurringCost;
+  @Input() summaryCosts: InterventionCostSummary;
 
-  public dataSource = new MatTableDataSource<RecurringCosts>();
+  public dataSource = new MatTableDataSource();
   public displayHeaders = [
-    'section',
-    'year0Total',
-    'year1Total',
-    'year2Total',
-    'year3Total',
-    'year4Total',
-    'year5Total',
-    'year6Total',
-    'year7Total',
-    'year8Total',
-    'year9Total',
+    'year',
+    'year0',
+    'year1',
+    'year2',
+    'year3',
+    'year4',
+    'year5',
+    'year6',
+    'year7',
+    'year8',
+    'year9',
   ];
+  public totalUndiscounted: number;
 
   constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {
-    if (null != this.recurringCost) {
-      this.dataSource = new MatTableDataSource(this.recurringCost.costs);
+    if (null != this.summaryCosts) {
+      const dataArray = [];
+      dataArray.push(this.summaryCosts.summaryCosts);
+      this.dataSource = new MatTableDataSource(dataArray);
+
+      // Calculate the totals
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+      this.totalUndiscounted = unDiscountedValues.reduce((acc, value) => acc + value, 0);
     }
   }
 

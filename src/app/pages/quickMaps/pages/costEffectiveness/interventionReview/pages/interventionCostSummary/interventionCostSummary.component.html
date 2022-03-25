@@ -10,9 +10,11 @@
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
             <mat-tab label="Table">
 
-              <app-intervention-cost-summary-quick-undiscounted-table>
+              <app-intervention-cost-summary-quick-undiscounted-table *ngIf="null != summaryCosts"
+                [summaryCosts]="summaryCosts">
               </app-intervention-cost-summary-quick-undiscounted-table>
-              <app-intervention-cost-summary-quick-discounted-table>
+              <app-intervention-cost-summary-quick-discounted-table *ngIf="null != summaryCosts"
+                [summaryCosts]="summaryCosts">
               </app-intervention-cost-summary-quick-discounted-table>
 
             </mat-tab>
