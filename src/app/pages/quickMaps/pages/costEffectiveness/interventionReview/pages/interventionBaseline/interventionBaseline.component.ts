@@ -127,7 +127,6 @@ export class InterventionBaselineComponent implements OnInit {
       .openMnAdditionDialog()
       .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>) => {
         const mnArray = dialogData.dataOut;
-        const mnFoodVehicleDataArr = [];
 
         mnArray.forEach((mn: MicronutrientDictionaryItem) => {
           this.interventionDataService
@@ -137,17 +136,17 @@ export class InterventionBaselineComponent implements OnInit {
                 const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
-                mnFoodVehicleDataArr.push(addedNutrientFVS);
-                this.createLowerTable(addedNutrientFVS);
-                console.debug('lower', addedNutrientFVS);
+                this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
+                this.createLowerTable();
               }
             });
         });
       });
   }
 
-  public createLowerTable(arr: Array<FoodVehicleStandard>): void {
-    this.addedMnDatasource = new MatTableDataSource(arr);
+  public createLowerTable(): void {
+    console.debug(this.interventionDataService.getCachedMnInPremix());
+    this.addedMnDatasource = new MatTableDataSource(this.interventionDataService.getCachedMnInPremix());
   }
 }
 
