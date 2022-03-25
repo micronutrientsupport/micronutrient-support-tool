@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
@@ -15,6 +15,8 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   styleUrls: ['./microNutrientsInPremixTable.component.scss'],
 })
 export class MicroNutrientsInPremixTableComponent implements OnInit {
+  @Input() public editable = false;
+
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public addedFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal'];
 
@@ -46,6 +48,11 @@ export class MicroNutrientsInPremixTableComponent implements OnInit {
             });
         });
       });
+  }
+
+  public removeMn(item: FoodVehicleStandard): void {
+    this.interventionDataService.removeMnFromCachedMnInPremix(item);
+    this.createTable();
   }
 
   public createTable(): void {

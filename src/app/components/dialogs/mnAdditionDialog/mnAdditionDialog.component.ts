@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DialogData } from '../baseDialogService.abstract';
 
@@ -14,7 +12,7 @@ import { DialogData } from '../baseDialogService.abstract';
   templateUrl: './mnAdditionDialog.component.html',
   styleUrls: ['./mnAdditionDialog.component.scss'],
 })
-export class MnAdditionDialogComponent implements OnInit {
+export class MnAdditionDialogComponent {
   public micronutrientsDictionary: Dictionary;
   public mNsFiltered = new Array<MicronutrientDictionaryItem>();
   public mNsSelected = new Array<MicronutrientDictionaryItem>();
@@ -28,10 +26,6 @@ export class MnAdditionDialogComponent implements OnInit {
       this.micronutrientsDictionary = dicts.shift();
       this.filterSortMn();
     });
-  }
-
-  ngOnInit(): void {
-    //add content
   }
 
   public closeDialog(): void {
@@ -51,6 +45,5 @@ export class MnAdditionDialogComponent implements OnInit {
 
   public mnSelectionChange(event: MatOptionSelectionChange): void {
     this.mNsSelected.push(event.source.value);
-    // console.debug(event.source.value);
   }
 }

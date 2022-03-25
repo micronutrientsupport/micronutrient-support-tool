@@ -66,13 +66,12 @@ export class InterventionDataService {
   }
 
   public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
-    console.debug(items);
     this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
-    console.debug(this.cachedMnInPremix);
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): void {
-    void this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
+    console.debug(item);
+    this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
       return mnItem !== item;
     });
   }
