@@ -45,9 +45,6 @@ export class InterventionBaselineComponent implements OnInit {
   public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
   public optionalUserEnteredAverageAtPointOfFortification = 0;
 
-  public addedMnDatasource = new MatTableDataSource();
-  public addedFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal'];
-
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -120,33 +117,6 @@ export class InterventionBaselineComponent implements OnInit {
   }
   public inputType(): void {
     this.buttonValue = !this.buttonValue;
-  }
-
-  public addMN(): void {
-    void this.dialogService
-      .openMnAdditionDialog()
-      .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>) => {
-        const mnArray = dialogData.dataOut;
-
-        mnArray.forEach((mn: MicronutrientDictionaryItem) => {
-          this.interventionDataService
-            .getInterventionFoodVehicleStandards('1')
-            .then((data: InterventionFoodVehicleStandards) => {
-              if (null != data) {
-                const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-                });
-                this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
-                this.createLowerTable();
-              }
-            });
-        });
-      });
-  }
-
-  public createLowerTable(): void {
-    console.debug(this.interventionDataService.getCachedMnInPremix());
-    this.addedMnDatasource = new MatTableDataSource(this.interventionDataService.getCachedMnInPremix());
   }
 }
 

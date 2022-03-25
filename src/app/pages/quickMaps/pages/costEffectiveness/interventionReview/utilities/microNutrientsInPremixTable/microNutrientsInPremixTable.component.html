@@ -1,0 +1,40 @@
+<table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="micronutrient">
+        <th class="row-title" mat-header-cell *matHeaderCellDef> Micronutrient </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <span>{{element.micronutrient}}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="compound">
+        <th class="row-title" mat-header-cell *matHeaderCellDef> Compound </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+                <mat-form-field appearance="outline">
+                    <mat-select #select matNativeControl>
+                        <mat-option *ngFor="let item of element.compounds" [value]="item">
+                            {{item.compound}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <input type="number" matInput required [value]="select.value?.targetVal">
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="targetVal">
+        <th class="row-title" mat-header-cell *matHeaderCellDef> Standard/target nutrient level at point of
+            fortification (mg/kg) </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary">
+                GFDx<mat-icon>arrow_right_alt</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="addedFVdisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
+</table>
+
+
+<button class="item-reset" mat-flat-button (click)="addMN()">
+    <mat-icon class="red-icon">add</mat-icon> Add micronutrient
+</button>
