@@ -21,7 +21,7 @@ export class MicroNutrientsInPremixTableComponent implements OnInit {
   public addedFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal'];
 
   constructor(
-    private readonly interventionDataService: InterventionDataService,
+    public readonly interventionDataService: InterventionDataService,
     private readonly dialogService: DialogService,
   ) {}
 

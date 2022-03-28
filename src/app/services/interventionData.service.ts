@@ -65,6 +65,10 @@ export class InterventionDataService {
     return this.cachedMnInPremix;
   }
 
+  public getMnInPremixCount(): number {
+    return this.cachedMnInPremix.length;
+  }
+
   public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
     this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
   }

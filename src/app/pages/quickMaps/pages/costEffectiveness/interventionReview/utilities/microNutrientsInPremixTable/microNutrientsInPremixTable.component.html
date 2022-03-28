@@ -1,38 +1,45 @@
-<table mat-table [dataSource]="dataSource">
+<mat-accordion>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Other micronutrients in the premix ({{interventionDataService.getMnInPremixCount()}})
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="micronutrient">
+                <td class="column-title" mat-cell *matCellDef="let element">
+                    <span *ngIf="!editable">{{element.micronutrient}}</span>
+                    <button *ngIf="editable" mat-flat-button (click)="removeMn(element)">
+                        <mat-icon class="red-icon">highlight_off</mat-icon> {{element.micronutrient}}
+                    </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="compound">
+                <td class="column-title" mat-cell *matCellDef="let element">
+                    <div class="double-cell">
+                        <mat-form-field appearance="outline">
+                            <mat-select #select matNativeControl>
+                                <mat-option *ngFor="let item of element.compounds" [value]="item">
+                                    {{item.compound}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <input type="number" matInput required [value]="select.value?.targetVal">
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="targetVal">
+                <td class="column-title" mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="primary">
+                        GFDx<mat-icon>arrow_right_alt</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
+        </table>
+    </mat-expansion-panel>
+</mat-accordion>
 
-    <ng-container matColumnDef="micronutrient">
-        <td class="column-title" mat-cell *matCellDef="let element">
-            <span *ngIf="!editable">{{element.micronutrient}}</span>
-            <button *ngIf="editable" mat-flat-button (click)="removeMn(element)">
-                <mat-icon class="red-icon">highlight_off</mat-icon> {{element.micronutrient}}
-            </button>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="compound">
-        <td class="column-title" mat-cell *matCellDef="let element">
-            <div class="double-cell">
-                <mat-form-field appearance="outline">
-                    <mat-select #select matNativeControl>
-                        <mat-option *ngFor="let item of element.compounds" [value]="item">
-                            {{item.compound}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <input type="number" matInput required [value]="select.value?.targetVal">
-            </div>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="targetVal">
-        <td class="column-title" mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary">
-                GFDx<mat-icon>arrow_right_alt</mat-icon>
-            </button>
-        </td>
-    </ng-container>
-    <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
-</table>
-
-
-<button *ngIf="editable" class="item-reset" mat-flat-button (click)="addMN()">
+<button class="add-mn-button" *ngIf="editable" mat-flat-button (click)="addMN()">
     <mat-icon class="red-icon">add</mat-icon> Add micronutrient
 </button>
