@@ -35,7 +35,7 @@ export class InterventionBaselineComponent implements OnInit {
   public buttonValue = true;
 
   public dataSource = new MatTableDataSource();
-  baselinedisplayedColumns = ['title', 'baseline_value'];
+  public baselinedisplayedColumns = ['title', 'baseline_value'];
 
   public FVdataSource = new MatTableDataSource();
   public baselineFVdisplayedColumns = ['compound', 'targetVal'];

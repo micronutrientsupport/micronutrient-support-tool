@@ -2,6 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
+  BaselineAssumptions,
+  InterventionBaselineAssumptions,
+} from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
+import {
+  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
@@ -14,19 +19,21 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   templateUrl: './microNutrientsInPremixTable.component.html',
   styleUrls: ['./microNutrientsInPremixTable.component.scss'],
 })
-export class MicroNutrientsInPremixTableComponent implements OnInit {
+export class MicroNutrientsInPremixTableComponent {
   @Input() public editable = false;
+  @Input() public baselineAssumptions: BaselineAssumptions;
 
-  public dataSource = new MatTableDataSource<FoodVehicleStandard>();
-  public addedFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal'];
+  public micronutrients: Array<FoodVehicleStandard>;
 
   constructor(
     public readonly interventionDataService: InterventionDataService,
     private readonly dialogService: DialogService,
-  ) {}
-
-  ngOnInit(): void {
-    this.createTable();
+  ) {
+    void this.interventionDataService
+      .getInterventionBaselineAssumptions('1')
+      .then((data: InterventionBaselineAssumptions) => {
+        this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+      });
   }
 
   public addMN(): void {
@@ -43,19 +50,11 @@ export class MicroNutrientsInPremixTableComponent implements OnInit {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
                 this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
-                this.createTable();
+                this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+                // this.createTable(this.interventionDataService.getCachedMnInPremix());
               }
             });
         });
       });
-  }
-
-  public removeMn(item: FoodVehicleStandard): void {
-    this.interventionDataService.removeMnFromCachedMnInPremix(item);
-    this.createTable();
-  }
-
-  public createTable(): void {
-    this.dataSource = new MatTableDataSource(this.interventionDataService.getCachedMnInPremix());
   }
 }
