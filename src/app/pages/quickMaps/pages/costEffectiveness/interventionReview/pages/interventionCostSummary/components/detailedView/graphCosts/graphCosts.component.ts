@@ -101,6 +101,5 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     };
 
     this.chartData = generatedChart;
-    console.log(this.chartData);
   }
 }

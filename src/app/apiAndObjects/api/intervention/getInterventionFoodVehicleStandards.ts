@@ -1,4 +1,4 @@
-import { InterventionFoodVehicleStandards } from '../../objects/InterventionFoodVehicleStandards';
+import { InterventionFoodVehicleStandards } from '../../objects/interventionFoodVehicleStandards';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
