@@ -5,7 +5,7 @@ import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
-import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
+import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/FROGinterventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
