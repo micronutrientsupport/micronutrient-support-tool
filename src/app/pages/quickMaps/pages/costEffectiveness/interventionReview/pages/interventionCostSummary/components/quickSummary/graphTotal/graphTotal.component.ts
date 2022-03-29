@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { InterventionDataService } from 'src/app/services/interventionData.service';

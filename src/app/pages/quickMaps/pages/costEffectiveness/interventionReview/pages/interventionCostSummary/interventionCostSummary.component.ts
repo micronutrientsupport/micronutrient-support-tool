@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
-import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/InterventionCostSummary';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';

@@ -1,4 +1,4 @@
-import { InterventionCostSummary } from '../../objects/InterventionCostSummary';
+import { InterventionCostSummary } from '../../objects/interventionCostSummary';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 

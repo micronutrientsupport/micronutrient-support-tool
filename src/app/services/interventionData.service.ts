@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
-import { InterventionCostSummary } from '../apiAndObjects/objects/InterventionCostSummary';
+import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/InterventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
