@@ -50,15 +50,10 @@ table {
   border-radius: 10px;
 }
 
-.item {
-  flex-grow: 1;
-  display: flex;
-  justify-content: left;
-  align-items: left;
-}
 .item-input {
   border-radius: 5px;
 }
+
 .mat-icon-button {
   color: $color_primary;
   margin-left: 35px;

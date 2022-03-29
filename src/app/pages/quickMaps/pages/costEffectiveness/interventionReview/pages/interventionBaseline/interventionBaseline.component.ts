@@ -38,10 +38,10 @@ export class InterventionBaselineComponent implements OnInit {
   public baselinedisplayedColumns = ['title', 'baseline_value'];
 
   public FVdataSource = new MatTableDataSource();
-  public baselineFVdisplayedColumns = ['compound', 'targetVal'];
+  public baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
-  public complianceFortificationDatasource = new MatTableDataSource();
-  public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
+  // public complianceFortificationDatasource = new MatTableDataSource();
+  // public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
   public optionalUserEnteredAverageAtPointOfFortification = 0;
 
   private subscriptions = new Array<Subscription>();
@@ -68,7 +68,7 @@ export class InterventionBaselineComponent implements OnInit {
                   .then((data: InterventionBaselineAssumptions) => {
                     this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
                     this.createBaselineTableObject();
-                    this.createBaselineComplianceFortificationPractice();
+                    // this.createBaselineComplianceFortificationPractice();
                   });
               }
             });
@@ -91,21 +91,6 @@ export class InterventionBaselineComponent implements OnInit {
     console.debug('upper', fvdata);
     this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
-  }
-
-  public createBaselineComplianceFortificationPractice(): void {
-    const calcAverageAtPointOfFortification =
-      this.selectedCompound.targetVal * this.baselineAssumptions.potentiallyFortified.year0;
-    const optionalUserEnteredAverageAtPointOfFortification = this.optionalUserEnteredAverageAtPointOfFortification;
-    const calcAverageFortificationLevelAmongAll =
-      optionalUserEnteredAverageAtPointOfFortification * calcAverageAtPointOfFortification;
-
-    const tableObject: ComplianceFortificationTableObject = {
-      calcAverageAtPointOfFortification: calcAverageAtPointOfFortification,
-      optionalUserEnteredAverageAtPointOfFortification: optionalUserEnteredAverageAtPointOfFortification,
-      calcAverageFortificationLevelAmongAll: calcAverageFortificationLevelAmongAll,
-    };
-    this.complianceFortificationDatasource = new MatTableDataSource([tableObject]);
   }
 
   public openFortificationInfoDialog(): void {

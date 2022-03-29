@@ -34,7 +34,6 @@
           {{buttonValue?"GFDx":"User Input"}}<mat-icon>arrow_right_alt</mat-icon>
         </button>
       </span>
-      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
       <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
     </table>
 
@@ -83,15 +82,7 @@
               </span>
             </div>
           </td>
-
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
-      </table>
-
-
-      <!-- TODO: update table below to static table -->
-      <table mat-table [dataSource]="complianceFortificationDatasource">
 
         <ng-container matColumnDef="avgVal">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
@@ -145,9 +136,10 @@
             </div>
           </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="baselineComplianceDisplayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: baselineComplianceDisplayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
       </table>
+
 
     </div>
 
