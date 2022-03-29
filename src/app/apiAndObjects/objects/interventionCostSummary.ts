@@ -1,7 +1,6 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { DataLevel } from './enums/dataLevel.enum';
 import { Named } from './named.interface';
-
 export class InterventionCostSummary extends BaseObject implements Named {
   public static readonly KEYS = {
     INTERVENTION_ID: 'interventionId',
@@ -12,12 +11,10 @@ export class InterventionCostSummary extends BaseObject implements Named {
 
   public readonly name: string;
   public readonly dataLevel: DataLevel;
-
   public readonly interventionId: number;
   public readonly summaryCosts: Array<SummaryCostBreakdown>;
   public readonly discountRate: string;
   public readonly summaryCostsDiscounted: Array<SummaryCostBreakdown>;
-
   public readonly costSummary: Array<CostSummary>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
@@ -29,13 +26,11 @@ export class InterventionCostSummary extends BaseObject implements Named {
     this.summaryCostsDiscounted = this._getArray(InterventionCostSummary.KEYS.SUMMARY_COSTS_DISCOUNTED);
   }
 }
-
 export interface CostSummary {
   summaryCosts: SummaryCostBreakdown;
   discountRate: string;
   summaryCostsDiscounted: SummaryCostBreakdown;
 }
-
 export interface SummaryCostBreakdown {
   rowName: string;
   rowIndex: number;
