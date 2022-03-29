@@ -6,7 +6,7 @@ import {
   BaselineAssumptions,
   InterventionBaselineAssumptions,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
-import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
+import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
