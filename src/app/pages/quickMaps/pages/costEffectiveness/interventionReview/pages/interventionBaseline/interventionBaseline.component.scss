@@ -69,6 +69,7 @@ table {
 .double-cell {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 input {
   width: 50px;
@@ -84,4 +85,17 @@ th {
 input:focus {
   outline: none;
   border: 1px solid blue;
+}
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 4em;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
 }

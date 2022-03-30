@@ -81,7 +81,6 @@ export class InterventionBaselineComponent implements OnInit {
   }
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
-    console.debug('upper', fvdata);
     this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
   }

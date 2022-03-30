@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
   BaselineAssumptions,
@@ -21,6 +22,7 @@ export class MicroNutrientsInPremixTableComponent {
   @Input() public editable = false;
   public baselineAssumptions: BaselineAssumptions;
   public micronutrients: Array<FoodVehicleStandard>;
+  public updateTrigger = new Subject<null>();
 
   constructor(
     public readonly interventionDataService: InterventionDataService,
@@ -30,6 +32,7 @@ export class MicroNutrientsInPremixTableComponent {
       .getInterventionBaselineAssumptions('1')
       .then((data: InterventionBaselineAssumptions) => {
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+        this.micronutrients = this.interventionDataService.getCachedMnInPremix();
       });
   }
 

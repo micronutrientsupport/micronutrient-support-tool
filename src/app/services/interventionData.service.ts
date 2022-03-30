@@ -74,7 +74,6 @@ export class InterventionDataService {
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): void {
-    console.debug(item);
     this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
       return mnItem !== item;
     });

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { BehaviorSubject } from 'rxjs';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleCompound,
@@ -12,10 +13,14 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   templateUrl: './premixTableRow.component.html',
   styleUrls: ['./premixTableRow.component.scss'],
 })
-export class PremixTableRowComponent implements OnInit {
+export class PremixTableRowComponent {
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
-  @Input() public micronutrient: FoodVehicleStandard;
+  @Input()
+  set micronutrient(micronutrient: FoodVehicleStandard) {
+    this.data.next(micronutrient);
+  }
+  private data = new BehaviorSubject<FoodVehicleStandard>(null);
 
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
@@ -23,15 +28,21 @@ export class PremixTableRowComponent implements OnInit {
 
   public optionalUserEnteredAverageAtPointOfFortification = 0;
 
-  constructor(public interventionDataService: InterventionDataService) {}
-
-  public ngOnInit(): void {
-    console.debug('call', this.micronutrient);
-    this.selectedCompound = this.micronutrient.compounds[0];
-    this.dataSource = new MatTableDataSource([this.micronutrient]);
+  constructor(public interventionDataService: InterventionDataService) {
+    this.data.subscribe((mn: FoodVehicleStandard) => {
+      if (null != mn) {
+        this.initTable(mn);
+      }
+    });
   }
 
-  public removeMn(element: FoodVehicleStandard): void {
-    this.interventionDataService.removeMnFromCachedMnInPremix(element);
+  public initTable(mn: FoodVehicleStandard): void {
+    this.selectedCompound = mn.compounds[0];
+    this.dataSource = new MatTableDataSource([mn]);
+  }
+
+  public removeMn(mn: FoodVehicleStandard): void {
+    this.interventionDataService.removeMnFromCachedMnInPremix(mn);
+    this.dataSource = new MatTableDataSource([]);
   }
 }

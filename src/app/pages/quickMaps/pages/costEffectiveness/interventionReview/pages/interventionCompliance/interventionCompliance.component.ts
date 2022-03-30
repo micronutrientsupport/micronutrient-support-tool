@@ -85,7 +85,6 @@ export class InterventionComplianceComponent {
     const dataArray = [];
     const rawData = data.baselineAssumptions as BaselineAssumptions;
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
-    console.debug(rawData);
     this.dataSource = new MatTableDataSource(dataArray);
     this.createAvNutrientLevelTable(rawData);
   }
