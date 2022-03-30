@@ -1,8 +1,28 @@
+@import 'src/assets/scss/_colour';
+
 .double-cell {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 input {
   width: 50px;
+}
+
+table {
+  width: 100%;
+  background: none;
+  table-layout: fixed;
+  td.mat-cell {
+    border-bottom-color: rgba(0, 0, 0, 0);
+  }
+  .mat-button:not([class*='remove-mn']) {
+    color: $color_primary;
+  }
+  .remove-mn {
+    mat-icon {
+      color: $color_accent;
+    }
+  }
 }

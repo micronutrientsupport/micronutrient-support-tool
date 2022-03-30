@@ -1,9 +1,12 @@
 <mat-accordion>
-    <mat-expansion-panel #panel hideToggle [disabled]="interventionDataService.getMnInPremixCount() === 0">
+    <mat-expansion-panel #panel hideToggle [expanded]="true"
+        [disabled]="interventionDataService.getMnInPremixCount() === 0">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Other micronutrients in the premix ({{interventionDataService.getMnInPremixCount()}}) <mat-icon>
-                    {{panel.expanded ? 'expand_more' : 'expand_less'}}</mat-icon>
+                <span class="mat-typography">
+                    Other micronutrients in the premix ({{interventionDataService.getMnInPremixCount()}})
+                </span>
+                <mat-icon>{{panel.expanded ? 'expand_more' : 'expand_less'}}</mat-icon>
             </mat-panel-title>
         </mat-expansion-panel-header>
 
