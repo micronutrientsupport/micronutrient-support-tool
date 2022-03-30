@@ -1,12 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, Input } from '@angular/core';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
   BaselineAssumptions,
   InterventionBaselineAssumptions,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
-  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
@@ -22,7 +20,6 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 export class MicroNutrientsInPremixTableComponent {
   @Input() public editable = false;
   public baselineAssumptions: BaselineAssumptions;
-
   public micronutrients: Array<FoodVehicleStandard>;
 
   constructor(
@@ -51,7 +48,6 @@ export class MicroNutrientsInPremixTableComponent {
                 });
                 this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
                 this.micronutrients = this.interventionDataService.getCachedMnInPremix();
-                // this.createTable(this.interventionDataService.getCachedMnInPremix());
               }
             });
         });

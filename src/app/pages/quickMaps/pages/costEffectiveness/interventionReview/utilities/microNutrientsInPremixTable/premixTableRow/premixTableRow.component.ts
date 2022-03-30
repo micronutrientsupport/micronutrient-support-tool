@@ -26,11 +26,12 @@ export class PremixTableRowComponent implements OnInit {
   constructor(public interventionDataService: InterventionDataService) {}
 
   public ngOnInit(): void {
+    console.debug('call', this.micronutrient);
     this.selectedCompound = this.micronutrient.compounds[0];
     this.dataSource = new MatTableDataSource([this.micronutrient]);
   }
 
-  public removeMn(element) {
-    // remove mn via output
+  public removeMn(element: FoodVehicleStandard): void {
+    this.interventionDataService.removeMnFromCachedMnInPremix(element);
   }
 }

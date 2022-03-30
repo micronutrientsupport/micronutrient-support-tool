@@ -30,18 +30,12 @@ export class InterventionBaselineComponent implements OnInit {
   public selectedCompound: FoodVehicleCompound;
   public activeNutrientFVS: Array<FoodVehicleStandard>;
 
-  // TODO: Assign these to correct variables
-  public toggle = true;
-  public buttonValue = true;
-
   public dataSource = new MatTableDataSource();
   public baselinedisplayedColumns = ['title', 'baseline_value'];
 
   public FVdataSource = new MatTableDataSource();
   public baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
-  // public complianceFortificationDatasource = new MatTableDataSource();
-  // public baselineComplianceDisplayedColumns = ['avgVal', 'optFort', 'calcFort'];
   public optionalUserEnteredAverageAtPointOfFortification = 0;
 
   private subscriptions = new Array<Subscription>();
@@ -68,7 +62,6 @@ export class InterventionBaselineComponent implements OnInit {
                   .then((data: InterventionBaselineAssumptions) => {
                     this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
                     this.createBaselineTableObject();
-                    // this.createBaselineComplianceFortificationPractice();
                   });
               }
             });
@@ -99,13 +92,4 @@ export class InterventionBaselineComponent implements OnInit {
   public openCalculatedFortificationInfoDialog(): void {
     void this.dialogService.openCalculatedFortificationInfoDialog();
   }
-  public inputType(): void {
-    this.buttonValue = !this.buttonValue;
-  }
-}
-
-interface ComplianceFortificationTableObject {
-  calcAverageAtPointOfFortification: number;
-  optionalUserEnteredAverageAtPointOfFortification: number;
-  calcAverageFortificationLevelAmongAll: number;
 }
