@@ -1,5 +1,7 @@
 .add-mn-button {
-  margin-top: 1em;
+  position: absolute;
+  margin-top: 0.5em;
+  margin-left: 2em;
 }
 ::ng-deep mat-accordion {
   .mat-expansion-panel:not([class*='mat-elevation-z']) {
