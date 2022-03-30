@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import {
   StartUpCosts,
