@@ -1,15 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-intervention-cost-summary-quick-total-graph',
   templateUrl: './graphTotal.component.html',
   styleUrls: ['./graphTotal.component.scss'],
 })
 export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
-  @Input() recurringCost: RecurringCost;
+  @Input() summaryCosts: InterventionCostSummary;
   public chartData: ChartJSObject;
+  public chartPNG: string;
+  public chartPDF: string;
+
+  constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
 
   ngOnInit(): void {
     this.initialiseGraph();
@@ -19,8 +25,12 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     console.debug(costs);
   }
 
-  // TODO: This is dummy data until API calls are available to populate
   private initialiseGraph(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+
     const generatedChart: ChartJSObject = {
       type: 'bar',
       data: {
@@ -29,13 +39,13 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
           {
             label: 'Undiscounted',
             backgroundColor: () => '#809ec2',
-            data: [0, 2, 3, 2, 8, 9, 10, 11, 12, 13],
+            data: unDiscountedValues,
             fill: true,
           },
           {
             label: 'Discounted',
             backgroundColor: () => '#9c85c0',
-            data: [0, 1.5, 2, 3, 9, 9.5, 10.5, 10, 10, 15],
+            data: discountedValues,
             fill: true,
           },
         ],
@@ -74,6 +84,13 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     };
 
     this.chartData = generatedChart;
-    console.log(this.chartData);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.interventionDataService.setInterventionSummaryChartPNG(
+      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
+    );
+    this.interventionDataService.setInterventionSummaryChartPDF(
+      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
+    );
   }
 }

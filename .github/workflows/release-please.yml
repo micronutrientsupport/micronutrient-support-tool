@@ -3,6 +3,9 @@ on:
     branches:
       - develop
 name: release-please
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   release-please:
     runs-on: ubuntu-latest
