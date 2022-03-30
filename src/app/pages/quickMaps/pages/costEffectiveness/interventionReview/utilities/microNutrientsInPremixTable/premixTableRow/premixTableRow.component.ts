@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleCompound,
   FoodVehicleStandard,
-} from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
+} from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({

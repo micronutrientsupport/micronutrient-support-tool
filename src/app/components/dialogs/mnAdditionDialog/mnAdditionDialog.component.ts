@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
