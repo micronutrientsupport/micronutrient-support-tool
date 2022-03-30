@@ -20,6 +20,12 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  .standard {
+    width: 85%;
+  }
+  .compliance {
+    width: 100%;
+  }
 }
 // .subheader-container {
 //   display: flex;
@@ -41,6 +47,7 @@
 
 table {
   width: 95%;
+  table-layout: fixed;
 }
 .intervention-baseline-panel {
   display: flex;

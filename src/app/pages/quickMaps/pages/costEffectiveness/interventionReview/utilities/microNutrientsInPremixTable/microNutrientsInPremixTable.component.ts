@@ -21,7 +21,7 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 })
 export class MicroNutrientsInPremixTableComponent {
   @Input() public editable = false;
-  @Input() public baselineAssumptions: BaselineAssumptions;
+  public baselineAssumptions: BaselineAssumptions;
 
   public micronutrients: Array<FoodVehicleStandard>;
 
