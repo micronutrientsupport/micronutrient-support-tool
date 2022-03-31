@@ -33,3 +33,79 @@ a[disabled='true'] {
   --mdc-layout-grid-margin-phone: 24px;
   --mdc-layout-grid-gutter-phone: 24px;
 }
+
+// To make a 'plain' html button look a bit like an app material button
+.driver-button {
+  font-family: Quicksand;
+  font-size: 12px;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  min-width: 64px;
+  line-height: 32px;
+  padding: 0 16px;
+  border-radius: 4px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  flex-grow: 1;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #9b51e0;
+  color: white;
+  text-shadow: none;
+}
+@import 'driver.js/dist/driver.min.css';
+div#driver-popover-item {
+  & .driver-popover-footer button {
+    @extend .driver-button;
+  }
+
+  & .driver-popover-footer button.driver-close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    color: #000;
+    font-size: 12px;
+    line-height: 36px;
+    min-width: auto;
+    box-shadow: none;
+  }
+
+  & .tour-title {
+    position: absolute;
+    display: block;
+    top: 15px;
+    left: 15px;
+    font-size: 10px;
+    font-weight: 200;
+  }
+
+  &.popup-overlay {
+    min-width: 60vw;
+  }
+
+  & .driver-popover-footer button.driver-disabled {
+    background-color: rgb(126, 126, 126);
+    color: #000;
+  }
+
+  & .driver-popover-title {
+    font-family: Quicksand !important;
+    position: initial;
+    margin-top: 20px;
+  }
+
+  & .driver-popover-description {
+    font-family: Quicksand !important;
+  }
+
+  & .driver-btn-group.driver-navigation-btns {
+    width: 100%;
+    display: flex;
+  }
+}
+#driver-page-overlay {
+  opacity: 0.5 !important;
+}

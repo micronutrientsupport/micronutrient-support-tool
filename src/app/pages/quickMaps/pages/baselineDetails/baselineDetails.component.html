@@ -8,7 +8,8 @@
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
       <!-- Map View -->
-      <app-map-view *ngSwitchCase="WIDGETS.BASELINE_MAP" [card]="card"></app-map-view>
+      <app-map-view *ngSwitchCase="WIDGETS.BASELINE_MAP" [card]="card" appTour tourName="Quick MAPS Baseline Data"
+        tourDescription="View some data." tourTitle="Its a map" tourPosition="auto" tourStage="2"></app-map-view>
       <!-- Chart -->
       <app-household-supply *ngSwitchCase="WIDGETS.BASELINE_CHART" [card]="card"></app-household-supply>
       <!-- Monthly Card -->

@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { QuickMapsService } from './quickMaps.service';
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
+import { TourService } from 'src/app/services/tour.service';
 
 @Component({
   selector: 'app-quickmaps',
   templateUrl: './quickMaps.component.html',
   styleUrls: ['./quickMaps.component.scss'],
 })
-export class QuickMapsComponent implements OnInit {
+export class QuickMapsComponent implements OnInit, AfterContentInit {
   public showHeader = false;
   public showGoButton = false;
 
-  constructor(router: Router, private activatedRoute: ActivatedRoute, public quickMapsService: QuickMapsService) {
+  constructor(
+    router: Router,
+    private activatedRoute: ActivatedRoute,
+    public quickMapsService: QuickMapsService,
+    public tourService: TourService,
+  ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
@@ -30,6 +36,11 @@ export class QuickMapsComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngAfterContentInit(): void {
+    console.log('Request the quick-maps sidebar tour');
+    this.tourService.startTour('Welcome to Quick MAPS');
   }
 
   ngOnInit(): void {

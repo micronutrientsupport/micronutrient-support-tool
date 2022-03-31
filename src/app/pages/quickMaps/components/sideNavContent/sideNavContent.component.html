@@ -14,9 +14,11 @@
   class="bmgf-maps-nice-scrollbar scroll-area">
   <form [formGroup]="quickMapsForm" id="quickMapsForm"
     [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav' : ''">
-    <fieldset name="geographyOfInterest">
+    <fieldset name="geographyOfInterest" appTour tourName="Quick MAPS Sidebar" tourStage="0"
+      tourDescription="Select your geography of interest" tourTitle="Select a country" tourPosition="right"
+      (tourEnterFunction)="tourSetNation('MWI')">
       <legend>
-        <span class="field-title">
+        <span class=" field-title">
           <h2>Geography of interest</h2>
           <a class="map-button" mat-button [routerLink]="ROUTES.QUICK_MAPS_LOCATION_SELECT | route"
             [queryParams]="route.queryParams | async" routerLinkActive [routerLinkActiveOptions]="{ exact: true }"
@@ -46,7 +48,9 @@
       </mat-form-field>
     </fieldset>
 
-    <fieldset>
+    <fieldset id="nutrients" appTour tourName="Quick MAPS Sidebar" tourStage="1"
+      tourDescription="Select your micronutrient of interest.  Chose from Vitamins, Minerals or Other."
+      tourTitle="Select a micronutrient" tourPosition="right" (tourEnterFunction)="tourSetMicronutrient('Ca')">
       <legend>
         <span class="field-title">
           <h2>Nutrients to explore</h2>
@@ -74,7 +78,8 @@
       </ng-container>
     </fieldset>
 
-    <fieldset>
+    <fieldset id="measure" appTour tourName="Quick MAPS Sidebar" tourStage="2"
+      tourDescription="Select diet or biomarker data to look at" tourTitle="Select a type of data" tourPosition="right">
       <legend>
         <div class="field-title">
           <h2>Measure of nutrient deficiency</h2>
@@ -116,7 +121,9 @@
       </fieldset>
     </div> -->
 
-    <fieldset>
+    <fieldset appTour tourName="Quick MAPS Sidebar" tourStage="3"
+      tourDescription="MAPS will select the best available data for you" tourTitle="Data selection"
+      tourPosition="right">
       <legend class="flex-row">
         <span class="field-title">
           <h2>Data source</h2>
@@ -139,7 +146,9 @@
 </div>
 
 <div class="footer-row" [class.show]="showGoButton"
-  [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''">
+  [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''" appTour tourName="Quick MAPS Sidebar"
+  tourStage="4" tourDescription="View some data." tourTitle="Go Go Go!" tourPosition="right"
+  (tourForwardFunction)="submitForm()" tourTrigger="Quick MAPS Baseline Data">
   <div class="results-text" *ngIf="btnViewResultsActive === false"><i class="fas fa-info-circle"></i> No data sources
     available for this selection</div>
   <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
