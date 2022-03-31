@@ -32,9 +32,9 @@ export abstract class BaseDialogService {
     return data;
   }
 
-  protected openDialog<DataInType = any, DataOutType = any>(
+  protected openDialog<DataInType = unknown, DataOutType = unknown>(
     dialogId: string,
-    contentComponent: ComponentType<any>,
+    contentComponent: ComponentType<unknown>,
     closable = true,
     customData?: DataInType,
     configIn: MatDialogConfig = {},
@@ -100,6 +100,7 @@ export abstract class BaseDialogService {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface DialogData<DataInType = any, DataOutType = any> {
   closable: boolean;
   requiresRefreshOnClose: boolean;

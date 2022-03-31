@@ -7,7 +7,6 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./interventionStepDetails.component.scss'],
 })
 export class InterventionStepDetailsComponent implements OnInit {
-  @Input('showAddMn') public showAddMn = false;
   @Input('resetDefaultValues') public resetDefaultValues = false;
   @Input('showFocusMn') public showFocusMn = false;
   @Input('showUserValues') public showUserValues = false;
@@ -21,9 +20,5 @@ export class InterventionStepDetailsComponent implements OnInit {
 
   public resetValues(): void {
     void this.dialogService.openCEResetDialog();
-  }
-
-  public addMN(): void {
-    void this.dialogService.openMnAdditionDialog();
   }
 }

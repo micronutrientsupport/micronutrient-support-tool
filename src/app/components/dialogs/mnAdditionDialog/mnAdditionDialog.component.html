@@ -1,7 +1,13 @@
 <div class="MnAdditionDialog">
     <h2>Add micronutrient</h2>
     <p>Select what micronutrient you want to add</p>
-    <input type="dropdown">
+    <mat-form-field appearance="fill">
+        <mat-select>
+            <mat-option (onSelectionChange)="mnSelectionChange($event)" *ngFor="let mnd of mNsFiltered" [value]="mnd">{{
+                mnd.name }}</mat-option>
+        </mat-select>
+        <!-- <mat-error>Please select MND ({{groupMND.value}})</mat-error> -->
+    </mat-form-field>
 
 
 

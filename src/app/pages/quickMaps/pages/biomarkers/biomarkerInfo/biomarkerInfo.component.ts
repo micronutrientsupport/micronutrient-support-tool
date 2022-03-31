@@ -24,7 +24,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   @Input() card: CardComponent;
-  static additionalData: any;
+  static additionalData: unknown;
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
@@ -333,7 +333,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 }
 
 export interface AdditionalInformationDialogData {
-  data: any;
+  data: unknown;
   selectedTab: number;
 }
 

@@ -46,15 +46,19 @@ footer {
   .focus-mn {
     display: flex;
     flex-direction: column;
-    margin-right: 1em;
+    margin-top: 2.5em;
+    .sub-header {
+      margin-left: 1.5em;
+    }
     span {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
     }
     .mn-title {
       color: $color_primary;
       font-weight: bold;
       margin-top: 2em;
+      margin-right: 2em;
     }
   }
 }
@@ -62,4 +66,8 @@ footer {
 table {
   width: 95%;
   margin: 0 2em;
+  background: none;
+  td.mat-cell {
+    border-bottom-color: rgba(0, 0, 0, 0);
+  }
 }

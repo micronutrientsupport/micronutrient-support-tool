@@ -1,0 +1,73 @@
+<table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="micronutrient">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <span *ngIf="!editable">{{element.micronutrient}}</span>
+            <button class="remove-mn" *ngIf="editable" mat-button (click)="removeMn(element)">
+                <mat-icon color="danger">highlight_off</mat-icon> {{element.micronutrient}}
+            </button>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="compounds">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <mat-form-field appearance="outline">
+                <mat-select [(ngModel)]="selectedCompound" matNativeControl>
+                    <mat-option *ngFor="let item of element.compounds" [value]="item">
+                        {{item.compound}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="targetVal">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+                <input type="number" matInput required [value]="selectedCompound.targetVal">
+                <button mat-button>
+                    GFDx<mat-icon>arrow_right_alt</mat-icon>
+                </button>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="avgVal">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+                <span>
+                    {{selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig:3}}
+                </span>
+                <span>
+                    <button mat-button>
+                        GFDx<mat-icon>arrow_right_alt</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="optFort">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <div class="double-cell">
+                <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
+                <span>
+                    <button mat-button>
+                        GFDx<mat-icon>arrow_right_alt</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="calcFort">
+        <td class="column-title" mat-cell *matCellDef="let element">
+            <span>
+                {{(optionalUserEnteredAverageAtPointOfFortification *
+                baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.potentiallyFortified.year0) | sigFig:3}}
+            </span>
+        </td>
+    </ng-container>
+    <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
+</table>

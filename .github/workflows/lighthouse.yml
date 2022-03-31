@@ -1,7 +1,8 @@
 name: Lighthouse
-
 on: pull_request
-
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   generate_lighthouse_audit:
     timeout-minutes: 30
@@ -17,11 +18,11 @@ jobs:
           header: lighthouse
           message: |
             Running Lighthouse audit...
-      - uses: actions/checkout@v1
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.5.1
+      - uses: actions/checkout@v3
+      - name: Use Node.js 14
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 14
       - name: Waiting for 200 from Netlify
         uses: probablyup/wait-for-netlify-action@3.2.0
         id: waitForNetlifyDeploy
@@ -52,7 +53,7 @@ jobs:
           urls: "${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps"
           sha: ${{ github.sha }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: Lighthouse reports
           path: /tmp/artifacts

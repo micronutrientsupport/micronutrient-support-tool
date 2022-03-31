@@ -24,12 +24,10 @@ import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataIt
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
-
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
-import { DietDataService } from 'src/app/services/dietData.service';
 
 export interface BiomarkerStatusDialogData {
-  data: any;
+  data: unknown;
   selectedTab: number;
 }
 
@@ -106,8 +104,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     { name: 'Total', value: 'tot' },
   ];
 
-  public selectedOption: any;
-  public selectedCharacteristic: any;
+  public selectedOption: unknown;
+  public selectedCharacteristic: unknown;
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
   public mineralData: Array<BiomarkerStatusData>;
@@ -128,7 +126,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private http: HttpClient,
     private papa: Papa,
-    private dietDataService: DietDataService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
@@ -151,13 +148,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.init();
-        // this.initMapData(
-        //   this.dietDataService.getDietaryAvailability(
-        //     this.quickMapsService.country,
-        //     this.quickMapsService.micronutrient,
-        //     this.quickMapsService.biomarkerDataSource,
-        //   ),
-        // );
       }),
     );
 
@@ -223,11 +213,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
       .toPromise()
       .then((data: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<BiomarkerStatusData>();
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         blob.forEach((simpleData: simpleDataObject) => {
           const statusData: BiomarkerStatusData = {
             areaName: simpleData.AreaName,
@@ -243,26 +230,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         );
 
         this.mineralData = filterByParamatersArray;
-      });
-  }
-
-  private initMapData(dataPromise: Promise<SubRegionDataItem>): void {
-    this.loadingSrc.next(true);
-    dataPromise
-      .then((data: SubRegionDataItem) => {
-        this.temporaryData = data;
-        if (null == data) {
-          throw new Error('data error');
-        }
-        this.errorSrc.next(false);
-      })
-      .finally(() => {
-        this.loadingSrc.next(false);
-        this.cdr.detectChanges();
-      })
-      .catch((e) => {
-        this.errorSrc.next(true);
-        throw e;
       });
   }
 

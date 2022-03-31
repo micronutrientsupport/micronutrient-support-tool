@@ -9,7 +9,7 @@ export class FeatureFlagGuard implements CanActivate, CanLoad {
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     console.log(`Checking ${route.data.featureFlag} flag before activating route`);
     const flagIsEnabled = this.featureFlagsService.isEnabled(route.data.featureFlag);
-    console.log(`State: ${flagIsEnabled}`);
+    // console.log(`State: ${flagIsEnabled}`);
     if (!flagIsEnabled) {
       return this.router.parseUrl('/');
     } else {
@@ -20,7 +20,7 @@ export class FeatureFlagGuard implements CanActivate, CanLoad {
   canLoad(route: Route): boolean | UrlTree {
     console.log(`Checking ${route.data.featureFlag} flag before loading route`);
     const flagIsEnabled = this.featureFlagsService.isEnabled(route.data.featureFlag);
-    console.log(`State: ${flagIsEnabled}`);
+    // console.log(`State: ${flagIsEnabled}`);
     if (!flagIsEnabled) {
       return this.router.parseUrl('/');
     } else {

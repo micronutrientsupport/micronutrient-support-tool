@@ -6,7 +6,7 @@ import {
   BaselineAssumptions,
   InterventionBaselineAssumptions,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
-import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/InterventionFoodVehicleStandards';
+import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -85,7 +85,6 @@ export class InterventionComplianceComponent {
     const dataArray = [];
     const rawData = data.baselineAssumptions as BaselineAssumptions;
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
-    console.debug(rawData);
     this.dataSource = new MatTableDataSource(dataArray);
     this.createAvNutrientLevelTable(rawData);
   }

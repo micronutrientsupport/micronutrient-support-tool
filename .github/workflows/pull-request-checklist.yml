@@ -1,5 +1,8 @@
 name: PR check
 on: pull_request
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 jobs:
   checklist:
     name: 'Post checklist for PR review'

@@ -2,6 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
@@ -41,7 +42,9 @@ export class DialogService extends BaseDialogService {
     });
   }
 
-  public openCESelectionDialog(interventions: Array<InterventionsDictionaryItem>): Promise<DialogData> {
+  public openCESelectionDialog(
+    interventions: Array<InterventionsDictionaryItem>,
+  ): Promise<DialogData<Array<InterventionsDictionaryItem>>> {
     return this.openDialog(
       'costEffectivenessSelectionDialog',
       CostEffectivenessSelectionDialogComponent,
@@ -75,7 +78,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openCEResetDialog', CeResetDialogComponent, false);
   }
 
-  public openMnAdditionDialog(): Promise<DialogData<boolean>> {
+  public openMnAdditionDialog(): Promise<DialogData<Array<MicronutrientDictionaryItem>>> {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
   public openFortificationInfoDialog(): Promise<DialogData> {

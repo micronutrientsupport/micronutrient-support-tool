@@ -29,12 +29,10 @@ export class ReusableCostTableComponent implements OnInit {
 
   public openSectionRecurringCostReviewDialog(costs: RecurringCosts): void {
     this.dialogService.openSectionRecurringCostReviewDialog(costs);
-    console.debug(costs);
   }
 
   public openSectionStartUpCostReviewDialog(costs: StartUpCosts): void {
     this.dialogService.openSectionStartUpCostReviewDialog(costs);
-    console.debug(costs);
   }
 
   public getTotalCost(yearKey: string): number {

@@ -1,8 +1,7 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
-import { RecurringCost, InterventionRecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -18,27 +17,31 @@ export class InterventionCostSummaryComponent {
   public pageStepperPosition = 8;
   public interventionName = 'IntName';
   public selectedTab: number;
-  public recurringCosts: Array<RecurringCost>;
-  public startupCosts: Array<StartUpScaleUpCost>;
-
+  public summaryCosts: InterventionCostSummary;
+  public chartSummaryPNG = '';
+  public chartSummaryPDF = '';
   private subscriptions = new Array<Subscription>();
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-  ) {
-    this.subscriptions.push(
-      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
-        this.recurringCosts = data.recurringCosts;
-        console.debug('data', data);
-      }),
-      void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
-        this.startupCosts = data.startupScaleupCosts;
-        console.debug('data', data);
-      }),
-    );
-  }
+    private cdRef: ChangeDetectorRef,
+  ) {}
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+
+    this.subscriptions.push(
+      void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
+        this.summaryCosts = data;
+      }),
+      void this.interventionDataService.interventionSummaryChartPNGObs.subscribe((chart: string) => {
+        this.chartSummaryPNG = chart;
+        this.cdRef.detectChanges();
+      }),
+      void this.interventionDataService.interventionSummaryChartPDFObs.subscribe((chart: string) => {
+        this.chartSummaryPDF = chart;
+        this.cdRef.detectChanges();
+      }),
+    );
   }
 }
