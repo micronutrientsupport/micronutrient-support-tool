@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleCompound,
@@ -20,7 +20,7 @@ export class PremixTableRowComponent {
   set micronutrient(micronutrient: FoodVehicleStandard) {
     this.data.next(micronutrient);
   }
-  private data = new BehaviorSubject<FoodVehicleStandard>(null);
+  private data = new Subject<FoodVehicleStandard>();
 
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
@@ -30,6 +30,7 @@ export class PremixTableRowComponent {
 
   constructor(public interventionDataService: InterventionDataService) {
     this.data.subscribe((mn: FoodVehicleStandard) => {
+      console.debug('mn:', mn);
       if (null != mn) {
         this.initTable(mn);
       }

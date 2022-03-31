@@ -91,9 +91,10 @@ export class InterventionDataService {
     this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
   }
 
-  public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): void {
+  public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
     this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
       return mnItem !== item;
     });
+    return this.cachedMnInPremix;
   }
 }
