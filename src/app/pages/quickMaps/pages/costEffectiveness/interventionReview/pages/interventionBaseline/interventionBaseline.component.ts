@@ -10,7 +10,7 @@ import {
   FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
-} from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
+} from 'src/app/apiAndObjects/objects/iiiiiiinterventionFoodVehicleStandards';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
