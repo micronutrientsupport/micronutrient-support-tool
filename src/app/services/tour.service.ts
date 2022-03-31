@@ -1,9 +1,6 @@
-import { ThrowStmt } from '@angular/compiler';
 import { ElementRef, Injectable } from '@angular/core';
 import * as Driver from 'driver.js';
-import { type } from 'os';
 import { BehaviorSubject } from 'rxjs';
-import { reduce } from 'rxjs/operators';
 
 @Injectable()
 export class TourService {
