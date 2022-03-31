@@ -8,7 +8,7 @@ import {
 import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
-} from 'src/app/apiAndObjects/objects/FIXinterventionFoodVehicleStandards';
+} from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';

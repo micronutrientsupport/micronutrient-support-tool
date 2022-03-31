@@ -1,7 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { DataLevel } from './enums/dataLevel.enum';
 import { BaselineAssumptions } from './interventionBaselineAssumptions';
-import { FoodVehicleStandard } from './FIXinterventionFoodVehicleStandards';
+import { FoodVehicleStandard } from './interventionFoodVehicleStandards';
 import { IndustryInformation } from './interventionIndustryInformation';
 import { MonitoringInformation } from './interventionMonitoringInformation';
 import { RecurringCost } from './interventionRecurringCosts';
