@@ -26,7 +26,6 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
     this.subscriptions.push(
       void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
         this.startupCosts = data.startupScaleupCosts;
-        // console.debug('data', data);
       }),
     );
   }

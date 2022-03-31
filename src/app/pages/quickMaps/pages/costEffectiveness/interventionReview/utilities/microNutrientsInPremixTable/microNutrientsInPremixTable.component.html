@@ -1,0 +1,24 @@
+<mat-accordion>
+    <mat-expansion-panel #panel hideToggle [expanded]="true"
+        [disabled]="interventionDataService.getMnInPremixCount() === 0">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span class="mat-typography">
+                    Other micronutrients in the premix ({{interventionDataService.getMnInPremixCount()}})
+                </span>
+                <mat-icon>{{panel.expanded ? 'expand_more' : 'expand_less'}}</mat-icon>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let micronutrient of micronutrients">
+            <app-premix-table-row [micronutrient]="micronutrient" [editable]="editable"
+                [baselineAssumptions]="baselineAssumptions">
+            </app-premix-table-row>
+        </div>
+
+    </mat-expansion-panel>
+</mat-accordion>
+
+<button class="add-mn-button" *ngIf="editable" mat-flat-button (click)="addMN()">
+    <mat-icon class="red-icon">add</mat-icon> Add micronutrient
+</button>

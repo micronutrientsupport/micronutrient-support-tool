@@ -5,7 +5,10 @@ import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
-import { InterventionFoodVehicleStandards } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
+import {
+  FoodVehicleStandard,
+  InterventionFoodVehicleStandards,
+} from '../apiAndObjects/objects/interventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
@@ -15,6 +18,9 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
   providedIn: 'root',
 })
 export class InterventionDataService {
+  private cachedMnInPremix: Array<FoodVehicleStandard> = [];
+
+  constructor(private apiService: ApiService) {}
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
@@ -73,5 +79,22 @@ export class InterventionDataService {
     this.interventionSummaryChartPDFSrc.next(chart);
   }
 
-  constructor(private apiService: ApiService) {}
+  public getCachedMnInPremix(): Array<FoodVehicleStandard> {
+    return this.cachedMnInPremix;
+  }
+
+  public getMnInPremixCount(): number {
+    return this.cachedMnInPremix.length;
+  }
+
+  public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
+    this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
+  }
+
+  public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
+    this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
+      return mnItem !== item;
+    });
+    return this.cachedMnInPremix;
+  }
 }

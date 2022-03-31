@@ -3,6 +3,10 @@
 table {
   width: 95%;
   margin-left: 2em;
+  background: none;
+  td.mat-cell {
+    border-bottom-color: rgba(0, 0, 0, 0);
+  }
   tr.mat-footer-row {
     font-weight: bold;
   }

@@ -35,8 +35,7 @@
     routerLinkActive="active-route">Simple dietary change scenarios</a>
   <a [disabled]="featureFlagsServive.isDisabled('CE-Enable')"
     class="mode-select-button quickmaps-cost-effectivness-link" mat-raised-button
-    [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" [queryParams]="route.queryParams | async">Explore cost
+    [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" [queryParams]="route.queryParams | async"
+    routerLinkActive="active-route">Explore cost
     effectiveness scenarios</a>
-  <!-- <a [disabled]="true" class="mode-select-button quickmaps-cost-effectivness-link" mat-raised-button>Explore cost
-    effectiveness scenarios</a> -->
 </div>
