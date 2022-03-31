@@ -33,13 +33,16 @@ export class InterventionCostSummaryDetailedStartupTableComponent implements OnI
         });
         const startUpCostSummary: StartUpCostSummary = {
           category: startUpCost.category,
-          year0CombinedTotal: year0Total,
-          year1CombinedTotal: year1Total,
+          year0CombinedTotal: startUpCost.costs
+            .map((costBreakdown: StartUpCosts) => costBreakdown['year0Total'])
+            .reduce((acc, value) => acc + value, 0),
+          year1CombinedTotal: startUpCost.costs
+            .map((costBreakdown: StartUpCosts) => costBreakdown['year1Total'])
+            .reduce((acc, value) => acc + value, 0),
         };
         dataArray.push(startUpCostSummary);
       });
 
-      console.log(dataArray);
       this.dataSource = new MatTableDataSource(dataArray);
     }
   }
@@ -49,6 +52,8 @@ export class InterventionCostSummaryDetailedStartupTableComponent implements OnI
   }
 
   public getTotalCost(yearKey: string): number {
-    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
+    return this.dataSource.data
+      .map((costBreakdown: StartUpCosts) => costBreakdown[yearKey])
+      .reduce((acc, value) => acc + value, 0);
   }
 }

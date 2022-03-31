@@ -31,6 +31,14 @@ export interface RecurringCosts {
   costBreakdown: Array<RecurringCostBreakdown>;
   year0Total: number;
   year1Total: number;
+  year2Total: number;
+  year3Total: number;
+  year4Total: number;
+  year5Total: number;
+  year6Total: number;
+  year7Total: number;
+  year8Total: number;
+  year9Total: number;
 }
 export interface RecurringCostBreakdown {
   name: string;
@@ -71,6 +79,21 @@ export interface RecurringCostBreakdown {
   dataSourceDefault: string;
   dataCitation: string;
 }
+
+export interface RecurringCostSummary {
+  category: string;
+  year0CombinedTotal: number;
+  year1CombinedTotal: number;
+  year2CombinedTotal: number;
+  year3CombinedTotal: number;
+  year4CombinedTotal: number;
+  year5CombinedTotal: number;
+  year6CombinedTotal: number;
+  year7CombinedTotal: number;
+  year8CombinedTotal: number;
+  year9CombinedTotal: number;
+}
+
 export enum RecurringCostsCategory {
   GOVERNMENT = 'Government-related recurring monitoring and management costs',
   RECURRING = 'Recurring premix costs',

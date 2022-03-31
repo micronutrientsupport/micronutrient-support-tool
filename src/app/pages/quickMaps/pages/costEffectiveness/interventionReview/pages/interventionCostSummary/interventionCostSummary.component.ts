@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
+import { InterventionRecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -20,6 +21,7 @@ export class InterventionCostSummaryComponent {
   public selectedTab: number;
   public summaryCosts: InterventionCostSummary;
   public startupCosts: Array<StartUpScaleUpCost>;
+  public recurringCosts: Array<RecurringCost>;
   public chartSummaryPNG = '';
   public chartSummaryPDF = '';
   private subscriptions = new Array<Subscription>();
@@ -46,6 +48,9 @@ export class InterventionCostSummaryComponent {
       }),
       void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
         this.startupCosts = data.startupScaleupCosts;
+      }),
+      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
+        this.recurringCosts = data.recurringCosts;
       }),
     );
   }

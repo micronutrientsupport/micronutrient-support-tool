@@ -35,7 +35,6 @@ export class InterventionCostSummaryQuickUndiscountedTableComponent implements O
       const dataArray = [];
       dataArray.push(this.summaryCosts.summaryCosts);
       this.dataSource = new MatTableDataSource(dataArray);
-      console.log('UNDISCOUNTED dataSource: ', dataArray);
 
       // Calculate the totals
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

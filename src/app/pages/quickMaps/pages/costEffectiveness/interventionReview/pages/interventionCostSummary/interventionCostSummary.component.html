@@ -39,7 +39,8 @@
               <app-intervention-cost-summary-detailed-startup-table *ngIf="null != startupCosts"
                 [startUpScaleUpCosts]="startupCosts">
               </app-intervention-cost-summary-detailed-startup-table>
-              <app-intervention-cost-summary-detailed-recurring-table>
+              <app-intervention-cost-summary-detailed-recurring-table *ngIf="null != recurringCosts"
+                [recurringCost]="recurringCosts">
               </app-intervention-cost-summary-detailed-recurring-table>
             </mat-tab>
             <mat-tab label="Graph">
