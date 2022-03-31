@@ -5,7 +5,7 @@ import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionB
 import {
   FoodVehicleCompound,
   FoodVehicleStandard,
-} from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
+} from 'src/app/apiAndObjects/objects/FIXinterventionFoodVehicleStandards';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({

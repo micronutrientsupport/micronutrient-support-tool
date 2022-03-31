@@ -8,7 +8,7 @@ import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
-} from '../apiAndObjects/objects/interventionFoodVehicleStandards';
+} from '../apiAndObjects/objects/FIXinterventionFoodVehicleStandards';
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
