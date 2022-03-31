@@ -5,7 +5,7 @@
       <app-side-nav-content [showGoButton]="showGoButton"></app-side-nav-content>
     </mat-sidenav>
     <div class="sidenav-content" [class.header-present]="showHeader">
-      <!-- <button (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">Tour</button> -->
+      <button (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">Tour</button>
       <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
       <router-outlet></router-outlet>
     </div>

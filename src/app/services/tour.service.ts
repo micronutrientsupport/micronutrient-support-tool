@@ -164,17 +164,17 @@ export class TourService {
     this.tourStepEnterObservable.subscribe((enteredElement) => {
       const elementRef = new ElementRef(document.querySelector('body'));
       if (enteredElement && elementRef && elementRef.nativeElement == enteredElement.nativeElement) {
-        setTimeout(
-          () =>
-            document.getElementById('overlayRunTourButton').addEventListener(
-              'click',
-              function () {
-                this.startTour('Quick MAPS Sidebar');
-              }.bind(this),
-              false,
-            ),
-          100,
-        );
+        // setTimeout(
+        //   () =>
+        //     document.getElementById('overlayRunTourButton').addEventListener(
+        //       'click',
+        //       function () {
+        //         this.startTour('Quick MAPS Sidebar');
+        //       }.bind(this),
+        //       false,
+        //     ),
+        //   100,
+        // );
       }
     });
   }
