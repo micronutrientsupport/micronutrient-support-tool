@@ -36,7 +36,6 @@ export class InterventionRecurringCostsComponent {
     this.subscriptions.push(
       void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
         this.recurringCosts = data.recurringCosts;
-        // console.debug('data', data);
       }),
     );
   }

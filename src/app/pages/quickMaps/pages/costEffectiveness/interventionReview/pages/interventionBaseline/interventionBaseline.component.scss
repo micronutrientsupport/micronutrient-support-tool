@@ -20,6 +20,12 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  .standard {
+    width: 85%;
+  }
+  .compliance {
+    width: 100%;
+  }
 }
 // .subheader-container {
 //   display: flex;
@@ -41,6 +47,7 @@
 
 table {
   width: 95%;
+  table-layout: fixed;
 }
 .intervention-baseline-panel {
   display: flex;
@@ -50,15 +57,10 @@ table {
   border-radius: 10px;
 }
 
-.item {
-  flex-grow: 1;
-  display: flex;
-  justify-content: left;
-  align-items: left;
-}
 .item-input {
   border-radius: 5px;
 }
+
 .mat-icon-button {
   color: $color_primary;
   margin-left: 35px;
@@ -67,6 +69,7 @@ table {
 .double-cell {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 input {
   width: 50px;
@@ -82,4 +85,17 @@ th {
 input:focus {
   outline: none;
   border: 1px solid blue;
+}
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 4em;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
 }

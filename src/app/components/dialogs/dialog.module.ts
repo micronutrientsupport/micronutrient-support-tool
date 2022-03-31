@@ -14,7 +14,7 @@ import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenario
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
 import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/ceFortificationInfoDialogcomponent';
@@ -39,7 +39,7 @@ import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCos
     SectionRecurringCostReviewDialogComponent,
     SectionStartUpCostReviewDialogComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule],
+  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule, ReactiveFormsModule],
   exports: [BaseDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
