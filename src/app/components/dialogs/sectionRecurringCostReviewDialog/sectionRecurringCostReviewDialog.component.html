@@ -1,73 +1,73 @@
 <app-base-dialog [data]="dialogData">
-    <div class="bmgf-maps-nice-scrollbar">
-        <div class="title">
-            <span>{{title}}</span>
-        </div>
-        <table mat-table [dataSource]="dataSource" matSort class="tableFullWidth">
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Years of start-up or scale-up</th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                <td mat-footer-cell *matFooterCellDef>Total</td>
-            </ng-container>
-            <ng-container matColumnDef="year0">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
-                <td mat-cell *matCellDef="let element">{{element.year0 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year1">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
-                <td mat-cell *matCellDef="let element">{{element.year1 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year2">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2023</th>
-                <td mat-cell *matCellDef="let element">{{element.year2 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year3">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2024</th>
-                <td mat-cell *matCellDef="let element">{{element.year3 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year4">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2025</th>
-                <td mat-cell *matCellDef="let element">{{element.year4 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year5">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2026</th>
-                <td mat-cell *matCellDef="let element">{{element.year5 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year6">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2027</th>
-                <td mat-cell *matCellDef="let element">{{element.year6 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year7">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2028</th>
-                <td mat-cell *matCellDef="let element">{{element.year7 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year8">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2029</th>
-                <td mat-cell *matCellDef="let element">{{element.year8 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currency}} </td>
-            </ng-container>
-            <ng-container matColumnDef="year9">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>2030</th>
-                <td mat-cell *matCellDef="let element">{{element.year9 | currency}}</td>
-                <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currency}} </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
-            <tr class="mat-row" *matNoDataRow></tr>
-            <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
-        </table>
-        <div class="button-container">
-            <button mat-raised-button (click)="dialogData.close()">Back</button>
-            <button mat-raised-button color="primary">Confirm current values and return to recurring cost
-                summary</button>
-        </div>
+  <div class="bmgf-maps-nice-scrollbar">
+    <div class="title">
+      <span>{{title}}</span>
     </div>
+    <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Years of start-up or scale-up</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+      <ng-container matColumnDef="year0">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
+        <td mat-cell *matCellDef="let element">{{element.year0 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2022</th>
+        <td mat-cell *matCellDef="let element">{{element.year1 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2023</th>
+        <td mat-cell *matCellDef="let element">{{element.year2 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year3">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2024</th>
+        <td mat-cell *matCellDef="let element">{{element.year3 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year4">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2025</th>
+        <td mat-cell *matCellDef="let element">{{element.year4 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year5">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2026</th>
+        <td mat-cell *matCellDef="let element">{{element.year5 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year6">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2027</th>
+        <td mat-cell *matCellDef="let element">{{element.year6 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year7">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2028</th>
+        <td mat-cell *matCellDef="let element">{{element.year7 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year8">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2029</th>
+        <td mat-cell *matCellDef="let element">{{element.year8 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currency}} </td>
+      </ng-container>
+      <ng-container matColumnDef="year9">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2030</th>
+        <td mat-cell *matCellDef="let element">{{element.year9 | currency}}</td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currency}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
+      <tr class="mat-row" *matNoDataRow></tr>
+      <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
+    </table>
+    <div class="button-container">
+      <button mat-raised-button (click)="dialogData.close()">Back</button>
+      <button mat-raised-button color="primary">Confirm current values and return to recurring cost
+        summary</button>
+    </div>
+  </div>
 </app-base-dialog>
