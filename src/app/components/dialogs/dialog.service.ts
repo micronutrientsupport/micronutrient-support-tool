@@ -19,7 +19,7 @@ import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenario
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
-import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog copy/sectionSummaryRecurringCostReviewDialog.component';
+import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
