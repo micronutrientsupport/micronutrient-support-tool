@@ -4,6 +4,7 @@ import { QuickMapsService } from './quickMaps.service';
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
 import { TourService } from 'src/app/services/tour.service';
+import { FeatureFlagsService } from 'src/app/services/featureFlags.service';
 
 @Component({
   selector: 'app-quickmaps',
@@ -19,6 +20,7 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     public quickMapsService: QuickMapsService,
     public tourService: TourService,
+    public featureFlagsService: FeatureFlagsService,
   ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
@@ -39,18 +41,20 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
-      console.log(hasSeenTour);
-      if (!hasSeenTour) {
-        console.log('Request the quick-maps sidebar tour');
-        this.tourService.startTour('Welcome to Quick MAPS');
-        this.tourService.createOverlayWelcomeTour();
-        localStorage.setItem('has-viewed-tour', 'true');
-      } else {
-        console.log('Tour already viewed so skipping');
-      }
-    });
+    if (this.featureFlagsService.isEnabled('quick-maps-loading-tour')) {
+      setTimeout(() => {
+        const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
+        console.log(hasSeenTour);
+        if (!hasSeenTour || this.featureFlagsService.isEnabled('quick-maps-tour-always')) {
+          console.log('Request the quick-maps sidebar tour');
+          this.tourService.startTour('Welcome to Quick MAPS');
+          this.tourService.createOverlayWelcomeTour();
+          localStorage.setItem('has-viewed-tour', 'true');
+        } else {
+          console.log('Tour already viewed so skipping');
+        }
+      });
+    }
   }
 
   ngOnInit(): void {
