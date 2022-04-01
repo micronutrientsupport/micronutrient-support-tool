@@ -39,7 +39,7 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout((_) => {
+    setTimeout(() => {
       const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
       console.log(hasSeenTour);
       if (!hasSeenTour) {
