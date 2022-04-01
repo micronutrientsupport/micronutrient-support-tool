@@ -72,8 +72,6 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       });
     });
 
-    console.log(yearlyChartData);
-
     const generatedChart: ChartJSObject = {
       type: 'bar',
       data: yearlyChartData,

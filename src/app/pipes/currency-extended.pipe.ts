@@ -17,7 +17,6 @@ export class CurrencyExtendedPipe extends CurrencyPipe implements PipeTransform 
     // locale?: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any {
-    console.log(value);
     if (value === null) {
       return super.transform(0);
     }
