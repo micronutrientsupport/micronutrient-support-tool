@@ -84,7 +84,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     };
 
     this.chartData = generatedChart;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.interventionDataService.setInterventionSummaryChartPNG(
       this.qcService.getChartAsImageUrl(chartForRender, 'png'),

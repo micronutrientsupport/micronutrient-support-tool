@@ -144,7 +144,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
         this.errorSrc.next(false);
         this.chartDataStack = null;
         this.chartDataLine = null;
-
+        console.log('----> ', monthlyChartData);
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter

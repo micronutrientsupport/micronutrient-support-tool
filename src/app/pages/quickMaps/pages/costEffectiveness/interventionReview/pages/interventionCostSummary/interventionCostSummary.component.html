@@ -44,10 +44,11 @@
               </app-intervention-cost-summary-detailed-recurring-table>
             </mat-tab>
             <mat-tab label="Graph">
-              <app-intervention-cost-summary-detailed-total-graph></app-intervention-cost-summary-detailed-total-graph>
+              <app-intervention-cost-summary-detailed-total-graph *ngIf="null != recurringCosts"
+                [recurringCost]="recurringCosts"></app-intervention-cost-summary-detailed-total-graph>
             </mat-tab>
             <mat-tab label="Download">
-              <app-download></app-download>
+              <app-download [chartDownloadPNG]="chartDetailedPNG" [chartDownloadPDF]="chartDetailedPDF"></app-download>
             </mat-tab>
           </mat-tab-group>
         </div>

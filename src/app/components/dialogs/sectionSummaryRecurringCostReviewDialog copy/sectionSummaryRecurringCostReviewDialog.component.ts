@@ -1,11 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  RecurringCosts,
-  RecurringCostBreakdown,
-  RecurringCost,
-} from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({

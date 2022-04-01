@@ -3,7 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import ColorHash from 'color-hash-ts';
+import { QuickchartService } from 'src/app/services/quickChart.service';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({
   selector: 'app-intervention-cost-summary-detailed-total-graph',
@@ -11,7 +13,8 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./graphCosts.component.scss'],
 })
 export class InterventionCostSummaryDetailedCostsGraphComponent implements OnInit {
-  @Input() recurringCost: RecurringCost;
+  @Input() recurringCost: Array<RecurringCost>;
+
   public chartData: ChartJSObject;
 
   public dataSource = new MatTableDataSource<RecurringCosts>();
@@ -29,43 +32,51 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     'year9Total',
   ];
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
 
   ngOnInit(): void {
-    this.initialiseGraph();
+    if (null != this.recurringCost) {
+      this.initialiseGraph();
+    }
   }
 
   public openSectionCostReviewDialog(costs: RecurringCosts): void {
     console.debug(costs);
   }
 
-  // TODO: This is dummy data until API calls are available to populate
   private initialiseGraph(): void {
+    const timePeriod = ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+    const yearlyChartData = {
+      labels: timePeriod,
+      datasets: [],
+    };
+
+    this.recurringCost.forEach((rc: RecurringCost) => {
+      rc.costs.forEach((data: RecurringCosts) => {
+        yearlyChartData.datasets.push({
+          label: data.section,
+          data: [
+            data.year0Total,
+            data.year1Total,
+            data.year2Total,
+            data.year3Total,
+            data.year4Total,
+            data.year5Total,
+            data.year6Total,
+            data.year7Total,
+            data.year8Total,
+            data.year9Total,
+          ],
+          backgroundColor: this.genColorHex(data.section),
+        });
+      });
+    });
+
+    console.log(yearlyChartData);
+
     const generatedChart: ChartJSObject = {
       type: 'bar',
-      data: {
-        labels: ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
-        datasets: [
-          {
-            label: 'Premix',
-            backgroundColor: () => '#809ec2',
-            data: [0, 2, 3, 2, 8, 9, 10, 11, 12, 13],
-            fill: true,
-          },
-          {
-            label: 'Industry',
-            backgroundColor: () => '#9c85c0',
-            data: [0, 1.5, 2, 3, 9, 9.5, 15, 10, 10, 15],
-            fill: true,
-          },
-          {
-            label: 'Government',
-            backgroundColor: () => '#f3a447',
-            data: [0, 1.5, 7, 8, 13, 9.5, 10.5, 10, 10, 15],
-            fill: true,
-          },
-        ],
-      },
+      data: yearlyChartData,
       options: {
         title: {
           display: true,
@@ -81,19 +92,17 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
           xAxes: [
             {
               stacked: true,
-              display: true,
-              id: 'x-axis-0',
             },
           ],
           yAxes: [
             {
+              stacked: true,
               scaleLabel: {
                 display: true,
                 labelString: 'Thousands of 2021 USD',
               },
 
               display: true,
-              id: 'y-axis-0',
             },
           ],
         },
@@ -101,5 +110,17 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     };
 
     this.chartData = generatedChart;
+    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    this.interventionDataService.setInterventionDetailedChartPNG(
+      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
+    );
+    this.interventionDataService.setInterventionDetailedChartPDF(
+      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
+    );
+  }
+
+  private genColorHex(foodTypeIndex: string) {
+    const colorHash = new ColorHash();
+    return colorHash.hex(foodTypeIndex);
   }
 }

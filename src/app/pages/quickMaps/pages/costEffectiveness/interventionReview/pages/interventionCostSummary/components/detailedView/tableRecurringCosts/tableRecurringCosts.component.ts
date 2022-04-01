@@ -33,7 +33,6 @@ export class InterventionCostSummaryDetailedRecurringTableComponent implements O
     if (null != this.recurringCost) {
       const dataArray = [];
 
-      console.log(this.recurringCost);
       this.recurringCost.forEach((rc: RecurringCost) => {
         const recurringCostSummary: RecurringCostSummary = {
           category: rc.category,

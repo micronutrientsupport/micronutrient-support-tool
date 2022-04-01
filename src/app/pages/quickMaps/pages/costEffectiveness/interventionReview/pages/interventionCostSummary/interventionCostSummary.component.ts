@@ -24,6 +24,8 @@ export class InterventionCostSummaryComponent {
   public recurringCosts: Array<RecurringCost>;
   public chartSummaryPNG = '';
   public chartSummaryPDF = '';
+  public chartDetailedPNG = '';
+  public chartDetailedPDF = '';
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -35,6 +37,7 @@ export class InterventionCostSummaryComponent {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
 
     this.subscriptions.push(
+      // Summary tab subscriptions
       void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
         this.summaryCosts = data;
       }),
@@ -46,11 +49,21 @@ export class InterventionCostSummaryComponent {
         this.chartSummaryPDF = chart;
         this.cdRef.detectChanges();
       }),
+
+      // Detailed tab subscripttions
       void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
         this.startupCosts = data.startupScaleupCosts;
       }),
       void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
         this.recurringCosts = data.recurringCosts;
+      }),
+      void this.interventionDataService.interventionDetailedChartPNGObs.subscribe((chart: string) => {
+        this.chartDetailedPNG = chart;
+        this.cdRef.detectChanges();
+      }),
+      void this.interventionDataService.interventionDetailedChartPDFObs.subscribe((chart: string) => {
+        this.chartDetailedPDF = chart;
+        this.cdRef.detectChanges();
       }),
     );
   }
