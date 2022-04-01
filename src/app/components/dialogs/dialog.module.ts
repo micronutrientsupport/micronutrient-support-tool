@@ -21,6 +21,7 @@ import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/
 import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog copy/sectionSummaryRecurringCostReviewDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -38,6 +39,7 @@ import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCos
     CeCalculatedFortificationInfoDialogComponent,
     SectionRecurringCostReviewDialogComponent,
     SectionStartUpCostReviewDialogComponent,
+    SectionSummaryRecurringCostReviewDialogComponent,
   ],
   imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule, ReactiveFormsModule],
   exports: [BaseDialogComponent],

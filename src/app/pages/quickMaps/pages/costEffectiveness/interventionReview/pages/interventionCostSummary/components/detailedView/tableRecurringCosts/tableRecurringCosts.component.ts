@@ -74,8 +74,12 @@ export class InterventionCostSummaryDetailedRecurringTableComponent implements O
     }
   }
 
-  public openSectionCostReviewDialog(costs: RecurringCosts): void {
-    console.debug(costs);
+  public openSectionRecurringCostReviewDialog(category: string): void {
+    const selectedRecurringCost: RecurringCost = this.recurringCost.find((obj) => {
+      return obj.category === category;
+    });
+    console.log(selectedRecurringCost);
+    this.dialogService.openSectionSummaryRecurringCostReviewDialog(selectedRecurringCost);
   }
 
   public getTotalCost(yearKey: string): number {

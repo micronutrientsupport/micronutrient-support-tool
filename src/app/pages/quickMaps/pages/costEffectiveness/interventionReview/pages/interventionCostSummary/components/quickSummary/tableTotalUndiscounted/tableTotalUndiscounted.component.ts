@@ -42,8 +42,4 @@ export class InterventionCostSummaryQuickUndiscountedTableComponent implements O
       this.totalUndiscounted = unDiscountedValues.reduce((acc, value) => acc + value, 0);
     }
   }
-
-  public openSectionCostReviewDialog(costs: RecurringCosts): void {
-    console.debug(costs);
-  }
 }
