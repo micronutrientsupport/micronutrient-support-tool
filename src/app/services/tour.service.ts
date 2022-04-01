@@ -1,7 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import * as Driver from 'driver.js';
 import { BehaviorSubject } from 'rxjs';
-
 @Injectable()
 export class TourService {
   tourDriver: Driver;
@@ -34,7 +33,7 @@ export class TourService {
           if (currentStep < 0 || currentStep === totalSteps) {
             // if it's the end of the tour, mark it as so
             this.tourActive = false;
-            this.tourCurrentStep = 0;
+            this.tourCurrentStep = -1;
           }
         }
       },
@@ -58,8 +57,6 @@ export class TourService {
         this.tourStepEnter.next(highlightedElementRef);
       },
     });
-
-    this.createOverlayWelcomeTour();
   }
 
   private tourStepIsDefined(tourName: string, step: number) {
@@ -83,11 +80,8 @@ export class TourService {
   }
 
   public startTour(tourName?: string, event?: Event, stage?: number): void {
-    console.log(
-      `Set tour ${tourName} running at position ${
-        typeof stage !== 'undefined' ? stage : this.tourCurrentStep > 0 ? this.tourCurrentStep : 0
-      }`,
-    );
+    const startStep = typeof stage !== 'undefined' ? stage : this.tourCurrentStep > 0 ? this.tourCurrentStep : 0;
+    console.log(`Set tour ${tourName} running at position ${startStep}`);
 
     if (this.tourCurrentName !== tourName) {
       console.log('Switching tours');
@@ -95,11 +89,10 @@ export class TourService {
     }
     this.tourActive = true;
     this.tourCurrentName = tourName;
+    this.tourCurrentStep = startStep;
 
     if (this.tourSteps.has(tourName)) {
       this.updateTourRunnerSteps(tourName);
-      const startStep = typeof stage !== 'undefined' ? stage : this.tourCurrentStep > 0 ? this.tourCurrentStep : 0;
-      //this.tourDriver.reset();
       this.tourDriver.start(startStep);
     }
     event ? event.stopPropagation() : null;
@@ -164,17 +157,17 @@ export class TourService {
     this.tourStepEnterObservable.subscribe((enteredElement) => {
       const elementRef = new ElementRef(document.querySelector('body'));
       if (enteredElement && elementRef && elementRef.nativeElement == enteredElement.nativeElement) {
-        // setTimeout(
-        //   () =>
-        //     document.getElementById('overlayRunTourButton').addEventListener(
-        //       'click',
-        //       function () {
-        //         this.startTour('Quick MAPS Sidebar');
-        //       }.bind(this),
-        //       false,
-        //     ),
-        //   100,
-        // );
+        setTimeout(
+          () =>
+            document.getElementById('overlayRunTourButton').addEventListener(
+              'click',
+              function () {
+                this.startTour('Quick MAPS Sidebar');
+              }.bind(this),
+              false,
+            ),
+          100,
+        );
       }
     });
   }

@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { QuickMapsService } from './quickMaps.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { TourService } from 'src/app/services/tour.service';
   templateUrl: './quickMaps.component.html',
   styleUrls: ['./quickMaps.component.scss'],
 })
-export class QuickMapsComponent implements OnInit, AfterContentInit {
+export class QuickMapsComponent implements OnInit, AfterViewInit {
   public showHeader = false;
   public showGoButton = false;
 
@@ -38,9 +38,19 @@ export class QuickMapsComponent implements OnInit, AfterContentInit {
     });
   }
 
-  ngAfterContentInit(): void {
-    console.log('Request the quick-maps sidebar tour');
-    this.tourService.startTour('Welcome to Quick MAPS');
+  ngAfterViewInit(): void {
+    setTimeout((_) => {
+      const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
+      console.log(hasSeenTour);
+      if (!hasSeenTour) {
+        console.log('Request the quick-maps sidebar tour');
+        this.tourService.startTour('Welcome to Quick MAPS');
+        this.tourService.createOverlayWelcomeTour();
+        localStorage.setItem('has-viewed-tour', 'true');
+      } else {
+        console.log('Tour already viewed so skipping');
+      }
+    });
   }
 
   ngOnInit(): void {

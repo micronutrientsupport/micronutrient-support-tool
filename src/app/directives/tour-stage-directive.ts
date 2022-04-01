@@ -29,7 +29,7 @@ export class TourStageDirective implements OnInit {
         this.tourForwardFunction.emit();
         if (this.tourTrigger) {
           console.log(`Triggering tour ${this.tourTrigger}`);
-          this.tourService.startTour(this.tourTrigger, null, 0);
+          this.tourService.startTour(this.tourTrigger, null, -1);
         }
       }
     });
