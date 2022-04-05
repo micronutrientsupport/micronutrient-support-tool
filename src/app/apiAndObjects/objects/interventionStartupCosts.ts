@@ -52,3 +52,9 @@ export interface StartUpCostBreakdown {
   dataSourceDefault: string;
   dataCitation: string;
 }
+
+export interface StartUpCostSummary {
+  category: string;
+  year0CombinedTotal: number;
+  year1CombinedTotal: number;
+}

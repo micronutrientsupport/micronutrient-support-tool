@@ -21,6 +21,8 @@ import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/
 import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -38,8 +40,18 @@ import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCos
     CeCalculatedFortificationInfoDialogComponent,
     SectionRecurringCostReviewDialogComponent,
     SectionStartUpCostReviewDialogComponent,
+    SectionSummaryRecurringCostReviewDialogComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, ShareModule, RouterModule, RoutesModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AppMaterialModule,
+    ShareModule,
+    RouterModule,
+    RoutesModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PipesModule,
+  ],
   exports: [BaseDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

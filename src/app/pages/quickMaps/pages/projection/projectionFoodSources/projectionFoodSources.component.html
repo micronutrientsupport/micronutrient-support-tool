@@ -67,11 +67,12 @@
       <div class="bmgf-maps-nice-scrollbar">
         <table mat-table [dataSource]="dataSource" matSort>
           <ng-container matColumnDef="name" sticky>
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ selectedGroup }}</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ selectedGroup }}</th>
             <td mat-cell *matCellDef="let element; let i = index">{{ element?.name }}</td>
           </ng-container>
           <ng-container matColumnDef="value" sticky>
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ micronutrientName }} in {{ mnUnit }}/capita/day
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{ micronutrientName }} in {{
+              mnUnit }}/capita/day
             </th>
             <td mat-cell *matCellDef="let element; let i = index">{{ element?.value }}</td>
           </ng-container>
