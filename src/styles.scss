@@ -109,3 +109,17 @@ div#driver-popover-item {
 #driver-page-overlay {
   opacity: 0.5 !important;
 }
+
+// Force mat-fab-menu to be the same size as mat-mini-fab
+.mat-fab {
+  & .mat-button-wrapper {
+    padding: 7px 0 !important;
+  }
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 0 !important;
+}
+
+.mat-mini-fab {
+  margin-bottom: 0 !important;
+}

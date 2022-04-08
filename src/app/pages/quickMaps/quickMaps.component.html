@@ -8,6 +8,13 @@
       <!-- <button (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">Tour</button> -->
       <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
       <router-outlet></router-outlet>
+      <div class="help-fab-container">
+        <button mat-fab matTooltip="View help content" color="accent"
+          aria-label="Example icon button with a filter list icon"
+          (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">
+          <mat-icon>help</mat-icon>
+        </button>
+      </div>
     </div>
   </mat-sidenav-container>
 </div>
