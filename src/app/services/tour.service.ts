@@ -1,6 +1,9 @@
+import { ThrowStmt } from '@angular/compiler';
 import { ElementRef, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as Driver from 'driver.js';
 import { BehaviorSubject } from 'rxjs';
+import { QuickMapsService } from '../pages/quickMaps/quickMaps.service';
 @Injectable()
 export class TourService {
   tourDriver: Driver;
@@ -18,11 +21,38 @@ export class TourService {
   private readonly tourStepForward = new BehaviorSubject<ElementRef>(null);
   public tourStepForwardObservable = this.tourStepForward.asObservable();
 
-  constructor() {
+  getScrollParent = (node: HTMLElement): HTMLElement => {
+    if (node === null) {
+      return null;
+    }
+
+    if (node.scrollHeight > node.clientHeight) {
+      return node;
+    } else {
+      return this.getScrollParent(node.parentElement);
+    }
+  };
+
+  constructor(private router: Router, private quickMapsService: QuickMapsService) {
     this.tourSteps = new Map<string, Map<number, Driver.Step>>();
     this.tourDriver = new Driver({
-      onHighlightStarted: () => {
-        //
+      onHighlightStarted: (Element) => {
+        console.log(Element.isInView());
+        const position = Element.getCalculatedPosition();
+        const top = (position as any).top;
+        const left = (position as any).left;
+        console.log(top, left);
+
+        console.log(`Element = `, Element.getNode());
+        console.log(`Scrollparent =`, this.getScrollParent(Element.getNode() as HTMLElement));
+
+        const parent = this.getScrollParent(Element.getNode() as HTMLElement);
+        if (parent) {
+          const offset = parent.offsetTop;
+          const height = Element.getSize().height;
+          console.log(`Scroll`, parent, ` to ${0}, ${top}-${offset}-${height}=${top - offset - height}`);
+          parent.scrollTo(0, top - offset - height);
+        }
       },
       opacity: 0.5,
       onReset: () => {
@@ -146,7 +176,10 @@ export class TourService {
         className: 'popup-overlay',
         title: 'Welcome to QuickMAPS',
         description:
-          '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mollis mollis turpis, auctor sollicitudin lorem sagittis ut. Sed pharetra dui iaculis urna scelerisque tincidunt. Nam a mauris id lorem lobortis suscipit. Mauris felis magna, lobortis a arcu nec, porta faucibus tellus. Aliquam aliquet cursus volutpat. Nam felis nunc, volutpat ac efficitur eget, tincidunt quis nulla. Duis iaculis pulvinar tortor, id vestibulum arcu consectetur et. Fusce consectetur nisl ut neque sollicitudin, quis consequat est suscipit. Vestibulum eu nibh lacinia, mollis mi et, egestas dui. Nunc eu neque tincidunt, bibendum purus id, venenatis nibh. Proin sit amet sodales nisl.</p><p>Praesent pharetra non leo vel pellentesque. Nam id tortor augue. Sed ac pulvinar nulla, sed consequat quam. Cras elit dui, fermentum eu elementum non, condimentum et mauris. Mauris placerat diam non tortor semper, eu lobortis velit hendrerit. Nam sed urna erat. Aenean feugiat fermentum est, ut placerat nulla porttitor eget.</p> \
+          '<p>This version of the MAPS tool is released for user-testing and feedback: we would be delighted to receive your views on the ease of use of the tool before you leave our site, using the button at the top of the page. We also have a ‘submit feedback’ button on the right side of the screen – this can be used for feedback on content on the specific part of the tool you are looking at, at any time.</p> \
+          <p class="mat-body-strong">As we are still testing and improving the interface and underlying system and data operations, we do not recommend using the outputs for decision making until this process is completed in the next few months.</p> \
+          <p>If you would like to request, or up-vote, features operationalised in the tool, please use the ‘feature request’ button above to do this.</p> \
+          <p>Cookies – the MAPS tool does not currently use any cookies or store any data about users.</p> \
           <p class="text-center"><button class="driver-button" id="overlayRunTourButton">View a tour of Quick MAPS</button></p>',
         position: 'mid-center',
       },
@@ -157,17 +190,17 @@ export class TourService {
     this.tourStepEnterObservable.subscribe((enteredElement) => {
       const elementRef = new ElementRef(document.querySelector('body'));
       if (enteredElement && elementRef && elementRef.nativeElement == enteredElement.nativeElement) {
-        setTimeout(
-          () =>
-            document.getElementById('overlayRunTourButton').addEventListener(
-              'click',
-              function () {
-                this.startTour('Quick MAPS Sidebar');
-              }.bind(this),
-              false,
-            ),
-          100,
-        );
+        setTimeout(() => {
+          document.getElementById('overlayRunTourButton').addEventListener(
+            'click',
+            function () {
+              this.quickMapsService.sideNavOpen();
+              this.router.navigate(['/quick-maps']);
+              this.startTour('Quick MAPS Sidebar');
+            }.bind(this),
+            false,
+          );
+        });
       }
     });
   }
