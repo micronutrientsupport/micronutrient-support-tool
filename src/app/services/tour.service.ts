@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { ElementRef, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as Driver from 'driver.js';
@@ -39,8 +38,8 @@ export class TourService {
       onHighlightStarted: (Element) => {
         console.log(Element.isInView());
         const position = Element.getCalculatedPosition();
-        const top = (position as any).top;
-        const left = (position as any).left;
+        const top = (position as unknown as Record<string, number>).top;
+        const left = (position as unknown as Record<string, number>).left;
         console.log(top, left);
 
         console.log(`Element = `, Element.getNode());
