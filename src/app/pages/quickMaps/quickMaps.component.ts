@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
 import { TourService } from 'src/app/services/tour.service';
 import { FeatureFlagsService } from 'src/app/services/featureFlags.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+// import { NgxFeedbackService } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
+// import { ModalComponent } from 'ngx-feedback-maps/projects/ngx-feedback-maps/src/lib/components/modal/modal.component';
 
 @Component({
   selector: 'app-quickmaps',
@@ -21,6 +24,7 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
     public quickMapsService: QuickMapsService,
     public tourService: TourService,
     public featureFlagsService: FeatureFlagsService,
+    public modalService: DialogService,
   ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
@@ -79,5 +83,10 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
     } else {
       return activatedRoute;
     }
+  }
+
+  public doTheThing(): void {
+    this.modalService.openIframeDialog('https://app.useberry.com/t/WQIk70PjZfwd/');
+    // this.modalService.openDialogForComponent(ModalComponent);
   }
 }

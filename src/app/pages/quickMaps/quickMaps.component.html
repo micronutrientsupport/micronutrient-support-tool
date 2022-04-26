@@ -14,6 +14,11 @@
           (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">
           <mat-icon>help</mat-icon>
         </button>
+        <button mat-fab matTooltip="View help content" color="accent"
+          aria-label="Example icon button with a filter list icon" (click)="doTheThing()">
+          <!-- (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)"> -->
+          <mat-icon>feedback</mat-icon>
+        </button>
       </div>
     </div>
   </mat-sidenav-container>

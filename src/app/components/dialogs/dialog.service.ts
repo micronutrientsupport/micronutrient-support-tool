@@ -12,6 +12,7 @@ import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
+import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
@@ -28,6 +29,11 @@ export class DialogService extends BaseDialogService {
 
   public openShareDialog(shareLink: string): Promise<DialogData> {
     return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
+  }
+
+  public openIframeDialog(IframeUrl: string): Promise<DialogData> {
+    console.log('Opening', IframeUrl);
+    return this.openDialog('iFrameDialog', IframeDialogComponent, true, { IframeUrl });
   }
 
   public openDialogForComponent<T = unknown>(
