@@ -167,40 +167,9 @@ export class TourService {
     }
   }
 
-  public createOverlayWelcomeTour(): void {
-    this.addStep(
-      'Welcome to Quick MAPS',
-      'body',
-      {
-        className: 'popup-overlay',
-        title: 'Welcome to QuickMAPS',
-        description:
-          '<p class="text-center"><img style="width: 30%; max-width: 100px;" src="https://micronutrient.support/images/logo.svg"></p> \
-          <p>This version of the MAPS tool is released for user-testing and feedback: we would be delighted to receive your views on the ease of use of the tool before you leave our site, using the button at the top of the page. We also have a ‘submit feedback’ button on the right side of the screen – this can be used for feedback on content on the specific part of the tool you are looking at, at any time.</p> \
-          <p class="mat-body-strong">As we are still testing and improving the interface and underlying system and data operations, we do not recommend using the outputs for decision making until this process is completed in the next few months.</p> \
-          <p>If you would like to request, or up-vote, features operationalised in the tool, please use the <a href="https://features.micronutrient.support" target="_blank">Feature Resuest Portal</a> to do this.</p> \
-          <p class="text-center"><button class="driver-button" id="overlayRunTourButton">View a tour of Quick MAPS</button></p>',
-        position: 'mid-center',
-      },
-      0,
-      true,
-    );
-
-    this.tourStepEnterObservable.subscribe((enteredElement) => {
-      const elementRef = new ElementRef(document.querySelector('body'));
-      if (enteredElement && elementRef && elementRef.nativeElement == enteredElement.nativeElement) {
-        setTimeout(() => {
-          document.getElementById('overlayRunTourButton').addEventListener(
-            'click',
-            function () {
-              this.quickMapsService.sideNavOpen();
-              this.router.navigate(['/quick-maps']);
-              this.startTour('Quick MAPS Sidebar');
-            }.bind(this),
-            false,
-          );
-        });
-      }
-    });
+  public startQuickMapsTour(evt: Event): void {
+    this.quickMapsService.sideNavOpen();
+    this.router.navigate(['/quick-maps']);
+    this.startTour('Quick MAPS Sidebar', evt, 0);
   }
 }

@@ -21,6 +21,7 @@ import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDi
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
+import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
   constructor(public dialog: MatDialog) {
@@ -34,6 +35,18 @@ export class DialogService extends BaseDialogService {
   public openIframeDialog(IframeUrl: string): Promise<DialogData> {
     console.log('Opening', IframeUrl);
     return this.openDialog('iFrameDialog', IframeDialogComponent, true, { IframeUrl });
+  }
+
+  public openWelcomeDialog(IframeUrl: string): Promise<DialogData> {
+    return this.openDialog(
+      'welcomeDialog',
+      WelcomeDialogComponent,
+      true,
+      { IframeUrl },
+      {
+        width: '60vw',
+      },
+    );
   }
 
   public openDialogForComponent<T = unknown>(

@@ -50,9 +50,7 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
         const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
         console.log(hasSeenTour);
         if (!hasSeenTour || this.featureFlagsService.isEnabled('quick-maps-tour-always')) {
-          console.log('Request the quick-maps sidebar tour');
-          this.tourService.startTour('Welcome to Quick MAPS');
-          this.tourService.createOverlayWelcomeTour();
+          this.openWelcomeDialog();
           localStorage.setItem('has-viewed-tour', 'true');
         } else {
           console.log('Tour already viewed so skipping');
@@ -85,7 +83,12 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public doTheThing(): void {
+  public openWelcomeDialog(): void {
+    this.modalService.openWelcomeDialog('hello');
+  }
+
+  public openFeedbackSurvey(): void {
+    //this.modalService.openWelcomeDialog('hello');
     this.modalService.openIframeDialog('https://app.useberry.com/t/WQIk70PjZfwd/');
     // this.modalService.openDialogForComponent(ModalComponent);
   }

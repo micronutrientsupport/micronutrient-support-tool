@@ -1,0 +1,12 @@
+@import 'src/assets/scss/_colour.scss';
+
+.title {
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.warning {
+  color: $color_primary;
+}

@@ -10,12 +10,11 @@
       <router-outlet></router-outlet>
       <div class="help-fab-container">
         <button mat-fab matTooltip="View help content" color="accent"
-          aria-label="Example icon button with a filter list icon"
-          (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">
+          aria-label="Example icon button with a filter list icon" (click)="openWelcomeDialog()">
           <mat-icon>help</mat-icon>
         </button>
         <button mat-fab matTooltip="View help content" color="accent"
-          aria-label="Example icon button with a filter list icon" (click)="doTheThing()">
+          aria-label="Example icon button with a filter list icon" (click)="openFeedbackSurvey()">
           <!-- (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)"> -->
           <mat-icon>feedback</mat-icon>
         </button>
