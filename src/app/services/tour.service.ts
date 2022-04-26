@@ -53,7 +53,7 @@ export class TourService {
           parent.scrollTo(0, top - offset - height);
         }
       },
-      opacity: 0.5,
+      opacity: 0.32,
       onReset: () => {
         const currentStep = this.tourCurrentStep;
         if (this.tourSteps.has(this.tourCurrentName)) {
