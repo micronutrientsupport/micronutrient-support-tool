@@ -7,6 +7,19 @@
   }
 }
 
+.welcome-text {
+  line-height: 1.7em;
+}
+
+.text-primary {
+  color: $color_primary;
+}
+
+.mini-button {
+  transform: scale(0.75);
+  pointer-events: none;
+}
+
 .warning {
   color: $color_primary;
 }

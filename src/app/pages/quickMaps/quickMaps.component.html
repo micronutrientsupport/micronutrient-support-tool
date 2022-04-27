@@ -9,12 +9,12 @@
       <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
       <router-outlet></router-outlet>
       <div class="help-fab-container">
-        <button mat-fab matTooltip="View help content" color="accent"
-          aria-label="Example icon button with a filter list icon" (click)="openWelcomeDialog()">
+        <button mat-fab matTooltip="View help and tour" color="secondary" aria-label="View help information and tour"
+          (click)="openWelcomeDialog()">
           <mat-icon>help</mat-icon>
         </button>
-        <button mat-fab matTooltip="View help content" color="accent"
-          aria-label="Example icon button with a filter list icon" (click)="openFeedbackSurvey()">
+        <button mat-fab matTooltip="Open usability survey" color="primary" aria-label="Open usability survey"
+          (click)="openFeedbackSurvey()">
           <!-- (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)"> -->
           <mat-icon>feedback</mat-icon>
         </button>
