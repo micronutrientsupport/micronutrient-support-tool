@@ -26,6 +26,11 @@ export class InterventionDataService {
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPDFObs = this.interventionSummaryChartPDFSrc.asObservable();
 
+  private readonly interventionDetailedChartPNGSrc = new BehaviorSubject<string>(null);
+  public interventionDetailedChartPNGObs = this.interventionDetailedChartPNGSrc.asObservable();
+  private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
+  public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
+
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
@@ -77,6 +82,13 @@ export class InterventionDataService {
   }
   public setInterventionSummaryChartPDF(chart: string): void {
     this.interventionSummaryChartPDFSrc.next(chart);
+  }
+
+  public setInterventionDetailedChartPNG(chart: string): void {
+    this.interventionDetailedChartPNGSrc.next(chart);
+  }
+  public setInterventionDetailedChartPDF(chart: string): void {
+    this.interventionDetailedChartPDFSrc.next(chart);
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> {

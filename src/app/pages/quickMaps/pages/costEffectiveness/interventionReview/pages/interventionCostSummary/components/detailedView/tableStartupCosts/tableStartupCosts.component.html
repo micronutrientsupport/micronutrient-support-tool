@@ -6,28 +6,28 @@
     <div class="row-container">
       <div class="tab-content">
 
-        <table mat-table [dataSource]="dataSource" matSort class="tableFullWidth">
+        <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
           <ng-container matColumnDef="section">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Years</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Years</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-button color="primary" (click)="openSectionCostReviewDialog(element)">
-                <mat-icon>edit</mat-icon>
-                {{element.section}}
-              </button>
+              {{element.category}}
             </td>
+            <td mat-footer-cell *matFooterCellDef> Total </td>
           </ng-container>
           <ng-container matColumnDef="year0Total">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>2021</th>
-            <td mat-cell *matCellDef="let element">{{element.year0Total | currency: 'USD'}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
+            <td mat-cell *matCellDef="let element">{{element.year0CombinedTotal | currencyExtended}}</td>
+            <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1CombinedTotal') | currencyExtended}} </td>
           </ng-container>
           <ng-container matColumnDef="year1Total">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>2022</th>
-            <td mat-cell *matCellDef="let element">{{element.year1Total | currency: 'USD'}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2022</th>
+            <td mat-cell *matCellDef="let element">{{element.year1CombinedTotal | currencyExtended}}</td>
+            <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1CombinedTotal') | currencyExtended}} </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
           <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
           <tr class="mat-row" *matNoDataRow>
-          </tr>
+          <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
         </table>
       </div>
     </div>

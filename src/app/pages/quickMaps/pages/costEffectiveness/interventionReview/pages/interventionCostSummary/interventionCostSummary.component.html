@@ -36,16 +36,19 @@
           <p>Detailed summary shows intervention costs grouped by activity for the upcoming 10 years.</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
             <mat-tab label="Table">
-              <app-intervention-cost-summary-detailed-startup-table>
+              <app-intervention-cost-summary-detailed-startup-table *ngIf="null != startupCosts"
+                [startUpScaleUpCosts]="startupCosts">
               </app-intervention-cost-summary-detailed-startup-table>
-              <app-intervention-cost-summary-detailed-recurring-table>
+              <app-intervention-cost-summary-detailed-recurring-table *ngIf="null != recurringCosts"
+                [recurringCost]="recurringCosts">
               </app-intervention-cost-summary-detailed-recurring-table>
             </mat-tab>
             <mat-tab label="Graph">
-              <app-intervention-cost-summary-detailed-total-graph></app-intervention-cost-summary-detailed-total-graph>
+              <app-intervention-cost-summary-detailed-total-graph *ngIf="null != recurringCosts"
+                [recurringCost]="recurringCosts"></app-intervention-cost-summary-detailed-total-graph>
             </mat-tab>
             <mat-tab label="Download">
-              <app-download></app-download>
+              <app-download [chartDownloadPNG]="chartDetailedPNG" [chartDownloadPDF]="chartDetailedPDF"></app-download>
             </mat-tab>
           </mat-tab-group>
         </div>

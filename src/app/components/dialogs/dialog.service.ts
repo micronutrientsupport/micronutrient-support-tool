@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import { RecurringCost, RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
@@ -20,6 +20,7 @@ import { ScenarioChangeWarningComponent } from './scenarioChangeWarning/scenario
 import { ScenarioTypeDialogComponent } from './scenarioTypeDialog/scenarioTypeDialog.component';
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
+import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 @Injectable()
@@ -127,5 +128,22 @@ export class DialogService extends BaseDialogService {
       width: width,
       height: height,
     });
+  }
+
+  public openSectionSummaryRecurringCostReviewDialog(
+    costs: RecurringCost,
+    width = '80vw',
+    height = '80vh',
+  ): Promise<DialogData<RecurringCost>> {
+    return this.openDialog(
+      'openSectionCostReviewDialog',
+      SectionSummaryRecurringCostReviewDialogComponent,
+      false,
+      costs,
+      {
+        width: width,
+        height: height,
+      },
+    );
   }
 }
