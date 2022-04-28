@@ -1,19 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angular/router';
 import { QuickMapsService } from './quickMaps.service';
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
+import { TourService } from 'src/app/services/tour.service';
+import { FeatureFlagsService } from 'src/app/services/featureFlags.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
+// import { NgxFeedbackService } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
+// import { ModalComponent } from 'ngx-feedback-maps/projects/ngx-feedback-maps/src/lib/components/modal/modal.component';
 
 @Component({
   selector: 'app-quickmaps',
   templateUrl: './quickMaps.component.html',
   styleUrls: ['./quickMaps.component.scss'],
 })
-export class QuickMapsComponent implements OnInit {
+export class QuickMapsComponent implements OnInit, AfterViewInit {
   public showHeader = false;
   public showGoButton = false;
 
-  constructor(router: Router, private activatedRoute: ActivatedRoute, public quickMapsService: QuickMapsService) {
+  constructor(
+    router: Router,
+    private activatedRoute: ActivatedRoute,
+    public quickMapsService: QuickMapsService,
+    public tourService: TourService,
+    public featureFlagsService: FeatureFlagsService,
+    public modalService: DialogService,
+  ) {
     router.events.subscribe((event) => {
       // console.log('quickmaps = ', event);
       if (event instanceof NavigationEnd || event instanceof ChildActivationEnd) {
@@ -30,6 +42,21 @@ export class QuickMapsComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.featureFlagsService.isEnabled('quick-maps-loading-tour')) {
+      setTimeout(() => {
+        const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
+        console.log(hasSeenTour);
+        if (!hasSeenTour || this.featureFlagsService.isEnabled('quick-maps-tour-always')) {
+          this.openWelcomeDialog();
+          localStorage.setItem('has-viewed-tour', 'true');
+        } else {
+          console.log('Tour already viewed so skipping');
+        }
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -54,5 +81,15 @@ export class QuickMapsComponent implements OnInit {
     } else {
       return activatedRoute;
     }
+  }
+
+  public openWelcomeDialog(): void {
+    this.modalService.openWelcomeDialog('hello');
+  }
+
+  public openFeedbackSurvey(): void {
+    //this.modalService.openWelcomeDialog('hello');
+    this.modalService.openIframeDialog('https://app.useberry.com/t/WQIk70PjZfwd/');
+    // this.modalService.openDialogForComponent(ModalComponent);
   }
 }

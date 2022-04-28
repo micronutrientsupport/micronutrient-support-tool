@@ -1,0 +1,13 @@
+iframe {
+  min-width: 450px;
+  min-height: 450px;
+  border-radius: 4px;
+}
+
+// Shrink the container margin as the embedded content
+// has quite a wide margin already
+::ng-deep .mat-dialog-container > app-dialog-iframe .bmgf-maps-nice-scrollbar {
+  margin-left: -1em;
+  margin-right: -1em;
+  margin-bottom: -1em;
+}

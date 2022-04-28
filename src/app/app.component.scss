@@ -14,9 +14,20 @@
   z-index: 10000;
 }
 
-::ng-deep .ngx-feedback-modal__container {
+::ng-deep .ngx-feedback-backdrop__container {
+  background-color: #000 !important;
+  opacity: 0.32 !important;
+}
+
+::ng-deep .ngx-feedback-modal__container.ngx-feedback-modal__container {
   transform: translate(-350px, -250px) !important;
   font-family: 'Quicksand' !important;
+  box-shadow: initial !important;
+  outline-color: rgba(0, 0, 0, 0.87) !important;
+  outline-style: none !important;
+  outline-width: 0px !important;
+  border-radius: 4px !important;
+  border: none !important;
 }
 
 @media screen and (max-width: 700px) {

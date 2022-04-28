@@ -87,6 +87,18 @@ export class QuickMapsService {
       });
   }
 
+  public sideNavOpen(): void {
+    this.slim.set(false);
+    // ensure content reacts to change in size
+    let count = 0;
+    const interval = setInterval(() => {
+      window.dispatchEvent(new Event('resize'));
+      if (200 === count++) {
+        clearInterval(interval);
+      }
+    }, 10);
+  }
+
   public sideNavToggle(): void {
     this.slim.set(!this.slim.get());
     // ensure content reacts to change in size

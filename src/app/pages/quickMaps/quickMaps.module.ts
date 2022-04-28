@@ -24,6 +24,7 @@ import { CostEffectivenessModule } from './pages/costEffectiveness/costEffective
 import { NoResultsComponent } from './pages/noResults/noResults.component';
 import { InterventionReviewModule } from './pages/costEffectiveness/interventionReview.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { TourService } from 'src/app/services/tour.service';
 @NgModule({
   declarations: [QuickMapsComponent, LocationSelectComponent, NoResultsComponent],
   imports: [
@@ -46,6 +47,6 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     InterventionReviewModule,
     DirectivesModule,
   ],
-  providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService],
+  providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService, TourService],
 })
 export class QuickMapsModule {}

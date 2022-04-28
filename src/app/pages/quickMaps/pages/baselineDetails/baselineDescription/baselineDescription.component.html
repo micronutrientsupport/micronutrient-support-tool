@@ -1,5 +1,7 @@
 <div class="container">
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="true" appTour tourName="Quick MAPS Baseline Data"
+    tourDescription="The data summary panel provides an overview of the data currently displayed along with links to view and download metadata records for the source datasets."
+    tourTitle="Data Summary Panel" tourPosition="auto" tourStage="0">
     <mat-expansion-panel-header class="desc-header">
       <mat-panel-title>
         <div class="content-container">
@@ -57,7 +59,8 @@
           }}%</strong> by
         weight of
         per capita daily consumption). <button mat-button (click)="openBaselineDescriptionDialog()"
-          color="primary">Learn more about these datasets</button>
+          color="primary">Learn
+          more about these datasets</button>
       </p>
     </div>
   </mat-expansion-panel>

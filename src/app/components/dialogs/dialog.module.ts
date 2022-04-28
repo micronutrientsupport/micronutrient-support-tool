@@ -21,6 +21,8 @@ import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/
 import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
+import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
+import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 @NgModule({
@@ -40,6 +42,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     CeCalculatedFortificationInfoDialogComponent,
     SectionRecurringCostReviewDialogComponent,
     SectionStartUpCostReviewDialogComponent,
+    IframeDialogComponent,
+    WelcomeDialogComponent,
     SectionSummaryRecurringCostReviewDialogComponent,
   ],
   imports: [

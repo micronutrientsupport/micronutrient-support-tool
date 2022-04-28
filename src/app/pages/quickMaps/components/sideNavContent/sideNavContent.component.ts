@@ -292,4 +292,14 @@ export class SideNavContentComponent {
       });
     }, 100);
   }
+
+  public tourSetNation(countryId: string): void {
+    const countryDictionaryMWI = this.countriesDictionary.getItem(countryId);
+    this.quickMapsForm.get('nation').setValue(countryDictionaryMWI);
+  }
+
+  public tourSetMicronutrient(mnId: string): void {
+    const micronutrientDictionaryCalcium = this.micronutrientsDictionary.getItem(mnId);
+    this.quickMapsForm.get('micronutrient').setValue(micronutrientDictionaryCalcium);
+  }
 }

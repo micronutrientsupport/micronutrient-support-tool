@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@material/layout-grid/mdc-layout-grid';
 
+@use './assets/scss/_driver';
+
 @import '~@material/layout-grid/mdc-layout-grid.scss';
 @import './assets/scss/_bmgf_maps_theme';
 @import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -32,4 +34,18 @@ a[disabled='true'] {
   --mdc-layout-grid-gutter-tablet: 24px;
   --mdc-layout-grid-margin-phone: 24px;
   --mdc-layout-grid-gutter-phone: 24px;
+}
+
+// Force mat-fab-menu to be the same size as mat-mini-fab
+.mat-fab {
+  & .mat-button-wrapper {
+    padding: 7px 0 !important;
+  }
+  width: 40px !important;
+  height: 40px !important;
+  margin-bottom: 0 !important;
+}
+
+.mat-mini-fab {
+  margin-bottom: 0 !important;
 }

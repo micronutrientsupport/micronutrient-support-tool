@@ -12,6 +12,7 @@ import { CeFortificationInfoDialogComponent } from './ceFortificationInfoDialog/
 import { CeResetDialogComponent } from './ceResetDialog/ceResetDialog.component';
 import { CostEffectivenessInfoDialogComponent } from './costEffectivenessInfoDialog/costEffectivenessInfoDialog.component';
 import { CostEffectivenessSelectionDialogComponent } from './costEffectivenessSelectionDialog/costEffectivenessSelectionDialog.component';
+import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
 import { InvalidParametersDialogComponent } from './invalidParametersDialog/invalidParametersDialog.component';
 import { MapSettingsDialogComponent } from './mapSettingsDialog/mapSettingsDialog.component';
 import { MnAdditionDialogComponent } from './mnAdditionDialog/mnAdditionDialog.component';
@@ -21,6 +22,7 @@ import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCos
 import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostReviewDialog/sectionStartUpCostReviewDialog.component';
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
+import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 @Injectable()
 export class DialogService extends BaseDialogService {
   constructor(public dialog: MatDialog) {
@@ -29,6 +31,23 @@ export class DialogService extends BaseDialogService {
 
   public openShareDialog(shareLink: string): Promise<DialogData> {
     return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
+  }
+
+  public openIframeDialog(IframeUrl: string): Promise<DialogData> {
+    console.log('Opening', IframeUrl);
+    return this.openDialog('iFrameDialog', IframeDialogComponent, true, { IframeUrl });
+  }
+
+  public openWelcomeDialog(IframeUrl: string): Promise<DialogData> {
+    return this.openDialog(
+      'welcomeDialog',
+      WelcomeDialogComponent,
+      true,
+      { IframeUrl },
+      {
+        width: '60vw',
+      },
+    );
   }
 
   public openDialogForComponent<T = unknown>(
