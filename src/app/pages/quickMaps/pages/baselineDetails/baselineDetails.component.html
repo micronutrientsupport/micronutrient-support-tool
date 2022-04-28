@@ -4,18 +4,32 @@
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
   <app-base-desc></app-base-desc>
   <app-estimate class="details-panel" [showProjectionLink]="true"
-    [class.details-panel-hidden]="!(quickMapsService.micronutrient.obs | async)?.isInImpact"></app-estimate>
+    [class.details-panel-hidden]="!(quickMapsService.micronutrient.obs | async)?.isInImpact" appTour
+    tourName="Quick MAPS Baseline Data"
+    tourDescription="If available for your chosen nation and micronutrient, this summary bar provides projections of micronutrient availability to 2050"
+    tourTitle="Projections panel" tourPosition="auto" tourStage="5"></app-estimate>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
       <!-- Map View -->
       <app-map-view *ngSwitchCase="WIDGETS.BASELINE_MAP" [card]="card" appTour tourName="Quick MAPS Baseline Data"
-        tourDescription="View some data." tourTitle="Its a map" tourPosition="auto" tourStage="2"></app-map-view>
+        tourDescription="A geographic representation of the median apparent intake of the chosen micronutrient.  Where the underlying data allows this will be displayed aggregated to sub-national areas.  Hover over the map to view data values."
+        tourTitle="Apparent intake map" tourPosition="auto" tourStage="1"></app-map-view>
       <!-- Chart -->
-      <app-household-supply *ngSwitchCase="WIDGETS.BASELINE_CHART" [card]="card"></app-household-supply>
+      <app-household-supply *ngSwitchCase="WIDGETS.BASELINE_CHART" [card]="card" appTour
+        tourName="Quick MAPS Baseline Data"
+        tourDescription="Histogram overview of the household apparent intake data at national scale"
+        tourTitle="Household apparent intake" tourPosition="auto" tourStage="4">
+      </app-household-supply>
       <!-- Monthly Card -->
-      <app-monthly-food *ngSwitchCase="WIDGETS.BASELINE_MONTHLY" [card]="card"></app-monthly-food>
+      <app-monthly-food *ngSwitchCase="WIDGETS.BASELINE_MONTHLY" [card]="card" appTour
+        tourName="Quick MAPS Baseline Data"
+        tourDescription="Where the data allows, view the monthly variation in apparent micronutrient intake"
+        tourTitle="Micronutrient intake seasonality" tourPosition="auto" tourStage="3"></app-monthly-food>
       <!-- Top 20 -->
-      <app-food-items *ngSwitchCase="WIDGETS.BASELINE_TOP_FOOD" [card]="card"></app-food-items>
+      <app-food-items *ngSwitchCase="WIDGETS.BASELINE_TOP_FOOD" [card]="card" appTour
+        tourName="Quick MAPS Baseline Data"
+        tourDescription="This ‘treemap’ graphic presents the individual food items which contribute the most micronutrient to the diet in the overall dataset"
+        tourTitle="Contributing food items" tourPosition="auto" tourStage="2"></app-food-items>
     </app-card>
   </gridster-item>
 </gridster>

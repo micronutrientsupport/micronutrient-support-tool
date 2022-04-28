@@ -1,10 +1,11 @@
 <div class="container">
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="true" appTour tourName="Quick MAPS Baseline Data"
+    tourDescription="The data summary panel provides an overview of the data currently displayed along with links to view and download metadata records for the source datasets."
+    tourTitle="Data Summary Panel" tourPosition="auto" tourStage="0">
     <mat-expansion-panel-header class="desc-header">
       <mat-panel-title>
         <div class="content-container">
-          <div class="item" appTour tourName="Quick MAPS Baseline Data" tourDescription="Do a thing."
-            tourTitle="Geo Go Go!" tourPosition="auto" tourStage="0">
+          <div class="item">
             Nation: <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>
           </div>
           <div class="item">
@@ -21,9 +22,7 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description" *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel"
-      appTour tourName="Quick MAPS Baseline Data" tourStage="1" tourDescription="View some data." tourTitle="Data info"
-      tourPosition="auto">
+    <div class="description" *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
       <p>These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall
         of
         household-level data. These proxy for consumption is joined to locally relevant food composition table data.
@@ -44,9 +43,7 @@
           color="primary">Learn more about these datasets</button>
       </p>
     </div>
-    <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel"
-      appTour tourName="Quick MAPS Baseline Data" tourStage="1" tourDescription="View some data." tourTitle="Data info"
-      tourPosition="auto">
+    <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
       <p>These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to
         FAO
         at the national level. This proxy for consumption is joined to locally relevant food composition table.

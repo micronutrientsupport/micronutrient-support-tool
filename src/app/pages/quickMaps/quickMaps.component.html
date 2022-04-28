@@ -5,7 +5,6 @@
       <app-side-nav-content [showGoButton]="showGoButton"></app-side-nav-content>
     </mat-sidenav>
     <div class="sidenav-content" [class.header-present]="showHeader">
-      <!-- <button (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)">Tour</button> -->
       <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
       <router-outlet></router-outlet>
       <div class="help-fab-container">
@@ -15,7 +14,6 @@
         </button>
         <button mat-fab matTooltip="Open usability survey" color="primary" aria-label="Open usability survey"
           (click)="openFeedbackSurvey()">
-          <!-- (click)="tourService.startTour('Welcome to Quick MAPS',$event, 0)"> -->
           <mat-icon>feedback</mat-icon>
         </button>
       </div>

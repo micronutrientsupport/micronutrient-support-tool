@@ -15,7 +15,7 @@
   <form [formGroup]="quickMapsForm" id="quickMapsForm"
     [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav' : ''">
     <fieldset name="geographyOfInterest" appTour tourName="Quick MAPS Sidebar" tourStage="0"
-      tourDescription="Select your geography of interest" tourTitle="Select a country" tourPosition="right"
+      tourDescription="Select your geography of interest" tourTitle="Select a nation" tourPosition="right"
       (tourEnterFunction)="tourSetNation('MWI')">
       <legend>
         <span class=" field-title">
@@ -79,7 +79,8 @@
     </fieldset>
 
     <fieldset id="measure" appTour tourName="Quick MAPS Sidebar" tourStage="2"
-      tourDescription="Select diet or biomarker data to look at" tourTitle="Select a type of data" tourPosition="right">
+      tourDescription="Select underlying metric for micronutrient availability calculations"
+      tourTitle="Select underlying metric" tourPosition="right">
       <legend>
         <div class="field-title">
           <h2>Measure of nutrient deficiency</h2>
@@ -122,8 +123,8 @@
     </div> -->
 
     <fieldset appTour tourName="Quick MAPS Sidebar" tourStage="3"
-      tourDescription="MAPS will select the best available data for you" tourTitle="Data selection"
-      tourPosition="right">
+      tourDescription="Quick MAPS will select the best available data in the tool based on your chosen selections"
+      tourTitle="Review source data selection" tourPosition="right">
       <legend class="flex-row">
         <span class="field-title">
           <h2>Data source</h2>
@@ -147,8 +148,8 @@
 
 <div class="footer-row" [class.show]="showGoButton"
   [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav heading' : ''" appTour tourName="Quick MAPS Sidebar"
-  tourStage="4" tourDescription="View some data." tourTitle="Go Go Go!" tourPosition="right"
-  (tourForwardFunction)="submitForm()" tourTrigger="Quick MAPS Baseline Data">
+  tourStage="4" tourDescription="Click view results to move to the Baseline Data dashboard" tourTitle="View Results"
+  tourPosition="right" (tourForwardFunction)="submitForm()" tourTrigger="Quick MAPS Baseline Data">
   <div class="results-text" *ngIf="btnViewResultsActive === false"><i class="fas fa-info-circle"></i> No data sources
     available for this selection</div>
   <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
