@@ -36,8 +36,6 @@ a[disabled='true'] {
   --mdc-layout-grid-gutter-phone: 24px;
 }
 
-@import 'driver.js/dist/driver.min.css';
-
 // Force mat-fab-menu to be the same size as mat-mini-fab
 .mat-fab {
   & .mat-button-wrapper {
