@@ -23,10 +23,10 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="description" *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
-      <p>These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall
-        of
-        household-level data. These proxy for consumption is joined to locally relevant food composition table data.
-        These apparent intake values do not account for intake via fortification
+      <p>These data present average daily ‘apparent intake’ of micronutrients, derived from household consumption and
+        expenditure surveys in which food consumption and/or acquisition is recalled at the household-level. These
+        household food consumption data are joined to locally relevant food composition table data. The estimates of
+        apparent intake do not account for intake via fortification nor potential micronutrient losses during cooking.
       </p>
       <p *ngIf="unmatchedTotals"><strong>
           {{ 100 - unmatchedTotals.unmatchedCountPerc | number : '1.2-2' }}%</strong> of
@@ -46,7 +46,10 @@
     <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
       <p>These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to
         FAO
-        at the national level. This proxy for consumption is joined to locally relevant food composition table.
+        at the national level. These proxy national food consumption data are joined to locally relevant food
+        composition table data.
+        The estimates of nutrient availability do not account for intake via fortification nor potential micronutrient
+        losses during cooking.
       </p>
       <p *ngIf="unmatchedTotals"><strong>
           {{ 100 - unmatchedTotals.unmatchedCountPerc | number : '1.2-2' }}%</strong> of
