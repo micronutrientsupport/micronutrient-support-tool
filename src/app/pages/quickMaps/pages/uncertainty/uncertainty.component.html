@@ -5,8 +5,11 @@
   <app-uncertainty-description></app-uncertainty-description>
   <gridster-item [item]="widget" *ngFor="let widget of dashboard">
     <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
-      <!-- Availability -->
-      <!-- Food Sources -->
+      <!-- Nutrient Availability -->
+      <app-uncertainty-nutrient-avaliability *ngSwitchCase="WIDGETS.UNCERTAINTY_NUTRIENT_AVAILABILITY" [card]="card">
+      </app-uncertainty-nutrient-avaliability>
+      <!-- Food Availability -->
+
     </app-card>
   </gridster-item>
 </gridster>
