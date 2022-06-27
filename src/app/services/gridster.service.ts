@@ -18,6 +18,8 @@ export enum GridsterWidgets {
   PROJ_FOOD_SOURCE = 'widgetProjFoodSources',
   DIET_CHANGE_COMPARISON = 'widgetDietChangeComparison',
   COST_EFFECTIVENESS_COMPARISION = 'widgetCostEffectivenessComparison ',
+  UNCERTAINTY_NUTRIENT_AVAILABILITY = 'widgetUncertaintyNutrientAvailability',
+  UNCERTAINTY_FOOD_AVAILABILITY = 'widgetUncertaintyFoodAvailability',
 }
 
 @Injectable()

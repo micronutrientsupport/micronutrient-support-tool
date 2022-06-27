@@ -92,6 +92,11 @@ export class AppRoutes {
     segments: 'projection',
     parent: AppRoutes.QUICK_MAPS_DIET,
   };
+  public static readonly QUICK_MAPS_UNCERTAINTY = {
+    ...BASE_ROUTE,
+    segments: 'uncertainty',
+    parent: AppRoutes.QUICK_MAPS_DIET,
+  };
   public static readonly QUICK_MAPS_DIETARY_CHANGE = {
     ...BASE_ROUTE,
     segments: 'dietary-change',

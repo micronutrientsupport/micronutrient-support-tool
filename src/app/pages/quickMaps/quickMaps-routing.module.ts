@@ -10,6 +10,7 @@ import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.comp
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { NoResultsComponent } from './pages/noResults/noResults.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
+import { UncertaintyComponent } from './pages/uncertainty/uncertainty.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
 
@@ -66,6 +67,19 @@ const routes: Routes = [
           keywords:
             'projections, scenarios, micronutrients, food systems, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050',
           description: 'Projections of food system changes under various scenarios.',
+          showLightFooter: true,
+        } as RouteData,
+        canActivate: [QuickMapsRouteGuardService],
+      },
+      {
+        path: AppRoutes.QUICK_MAPS_UNCERTAINTY.getRouterPath(),
+        component: UncertaintyComponent,
+        data: {
+          appRoute: AppRoutes.QUICK_MAPS_UNCERTAINTY,
+          title: 'Quick MAPS - Explore uncertainty',
+          keywords: '',
+          description:
+            'Explore how climate change and socio-economic factors affect nutrient availability and food availability projections.',
           showLightFooter: true,
         } as RouteData,
         canActivate: [QuickMapsRouteGuardService],
