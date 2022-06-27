@@ -1,8 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnInit, Optional, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, Optional, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabGroup } from '@angular/material/tabs';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
