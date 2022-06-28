@@ -7,15 +7,15 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
-  selector: 'app-uncertainty-food-avaliablity',
-  templateUrl: './uncertaintyFoodAvaliablity.component.html',
-  styleUrls: ['./uncertaintyFoodAvaliablity.component.scss'],
+  selector: 'app-uncertainty-food-availablity',
+  templateUrl: './uncertaintyFoodAvailablity.component.html',
+  styleUrls: ['./uncertaintyFoodAvailablity.component.scss'],
 })
-export class UncertaintyFoodAvaliablityComponent implements AfterViewInit {
+export class UncertaintyFoodAvailablityComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @Input() card: CardComponent;
 
-  public title = 'Food avaliability';
+  public title = 'Food availability';
   public selectedTab: number;
 
   // TODO: from API??
@@ -28,7 +28,7 @@ export class UncertaintyFoodAvaliablityComponent implements AfterViewInit {
   constructor(
     private readonly dialogService: DialogService,
     private readonly cdr: ChangeDetectorRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<UncertaintyFoodAvaliabilityDialogData>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<UncertaintyFoodAvailabilityDialogData>,
   ) {}
 
   ngAfterViewInit(): void {
@@ -48,8 +48,8 @@ export class UncertaintyFoodAvaliablityComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<UncertaintyFoodAvaliabilityDialogData>(
-      UncertaintyFoodAvaliablityComponent,
+    void this.dialogService.openDialogForComponent<UncertaintyFoodAvailabilityDialogData>(
+      UncertaintyFoodAvailablityComponent,
       {
         data: null,
         selectedTab: this.tabGroup.selectedIndex,
@@ -57,7 +57,7 @@ export class UncertaintyFoodAvaliablityComponent implements AfterViewInit {
     );
   }
 }
-export interface UncertaintyFoodAvaliabilityDialogData {
+export interface UncertaintyFoodAvailabilityDialogData {
   data: unknown;
   selectedTab: number;
 }

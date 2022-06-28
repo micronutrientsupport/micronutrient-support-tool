@@ -7,15 +7,15 @@ import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstrac
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
-  selector: 'app-uncertainty-nutrient-avaliability',
-  templateUrl: './uncertaintyNutrientAvaliability.component.html',
-  styleUrls: ['./uncertaintyNutrientAvaliability.component.scss'],
+  selector: 'app-uncertainty-nutrient-availability',
+  templateUrl: './uncertaintyNutrientAvailability.component.html',
+  styleUrls: ['./uncertaintyNutrientAvailability.component.scss'],
 })
-export class UncertaintyNutrientAvaliabilityComponent implements AfterViewInit {
+export class UncertaintyNutrientAvailabilityComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @Input() card: CardComponent;
 
-  public title = 'Nutrient avaliability per person';
+  public title = 'Nutrient availability per person';
   public selectedTab: number;
 
   // TODO: from API??
@@ -29,7 +29,7 @@ export class UncertaintyNutrientAvaliabilityComponent implements AfterViewInit {
     private readonly cdr: ChangeDetectorRef,
     @Optional()
     @Inject(MAT_DIALOG_DATA)
-    public dialogData?: DialogData<UncertaintyNutrientAvaliabilityDialogData>,
+    public dialogData?: DialogData<UncertaintyNutrientAvailabilityDialogData>,
   ) {}
 
   ngAfterViewInit(): void {
@@ -49,8 +49,8 @@ export class UncertaintyNutrientAvaliabilityComponent implements AfterViewInit {
   }
 
   private openDialog(): void {
-    void this.dialogService.openDialogForComponent<UncertaintyNutrientAvaliabilityDialogData>(
-      UncertaintyNutrientAvaliabilityComponent,
+    void this.dialogService.openDialogForComponent<UncertaintyNutrientAvailabilityDialogData>(
+      UncertaintyNutrientAvailabilityComponent,
       {
         data: null,
         selectedTab: this.tabGroup.selectedIndex,
@@ -59,7 +59,7 @@ export class UncertaintyNutrientAvaliabilityComponent implements AfterViewInit {
   }
 }
 
-export interface UncertaintyNutrientAvaliabilityDialogData {
+export interface UncertaintyNutrientAvailabilityDialogData {
   data: unknown;
   selectedTab: number;
 }

@@ -11,15 +11,15 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
-import { UncertaintyFoodAvaliablityComponent } from './uncertaintyFoodAvaliablity/uncertaintyFoodAvaliablity.component';
-import { UncertaintyNutrientAvaliabilityComponent } from './uncertaintyNutrientAvaliability/uncertaintyNutrientAvaliability.component';
+import { UncertaintyNutrientAvailabilityComponent } from './uncertaintyNutrientAvaliability/uncertaintyNutrientAvailability.component';
+import { UncertaintyFoodAvailablityComponent } from './uncertaintyFoodAvaliablity/uncertaintyFoodAvailablity.component';
 
 @NgModule({
   declarations: [
     UncertaintyComponent,
     UncertaintyDescriptionComponent,
-    UncertaintyFoodAvaliablityComponent,
-    UncertaintyNutrientAvaliabilityComponent,
+    UncertaintyFoodAvailablityComponent,
+    UncertaintyNutrientAvailabilityComponent,
   ],
   imports: [
     CommonModule,
