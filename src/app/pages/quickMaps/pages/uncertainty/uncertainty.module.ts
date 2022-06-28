@@ -13,6 +13,7 @@ import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { UncertaintyNutrientAvailabilityComponent } from './uncertaintyNutrientAvaliability/uncertaintyNutrientAvailability.component';
 import { UncertaintyFoodAvailablityComponent } from './uncertaintyFoodAvaliablity/uncertaintyFoodAvailablity.component';
+import { UncertaintySummaryComponent } from './uncertaintySummary/uncertaintySummary.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UncertaintyFoodAvailablityComponent } from './uncertaintyFoodAvaliablit
     UncertaintyDescriptionComponent,
     UncertaintyFoodAvailablityComponent,
     UncertaintyNutrientAvailabilityComponent,
+    UncertaintySummaryComponent,
   ],
   imports: [
     CommonModule,
