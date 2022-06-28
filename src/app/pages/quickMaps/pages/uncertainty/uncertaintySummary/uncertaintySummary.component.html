@@ -1,3 +1,33 @@
-<p>
-  uncertaintySummary works!
-</p>
+<div class="container">
+    <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
+    <ng-container *ngIf="!loading">
+        <div class="wideItem left-text form">
+            <span class="item bold">Scenario</span>
+            <mat-form-field appearance="outline" aria-label="scenario" class="width-scenario">
+                <mat-label>Scenario</mat-label>
+                <mat-select placeholder="Socioeconomic">
+                    <mat-option value="Socioeconomic">
+                        Socioeconomic
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <span class="separation"></span>
+        </div>
+
+        <div class="wideItem">
+            <span class="intake-value">
+                Recommended level intake for {{ (quickMapsService.micronutrient.obs | async)?.name }}
+                <strong>{{projectionsSummary.recommended | sigFig:3 | number}} {{ (quickMapsService.micronutrient.obs |
+                    async)?.unit }} / day </strong>
+            </span>
+            <span class="separation"></span>
+        </div>
+
+        <div class="wideItem right-text">
+            <span>
+                Gap between projection and recommended intake <strong>(%)</strong>
+            </span>
+            <!-- Table to go here -->
+        </div>
+    </ng-container>
+</div>
