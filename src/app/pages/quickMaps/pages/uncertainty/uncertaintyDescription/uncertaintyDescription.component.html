@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header class="desc-header">
+      <mat-panel-title>
+        <div class="content-container">
+          <div class="item">
+            Nation: <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>
+          </div>
+          <div class="item">
+            Micronutrient: <strong>{{ (quickMapsService.micronutrient.obs | async)?.name }}</strong>
+          </div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="description">
+      This functionality allows full flexibility to adjust either the composition of food item(s) in the diet, or their
+      consumption. Please note that this functionality does not impose any rule-based limitations, so the results you
+      generate should be used with care. We suggest using cost and effectiveness modelling functionality in MAPS to
+      examine the plausibility of any options of particular interest.
+    </div>
+  </mat-expansion-panel>
+</div>

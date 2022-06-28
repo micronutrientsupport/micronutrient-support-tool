@@ -1,0 +1,13 @@
+@import 'src/assets/scss/_colour';
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.fab-layout {
+  position: fixed;
+  z-index: 100;
+  right: 16px;
+  bottom: 115px;
+}

@@ -1,0 +1,117 @@
+@import 'src/assets/scss/_colour';
+
+.container {
+  display: flex;
+  margin-bottom: 10px;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  flex-flow: row wrap;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+
+  & .wideItem {
+    flex-grow: 1;
+    display: flex;
+    margin: 1em 0.5em;
+    align-items: center;
+    .separation {
+      height: 3em;
+      width: 2px;
+      background-color: $color_grey;
+    }
+    .intake-value {
+      margin-right: 2em;
+    }
+  }
+
+  & .right-text {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  & .form,
+  & .left-text {
+    flex-flow: row wrap;
+  }
+
+  & .form {
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  & .left-text {
+    // align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  & .left-text > div {
+    margin: 0em 0.5em;
+  }
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.form::ng-deep {
+  .mat-form-field-wrapper {
+    padding-bottom: 0em;
+  }
+
+  .width-scenario {
+    width: 50%;
+    // margin-right: 0.5em;
+  }
+
+  .width-time {
+    width: 8em;
+    margin-left: 0.5em;
+  }
+}
+
+.estimateHeader {
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+}
+
+.estimateValue {
+  font-weight: 700;
+  font-size: 16px;
+  display: block;
+
+  &.blue {
+    color: blue;
+  }
+
+  &.green {
+    color: #005c00;
+  }
+
+  &.red {
+    color: #ad0000;
+  }
+}
+
+.margin-left {
+  margin-left: 0.5em;
+}
+
+.explore-projection-text {
+  text-decoration: none;
+  color: $color_primary;
+  font-weight: 500;
+}
+
+.explore-projection-text:hover {
+  font-weight: 700;
+}
+
+@media (max-width: 920px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}

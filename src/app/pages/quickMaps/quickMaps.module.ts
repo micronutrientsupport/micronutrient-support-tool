@@ -25,6 +25,7 @@ import { NoResultsComponent } from './pages/noResults/noResults.component';
 import { InterventionReviewModule } from './pages/costEffectiveness/interventionReview.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { TourService } from 'src/app/services/tour.service';
+import { UncertaintyModule } from './pages/uncertainty/uncertainty.module';
 @NgModule({
   declarations: [QuickMapsComponent, LocationSelectComponent, NoResultsComponent],
   imports: [
@@ -45,6 +46,7 @@ import { TourService } from 'src/app/services/tour.service';
     DietaryChangeModule,
     CostEffectivenessModule,
     InterventionReviewModule,
+    UncertaintyModule,
     DirectivesModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService, TourService],
