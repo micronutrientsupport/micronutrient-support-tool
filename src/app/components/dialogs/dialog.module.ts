@@ -25,6 +25,8 @@ import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { CopyAndEditIntervationComponent } from './costEffectivenessSelectionDialog/copy-and-edit-intervation/copy-and-edit-intervation.component';
+import { LoadInterventionComponent } from './costEffectivenessSelectionDialog/load-intervention/load-intervention.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -45,6 +47,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     IframeDialogComponent,
     WelcomeDialogComponent,
     SectionSummaryRecurringCostReviewDialogComponent,
+    CopyAndEditIntervationComponent,
+    LoadInterventionComponent,
   ],
   imports: [
     CommonModule,

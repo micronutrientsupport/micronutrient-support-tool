@@ -30,7 +30,9 @@ export class InterventionCreationComponent {
 
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
-      this.selectedInterventions.push(data.dataOut);
+      if (Object.keys(data.dataOut).length !== 0) {
+        this.selectedInterventions.push(data.dataOut);
+      }
       this.cdr.detectChanges();
     });
   }
