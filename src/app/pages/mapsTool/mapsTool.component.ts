@@ -12,6 +12,7 @@ export class MapsToolComponent {
   constructor(private sharingService: SharingService) {}
 
   public share(text: string, title?: string, url?: string): Promise<unknown> {
-    return this.sharingService.share(text, title, url);
+    return;
+    // return this.sharingService.share(text, title, url);
   }
 }
