@@ -81,6 +81,17 @@ export class InterventionDataService {
       id,
     });
   }
+  public setIntervention(
+    parentInterventionId: number,
+    newInterventionName: string,
+    newInterventionDescription: string,
+  ): Promise<Intervention> {
+    return this.apiService.endpoints.intervention.postIntervention.call({
+      parentInterventionId,
+      newInterventionName,
+      newInterventionDescription,
+    });
+  }
 
   public setInterventionSummaryChartPNG(chart: string): void {
     this.interventionSummaryChartPNGSrc.next(chart);

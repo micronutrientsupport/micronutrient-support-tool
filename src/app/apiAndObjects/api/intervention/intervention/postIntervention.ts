@@ -1,10 +1,14 @@
-import { InterventionResponse } from '../../../objects/interventionResponse';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { Endpoint } from '../../../_lib_code/api/endpoint.abstract';
 import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
-export class PostIntervention extends Endpoint<InterventionResponse, PostInterventionParams, InterventionResponse> {
-  protected callLive(params: PostInterventionParams): Promise<InterventionResponse> {
-    const callResponsePromise = this.apiCaller.doCall(['feedback'], RequestMethod.POST, null, {
+export class PostIntervention extends Endpoint<Intervention, PostInterventionParams> {
+  protected getCacheKey(params: PostInterventionParams): string {
+    return JSON.stringify(params);
+  }
+
+  protected callLive(params?: PostInterventionParams): Promise<Intervention> {
+    const callResponsePromise = this.apiCaller.doCall(['interventions'], RequestMethod.POST, null, {
       id: params.id,
       name: params.name,
       description: params.description,
@@ -16,15 +20,18 @@ export class PostIntervention extends Endpoint<InterventionResponse, PostInterve
       foodVehicleName: params.foodVehicleName,
       baseYear: params.baseYear,
       tenYearTotalCost: params.tenYearTotalCost,
+      parentInterventionId: params.parentInterventionId,
+      newInterventionName: params.newInterventionName,
+      newInterventionDescription: params.newInterventionDescription,
     });
-    return this.buildObjectFromResponse(InterventionResponse, callResponsePromise);
+    return this.buildObjectFromResponse(Intervention, callResponsePromise);
   }
-  protected callMock(): Promise<InterventionResponse> {
+
+  protected callMock(): Promise<Intervention> {
     const promise = Promise.resolve({ success: true });
-    return this.buildObjectFromResponse(InterventionResponse, promise);
+    return this.buildObjectFromResponse(Intervention, promise);
   }
 }
-
 export interface PostInterventionParams {
   id?: number;
   name?: string;
@@ -37,4 +44,7 @@ export interface PostInterventionParams {
   foodVehicleName?: string;
   baseYear?: number;
   tenYearTotalCost?: number;
+  parentInterventionId: number;
+  newInterventionName?: string;
+  newInterventionDescription?: string;
 }

@@ -35,13 +35,14 @@ export class InterventionCreationComponent {
   public async loadInterventions(): Promise<void> {
     this.route.queryParamMap
       .subscribe(async (queryParams) => {
-        const inteventionIds: Array<string> = queryParams.get('intIds') ? JSON.parse(queryParams.get('intIds')) : [];
-        for (const id of inteventionIds) {
-          await this.interventionService.getIntervention(id).then((data: unknown) => {
-            console.log(data);
-            this.selectedInterventions.push(data as InterventionsDictionaryItem);
-            this.cdr.detectChanges();
-          });
+        const interventionIds: Array<string> = queryParams.get('intIds') ? JSON.parse(queryParams.get('intIds')) : [];
+        if (Array.isArray(interventionIds) && interventionIds.length > 0) {
+          for (const id of interventionIds) {
+            await this.interventionService.getIntervention(id.toString()).then((data: unknown) => {
+              this.selectedInterventions.push(data as InterventionsDictionaryItem);
+              this.cdr.detectChanges();
+            });
+          }
         }
       })
       // Need to unsubsscribe to prevent additional calls when new intervention added
@@ -49,13 +50,14 @@ export class InterventionCreationComponent {
   }
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
-      if (Object.keys(data.dataOut).length !== 0) {
-        const inteventionIds = this.route.snapshot.queryParamMap.get('intIds')
+      if (data !== null && data.dataOut.id) {
+        const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
           ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
           : [];
+        const filtered = interventionIds.filter((x: number) => x); // remove null & zero values
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { intIds: JSON.stringify([...inteventionIds, +data.dataOut.id]) },
+          queryParams: { intIds: JSON.stringify([...filtered, Number(data.dataOut.id)]) },
           queryParamsHandling: 'merge',
         });
         this.selectedInterventions.push(data.dataOut);

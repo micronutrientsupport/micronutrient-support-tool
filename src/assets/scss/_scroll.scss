@@ -21,6 +21,9 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: $color_blue #d3d3d3;
 }
 
 .bmgf-maps-nice-scrollbar {
