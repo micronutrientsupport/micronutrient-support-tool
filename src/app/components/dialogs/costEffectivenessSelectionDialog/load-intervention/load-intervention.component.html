@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline">
+    <mat-label>Intervention ID</mat-label>
+    <input placeholder="Enter intervention ID" matInput type="text" (input)="getIntervention($event)">
+</mat-form-field>
+
+<div *ngIf='selectedIntervention'>
+    <p>Intervention to be loaded:</p><br />
+    <p>{{selectedIntervention?.name}}</p><br />
+    <p>{{selectedIntervention?.description}}</p><br />
+</div>

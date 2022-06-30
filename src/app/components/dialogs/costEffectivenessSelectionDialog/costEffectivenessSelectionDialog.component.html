@@ -1,33 +1,31 @@
 <app-base-dialog [data]="dialogData">
     <h2>Select and intervention</h2>
     <p>
-        Select one of the existing interventions and customise it for your scenario or design a completely new
-        intervention.
+        Select one of the existing interventions and customise it for your scenario or laod an existing intervention by
+        its ID.
     </p>
     <hr>
     <h3><strong>Select an intervention</strong></h3>
 
-    <mat-form-field appearance="outline">
-        <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedIntervention"
-            matNativeControl>
-            <mat-label>Existing interventions</mat-label>
-            <mat-option *ngFor="let intervention of interventions" [value]="intervention">
-                {{intervention.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <div>
-        <h3>{{selectedIntervention?.name}} </h3>
-        <small> {{ selectedIntervention?.description }}</small>
+    <div class="container">
+        <mat-tab-group selectedIndex="0">
+            <mat-tab label="Copy and edit intervention">
+                <app-copy-and-edit-intervation [interventions]="interventions"
+                    (selectedInterventionEvent)="setIntervention($event)">
+                </app-copy-and-edit-intervation>
+            </mat-tab>
+            <mat-tab label="Load Intervention">
+                <app-load-intervention [interventions]="interventions"
+                    (selectedInterventionEvent)="setIntervention($event)">
+                </app-load-intervention>
+            </mat-tab>
+        </mat-tab-group>
+
     </div>
-
-
 
     <div class="button-container">
         <button mat-raised-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
-        <!-- </div>
-    <div class="button-container"> -->
-        <button mat-raised-button color="primary" (click)="createIntervention()">Create</button>
+        <button mat-raised-button color="primary" (click)="createIntervention()">Create intervention</button>
     </div>
 
 </app-base-dialog>

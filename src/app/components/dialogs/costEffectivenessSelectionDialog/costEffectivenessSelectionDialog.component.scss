@@ -10,6 +10,26 @@ mat-label {
 
 .button-container {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   align-items: center;
+  button {
+    margin: 0px 30px;
+  }
+}
+
+::ng-deep .mat-tab-labels {
+  justify-content: center;
+  .mat-tab-label {
+    margin: 0px 70px;
+  }
+}
+
+::ng-deep app-load-intervention > .mat-form-field,
+ ::ng-deep app-copy-and-edit-intervation > .mat-form-field  {
+  display: block;
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0px;
+  }
 }
