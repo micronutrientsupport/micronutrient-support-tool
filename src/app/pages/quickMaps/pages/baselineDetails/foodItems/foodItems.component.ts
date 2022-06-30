@@ -14,7 +14,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { ChartData, ChartDataset, ChartOptions, Point, TooltipItem } from 'chart.js';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -41,7 +41,8 @@ export class FoodItemsComponent implements AfterViewInit {
 
   public title = 'Top 20 Food Items';
   public selectedTab: number;
-
+  public cData: ChartData;
+  public cOptions: ChartOptions;
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
@@ -125,7 +126,7 @@ export class FoodItemsComponent implements AfterViewInit {
         // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
-        this.chartData = null;
+        // this.chartData = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
@@ -186,7 +187,7 @@ export class FoodItemsComponent implements AfterViewInit {
         tooltips: {
           callbacks: {
             title: () => 'Food Item',
-            label: (item: ChartTooltipItem, result: ChartData) => {
+            label: (item: TooltipItem, result: ChartData) => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
               // tslint:disable-next-line: no-string-literal

@@ -20,7 +20,7 @@ import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject'
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { ChartTooltipItem, ChartData, ChartDataSets, ChartPoint } from 'chart.js';
+import { TooltipItem, ChartData, ChartDataset, Point } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
 import { ProjectionDataService } from 'src/app/services/projectionData.service';
@@ -227,9 +227,9 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
         tooltips: {
           callbacks: {
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+            label: (item: TooltipItem<'line'>, result: ChartData) => {
+              const dataset: ChartDataset = result.datasets[item.datasetIndex];
+              const dataItem: number | number[] | Point = dataset.data[item.dataIndex];
               const label: string = dataset.label;
               const value: number = dataItem as number;
               const sigFigLength = Math.ceil(Math.log10(value + 1));

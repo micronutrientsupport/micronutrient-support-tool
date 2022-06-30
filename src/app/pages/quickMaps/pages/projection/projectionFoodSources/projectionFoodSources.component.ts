@@ -20,7 +20,7 @@ import { MatSort } from '@angular/material/sort';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
+import { ChartData, ChartDataset, Point, TooltipItem } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { FoodSourceGroup } from 'src/app/apiAndObjects/objects/enums/foodSourceGroup.enum';
@@ -269,9 +269,9 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
         tooltips: {
           callbacks: {
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+            label: (item: any, result: ChartData) => {
+              const dataset: ChartDataset = result.datasets[item.datasetIndex];
+              const dataItem: number | number[] | Point = dataset.data[item.index];
               const label: string = dataset.label;
               const value: number = dataItem as number;
               const sigFigLength = Math.ceil(Math.log10(value + 1));

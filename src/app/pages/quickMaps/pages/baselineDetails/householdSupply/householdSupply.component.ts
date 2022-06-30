@@ -13,6 +13,7 @@ import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { Chart, ChartData, TooltipItem, ChartOptions } from 'chart.js';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -37,7 +38,8 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   public title = 'Household apparent micronutrient intake at national scale - histogram';
   public selectedTab: number;
-
+  public cData: ChartData;
+  public cOptions: ChartOptions;
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
@@ -156,7 +158,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.dataSource.data = data.data;
         // console.debug('data:', this.dataSource.data);
         this.errorSrc.next(false);
-        this.chartData = null;
+        // this.chartData = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
@@ -179,22 +181,24 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private initialiseGraph(data: SummarizedData): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const generatedChart: ChartJSObject = {
-      plugins: [ChartAnnotation],
-      type: 'bar',
-      data: {
-        labels: data.data.map((item) => item.rangeMax),
-        datasets: [
-          {
-            label: 'Frequency',
-            data: data.data.map((item) => item.frequency),
-            borderColor: '#ff6384',
-            backgroundColor: () => '#ff6384',
-            fill: true,
-          },
-        ],
-      },
-      options: {
+    this.cData = {
+      // plugins: [ChartAnnotation],
+      // type: 'bar',
+      // data: {
+      labels: data.data.map((item) => item.rangeMax),
+      datasets: [
+        {
+          label: 'Frequency',
+          data: data.data.map((item) => item.frequency),
+          borderColor: '#ff6384',
+          backgroundColor: () => '#ff6384',
+          fill: true,
+        },
+      ],
+    };
+
+    this.cOptions = {
+      plugins: {
         title: {
           display: false,
           text: this.title,
@@ -204,29 +208,29 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           display: false,
         },
 
-        scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
-              },
-              display: true,
-              id: 'x-axis-0',
-            },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: 'Count',
-              },
+        // scales: {
+        // xAxes: [
+        //   {
+        //     scaleLabel: {
+        //       display: true,
+        //       labelString: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
+        //     },
+        //     display: true,
+        //     id: 'x-axis-0',
+        //   },
+        // ],
+        // yAxes: [
+        //   {
+        //     scaleLabel: {
+        //       display: true,
+        //       labelString: 'Count',
+        //     },
 
-              display: true,
-              id: 'y-axis-0',
-            },
-          ],
-        },
+        //     display: true,
+        //     id: 'y-axis-0',
+        //   },
+        // ],
+        // },
         annotation: {
           annotations: [
             {

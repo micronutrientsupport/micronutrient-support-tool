@@ -1,4 +1,4 @@
-import { ChartAnimationOptions, ChartData, ChartTooltipItem } from 'chart.js';
+import { AnimationOptions, ChartData, TooltipItem, ChartOptions } from 'chart.js';
 import { TopFoodSource } from '../topFoodSource';
 
 export interface ChartsJSDataObject {
@@ -36,7 +36,7 @@ export interface ChartJSObject {
       display: boolean;
       text: string;
     };
-    animation?: ChartAnimationOptions;
+    animation?: AnimationOptions;
     maintainAspectRatio?: boolean;
     responsive?: boolean;
     aspectRatio?: number;
@@ -107,8 +107,8 @@ export interface ChartJSObject {
     };
     tooltips?: {
       callbacks?: {
-        title?: (item: ChartTooltipItem, data: ChartData) => unknown;
-        label?: (item: ChartTooltipItem, result: ChartData) => string;
+        title?: (item: TooltipItem, data: ChartData) => unknown;
+        label?: (item: TooltipItem, result: ChartData) => string;
       };
       backgroundColor?: Array<string> | string;
       titleFontSize?: number;
