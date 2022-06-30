@@ -1,0 +1,22 @@
+<mat-form-field appearance="outline">
+    <mat-label>Existing interventions</mat-label>
+    <mat-select (empty)="null" placeholder="Select an intervention" (selectionChange)="setIntervention($event)"
+        matNativeControl>
+        <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+            {{intervention.name}}
+        </mat-option>
+    </mat-select>
+
+
+</mat-form-field>
+<br />
+<mat-form-field appearance="outline">
+    <mat-label>Intervention name</mat-label>
+    <input matInput type="text" (input)="changeSelectedInterventionName($event)" [value]="selectedIntervention?.name">
+</mat-form-field>
+<br />
+<mat-form-field appearance="outline">
+    <mat-label>Intervention description</mat-label>
+    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+        (input)="changeSelectedInterventionDesc($event)" [value]="selectedIntervention?.description"></textarea>
+</mat-form-field>
