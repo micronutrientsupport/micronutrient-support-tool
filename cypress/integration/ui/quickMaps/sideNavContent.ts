@@ -2,6 +2,11 @@ import { Interception } from 'cypress/types/net-stubbing';
 import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
 
 describe('Quick Map - Side Nav Tests', () => {
+  beforeEach(() => {
+    // Dont show the user tour
+    window.localStorage.setItem('has-viewed-tour', 'true');
+  });
+
   it('checks page for a11y compliance', () => {
     cy.visit('/quick-maps');
     cy.wait(4000);
