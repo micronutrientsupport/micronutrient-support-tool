@@ -11,7 +11,6 @@ export class HomeComponent {
   constructor(private sharingService: SharingService) {}
 
   public share(text: string, title?: string, url?: string): Promise<unknown> {
-    return;
-    // return this.sharingService.share(text, title, url);
+    return this.sharingService.doShare(text, title, url);
   }
 }

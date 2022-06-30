@@ -23,7 +23,6 @@ export class QuickMapsHeaderComponent {
   ) {}
 
   public share(text: string, title?: string): Promise<unknown> {
-    return;
-    // return this.sharingService.share(text, title, window.location.href);
+    return this.sharingService.doShare(text, title, window.location.href);
   }
 }

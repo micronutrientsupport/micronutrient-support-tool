@@ -28,15 +28,6 @@ describe('Quick Map - Side Nav Tests', () => {
     cy.get('#quickMapsForm').should('exist');
   });
 
-  it('sidebar lock disables side bar from being minimised', () => {
-    cy.visit('/quick-maps');
-    cy.get('.minimize-button').should('not.be.disabled');
-    cy.get('.mat-slide-toggle-label').click();
-    cy.get('.minimize-button').should('be.disabled');
-    cy.get('.mat-slide-toggle-label').click();
-    cy.get('.minimize-button').should('not.be.disabled');
-  });
-
   it('loads a list of single nations and populates the drop down with all api response', () => {
     cy.intercept('GET', 'countries').as('getCountries');
     cy.visit('/quick-maps');
