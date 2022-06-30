@@ -8,10 +8,7 @@ import {
   NavigationEnd,
   Router,
 } from '@angular/router';
-import { detect } from 'detect-browser';
 import { Subscription } from 'rxjs';
-import { ApiService } from './apiAndObjects/api/api.service';
-import { PostFeedbackParams } from './apiAndObjects/api/feedback/postFeedback';
 import { environment } from 'src/environments/environment.base';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
@@ -30,7 +27,6 @@ export class AppComponent implements OnInit {
     public pageLoadingService: PageLoadingService,
     private titleService: Title,
     private metaService: Meta,
-    private apiService: ApiService,
   ) {
     router.events.subscribe((event) => {
       // console.debug('router event', event);
