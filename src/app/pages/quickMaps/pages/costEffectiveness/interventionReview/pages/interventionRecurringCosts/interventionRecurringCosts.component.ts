@@ -11,7 +11,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 })
 export class InterventionRecurringCostsComponent {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 6;
   public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
   public recurringCosts: Array<RecurringCost>;

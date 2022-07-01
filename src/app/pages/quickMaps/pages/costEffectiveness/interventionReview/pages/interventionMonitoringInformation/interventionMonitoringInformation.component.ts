@@ -39,7 +39,7 @@ export class InterventionMonitoringInformationComponent {
   ];
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 5;
+  public pageStepperPosition = 4;
   public interventionName = 'IntName';
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
