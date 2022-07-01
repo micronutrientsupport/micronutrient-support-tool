@@ -47,7 +47,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material/layout-grid": "^11.0.0",
     "@types/chart.js": "^2.9.35",
-    "angular-gridster2": "13.2.0",
+    "angular-gridster2": "13.3.0",
     "chart.js": "^2.9.4",
     "chartjs-chart-box-and-violin-plot": "^2.4.0",
     "chartjs-chart-treemap": "github:micronutrientsupport/chartjs-chart-treemap#v0.2.3-patch",
