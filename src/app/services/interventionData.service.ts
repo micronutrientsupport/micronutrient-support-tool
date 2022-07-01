@@ -31,6 +31,9 @@ export class InterventionDataService {
   private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
 
+  private readonly interventionIdSrc = new BehaviorSubject<string>(null);
+  public readonly interventionIdObs = this.interventionIdSrc.asObservable();
+
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
@@ -108,5 +111,13 @@ export class InterventionDataService {
       return mnItem !== item;
     });
     return this.cachedMnInPremix;
+  }
+
+  public setActiveInterventionId(id: string): void {
+    this.interventionIdSrc.next(id);
+  }
+
+  public getActiveInterventionId(): string {
+    return this.interventionIdSrc.getValue();
   }
 }
