@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
@@ -13,14 +14,16 @@ import { InterventionIndustryInformation } from '../apiAndObjects/objects/interv
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
+import { AppRoutes } from '../routes/routes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InterventionDataService {
   private cachedMnInPremix: Array<FoodVehicleStandard> = [];
+  public ROUTES = AppRoutes;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
@@ -118,6 +121,12 @@ export class InterventionDataService {
   }
 
   public getActiveInterventionId(): string {
-    return this.interventionIdSrc.getValue();
+    if (null == this.interventionIdSrc.getValue()) {
+      const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    } else {
+      return this.interventionIdSrc.getValue();
+    }
   }
 }

@@ -53,7 +53,6 @@ export class InterventionBaselineComponent implements OnInit {
           this.interventionDataService
             .getInterventionFoodVehicleStandards(activeInterventionId)
             .then((data: InterventionFoodVehicleStandards) => {
-              console.debug('1st', activeInterventionId);
               if (null != data) {
                 this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
