@@ -39,6 +39,7 @@ export class InterventionIndustryInformationComponent {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public dataSource = new MatTableDataSource();
 
@@ -50,5 +51,6 @@ export class InterventionIndustryInformationComponent {
   }
   private init(data: InterventionIndustryInformation): void {
     this.dataSource = new MatTableDataSource(data.industryInformation);
+    console.log(data.industryInformation);
   }
 }
