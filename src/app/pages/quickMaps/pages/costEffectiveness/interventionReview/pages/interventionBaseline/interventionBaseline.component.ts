@@ -45,8 +45,11 @@ export class InterventionBaselineComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
-  ) {
+  ) {}
+
+  public ngOnInit(): void {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
@@ -69,10 +72,6 @@ export class InterventionBaselineComponent implements OnInit {
         }
       }),
     );
-  }
-
-  public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public createBaselineTableObject(): void {
