@@ -1,9 +1,12 @@
 describe('Quick maps - Baseline', () => {
+  beforeEach(() => {
+    // Dont show the user tour
+    window.localStorage.setItem('has-viewed-tour', 'true');
+  });
+
   it('checks page for a11y compliance', () => {
     cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Fe&measure=diet');
     cy.wait(4000);
-    cy.get('.minimize-button').click();
-    cy.wait(2000);
     cy.injectAxe();
     cy.checkA11y(
       {

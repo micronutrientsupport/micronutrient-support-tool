@@ -2,6 +2,10 @@ import * as L from 'leaflet';
 let leafletObject: L.Map;
 
 describe('Quick Map - Location Select', () => {
+  beforeEach(() => {
+    // Dont show the user tour
+    window.localStorage.setItem('has-viewed-tour', 'true');
+  });
   // it('checks page for a11y compliance', () => {
   //   cy.visit('/quick-maps');
   //   cy.injectAxe();
