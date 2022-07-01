@@ -21,8 +21,9 @@ export class InterventionIndustryInformationComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.interventionDataService
-      .getInterventionIndustryInformation('1')
+      .getInterventionIndustryInformation(activeInterventionId)
       .then((data: InterventionIndustryInformation) => {
         this.init(data);
       });

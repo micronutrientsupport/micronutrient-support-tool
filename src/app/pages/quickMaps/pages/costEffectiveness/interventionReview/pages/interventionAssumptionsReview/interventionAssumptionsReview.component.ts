@@ -55,10 +55,11 @@ export class InterventionAssumptionsReviewComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards('1');
+          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId);
           // .then((data: InterventionFoodVehicleStandards) => {
           // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
           //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
@@ -67,7 +68,7 @@ export class InterventionAssumptionsReviewComponent {
         }
       }),
       void this.interventionDataService
-        .getInterventionBaselineAssumptions('1')
+        .getInterventionBaselineAssumptions(activeInterventionId)
         .then((data: InterventionBaselineAssumptions) => {
           this.createTableObject(data);
         }),

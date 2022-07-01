@@ -33,10 +33,13 @@ export class InterventionRecurringCostsComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
-        this.recurringCosts = data.recurringCosts;
-      }),
+      void this.interventionDataService
+        .getInterventionRecurringCosts(activeInterventionId)
+        .then((data: InterventionRecurringCosts) => {
+          this.recurringCosts = data.recurringCosts;
+        }),
     );
   }
   public ngOnInit(): void {

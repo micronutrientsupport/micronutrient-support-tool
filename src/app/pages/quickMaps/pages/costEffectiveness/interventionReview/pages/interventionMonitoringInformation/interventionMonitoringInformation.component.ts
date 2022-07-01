@@ -17,8 +17,9 @@ export class InterventionMonitoringInformationComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.interventionDataService
-      .getInterventionMonitoringInformation('1')
+      .getInterventionMonitoringInformation(activeInterventionId)
       .then((data: InterventionMonitoringInformation) => {
         this.init(data);
       });

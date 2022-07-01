@@ -35,12 +35,14 @@ export class InterventionCostSummaryComponent {
   ) {}
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
-
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       // Summary tab subscriptions
-      void this.interventionDataService.getInterventionCostSummary('1').then((data: InterventionCostSummary) => {
-        this.summaryCosts = data;
-      }),
+      void this.interventionDataService
+        .getInterventionCostSummary(activeInterventionId)
+        .then((data: InterventionCostSummary) => {
+          this.summaryCosts = data;
+        }),
       void this.interventionDataService.interventionSummaryChartPNGObs.subscribe((chart: string) => {
         this.chartSummaryPNG = chart;
         this.cdRef.detectChanges();
@@ -51,12 +53,16 @@ export class InterventionCostSummaryComponent {
       }),
 
       // Detailed tab subscripttions
-      void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
-        this.startupCosts = data.startupScaleupCosts;
-      }),
-      void this.interventionDataService.getInterventionRecurringCosts('1').then((data: InterventionRecurringCosts) => {
-        this.recurringCosts = data.recurringCosts;
-      }),
+      void this.interventionDataService
+        .getInterventionStartupCosts(activeInterventionId)
+        .then((data: InterventionStartupCosts) => {
+          this.startupCosts = data.startupScaleupCosts;
+        }),
+      void this.interventionDataService
+        .getInterventionRecurringCosts(activeInterventionId)
+        .then((data: InterventionRecurringCosts) => {
+          this.recurringCosts = data.recurringCosts;
+        }),
       void this.interventionDataService.interventionDetailedChartPNGObs.subscribe((chart: string) => {
         this.chartDetailedPNG = chart;
         this.cdRef.detectChanges();

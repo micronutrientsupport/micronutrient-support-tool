@@ -23,10 +23,13 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      void this.interventionDataService.getInterventionStartupCosts('1').then((data: InterventionStartupCosts) => {
-        this.startupCosts = data.startupScaleupCosts;
-      }),
+      void this.interventionDataService
+        .getInterventionStartupCosts(activeInterventionId)
+        .then((data: InterventionStartupCosts) => {
+          this.startupCosts = data.startupScaleupCosts;
+        }),
     );
   }
 

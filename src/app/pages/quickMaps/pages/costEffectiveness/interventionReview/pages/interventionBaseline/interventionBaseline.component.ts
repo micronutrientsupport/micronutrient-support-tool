@@ -46,19 +46,21 @@ export class InterventionBaselineComponent implements OnInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
           this.interventionDataService
-            .getInterventionFoodVehicleStandards('1')
+            .getInterventionFoodVehicleStandards(activeInterventionId)
             .then((data: InterventionFoodVehicleStandards) => {
+              console.debug('1st', activeInterventionId);
               if (null != data) {
                 this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
                 this.createFVTableObject(this.activeNutrientFVS);
                 void this.interventionDataService
-                  .getInterventionBaselineAssumptions('1')
+                  .getInterventionBaselineAssumptions(activeInterventionId)
                   .then((data: InterventionBaselineAssumptions) => {
                     this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
                     this.createBaselineTableObject();
