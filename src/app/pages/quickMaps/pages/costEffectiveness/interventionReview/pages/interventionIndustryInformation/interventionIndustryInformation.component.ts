@@ -51,6 +51,5 @@ export class InterventionIndustryInformationComponent {
   }
   private init(data: InterventionIndustryInformation): void {
     this.dataSource = new MatTableDataSource(data.industryInformation);
-    console.log(data.industryInformation);
   }
 }

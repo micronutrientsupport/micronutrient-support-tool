@@ -13,64 +13,129 @@
       <ng-container matColumnDef="year0">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2021 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year0>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year0>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year0 * 100"
+              (input)="element.year0 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year1">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2022 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year1>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year1>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year1 * 100"
+              (input)="element.year1 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year2">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2023 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year2>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year2>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year2 * 100"
+              (input)="element.year2 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year3">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2024 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year3>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year3>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year3 * 100"
+              (input)="element.year3 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year4">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2025 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year4>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year4>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year4 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year5">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2026 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year5>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year5>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year5 * 100"
+              (input)="element.year5 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year6">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2027</th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year6>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year6>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year6 * 100"
+              (input)="element.year6 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year7">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2028 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year7>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year7>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year7 * 100"
+              (input)="element.year7 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year8">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2029 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year8>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year8>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year8 * 100"
+              (input)="element.year8 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="year9">
         <th class="column-title" mat-header-cell *matHeaderCellDef> 2030 </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-          <input type="number" matInput required [value]=element.year9>
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year9>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year9 * 100"
+              (input)="element.year9 = $any($event.target).value / 100">
+          </div>
         </td>
       </ng-container>
-
+      <ng-container matColumnDef="source">
+        <th class="column-title" mat-header-cell *matHeaderCellDef> Source </th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          GFDx
+        </td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

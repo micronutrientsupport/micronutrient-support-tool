@@ -36,6 +36,7 @@ export class InterventionMonitoringInformationComponent {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
@@ -47,5 +48,6 @@ export class InterventionMonitoringInformationComponent {
   private init(data: InterventionMonitoringInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.monitoringInformation);
+    console.log(data.monitoringInformation);
   }
 }
