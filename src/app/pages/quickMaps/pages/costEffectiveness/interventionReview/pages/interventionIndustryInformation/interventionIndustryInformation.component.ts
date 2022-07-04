@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import {
   IndustryInformation,
   InterventionIndustryInformation,
@@ -13,20 +14,24 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionIndustryInformation.component.html',
   styleUrls: ['./interventionIndustryInformation.component.scss'],
 })
-export class InterventionIndustryInformationComponent {
+export class InterventionIndustryInformationComponent implements OnInit, OnDestroy {
   publiciIndustryInformation: IndustryInformation;
   public testInput: number;
+
+  private subscriptioions = new Array<Subscription>();
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.interventionDataService
-      .getInterventionIndustryInformation(activeInterventionId)
-      .then((data: InterventionIndustryInformation) => {
-        this.init(data);
-      });
+    if (null != activeInterventionId) {
+      void this.interventionDataService
+        .getInterventionIndustryInformation(activeInterventionId)
+        .then((data: InterventionIndustryInformation) => {
+          this.init(data);
+        });
+    }
   }
   displayedColumns: string[] = [
     'labelText',
@@ -46,9 +51,15 @@ export class InterventionIndustryInformationComponent {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 4;
   public interventionName = 'IntName';
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
+
+  public ngOnDestroy(): void {
+    console.debug('call');
+  }
+
   private init(data: InterventionIndustryInformation): void {
     this.dataSource = new MatTableDataSource(data.industryInformation);
   }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionAssumptionsReview.component.html',
   styleUrls: ['./interventionAssumptionsReview.component.scss'],
 })
-export class InterventionAssumptionsReviewComponent implements AfterViewInit {
+export class InterventionAssumptionsReviewComponent implements OnInit {
   public activeStandard: FoodVehicleStandard[];
 
   public assumptionsDisplayedColumns = [
@@ -61,25 +61,29 @@ export class InterventionAssumptionsReviewComponent implements AfterViewInit {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId);
-          // .then((data: InterventionFoodVehicleStandards) => {
-          // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-          //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-          // });
-          // });
-        }
-      }),
-      void this.interventionDataService
-        .getInterventionBaselineAssumptions(activeInterventionId)
-        .then((data: InterventionBaselineAssumptions) => {
-          this.createTableObject(data);
-        }),
+      void this.quickMapsService.micronutrient.obs
+        .subscribe((mn: MicronutrientDictionaryItem) => {
+          if (null != mn) {
+            this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(
+              () =>
+                void this.interventionDataService
+                  .getInterventionBaselineAssumptions(activeInterventionId)
+                  .then((data: InterventionBaselineAssumptions) => {
+                    this.createTableObject(data);
+                  }),
+            );
+            // .then((data: InterventionFoodVehicleStandards) => {
+            // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+            //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+            // });
+            // });
+          }
+        })
+        .unsubscribe(),
     );
   }
 
-  public ngAfterViewInit(): void {
+  public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 

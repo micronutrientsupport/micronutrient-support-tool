@@ -17,20 +17,18 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
   public startupCosts: Array<StartUpScaleUpCost>;
   public displayHeaders = ['section', 'year0Total', 'year1Total'];
 
-  private subscriptions = new Array<Subscription>();
-
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.subscriptions.push(
+    if (null != activeInterventionId) {
       void this.interventionDataService
         .getInterventionStartupCosts(activeInterventionId)
         .then((data: InterventionStartupCosts) => {
           this.startupCosts = data.startupScaleupCosts;
-        }),
-    );
+        });
+    }
   }
 
   public ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
@@ -10,7 +10,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionMonitoringInformation.component.html',
   styleUrls: ['./interventionMonitoringInformation.component.scss'],
 })
-export class InterventionMonitoringInformationComponent {
+export class InterventionMonitoringInformationComponent implements OnInit {
   constructor(
     public quickMapsService: QuickMapsService,
 
@@ -18,11 +18,13 @@ export class InterventionMonitoringInformationComponent {
     private interventionDataService: InterventionDataService,
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.interventionDataService
-      .getInterventionMonitoringInformation(activeInterventionId)
-      .then((data: InterventionMonitoringInformation) => {
-        this.init(data);
-      });
+    if (null != activeInterventionId) {
+      this.interventionDataService
+        .getInterventionMonitoringInformation(activeInterventionId)
+        .then((data: InterventionMonitoringInformation) => {
+          this.init(data);
+        });
+    }
   }
 
   displayedColumns: string[] = [
@@ -42,6 +44,7 @@ export class InterventionMonitoringInformationComponent {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 5;
   public interventionName = 'IntName';
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }

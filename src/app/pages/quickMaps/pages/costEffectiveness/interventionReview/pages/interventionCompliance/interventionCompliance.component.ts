@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionCompliance.component.html',
   styleUrls: ['./interventionCompliance.component.scss'],
 })
-export class InterventionComplianceComponent {
+export class InterventionComplianceComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 1;
   public interventionName = 'IntName';
@@ -60,21 +60,24 @@ export class InterventionComplianceComponent {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId);
-          // .then((data: InterventionFoodVehicleStandards) => {
-          // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-          //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-          // });
-          // });
-        }
-      }),
-      void this.interventionDataService
-        .getInterventionBaselineAssumptions(activeInterventionId)
-        .then((data: InterventionBaselineAssumptions) => {
-          this.createTableObject(data);
-        }),
+      void this.quickMapsService.micronutrient.obs
+        .subscribe((mn: MicronutrientDictionaryItem) => {
+          if (null != mn) {
+            this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(() => {
+              void this.interventionDataService
+                .getInterventionBaselineAssumptions(activeInterventionId)
+                .then((data: InterventionBaselineAssumptions) => {
+                  this.createTableObject(data);
+                });
+            });
+            // .then((data: InterventionFoodVehicleStandards) => {
+            // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+            //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+            // });
+            // });
+          }
+        })
+        .unsubscribe(),
     );
   }
 

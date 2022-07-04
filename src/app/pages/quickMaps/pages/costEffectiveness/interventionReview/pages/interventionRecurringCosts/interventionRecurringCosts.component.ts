@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { InterventionRecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -9,11 +9,10 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionRecurringCosts.component.html',
   styleUrls: ['./interventionRecurringCosts.component.scss'],
 })
-export class InterventionRecurringCostsComponent {
+export class InterventionRecurringCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 7;
   public interventionName = 'IntName';
-  private subscriptions = new Array<Subscription>();
   public recurringCosts: Array<RecurringCost>;
   public displayHeaders = [
     'section',
@@ -34,13 +33,13 @@ export class InterventionRecurringCostsComponent {
     private interventionDataService: InterventionDataService,
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.subscriptions.push(
+    if (null != activeInterventionId) {
       void this.interventionDataService
         .getInterventionRecurringCosts(activeInterventionId)
         .then((data: InterventionRecurringCosts) => {
           this.recurringCosts = data.recurringCosts;
-        }),
-    );
+        });
+    }
   }
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
