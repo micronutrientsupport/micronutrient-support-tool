@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionAssumptionsReview.component.html',
   styleUrls: ['./interventionAssumptionsReview.component.scss'],
 })
-export class InterventionAssumptionsReviewComponent {
+export class InterventionAssumptionsReviewComponent implements AfterViewInit {
   public activeStandard: FoodVehicleStandard[];
 
   public assumptionsDisplayedColumns = [
@@ -48,6 +48,10 @@ export class InterventionAssumptionsReviewComponent {
   ];
   public dataSource = new MatTableDataSource();
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
+
+  public ROUTES = AppRoutes;
+  public pageStepperPosition = 3;
+  public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -74,9 +78,7 @@ export class InterventionAssumptionsReviewComponent {
         }),
     );
   }
-  public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
-  public interventionName = 'IntName';
+
   public ngAfterViewInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
