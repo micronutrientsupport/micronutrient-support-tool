@@ -40,9 +40,10 @@ export class InterventionCreationComponent implements AfterViewInit {
 
   public async loadInterventions(): Promise<any> {
     const searchParams = new URLSearchParams(window.location.search);
-    const inteventionIds = searchParams.getAll('intervention_ids');
+    const inteventionIds = searchParams.get('intIds') ? JSON.parse(searchParams.get('intIds')) : [];
     for (const id of inteventionIds) {
       await this.interventionService.getIntervention(id).then((data: any) => {
+        console.log(data)
         this.selectedInterventions.push(data);
         this.cdr.detectChanges();
       });
@@ -52,11 +53,30 @@ export class InterventionCreationComponent implements AfterViewInit {
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
       const searchParams = new URLSearchParams(window.location.search);
-      searchParams.append('intervention_ids', data.dataOut.id)
-      this.location.replaceState(`${location.pathname}?${searchParams}`);
+      const inteventionIds = searchParams.get('intIds') ? JSON.parse(searchParams.get('intIds')).map(Number) : [];
+      inteventionIds.push(+data.dataOut.id)
+      searchParams.set('intIds', JSON.stringify(inteventionIds))
+      this.location.replaceState(decodeURIComponent(`${location.pathname}?${searchParams}`));
 
       this.selectedInterventions.push(data.dataOut);
       this.cdr.detectChanges();
     });
+  }
+
+  public removeIntervention(event: Event) {
+    console.log(event)
+    const searchParams = new URLSearchParams(window.location.search);
+    const inteventionIds = searchParams.get('intIds') ? JSON.parse(searchParams.get('intIds')).map(Number) : [];
+
+    // temp remove most recent added intervention
+    this.selectedInterventions.pop()
+    inteventionIds.pop()
+
+    if (inteventionIds.length > 0)
+      searchParams.set('intIds', JSON.stringify(inteventionIds))
+    else
+      searchParams.delete('intIds')
+
+    this.location.replaceState(decodeURIComponent(`${location.pathname}?${searchParams}`));
   }
 }

@@ -12,6 +12,7 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 })
 export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
+  @Output() removeIntervention = new EventEmitter<Event>();
 
   public ROUTES = AppRoutes;
   toggle = true;
@@ -26,12 +27,16 @@ export class InterventionComponent {
     private readonly interventionDataService: InterventionDataService,
     private readonly router: Router,
     public route: ActivatedRoute,
-  ) {}
+  ) { }
 
   public reviewIntervention(): void {
     this.interventionDataService.setActiveInterventionId(this.intervention.id);
     const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
     const params = this.route.snapshot.queryParams;
     void this.router.navigate(route, { queryParams: params });
+  }
+
+  handleInterventionDelete(event: Event) {
+    this.removeIntervention.emit(event);
   }
 }
