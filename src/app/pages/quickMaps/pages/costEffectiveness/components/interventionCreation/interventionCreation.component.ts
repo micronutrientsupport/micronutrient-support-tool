@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, AfterViewInit } from '@angular/core';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -14,9 +14,9 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
   styleUrls: ['./interventionCreation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class InterventionCreationComponent {
+export class InterventionCreationComponent implements AfterViewInit {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
   public selectedInterventions: Array<InterventionsDictionaryItem> = [];
   public routerSubscription: Subscription;
@@ -32,19 +32,22 @@ export class InterventionCreationComponent {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
     });
+  }
 
+  ngAfterViewInit() {
+    this.loadInterventions()
+  }
+
+  public async loadInterventions(): Promise<any> {
     const searchParams = new URLSearchParams(window.location.search);
     const inteventionIds = searchParams.getAll('intervention_ids');
-    if (inteventionIds) {
-      inteventionIds.forEach(id => {
-        this.interventionService.getIntervention(id).then((data: any) => {
-          this.selectedInterventions.push(data);
-          this.cdr.detectChanges();
-        });
+    for (const id of inteventionIds) {
+      await this.interventionService.getIntervention(id).then((data: any) => {
+        this.selectedInterventions.push(data);
+        this.cdr.detectChanges();
       });
     }
   }
-
 
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
