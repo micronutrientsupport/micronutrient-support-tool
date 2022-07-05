@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
@@ -15,19 +14,12 @@ export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
 
   public ROUTES = AppRoutes;
-  toggle = true;
-  status1 = 'Confirmed';
-  status2 = 'Confirmed';
-
-  public readonly DATA_LEVEL = DataLevel;
-  public loading = false;
-  public error = false;
 
   constructor(
     private readonly interventionDataService: InterventionDataService,
     private readonly router: Router,
     public route: ActivatedRoute,
-  ) { }
+  ) {}
 
   public reviewIntervention(): void {
     this.interventionDataService.setActiveInterventionId(this.intervention.id);
