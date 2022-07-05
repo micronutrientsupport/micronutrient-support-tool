@@ -39,10 +39,11 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 5;
+  public pageStepperPosition = 4;
   public interventionName = 'IntName';
 
   public ngOnInit(): void {
@@ -51,5 +52,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   private init(data: InterventionMonitoringInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.monitoringInformation);
+    console.log(data.monitoringInformation);
   }
 }

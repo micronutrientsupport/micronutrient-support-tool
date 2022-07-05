@@ -10,7 +10,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 })
 export class InterventionRecurringCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 6;
   public interventionName = 'IntName';
   public recurringCosts: Array<RecurringCost>;
   public displayHeaders = [

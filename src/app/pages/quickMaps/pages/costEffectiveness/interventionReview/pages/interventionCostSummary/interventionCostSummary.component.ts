@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionCostSummaryComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 8;
+  public pageStepperPosition = 7;
   public interventionName = 'IntName';
   public selectedTab: number;
   public summaryCosts: InterventionCostSummary;
