@@ -4,6 +4,7 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
+
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
@@ -26,7 +27,7 @@ export class InterventionComponent {
     private readonly interventionDataService: InterventionDataService,
     private readonly router: Router,
     public route: ActivatedRoute,
-  ) {}
+  ) { }
 
   public reviewIntervention(): void {
     this.interventionDataService.setActiveInterventionId(this.intervention.id);
