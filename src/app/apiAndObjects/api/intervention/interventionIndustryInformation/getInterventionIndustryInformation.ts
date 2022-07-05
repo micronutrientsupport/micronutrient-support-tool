@@ -1,6 +1,6 @@
-import { InterventionIndustryInformation } from '../../objects/interventionIndustryInformation';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { InterventionIndustryInformation } from '../../../objects/interventionIndustryInformation';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetInterventionIndustryInformation extends CacheableEndpoint<
   InterventionIndustryInformation,
