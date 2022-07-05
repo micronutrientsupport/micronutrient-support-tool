@@ -46,27 +46,31 @@ export class InterventionBaselineComponent implements OnInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.subscriptions.push(
-      this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
-          this.interventionDataService
-            .getInterventionFoodVehicleStandards('1')
-            .then((data: InterventionFoodVehicleStandards) => {
-              if (null != data) {
-                this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-                });
-                this.createFVTableObject(this.activeNutrientFVS);
-                void this.interventionDataService
-                  .getInterventionBaselineAssumptions('1')
-                  .then((data: InterventionBaselineAssumptions) => {
-                    this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-                    this.createBaselineTableObject();
+      void this.quickMapsService.micronutrient.obs
+        .subscribe((mn: MicronutrientDictionaryItem) => {
+          if (null != mn) {
+            this.interventionDataService
+              .getInterventionFoodVehicleStandards(activeInterventionId)
+              .then((data: InterventionFoodVehicleStandards) => {
+                if (null != data) {
+                  this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+                    return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                   });
-              }
-            });
-        }
-      }),
+                  this.createFVTableObject(this.activeNutrientFVS);
+                  void this.interventionDataService
+                    .getInterventionBaselineAssumptions(activeInterventionId)
+                    .then((data: InterventionBaselineAssumptions) => {
+                      this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+                      this.createBaselineTableObject();
+                    });
+                }
+              });
+          }
+        })
+        .unsubscribe(),
     );
   }
 

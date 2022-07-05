@@ -19,25 +19,14 @@
           <div class="item">
             10-year total cost: : <strong>${{intervention.tenYearTotalCost}}</strong>
           </div>
-
         </div>
-        <!-- <div class="item-container">
-                    <div class="item">
-                        Assumptions: <button mat-raised-button type=" button" (click)="onConfirmAssumptions()"
-                            [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status1 }}</button>
-                    </div>
-                    <div class="item">
-                        Costs: <button mat-raised-button type=" button" (click)="onConfirmCosts()"
-                            [ngClass]="{'green' : toggle, 'red': !toggle}">{{ status2 }}</button>
-                    </div>
-                </div> -->
       </div>
       <div class="column-container">
         <div class="button-container">
           <button mat-raised-button type=" button" class="btn btn-primary">Delete</button>
         </div>
         <div class="button-container">
-          <a mat-raised-button color="primary" [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route">Review</a>
+          <a mat-raised-button color="primary" (click)="reviewIntervention()">Review</a>
         </div>
       </div>
 

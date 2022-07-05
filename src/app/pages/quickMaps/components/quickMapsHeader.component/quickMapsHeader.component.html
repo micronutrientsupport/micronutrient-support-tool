@@ -32,8 +32,8 @@
     tourDescription="Click here to view more details of the projections to 2050" tourTitle="Projections to 2050"
     tourPosition="auto" tourStage="6">Explore projections to 2050
   </a>
-  <a class="mode-select-button quickmaps-uncertainty-link" mat-raised-button
-    [routerLink]="ROUTES.QUICK_MAPS_UNCERTAINTY | route" [queryParams]="route.queryParams | async"
+  <a [disabled]=" featureFlagsServive.isDisabled('CE-Enable')" class="mode-select-button quickmaps-uncertainty-link"
+    mat-raised-button [routerLink]="ROUTES.QUICK_MAPS_UNCERTAINTY | route" [queryParams]="route.queryParams | async"
     routerLinkActive="active-route">Explore uncertainty
   </a>
   <a class="mode-select-button quickmaps-dieray-change-link" mat-raised-button
