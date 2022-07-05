@@ -5,6 +5,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { QuickMapsService } from '../../../quickMaps.service';
 
 @Component({
   selector: 'app-uncertainty-nutrient-availability',
@@ -25,6 +26,7 @@ export class UncertaintyNutrientAvailabilityComponent implements AfterViewInit {
 
   private subscriptions = new Array<Subscription>();
   constructor(
+    public quickMapsService: QuickMapsService,
     private readonly dialogService: DialogService,
     private readonly cdr: ChangeDetectorRef,
     @Optional()

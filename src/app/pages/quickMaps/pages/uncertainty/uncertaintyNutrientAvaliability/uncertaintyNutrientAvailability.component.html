@@ -1,7 +1,59 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
+      <div class="chart-tab">
+        <h2>Chart description</h2>
+        <p>Fan chart distribution of availability of {{ (quickMapsService.micronutrient.obs | async)?.name }} in {{
+          (quickMapsService.country.obs | async)?.name }}, 2005-2050</p>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="SSP1">
+            <mat-option>SSP1</mat-option>
+            <mat-option>SSP2</mat-option>
+            <mat-option>SSP3</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <span class="bold">Compare to</span>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="SSP1">
+            <mat-option>SSP1</mat-option>
+            <mat-option>SSP2</mat-option>
+            <mat-option>SSP3</mat-option>
+          </mat-select>
+        </mat-form-field>
 
+        <div class="flex-wrapper">
+          <div class="chart">
+
+            <img src="./assets/images/png/chart-placeholder.png" alt="Sample" style="height: 180px">
+            <p><span class="item-bold">Source:</span> Own calculations from ensemble of IMPACT runs</p>
+          </div>
+          <div class="chart-description">
+            <span class="heading-bold">Scenarios</span>
+            <p>SSP1 (20 scenarios) and SSP2 (2- scenarios) selected</p>
+            <span class="heading-bold">Year to reach recommended intake</span>
+            <p>Scenario Selection 1: <span class="bold-primary">YEAR</span>
+              <br> Scenario Selection 2: <span class="bold-primary">YEAR</span>
+            </p>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header class="item-bold">Interpretation
+
+              </mat-expansion-panel-header>
+              <p>The shaded area represents the range of projections for {{ (quickMapsService.micronutrient.obs |
+                async)?.name }} availability, given what we think could happen to food availability under the various
+                scenarios. The darkest area represents 1/3 of themost central projections. The red line represents the
+                recommended daily intake for {{ (quickMapsService.micronutrient.obs | async)?.name }}, which is <span
+                  class="item-bold"> X mcg</span> per person per day. As we can gauge from the chart,{{
+                (quickMapsService.micronutrient.obs | async)?.name }} availability inreases with time, and exceeds the
+                recommended intake in all scenarios, from <span class="item-bold">YEAR</span> </p>
+            </mat-expansion-panel>
+            <a class="bold-primary" href="">Explore interventions to increase {{ (quickMapsService.micronutrient.obs |
+              async)?.name }} in {{(quickMapsService.country.obs | async)?.name }}<span>
+                <mat-icon>arrow_right_alt</mat-icon>
+              </span></a>
+
+          </div>
+        </div>
+      </div>
     </mat-tab>
 
     <mat-tab label="Table">

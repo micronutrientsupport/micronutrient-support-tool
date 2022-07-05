@@ -3,11 +3,19 @@
     <ng-container *ngIf="!loading">
         <div class="wideItem left-text form">
             <span class="item bold">Scenario</span>
-            <mat-form-field appearance="outline" aria-label="scenario" class="width-scenario">
+            <!-- <mat-form-field appearance="outline" 
+            aria-label="scenario" class="width-scenario"> -->
+            <mat-form-field appearance="outline">
                 <mat-label>Scenario</mat-label>
                 <mat-select placeholder="Socioeconomic">
                     <mat-option value="Socioeconomic">
                         Socioeconomic
+                    </mat-option>
+                    <mat-option value="Climate">
+                        Climate
+                    </mat-option>
+                    <mat-option value="allOptions">
+                        All Options
                     </mat-option>
                 </mat-select>
             </mat-form-field>
