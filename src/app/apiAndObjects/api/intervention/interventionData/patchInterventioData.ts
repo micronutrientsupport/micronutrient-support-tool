@@ -2,16 +2,16 @@ import { InterventionData } from 'src/app/apiAndObjects/objects/interventionData
 import { CacheableEndpoint } from 'src/app/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/app/apiAndObjects/_lib_code/api/requestMethod.enum';
 
-export class UpdateInterventionData extends CacheableEndpoint<
+export class PatchInterventionData extends CacheableEndpoint<
   InterventionData,
-  UpdateInterventionDataParams,
+  PatchInterventionDataParams,
   InterventionData
 > {
-  protected getCacheKey(params: UpdateInterventionDataParams): string {
+  protected getCacheKey(params: PatchInterventionDataParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: UpdateInterventionDataParams): Promise<InterventionData> {
+  protected callLive(params: PatchInterventionDataParams): Promise<InterventionData> {
     const callResponsePromise = this.apiCaller.doCall(
       ['interventions', params.interventionId, 'data'],
       RequestMethod.PATCH,
@@ -29,7 +29,7 @@ export class UpdateInterventionData extends CacheableEndpoint<
   }
 }
 
-export interface UpdateInterventionDataParams {
+export interface PatchInterventionDataParams {
   interventionId: string;
   data: Record<string, unknown>;
 }
