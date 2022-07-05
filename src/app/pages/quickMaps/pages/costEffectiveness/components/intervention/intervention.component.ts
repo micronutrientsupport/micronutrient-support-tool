@@ -4,6 +4,7 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
+
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
@@ -12,7 +13,6 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 })
 export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
-  @Output() removeIntervention = new EventEmitter<Event>();
 
   public ROUTES = AppRoutes;
   toggle = true;
