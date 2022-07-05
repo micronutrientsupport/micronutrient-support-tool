@@ -29,7 +29,7 @@ import { postFeedback } from './feedback/postFeedback';
 import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
 import { GetIntervention } from './intervention/intervention/getIntervention';
-import { GetInterventionData } from './intervention/interventioData/getInterventioData';
+import { GetInterventionData } from './intervention/interventionData/getInterventioData';
 import { GetInterventionFoodVehicleStandards } from './intervention/interventionFoodVehicleStandards/getInterventionFoodVehicleStandards';
 import { GetInterventionIndustryInformation } from './intervention/interventionIndustryInformation/getInterventionIndustryInformation';
 import { GetInterventionMonitoringInformation } from './intervention/interventionMonitoringInformation/getInterventionMonitoringInformation';
