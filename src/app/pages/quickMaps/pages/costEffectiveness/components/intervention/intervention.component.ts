@@ -35,8 +35,4 @@ export class InterventionComponent {
     const params = this.route.snapshot.queryParams;
     void this.router.navigate(route, { queryParams: params });
   }
-
-  handleInterventionDelete(event: Event) {
-    this.removeIntervention.emit(event);
-  }
 }

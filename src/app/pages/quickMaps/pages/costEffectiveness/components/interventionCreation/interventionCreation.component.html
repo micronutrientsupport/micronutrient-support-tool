@@ -14,6 +14,5 @@
 </div>
 <h2>Selected interventions</h2>
 
-<app-ce-intervention *ngFor="let intervention of selectedInterventions"
-    (removeIntervention)="removeIntervention($event)" [intervention]="intervention">
+<app-ce-intervention *ngFor="let intervention of selectedInterventions" [intervention]="intervention">
 </app-ce-intervention>
