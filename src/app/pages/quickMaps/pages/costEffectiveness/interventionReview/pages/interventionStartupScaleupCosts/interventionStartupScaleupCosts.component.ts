@@ -11,7 +11,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 })
 export class InterventionStartupScaleupCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 6;
+  public pageStepperPosition = 5;
   public interventionName = 'IntName';
 
   public startupCosts: Array<StartUpScaleUpCost>;
