@@ -1,7 +1,41 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-
+      <div class="flex-wrapper">
+        <h2>Food availability of major sources of
+          <strong>{{ (quickMapsService.micronutrient.obs | async)?.name }}</strong>
+          in
+          <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>.
+        </h2>
+      </div>
+      <div class="flex-wrapper">
+        <div class="chart">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" color="primary">
+            <mat-button-toggle value="2005">2005</mat-button-toggle>
+            <mat-button-toggle value="2010">2010</mat-button-toggle>
+            <mat-button-toggle value="2015">2015</mat-button-toggle>
+            <mat-button-toggle value="2020">2020</mat-button-toggle>
+            <mat-button-toggle value="2025">2025</mat-button-toggle>
+            <mat-button-toggle value="2030">2030</mat-button-toggle>
+            <mat-button-toggle value="2035">2035</mat-button-toggle>
+            <mat-button-toggle value="2040">2040</mat-button-toggle>
+            <mat-button-toggle value="2045">2045</mat-button-toggle>
+            <mat-button-toggle value="2050">2050</mat-button-toggle>
+          </mat-button-toggle-group>
+          <h2>Chart goes here</h2>
+        </div>
+        <div class="description">
+          <h3><strong>Interpretation</strong></h3>
+          <p>This chart shows the projected availablity of eight major sources of {{ (quickMapsService.micronutrient.obs
+            | async)?.name }} in {{ (quickMapsService.country.obs | async)?.name }}.</p>
+          <p>
+            The values are expressed as index numbers, normalized to a 2005 base year.
+            This means that all values are expressed in relation to food availability in 2005.
+            Values above 100 indicate an increase in food availability,
+            while values below 100 indicate a reduction in food availability.
+          </p>
+        </div>
+      </div>
     </mat-tab>
 
     <mat-tab label="Table">
@@ -16,7 +50,7 @@
 
     <mat-tab label="About {{title}}">
       <div class="about-container">
-        <h2>About {{title}}</h2>
+        <h2>About {{ title }}</h2>
       </div>
     </mat-tab>
 
