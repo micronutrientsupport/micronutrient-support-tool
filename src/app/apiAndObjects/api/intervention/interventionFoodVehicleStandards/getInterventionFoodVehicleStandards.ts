@@ -1,6 +1,6 @@
-import { InterventionFoodVehicleStandards } from '../../objects/interventionFoodVehicleStandards';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { InterventionFoodVehicleStandards } from '../../../objects/interventionFoodVehicleStandards';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetInterventionFoodVehicleStandards extends CacheableEndpoint<
   InterventionFoodVehicleStandards,

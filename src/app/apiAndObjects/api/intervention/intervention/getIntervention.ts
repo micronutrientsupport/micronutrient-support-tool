@@ -1,6 +1,6 @@
-import { Intervention } from '../../objects/intervention';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { Intervention } from '../../../objects/intervention';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetIntervention extends CacheableEndpoint<Intervention, GetInverventionsParams, Intervention> {
   protected getCacheKey(params: GetInverventionsParams): string {

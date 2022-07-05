@@ -1,6 +1,6 @@
-import { InterventionRecurringCosts } from '../../objects/interventionRecurringCosts';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { InterventionRecurringCosts } from '../../../objects/interventionRecurringCosts';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetInterventionRecurringCosts extends CacheableEndpoint<
   InterventionRecurringCosts,
