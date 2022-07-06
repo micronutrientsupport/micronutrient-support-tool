@@ -49,7 +49,7 @@ export class InterventionCreationComponent {
   }
   public openCESelectionDialog(): void {
     void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
-      if (null != data) {
+      if (Object.keys(data.dataOut).length !== 0) {
         const inteventionIds = this.route.snapshot.queryParamMap.get('intIds')
           ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
           : [];
@@ -58,9 +58,9 @@ export class InterventionCreationComponent {
           queryParams: { intIds: JSON.stringify([...inteventionIds, +data.dataOut.id]) },
           queryParamsHandling: 'merge',
         });
+        this.selectedInterventions.push(data.dataOut);
+        this.cdr.detectChanges();
       }
-      this.selectedInterventions.push(data.dataOut);
-      this.cdr.detectChanges();
     });
   }
 }
