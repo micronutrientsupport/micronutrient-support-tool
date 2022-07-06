@@ -1,56 +1,61 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-      <div class="chart-tab">
-        <h2>Chart description</h2>
-        <p>Fan chart distribution of availability of {{ (quickMapsService.micronutrient.obs | async)?.name }} in {{
-          (quickMapsService.country.obs | async)?.name }}, 2005-2050</p>
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="SSP1">
-            <mat-option>SSP1</mat-option>
-            <mat-option>SSP2</mat-option>
-            <mat-option>SSP3</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <span class="bold">Compare to</span>
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="SSP1">
-            <mat-option>SSP1</mat-option>
-            <mat-option>SSP2</mat-option>
-            <mat-option>SSP3</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div class="scroll-wrapper bmgf-maps-nice-scrollbar">
 
-        <div class="flex-wrapper">
-          <div class="chart">
+        <div class="chart-tab">
+          <h2>Chart description</h2>
+          <p>Fan chart distribution of availability of {{ (quickMapsService.micronutrient.obs | async)?.name }} in {{
+            (quickMapsService.country.obs | async)?.name }}, 2005-2050</p>
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="SSP1" (change)="onScenario1Selected($event)">
+              <mat-option>SSP1</mat-option>
+              <mat-option>SSP2</mat-option>
+              <mat-option>SSP3</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span class="bold">Compare to</span>
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="SSP1">
+              <mat-option>SSP1</mat-option>
+              <mat-option>SSP2</mat-option>
+              <mat-option>SSP3</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-            <img src="./assets/images/png/chart-placeholder.png" alt="Sample" style="height: 180px">
-            <p><span class="item-bold">Source:</span> Own calculations from ensemble of IMPACT runs</p>
-          </div>
-          <div class="chart-description">
-            <span class="heading-bold">Scenarios</span>
-            <p>SSP1 (20 scenarios) and SSP2 (2- scenarios) selected</p>
-            <span class="heading-bold">Year to reach recommended intake</span>
-            <p>Scenario Selection 1: <span class="bold-primary">YEAR</span>
-              <br> Scenario Selection 2: <span class="bold-primary">YEAR</span>
-            </p>
-            <mat-expansion-panel [expanded]="true">
-              <mat-expansion-panel-header class="item-bold">Interpretation
+          <div class="flex-wrapper">
+            <div class="chart">
 
-              </mat-expansion-panel-header>
-              <p>The shaded area represents the range of projections for {{ (quickMapsService.micronutrient.obs |
-                async)?.name }} availability, given what we think could happen to food availability under the various
-                scenarios. The darkest area represents 1/3 of themost central projections. The red line represents the
-                recommended daily intake for {{ (quickMapsService.micronutrient.obs | async)?.name }}, which is <span
-                  class="item-bold"> X mcg</span> per person per day. As we can gauge from the chart,{{
-                (quickMapsService.micronutrient.obs | async)?.name }} availability inreases with time, and exceeds the
-                recommended intake in all scenarios, from <span class="item-bold">YEAR</span> </p>
-            </mat-expansion-panel>
-            <a class="bold-primary" href="">Explore interventions to increase {{ (quickMapsService.micronutrient.obs |
-              async)?.name }} in {{(quickMapsService.country.obs | async)?.name }}<span>
-                <mat-icon>arrow_right_alt</mat-icon>
-              </span></a>
+              <img src="./assets/images/png/chart-placeholder.png" alt="Sample" style="height: 180px">
+              <p><strong>Source:</strong> Own calculations from ensemble of IMPACT runs</p>
+            </div>
+            <div class="chart-description">
+              <span class="heading-bold">Scenarios</span>
+              <p>SSP1 (20 scenarios) and SSP2 (2- scenarios) selected</p>
+              <span class="heading-bold">Year to reach recommended intake</span>
+              <p>Scenario Selection 1: <span class="bold-primary">YEAR</span>
+                <br> Scenario Selection 2: <span class="bold-primary">YEAR</span>
+              </p>
+              <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header><strong>Interpretation</strong>
 
+                </mat-expansion-panel-header>
+                <p>The shaded area represents the range of projections for {{ (quickMapsService.micronutrient.obs |
+                  async)?.name }} availability, given what we think could happen to food availability under the various
+                  scenarios. The darkest area represents 1/3 of themost central projections. The red line represents the
+                  recommended daily intake for {{ (quickMapsService.micronutrient.obs | async)?.name }}, which is
+                  <strong>
+                    X mcg</strong> per person per day. As we can gauge from the chart, {{
+                  (quickMapsService.micronutrient.obs | async)?.name }} availability inreases with time, and exceeds the
+                  recommended intake in all scenarios, from <strong>YEAR</strong>
+                </p>
+              </mat-expansion-panel>
+              <a class="bold-primary" href="">Explore interventions to increase {{ (quickMapsService.micronutrient.obs |
+                async)?.name }} in {{(quickMapsService.country.obs | async)?.name }}<span>
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </span></a>
+
+            </div>
           </div>
         </div>
       </div>
@@ -58,6 +63,114 @@
 
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
+        <div class="table-tab">
+          <h2>Table description</h2>
+          <p>Estimated nutrient availability per capita in {{ (quickMapsService.country.obs | async)?.name }}, based on
+            demand for crop commodities</p>
+
+          <table mat-table [dataSource]="dataSource">
+            <!-- Scenario Column -->
+            <ng-container matColumnDef="scenario">
+              <th mat-header-cell *matHeaderCellDef> Scenario </th>
+              <td mat-cell *matCellDef="let element"> {{element.scenario}} </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef> Value </th>
+              <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+            </ng-container>
+
+            <!-- year1 Column -->
+            <ng-container matColumnDef="year1">
+              <th mat-header-cell *matHeaderCellDef> 2010 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year1}} </td>
+            </ng-container>
+
+            <!-- year2 Column -->
+            <ng-container matColumnDef="year2">
+              <th mat-header-cell *matHeaderCellDef> 2015 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year2}} </td>
+            </ng-container>
+            <!-- year3 Column -->
+            <ng-container matColumnDef="year3">
+              <th mat-header-cell *matHeaderCellDef> 2020 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year1}} </td>
+            </ng-container>
+
+            <!-- year4 Column -->
+            <ng-container matColumnDef="year4">
+              <th mat-header-cell *matHeaderCellDef> 2025 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year4}} </td>
+            </ng-container>
+            <!-- year5 Column -->
+            <ng-container matColumnDef="year5">
+              <th mat-header-cell *matHeaderCellDef> 2030 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year5}} </td>
+            </ng-container>
+
+            <!-- year6 Column -->
+            <ng-container matColumnDef="year6">
+              <th mat-header-cell *matHeaderCellDef> 2035 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year6}} </td>
+            </ng-container>
+            <!-- year7 Column -->
+            <ng-container matColumnDef="year7">
+              <th mat-header-cell *matHeaderCellDef> 2040 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year7}} </td>
+            </ng-container>
+
+            <!-- year8 Column -->
+            <ng-container matColumnDef="year8">
+              <th mat-header-cell *matHeaderCellDef> 2045 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year8}} </td>
+            </ng-container>
+            <!-- year9 Column -->
+            <ng-container matColumnDef="year9">
+              <th mat-header-cell *matHeaderCellDef> 2050 </th>
+              <td mat-cell *matCellDef="let element"> {{element.year9}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div>
+            <h2>TABLE with rowSpan</h2>
+            <table>
+              <tr>
+                <th>Scenario</th>
+                <th>Value</th>
+                <th>2010</th>
+                <th>2015</th>
+                <th>2020</th>
+                <th>2025</th>
+                <th>2030</th>
+                <th>2035</th>
+                <th>2040</th>
+                <th>2045</th>
+                <th>2050</th>
+
+              </tr>
+              <tr *ngFor="let item of dataExt">
+                <td [attr.rowspan]="item.scenarioSpan" *ngIf="item.scenarioSpan">{{ item.scenario }}</td>
+                <td [attr.rowspan]="item.valueSpan" *ngIf="item.valueSpan">{{ item.value }}</td>
+                <td>{{ item.year1 }}</td>
+                <td>{{ item.year2 }}</td>
+                <td>{{ item.year3 }}</td>
+                <td>{{ item.year4 }}</td>
+                <td>{{ item.year5 }}</td>
+                <td>{{ item.year6 }}</td>
+                <td>{{ item.year7 }}</td>
+                <td>{{ item.year8 }}</td>
+                <td>{{ item.year9 }}</td>
+
+              </tr>
+            </table>
+          </div>
+
+          <p><strong>Source:</strong> Own calculations from ensemble of IMPACT-SIMM model for {{
+            (quickMapsService.country.obs | async)?.name }}</p>
+        </div>
       </div>
     </mat-tab>
 
