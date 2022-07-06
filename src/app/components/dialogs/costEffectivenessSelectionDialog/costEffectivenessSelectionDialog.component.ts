@@ -23,9 +23,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   public createIntervention(): void {
-    if (null != this.selectedIntervention.name) {
+    if (this.selectedIntervention) {
       this.dialogData.dataOut = this.selectedIntervention;
+      this.dialog.closeAll();
     }
-    this.dialog.closeAll();
   }
 }

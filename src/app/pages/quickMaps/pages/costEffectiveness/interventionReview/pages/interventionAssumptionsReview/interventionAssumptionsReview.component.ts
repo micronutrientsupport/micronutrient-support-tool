@@ -50,7 +50,7 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
+  public pageStepperPosition = 2;
   public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
 
