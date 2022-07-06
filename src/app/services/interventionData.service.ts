@@ -116,11 +116,13 @@ export class InterventionDataService {
   }
 
   public setActiveInterventionId(id: string): void {
+    localStorage.removeItem(ACTIVE_INTERVENTION_ID);
     localStorage.setItem(ACTIVE_INTERVENTION_ID, id);
   }
 
   public getActiveInterventionId(): string {
     const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
+    console.debug('aactiveId from service', activeId);
     if (null == activeId) {
       const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;
