@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
-import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
@@ -15,6 +14,7 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
+import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 @Injectable({
@@ -34,9 +34,9 @@ export class InterventionDataService {
   private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
 
-  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
+  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) { }
 
-  public getIntervention(id: string): Promise<Intervention> {
+  public getIntervention(id: string): Promise<InterventionsDictionaryItem> {
     return this.apiService.endpoints.intervention.getIntervention.call({
       id,
     });

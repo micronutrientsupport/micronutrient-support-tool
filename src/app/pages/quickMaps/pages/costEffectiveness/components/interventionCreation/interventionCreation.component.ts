@@ -9,6 +9,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { Subscription } from 'rxjs';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -37,9 +38,8 @@ export class InterventionCreationComponent {
       .subscribe(async (queryParams) => {
         const inteventionIds: Array<string> = queryParams.get('intIds') ? JSON.parse(queryParams.get('intIds')) : [];
         for (const id of inteventionIds) {
-          await this.interventionService.getIntervention(id).then((data: unknown) => {
-            console.log(data);
-            this.selectedInterventions.push(data as InterventionsDictionaryItem);
+          await this.interventionService.getIntervention(id).then((data: InterventionsDictionaryItem) => {
+            this.selectedInterventions.push(data);
             this.cdr.detectChanges();
           });
         }
