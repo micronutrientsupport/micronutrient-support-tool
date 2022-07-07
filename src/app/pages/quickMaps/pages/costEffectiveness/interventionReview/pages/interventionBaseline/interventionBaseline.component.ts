@@ -78,7 +78,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
           }
           this.cdr.detectChanges();
         })
-        .unsubscribe(),
     );
   }
 
