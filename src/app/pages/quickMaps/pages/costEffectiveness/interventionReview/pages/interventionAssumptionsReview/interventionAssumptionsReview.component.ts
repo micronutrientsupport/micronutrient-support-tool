@@ -79,7 +79,6 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
             // });
           }
         })
-        .unsubscribe(),
     );
   }
 

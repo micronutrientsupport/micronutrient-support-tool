@@ -77,7 +77,6 @@ export class InterventionComplianceComponent implements OnInit {
             // });
           }
         })
-        .unsubscribe(),
     );
   }
 

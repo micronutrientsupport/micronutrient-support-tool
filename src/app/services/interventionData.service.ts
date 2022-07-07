@@ -16,6 +16,7 @@ import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventio
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
 
+export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,7 +24,6 @@ export class InterventionDataService {
   private cachedMnInPremix: Array<FoodVehicleStandard> = [];
   public ROUTES = AppRoutes;
 
-  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
@@ -34,8 +34,7 @@ export class InterventionDataService {
   private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
 
-  private readonly interventionIdSrc = new BehaviorSubject<string>(null);
-  public readonly interventionIdObs = this.interventionIdSrc.asObservable();
+  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
@@ -117,16 +116,19 @@ export class InterventionDataService {
   }
 
   public setActiveInterventionId(id: string): void {
-    this.interventionIdSrc.next(id);
+    localStorage.removeItem(ACTIVE_INTERVENTION_ID);
+    localStorage.setItem(ACTIVE_INTERVENTION_ID, id);
   }
 
   public getActiveInterventionId(): string {
-    if (null == this.interventionIdSrc.getValue()) {
+    const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
+    console.debug('aactiveId from service', activeId);
+    if (null == activeId) {
       const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;
       void this.router.navigate(route, { queryParams: params });
     } else {
-      return this.interventionIdSrc.getValue();
+      return activeId;
     }
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
 import {
   IndustryInformation,
   InterventionIndustryInformation,
@@ -17,8 +16,6 @@ import { InterventionSideNavContentService } from '../../components/intervention
 export class InterventionIndustryInformationComponent implements OnInit, OnDestroy {
   publiciIndustryInformation: IndustryInformation;
   public testInput: number;
-
-  private subscriptioions = new Array<Subscription>();
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,

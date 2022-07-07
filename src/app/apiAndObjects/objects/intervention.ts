@@ -4,6 +4,7 @@ import { Named } from './named.interface';
 
 export class Intervention extends BaseObject implements Named {
   public static readonly KEYS = {
+    ID: 'id',
     NAME: 'name',
     COUNTRY_ID: 'countryId',
     FORTIFICATION_ID: 'fortificationTypeId',
@@ -15,6 +16,7 @@ export class Intervention extends BaseObject implements Named {
     TEN_YEAR_TOTAL: 'tenYearTotalCost',
   };
 
+  public readonly id: number;
   public readonly name: string;
   public readonly dataLevel: DataLevel;
 
@@ -28,7 +30,7 @@ export class Intervention extends BaseObject implements Named {
   public readonly tenYearTotalCost: number;
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-
+    this.id = this._getNumber(Intervention.KEYS.ID);
     this.name = this._getString(Intervention.KEYS.NAME);
 
     // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);

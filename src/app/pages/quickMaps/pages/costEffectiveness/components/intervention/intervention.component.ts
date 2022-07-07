@@ -22,6 +22,7 @@ export class InterventionComponent {
   ) {}
 
   public reviewIntervention(): void {
+    console.debug('id to be set from component:', this.intervention.id);
     this.interventionDataService.setActiveInterventionId(this.intervention.id);
     const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
     const params = this.route.snapshot.queryParams;
