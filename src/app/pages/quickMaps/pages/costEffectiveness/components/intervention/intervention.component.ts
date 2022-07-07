@@ -21,11 +21,27 @@ export class InterventionComponent {
     public route: ActivatedRoute,
   ) {}
 
+  public toggleAssumptions = true;
+  public toggleCosts = true;
+
+  public assumptionsText = 'Confirmed';
+  public costsText = 'Confirmed';
+
   public reviewIntervention(): void {
     console.debug('id to be set from component:', this.intervention.id);
     this.interventionDataService.setActiveInterventionId(this.intervention.id);
     const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
     const params = this.route.snapshot.queryParams;
     void this.router.navigate(route, { queryParams: params });
+  }
+
+  onConfirmAssumptions(): void {
+    this.toggleAssumptions = !this.toggleAssumptions;
+    this.assumptionsText = this.toggleAssumptions ? 'Confirmed' : 'Not confirmed';
+  }
+
+  onConfirmCosts(): void {
+    this.toggleCosts = !this.toggleCosts;
+    this.costsText = this.toggleCosts ? 'Confirmed' : 'Not confirmed';
   }
 }

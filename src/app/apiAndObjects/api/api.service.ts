@@ -37,6 +37,7 @@ import { GetInterventionRecurringCosts } from './intervention/interventionRecurr
 import { GetInterventionStartupCosts } from './intervention/InterventionStartupCosts/getInterventionStartupCosts';
 import { GetInterventionBaselineAssumptions } from './intervention/interventionBaselineAssumptions/getInterventionBaselineAssumptions';
 import { GetInterventionCostSummary } from './intervention/interventionCostSummary/getInterventionCostSummary';
+import { PostIntervention } from './intervention/intervention/postIntervention';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -77,6 +78,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
+      postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
     },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),

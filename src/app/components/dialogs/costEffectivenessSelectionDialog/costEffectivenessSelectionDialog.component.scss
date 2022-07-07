@@ -1,15 +1,76 @@
+@import '/src/assets/scss/colour';
+@import '~@angular/material/theming';
+
 h2,
 p {
-  align-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-mat-label {
-  color: grey;
+  text-align: center;
 }
 
-.button-container {
+h2 {
+  font-weight: 600;
+}
+
+p {
+  max-width: 50%;
   display: flex;
-  flex-direction: row;
+  align-self: center;
+}
+
+mat-form-field {
+  &.mat-form-field {
+    width: 100%;
+    font-weight: 500;
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+
+  button {
+    margin-right: 1rem;
+
+    &.btn-proceed {
+      background-color: mat-color($_primary_pallete, A700);
+
+      &:disabled {
+        color: #ffffff;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+.dropdown-title {
+  margin-bottom: 0.25rem;
+}
+
+.intervention-title {
+  margin-top: 1rem;
+}
+
+.result-wrapper {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  margin-top: 1.5rem;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+form {
+  &#form {
+    margin-bottom: 2rem;
+  }
 }
