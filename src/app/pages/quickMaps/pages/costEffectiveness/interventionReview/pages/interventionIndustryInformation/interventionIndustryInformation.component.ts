@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter, map, pairwise } from 'rxjs/operators';
 import {
   IndustryInformation,
   InterventionIndustryInformation,
@@ -49,9 +51,38 @@ export class InterventionIndustryInformationComponent implements OnInit, OnDestr
   public ROUTES = AppRoutes;
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
+  public form: FormGroup;
+  public formChanges: Record<string, unknown> = {};
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+    this.form = new FormGroup({
+      year0: new FormControl(0),
+      year1: new FormControl(0),
+      year2: new FormControl(0),
+    });
+    this.watchFormChanges();
+  }
+
+  private watchFormChanges(): void {
+    this.form.valueChanges.pipe(
+      pairwise(),
+      map(([oldState, newState]) => {
+        const changes = {};
+        for (const key in newState) {
+          if (oldState[key] !== newState[key] && oldState[key] !== undefined) {
+            changes[key] = newState[key];
+          }
+        }
+        return changes;
+      }),
+      filter(changes => Object.keys(changes).length !== 0 && !this.form.invalid)
+    ).subscribe(value => {
+      console.log('Form has changed: ', value);
+      // this.formChanges.push(value);
+      this.formChanges[Object.keys(value).shift()] = Object.values(value).shift();
+      console.log(this.formChanges);
+    });
   }
 
   public ngOnDestroy(): void {
