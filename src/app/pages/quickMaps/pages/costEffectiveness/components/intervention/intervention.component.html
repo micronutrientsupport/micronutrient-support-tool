@@ -2,7 +2,9 @@
   <mat-card>
     <mat-card-title class="int-header">
       <div class="title">
-        <strong>{{ intervention.name }}</strong>
+        <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
+        <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
+
         <span class="int-id">ID: {{ intervention.id }}</span>
       </div>
     </mat-card-title>
@@ -11,8 +13,8 @@
       <div class="content-container">
         <div class="item-container">
           <div class="item">
-            Base year: <strong>2021</strong>
-            <!-- Base year: <strong>{{ intervention.baseYear }}</strong> -->
+            <span *ngIf="!intervention.baseYear">Base year: <strong>2021</strong></span>
+            <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
           </div>
           <div class="item">
             10-year total cost: <strong>{{ intervention.tenYearTotalCost | currency }}</strong>

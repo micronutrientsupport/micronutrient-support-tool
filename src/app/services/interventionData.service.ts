@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
+import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
@@ -141,5 +142,12 @@ export class InterventionDataService {
     } else {
       return activeId;
     }
+  }
+
+  public startReviewingIntervention(interventionID: string): void {
+    this.setActiveInterventionId(interventionID);
+    const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
+    const params = this.route.snapshot.queryParams;
+    void this.router.navigate(route, { queryParams: params });
   }
 }

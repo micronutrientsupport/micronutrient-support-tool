@@ -29,11 +29,12 @@ export class InterventionComponent {
   public today: number = Date.now();
 
   public reviewIntervention(): void {
-    console.debug('id to be set from component:', this.intervention.id);
-    this.interventionDataService.setActiveInterventionId(this.intervention.id);
-    const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
-    const params = this.route.snapshot.queryParams;
-    void this.router.navigate(route, { queryParams: params });
+    this.interventionDataService.startReviewingIntervention(this.intervention.id);
+    // console.debug('id to be set from component:', this.intervention.id);
+    // this.interventionDataService.setActiveInterventionId(this.intervention.id);
+    // const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
+    // const params = this.route.snapshot.queryParams;
+    // void this.router.navigate(route, { queryParams: params });
   }
 
   onConfirmAssumptions(): void {
