@@ -13,7 +13,7 @@
       <div class="content-container">
         <div class="item-container">
           <div class="item">
-            <span *ngIf="!intervention.baseYear">Base year: <strong>2021</strong></span>
+            <span *ngIf="!intervention.baseYear">Base year: <strong>{{today | date:'y'}}</strong></span>
             <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
           </div>
           <div class="item">
