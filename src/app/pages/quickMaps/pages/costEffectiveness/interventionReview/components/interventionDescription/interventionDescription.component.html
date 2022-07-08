@@ -1,4 +1,8 @@
-<p>Intervention name: {{ interventionName }}</p>
+<div class="intervention-info">
+  <span>Intervention name: <strong>{{ selectedIntervention?.name }}</strong></span>
+  <span>ID: <strong>{{ selectedIntervention?.id }}</strong></span>
+</div>
+
 <div class="intervention-summary-title">{{ (quickMapsService.micronutrient.obs | async)?.name }} intervention in {{
   (quickMapsService.country.obs | async)?.name }}</div>
 <div class="intervention-summary-panel">

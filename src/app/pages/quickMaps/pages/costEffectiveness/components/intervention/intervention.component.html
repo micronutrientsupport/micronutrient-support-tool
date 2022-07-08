@@ -26,7 +26,8 @@
       </div>
       <div class="column-container">
         <div class="button-container">
-          <button mat-stroked-button type="button" class="btn btn-primary">Delete</button>
+          <button mat-stroked-button type="button" class="btn btn-primary"
+            (click)="removeIntervention()">Remove</button>
         </div>
         <div class="button-container">
           <a mat-flat-button color="primary" (click)="reviewIntervention()">Review</a>

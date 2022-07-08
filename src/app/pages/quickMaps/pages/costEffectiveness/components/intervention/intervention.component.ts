@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionCreationService } from '../interventionCreation/interventionCreation.service';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -17,6 +18,7 @@ export class InterventionComponent {
 
   constructor(
     private readonly interventionDataService: InterventionDataService,
+    private interventionCreationService: InterventionCreationService,
     private readonly router: Router,
     public route: ActivatedRoute,
   ) {}
@@ -32,12 +34,16 @@ export class InterventionComponent {
     this.interventionDataService.startReviewingIntervention(this.intervention.id);
   }
 
-  onConfirmAssumptions(): void {
+  public removeIntervention() {
+    this.interventionCreationService.interventionRemove(this.intervention.id);
+  }
+
+  public onConfirmAssumptions(): void {
     this.toggleAssumptions = !this.toggleAssumptions;
     this.assumptionsText = this.toggleAssumptions ? 'Confirmed' : 'Not confirmed';
   }
 
-  onConfirmCosts(): void {
+  public onConfirmCosts(): void {
     this.toggleCosts = !this.toggleCosts;
     this.costsText = this.toggleCosts ? 'Confirmed' : 'Not confirmed';
   }

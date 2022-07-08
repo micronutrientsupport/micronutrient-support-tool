@@ -9,13 +9,13 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   styleUrls: ['./interventionDescription.component.scss'],
 })
 export class InterventionDescriptionComponent {
-  public interventionName = '';
+  public selectedIntervention: Intervention;
   constructor(
     public quickMapsService: QuickMapsService,
     private readonly interventionDataService: InterventionDataService,
   ) {
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
-      .then((value: Intervention) => (this.interventionName = value.name));
+      .then((selectedIntervention: Intervention) => (this.selectedIntervention = selectedIntervention));
   }
 }
