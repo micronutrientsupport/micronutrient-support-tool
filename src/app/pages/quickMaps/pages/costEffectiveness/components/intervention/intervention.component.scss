@@ -44,7 +44,7 @@
 
   .item {
     button {
-      color: #FFFFFF;
+      color: #ffffff;
       line-height: 24px;
       margin-left: 0.5rem;
       min-width: 130px;
@@ -84,6 +84,11 @@
 
 .title {
   display: flex;
+  justify-content: flex-start;
+}
+
+.int-id {
+  margin-left: 10px;
 }
 
 .edit-title {
@@ -109,9 +114,9 @@
 }
 
 .green {
-  background-color: #6FCF97;
+  background-color: #6fcf97;
 }
 
 .red {
-  background-color: #EB5757;
+  background-color: #eb5757;
 }

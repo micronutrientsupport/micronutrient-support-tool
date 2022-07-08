@@ -26,6 +26,7 @@ export class InterventionComponent {
 
   public assumptionsText = 'Confirmed';
   public costsText = 'Confirmed';
+  public today: number = Date.now();
 
   public reviewIntervention(): void {
     console.debug('id to be set from component:', this.intervention.id);
