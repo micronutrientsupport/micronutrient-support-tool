@@ -11,6 +11,9 @@ export class InterventionCreationService {
   private readonly interventionRemovalSrc = new BehaviorSubject<string>(null);
   public readonly interventionRemovalObs = this.interventionRemovalSrc.asObservable();
 
+  private readonly interventionsSelectedCountSrc = new BehaviorSubject<number>(null);
+  public readonly interventionsSelectedCountObs = this.interventionsSelectedCountSrc.asObservable();
+
   constructor() {
     // add content
   }
@@ -21,5 +24,9 @@ export class InterventionCreationService {
 
   public interventionRemove(interventionIdToRemove: string): void {
     this.interventionRemovalSrc.next(interventionIdToRemove);
+  }
+
+  public updateCurrentInterventionsCount(count: number): void {
+    this.interventionsSelectedCountSrc.next(count);
   }
 }

@@ -46,6 +46,7 @@ export class InterventionCreationComponent {
           for (const id of interventionIds) {
             await this.interventionService.getIntervention(id.toString()).then((data: unknown) => {
               this.selectedInterventions.push(data as InterventionsDictionaryItem);
+              this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
               this.cdr.detectChanges();
             });
           }
@@ -67,6 +68,7 @@ export class InterventionCreationComponent {
           queryParamsHandling: 'merge',
         });
         this.selectedInterventions.push(data.dataOut);
+        this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
         this.cdr.detectChanges();
       }
     });
@@ -77,6 +79,7 @@ export class InterventionCreationComponent {
 
     // remove from list of selected interventions
     this.selectedInterventions = this.selectedInterventions.filter((value) => value.id !== interventionToRemove);
+    this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
 
     // get current query param array
     const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
@@ -85,11 +88,9 @@ export class InterventionCreationComponent {
 
     // remove null and zero values
     const cleanedArrayIntIds: string[] = interventionIds.filter((x: number) => x);
-    console.log(JSON.stringify(cleanedArrayIntIds));
 
     // remove the specific intervention id
     const filteredArrayIntIds: string[] = cleanedArrayIntIds.filter((value) => value !== interventionToRemove);
-    console.log(JSON.stringify(filteredArrayIntIds));
 
     // update the route queryParams
     this.router.navigate([], {
