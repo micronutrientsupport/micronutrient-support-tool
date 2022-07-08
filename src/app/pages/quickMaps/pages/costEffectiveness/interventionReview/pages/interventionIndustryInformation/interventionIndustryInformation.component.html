@@ -4,7 +4,7 @@
     <div class="title">
       <span> Industry Information </span>
     </div>
-    <form [formGroup]="form">
+    <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items">
         <ng-container matColumnDef="labelText">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Intervention year </th>

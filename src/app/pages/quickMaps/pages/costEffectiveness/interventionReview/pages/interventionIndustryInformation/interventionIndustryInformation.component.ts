@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  InterventionIndustryInformation,
-} from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
+import { IndustryInformation, InterventionIndustryInformation } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
-import { Unsubscriber } from 'src/app/decorators/unsubscriber.decorator';
-import { Subscription } from 'rxjs';
-import { pairwise, map } from 'rxjs/operators';
+import { pairwise, map, filter, startWith } from 'rxjs/operators';
 
-@Unsubscriber('subscriptions')
 @Component({
   selector: 'app-intervention-industry-information',
   templateUrl: './interventionIndustryInformation.component.html',
@@ -38,69 +33,78 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: FormGroup;
-  public industryInformationInitialState = [];
-  public industryInformationFormChanges: { [row: number]: { [col: string]: string }; } = {};
-  private subscriptions = new Array<Subscription>();
+  public formInitialState = [];
+  public rowIndexes = [];
+  public formChanges: { [row: number]: { [col: string]: string } } = {};
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder
-  ) {
+    private formBuilder: FormBuilder,
+  ) {}
+
+  private initFormWatcher(): void {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
-      this.interventionDataService.interventionDataChangesObs.subscribe(data => {
-        console.log(data)
-      });
-
       void this.interventionDataService
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
           this.dataSource = new MatTableDataSource(data.industryInformation);
 
-          const industryGroupArr = data.industryInformation.map(item => {
-            this.industryInformationInitialState.push(item)
-            return this.createIndustryGroup(item)
+          const industryGroupArr = data.industryInformation.map((item) => {
+            return this.createIndustryGroup(item);
           });
           this.form = this.formBuilder.group({
-            items: this.formBuilder.array(industryGroupArr)
+            items: this.formBuilder.array(industryGroupArr),
           });
+          const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
+            return Object.entries(b).filter(([key, value]) => value !== a[key]);
+          };
+          const changes = {};
 
-          for (const key of Object.keys(this.industryArray)) {
-            const subscription = this.form.get('items')['controls'][key].valueChanges.pipe(pairwise(), map(([prev, next]) => {
-              const changes = {};
-              for (const idx in next) {
-                if (prev[idx] !== next[idx] && prev[idx] !== undefined) {
-                  changes[idx] = next[idx];
+          this.form.valueChanges
+            .pipe(
+              startWith(this.form.value),
+              pairwise(),
+              map(([oldState, newState]) => {
+                for (const key in newState.items) {
+                  const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
+
+                  if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
+                    const diff = compareObjs(oldState.items[key], newState.items[key]);
+                    if (Array.isArray(diff) && diff.length > 0) {
+                      diff.forEach((item) => {
+                        if (changes[rowIndex]) {
+                          changes[rowIndex] = {
+                            ...changes[rowIndex],
+                            [item[0]]: item[1]
+                          }
+                        } else {
+                          changes[rowIndex] = {
+                            [item[0]]: item[1],
+                          };
+                        }
+                      });
+                    }
+                  }
                 }
-              }
-              return changes;
-            })).subscribe(value => {
-              const interventionDataRowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value
-
-              this.industryInformationFormChanges[interventionDataRowIndex] = {
-                ...this.industryInformationFormChanges[interventionDataRowIndex], ...{
-                  [Object.keys(value).shift()]: Object.values(value).shift(),
-                  'rowIndex': interventionDataRowIndex
-                }
-              };
-
-              const newInterventionChanges = {
-                ...this.interventionDataService.getInterventionDataChanges(), ...this.industryInformationFormChanges
-              };
-              this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+                return changes;
+              }),
+              filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
+            )
+            .subscribe((value) => {
+              console.log(value);
+              this.formChanges = value;
             });
-            this.subscriptions.push(subscription);
-          }
         });
     }
   }
 
-  get industryArray() {
-    return this.form.get("items")["controls"] as FormArray;
+  get industryArray(): FormArray {
+    return this.form.get('items')['controls'] as FormArray;
   }
 
-  createIndustryGroup(item) {
+  createIndustryGroup(item: IndustryInformation): FormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [item.year0, []],
@@ -118,5 +122,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+    this.initFormWatcher();
   }
 }
