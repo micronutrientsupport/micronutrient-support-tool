@@ -9,54 +9,180 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         <td mat-footer-cell *matFooterCellDef>Total</td>
       </ng-container>
-      <ng-container matColumnDef="year0">
+      <!-- <ng-container matColumnDef="year0">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
         <td mat-cell *matCellDef="let element">{{element.year0 | currencyExtended}}</td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} </td>
+      </ng-container> -->
+      <ng-container matColumnDef="year0">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year0.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" appDecimalInput required [value]=element.year0.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year0 * 100"
+              (input)="element.year0 = $any($event.target).value / 100">
+          </div>
+        </td>
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} </td>
       </ng-container>
+      <!-- year1 -->
       <ng-container matColumnDef="year1">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2022</th>
-        <td mat-cell *matCellDef="let element">{{element.year1 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year1.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year1.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year1 * 100"
+              (input)="element.year1 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currencyExtended}} </td>
       </ng-container>
+      <!-- year2 -->
       <ng-container matColumnDef="year2">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2023</th>
-        <td mat-cell *matCellDef="let element">{{element.year2 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year2.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year2.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year2 * 100"
+              (input)="element.year2 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currencyExtended}} </td>
       </ng-container>
+      <!-- year3 -->
       <ng-container matColumnDef="year3">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2024</th>
-        <td mat-cell *matCellDef="let element">{{element.year3 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year3.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year3.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year3 * 100"
+              (input)="element.year3 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currencyExtended}} </td>
       </ng-container>
+      <!-- year4 -->
       <ng-container matColumnDef="year4">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2025</th>
-        <td mat-cell *matCellDef="let element">{{element.year4 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year4.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year4.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year4 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currencyExtended}} </td>
       </ng-container>
+      <!-- year5 -->
       <ng-container matColumnDef="year5">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2026</th>
-        <td mat-cell *matCellDef="let element">{{element.year5 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year5.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year5.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year5 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currencyExtended}} </td>
       </ng-container>
+      <!-- year6 -->
       <ng-container matColumnDef="year6">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2027</th>
-        <td mat-cell *matCellDef="let element">{{element.year6 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year6.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year6.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year6 * 100"
+              (input)="element.year6 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currencyExtended}} </td>
       </ng-container>
+      <!-- year7 -->
       <ng-container matColumnDef="year7">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2028</th>
-        <td mat-cell *matCellDef="let element">{{element.year7 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year7.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span>
+            <!-- <input type="number" matInput required [value]=element.year7> -->
+            <input appDecimalInput [(ngModel)]="element.year7">
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year7 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currencyExtended}} </td>
       </ng-container>
+      <!-- year8 -->
       <ng-container matColumnDef="year8">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2029</th>
-        <td mat-cell *matCellDef="let element">{{element.year8 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year8.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year8.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year8 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currencyExtended}} </td>
       </ng-container>
+      <!-- year9 -->
       <ng-container matColumnDef="year9">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2030</th>
-        <td mat-cell *matCellDef="let element">{{element.year9 | currencyExtended}}</td>
+        <td class="column-title" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rowUnits === 'number'">
+            <input type="number" matInput required [value]=element.year9.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'US dollars'">
+            <span>$</span><input type="number" matInput required [value]=element.year9.toFixed(2)>
+          </div>
+          <div *ngIf="element.rowUnits === 'percent'">
+            <input type="number" [value]="element.year4 * 100"
+              (input)="element.year9 = $any($event.target).value / 100">
+          </div>
+        </td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currencyExtended}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
