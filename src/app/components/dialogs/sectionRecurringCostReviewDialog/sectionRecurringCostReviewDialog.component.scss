@@ -24,3 +24,16 @@ table {
     font-weight: 600;
   }
 }
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+}
