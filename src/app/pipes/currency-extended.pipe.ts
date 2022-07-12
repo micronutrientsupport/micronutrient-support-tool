@@ -11,10 +11,6 @@ export class CurrencyExtendedPipe extends CurrencyPipe implements PipeTransform 
 
   transform(
     value: number | string,
-    // currencyCode?: string,
-    // display?: 'code' | 'symbol' | 'symbol-narrow' | string | boolean,
-    // digitsInfo?: string,
-    // locale?: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any {
     if (value === null) {
