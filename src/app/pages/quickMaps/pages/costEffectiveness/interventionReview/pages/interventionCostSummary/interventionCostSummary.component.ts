@@ -81,11 +81,11 @@ export class InterventionCostSummaryComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const interventionChanges = this.interventionDataService.getIndustryInformationChanges()
+    const interventionChanges = this.interventionDataService.getInterventionDataChanges()
     if (interventionChanges) {
       const dataArr = []
-      for (const idx in Object.keys(interventionChanges)) {
-        dataArr.push(interventionChanges[idx]);
+      for (const key in interventionChanges) {
+        dataArr.push(interventionChanges[key]);
       }
 
       const interventionId = this.interventionDataService.getActiveInterventionId()
@@ -93,7 +93,7 @@ export class InterventionCostSummaryComponent implements OnInit {
         console.log(response); // patch response does not have body. msg, data etc are null
       });
 
-      this.interventionDataService.setIndustryInformationChanges(null)
+      this.interventionDataService.setInterventionDataChanges(null)
     }
 
     // navigate back to list of selected interventions

@@ -38,8 +38,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: FormGroup;
-  public formInitialState = [];
-  public formChanges: { [row: number]: { [col: string]: string }; } = {};
+  public industryInformationInitialState = [];
+  public industryInformationFormChanges: { [row: number]: { [col: string]: string }; } = {};
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -59,7 +59,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
           this.dataSource = new MatTableDataSource(data.industryInformation);
 
           const industryGroupArr = data.industryInformation.map(item => {
-            this.formInitialState.push(item)
+            this.industryInformationInitialState.push(item)
             return this.createIndustryGroup(item)
           });
           this.form = this.formBuilder.group({
@@ -78,28 +78,17 @@ export class InterventionIndustryInformationComponent implements OnInit {
             })).subscribe(value => {
               const interventionDataRowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value
 
-              this.formChanges[key] = {
-                ...this.formChanges[key], ...{
+              this.industryInformationFormChanges[interventionDataRowIndex] = {
+                ...this.industryInformationFormChanges[interventionDataRowIndex], ...{
                   [Object.keys(value).shift()]: Object.values(value).shift(),
                   'rowIndex': interventionDataRowIndex
                 }
               };
 
-              //if value is the same as initial value, remove from this.formChanges as a PUT request for the same value is not neccessary
-              Object.keys(this.formChanges).forEach((row) => {
-                Object.keys(this.formChanges[row]).forEach(col => {
-                  if (col !== 'rowIndex') {
-                    if (this.formInitialState[row][col] === this.formChanges[row][col]) {
-                      console.log('value is now in original state, remove value from changes object')
-                      delete this.formChanges[row][col];
-                      if (Object.keys(this.formChanges[row]).length === 0) {
-                        delete this.formChanges[row];
-                      }
-                    }
-                  }
-                });
-              });
-              this.interventionDataService.setIndustryInformationChanges(this.formChanges);
+              const newInterventionChanges = {
+                ...this.interventionDataService.getInterventionDataChanges(), ...this.industryInformationFormChanges
+              };
+              this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
             });
             this.subscriptions.push(subscription);
           }
