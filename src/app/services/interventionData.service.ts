@@ -165,4 +165,11 @@ export class InterventionDataService {
   getInterventionDataChanges(): Record<string, unknown> {
     return this.interventionDataChangesSrc.value
   }
+
+  public startReviewingIntervention(interventionID: string): void {
+    this.setActiveInterventionId(interventionID);
+    const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
+    const params = this.route.snapshot.queryParams;
+    void this.router.navigate(route, { queryParams: params });
+  }
 }

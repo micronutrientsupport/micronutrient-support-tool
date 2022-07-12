@@ -77,12 +77,14 @@ export class InterventionIndustryInformationComponent implements OnInit {
                         if (changes[rowIndex]) {
                           changes[rowIndex] = {
                             ...changes[rowIndex],
-                            [item[0]]: item[1]
+                            [item[0]]: item[1],
                           }
+                          changes[rowIndex]['rowIndex'] = rowIndex;
                         } else {
                           changes[rowIndex] = {
                             [item[0]]: item[1],
                           };
+                          changes[rowIndex]['rowIndex'] = rowIndex;
                         }
                       });
                     }
