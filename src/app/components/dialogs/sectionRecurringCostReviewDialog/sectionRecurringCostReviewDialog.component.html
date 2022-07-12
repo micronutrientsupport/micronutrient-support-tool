@@ -7,7 +7,7 @@
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Years of start-up or scale-up</th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
+        <td mat-footer-cell *matFooterCellDef>Total</td>
       </ng-container>
       <ng-container matColumnDef="year0">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
@@ -23,7 +23,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} </td>
       </ng-container>
       <!-- year1 -->
       <ng-container matColumnDef="year1">
@@ -40,7 +40,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currencyExtended}} </td>
       </ng-container>
       <!-- year2 -->
       <ng-container matColumnDef="year2">
@@ -57,7 +57,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currencyExtended}} </td>
       </ng-container>
       <!-- year3 -->
       <ng-container matColumnDef="year3">
@@ -74,7 +74,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currencyExtended}} </td>
       </ng-container>
       <!-- year4 -->
       <ng-container matColumnDef="year4">
@@ -91,7 +91,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currencyExtended}} </td>
       </ng-container>
       <!-- year5 -->
       <ng-container matColumnDef="year5">
@@ -108,7 +108,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currencyExtended}} </td>
       </ng-container>
       <!-- year6 -->
       <ng-container matColumnDef="year6">
@@ -125,7 +125,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currencyExtended}} </td>
       </ng-container>
       <!-- year7 -->
       <ng-container matColumnDef="year7">
@@ -143,7 +143,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currencyExtended}} </td>
       </ng-container>
       <!-- year8 -->
       <ng-container matColumnDef="year8">
@@ -160,7 +160,7 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currencyExtended}} </td>
       </ng-container>
       <!-- year9 -->
       <ng-container matColumnDef="year9">
@@ -177,12 +177,12 @@
               appDecimalInput>
           </div>
         </td>
-        <!-- <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currencyExtended}} </td> -->
+        <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currencyExtended}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
       <tr class="mat-row" *matNoDataRow></tr>
-      <!-- <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr> -->
+      <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
     </table>
     <div class="button-container">
       <button mat-raised-button (click)="dialogData.close()">Back</button>

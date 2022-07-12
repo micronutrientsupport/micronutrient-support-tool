@@ -36,6 +36,9 @@ export class SectionRecurringCostReviewDialogComponent {
   }
 
   public getTotalCost(yearKey: string): number {
-    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
+    // Only calculate the cost for items specifed as US Dollars.
+    // TODO: update this to factor in percentage modifiers
+    const filterItemsInDollars = this.dataSource.data.filter((cost) => cost.rowUnits === 'US dollars');
+    return filterItemsInDollars.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
 }
