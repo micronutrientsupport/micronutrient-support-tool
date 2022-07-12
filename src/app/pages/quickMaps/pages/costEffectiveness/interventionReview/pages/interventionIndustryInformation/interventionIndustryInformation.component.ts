@@ -49,6 +49,10 @@ export class InterventionIndustryInformationComponent implements OnInit {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
+      this.interventionDataService.interventionDataChangesObs.subscribe(data => {
+        console.log(data)
+      });
+
       void this.interventionDataService
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
@@ -72,24 +76,30 @@ export class InterventionIndustryInformationComponent implements OnInit {
               }
               return changes;
             })).subscribe(value => {
-              this.formChanges[key] = Object.assign({}, this.formChanges[key], {
-                [Object.keys(value).shift()]: Object.values(value).shift()
-              });
+              const interventionDataRowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value
+
+              this.formChanges[key] = {
+                ...this.formChanges[key], ...{
+                  [Object.keys(value).shift()]: Object.values(value).shift(),
+                  'rowIndex': interventionDataRowIndex
+                }
+              };
 
               //if value is the same as initial value, remove from this.formChanges as a PUT request for the same value is not neccessary
               Object.keys(this.formChanges).forEach((row) => {
                 Object.keys(this.formChanges[row]).forEach(col => {
-                  if (this.formInitialState[row][col] === this.formChanges[row][col]) {
-                    console.log('value is now in original state, remove value from changes object')
-                    delete this.formChanges[row][col];
-                    if (Object.keys(this.formChanges[row]).length === 0) {
-                      delete this.formChanges[row];
+                  if (col !== 'rowIndex') {
+                    if (this.formInitialState[row][col] === this.formChanges[row][col]) {
+                      console.log('value is now in original state, remove value from changes object')
+                      delete this.formChanges[row][col];
+                      if (Object.keys(this.formChanges[row]).length === 0) {
+                        delete this.formChanges[row];
+                      }
                     }
                   }
                 });
               });
-              console.log(this.formChanges);
-              console.log(this.formInitialState);
+              this.interventionDataService.setIndustryInformationChanges(this.formChanges);
             });
             this.subscriptions.push(subscription);
           }
@@ -103,6 +113,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   createIndustryGroup(item) {
     return this.formBuilder.group({
+      rowIndex: [item.rowIndex, []],
       year0: [item.year0, []],
       year1: [item.year1, []],
       year2: [item.year2, []],

@@ -34,7 +34,11 @@ export class InterventionDataService {
   private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
 
-  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
+  private readonly interventionDataChangesSrc = new BehaviorSubject<unknown>(null);
+  public interventionDataChangesObs = this.interventionDataChangesSrc.asObservable();
+
+
+  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) { }
 
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
@@ -148,5 +152,17 @@ export class InterventionDataService {
     const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
     const params = this.route.snapshot.queryParams;
     void this.router.navigate(route, { queryParams: params });
+  }
+  
+  public patchInterventionData(interventionId: string, data: Array<Record<string, unknown>>): Promise<InterventionData> {
+    return this.apiService.endpoints.intervention.patchInterventionData.call({ interventionId, data });
+  }
+
+  setIndustryInformationChanges(data: unknown): void {
+    this.interventionDataChangesSrc.next(data)
+  }
+
+  getIndustryInformationChanges(): unknown {
+    return this.interventionDataChangesSrc.value
   }
 }
