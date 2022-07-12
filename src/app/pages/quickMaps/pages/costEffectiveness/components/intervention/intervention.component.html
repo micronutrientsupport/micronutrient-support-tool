@@ -2,11 +2,10 @@
   <mat-card>
     <mat-card-title class="int-header">
       <div class="title">
-        <strong>{{ intervention.name }}</strong>
-        <button class="edit-title">
-          <mat-icon>edit</mat-icon>
-          <span>Rename</span>
-        </button>
+        <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
+        <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
+
+        <span class="int-id">ID: {{ intervention.id }}</span>
       </div>
     </mat-card-title>
     <p class="desc">{{ intervention.description }}</p>
@@ -14,31 +13,24 @@
       <div class="content-container">
         <div class="item-container">
           <div class="item">
-            Base year: <strong>{{ intervention.baseYear }}</strong>
+            <span *ngIf="!intervention.baseYear">Base year: <strong>{{today | date:'y'}}</strong></span>
+            <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
           </div>
           <div class="item">
-            10-year total cost: <strong>${{ intervention.tenYearTotalCost }}</strong>
-          </div>
-        </div>
-        <div class="item-container">
-          <div class="item">
-            <span>Assumptions:</span>
-            <button mat-raised-button type="button" (click)="onConfirmAssumptions()"
-              [ngClass]="{ 'green' : toggleAssumptions, 'red': !toggleAssumptions }">{{ assumptionsText }}</button>
+            10-year total cost: <strong>{{ intervention.tenYearTotalCost | currency }}</strong>
           </div>
           <div class="item">
-            <span>Costs:</span>
-            <button mat-raised-button type="button" (click)="onConfirmCosts()"
-              [ngClass]="{ 'green' : toggleCosts, 'red': !toggleCosts }">{{ costsText }}</button>
+            Last updated: <strong>{{today | date:'medium'}}</strong>
           </div>
         </div>
       </div>
       <div class="column-container">
         <div class="button-container">
-          <button mat-raised-button type="button" class="btn btn-primary">Delete</button>
+          <button mat-stroked-button type="button" class="btn btn-primary"
+            (click)="removeIntervention()">Remove</button>
         </div>
         <div class="button-container">
-          <a mat-raised-button color="primary" (click)="reviewIntervention()">Review</a>
+          <a mat-flat-button color="primary" (click)="reviewIntervention()">Review</a>
         </div>
       </div>
     </div>

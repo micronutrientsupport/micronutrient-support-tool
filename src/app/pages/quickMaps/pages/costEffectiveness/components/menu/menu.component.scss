@@ -5,8 +5,9 @@
   margin-top: 1em;
   .menu-container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    margin-right: 24px;
     .mat-button-toggle-group {
       width: 50%;
     }

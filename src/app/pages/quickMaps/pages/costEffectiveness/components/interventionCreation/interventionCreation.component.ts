@@ -9,6 +9,7 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { Subscription } from 'rxjs';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InterventionCreationService } from './interventionCreation.service';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -26,10 +27,15 @@ export class InterventionCreationComponent {
     private cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
     private router: Router,
+    private interventionCreationService: InterventionCreationService,
   ) {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
       this.loadInterventions();
+    });
+
+    this.interventionCreationService.interventionRemovalObs.subscribe((interventionIdToRemove: string) => {
+      this.removeInterventionById(interventionIdToRemove);
     });
   }
   public async loadInterventions(): Promise<void> {
@@ -40,6 +46,7 @@ export class InterventionCreationComponent {
           for (const id of interventionIds) {
             await this.interventionService.getIntervention(id.toString()).then((data: unknown) => {
               this.selectedInterventions.push(data as InterventionsDictionaryItem);
+              this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
               this.cdr.detectChanges();
             });
           }
@@ -61,8 +68,35 @@ export class InterventionCreationComponent {
           queryParamsHandling: 'merge',
         });
         this.selectedInterventions.push(data.dataOut);
+        this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
         this.cdr.detectChanges();
       }
+    });
+  }
+
+  public removeInterventionById(interventionToRemove: string): void {
+    // console.log('asked to remove intervention id ', interventionToRemove);
+
+    // remove from list of selected interventions
+    this.selectedInterventions = this.selectedInterventions.filter((value) => value.id !== interventionToRemove);
+    this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
+
+    // get current query param array
+    const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
+      ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
+      : [];
+
+    // remove null and zero values
+    const cleanedArrayIntIds: string[] = interventionIds.filter((x: number) => x);
+
+    // remove the specific intervention id
+    const filteredArrayIntIds: string[] = cleanedArrayIntIds.filter((value) => value !== interventionToRemove);
+
+    // update the route queryParams
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { intIds: JSON.stringify(filteredArrayIntIds) },
+      queryParamsHandling: 'merge',
     });
   }
 }
