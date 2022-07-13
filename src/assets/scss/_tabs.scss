@@ -10,32 +10,6 @@
 .mat-tab-group {
   margin: 1rem 0rem;
 
-  .mat-tab-header {
-    border-bottom: none;
-
-    .mat-tab-labels {
-      .mat-tab-label {
-        opacity: 1;
-        width: 100%;
-
-        &.cdk-program-focused {
-          &:not(.mat-tab-disabled) {
-            background-color: mat-color($_primary_pallete, A700);
-          }
-        }
-      }
-
-      .mat-tab-label-active {
-        background: mat-color($_primary_pallete, A700);
-
-        .mat-tab-label-content {
-          color: #ffffff;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-
   .mat-tab-body {
     overflow: hidden;
 

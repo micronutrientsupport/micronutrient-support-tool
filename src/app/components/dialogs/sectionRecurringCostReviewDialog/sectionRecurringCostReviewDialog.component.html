@@ -185,9 +185,8 @@
       <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
     </table>
     <div class="button-container">
-      <button mat-raised-button (click)="dialogData.close()">Back</button>
-      <button mat-raised-button color="primary">Confirm current values and return to recurring cost
-        summary</button>
+      <button mat-stroked-button (click)="dialogData.close()">Back</button>
+      <button class="confirm" mat-stroked-button color="primary" (click)="dialogData.close()">Confirm</button>
     </div>
   </div>
 </app-base-dialog>

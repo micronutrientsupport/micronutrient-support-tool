@@ -61,10 +61,10 @@
       </div>
 
       <div *ngIf="optionList.selectedOptions.selected[0]?.value === 'general'" class="button-wrapper">
-        <button mat-raised-button [disabled]="selectionList?.selectedOptions.selected[0] == null"
+        <button mat-stroked-button [disabled]="selectionList?.selectedOptions.selected[0] == null"
           (click)="applyChanges()">Apply
           Changes</button>
-        <button mat-raised-button (click)="cancel()">Cancel</button>
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
       </div>
     </div>
   </mat-drawer-container>

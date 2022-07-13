@@ -1,10 +1,19 @@
 @import 'src/assets/scss/_colour.scss';
 
 .button-container {
-  width: 50%;
+  width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   margin: 1em 0;
+
+  button {
+    margin: 0 5px 0 5px;
+  }
+
+  .confirm {
+    background-color: $color_primary;
+    color: white;
+  }
 }
 
 table {
