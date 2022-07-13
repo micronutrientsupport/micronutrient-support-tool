@@ -1,9 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Injectable } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
-
+@Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
   templateUrl: './sectionRecurringCostReviewDialog.component.html',
@@ -27,12 +27,18 @@ export class SectionRecurringCostReviewDialogComponent {
     'year9',
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCosts>) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: DialogData<RecurringCosts>,
+  ) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costBreakdown);
     this.title = dialogData.dataIn.section;
   }
 
   public getTotalCost(yearKey: string): number {
-    return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
+    // Only calculate the cost for items specifed as US Dollars.
+    // TODO: update this to factor in percentage modifiers
+    const filterItemsInDollars = this.dataSource.data.filter((cost) => cost.rowUnits === 'US dollars');
+    return filterItemsInDollars.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
 }

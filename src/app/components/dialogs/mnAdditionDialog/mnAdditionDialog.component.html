@@ -1,19 +1,19 @@
 <div class="MnAdditionDialog">
-    <h2>Add micronutrient</h2>
-    <p>Select what micronutrient you want to add</p>
-    <mat-form-field appearance="fill">
-        <mat-select>
-            <mat-option (onSelectionChange)="mnSelectionChange($event)" *ngFor="let mnd of mNsFiltered" [value]="mnd">{{
-                mnd.name }}</mat-option>
-        </mat-select>
-        <!-- <mat-error>Please select MND ({{groupMND.value}})</mat-error> -->
-    </mat-form-field>
+  <h2>Add micronutrient</h2>
+  <p>Select what micronutrient you want to add</p>
+  <mat-form-field appearance="fill">
+    <mat-select>
+      <mat-option (onSelectionChange)="mnSelectionChange($event)" *ngFor="let mnd of mNsFiltered" [value]="mnd">{{
+        mnd.name }}</mat-option>
+    </mat-select>
+    <!-- <mat-error>Please select MND ({{groupMND.value}})</mat-error> -->
+  </mat-form-field>
 
 
 
 
-    <div class="button-group" mat-dialog-actions>
-        <button mat-raised-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
-        <button mat-raised-button class="primary-button" (click)="addMN()">Add micronutrient</button>
-    </div>
+  <div class="button-group" mat-dialog-actions>
+    <button mat-stroked-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+    <button mat-stroked-button class="primary-button" (click)="addMN()">Add micronutrient</button>
+  </div>
 </div>

@@ -38,6 +38,7 @@ import { InterventionStepDetailsComponent } from './interventionReview/utilities
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MicroNutrientsInPremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/microNutrientsInPremixTable.component';
 import { PremixTableRowComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTableRow.component';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { PremixTableRowComponent } from './interventionReview/utilities/microNut
     FormsModule,
     PipesModule,
     ComponentsModule,
+    DirectivesModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],

@@ -25,6 +25,7 @@ import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 @NgModule({
   declarations: [
     BaseDialogComponent,
@@ -55,6 +56,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     ReactiveFormsModule,
     PipesModule,
+    DirectivesModule,
   ],
   exports: [BaseDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
