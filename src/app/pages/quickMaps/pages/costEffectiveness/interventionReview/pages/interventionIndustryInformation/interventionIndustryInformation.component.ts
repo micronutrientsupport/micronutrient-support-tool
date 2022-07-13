@@ -1,11 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { IndustryInformation, InterventionIndustryInformation } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
+import {
+  IndustryInformation,
+  InterventionIndustryInformation,
+} from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+
+interface IForm {
+  formChanges: {
+    [row: number]: {
+      [col: string]: string;
+    }
+  }
+}
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -33,9 +44,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: FormGroup;
-  public formInitialState = [];
-  public rowIndexes = [];
-  public formChanges: { [row: number]: { [col: string]: string } } = {};
+  public formChanges: IForm['formChanges'] = {};
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -43,6 +52,16 @@ export class InterventionIndustryInformationComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {}
 
+  /**
+   * Create a table data source from API response, then construct into a FormArray.
+   *
+   * The .valueChanges() method then tracks any updates to the form and retrieves
+   * only the values that have changed.
+   *
+   * Finally, the data is returned in the subscription
+   * at the end of the chain for processing.
+   *
+   */
   private initFormWatcher(): void {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
@@ -78,7 +97,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
                           changes[rowIndex] = {
                             ...changes[rowIndex],
                             [item[0]]: item[1],
-                          }
+                          };
                           changes[rowIndex]['rowIndex'] = rowIndex;
                         } else {
                           changes[rowIndex] = {
@@ -97,6 +116,11 @@ export class InterventionIndustryInformationComponent implements OnInit {
             .subscribe((value) => {
               console.log(value);
               this.formChanges = value;
+              const newInterventionChanges = {
+                ...this.interventionDataService.getInterventionDataChanges(),
+                ...this.formChanges,
+              };
+              this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
             });
         });
     }
@@ -106,7 +130,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     return this.form.get('items')['controls'] as FormArray;
   }
 
-  createIndustryGroup(item: IndustryInformation): FormGroup {
+  private createIndustryGroup(item: IndustryInformation): FormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [item.year0, []],

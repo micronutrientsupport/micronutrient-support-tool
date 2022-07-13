@@ -9,7 +9,6 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'app-intervention-cost-summary',
   templateUrl: './interventionCostSummary.component.html',
@@ -35,8 +34,9 @@ export class InterventionCostSummaryComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private cdRef: ChangeDetectorRef,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
@@ -80,23 +80,25 @@ export class InterventionCostSummaryComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    const interventionChanges = this.interventionDataService.getInterventionDataChanges()
+  public onSubmit(): void {
+    const interventionChanges = this.interventionDataService.getInterventionDataChanges();
     if (interventionChanges) {
-      const dataArr = []
+      const dataArr = [];
       for (const key in interventionChanges) {
         dataArr.push(interventionChanges[key]);
       }
 
-      const interventionId = this.interventionDataService.getActiveInterventionId()
-      this.interventionDataService.patchInterventionData(interventionId, dataArr).then(response => {
+      const interventionId = this.interventionDataService.getActiveInterventionId();
+      this.interventionDataService.patchInterventionData(interventionId, dataArr).then((response) => {
         console.log(response); // patch response does not have body. msg, data etc are null
       });
 
-      this.interventionDataService.setInterventionDataChanges(null)
+      this.interventionDataService.setInterventionDataChanges(null);
     }
 
     // navigate back to list of selected interventions
-    this.router.navigate(this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute(), { queryParams: this.route.snapshot.queryParams });
+    this.router.navigate(this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute(), {
+      queryParams: this.route.snapshot.queryParams,
+    });
   }
 }
