@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   IndustryInformation,
@@ -13,7 +13,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionIndustryInformation.component.html',
   styleUrls: ['./interventionIndustryInformation.component.scss'],
 })
-export class InterventionIndustryInformationComponent {
+export class InterventionIndustryInformationComponent implements OnInit, OnDestroy {
   publiciIndustryInformation: IndustryInformation;
   public testInput: number;
 
@@ -21,11 +21,14 @@ export class InterventionIndustryInformationComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
-    this.interventionDataService
-      .getInterventionIndustryInformation('1')
-      .then((data: InterventionIndustryInformation) => {
-        this.init(data);
-      });
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    if (null != activeInterventionId) {
+      void this.interventionDataService
+        .getInterventionIndustryInformation(activeInterventionId)
+        .then((data: InterventionIndustryInformation) => {
+          this.init(data);
+        });
+    }
   }
   displayedColumns: string[] = [
     'labelText',
@@ -39,15 +42,22 @@ export class InterventionIndustryInformationComponent {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 4;
+  public pageStepperPosition = 3;
   public interventionName = 'IntName';
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
+
+  public ngOnDestroy(): void {
+    console.debug('call');
+  }
+
   private init(data: InterventionIndustryInformation): void {
     this.dataSource = new MatTableDataSource(data.industryInformation);
   }

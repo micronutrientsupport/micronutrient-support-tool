@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
-import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { AppRoutes } from 'src/app/routes/routes';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionCreationService } from '../interventionCreation/interventionCreation.service';
+
 @Component({
   selector: 'app-ce-intervention',
   templateUrl: './intervention.component.html',
@@ -12,20 +15,36 @@ export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
 
   public ROUTES = AppRoutes;
-  toggle = true;
-  status1 = 'Confirmed';
-  status2 = 'Confirmed';
 
-  public readonly DATA_LEVEL = DataLevel;
-  public loading = false;
-  public error = false;
+  constructor(
+    private readonly interventionDataService: InterventionDataService,
+    private interventionCreationService: InterventionCreationService,
+    private readonly router: Router,
+    public route: ActivatedRoute,
+  ) {}
 
-  onConfirmAssumptions(): void {
-    this.toggle = !this.toggle;
-    this.status1 = this.toggle ? 'Confirmed' : 'Not confirmed';
+  public toggleAssumptions = true;
+  public toggleCosts = true;
+
+  public assumptionsText = 'Confirmed';
+  public costsText = 'Confirmed';
+  public today: number = Date.now();
+
+  public reviewIntervention(): void {
+    this.interventionDataService.startReviewingIntervention(this.intervention.id);
   }
-  onConfirmCosts(): void {
-    this.toggle = !this.toggle;
-    this.status2 = this.toggle ? 'Confirmed' : 'Not confirmed';
+
+  public removeIntervention() {
+    this.interventionCreationService.interventionRemove(this.intervention.id);
+  }
+
+  public onConfirmAssumptions(): void {
+    this.toggleAssumptions = !this.toggleAssumptions;
+    this.assumptionsText = this.toggleAssumptions ? 'Confirmed' : 'Not confirmed';
+  }
+
+  public onConfirmCosts(): void {
+    this.toggleCosts = !this.toggleCosts;
+    this.costsText = this.toggleCosts ? 'Confirmed' : 'Not confirmed';
   }
 }

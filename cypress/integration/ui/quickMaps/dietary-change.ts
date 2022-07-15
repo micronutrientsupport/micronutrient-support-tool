@@ -1,4 +1,9 @@
 describe('Quick maps - Dietary Change', () => {
+  beforeEach(() => {
+    // Dont show the user tour
+    window.localStorage.setItem('has-viewed-tour', 'true');
+  });
+
   it('checks page for a11y compliance', () => {
     cy.visit(
       '/quick-maps/diet/dietary-change?country-id=MWI&mnd-id=Ca&measure=diet&data-level=household&age-gender-group=all',

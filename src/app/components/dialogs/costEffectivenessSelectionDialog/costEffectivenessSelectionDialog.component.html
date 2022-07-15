@@ -1,33 +1,65 @@
 <app-base-dialog [data]="dialogData">
-    <h2>Select and intervention</h2>
-    <p>
-        Select one of the existing interventions and customise it for your scenario or design a completely new
-        intervention.
-    </p>
-    <hr>
-    <h3><strong>Select an intervention</strong></h3>
-
-    <mat-form-field appearance="outline">
+  <h2>Select an intervention</h2>
+  <p>
+    Select one of the existing interventions and customise it for your scenario or load an existing
+    intervention by its ID.
+  </p>
+  <mat-tab-group animationDuration="0ms" (selectedTabChange)="handleTabChange($event)">
+    <mat-tab label="Copy & edit intervention template">
+      <h3 class="dropdown-title">Select intervention template</h3>
+      <mat-form-field appearance="outline">
         <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedIntervention"
-            matNativeControl>
-            <mat-label>Existing interventions</mat-label>
-            <mat-option *ngFor="let intervention of interventions" [value]="intervention">
-                {{intervention.name}}
-            </mat-option>
+          matNativeControl required>
+          <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+            {{ intervention.name }}
+          </mat-option>
         </mat-select>
-    </mat-form-field>
-    <div>
-        <h3>{{selectedIntervention?.name}} </h3>
-        <small> {{ selectedIntervention?.description }}</small>
-    </div>
-
-
-
-    <div class="button-container">
-        <button mat-raised-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
-        <!-- </div>
-    <div class="button-container"> -->
-        <button mat-raised-button color="primary" (click)="createIntervention()">Create</button>
-    </div>
-
+      </mat-form-field>
+      <ng-container *ngIf="selectedIntervention">
+        <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="form">
+          <mat-form-field appearance="outline">
+            <mat-label>Intervention name</mat-label>
+            <input matInput [placeholder]="selectedIntervention.name" name="newInterventionName"
+              formControlName="newInterventionName" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Intervention description</mat-label>
+            <textarea matInput [placeholder]="selectedIntervention.description" name="newInterventionDesc"
+              formControlName="newInterventionDesc"></textarea>
+          </mat-form-field>
+        </form>
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Load an existing intervention">
+      <mat-form-field appearance="outline" class="intervention-form-field">
+        <mat-label>Intervention ID</mat-label>
+        <input matInput placeholder="Enter intervention ID" type="text" [(ngModel)]="interventionId"
+          (ngModelChange)="handleChange()">
+      </mat-form-field>
+      <button mat-stroked-button color="primary" (click)="handleLookup()">
+        Look up ID
+      </button>
+      <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
+        <ng-container *ngIf="selectedIntervention">
+          <p class="intervention-title">Intervention to be loaded:</p>
+          <ng-container *ngIf="(err.asObservable() | async) === false">
+            <strong>{{ selectedIntervention.name }}</strong>
+            <p>{{ selectedIntervention.description }}</p>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="(err.asObservable() | async) === true || selectedIntervention === null">
+          <strong>No intervention found with ID: {{ interventionId }}</strong>
+        </ng-container>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <div class="btn-wrapper">
+    <button mat-stroked-button type="button" (click)="closeDialog()">
+      Cancel
+    </button>
+    <button form="form" mat-stroked-button color="primary" (click)="createIntervention()" class="btn-proceed"
+      [disabled]="(proceed.asObservable() | async) === false">
+      {{ tabID === 'copy' ? 'Copy & edit' : 'Load' }}
+    </button>
+  </div>
 </app-base-dialog>

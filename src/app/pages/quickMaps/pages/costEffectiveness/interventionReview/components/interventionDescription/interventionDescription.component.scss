@@ -1,5 +1,12 @@
 @import 'src/assets/scss/_colour';
 
+.intervention-info {
+  display: flex;
+  font-size: 14px;
+  padding: 5px;
+  border-bottom: 1px solid $color_primary;
+  justify-content: space-between;
+}
 .intervention-summary-title {
   flex-grow: 1;
   display: flex;

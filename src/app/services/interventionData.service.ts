@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
 import { Intervention } from '../apiAndObjects/objects/intervention';
@@ -13,14 +14,16 @@ import { InterventionIndustryInformation } from '../apiAndObjects/objects/interv
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
+import { AppRoutes } from '../routes/routes';
 
+export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 @Injectable({
   providedIn: 'root',
 })
 export class InterventionDataService {
   private cachedMnInPremix: Array<FoodVehicleStandard> = [];
+  public ROUTES = AppRoutes;
 
-  constructor(private apiService: ApiService) {}
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
@@ -30,6 +33,8 @@ export class InterventionDataService {
   public interventionDetailedChartPNGObs = this.interventionDetailedChartPNGSrc.asObservable();
   private readonly interventionDetailedChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionDetailedChartPDFObs = this.interventionDetailedChartPDFSrc.asObservable();
+
+  constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
   public getIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.getIntervention.call({
@@ -76,6 +81,17 @@ export class InterventionDataService {
       id,
     });
   }
+  public setIntervention(
+    parentInterventionId: number,
+    newInterventionName: string,
+    newInterventionDescription: string,
+  ): Promise<Intervention> {
+    return this.apiService.endpoints.intervention.postIntervention.call({
+      parentInterventionId,
+      newInterventionName,
+      newInterventionDescription,
+    });
+  }
 
   public setInterventionSummaryChartPNG(chart: string): void {
     this.interventionSummaryChartPNGSrc.next(chart);
@@ -108,5 +124,29 @@ export class InterventionDataService {
       return mnItem !== item;
     });
     return this.cachedMnInPremix;
+  }
+
+  public setActiveInterventionId(id: string): void {
+    localStorage.removeItem(ACTIVE_INTERVENTION_ID);
+    localStorage.setItem(ACTIVE_INTERVENTION_ID, id);
+  }
+
+  public getActiveInterventionId(): string {
+    const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
+    console.debug('aactiveId from service', activeId);
+    if (null == activeId) {
+      const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    } else {
+      return activeId;
+    }
+  }
+
+  public startReviewingIntervention(interventionID: string): void {
+    this.setActiveInterventionId(interventionID);
+    const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
+    const params = this.route.snapshot.queryParams;
+    void this.router.navigate(route, { queryParams: params });
   }
 }

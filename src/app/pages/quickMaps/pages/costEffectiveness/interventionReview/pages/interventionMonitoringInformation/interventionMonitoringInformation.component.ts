@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
@@ -10,18 +10,21 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionMonitoringInformation.component.html',
   styleUrls: ['./interventionMonitoringInformation.component.scss'],
 })
-export class InterventionMonitoringInformationComponent {
+export class InterventionMonitoringInformationComponent implements OnInit {
   constructor(
     public quickMapsService: QuickMapsService,
 
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
-    this.interventionDataService
-      .getInterventionMonitoringInformation('1')
-      .then((data: InterventionMonitoringInformation) => {
-        this.init(data);
-      });
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    if (null != activeInterventionId) {
+      this.interventionDataService
+        .getInterventionMonitoringInformation(activeInterventionId)
+        .then((data: InterventionMonitoringInformation) => {
+          this.init(data);
+        });
+    }
   }
 
   displayedColumns: string[] = [
@@ -36,16 +39,19 @@ export class InterventionMonitoringInformationComponent {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 5;
+  public pageStepperPosition = 4;
   public interventionName = 'IntName';
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
   private init(data: InterventionMonitoringInformation): void {
     // console.debug(data);
     this.dataSource = new MatTableDataSource(data.monitoringInformation);
+    console.log(data.monitoringInformation);
   }
 }

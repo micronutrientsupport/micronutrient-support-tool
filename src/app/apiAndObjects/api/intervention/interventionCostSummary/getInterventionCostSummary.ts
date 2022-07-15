@@ -1,6 +1,6 @@
-import { InterventionCostSummary } from '../../objects/interventionCostSummary';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { InterventionCostSummary } from '../../../objects/interventionCostSummary';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetInterventionCostSummary extends CacheableEndpoint<
   InterventionCostSummary,

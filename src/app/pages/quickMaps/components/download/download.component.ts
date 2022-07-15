@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, AfterViewInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ExportService } from 'src/app/services/export.service';
 
 import { Clipboard } from '@angular/cdk/clipboard';

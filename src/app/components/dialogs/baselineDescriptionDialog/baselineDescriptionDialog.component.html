@@ -9,11 +9,11 @@
     <mat-card-title><strong>Consumption Data:</strong> {{ dataSource.consumptionDataName }}</mat-card-title>
     <mat-card-subtitle>{{ dataSource.consumptionDataDesc }}</mat-card-subtitle>
     <mat-card-actions align="end">
-      <a mat-raised-button disabled="!dataSoure.consumptionDataMetaId"
+      <a mat-stroked-button disabled="!dataSoure.consumptionDataMetaId"
         href="https://metadata.micronutrient.support/geonetwork/srv/eng/catalog.search#/metadata/{{ dataSource.consumptionDataMetaId }}"
         target="_blank">
         View Metadata Record</a>
-      <button disabled mat-raised-button>Download Dataset</button>
+      <button disabled mat-stroked-button>Download Dataset</button>
     </mat-card-actions>
   </mat-card>
 
@@ -21,11 +21,11 @@
     <mat-card-title><strong>Composition Data:</strong> {{ dataSource.compositionDataName }}</mat-card-title>
     <mat-card-subtitle>{{ dataSource.compositionDataDesc }}</mat-card-subtitle>
     <mat-card-actions align="end">
-      <a mat-raised-button disabled="!dataSoure.compositionDataMetaId"
+      <a mat-stroked-button disabled="!dataSoure.compositionDataMetaId"
         href="https://metadata.micronutrient.support/geonetwork/srv/eng/catalog.search#/metadata/{{ dataSource.compositionDataMetaId }}"
         target="_blank">
         View Metadata Record</a>
-      <button disabled mat-raised-button>Download Dataset</button>
+      <button disabled mat-stroked-button>Download Dataset</button>
     </mat-card-actions>
   </mat-card>
 

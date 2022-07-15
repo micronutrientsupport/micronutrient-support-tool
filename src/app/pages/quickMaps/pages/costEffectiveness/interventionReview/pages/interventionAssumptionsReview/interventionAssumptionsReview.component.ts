@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './interventionAssumptionsReview.component.html',
   styleUrls: ['./interventionAssumptionsReview.component.scss'],
 })
-export class InterventionAssumptionsReviewComponent {
+export class InterventionAssumptionsReviewComponent implements OnInit {
   public activeStandard: FoodVehicleStandard[];
 
   public assumptionsDisplayedColumns = [
@@ -48,6 +48,10 @@ export class InterventionAssumptionsReviewComponent {
   ];
   public dataSource = new MatTableDataSource();
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
+
+  public ROUTES = AppRoutes;
+  public pageStepperPosition = 2;
+  public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -55,28 +59,30 @@ export class InterventionAssumptionsReviewComponent {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
   ) {
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards('1');
-          // .then((data: InterventionFoodVehicleStandards) => {
-          // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-          //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-          // });
-          // });
-        }
-      }),
-      void this.interventionDataService
-        .getInterventionBaselineAssumptions('1')
-        .then((data: InterventionBaselineAssumptions) => {
-          this.createTableObject(data);
-        }),
+      void this.quickMapsService.micronutrient.obs
+        .subscribe((mn: MicronutrientDictionaryItem) => {
+          if (null != mn) {
+            this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(
+              () =>
+                void this.interventionDataService
+                  .getInterventionBaselineAssumptions(activeInterventionId)
+                  .then((data: InterventionBaselineAssumptions) => {
+                    this.createTableObject(data);
+                  }),
+            );
+            // .then((data: InterventionFoodVehicleStandards) => {
+            // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+            //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+            // });
+            // });
+          }
+        })
     );
   }
-  public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
-  public interventionName = 'IntName';
-  public ngAfterViewInit(): void {
+
+  public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
@@ -84,7 +90,6 @@ export class InterventionAssumptionsReviewComponent {
     const dataArray = [];
     const rawData = data.baselineAssumptions as BaselineAssumptions;
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
-    console.debug(rawData);
     this.dataSource = new MatTableDataSource(dataArray);
     this.createAvNutrientLevelTable(rawData);
   }

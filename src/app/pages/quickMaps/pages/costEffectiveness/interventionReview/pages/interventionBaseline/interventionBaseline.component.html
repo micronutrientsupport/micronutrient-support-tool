@@ -18,7 +18,7 @@
       <ng-container matColumnDef="baseline_value">
         <td mat-cell *matCellDef="let element">
           <div class="double-cell">
-            <input type="number" matInput required [value]=element.year0>
+            <input type="text" appDecimalInput required [value]=element.year0.toFixed(2)>
             <span matPrefix>%&nbsp;</span>
             <span>
               <button mat-button color="primary">
@@ -74,7 +74,7 @@
             fortification (mg/kg) </th>
           <td mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [value]="selectedCompound?.targetVal">
+              <input type="text" appDecimalInput required [value]="selectedCompound?.targetVal.toFixed(2)">
               <span>
                 <button mat-button color="primary">
                   GFDx <mat-icon>arrow_right_alt</mat-icon>
@@ -83,7 +83,6 @@
             </div>
           </td>
         </ng-container>
-
         <ng-container matColumnDef="avgVal">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
             fortifiable food vehicle at point of fortification
@@ -110,7 +109,8 @@
             (mg/kg) among fortifiable food vehicle at point of fortificationn </th>
           <td mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
+              <input type="text" appDecimalInput required
+                [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
               <span>
                 <button mat-button color="primary">
                   GFDx <mat-icon>arrow_right_alt</mat-icon>
@@ -119,6 +119,7 @@
             </div>
           </td>
         </ng-container>
+
 
         <ng-container matColumnDef="calcFort">
           <th class="row-title" mat-header-cell *matHeaderCellDef> Calculated average fortification level (mg/kg) among
@@ -129,9 +130,9 @@
           </th>
           <td mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <span>
-                {{(optionalUserEnteredAverageAtPointOfFortification * baselineAssumptions.actuallyFortified.year0 *
-                baselineAssumptions.potentiallyFortified.year0) | sigFig:3}}
+              <span *ngIf="null != baselineAssumptions">
+                {{optionalUserEnteredAverageAtPointOfFortification * baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.potentiallyFortified.year0 | sigFig:3}}
               </span>
             </div>
           </td>

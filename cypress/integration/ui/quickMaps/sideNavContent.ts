@@ -2,6 +2,11 @@ import { Interception } from 'cypress/types/net-stubbing';
 import { ApiResponse } from '../../../../src/app/apiAndObjects/api/apiResponse.interface';
 
 describe('Quick Map - Side Nav Tests', () => {
+  beforeEach(() => {
+    // Dont show the user tour
+    window.localStorage.setItem('has-viewed-tour', 'true');
+  });
+
   it('checks page for a11y compliance', () => {
     cy.visit('/quick-maps');
     cy.wait(4000);
@@ -21,15 +26,6 @@ describe('Quick Map - Side Nav Tests', () => {
     cy.get('#quickMapsForm').should('not.exist');
     cy.get('.minimize-button').click();
     cy.get('#quickMapsForm').should('exist');
-  });
-
-  it('sidebar lock disables side bar from being minimised', () => {
-    cy.visit('/quick-maps');
-    cy.get('.minimize-button').should('not.be.disabled');
-    cy.get('.mat-slide-toggle-label').click();
-    cy.get('.minimize-button').should('be.disabled');
-    cy.get('.mat-slide-toggle-label').click();
-    cy.get('.minimize-button').should('not.be.disabled');
   });
 
   it('loads a list of single nations and populates the drop down with all api response', () => {

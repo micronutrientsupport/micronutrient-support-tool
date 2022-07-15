@@ -28,15 +28,16 @@ import { GetNationalSummary } from './diet/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
 import { GetMatchedTotals } from './diet/getMatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
-import { GetIntervention } from './intervention/getIntervention';
-import { GetInterventionData } from './intervention/getInterventioData';
-import { GetInterventionFoodVehicleStandards } from './intervention/getInterventionFoodVehicleStandards';
-import { GetInterventionIndustryInformation } from './intervention/getInterventionIndustryInformation';
-import { GetInterventionMonitoringInformation } from './intervention/getInterventionMonitoringInformation';
-import { GetInterventionRecurringCosts } from './intervention/getInterventionRecurringCosts';
-import { GetInterventionStartupCosts } from './intervention/getInterventionStartupCosts';
-import { GetInterventionBaselineAssumptions } from './intervention/getInterventionBaselineAssumptions';
-import { GetInterventionCostSummary } from './intervention/getInterventionCostSummary';
+import { GetIntervention } from './intervention/intervention/getIntervention';
+import { GetInterventionData } from './intervention/interventionData/getInterventionData';
+import { GetInterventionFoodVehicleStandards } from './intervention/interventionFoodVehicleStandards/getInterventionFoodVehicleStandards';
+import { GetInterventionIndustryInformation } from './intervention/interventionIndustryInformation/getInterventionIndustryInformation';
+import { GetInterventionMonitoringInformation } from './intervention/interventionMonitoringInformation/getInterventionMonitoringInformation';
+import { GetInterventionRecurringCosts } from './intervention/interventionRecurringCosts/getInterventionRecurringCosts';
+import { GetInterventionStartupCosts } from './intervention/InterventionStartupCosts/getInterventionStartupCosts';
+import { GetInterventionBaselineAssumptions } from './intervention/interventionBaselineAssumptions/getInterventionBaselineAssumptions';
+import { GetInterventionCostSummary } from './intervention/interventionCostSummary/getInterventionCostSummary';
+import { PostIntervention } from './intervention/intervention/postIntervention';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -77,6 +78,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
+      postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
     },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),

@@ -1,0 +1,17 @@
+<mat-fab-menu #fabMenu matTooltip="Dashboard Layout" [matTooltipDisabled]="fabMenu.isActive" class="fab-layout"
+  color="accent" [fabButtons]="layoutOptions" icon="dashboard_customize" (onFabMenuItemSelected)="layoutChange($event)">
+</mat-fab-menu>
+<gridster class="bmgf-maps-nice-scrollbar" [options]="options">
+  <app-uncertainty-description></app-uncertainty-description>
+  <app-uncertainty-summary></app-uncertainty-summary>
+  <gridster-item [item]="widget" *ngFor="let widget of dashboard">
+    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+      <!-- Nutrient Availability -->
+      <app-uncertainty-nutrient-availability *ngSwitchCase="WIDGETS.UNCERTAINTY_NUTRIENT_AVAILABILITY" [card]="card">
+      </app-uncertainty-nutrient-availability>
+      <!-- Food Availability -->
+      <app-uncertainty-food-availablity *ngSwitchCase="WIDGETS.UNCERTAINTY_FOOD_AVAILABILITY" [card]="card">
+      </app-uncertainty-food-availablity>
+    </app-card>
+  </gridster-item>
+</gridster>

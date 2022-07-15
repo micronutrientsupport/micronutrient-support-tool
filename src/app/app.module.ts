@@ -10,7 +10,6 @@ import { ApiModule } from './apiAndObjects/api.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { NgxFeedbackModule } from 'ngx-feedback-maps/dist/ngx-feedback-maps';
 import { FeatureFlagsFactory } from './services/featureFlags.factory';
 import { FeatureFlagsService } from './services/featureFlags.service';
 import { DirectivesModule } from './directives/directives.module';
@@ -32,7 +31,6 @@ import { DirectivesModule } from './directives/directives.module';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    NgxFeedbackModule,
     DirectivesModule,
   ],
   exports: [],

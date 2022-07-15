@@ -1,0 +1,30 @@
+<ng-template #componentTemplate>
+  <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
+    <mat-tab label="Chart">
+
+    </mat-tab>
+
+    <mat-tab label="Table">
+      <div class="bmgf-maps-nice-scrollbar">
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Download">
+      <!-- <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data">
+    </app-download> -->
+    </mat-tab>
+
+    <mat-tab label="About {{title}}">
+      <div class="about-container">
+        <h2>About {{title}}</h2>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</ng-template>
+
+<ng-container *ngIf="(null != dialogData) else componentTemplate">
+  <app-base-dialog [data]="dialogData" [title]="title">
+    <ng-container *ngTemplateOutlet="componentTemplate"></ng-container>
+  </app-base-dialog>
+</ng-container>

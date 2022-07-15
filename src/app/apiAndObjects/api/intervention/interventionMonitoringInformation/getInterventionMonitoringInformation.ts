@@ -1,6 +1,6 @@
-import { InterventionMonitoringInformation } from '../../objects/interventionMonitoringInformation';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
-import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { InterventionMonitoringInformation } from '../../../objects/interventionMonitoringInformation';
+import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 
 export class GetInterventionMonitoringInformation extends CacheableEndpoint<
   InterventionMonitoringInformation,
