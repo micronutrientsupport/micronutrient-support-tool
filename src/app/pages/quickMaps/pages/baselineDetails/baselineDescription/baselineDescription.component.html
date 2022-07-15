@@ -28,40 +28,87 @@
         household-level data. These proxy for consumption is joined to locally relevant food composition table data.
         These apparent intake values do not account for intake via fortification
       </p>
-      <p *ngIf="unmatchedTotals"><strong>
-          {{ 100 - unmatchedTotals.unmatchedCountPerc | number : '1.2-2' }}%</strong> of
-        distinct reported food items (<em>{{ quickMapsService.dietDataSource.get().consumptionDataName }}</em>)
-        were matched to food composition table data
-        (<em>{{ quickMapsService.dietDataSource.get().compositionDataName
-          }}</em>)
-        <!--(<strong>{{ 100
-          -
-          unmatchedTotals.unmatchedWeightPerc | number : '1.2-2'
-          }}%</strong> by
-        weight of
-        per capita daily consumption).--> <button mat-button (click)="openBaselineDescriptionDialog()"
-          color="primary">Learn more about these datasets</button>
-      </p>
     </div>
     <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
       <p>These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to
         FAO
         at the national level. This proxy for consumption is joined to locally relevant food composition table.
       </p>
-      <p *ngIf="unmatchedTotals"><strong>
-          {{ 100 - unmatchedTotals.unmatchedCountPerc | number : '1.2-2' }}%</strong> of
-        reported food items (<em>{{ quickMapsService.dietDataSource.get().consumptionDataName }}</em>)
-        were matched to food composition table data (<em>{{ quickMapsService.dietDataSource.get().compositionDataName
-          }}</em>)
-        (<strong>{{ 100
-          -
-          unmatchedTotals.unmatchedWeightPerc | number : '1.2-2'
-          }}%</strong> by
-        weight of
-        per capita daily consumption). <button mat-button (click)="openBaselineDescriptionDialog()"
-          color="primary">Learn
-          more about these datasets</button>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel [expanded]="false" *ngIf="matches" class="match-panel">
+    <mat-expansion-panel-header class="desc-header">
+      <mat-panel-title>
+        <div class="match-summary">
+          <p>
+            <strong>
+              {{ matches[0].matchedCountPerc | number : '1.2-2' }}%</strong> of food items
+            listed in <em> {{ quickMapsService.dietDataSource.get().consumptionDataName }}</em>
+            were matched to <em> {{
+              matches[0].matchedFctName }}</em> food composition table (FCT).
+            <strong>{{ matchedTotals.matchedCount - matches[0].matchedCountPerc | number : '1.2-2' }}%</strong> of
+            items were matched
+            to
+            other FCTs.
+            <span *ngIf="matchedTotals.matchedCount < 100" class="match-warning">
+              <strong>
+                <mat-icon aria-hidden=" false" aria-label="Warning: " class="match-warning-icon">
+                  warning</mat-icon>Note: {{ 100 - matchedTotals.matchedCount |
+                number :
+                '1.2-2'
+                }}%
+              </strong> of items were not found in any FCT.
+            </span>
+          </p>
+          <span class="right">View details</span>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="matches">
+      <table mat-table [dataSource]="matches" matSort class="table-full-width">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>FCT Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.matchedFctName}} </td>
+          <td mat-cell *ngIf="matchedTotals.matchedCount < 100"></td>
+          <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
+        </ng-container>
+        <ng-container matColumnDef="matchedCount">
+          <th mat-header-cell *matHeaderCellDef>Matched items</th>
+          <td mat-cell *matCellDef="let element"> {{element.matchedCount }}</td>
+          <!-- <td mat-footer-cell *matFooterCellDef>{{matches[0].totalCount }}</td> -->
+        </ng-container>
+        <ng-container matColumnDef="matchedCountPerc">
+          <th mat-header-cell *matHeaderCellDef>% of total items</th>
+          <td mat-cell *matCellDef="let element"> {{element.matchedCountPerc | number : '1.2-2'}}% </td>
+          <!-- <td mat-footer-cell *matFooterCellDef>{{ 100 | number : '1.2-2'}}%</td> -->
+        </ng-container>
+        <ng-container matColumnDef="matchedWeight">
+          <th mat-header-cell *matHeaderCellDef>Matched weight (g)</th>
+          <td mat-cell *matCellDef="let element"> {{
+            element.matchedWeight | number : '1.2-2'
+            }} </td>
+          <td mat-footer-cell *matFooterCellDef>{{matches[0].totalWeight | number : '1.2-2' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="matchedWeightPerc">
+          <th mat-header-cell *matHeaderCellDef>% of total weight</th>
+          <td mat-cell *matCellDef="let element"> {{
+            element.matchedWeightPerc | number : '1.2-2'
+            }}% </td>
+          <!-- <td mat-footer-cell *matFooterCellDef>Total</td> -->
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="matchesTableColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: matchesTableColumns"></tr>
+        <tr class="mat-row" *matNoDataRow></tr>
+        <!-- <tr mat-footer-row *matFooterRowDef="matchesTableColumns"></tr> -->
+      </table>
+      <p *ngIf="matchedTotals.matchedCount < 100" class="alert alert-warning">
+        <strong>{{ 100 - matchedTotals.matchedCount | number : '1.2-2' }}%</strong> of
+        reported food items (<strong>{{ 100 -
+          matchedTotals.matchedWeight | number : '1.2-2' }}%</strong> by weight) were not found in any food
+        composition table.<br />The dietaty contribution of these foods is not included in the data presented.
       </p>
+      <button *ngIf="matches.length > 0" mat-button (click)="openBaselineDescriptionDialog()" color="primary">Learn
+        more about these datasets</button>
     </div>
   </mat-expansion-panel>
 </div>

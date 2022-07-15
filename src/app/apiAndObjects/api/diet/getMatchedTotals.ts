@@ -1,35 +1,33 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
-import { UnmatchedTotals } from '../../objects/unmatchedTotals';
+import { MatchedTotals } from '../../objects/matchedTotals';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MnAvailabilityEndpointHelper } from './mnAvailabilityEndpointHelper';
 
-export class GetUnmatchedTotals extends CacheableEndpoint<
-  Array<UnmatchedTotals>,
-  GetUnmatchedTotalsParams,
-  UnmatchedTotals
-> {
-  protected getCacheKey(params: GetUnmatchedTotalsParams): string {
+export class GetMatchedTotals extends CacheableEndpoint<Array<MatchedTotals>, GetMatchedTotalsParams, MatchedTotals> {
+  protected getCacheKey(params: GetMatchedTotalsParams): string {
     return JSON.stringify(params);
   }
-  protected callLive(params: GetUnmatchedTotalsParams): Promise<Array<UnmatchedTotals>> {
+  protected callLive(params: GetMatchedTotalsParams): Promise<Array<MatchedTotals>> {
     const callResponsePromise = this.apiCaller.doCall(
-      ['diet', MnAvailabilityEndpointHelper.getDataLevelSegment(params.dataSource), 'unmatched-totals'],
+      ['diet', MnAvailabilityEndpointHelper.getDataLevelSegment(params.dataSource), 'matched-totals'],
       RequestMethod.GET,
       {
         compositionDataId: params.dataSource.compositionDataId,
         consumptionDataId: params.dataSource.consumptionDataId,
+        micronutrientId: params.micronutrient.id,
       },
       null,
     );
 
-    return this.buildObjectsFromResponse(UnmatchedTotals, callResponsePromise);
+    return this.buildObjectsFromResponse(MatchedTotals, callResponsePromise);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected callMock(params?: GetUnmatchedTotalsParams): Promise<Array<UnmatchedTotals>> {
+  protected callMock(params?: GetMatchedTotalsParams): Promise<Array<MatchedTotals>> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       MnAvailabilityEndpointHelper.getObjectType(params.dataSource),
@@ -43,6 +41,7 @@ export class GetUnmatchedTotals extends CacheableEndpoint<
   }
 }
 
-export interface GetUnmatchedTotalsParams {
+export interface GetMatchedTotalsParams {
   dataSource: DietDataSource;
+  micronutrient: MicronutrientDictionaryItem;
 }

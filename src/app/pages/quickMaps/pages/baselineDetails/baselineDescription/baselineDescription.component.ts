@@ -5,8 +5,9 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { UnmatchedTotals } from 'src/app/apiAndObjects/objects/unmatchedTotals';
+import { MatchedTotals } from 'src/app/apiAndObjects/objects/matchedTotals';
 import { Subscription } from 'rxjs';
+import { CurrencyExtendedPipe } from 'src/app/pipes/currency-extended.pipe';
 
 @Component({
   selector: 'app-base-desc',
@@ -21,8 +22,17 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
   public readonly DATA_LEVEL = DataLevel;
   public loading = false;
   public error = false;
-  public unmatchedTotals: UnmatchedTotals;
+  public matches: MatchedTotals[];
+  public matchedTotals: { matchedCount: number; matchedWeight: number };
   private subscriptions = new Array<Subscription>();
+
+  public matchesTableColumns: string[] = [
+    'name',
+    'matchedCount',
+    'matchedCountPerc',
+    'matchedWeight',
+    'matchedWeightPerc',
+  ];
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -33,9 +43,10 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     const dietDataSource = this.quickMapsService.dietDataSource.get();
+    const micronutrient = this.quickMapsService.micronutrient.get();
     // console.log('Init, dataSource=', dietDataSource);
     if (null != dietDataSource) {
-      this.init(this.dietDataService.getUnmatchedTotals(dietDataSource));
+      this.init(this.dietDataService.getMatchedTotals(dietDataSource, micronutrient));
     }
   }
 
@@ -43,10 +54,11 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
     this.subscriptions.push(
       this.quickMapsService.dietParameterChangedObs.subscribe(() => {
         const dietDataSource = this.quickMapsService.dietDataSource.get();
+        const micronutrient = this.quickMapsService.micronutrient.get();
         // console.log('Refresh, dataSource=', dietDataSource);
         //  only if all set
         if (null != dietDataSource) {
-          this.init(this.dietDataService.getUnmatchedTotals(dietDataSource));
+          this.init(this.dietDataService.getMatchedTotals(dietDataSource, micronutrient));
         }
       }),
     );
@@ -56,11 +68,20 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
     void this.dialogService.openBaselineDescriptionDialog();
   }
 
-  private init(dataPromise: Promise<UnmatchedTotals[]>): void {
+  private init(dataPromise: Promise<MatchedTotals[]>): void {
     void dataPromise.then((data) => {
-      this.unmatchedTotals = data[0];
+      this.matches = data;
 
-      // console.log(this.unmatchedTotals);
+      this.matchedTotals = this.matches.reduce(
+        (prev, curr) => {
+          prev.matchedCount += curr.matchedCountPerc;
+          prev.matchedWeight += curr.matchedWeightPerc;
+          return prev;
+        },
+        { matchedCount: 0, matchedWeight: 0 },
+      );
+
+      // console.log(this.matchedTotals);
       this.cdr.detectChanges();
     });
   }

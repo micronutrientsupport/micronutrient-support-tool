@@ -63,3 +63,56 @@
 ::ng-deep .data-level-select .capitalize-text {
   text-transform: capitalize;
 }
+
+.matches {
+  font-size: 90%;
+}
+
+.alert-danger {
+  background-color: #f44336;
+}
+.alert-success {
+  background-color: #36f456;
+}
+.alert-warning {
+  background-color: #ff9800;
+}
+.alert {
+  padding: 15px;
+  color: white;
+  margin-bottom: 0 10px;
+  text-align: center;
+}
+
+.right {
+  min-width: 7em;
+  text-align: right;
+  color: #9b51e0;
+  font-weight: 500;
+}
+
+.match-summary {
+  display: flex;
+  align-items: center;
+}
+
+.match-warning {
+  color: #ad0000;
+}
+
+.match-warning-icon {
+  font-size: inherit;
+  width: inherit;
+  height: inherit;
+
+  vertical-align: middle;
+  margin-bottom: 3px;
+}
+
+.match-panel {
+  margin-top: -2em;
+
+  p {
+    padding-top: 1em;
+  }
+}
