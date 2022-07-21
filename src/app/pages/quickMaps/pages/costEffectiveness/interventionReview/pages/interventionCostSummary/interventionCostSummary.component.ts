@@ -81,21 +81,6 @@ export class InterventionCostSummaryComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    const interventionChanges = this.interventionDataService.getInterventionDataChanges();
-    if (interventionChanges) {
-      const dataArr = [];
-      for (const key in interventionChanges) {
-        dataArr.push(interventionChanges[key]);
-      }
-
-      const interventionId = this.interventionDataService.getActiveInterventionId();
-      this.interventionDataService.patchInterventionData(interventionId, dataArr).then((response) => {
-        console.log(response); // patch response does not have body. msg, data etc are null
-      });
-
-      this.interventionDataService.setInterventionDataChanges(null);
-    }
-
     // navigate back to list of selected interventions
     this.router.navigate(this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute(), {
       queryParams: this.route.snapshot.queryParams,

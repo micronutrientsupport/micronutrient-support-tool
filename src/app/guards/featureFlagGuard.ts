@@ -7,7 +7,7 @@ export class FeatureFlagGuard implements CanActivate, CanLoad {
   constructor(private featureFlagsService: FeatureFlagsService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    console.log(`Checking ${route.data.featureFlag} flag before activating route`);
+    // console.log(`Checking ${route.data.featureFlag} flag before activating route`);
     const flagIsEnabled = this.featureFlagsService.isEnabled(route.data.featureFlag);
     // console.log(`State: ${flagIsEnabled}`);
     if (!flagIsEnabled) {

@@ -64,9 +64,12 @@ export class InterventionDataService {
     );
   }
   public getInterventionMonitoringInformation(id: string): Promise<InterventionMonitoringInformation> {
-    return this.apiService.endpoints.intervention.getInterventionMonitoringInformation.call({
-      id,
-    });
+    return this.apiService.endpoints.intervention.getInterventionMonitoringInformation.call(
+      {
+        id,
+      },
+      false,
+    );
   }
   public getInterventionIndustryInformation(id: string): Promise<InterventionIndustryInformation> {
     return this.apiService.endpoints.intervention.getInterventionIndustryInformation.call(
@@ -160,7 +163,7 @@ export class InterventionDataService {
 
   public getActiveInterventionId(): string {
     const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
-    console.debug('aactiveId from service', activeId);
+    // console.debug('aactiveId from service', activeId);
     if (null == activeId) {
       const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;
@@ -208,4 +211,12 @@ export class InterventionDataService {
 
     return;
   }
+}
+
+export interface InterventionForm {
+  formChanges: {
+    [row: number]: {
+      [col: string]: string;
+    };
+  };
 }

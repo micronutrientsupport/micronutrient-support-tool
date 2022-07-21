@@ -5,19 +5,10 @@ import {
   InterventionIndustryInformation,
 } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
 import { AppRoutes } from 'src/app/routes/routes';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
-import { Router } from '@angular/router';
-
-interface IForm {
-  formChanges: {
-    [row: number]: {
-      [col: string]: string;
-    };
-  };
-}
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -45,13 +36,12 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: FormGroup;
-  public formChanges: IForm['formChanges'] = {};
+  public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: FormBuilder,
-    private router: Router,
   ) {}
 
   /**
@@ -97,12 +87,12 @@ export class InterventionIndustryInformationComponent implements OnInit {
                         if (changes[rowIndex]) {
                           changes[rowIndex] = {
                             ...changes[rowIndex],
-                            [item[0]]: item[1],
+                            [item[0]]: Number(item[1]),
                           };
                           changes[rowIndex]['rowIndex'] = rowIndex;
                         } else {
                           changes[rowIndex] = {
-                            [item[0]]: item[1],
+                            [item[0]]: Number(item[1]),
                           };
                           changes[rowIndex]['rowIndex'] = rowIndex;
                         }
@@ -115,7 +105,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
               filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
             )
             .subscribe((value) => {
-              console.log(value);
               this.formChanges = value;
               const newInterventionChanges = {
                 ...this.interventionDataService.getInterventionDataChanges(),
@@ -134,16 +123,16 @@ export class InterventionIndustryInformationComponent implements OnInit {
   private createIndustryGroup(item: IndustryInformation): FormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
-      year0: [item.year0, []],
-      year1: [item.year1, []],
-      year2: [item.year2, []],
-      year3: [item.year3, []],
-      year4: [item.year4, []],
-      year5: [item.year5, []],
-      year6: [item.year6, []],
-      year7: [item.year7, []],
-      year8: [item.year8, []],
-      year9: [item.year9, []],
+      year0: [Number(item.year0), []],
+      year1: [Number(item.year1), []],
+      year2: [Number(item.year2), []],
+      year3: [Number(item.year3), []],
+      year4: [Number(item.year4), []],
+      year5: [Number(item.year5), []],
+      year6: [Number(item.year6), []],
+      year7: [Number(item.year7), []],
+      year8: [Number(item.year8), []],
+      year9: [Number(item.year9), []],
     });
   }
 
