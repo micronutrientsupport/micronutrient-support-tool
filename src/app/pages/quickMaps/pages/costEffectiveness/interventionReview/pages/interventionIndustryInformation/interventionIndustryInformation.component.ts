@@ -9,13 +9,14 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 interface IForm {
   formChanges: {
     [row: number]: {
       [col: string]: string;
-    }
-  }
+    };
+  };
 }
 
 @Component({
@@ -50,6 +51,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: FormBuilder,
+    private router: Router,
   ) {}
 
   /**
@@ -69,7 +71,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
           this.dataSource = new MatTableDataSource(data.industryInformation);
-
           const industryGroupArr = data.industryInformation.map((item) => {
             return this.createIndustryGroup(item);
           });
@@ -149,5 +150,9 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
+  }
+
+  public confirmAndContinue(): void {
+    this.interventionDataService.interventionPageConfirmContinue();
   }
 }
