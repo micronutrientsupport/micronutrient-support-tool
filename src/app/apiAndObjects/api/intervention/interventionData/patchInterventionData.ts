@@ -31,5 +31,5 @@ export class PatchInterventionData extends CacheableEndpoint<
 
 export interface PatchInterventionDataParams {
   interventionId: string;
-  data: Record<string, unknown>;
+  data: Array<Record<string, unknown>>;
 }

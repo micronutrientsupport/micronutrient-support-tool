@@ -38,6 +38,7 @@ import { GetInterventionStartupCosts } from './intervention/InterventionStartupC
 import { GetInterventionBaselineAssumptions } from './intervention/interventionBaselineAssumptions/getInterventionBaselineAssumptions';
 import { GetInterventionCostSummary } from './intervention/interventionCostSummary/getInterventionCostSummary';
 import { PostIntervention } from './intervention/intervention/postIntervention';
+import { PatchInterventionData } from './intervention/interventionData/patchInterventionData';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -79,6 +80,7 @@ export class ApiService extends BaseApi {
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
+      patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API)
     },
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
