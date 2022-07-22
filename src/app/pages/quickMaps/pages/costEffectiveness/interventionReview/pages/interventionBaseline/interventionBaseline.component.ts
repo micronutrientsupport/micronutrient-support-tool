@@ -57,7 +57,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    console.debug('id:', this.activeInterventionId);
+    // console.debug('id:', this.activeInterventionId);
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {

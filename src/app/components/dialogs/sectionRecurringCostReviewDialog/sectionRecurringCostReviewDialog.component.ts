@@ -56,7 +56,7 @@ export class SectionRecurringCostReviewDialogComponent {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       this.dataSource = new MatTableDataSource(this.dialogData.dataIn.costBreakdown);
-      console.debug('datasource = ', this.dataSource.data);
+      // console.debug('datasource = ', this.dataSource.data);
       const reucrringGroupArr = this.dialogData.dataIn.costBreakdown.map((item) => {
         return this.createRecurringCostGroup(item);
       });
