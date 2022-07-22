@@ -68,7 +68,7 @@
   <ng-container matColumnDef="section">
     <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Years of start-up or scale-up</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-button color="primary" (click)="openSectionStartUpCostReviewDialog(element.section)">
+      <button mat-button color="primary" (click)="openSectionStartUpCostReviewDialog(element)">
         <mat-icon>edit</mat-icon>
         {{element.section}}
       </button>

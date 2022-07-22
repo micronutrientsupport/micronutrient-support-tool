@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  InterventionStartupCosts,
-  StartUpCostBreakdown,
-  StartUpScaleUpCost,
-} from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { Subscription } from 'rxjs';
+import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -20,6 +17,8 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
   public startupCosts: Array<StartUpScaleUpCost>;
   public displayHeaders = ['section', 'year0Total', 'year1Total'];
 
+  private subscriptions = new Array<Subscription>();
+
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
@@ -32,12 +31,31 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
           this.startupCosts = data.startupScaleupCosts;
         });
     }
-    // this.interventionDataService.interventionStartupCostChangedObs.subscribe((costs: Array<StartUpCostBreakdown>) => {
-    //   console.debug('intervention was changed by dialog: ', costs);
-    // });
+
+    this.subscriptions.push(
+      this.interventionDataService.interventionStartupCostChangedObs.subscribe((source: boolean) => {
+        if (source === true) {
+          if (null != activeInterventionId) {
+            this.interventionDataService.interventionStartupCostChanged(false);
+            void this.interventionDataService
+              .getInterventionStartupCosts(activeInterventionId)
+              .then((data: InterventionStartupCosts) => {
+                // setting null then timeout prevents the chart from flickering and allows animation to work
+                this.startupCosts = null;
+                setTimeout(() => {
+                  this.startupCosts = data.startupScaleupCosts;
+                }, 0);
+              });
+          }
+        }
+      }),
+    );
   }
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+  }
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

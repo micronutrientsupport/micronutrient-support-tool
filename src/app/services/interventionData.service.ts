@@ -13,11 +13,7 @@ import {
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
-import {
-  InterventionStartupCosts,
-  StartUpCostBreakdown,
-  StartUpCosts,
-} from '../apiAndObjects/objects/interventionStartupCosts';
+import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
@@ -41,7 +37,7 @@ export class InterventionDataService {
   private readonly interventionDataChangesSrc = new BehaviorSubject<Record<string, unknown>>(null);
   public interventionDataChangesObs = this.interventionDataChangesSrc.asObservable();
 
-  private readonly interventionStartupCostChangedSrc = new BehaviorSubject<StartUpCosts>(null);
+  private readonly interventionStartupCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionStartupCostChangedObs = this.interventionStartupCostChangedSrc.asObservable();
 
   constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
@@ -144,8 +140,8 @@ export class InterventionDataService {
     this.interventionDetailedChartPDFSrc.next(chart);
   }
 
-  public interventionStartupCostChanged(costs: StartUpCosts): void {
-    this.interventionStartupCostChangedSrc.next(costs);
+  public interventionStartupCostChanged(source: boolean): void {
+    this.interventionStartupCostChangedSrc.next(source);
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> {
@@ -215,12 +211,12 @@ export class InterventionDataService {
       }
 
       const interventionId = this.getActiveInterventionId();
-      this.patchInterventionData(interventionId, dataArr);
-
-      this.setInterventionDataChanges(null);
+      return this.patchInterventionData(interventionId, dataArr).then(() => {
+        this.setInterventionDataChanges(null);
+      });
+    } else {
+      return;
     }
-
-    return;
   }
 }
 

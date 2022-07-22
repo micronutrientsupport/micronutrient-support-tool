@@ -16,7 +16,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',

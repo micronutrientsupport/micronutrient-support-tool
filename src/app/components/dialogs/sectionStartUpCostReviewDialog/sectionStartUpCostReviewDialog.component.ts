@@ -6,7 +6,6 @@ import { DialogData } from '../baseDialogService.abstract';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
-import { StartUpScaleUpCostDialogSelection } from 'src/app/pages/quickMaps/pages/costEffectiveness/interventionReview/utilities/reusableCostTable/reusableCostTable.component';
 
 @Component({
   selector: 'app-section-start-up-cost-review',
@@ -14,7 +13,6 @@ import { StartUpScaleUpCostDialogSelection } from 'src/app/pages/quickMaps/pages
   styleUrls: ['./sectionStartUpCostReviewDialog.component.scss'],
 })
 export class SectionStartUpCostReviewDialogComponent {
-  public selectedCost: StartUpCosts;
   public dataSource = new MatTableDataSource<StartUpCostBreakdown>();
   public title = '';
   public displayedColumns: string[] = ['name', 'year0', 'year1'];
@@ -22,16 +20,12 @@ export class SectionStartUpCostReviewDialogComponent {
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpScaleUpCostDialogSelection>,
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>,
     private interventionDataService: InterventionDataService,
     private formBuilder: FormBuilder,
   ) {
-    console.debug(this.dialogData);
-    this.selectedCost = this.dialogData.dataIn.costs.find(
-      (item) => item['section'] === this.dialogData.dataIn.selectedElement,
-    );
     this.initFormWatcher();
-    this.title = this.selectedCost.section;
+    this.title = dialogData.dataIn.section;
   }
 
   /**
@@ -47,10 +41,8 @@ export class SectionStartUpCostReviewDialogComponent {
   private initFormWatcher(): void {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
-      console.debug(this.dialogData);
-      this.dataSource = new MatTableDataSource(this.selectedCost.costBreakdown);
-      console.debug('bing');
-      const startupGroupArr = this.selectedCost.costBreakdown.map((item) => {
+      this.dataSource = new MatTableDataSource(this.dialogData.dataIn.costBreakdown);
+      const startupGroupArr = this.dialogData.dataIn.costBreakdown.map((item) => {
         return this.createStartupCostGroup(item);
       });
       this.form = this.formBuilder.group({
@@ -94,7 +86,6 @@ export class SectionStartUpCostReviewDialogComponent {
           filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
         )
         .subscribe((value) => {
-          console.debug(value);
           this.formChanges = value;
           const newInterventionChanges = {
             ...this.interventionDataService.getInterventionDataChanges(),
@@ -122,22 +113,13 @@ export class SectionStartUpCostReviewDialogComponent {
   }
 
   public confirmChanges(): void {
-    this.interventionDataService.interventionPageConfirmContinue(); // send PATCH updates with changes to the table
-    const newData = this.dialogData.dataIn.costs.filter(
-      (item) => item['section'] !== this.dialogData.dataIn.selectedElement,
-    );
-    console.debug(this.dataSource.data);
-    const selectedCost: StartUpCosts = {
-      section: this.selectedCost.section,
-      costBreakdown: this.dataSource.data,
-      year0Total: this.selectedCost.year0Total,
-      year1Total: this.selectedCost.year1Total,
-    };
-    newData.push(selectedCost);
-    console.debug(newData);
-    // const originalInput = this.dialogData.dataIn;
-    // const updatedInput = this.dialogData
-    // this.interventionDataService.interventionStartupCostChanged(this.dataSource.data); // trigger dialog source page to update content
-    this.dialogData.close();
+    if (Object.keys(this.formChanges).length !== 0) {
+      this.interventionDataService.interventionPageConfirmContinue().then(() => {
+        this.interventionDataService.interventionStartupCostChanged(true); // trigger dialog source page to update content
+        this.dialogData.close();
+      });
+    } else {
+      this.dialogData.close();
+    }
   }
 }
