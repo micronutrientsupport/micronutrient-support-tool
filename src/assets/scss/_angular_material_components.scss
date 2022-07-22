@@ -85,6 +85,11 @@ mat-form-field.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
   color: black;
 }
 
+.mat-tab-labels {
+  display: flex;
+  justify-content: center;
+}
+
 // Snackbar toasts
 .mat-snack-bar-container.maps-snackbar {
   padding: 0;

@@ -39,6 +39,8 @@ export class InterventionDataService {
 
   private readonly interventionStartupCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionStartupCostChangedObs = this.interventionStartupCostChangedSrc.asObservable();
+  private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
+  public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
 
   constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
@@ -142,6 +144,10 @@ export class InterventionDataService {
 
   public interventionStartupCostChanged(source: boolean): void {
     this.interventionStartupCostChangedSrc.next(source);
+  }
+
+  public interventionRecurringCostChanged(source: boolean): void {
+    this.interventionRecurringCostChangedSrc.next(source);
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> {
