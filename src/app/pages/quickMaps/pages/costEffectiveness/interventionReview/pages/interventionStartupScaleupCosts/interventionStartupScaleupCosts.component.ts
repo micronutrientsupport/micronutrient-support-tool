@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import {
+  InterventionStartupCosts,
+  StartUpCostBreakdown,
+  StartUpScaleUpCost,
+} from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -28,6 +32,9 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
           this.startupCosts = data.startupScaleupCosts;
         });
     }
+    // this.interventionDataService.interventionStartupCostChangedObs.subscribe((costs: Array<StartUpCostBreakdown>) => {
+    //   console.debug('intervention was changed by dialog: ', costs);
+    // });
   }
 
   public ngOnInit(): void {

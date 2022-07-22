@@ -31,11 +31,20 @@ export class ReusableCostTableComponent implements OnInit {
     this.dialogService.openSectionRecurringCostReviewDialog(costs);
   }
 
-  public openSectionStartUpCostReviewDialog(costs: StartUpCosts): void {
-    this.dialogService.openSectionStartUpCostReviewDialog(costs);
+  public openSectionStartUpCostReviewDialog(elementName: string): void {
+    const selectedCost: StartUpScaleUpCostDialogSelection = {
+      selectedElement: elementName,
+      costs: this.startUpScaleUpCost.costs,
+    };
+    this.dialogService.openSectionStartUpCostReviewDialog(selectedCost);
   }
 
   public getTotalCost(yearKey: string): number {
     return this.dataSource.data.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
+}
+
+export interface StartUpScaleUpCostDialogSelection {
+  selectedElement: string;
+  costs: Array<StartUpCosts>;
 }

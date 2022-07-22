@@ -5,6 +5,7 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { RecurringCost, RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { StartUpScaleUpCostDialogSelection } from 'src/app/pages/quickMaps/pages/costEffectiveness/interventionReview/utilities/reusableCostTable/reusableCostTable.component';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
@@ -70,7 +71,7 @@ export class DialogService extends BaseDialogService {
       CostEffectivenessSelectionDialogComponent,
       false,
       interventions,
-      { height: '600px' }
+      { height: '600px' },
     );
   }
   public openCEInfoDialog(): Promise<DialogData> {
@@ -121,10 +122,10 @@ export class DialogService extends BaseDialogService {
   }
 
   public openSectionStartUpCostReviewDialog(
-    costs: StartUpCosts,
+    costs: StartUpScaleUpCostDialogSelection,
     width = '80vw',
     height = '80vh',
-  ): Promise<DialogData<StartUpCosts>> {
+  ): Promise<DialogData<StartUpScaleUpCostDialogSelection>> {
     return this.openDialog('openSectionCostReviewDialog', SectionStartUpCostReviewDialogComponent, false, costs, {
       width: width,
       height: height,

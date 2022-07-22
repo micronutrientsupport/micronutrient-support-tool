@@ -13,7 +13,11 @@ import {
 import { InterventionIndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { InterventionMonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
-import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
+import {
+  InterventionStartupCosts,
+  StartUpCostBreakdown,
+  StartUpCosts,
+} from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
@@ -36,6 +40,9 @@ export class InterventionDataService {
 
   private readonly interventionDataChangesSrc = new BehaviorSubject<Record<string, unknown>>(null);
   public interventionDataChangesObs = this.interventionDataChangesSrc.asObservable();
+
+  private readonly interventionStartupCostChangedSrc = new BehaviorSubject<StartUpCosts>(null);
+  public interventionStartupCostChangedObs = this.interventionStartupCostChangedSrc.asObservable();
 
   constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
@@ -135,6 +142,10 @@ export class InterventionDataService {
   }
   public setInterventionDetailedChartPDF(chart: string): void {
     this.interventionDetailedChartPDFSrc.next(chart);
+  }
+
+  public interventionStartupCostChanged(costs: StartUpCosts): void {
+    this.interventionStartupCostChangedSrc.next(costs);
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> {
