@@ -46,3 +46,9 @@ input {
   border: black 0.5px solid;
   text-align: center;
 }
+
+// user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+}

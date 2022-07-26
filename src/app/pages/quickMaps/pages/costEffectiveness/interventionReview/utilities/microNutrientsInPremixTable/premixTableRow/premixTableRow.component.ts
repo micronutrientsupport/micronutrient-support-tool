@@ -30,7 +30,7 @@ export class PremixTableRowComponent {
 
   constructor(public interventionDataService: InterventionDataService) {
     this.data.subscribe((mn: FoodVehicleStandard) => {
-      console.debug('mn:', mn);
+      // console.debug('mn:', mn);
       if (null != mn) {
         this.initTable(mn);
       }

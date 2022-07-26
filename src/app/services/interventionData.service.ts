@@ -37,6 +37,11 @@ export class InterventionDataService {
   private readonly interventionDataChangesSrc = new BehaviorSubject<Record<string, unknown>>(null);
   public interventionDataChangesObs = this.interventionDataChangesSrc.asObservable();
 
+  private readonly interventionStartupCostChangedSrc = new BehaviorSubject<boolean>(false);
+  public interventionStartupCostChangedObs = this.interventionStartupCostChangedSrc.asObservable();
+  private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
+  public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
+
   constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
   public getIntervention(id: string): Promise<Intervention> {
@@ -137,6 +142,14 @@ export class InterventionDataService {
     this.interventionDetailedChartPDFSrc.next(chart);
   }
 
+  public interventionStartupCostChanged(source: boolean): void {
+    this.interventionStartupCostChangedSrc.next(source);
+  }
+
+  public interventionRecurringCostChanged(source: boolean): void {
+    this.interventionRecurringCostChangedSrc.next(source);
+  }
+
   public getCachedMnInPremix(): Array<FoodVehicleStandard> {
     return this.cachedMnInPremix;
   }
@@ -204,12 +217,12 @@ export class InterventionDataService {
       }
 
       const interventionId = this.getActiveInterventionId();
-      this.patchInterventionData(interventionId, dataArr);
-
-      this.setInterventionDataChanges(null);
+      return this.patchInterventionData(interventionId, dataArr).then(() => {
+        this.setInterventionDataChanges(null);
+      });
+    } else {
+      return;
     }
-
-    return;
   }
 }
 

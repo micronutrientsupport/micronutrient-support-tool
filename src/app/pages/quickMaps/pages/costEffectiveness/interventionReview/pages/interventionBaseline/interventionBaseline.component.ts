@@ -14,8 +14,9 @@ import {
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -40,6 +41,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   private subscriptions = new Array<Subscription>();
   public activeInterventionId: string;
+  public form: FormGroup;
+  public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -47,37 +50,37 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public ngAfterViewInit(): void {
-    console.debug('id:', this.activeInterventionId);
+    // console.debug('id:', this.activeInterventionId);
     this.subscriptions.push(
-      void this.quickMapsService.micronutrient.obs
-        .subscribe((mn: MicronutrientDictionaryItem) => {
-          if (null != mn) {
-            this.interventionDataService
-              .getInterventionFoodVehicleStandards(this.activeInterventionId)
-              .then((data: InterventionFoodVehicleStandards) => {
-                if (null != data) {
-                  this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                    return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+      void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
+        if (null != mn) {
+          this.interventionDataService
+            .getInterventionFoodVehicleStandards(this.activeInterventionId)
+            .then((data: InterventionFoodVehicleStandards) => {
+              if (null != data) {
+                this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+                });
+                this.createFVTableObject(this.activeNutrientFVS);
+                void this.interventionDataService
+                  .getInterventionBaselineAssumptions(this.activeInterventionId)
+                  .then((data: InterventionBaselineAssumptions) => {
+                    this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+                    this.createBaselineTableObject();
+                    this.cdr.detectChanges();
                   });
-                  this.createFVTableObject(this.activeNutrientFVS);
-                  void this.interventionDataService
-                    .getInterventionBaselineAssumptions(this.activeInterventionId)
-                    .then((data: InterventionBaselineAssumptions) => {
-                      this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-                      this.createBaselineTableObject();
-                      this.cdr.detectChanges();
-                    });
-                }
-              });
-          }
-          this.cdr.detectChanges();
-        })
+              }
+            });
+        }
+        this.cdr.detectChanges();
+      }),
     );
   }
 
