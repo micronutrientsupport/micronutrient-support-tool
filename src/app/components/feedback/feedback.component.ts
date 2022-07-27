@@ -42,11 +42,9 @@ export class FeedbackComponent implements OnInit {
       width: window.innerWidth,
     };
 
-    console.log(feedback);
     this.apiService.endpoints.misc.postFeedback
       .call(feedback)
       .then(() => {
-        console.log('It was sent!');
         this.notificationsService.sendPositive('Feedback submitted - Thank you');
       })
       .catch(() => {
@@ -67,7 +65,7 @@ export class FeedbackComponent implements OnInit {
 
   isSmallScreen = this.breakpointObserver.isMatched('(max-width: 60em)');
 
-  doTheThing() {
-    console.log(document.querySelector('customer-feedback').show());
+  openFeedbackModal() {
+    document.querySelector('customer-feedback').show();
   }
 }
