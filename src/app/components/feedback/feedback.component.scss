@@ -1,0 +1,93 @@
+.submit-feedback {
+  position: absolute;
+  z-index: 99999;
+  right: 0;
+  position: fixed;
+  right: -54px;
+  top: calc(50% - 37.5px);
+  cursor: pointer;
+  transform: rotate(-90deg);
+  border: none;
+  border-radius: 5px 5px 0 0;
+  background-color: #3b5560;
+  color: #fff;
+  font-size: 14px;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-family: Quicksand;
+  outline: none;
+}
+
+customer-feedback {
+  --modal-header-background: #fff;
+  --modal-header-color: rgba(0, 0, 0, 0.87);
+  --modal-body-background: #fff;
+  --modal-body-color: rgba(0, 0, 0, 0.87);
+  --modal-footer-background: #fff;
+  --modal-width: 70vw;
+  --font-family: 'Quicksand', sans-serif;
+  --button-background: #703aa3;
+  --button-secondary-color: #703aa3;
+  --button-tertiary-background: #fff;
+  --button-tertiary-color: rgba(0, 0, 0, 0.87);
+  --button-tertiary-hover-color: rgba(0, 0, 0, 0.87);
+  --button-tertiary-hover-background: #f5f5f5;
+  --description-color: rgba(0, 0, 0, 0.87);
+  --description-hover-color: rgba(0, 0, 0, 0.87);
+  --description-focus-color: rgba(0, 0, 0, 0.87);
+
+  @media screen and (max-width: 60em) {
+    .o-modal {
+      --modal-width: 100vw;
+    }
+  }
+
+  .o-modal {
+    height: 60vh !important;
+  }
+
+  .c-modal {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .c-modal__body {
+    flex-grow: 1;
+  }
+
+  .c-button--tertiary {
+    background: green;
+  }
+
+  .c-button.c-button--tertiary {
+    width: 200px;
+  }
+}
+
+// Move cancel button to top right on large screens
+@media (min-width: 60em) {
+  ::ng-deep .c-modal__footer .c-button.c-button--tertiary {
+    position: absolute;
+    top: 1em;
+    right: 0.5em;
+  }
+}
+
+// Hide screenshot button, make dialog full screen and increase button
+// tap area for mobile
+@media (max-width: 60em) {
+  customer-feedback {
+    --button-padding: 1.5em;
+  }
+
+  ::ng-deep customer-feedback .o-modal[role='dialog'] {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+  }
+
+  ::ng-deep customer-feedback .c-button.c-button--secondary {
+    display: none;
+  }
+}
