@@ -3,7 +3,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { detect } from 'detect-browser';
 import { ApiService } from '../../apiAndObjects/api/api.service';
 import { PostFeedbackParams } from 'src/app/apiAndObjects/api/feedback/postFeedback';
-import { DataRowOutlet } from '@angular/cdk/table';
 import { NotificationsService } from '../notifications/notification.service';
 
 type FeedbackEvent = Event & { detail: { description: string; screenshot: string } };
@@ -50,7 +49,7 @@ export class FeedbackComponent implements OnInit {
         console.log('It was sent!');
         this.notificationsService.sendPositive('Feedback submitted - Thank you');
       })
-      .catch((e) => {
+      .catch(() => {
         this.notificationsService.sendNegative('Error submitting feedback - Please try again later');
       });
   }
