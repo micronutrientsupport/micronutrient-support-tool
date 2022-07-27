@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-expansion-panel [expanded]="true" appTour tourName="Quick MAPS Baseline Data"
+  <mat-expansion-panel class="head-panel" [expanded]="true" appTour tourName="Quick MAPS Baseline Data"
     tourDescription="The data summary panel provides an overview of the data currently displayed along with links to view and download metadata records for the source datasets."
     tourTitle="Data Summary Panel" tourPosition="auto" tourStage="0">
     <mat-expansion-panel-header class="desc-header">
@@ -52,7 +52,7 @@
             other FCTs.
             <span *ngIf="matchedTotals.matchedCount < 100" class="match-warning">
               <strong>
-                <mat-icon aria-hidden=" false" aria-label="Warning: " class="match-warning-icon">
+                <mat-icon aria-hidden="false" aria-label="Warning: " class="match-warning-icon">
                   warning</mat-icon>Note: {{ 100 - matchedTotals.matchedCount |
                 number :
                 '1.2-2'
