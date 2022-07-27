@@ -71,3 +71,9 @@ table {
     border-bottom-color: rgba(0, 0, 0, 0);
   }
 }
+
+// user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+}

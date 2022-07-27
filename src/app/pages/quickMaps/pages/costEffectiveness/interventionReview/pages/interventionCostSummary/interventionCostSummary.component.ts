@@ -7,6 +7,7 @@ import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObje
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-intervention-cost-summary',
@@ -32,7 +33,10 @@ export class InterventionCostSummaryComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private cdRef: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
+
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
@@ -74,5 +78,12 @@ export class InterventionCostSummaryComponent implements OnInit {
         }),
       );
     }
+  }
+
+  public onSubmit(): void {
+    // navigate back to list of selected interventions
+    this.router.navigate(this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute(), {
+      queryParams: this.route.snapshot.queryParams,
+    });
   }
 }

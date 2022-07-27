@@ -22,7 +22,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
   }
 
   public openSectionCostReviewDialog(costs: RecurringCosts): void {
-    console.debug(costs);
+    // console.debug(costs);
   }
 
   private initialiseGraph(): void {

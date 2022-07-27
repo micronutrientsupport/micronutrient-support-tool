@@ -58,7 +58,7 @@
   <footer>
     <a class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.INTERVENTION_REVIEW_RECURRING_COSTS | route" queryParamsHandling="preserve">Back</a>
-    <a class="intervention-navigation-confirm" mat-stroked-button
-      [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Confirm costs</a>
+    <a class="intervention-navigation-confirm" mat-stroked-button (click)="onSubmit()"
+      queryParamsHandling="preserve">Confirm costs</a>
   </footer>
 </div>

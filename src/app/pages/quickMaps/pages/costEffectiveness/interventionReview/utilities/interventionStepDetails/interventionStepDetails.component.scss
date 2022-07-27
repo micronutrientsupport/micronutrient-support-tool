@@ -19,7 +19,7 @@ div:not(.box) {
 }
 
 .blue {
-  background-color: blue;
+  background-color: $color_input_blue;
 }
 
 .static-review-elements {
@@ -28,7 +28,7 @@ div:not(.box) {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  height: 50px;
+  // height: 50px;
 }
 
 .item-bottom-row {

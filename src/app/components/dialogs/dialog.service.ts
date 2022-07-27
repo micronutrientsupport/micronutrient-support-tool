@@ -70,7 +70,7 @@ export class DialogService extends BaseDialogService {
       CostEffectivenessSelectionDialogComponent,
       false,
       interventions,
-      { height: '600px' }
+      { height: '600px' },
     );
   }
   public openCEInfoDialog(): Promise<DialogData> {

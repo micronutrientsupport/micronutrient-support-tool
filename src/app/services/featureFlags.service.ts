@@ -21,7 +21,7 @@ export class FeatureFlagsService {
   }
 
   public isEnabled(flag: string): boolean {
-    console.log(`Checking ${flag}. State=${this.unleashClient.isEnabled(flag)}`);
+    // console.log(`Checking ${flag}. State=${this.unleashClient.isEnabled(flag)}`);
     return this.unleashClient.isEnabled(flag);
   }
 
