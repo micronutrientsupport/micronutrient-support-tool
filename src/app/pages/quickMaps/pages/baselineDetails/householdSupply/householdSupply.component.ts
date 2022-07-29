@@ -22,6 +22,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DietaryHouseholdSummary } from 'src/app/apiAndObjects/objects/dietaryHouseholdSummary';
+import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 
 @Component({
   selector: 'app-household-supply',
@@ -78,7 +79,13 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const dietDataSource = this.quickMapsService.dietDataSource.get();
-          this.title = 'Household apparent micronutrient intake for ' + micronutrient?.name + ' in ' + country?.name;
+          this.title =
+            'Household apparent ' +
+            (micronutrient?.type !== MicronutrientType.OTHER ? 'micronutrient ' : '') +
+            'intake for ' +
+            micronutrient?.name +
+            ' in ' +
+            country?.name;
           this.card.title = this.title;
           //  only if all set
           if (null != country && null != micronutrient && null != dietDataSource) {

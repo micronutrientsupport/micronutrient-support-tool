@@ -8,7 +8,7 @@ import { ExtendedRespose, MnAvailibiltyCountryItem } from '../apiAndObjects/obje
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
 import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
 import { TopFoodSource } from '../apiAndObjects/objects/topFoodSource';
-import { UnmatchedTotals } from '../apiAndObjects/objects/unmatchedTotals';
+import { MatchedTotals } from '../apiAndObjects/objects/matchedTotals';
 
 @Injectable()
 export class DietDataService {
@@ -81,9 +81,13 @@ export class DietDataService {
     });
   }
 
-  public getUnmatchedTotals(dataSource: DietDataSource): Promise<Array<UnmatchedTotals>> {
-    return this.apiService.endpoints.diet.getUnmatchedTotals.call({
+  public getMatchedTotals(
+    dataSource: DietDataSource,
+    micronutrient: MicronutrientDictionaryItem,
+  ): Promise<Array<MatchedTotals>> {
+    return this.apiService.endpoints.diet.getMatchedTotals.call({
       dataSource,
+      micronutrient,
     });
   }
 }

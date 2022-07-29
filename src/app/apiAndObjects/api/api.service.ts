@@ -26,7 +26,7 @@ import { CountryDictionaryItem } from '../objects/dictionaries/countryDictionary
 import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
 import { GetNationalSummary } from './diet/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
-import { GetUnmatchedTotals } from './diet/getUnmatchedTotals';
+import { GetMatchedTotals } from './diet/getMatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
 import { GetIntervention } from './intervention/intervention/getIntervention';
 import { GetInterventionData } from './intervention/interventionData/getInterventionData';
@@ -52,7 +52,7 @@ export class ApiService extends BaseApi {
       getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
       getNationalSummary: new GetNationalSummary(ApiService.USE_LIVE_API),
-      getUnmatchedTotals: new GetUnmatchedTotals(ApiService.USE_LIVE_API),
+      getMatchedTotals: new GetMatchedTotals(ApiService.USE_LIVE_API),
     },
     biomarker: {
       getDataSources: new GetBiomarkerDataSources(ApiService.USE_LIVE_API),

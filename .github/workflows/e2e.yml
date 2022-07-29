@@ -14,7 +14,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           # build: npm run build
-          start: npm run start-prod
+          start: npm run start-cypress
           # config: requestTimeout=41000
           wait-on: http://localhost:8100
           # 120 //secs

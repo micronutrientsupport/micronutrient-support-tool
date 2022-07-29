@@ -74,7 +74,9 @@ const routes: Routes = [
       {
         path: AppRoutes.QUICK_MAPS_UNCERTAINTY.getRouterPath(),
         component: UncertaintyComponent,
+        canLoad: [FeatureFlagGuard],
         data: {
+          featureFlag: 'Uncertainty-Enable',
           appRoute: AppRoutes.QUICK_MAPS_UNCERTAINTY,
           title: 'Quick MAPS - Explore uncertainty',
           keywords: '',
@@ -82,19 +84,21 @@ const routes: Routes = [
             'Explore how climate change and socio-economic factors affect nutrient availability and food availability projections.',
           showLightFooter: true,
         } as RouteData,
-        canActivate: [QuickMapsRouteGuardService],
+        canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
       },
       {
         path: AppRoutes.QUICK_MAPS_DIETARY_CHANGE.getRouterPath(),
         component: DietaryChangeComponent,
+        canLoad: [FeatureFlagGuard],
         data: {
+          featureFlag: 'DietaryScenarios-Enable',
           appRoute: AppRoutes.QUICK_MAPS_DIETARY_CHANGE,
           title: 'Quick MAPS - Simple dietary change scenarios',
           keywords: '',
           description: '',
           showLightFooter: true,
         } as RouteData,
-        canActivate: [QuickMapsRouteGuardService],
+        canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
       },
       {
         path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),

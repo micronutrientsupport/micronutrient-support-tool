@@ -6,7 +6,7 @@ describe('Quick maps - Baseline', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Fe&measure=diet');
-    cy.wait(4000);
+    cy.wait(8000);
     cy.injectAxe();
     cy.checkA11y(
       {
@@ -26,11 +26,11 @@ describe('Quick maps - Baseline', () => {
   it('baseline description panel show/hide', function () {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
-    cy.get('.mat-expansion-panel-body').should('be.visible');
-    cy.get('.mat-expansion-indicator').click();
-    cy.get('.mat-expansion-panel-body').should('be.hidden');
-    cy.get('.mat-expansion-indicator').click();
-    cy.get('.mat-expansion-panel-body').should('be.visible');
+    cy.get('.head-panel .mat-expansion-panel-body').should('be.visible');
+    cy.get('.head-panel .mat-expansion-indicator').click();
+    cy.get('.head-panel .mat-expansion-panel-body').should('be.hidden');
+    cy.get('.head-panel .mat-expansion-indicator').click();
+    cy.get('.head-panel .mat-expansion-panel-body').should('be.visible');
     /* ==== End Cypress Studio ==== */
   });
 
