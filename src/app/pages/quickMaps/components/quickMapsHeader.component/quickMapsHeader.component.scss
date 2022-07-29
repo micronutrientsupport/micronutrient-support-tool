@@ -15,6 +15,10 @@
 .mode-select-button {
   flex-grow: 1;
   margin: 5px;
+
+  a {
+    width: 100%;
+  }
 }
 
 .container {
