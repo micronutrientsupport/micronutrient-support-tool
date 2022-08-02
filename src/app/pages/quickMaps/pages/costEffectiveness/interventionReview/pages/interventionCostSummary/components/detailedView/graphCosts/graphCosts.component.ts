@@ -40,9 +40,9 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     }
   }
 
-  public openSectionCostReviewDialog(costs: RecurringCosts): void {
-    // console.debug(costs);
-  }
+  // public openSectionCostReviewDialog(costs: RecurringCosts): void {
+  //   console.debug(costs);
+  // }
 
   private initialiseGraph(): void {
     const timePeriod = ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
