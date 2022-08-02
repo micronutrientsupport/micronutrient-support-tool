@@ -185,7 +185,6 @@
       }
     }
   },
-  "defaultProject": "micronutrient-support-tool",
   "cli": {
     "analytics": false
   }

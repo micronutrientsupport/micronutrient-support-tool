@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { StartUpCostBreakdown, StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { DialogData } from '../baseDialogService.abstract';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 
@@ -16,13 +16,13 @@ export class SectionStartUpCostReviewDialogComponent {
   public dataSource = new MatTableDataSource<StartUpCostBreakdown>();
   public title = '';
   public displayedColumns: string[] = ['name', 'year0', 'year1'];
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
@@ -96,11 +96,11 @@ export class SectionStartUpCostReviewDialogComponent {
     }
   }
 
-  get startupCostArray(): FormArray {
-    return this.form.get('items')['controls'] as FormArray;
+  get startupCostArray(): UntypedFormArray {
+    return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  private createStartupCostGroup(item: StartUpCostBreakdown): FormGroup {
+  private createStartupCostGroup(item: StartUpCostBreakdown): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],

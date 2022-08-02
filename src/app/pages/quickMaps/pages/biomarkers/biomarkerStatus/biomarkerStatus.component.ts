@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -78,9 +78,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public selectedTab: number;
 
   public showOutliers = true;
-  public outlierControl = new FormControl(true);
-  public dataTypes = new FormControl();
-  public characteristics = new FormControl();
+  public outlierControl = new UntypedFormControl(true);
+  public dataTypes = new UntypedFormControl();
+  public characteristics = new UntypedFormControl();
 
   public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },

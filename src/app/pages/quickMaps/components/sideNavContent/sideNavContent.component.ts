@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -46,8 +46,8 @@ export class SideNavContentComponent {
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<Named>();
-  public quickMapsForm: FormGroup;
-  public sideNavToggleLock = new FormControl(false);
+  public quickMapsForm: UntypedFormGroup;
+  public sideNavToggleLock = new UntypedFormControl(false);
   public btnViewResultsActive = false;
   private subscriptions = new Array<Subscription>();
 
@@ -56,7 +56,7 @@ export class SideNavContentComponent {
     public route: ActivatedRoute,
     public quickMapsService: QuickMapsService,
     public routeGuardService: QuickMapsRouteGuardService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dietDataService: DietDataService,
     private biomarkerDataService: BiomarkerDataService,
     private router: Router,

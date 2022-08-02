@@ -16,7 +16,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -41,7 +41,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   private subscriptions = new Array<Subscription>();
   public activeInterventionId: string;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
@@ -50,7 +50,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
