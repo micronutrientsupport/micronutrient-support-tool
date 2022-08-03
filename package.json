@@ -49,7 +49,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@material/layout-grid": "^11.0.0",
     "@types/chart.js": "^2.9.35",
-    "angular-gridster2": "13.2.0",
+    "angular-gridster2": "^14.1.0",
     "chart.js": "^2.9.4",
     "chartjs-chart-box-and-violin-plot": "^2.4.0",
     "chartjs-chart-treemap": "github:micronutrientsupport/chartjs-chart-treemap#v0.2.3-patch",
@@ -67,7 +67,7 @@
     "ngx-papaparse": "^5.1.0",
     "ngx-sharebuttons": "10.0.0",
     "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
-    "rxjs": "~6.6.7",
+    "rxjs": "^7.5.6",
     "save": "^2.4.0",
     "unleash-proxy-client": "^1.11.0",
     "zone.js": "~0.11.4"
