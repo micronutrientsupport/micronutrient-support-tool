@@ -9,6 +9,6 @@ export class BiomarkerService {
   public changeColourRampObservable = this.changeColourRampSrc.asObservable();
 
   public changeColourRamp(): void {
-    this.changeColourRampSrc.next();
+    this.changeColourRampSrc.next(null);
   }
 }
