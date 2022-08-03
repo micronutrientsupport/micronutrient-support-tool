@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-style-guide',
@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
 })
 export class StyleGuideComponent {
 
-  toppings = new FormControl();
+  toppings = new UntypedFormControl();
 
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 

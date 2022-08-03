@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
@@ -46,7 +46,7 @@ export class StatusChartComponent implements AfterViewInit {
   public defThreshold = 20;
   public abnThreshold = 60;
   public showOutliers = true;
-  public outlierControl = new FormControl(true);
+  public outlierControl = new UntypedFormControl(true);
   public micronutirentName: string;
 
   private outlierSet: unknown[] = [];
