@@ -30,7 +30,7 @@
     "fs": false
   },
   "dependencies": {
-    "@angular-material-extensions/fab-menu": "^4.0.0",
+    "@angular-material-extensions/fab-menu": "^5.1.0",
     "@angular/animations": "^14.1.0",
     "@angular/cdk": "^13.3.9",
     "@angular/common": "^14.1.0",
