@@ -96,7 +96,7 @@
     "axe-core": "^4.4.2",
     "bufferutil": "^4.0.5",
     "codelyzer": "^6.0.2",
-    "cypress": "^10.3.0",
+    "cypress": "^10.4.0",
     "cypress-axe": "^1.0.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
