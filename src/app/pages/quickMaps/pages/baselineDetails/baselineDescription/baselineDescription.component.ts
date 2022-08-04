@@ -7,7 +7,6 @@ import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { MatchedTotals } from 'src/app/apiAndObjects/objects/matchedTotals';
 import { Subscription } from 'rxjs';
-import { CurrencyExtendedPipe } from 'src/app/pipes/currency-extended.pipe';
 
 @Component({
   selector: 'app-base-desc',
