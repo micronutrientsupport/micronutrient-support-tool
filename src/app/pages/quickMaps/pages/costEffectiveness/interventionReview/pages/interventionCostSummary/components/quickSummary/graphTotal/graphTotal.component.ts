@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
-import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
@@ -21,9 +20,9 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     this.initialiseGraph();
   }
 
-  public openSectionCostReviewDialog(costs: RecurringCosts): void {
-    // console.debug(costs);
-  }
+  // public openSectionCostReviewDialog(costs: RecurringCosts): void {
+  // console.debug(costs);
+  // }
 
   private initialiseGraph(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
