@@ -5,7 +5,7 @@ import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/ob
 import { DialogData } from '../baseDialogService.abstract';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -15,7 +15,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 export class SectionRecurringCostReviewDialogComponent {
   public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
   public title = '';
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
   public displayedColumns: string[] = [
@@ -36,7 +36,7 @@ export class SectionRecurringCostReviewDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public dialogData: DialogData<RecurringCosts>,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
@@ -111,11 +111,11 @@ export class SectionRecurringCostReviewDialogComponent {
     }
   }
 
-  get reucrringCostArray(): FormArray {
-    return this.form.get('items')['controls'] as FormArray;
+  get reucrringCostArray(): UntypedFormArray {
+    return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  private createRecurringCostGroup(item: RecurringCostBreakdown): FormGroup {
+  private createRecurringCostGroup(item: RecurringCostBreakdown): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],

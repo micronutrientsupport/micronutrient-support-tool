@@ -38,7 +38,7 @@ describe('Quick maps - Baseline', () => {
   it('baseline estimate panel showing correct data', function () {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('/quick-maps/diet/baseline?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
-    cy.wait(5000);
+    cy.wait(3000);
     cy.get('.nation > .estimateValue').should('be.visible');
     cy.get('.nation > .estimateValue').should('have.text', ' 296 ');
     cy.get('.vitamin > .estimateValue').should('be.visible');

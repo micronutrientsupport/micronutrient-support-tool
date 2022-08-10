@@ -7,7 +7,7 @@ import {
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 
 @Component({
@@ -35,13 +35,13 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 3;
   public interventionName = 'IntName';
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {}
 
   /**
@@ -116,11 +116,11 @@ export class InterventionIndustryInformationComponent implements OnInit {
     }
   }
 
-  get industryArray(): FormArray {
-    return this.form.get('items')['controls'] as FormArray;
+  get industryArray(): UntypedFormArray {
+    return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  private createIndustryGroup(item: IndustryInformation): FormGroup {
+  private createIndustryGroup(item: IndustryInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],

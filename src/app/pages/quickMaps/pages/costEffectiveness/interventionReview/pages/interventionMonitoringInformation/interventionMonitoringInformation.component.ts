@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   InterventionMonitoringInformation,
@@ -34,14 +34,14 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 4;
   public interventionName = 'IntName';
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {}
 
   /**
@@ -116,11 +116,11 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     }
   }
 
-  get monitoringArray(): FormArray {
-    return this.form.get('items')['controls'] as FormArray;
+  get monitoringArray(): UntypedFormArray {
+    return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  private createMonitoringGroup(item: MonitoringInformation): FormGroup {
+  private createMonitoringGroup(item: MonitoringInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],

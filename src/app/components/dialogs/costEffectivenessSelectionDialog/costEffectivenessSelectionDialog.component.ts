@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BehaviorSubject } from 'rxjs';
@@ -19,7 +19,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionId = '';
   public tabID = 'copy';
   public err = new BehaviorSubject<boolean>(false);
-  public interventionForm: FormGroup;
+  public interventionForm: UntypedFormGroup;
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
 
@@ -27,7 +27,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     private interventionDataService: InterventionDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {
     this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
   }
@@ -45,8 +45,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
   private createInterventionForm() {
     this.interventionForm = this.formBuilder.group({
-      newInterventionName: new FormControl('', [Validators.required]),
-      newInterventionDesc: new FormControl(''),
+      newInterventionName: new UntypedFormControl('', [Validators.required]),
+      newInterventionDesc: new UntypedFormControl(''),
     });
   }
 
