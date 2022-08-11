@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.4.0...v1.4.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* disable multi-national selection for now ([1485585](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/1485585012ce746b2fecc953f2fddbe0bfc68061))
+
+
+### Miscellaneous
+
+* add tooltip to disabled biomarker button ([6a1a5a6](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6a1a5a6bd45580909e7eff6bdea2b62b87421bff))
+* fix dockerfile build ([518ae07](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/518ae079e835ec79d5412e9714acabd912cffae3))
+* resolve git conflicts ([2a814cc](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2a814cc2676201ece226a1bd96811c98127c47d6))
+
 ## 1.4.0 (2022-08-07)
 
 
