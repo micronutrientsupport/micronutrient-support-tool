@@ -28,23 +28,22 @@
         </span>
       </legend>
 
-      <div class="toggle-buttons">
+      <!-- <div class="toggle-buttons">
         <mat-button-toggle-group #group="matButtonToggleGroup" name="geographyInterest"
           (change)="geographyTypeChange($event.value)" aria-label="Geography of interest"
           [value]="selectedGeographyType">
           <mat-button-toggle [value]="GEOGRAPHY_TYPE_ENUM.COUNTRY">Single nation</mat-button-toggle>
           <mat-button-toggle disabled [value]="GEOGRAPHY_TYPE_ENUM.REGION">Multinational area </mat-button-toggle>
         </mat-button-toggle-group>
-      </div>
+      </div> -->
 
       <mat-form-field appearance="fill" aria-label="Geography of interest">
-        <mat-select id="qmSelectNation" name="nation" formControlName="nation"
-          [placeholder]="'select a ' + group.value">
+        <mat-select id="qmSelectNation" name="nation" formControlName="nation" [placeholder]="'Select a country'">
           <mat-option id="qmSelectNationOption" *ngFor="let item of geographyOptionArray" [value]="item">
             {{ item.name }}
           </mat-option>
         </mat-select>
-        <mat-error>Please select a ({{group.value}})</mat-error>
+        <mat-error>Please select a country</mat-error>
       </mat-form-field>
     </fieldset>
 
@@ -96,7 +95,7 @@
             [disabled]="!measureBiomarkerEnabled">
             Biomarker Data
           </mat-button-toggle> -->
-          <mat-button-toggle disabled>
+          <mat-button-toggle disabled matTooltip="This feature is under development and currently not available">
             Biomarker Data
           </mat-button-toggle>
         </mat-button-toggle-group>
