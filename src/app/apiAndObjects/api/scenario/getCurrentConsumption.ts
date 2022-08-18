@@ -4,6 +4,7 @@ import { CurrentConsumption } from '../../objects/currentConsumption';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 export class GetCurrentConsumption extends Endpoint<CurrentConsumption, GetCurrentConsumptionParams> {
   protected callLive(params: GetCurrentConsumptionParams): Promise<CurrentConsumption> {
@@ -22,7 +23,9 @@ export class GetCurrentConsumption extends Endpoint<CurrentConsumption, GetCurre
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/food_consumption.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/food_consumption.json')) as Promise<CurrentConsumption>,
+          );
         }, 1500);
       }),
     );

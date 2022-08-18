@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { Dictionary } from '../../_lib_code/objects/dictionary';
 import { ObjectAccessor } from '../../_lib_code/objects/objectAccessor';
 import { ObjectBuilder } from '../../_lib_code/objects/objectBuilder';
@@ -45,7 +46,7 @@ export class FoodGroupDictionaryItem extends MapsDictionaryItem {
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
     const httpClient = injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
-    return httpClient.get('/assets/exampleData/food_groups.json').toPromise() as Promise<
+    return lastValueFrom(httpClient.get('/assets/exampleData/food_groups.json')) as Promise<
       Array<Record<string, unknown>>
     >;
   }

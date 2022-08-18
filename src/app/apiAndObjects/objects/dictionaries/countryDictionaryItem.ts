@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import * as GeoJSON from 'geojson';
+import { lastValueFrom } from 'rxjs';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class CountryDictionaryItem extends MapsDictionaryItem {
@@ -28,7 +29,7 @@ export class CountryDictionaryItem extends MapsDictionaryItem {
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
     const httpClient = injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
-    return httpClient.get('/assets/exampleData/country_select.json').toPromise() as Promise<
+    return lastValueFrom(httpClient.get('/assets/exampleData/country_select.json')) as Promise<
       Array<Record<string, unknown>>
     >;
   }

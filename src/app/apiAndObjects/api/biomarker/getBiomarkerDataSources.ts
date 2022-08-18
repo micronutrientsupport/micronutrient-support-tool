@@ -5,6 +5,7 @@ import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronut
 import { AgeGenderDictionaryItem } from '../../objects/dictionaries/ageGenderDictionaryItem';
 import { BiomarkerDataSource } from '../../objects/biomarkerDataSource';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 export class GetBiomarkerDataSources extends CacheableEndpoint<
   Array<BiomarkerDataSource>,
@@ -33,7 +34,7 @@ export class GetBiomarkerDataSources extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/biomarker_datasources.json').toPromise());
+          resolve(lastValueFrom(httpClient.get('/assets/exampleData/biomarker_datasources.json')));
         }, 1500);
       }),
     );

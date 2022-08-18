@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
@@ -33,16 +34,15 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(
-            httpClient
-              .get('/assets/exampleData/top-foods.json')
-              .toPromise()
-              .then((objects: Array<Record<string, unknown>>) => {
+            lastValueFrom(httpClient.get('/assets/exampleData/top-foods.json')).then(
+              (objects: Array<Record<string, unknown>>) => {
                 if (null != objects[0]) {
                   // change something so that the display changes a little (multiply by 0.8 to 0.9)
                   (objects[0][TopFoodSource.KEYS.DAILY_MN_CONTRIBUTION] as number) *= Math.random() * 0.1 + 0.8;
                 }
                 return objects;
-              }),
+              },
+            ),
           );
         }, 1500);
       }),

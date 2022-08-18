@@ -8,6 +8,7 @@ import { MicronutrientProjectionCommodity } from '../../objects/micronutrientPro
 import { MicronutrientProjectionFoodGroup } from '../../objects/micronutrientProjectionFoodGroup';
 import { FoodSourceGroup } from '../../objects/enums/foodSourceGroup.enum';
 import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
+import { lastValueFrom } from 'rxjs';
 
 export class GetMicronutrientProjectionSources extends CacheableEndpoint<
   Array<MicronutrientProjectionSource>,
@@ -44,7 +45,11 @@ export class GetMicronutrientProjectionSources extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/projection_commodities.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/projection_commodities.json')) as Promise<
+              Array<MicronutrientProjectionSource>
+            >,
+          );
         }, 1500);
       }).then((data: Array<Record<string, unknown>>) =>
         data.map((item) => {

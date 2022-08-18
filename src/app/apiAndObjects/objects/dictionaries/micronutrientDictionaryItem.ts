@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { MicronutrientMeasureType } from '../enums/micronutrientMeasureType.enum';
 import { MicronutrientType } from '../enums/micronutrientType.enum';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
@@ -20,12 +21,7 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
   public readonly isDiet: boolean;
   public readonly measures = Array<MicronutrientMeasureType>();
 
-  protected constructor(
-    sourceObject: Record<string, unknown>,
-    id: string,
-    name: string,
-    description: string,
-  ) {
+  protected constructor(sourceObject: Record<string, unknown>, id: string, name: string, description: string) {
     super(sourceObject, id, name, description);
 
     this.type = this._getEnum(MicronutrientDictionaryItem.KEYS.TYPE, MicronutrientType);
@@ -46,6 +42,8 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
     const httpClient = injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
-    return httpClient.get('/assets/exampleData/mineral-vitamin-select.json').toPromise() as Promise<Array<Record<string, unknown>>>;
+    return lastValueFrom(httpClient.get('/assets/exampleData/mineral-vitamin-select.json')) as Promise<
+      Array<Record<string, unknown>>
+    >;
   }
 }

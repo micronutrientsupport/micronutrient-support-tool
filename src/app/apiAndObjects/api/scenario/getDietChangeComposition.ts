@@ -6,6 +6,7 @@ import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../diet/mnAvailabilityEndpointHelper';
 import { MnAvailibiltyItem } from '../../objects/mnAvailibilityItem.abstract';
+import { lastValueFrom } from 'rxjs';
 
 export class GetDietChangeComposition extends Endpoint<
   Array<MN_AVAILABILITY_TYPE>,
@@ -41,17 +42,16 @@ export class GetDietChangeComposition extends Endpoint<
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(
-            httpClient
-              .get('/assets/exampleData/mn_availability.json')
-              .toPromise()
-              .then((objects: Array<Record<string, unknown>>) => {
+            lastValueFrom(httpClient.get('/assets/exampleData/mn_availability.json')).then(
+              (objects: Array<Record<string, unknown>>) => {
                 objects.forEach((obj) => {
                   // change something so that the display changes a little (multiply by 0.8 to 0.9)
                   (obj[MnAvailibiltyItem.KEYS.DEFICIENT_VALUE] as number) *= Math.random() * 0.1 + 0.8;
                   (obj[MnAvailibiltyItem.KEYS.DEFICIENT_PERC] as number) *= Math.random() * 0.1 + 0.8;
                 });
                 return objects;
-              }),
+              },
+            ),
           );
         }, 1500);
       }),

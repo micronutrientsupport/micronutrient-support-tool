@@ -8,7 +8,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -138,11 +138,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       }
     }
 
-    void this.http
-      .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
-      .toPromise()
+    void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' }))
       .then((data: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<AdditionalInformationData>();
 

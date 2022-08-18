@@ -5,6 +5,7 @@ import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurrentCompositionParams> {
   protected callLive(params: GetCurrentCompositionParams): Promise<CurrentComposition> {
@@ -24,7 +25,9 @@ export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurre
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/food_composition.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/food_composition.json')) as Promise<CurrentComposition>,
+          );
         }, 1500);
       }),
     );

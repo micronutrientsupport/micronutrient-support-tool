@@ -4,6 +4,7 @@ import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 export class GetDietDataSources extends CacheableEndpoint<
   Array<DietDataSource>,
@@ -31,7 +32,7 @@ export class GetDietDataSources extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/diet_datasources.json').toPromise());
+          resolve(lastValueFrom(httpClient.get('/assets/exampleData/diet_datasources.json')));
         }, 1500);
       }),
     );

@@ -16,7 +16,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { MatMenu } from '@angular/material/menu';
@@ -209,10 +209,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (null != this.card) {
       this.card.title = this.title;
     }
-    void this.http
-      .get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })
-      .toPromise()
-      .then((data: string) => {
+    void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })).then(
+      (data: string) => {
         const blob = this.papa.parse(data, { header: true }).data;
         const dataArray = new Array<BiomarkerStatusData>();
         blob.forEach((simpleData: simpleDataObject) => {
@@ -230,7 +228,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         );
 
         this.mineralData = filterByParamatersArray;
-      });
+      },
+    );
   }
 
   private openDialog(): void {
