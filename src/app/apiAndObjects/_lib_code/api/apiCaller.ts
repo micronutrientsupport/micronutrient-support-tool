@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
@@ -56,8 +56,7 @@ export class ApiCaller {
         break;
     }
     if (response != null) {
-      return response
-        .toPromise()
+      return lastValueFrom(response)
         .then((responseJson: unknown) =>
           fullResponse
             ? this.httpCallErrorHandler.handleSuccess(responseJson, true)

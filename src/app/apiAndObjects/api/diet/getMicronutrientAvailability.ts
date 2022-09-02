@@ -1,5 +1,6 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
@@ -50,7 +51,11 @@ export class GetMicronutrientAvailability extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/mn_availability.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/mn_availability.json')) as Promise<
+              ExtendedRespose<MN_AVAILABILITY_TYPE>
+            >,
+          );
         }, 1500);
       }),
     ).then((d) => ({

@@ -5,6 +5,7 @@ import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
+import { lastValueFrom } from 'rxjs';
 
 export class GetProjectionTotals extends Endpoint<
   Array<ProjectedAvailability>,
@@ -32,7 +33,11 @@ export class GetProjectionTotals extends Endpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/projection-total.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/projection-total.json')) as Promise<
+              Array<ProjectedAvailability>
+            >,
+          );
         }, 1500);
       }).then((data: Array<Record<string, unknown>>) =>
         data.map((item) => {

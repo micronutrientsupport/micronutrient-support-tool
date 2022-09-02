@@ -1,5 +1,6 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietaryHouseholdSummary } from '../../objects/dietaryHouseholdSummary';
@@ -33,7 +34,11 @@ export class GetNationalSummary extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/national_summary.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/national_summary.json')) as Promise<
+              Array<DietaryHouseholdSummary>
+            >,
+          );
         }, 1500);
       }).then((data: Array<Record<string, unknown>>) => {
         if (null != data) {

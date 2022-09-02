@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class ImpactScenarioDictionaryItem extends MapsDictionaryItem {
@@ -21,7 +22,7 @@ export class ImpactScenarioDictionaryItem extends MapsDictionaryItem {
   public static getMockItems(injector: Injector): Promise<Array<Record<string, unknown>>> {
     const httpClient = injector.get<HttpClient>(HttpClient);
     // return a single random element when specified
-    return httpClient.get('/assets/exampleData/impact_scenarios.json').toPromise() as Promise<
+    return lastValueFrom(httpClient.get('/assets/exampleData/impact_scenarios.json')) as Promise<
       Array<Record<string, unknown>>
     >;
   }

@@ -1,5 +1,6 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
 import { MatchedTotals } from '../../objects/matchedTotals';
@@ -34,7 +35,7 @@ export class GetMatchedTotals extends CacheableEndpoint<Array<MatchedTotals>, Ge
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/mn_availability.json').toPromise());
+          resolve(lastValueFrom(httpClient.get('/assets/exampleData/mn_availability.json')));
         }, 1500);
       }),
     );

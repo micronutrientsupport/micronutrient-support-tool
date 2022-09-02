@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { ImpactScenarioDictionaryItem } from '../../objects/dictionaries/impactScenarioDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
@@ -30,7 +31,9 @@ export class GetProjectionSummaries extends CacheableEndpoint<ProjectionsSummary
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/projection-summary.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/projection-summary.json')) as Promise<ProjectionsSummary>,
+          );
         }, 1500);
       }),
     );

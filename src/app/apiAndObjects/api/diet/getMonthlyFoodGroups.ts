@@ -1,5 +1,6 @@
 /* tslint:disable: no-string-literal */
 import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataSource } from '../../objects/dietDataSource';
@@ -33,7 +34,11 @@ export class GetMonthlyFoodGroups extends CacheableEndpoint<
       // response after delay
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(httpClient.get('/assets/exampleData/monthly-food-groups.json').toPromise());
+          resolve(
+            lastValueFrom(httpClient.get('/assets/exampleData/monthly-food-groups.json')) as Promise<
+              Array<MonthlyFoodGroup>
+            >,
+          );
         }, 1500);
       }).then((data: Record<string, unknown>) => {
         if (null != data) {
