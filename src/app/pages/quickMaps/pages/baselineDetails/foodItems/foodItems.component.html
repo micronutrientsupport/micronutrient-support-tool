@@ -21,11 +21,11 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">
               <span *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
                 {{ (quickMapsService.micronutrient.obs |
-                async)?.id }} (mg/AFE/day)
+                async)?.id }} ({{ mnUnit }}/AFE/day)
               </span>
               <span *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
                 {{ (quickMapsService.micronutrient.obs |
-                async)?.id }} (mg/capita/day)
+                async)?.id }} ({{ mnUnit }}/capita/day)
               </span>
             </th>
             <td mat-cell *matCellDef="let element">{{ element.dailyMnContribution | sigFig:4 }}</td>
