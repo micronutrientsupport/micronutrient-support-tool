@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.5.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.4.1...v1.5.0) (2022-11-06)
+
+
+### Features
+
+* update top20 food chart to display by both food genus and food group ([803400e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/803400e9d22fc1cfd494df56bd7f984e2ae06938))
+
+
+### Bug Fixes
+
+* ensure top20 data table uses units from API response ([7ccc89d](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/7ccc89da3e34301375495be10c2ea15a53a4388c))
+
+
+### Miscellaneous
+
+* **deps:** update dependencies and actions ([8087fe2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/8087fe2b6ed351e4388c19a61ab1dead08501e8c))
+
 ## [1.4.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.4.0...v1.4.1) (2022-08-11)
 
 
