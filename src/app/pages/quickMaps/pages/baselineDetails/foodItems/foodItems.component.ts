@@ -27,6 +27,13 @@ import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
+import { TitleCasePipe } from '@angular/common';
+
+// Uitlity type
+type Mutable<Type> = {
+  -readonly [Key in keyof Type]: Type[Key];
+};
+
 @Component({
   selector: 'app-food-items',
   templateUrl: './foodItems.component.html',
@@ -42,10 +49,11 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
   public selectedTab: number;
 
-  public chartData: ChartJSObject;
+  public chartDataGroup: ChartJSObject;
+  public chartDataGenus: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
-  public displayedColumns = ['ranking', 'foodGroupName', 'dailyMnContribution'];
+  public displayedColumns = ['ranking', 'foodGenusName', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
 
@@ -65,6 +73,7 @@ export class FoodItemsComponent implements AfterViewInit {
     private dialogService: DialogService,
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
+    private titlecasePipe: TitleCasePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
   ) {}
 
@@ -125,7 +134,8 @@ export class FoodItemsComponent implements AfterViewInit {
         // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
-        this.chartData = null;
+        this.chartDataGroup = null;
+        this.chartDataGenus = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
@@ -133,7 +143,8 @@ export class FoodItemsComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        this.initTreemap(data);
+        this.chartDataGenus = this.initTreemap(data, 'foodGenusName', 'foodGroupName', 'Food Genus');
+        this.chartDataGroup = this.initTreemap(data, 'foodGroupName', 'foodGroupName', 'Food Group');
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -145,7 +156,18 @@ export class FoodItemsComponent implements AfterViewInit {
       });
   }
 
-  private initTreemap(data: Array<TopFoodSource>): void {
+  private initTreemap(
+    data: Array<TopFoodSource>,
+    dataField: string,
+    backgroundFillField: string,
+    tooltipTitle: string,
+  ): ChartJSObject {
+    // Convert foodGenusName to titlecase
+    data = (data as Array<Mutable<TopFoodSource>>).map((value) => {
+      value.foodGenusName = this.titlecasePipe.transform(value.foodGenusName);
+      return value;
+    }) as Array<TopFoodSource>;
+
     const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
@@ -153,7 +175,7 @@ export class FoodItemsComponent implements AfterViewInit {
           {
             tree: data,
             key: 'dailyMnContribution',
-            groups: ['foodGroupName'],
+            groups: [dataField],
             groupLabels: true,
             fontColor: '#ffffff',
             fontFamily: 'Quicksand',
@@ -165,8 +187,12 @@ export class FoodItemsComponent implements AfterViewInit {
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
               if (groupedChartDataAtCurrentIndex) {
+                // TODO: find a cleaner way to access this data
+                const backgroundTextString =
+                  result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+                //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+                return this.genColorHex(backgroundTextString);
               } else {
                 return '#000';
               }
@@ -185,30 +211,39 @@ export class FoodItemsComponent implements AfterViewInit {
         },
         tooltips: {
           callbacks: {
-            title: () => 'Food Item',
+            title: (item: ChartTooltipItem) => {
+              if (dataField !== 'foodGroupName') {
+                const dataItem = data[item[0].index];
+                return `${tooltipTitle} (Parent group: ${dataItem.foodGroupName})`;
+              } else {
+                return tooltipTitle;
+              }
+            },
             label: (item: ChartTooltipItem, result: ChartData) => {
               const dataset: ChartDataSets = result.datasets[item.datasetIndex];
               const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
               // tslint:disable-next-line: no-string-literal
+
               const label: string = dataItem['g'] as string;
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
               const mnUnit = this.mnUnit;
               if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.COUNTRY) {
-                return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/capita/day`;
+                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/capita/day`;
               } else {
-                return `${label}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
+                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
               }
             },
           },
         },
       },
     };
-    this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+    return generatedChart;
   }
 
   private openDialog(): void {

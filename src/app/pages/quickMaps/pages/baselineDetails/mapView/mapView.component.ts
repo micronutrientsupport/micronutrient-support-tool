@@ -128,9 +128,11 @@ export class MapViewComponent implements AfterViewInit {
           const dietDataSource = this.quickMapsService.dietDataSource.get();
 
           this.title =
-            'Median apparent intake of ' +
+            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD
+              ? 'Median apparent intake of '
+              : 'Median nutrient availability') +
             micronutrient.name +
-            ' (AFE) at ' +
+            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) at ' : ' (per capita) at ') +
             (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
             ' level, ' +
             country.name;
