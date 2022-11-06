@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
@@ -45,5 +45,6 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     QuickMapsComponentsModule,
     DirectivesModule,
   ],
+  providers: [TitleCasePipe],
 })
 export class BaselineDetailsModule {}
