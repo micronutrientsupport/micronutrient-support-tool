@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.5.0...v1.6.0) (2022-11-24)
+
+
+### Features
+
+* add api routes and modal dialog to view version info for api data schema etc ([64febc0](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/64febc0fa0badd4f23074544c6df5b097e27e487))
+
 ## [1.5.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.4.1...v1.5.0) (2022-11-06)
 
 
