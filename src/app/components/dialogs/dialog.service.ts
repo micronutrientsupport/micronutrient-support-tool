@@ -5,6 +5,7 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { RecurringCost, RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { BaselineDescriptionDialogComponent } from './baselineDescriptionDialog/baselineDescriptionDialog.component';
 import { CeCalculatedFortificationInfoDialogComponent } from './ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
@@ -36,6 +37,10 @@ export class DialogService extends BaseDialogService {
   public openIframeDialog(IframeUrl: string): Promise<DialogData> {
     console.log('Opening', IframeUrl);
     return this.openDialog('iFrameDialog', IframeDialogComponent, true, { IframeUrl });
+  }
+
+  public openApiMetadataDialog(): Promise<DialogData> {
+    return this.openDialog('apiMetadataDialog', ApiMetadataDialogComponent, true, {}, { width: '500px' });
   }
 
   public openWelcomeDialog(IframeUrl: string): Promise<DialogData> {

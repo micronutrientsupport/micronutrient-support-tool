@@ -26,11 +26,13 @@ import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component'
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
 @NgModule({
   declarations: [
     BaseDialogComponent,
     ShareDialogComponent,
     ScenarioTypeDialogComponent,
+    ApiMetadataDialogComponent,
     MapSettingsDialogComponent,
     InvalidParametersDialogComponent,
     BaselineDescriptionDialogComponent,

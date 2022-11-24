@@ -1,0 +1,37 @@
+<app-base-dialog [data]="data">
+  <h2>MAPS Tool Component Versions</h2>
+  <hr>
+
+  <mat-list>
+    <mat-list-item>
+      <mat-icon matListItemIcon>web</mat-icon>
+      <div class="title" matListItemTitle>Front-End Interface
+        <i class="fas fa-question-circle" matTooltip="The web application you are using to read this text"></i>
+      </div>
+      <div matListItemLine>{{ version }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>webhook</mat-icon>
+      <div class="title" matListItemTitle>API
+        <i class="fas fa-question-circle" matTooltip="Interface between the database and front-end application"></i>
+      </div>
+      <div matListItemLine>{{ dataVersions.apiVersion }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>table_view</mat-icon>
+      <div class="title" matListItemTitle>Data Schema
+        <i class="fas fa-question-circle" matTooltip="Data structures for storing various data types"></i>
+      </div>
+      <div matListItemLine>{{ dataVersions.schemaVersion }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>dataset</mat-icon>
+      <div class="title" matListItemTitle>Source Datasets
+        <i class="fas fa-question-circle"
+          matTooltip="The preloaded datasets within the tool (Food composition, Food consumption etc.)"></i>
+      </div>
+      <div matListItemLine>{{ dataVersions.dataVersion }}</div>
+    </mat-list-item>
+  </mat-list>
+
+</app-base-dialog>
