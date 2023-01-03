@@ -32,6 +32,10 @@ jobs:
           npm i
           npm run build:staging-develop
 
+      - name: add robots.txt to stop spidering
+        run: |
+          echo "User-agent: * Disallow: /" > dist/micronutrient-support-tool/robots.txt
+
       - name: Deploy to netlify
         id: deploy-netlify
         uses: netlify/actions/cli@master
