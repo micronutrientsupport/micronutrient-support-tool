@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 14
       - name: Waiting for 200 from Netlify
-        uses: probablyup/wait-for-netlify-action@3.2.0
+        uses: probablyup/wait-for-netlify-action@v3.4.0
         id: waitForNetlifyDeploy
         with:
           site_id: ${{ secrets.NETLIFY_SITE_ID }} # See Settings > Site Details > General in the Netlify UI
