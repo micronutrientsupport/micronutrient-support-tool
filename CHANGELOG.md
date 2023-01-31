@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.6.0...v1.6.1) (2023-01-31)
+
+
+### Miscellaneous
+
+* ensure netlify builds have robots.txt to avoid google spider indexing dev versions ([db0b649](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/db0b649d21251cce07edaf5cb73623b78326bb81))
+* tweak docker/npm config ([7391e57](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/7391e5790ab1a135c9438a175382cc515d944e80))
+* tweak github actions bpm config ([a8b542f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a8b542ff0e553368937e4373a32d100695a3ba01))
+
 ## [1.6.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.5.0...v1.6.0) (2022-11-24)
 
 
