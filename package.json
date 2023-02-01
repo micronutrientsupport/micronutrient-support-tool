@@ -30,13 +30,11 @@
     "fs": false
   },
   "dependencies": {
-    "@angular-material-extensions/fab-menu": "^5.1.0",
     "@angular/animations": "^14.2.0",
     "@angular/cdk": "^14.2.0",
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
     "@angular/core": "^14.2.0",
-    "@angular/flex-layout": "^14.0.0-beta.40",
     "@angular/forms": "^14.2.0",
     "@angular/material": "^14.2.0",
     "@angular/platform-browser": "^14.2.0",
@@ -63,7 +61,6 @@
     "file-saver": "^2.0.5",
     "leaflet": "^1.8.0",
     "moment-es6": "^1.0.0",
-    "ng-customer-feedback-2": "^0.0.1",
     "ngx-papaparse": "^5.1.0",
     "ngx-sharebuttons": "11.0.0",
     "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
