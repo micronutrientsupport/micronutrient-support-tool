@@ -13,7 +13,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FeatureFlagsFactory } from './services/featureFlags.factory';
 import { FeatureFlagsService } from './services/featureFlags.service';
 import { DirectivesModule } from './directives/directives.module';
-import { NgCustomerFeedbackModule } from 'ng-customer-feedback-2';
+// import { NgCustomerFeedbackModule } from 'ng-customer-feedback-2';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 
 @NgModule({
@@ -34,7 +34,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     DirectivesModule,
-    NgCustomerFeedbackModule,
+    // NgCustomerFeedbackModule,
   ],
   exports: [],
   providers: [
