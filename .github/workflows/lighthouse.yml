@@ -22,7 +22,7 @@ jobs:
       - name: Use Node.js 14
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
       - name: Waiting for 200 from Netlify
         uses: probablyup/wait-for-netlify-action@3.2.0
         id: waitForNetlifyDeploy
@@ -50,7 +50,7 @@ jobs:
           author: ${{ github.actor }}
           branch: ${{ github.ref }}
           outputDirectory: /tmp/artifacts
-          urls: "${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps"
+          urls: '${{ steps.waitForNetlifyDeploy.outputs.url }},${{ steps.waitForNetlifyDeploy.outputs.url }}/maps-tool,${{ steps.waitForNetlifyDeploy.outputs.url }}/quick-maps'
           sha: ${{ github.sha }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
