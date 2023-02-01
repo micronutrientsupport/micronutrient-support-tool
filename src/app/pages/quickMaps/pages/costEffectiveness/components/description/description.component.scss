@@ -47,17 +47,21 @@
 }
 
 .data-level-select-wrapper ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & .mat-form-field-wrapper {
     padding-bottom: 0;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & .mat-form-field-underline {
     bottom: 0;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & .mat-form-field-infix {
     width: 150px;
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 .capitalize-text,
 .data-level-select-wrapper ::ng-deep .mat-select-value,
 ::ng-deep .data-level-select .capitalize-text {

@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@material/layout-grid/mdc-layout-grid';
-
+@use './assets/scss/_bmgf_maps_theme';
 @use './assets/scss/_driver';
 
-@import '~@material/layout-grid/mdc-layout-grid.scss';
-@import './assets/scss/_bmgf_maps_theme';
-@import '@fortawesome/fontawesome-free/css/all.min.css';
+// @import '~@material/layout-grid/mdc-layout-grid.scss';
+
+@use '@fortawesome/fontawesome-free/css/all.min.css';
 
 html,
 body {
@@ -37,7 +37,8 @@ a[disabled='true'] {
 }
 
 // Force mat-fab-menu to be the same size as mat-mini-fab
-.mat-fab {
+.mat-mdc-fab {
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   & .mat-button-wrapper {
     padding: 7px 0 !important;
   }
@@ -46,6 +47,6 @@ a[disabled='true'] {
   margin-bottom: 0 !important;
 }
 
-.mat-mini-fab {
+.mat-mdc-mini-fab {
   margin-bottom: 0 !important;
 }

@@ -57,7 +57,7 @@ form {
             font-size: 16px;
             color: $color_blue_form;
           }
-
+          /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
           &.mat-button-disabled {
             & i {
               color: $color_grey;
@@ -185,10 +185,11 @@ h3 {
   }
 }
 
-::ng-deep .mat-select-panel.allow-long-text {
+::ng-deep .mat-mdc-select-panel.allow-long-text {
   max-width: unset;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
 mat-slide-toggle {
   position: absolute;
   left: 0em;
@@ -196,10 +197,11 @@ mat-slide-toggle {
 }
 
 :host::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
   & .mat-slide-toggle-label {
     padding: 1em;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
   & .mat-slide-toggle-thumb {
     position: relative;
     background: $color_blue_form;
@@ -209,12 +211,13 @@ mat-slide-toggle {
     margin-top: 3px;
   }
 
-  & .mat-slide-toggle.mat-primary.mat-checked {
+  & .mat-mdc-slide-toggle.mat-primary.mat-checked {
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
     & .mat-slide-toggle-thumb {
       background: $color_blue_form;
     }
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
   & .mat-slide-toggle-thumb:before {
     content: '';
     display: block;

@@ -14,10 +14,10 @@
   }
 }
 ::ng-deep .base-dialog {
-  & .mat-dialog-container {
+  & .mat-mdc-dialog-container {
     padding: 2em;
   }
-  & .mat-dialog-container,
+  & .mat-mdc-dialog-container,
   & .mat-dialog-container > *,
   & .mat-dialog-container > * > app-base-dialog,
   & .mat-dialog-container > * > app-base-dialog .scroll-wrapper {
@@ -47,7 +47,7 @@
     margin: 0 5em;
   }
 
-  & .mat-dialog-content {
+  & .mat-mdc-dialog-content {
     max-height: none;
     display: flex;
     flex-direction: column;
@@ -68,6 +68,7 @@
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
 .mat-dialog-close {
   position: absolute;
   right: -2em;
