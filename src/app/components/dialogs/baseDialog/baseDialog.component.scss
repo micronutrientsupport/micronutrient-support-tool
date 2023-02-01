@@ -35,6 +35,7 @@
   flex-direction: column;
   flex: 1 1;
   min-height: 0;
+  padding: 24px;
 
   & h1 {
     font-size: 1.4em;
@@ -71,11 +72,15 @@
 /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
 .mat-dialog-close {
   position: absolute;
-  right: -2em;
-  top: -2em;
+  right: 10px;
+  top: 10px;
   // background-color: $close_button_background_colour;
   // color: $close_button_colour;
-  &:hover {
-    // background-color: $close_button_hover_background_colour
-  }
+  // &:hover {
+  // background-color: $close_button_hover_background_colour
+  // }
+}
+
+.content-padding {
+  padding: 12px;
 }

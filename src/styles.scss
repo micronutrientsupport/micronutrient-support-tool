@@ -39,9 +39,9 @@ a[disabled='true'] {
 // Force mat-fab-menu to be the same size as mat-mini-fab
 .mat-mdc-fab {
   /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  & .mat-button-wrapper {
-    padding: 7px 0 !important;
-  }
+  // & .mat-button-wrapper {
+  //   padding: 7px 0 !important;
+  // }
   width: 40px !important;
   height: 40px !important;
   margin-bottom: 0 !important;

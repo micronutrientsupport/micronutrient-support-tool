@@ -20,5 +20,5 @@ export const environment = {
   unleashAppName: 'MAPS Tool',
   unleashEnvironment: 'development',
 
-  useLiveApi: true,
+  useLiveApi: false,
 };
