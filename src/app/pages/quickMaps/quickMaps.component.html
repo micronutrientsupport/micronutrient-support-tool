@@ -1,4 +1,20 @@
 <div role="main">
+  <div *ngIf="(quickMapsService.init.obs | async) === false" class="service-down">
+    <div class="flex-col">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle" width="150"
+        height="150" viewBox="0 0 24 24" stroke-width="1.5" stroke="#703aa3" fill="none" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 9v2m0 4v.01" />
+        <path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
+      </svg>
+      <h1 class="title">The site is currently experiencing issues.</h1>
+      <p class="subtitle">Please try again later.</p>
+      <p class="status">Alternatively, you can monitor the status of services by clicking on
+        <a href="https://stats.uptimerobot.com/g8Vr6ulQEm" rel="noopen noreferrer" target="_blank">this link.</a>
+      </p>
+    </div>
+  </div>
   <mat-sidenav-container class="sidenav-container" *ngIf="quickMapsService.init.obs | async">
     <mat-sidenav [disableClose]="true" opened mode="side"
       [ngClass]="(quickMapsService.slim.obs | async) ? 'slim-sidenav-mode' :'large-sidenav-mode'">
