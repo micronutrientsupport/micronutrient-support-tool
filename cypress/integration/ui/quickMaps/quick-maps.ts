@@ -1,11 +1,14 @@
 export const populateSelectValues = (): void => {
-  cy.get('[name="nation"]', { timeout: 10000 }).first().click({ force: true });
-  cy.get('mat-option > .mat-option-text', { timeout: 10000 }).contains('Malawi').click({ force: true });
+  // cy.get('[name="geographyOfInterest"]', { timeout: 10000 }).first().click({ force: true });
+  cy.get('[name="geographyOfInterest"] > .mat-mdc-form-field > .mat-mdc-text-field-wrapper')
+    .first()
+    .click({ force: true });
+  cy.get('#qmSelectNation-panel', { timeout: 10000 }).contains('Malawi').click({ force: true });
   cy.get('[name="micronutrient"]').click({ force: true });
   // wait for previous select to close and this one to open
   cy.wait(500);
   cy.get('#qmSelectMNDMineral-button').click({ force: true });
-  cy.get('mat-option > .mat-option-text', { timeout: 10000 }).contains('Iron').click({ force: true });
+  cy.get('#qmSelectMND-panel', { timeout: 10000 }).contains('Iron').click({ force: true });
   // wait for auto select of pop group and mnds data
   cy.wait(3000);
 };
@@ -33,7 +36,7 @@ describe('Quick Map Tests', () => {
     cy.visit('/quick-maps');
     cy.wait(3000);
     populateSelectValues();
-    cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
+    cy.get('#button-view-results').click({ force: true });
     cy.get('app-baseline-details').should('be.visible');
   });
 
@@ -41,7 +44,7 @@ describe('Quick Map Tests', () => {
     cy.visit('/quick-maps');
     cy.wait(3000);
     populateSelectValues();
-    cy.get('.footer-row > .mat-focus-indicator > .mat-button-wrapper').click({ force: true });
+    cy.get('#button-view-results').click({ force: true });
     cy.get('.mode-select a.quickmaps-projection-link').click({ force: true });
     cy.get('app-quickmaps-projection').should('be.visible');
   });

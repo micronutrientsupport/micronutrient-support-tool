@@ -94,12 +94,12 @@ mat-form-field.mat-form-field-appearance-fill .mat-select-arrow-wrapper {
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-.mat-tab-label .mat-tab-label-content {
+.mat-mdc-tab-label .mat-mdc-tab-label-content {
   color: black;
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-.mat-tab-labels {
+.mat-mdc-tab-labels {
   display: flex;
   justify-content: center;
 }

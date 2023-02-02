@@ -10,16 +10,17 @@
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-mat-tab-group {
+mat-mdc-tab-group {
   min-height: 0;
   flex: 1 1;
+
   & ::ng-deep {
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-    & .mat-tab-body-wrapper {
+    & .mat-mdc-tab-body-wrapper {
       flex: 1 1;
       /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-      & .mat-tab-body-content > * {
+      & .mat-mdc-tab-body-content > * {
         height: 100%;
       }
     }
@@ -29,7 +30,7 @@ mat-tab-group {
 ngx-chartjs {
   display: block;
   & ::ng-deep > * {
-    height: 100%;
+    height: 100% !important;
   }
 }
 
