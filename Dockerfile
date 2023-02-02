@@ -1,11 +1,11 @@
-FROM node:14-alpine AS builder
+FROM node:16 AS builder
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 
 WORKDIR /micronutrient-support-tool
 COPY package*.json ./
 
-RUN npm i --verbose
+RUN npm install --no-package-lock
 COPY . .
 
 RUN npm run build:prod

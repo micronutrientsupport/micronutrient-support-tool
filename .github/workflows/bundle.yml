@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install dependencies
-        run: npm i
+        run: npm install --no-package-lock
       - name: Build
         run: npm run build:stats
       - name: Upload stats.json
@@ -27,7 +27,7 @@ jobs:
         with:
           ref: ${{ github.base_ref }}
       - name: Install dependencies
-        run: npm i
+        run: npm install --no-package-lock
       - name: Build
         run: npm run build:stats
       - name: Upload stats.json
