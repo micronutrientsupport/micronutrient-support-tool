@@ -28,7 +28,7 @@ jobs:
 
       - name: npm install and npm run build
         run: |
-          npm i --verbose
+          npm install --no-package-lock
           npm run build:staging-branch
 
       - name: add robots.txt to stop spidering
