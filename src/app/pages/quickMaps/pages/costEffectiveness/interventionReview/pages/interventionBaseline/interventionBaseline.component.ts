@@ -43,7 +43,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public activeInterventionId: string;
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
-
+  inputEdited = false;
   constructor(
     public quickMapsService: QuickMapsService,
     private interventionDataService: InterventionDataService,
@@ -57,7 +57,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // console.debug('id:', this.activeInterventionId);
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
