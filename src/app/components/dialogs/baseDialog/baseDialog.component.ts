@@ -10,4 +10,8 @@ export class BaseDialogComponent {
   @Input() data: DialogData;
   @Input() title = '';
   // Dialog that acts as a wrapper for other dialogs.
+
+  onNoClick(): void {
+    this.data.close();
+  }
 }

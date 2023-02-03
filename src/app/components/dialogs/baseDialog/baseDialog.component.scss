@@ -78,3 +78,15 @@
     // background-color: $close_button_hover_background_colour
   }
 }
+.close.mat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  line-height: 14px;
+  min-width: auto;
+  background-color: transparent;
+}
