@@ -7,15 +7,14 @@
   padding: 10px;
 }
 
-.mat-mdc-tab-group {
-  margin: 1rem 0rem;
+mat-mdc-tab-group {
+  // margin: 1rem 0rem;
 
   .mat-mdc-tab-body {
     overflow: hidden;
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
     &.mat-mdc-tab-body-active {
       overflow: hidden;
-      height: 100%;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
     .mat-mdc-tab-body-content {
