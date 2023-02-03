@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
+import { CostEffectivenessService } from 'src/app/pages/quickMaps/pages/costEffectiveness/costEffectiveness.service';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -8,24 +8,19 @@ import { DialogData } from '../baseDialogService.abstract';
   templateUrl: './ceResetDialog.component.html',
   styleUrls: ['./ceResetDialog.component.scss'],
 })
-export class CeResetDialogComponent implements OnInit {
-  public monitoringInformation: InterventionMonitoringInformation;
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
-    //add content
-  }
+export class CeResetDialogComponent {
+  constructor(
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    private ceService: CostEffectivenessService,
+  ) {}
 
-  ngOnInit(): void {
-    //add content
-  }
   public closeDialog(): void {
     this.dialog.closeAll();
   }
 
   public resetAll(): void {
-    //reset all needes to only reset values in the current review component
-    if (null != this.monitoringInformation) {
-      this.dialogData.dataOut = this.monitoringInformation;
-    }
+    this.ceService.setResetIndustryInfoForm();
     this.dialog.closeAll();
   }
 }

@@ -9,6 +9,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+import { CostEffectivenessService } from '../../../costEffectiveness.service';
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -37,11 +38,13 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
+  public initialValues;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    private ceService: CostEffectivenessService,
   ) {}
 
   /**
@@ -67,6 +70,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
           this.form = this.formBuilder.group({
             items: this.formBuilder.array(industryGroupArr),
           });
+          this.initialValues = this.form.value;
           const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
             return Object.entries(b).filter(([key, value]) => value !== a[key]);
           };
@@ -139,6 +143,11 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
+    this.ceService.resetIndustryInfoFormObs.subscribe((shouldResetForm: boolean) => {
+      if (shouldResetForm) {
+        this.form.reset(this.initialValues);
+      }
+    });
   }
 
   public confirmAndContinue(): void {

@@ -1,8 +1,8 @@
 @import 'src/assets/scss/_colour';
 
-div:not(.box) {
-  margin-bottom: 15px;
-}
+// div:not(.box) {
+//   margin-bottom: 15px;
+// }
 
 .box {
   height: 20px;
@@ -42,13 +42,17 @@ div:not(.box) {
 }
 
 .item-group {
-  width: 40%;
+  // width: 40%;
   display: inline-block;
 }
 
 .button-wrapper {
-  margin-left: 15em;
   button {
     margin: 0 0.5em;
+
+    svg {
+      margin-right: 0.25rem;
+      transform: rotate(-180deg);
+    }
   }
 }
