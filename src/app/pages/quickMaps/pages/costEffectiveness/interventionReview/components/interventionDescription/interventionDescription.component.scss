@@ -7,16 +7,17 @@
   border-bottom: 1px solid $color_primary;
   justify-content: space-between;
 }
+
 .intervention-summary-title {
   flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 45px;
-  font-size: 40px;
-  font-weight: bold;
-  margin: 10px;
+  font-size: 24px;
+  margin: 1.5rem;
 }
+
 .intervention-summary-panel {
   display: flex;
   align-items: center;
@@ -26,14 +27,12 @@
   border-radius: 10px;
 
   .item {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
 
-    .title {
-      //
-    }
     .value {
       font-weight: bold;
       margin-left: 5px;

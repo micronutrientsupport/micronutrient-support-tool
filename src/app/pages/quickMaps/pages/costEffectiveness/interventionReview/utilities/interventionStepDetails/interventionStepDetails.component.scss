@@ -23,12 +23,11 @@ div:not(.box) {
 }
 
 .static-review-elements {
-  width: 95%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  // height: 50px;
 }
 .red-icon {
   color: red;
@@ -44,13 +43,17 @@ div:not(.box) {
 }
 
 .item-group {
-  width: 40%;
   display: inline-block;
+  padding-right: 0.75rem;
 }
 
 .button-wrapper {
-  margin-left: 15em;
   button {
-    margin: 0 0.5em;
+    margin: 0;
+    padding: 0 0.25rem;
+
+    svg {
+      transform: rotate(-180deg);
+    }
   }
 }

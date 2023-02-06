@@ -35,7 +35,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public baselinedisplayedColumns = ['title', 'baseline_value'];
 
   public FVdataSource = new MatTableDataSource();
-  public baselineFVdisplayedColumns = ['compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
+  public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
   public optionalUserEnteredAverageAtPointOfFortification = 0;
 

@@ -1,5 +1,13 @@
+@use '@angular/material' as mat;
 @use '../interventionReviewPages.scss';
 @import 'src/assets/scss/_colour';
+
+.container {
+  .content {
+    overflow: hidden;
+  }
+}
+
 .header-container {
   display: flex;
   border: 1px solid $color_primary;
@@ -20,18 +28,54 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+
   .standard {
     width: 85%;
   }
+
   .compliance {
     width: 100%;
   }
 }
 
-table {
-  width: 95%;
-  table-layout: fixed;
+.focus-mn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 1.5rem;
+
+  .sub-header {
+    color: $color_grey;
+  }
+
+  .divider {
+    width: 3px;
+    height: 15px;
+    background: mat.get-color-from-palette($_primary_pallete, A700);
+    margin-right: 0.5rem;
+    border-radius: 4px;
+  }
 }
+
+table {
+  width: 100%;
+  table-layout: fixed;
+
+  .row-title {
+    &.focus {
+      font-weight: 500;
+      color: mat.get-color-from-palette($_primary_pallete, default);
+    }
+  }
+
+  th {
+    &.mat-header-cell {
+      border-bottom: none;
+      text-align: left !important;
+    }
+  }
+}
+
 .intervention-baseline-panel {
   display: flex;
   align-items: center;
@@ -51,16 +95,23 @@ table {
 
 .double-cell {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+
+  button {
+    margin-left: 2rem;
+  }
 }
+
 input {
   width: 50px;
 }
+
 th {
   white-space: pre-wrap;
   word-break: normal;
 }
+
 .icon-display {
   transform: scale(0.6);
 }
