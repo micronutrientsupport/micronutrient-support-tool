@@ -5,7 +5,7 @@ RUN apk update && apk upgrade && \
 WORKDIR /micronutrient-support-tool
 COPY package*.json ./
 
-RUN npm i
+RUN npm i --verbose
 COPY . .
 
 RUN npm run build:prod
