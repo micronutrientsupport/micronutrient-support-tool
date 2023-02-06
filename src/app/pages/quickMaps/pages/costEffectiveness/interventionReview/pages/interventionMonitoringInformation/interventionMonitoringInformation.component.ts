@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, NonNullableFormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   InterventionMonitoringInformation,
@@ -41,7 +41,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: NonNullableFormBuilder,
   ) {}
 
   /**
@@ -143,5 +143,9 @@ export class InterventionMonitoringInformationComponent implements OnInit {
 
   public confirmAndContinue(): void {
     this.interventionDataService.interventionPageConfirmContinue();
+  }
+
+  public resetForm() {
+    this.form.reset();
   }
 }

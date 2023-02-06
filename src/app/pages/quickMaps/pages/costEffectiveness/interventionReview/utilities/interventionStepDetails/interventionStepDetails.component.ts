@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
@@ -12,6 +13,8 @@ export class InterventionStepDetailsComponent implements OnInit {
   @Input('showUserValues') public showUserValues = false;
   @Input('showMnUnits') public showMnUnits = false;
 
+  @Output('resetValues') reset: EventEmitter<void> = new EventEmitter();
+
   constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {
@@ -19,6 +22,11 @@ export class InterventionStepDetailsComponent implements OnInit {
   }
 
   public resetValues(): void {
-    void this.dialogService.openCEResetDialog();
+    void this.dialogService.openCEResetDialog().then((data: DialogData) => {
+      console.debug(data);
+      if (data.dataOut === true) {
+        this.reset.next();
+      }
+    });
   }
 }
