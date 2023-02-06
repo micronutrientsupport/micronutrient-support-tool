@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray, NonNullableFormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, NonNullableFormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   InterventionMonitoringInformation,
   MonitoringInformation,
 } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
-import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -38,10 +37,8 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
-    public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
-    // private formBuilder: UntypedFormBuilder,
     private formBuilder: NonNullableFormBuilder,
   ) {}
 
@@ -146,7 +143,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     this.interventionDataService.interventionPageConfirmContinue();
   }
 
-  public resetForm(): void {
+  public resetForm() {
     this.form.reset();
   }
 }
