@@ -7,7 +7,7 @@ import {
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 
 @Component({
