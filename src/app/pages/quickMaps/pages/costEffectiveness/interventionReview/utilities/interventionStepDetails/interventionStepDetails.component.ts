@@ -19,6 +19,8 @@ export class InterventionStepDetailsComponent implements OnInit {
   }
 
   public resetValues(): void {
-    void this.dialogService.openCEResetDialog();
+    void this.dialogService.openCEResetDialog().then((data: unknown) => {
+      console.debug(data);
+    });
   }
 }

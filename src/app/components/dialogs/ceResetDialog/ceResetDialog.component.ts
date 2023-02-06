@@ -18,14 +18,17 @@ export class CeResetDialogComponent implements OnInit {
     //add content
   }
   public closeDialog(): void {
+    this.dialogData.dataOut = false;
     this.dialog.closeAll();
   }
 
   public resetAll(): void {
     //reset all needes to only reset values in the current review component
-    if (null != this.monitoringInformation) {
-      this.dialogData.dataOut = this.monitoringInformation;
-    }
+    // if (null != this.monitoringInformation) {
+    //   this.dialogData.dataOut = this.monitoringInformation;
+    // }
+
+    this.dialogData.dataOut = true;
     this.dialog.closeAll();
   }
 }
