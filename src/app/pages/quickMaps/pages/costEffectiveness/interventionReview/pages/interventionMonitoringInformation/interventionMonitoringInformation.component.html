@@ -134,7 +134,16 @@
         <ng-container matColumnDef="source">
           <th class="column-title" mat-header-cell *matHeaderCellDef> Source </th>
           <td class="column-title" mat-cell *matCellDef="let element">
-            GFDx
+            <span>
+              <button matTooltip="Source: Global Fortification Data Exchange" mat-button color="primary">
+                GFDx<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+              <!-- ngIf*="form.get('year9').dirty"  -->
+              <!-- <button ngIf* !="form.controls['year9'].controls['year8'].dirty" matTooltip="User entered data" mat-button
+                color="primary">
+                User Input
+              </button> -->
+            </span>
           </td>
         </ng-container>
 

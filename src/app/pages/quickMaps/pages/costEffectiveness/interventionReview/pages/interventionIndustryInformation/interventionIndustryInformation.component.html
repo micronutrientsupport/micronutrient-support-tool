@@ -134,7 +134,11 @@
         <ng-container matColumnDef="source">
           <th class="column-title" mat-header-cell *matHeaderCellDef> Source </th>
           <td class="column-title" mat-cell *matCellDef="let element">
-            GFDx
+            <span>
+              <button mat-button color="primary">
+                GFDx<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+            </span>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
