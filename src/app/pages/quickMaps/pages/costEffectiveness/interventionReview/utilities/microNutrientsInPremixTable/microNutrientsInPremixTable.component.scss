@@ -1,10 +1,6 @@
 @use '@angular/material' as mat;
 @import '/src/assets/scss/colour';
 
-.add-mn-button {
-  margin-left: 1.5rem;
-}
-
 ::ng-deep mat-accordion {
   .mat-expansion-panel:not([class*='mat-elevation-z']) {
     background: none;

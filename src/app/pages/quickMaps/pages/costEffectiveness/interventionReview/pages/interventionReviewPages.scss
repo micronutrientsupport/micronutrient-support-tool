@@ -86,15 +86,15 @@ table {
   width: 100%;
   background: none;
 
-  td.mat-cell {
+  td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
     text-align: left;
-    vertical-align: bottom;
 
-    &.cdk-column-micronutrient {
+    &.mat-column-micronutrient {
       color: mat.get-color-from-palette($_primary_pallete, A700);
       font-weight: 700;
       font-family: 'Quicksand', sans-serif;
+      padding: 0 1.25rem;
     }
   }
 }

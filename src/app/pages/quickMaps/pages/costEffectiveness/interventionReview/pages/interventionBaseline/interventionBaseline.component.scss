@@ -61,6 +61,7 @@ table {
   width: 100%;
   table-layout: fixed;
   font-family: 'Quicksand', sans-serif !important;
+  padding: 0 0 0 2rem;
 
   .row-title {
     &.focus {
@@ -70,7 +71,7 @@ table {
   }
 
   th {
-    &.mat-header-cell {
+    &.mat-mdc-header-cell {
       border-bottom: none;
       text-align: left !important;
     }

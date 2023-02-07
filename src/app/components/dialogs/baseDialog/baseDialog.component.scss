@@ -21,9 +21,9 @@
   }
 }
 ::ng-deep .base-dialog {
-  & .mat-mdc-dialog-container {
-    padding: 2em;
-  }
+  // .mat-mdc-dialog-container {
+  //   padding: 2em;
+  // }
   & .mat-mdc-dialog-container,
   & .mat-dialog-container > *,
   & .mat-dialog-container > * > app-base-dialog,

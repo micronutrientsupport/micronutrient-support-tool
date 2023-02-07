@@ -13,8 +13,18 @@
 
 mat-form-field {
   &.override {
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
+    .mat-mdc-text-field-wrapper {
+      &.mdc-text-field--outlined {
+        .mat-mdc-form-field-infix {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          min-height: 32px;
+        }
+      }
     }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
   }
 }
