@@ -1,5 +1,8 @@
 @import './colour';
 
+.mat-mdc-card {
+  padding: 5px;
+}
 .basic-card {
   display: flex;
   flex-flow: column wrap;
