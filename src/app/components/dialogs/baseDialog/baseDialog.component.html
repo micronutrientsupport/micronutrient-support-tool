@@ -1,5 +1,5 @@
 <h1>{{ null != title ? title : '' }}</h1>
-<button class="close" mat-button (click)="onNoClick()">X</button>
+
 <button *ngIf="data.closable" mat-button [mat-dialog-close]="" class="mat-dialog-close"><i
     class="fas fa-times"></i></button>
 
