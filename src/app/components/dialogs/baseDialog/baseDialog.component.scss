@@ -1,5 +1,11 @@
 @import 'src/assets/scss/_colour';
 
+.fix-height {
+  display: flex;
+  flex-grow: 1;
+  height: 600px;
+}
+
 ::ng-deep {
   & .dialog-custom-backdrop-wrapper {
     position: relative;

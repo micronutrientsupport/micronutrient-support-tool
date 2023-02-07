@@ -30,6 +30,7 @@ describe('Quick maps - Projections', () => {
   it('Projections page displaying content', function () {
     /* ==== Generated with Cypress Studio ==== */
     cy.visit('/quick-maps/diet/projection?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
+    cy.wait(2000);
     cy.get('.mat-expansion-panel-body').should('be.visible');
     cy.get('.content-container > :nth-child(1) > strong').should('be.visible');
     cy.get('app-quick-maps-header.ng-star-inserted').click();
@@ -42,7 +43,7 @@ describe('Quick maps - Projections', () => {
     cy.get(':nth-child(4) > strong').should('have.text', 'SSP2');
     cy.get('app-estimate > .container').should('be.visible');
     cy.get(
-      '#mat-tab-content-0-0 > .mat-tab-body-content > .ng-star-inserted > :nth-child(1) > .chartjs-render-monitor',
+      '#mat-tab-content-0-0 > .mat-mdc-tab-body-content > .ng-star-inserted > :nth-child(1) > .chartjs-render-monitor',
     ).should('be.visible');
     /* ==== End Cypress Studio ==== */
   });
