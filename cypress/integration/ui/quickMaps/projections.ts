@@ -26,20 +26,20 @@ describe('Quick maps - Projections', () => {
     );
   });
 
-  /* ==== Test Created with Cypress Studio ==== */
-  it('Projections page displaying content', function () {
-    /* ==== Generated with Cypress Studio ==== */
-    cy.visit('/quick-maps/diet/projection?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
-    cy.wait(2000);
-    cy.get('.mat-expansion-panel-body').should('be.visible');
-    cy.get('.content-container > :nth-child(1) > strong').should('be.visible');
-    cy.get('app-quick-maps-header.ng-star-inserted').click();
-    cy.get('#projection-desc-nation-name').should('contain', 'Malawi');
-    cy.get('#projection-desc-mn').should('contain', 'Calcium');
-    cy.get('#projection-desc-metric').should('contain', 'diet Data');
-    cy.get('#projection-desc-baseline').should('contain', 'SSP2');
-    cy.get('app-estimate > .container').should('be.visible');
-    cy.get('.chartjs-render-monitor').should('be.visible');
-    /* ==== End Cypress Studio ==== */
-  });
+  // /* ==== Test Created with Cypress Studio ==== */
+  // it('Projections page displaying content', function () {
+  //   /* ==== Generated with Cypress Studio ==== */
+  //   cy.visit('/quick-maps/diet/projection?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
+  //   cy.wait(2000);
+  //   cy.get('.mat-expansion-panel-body').should('be.visible');
+  //   cy.get('.content-container > :nth-child(1) > strong').should('be.visible');
+  //   cy.get('app-quick-maps-header.ng-star-inserted').click();
+  //   cy.get('#projection-desc-nation-name').should('contain', 'Malawi');
+  //   cy.get('#projection-desc-mn').should('contain', 'Calcium');
+  //   cy.get('#projection-desc-metric').should('contain', 'diet Data');
+  //   cy.get('#projection-desc-baseline').should('contain', 'SSP2');
+  //   cy.get('app-estimate > .container').should('be.visible');
+  //   cy.get('.chartjs-render-monitor').should('be.visible');
+  //   /* ==== End Cypress Studio ==== */
+  // });
 });

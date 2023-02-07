@@ -2,8 +2,9 @@
 
 .fix-height {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  height: 600px;
+  height: 700px;
 }
 
 ::ng-deep {
