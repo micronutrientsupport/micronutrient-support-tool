@@ -16,6 +16,9 @@
 .container {
   border: solid 1px $color_primary;
   border-radius: 5px;
+  mat-card {
+    padding: 1em;
+  }
 }
 
 .content-container {
@@ -30,7 +33,9 @@
 
 .column-container {
   width: 50%;
-  text-align: right;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: end;
 }
 
 .item-container {
