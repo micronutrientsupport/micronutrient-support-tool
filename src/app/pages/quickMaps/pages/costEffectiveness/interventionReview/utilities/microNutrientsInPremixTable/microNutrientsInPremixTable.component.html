@@ -5,21 +5,12 @@
             <mat-panel-title>
                 <span class="mat-typography">
                     <div class="border"></div>
-                    Other micronutrients in the premix ({{interventionDataService.getMnInPremixCount()}})
+                    Other micronutrients in the premix ({{ interventionDataService.getMnInPremixCount() }})
                 </span>
                 <mat-icon>{{ panel.expanded ? 'expand_more' : 'expand_less' }}</mat-icon>
             </mat-panel-title>
         </mat-expansion-panel-header>
-
-        <div *ngFor="let micronutrient of micronutrients">
-            <app-premix-table-row [micronutrient]="micronutrient" [editable]="editable"
-                [baselineAssumptions]="baselineAssumptions">
-            </app-premix-table-row>
-        </div>
-
+        <app-premix-table [micronutrients]="micronutrients" [editable]="editable"
+            [baselineAssumptions]="baselineAssumptions"></app-premix-table>
     </mat-expansion-panel>
 </mat-accordion>
-
-<button class="add-mn-button" *ngIf="editable" mat-flat-button (click)="addMN()">
-    <mat-icon class="red-icon">add</mat-icon> Add micronutrient
-</button>

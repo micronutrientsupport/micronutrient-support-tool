@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import 'src/assets/scss/_colour.scss';
 
 .container {
@@ -89,6 +90,12 @@ table {
     border-bottom-color: rgba(0, 0, 0, 0);
     text-align: left;
     vertical-align: bottom;
+
+    &.cdk-column-micronutrient {
+      color: mat.get-color-from-palette($_primary_pallete, A700);
+      font-weight: 700;
+      font-family: 'Quicksand', sans-serif;
+    }
   }
 }
 

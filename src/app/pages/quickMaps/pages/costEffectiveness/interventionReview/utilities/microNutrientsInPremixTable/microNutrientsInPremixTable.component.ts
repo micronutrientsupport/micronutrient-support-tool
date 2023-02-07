@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
   BaselineAssumptions,
@@ -12,6 +12,7 @@ import {
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { CostEffectivenessService } from '../../../costEffectiveness.service';
 
 @Component({
   selector: 'app-micro-nutrients-in-premix-table',
@@ -21,39 +22,55 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 export class MicroNutrientsInPremixTableComponent {
   @Input() public editable = false;
   public baselineAssumptions: BaselineAssumptions;
-  public micronutrients: Array<FoodVehicleStandard>;
+  public micronutrients: Array<FoodVehicleStandard> = [];
   public updateTrigger = new Subject<null>();
+  public displayPremixTable: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     public readonly interventionDataService: InterventionDataService,
     private readonly dialogService: DialogService,
-  ) {
-    void this.interventionDataService
+    private readonly ceService: CostEffectivenessService,
+  ) {}
+
+  ngOnInit(): void {
+    this.interventionDataService
       .getInterventionBaselineAssumptions('1')
       .then((data: InterventionBaselineAssumptions) => {
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-        this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+        if (this.interventionDataService.getCachedMnInPremix()) {
+          this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+        }
       });
+
+    this.ceService.addMicronutrientObs.subscribe((shouldAddMicronutrient: boolean) => {
+      if (shouldAddMicronutrient) {
+        this.addMN();
+      }
+    });
   }
 
   public addMN(): void {
     void this.dialogService
       .openMnAdditionDialog()
-      .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, Array<MicronutrientDictionaryItem>>) => {
-        const mnArray = dialogData.dataOut;
-        mnArray.forEach((mn: MicronutrientDictionaryItem) => {
+      .then((dialogData: DialogData<Array<MicronutrientDictionaryItem>, MicronutrientDictionaryItem>) => {
+        const micronutrient = dialogData.dataOut;
+        if (micronutrient) {
           this.interventionDataService
             .getInterventionFoodVehicleStandards('1')
             .then((data: InterventionFoodVehicleStandards) => {
-              if (null != data) {
+              if (data != null) {
                 const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+                  return standard.micronutrient.includes(micronutrient.name.toLocaleLowerCase());
                 });
                 this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
-                this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+                this.micronutrients = addedNutrientFVS;
+
+                if (this.micronutrients.length > 0) {
+                  this.displayPremixTable.next(true);
+                }
               }
             });
-        });
+        }
       });
   }
 }

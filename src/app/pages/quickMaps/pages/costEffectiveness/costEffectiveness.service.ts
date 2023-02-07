@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -6,14 +8,16 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CostEffectivenessService {
   private readonly interventionComparisonActiveSrc = new BehaviorSubject<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly interventionComparisonActiveObs = this.interventionComparisonActiveSrc.asObservable();
 
-  constructor() {
-    // add content
-  }
+  private readonly addMicronutrient = new BehaviorSubject<boolean>(false);
+  public readonly addMicronutrientObs = this.addMicronutrient.asObservable();
 
   public setInterventionComparisonStatus(cardVisible: boolean): void {
     this.interventionComparisonActiveSrc.next(cardVisible);
+  }
+
+  public setAddMicronutrient(trigger: boolean): void {
+    this.addMicronutrient.next(trigger);
   }
 }

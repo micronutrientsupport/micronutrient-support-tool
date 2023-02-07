@@ -37,7 +37,7 @@ import { ReusableCostTableComponent } from './interventionReview/utilities/reusa
 import { InterventionStepDetailsComponent } from './interventionReview/utilities/interventionStepDetails/interventionStepDetails.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MicroNutrientsInPremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/microNutrientsInPremixTable.component';
-import { PremixTableRowComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTableRow.component';
+import { PremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
@@ -63,7 +63,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     ReusableCostTableComponent,
     InterventionStepDetailsComponent,
     MicroNutrientsInPremixTableComponent,
-    PremixTableRowComponent,
+    PremixTableComponent,
   ],
   imports: [
     CommonModule,

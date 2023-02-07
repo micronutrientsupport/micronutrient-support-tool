@@ -1,9 +1,5 @@
 @import 'src/assets/scss/_colour';
 
-div:not(.box) {
-  margin-bottom: 15px;
-}
-
 .box {
   height: 20px;
   width: 20px;
@@ -28,6 +24,14 @@ div:not(.box) {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+
+  .group {
+    &.flex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 }
 .red-icon {
   color: red;
@@ -52,8 +56,23 @@ div:not(.box) {
     margin: 0;
     padding: 0 0.25rem;
 
-    svg {
-      transform: rotate(-180deg);
+    span {
+      margin-left: 0.5rem;
     }
+  }
+}
+
+.item-reset {
+  margin-left: 0.75rem !important;
+}
+
+.add-mn-button,
+.item-reset {
+  background: transparent;
+}
+
+.add-mn-button {
+  span {
+    margin-left: 0.5rem;
   }
 }
