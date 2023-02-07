@@ -151,6 +151,6 @@
   tourPosition="right" (tourForwardFunction)="submitForm()" tourTrigger="Quick MAPS Baseline Data">
   <div class="results-text" *ngIf="btnViewResultsActive === false"><i class="fas fa-info-circle"></i> No data sources
     available for this selection</div>
-  <button mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
+  <button id="button-view-results" mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>

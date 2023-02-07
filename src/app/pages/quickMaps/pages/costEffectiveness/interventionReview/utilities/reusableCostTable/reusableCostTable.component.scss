@@ -4,10 +4,10 @@ table {
   width: 95%;
   margin-left: 2em;
   background: none;
-  td.mat-cell {
+  td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
   }
-  tr.mat-footer-row {
+  tr.mat-mdc-footer-row {
     font-weight: bold;
   }
 }

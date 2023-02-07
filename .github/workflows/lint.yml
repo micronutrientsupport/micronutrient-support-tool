@@ -9,6 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install modules
-        run: npm install
+        run: npm install --no-package-lock
       - name: Run ESLint
         run: npx eslint . --ext .ts

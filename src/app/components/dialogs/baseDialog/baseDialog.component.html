@@ -1,6 +1,13 @@
 <h1>{{ null != title ? title : '' }}</h1>
 <button *ngIf="data.closable" mat-button [mat-dialog-close]="" class="mat-dialog-close"><i
     class="fas fa-times"></i></button>
-<div class="scroll-wrapper bmgf-maps-nice-scrollbar">
+
+<!-- <div class="fix-height">
   <ng-content></ng-content>
+</div> -->
+
+<div class="scroll-wrapper bmgf-maps-nice-scrollbar">
+  <div class="fix-height">
+    <ng-content></ng-content>
+  </div>
 </div>

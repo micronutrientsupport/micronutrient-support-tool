@@ -1,5 +1,5 @@
+@use '@angular/material/theming';
 @import '/src/assets/scss/colour';
-@import '~@angular/material/theming';
 
 h2,
 p {
@@ -17,7 +17,7 @@ p {
 }
 
 mat-form-field {
-  &.mat-form-field {
+  &.mat-mdc-form-field {
     width: 100%;
     font-weight: 500;
   }
@@ -36,7 +36,7 @@ mat-form-field {
     margin-right: 1rem;
 
     &.btn-proceed {
-      background-color: mat-color($_primary_pallete, A700);
+      background-color: map_get($_primary_pallete, A700);
 
       &:disabled {
         color: #ffffff;

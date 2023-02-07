@@ -22,7 +22,8 @@ input	None. Used only in components.	Form input fields.
 
 $custom-typography: mat.define-typography-config(
   $font-family: 'Quicksand',
-  $headline: mat.define-typography-level(48px, 48px, 600),
-  $title: mat.define-typography-level(25px, 30px, 400),
-  $body-1: mat.define-typography-level(16px, 24px, 400),
+  $headline-1: mat.define-typography-level(48px, 48px, 600),
+  $subtitle-1: mat.define-typography-level(25px, 30px, 400),
+  $body-1: mat.define-typography-level(14px, 20px, 500),
+  $button: mat.define-typography-level(14px, 20px, 600, 'Quicksand', normal),
 );
