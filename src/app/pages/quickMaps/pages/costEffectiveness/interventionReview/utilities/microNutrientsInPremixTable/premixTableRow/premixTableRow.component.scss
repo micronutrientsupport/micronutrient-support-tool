@@ -23,10 +23,10 @@ table {
   width: 100%;
   background: none;
   table-layout: fixed;
-  td.mat-cell {
+  td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
   }
-  .mat-button:not([class*='remove-mn']) {
+  .mat-mdc-button:not([class*='remove-mn']) {
     color: $color_primary;
   }
   .remove-mn {

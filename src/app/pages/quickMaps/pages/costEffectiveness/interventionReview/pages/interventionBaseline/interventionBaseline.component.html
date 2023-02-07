@@ -14,12 +14,10 @@
           {{element.title}}
         </td>
       </ng-container>
-      <!-- <input (click)="inputEdited = !inputEdited" [class.text-color]="inputEdited" formControlName = "year1"
-      [(ngModel)]="element.year0" type="text" appDecimalInput required [value]=element.year0.toFixed(2)> -->
+
       <ng-container matColumnDef="baseline_value">
         <td mat-cell *matCellDef="let element">
           <div class="double-cell">
-            <!-- <input type="text" appDecimalInput required [value]=element.year0 formControlName="baseline_value"> -->
             <input type="text" appDecimalInput required [(ngModel)]="element.year0">
             <span matPrefix>%&nbsp;</span>
             <span>
@@ -76,9 +74,6 @@
             fortification (mg/kg) </th>
           <td mat-cell *matCellDef="let element">
             <div class="double-cell">
-              <!-- <input type="text" appDecimalInput [value]="selectedCompound?.targetVal.toFixed(2)"
-                formControlName="targetVal"> -->
-
               <input type="text" appDecimalInput required [ngModel]="selectedCompound.targetVal">
               <span>
                 <button mat-button color="primary">

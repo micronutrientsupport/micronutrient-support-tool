@@ -58,6 +58,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionMonitoringInformation(activeInterventionId)
         .then((data: InterventionMonitoringInformation) => {
+          console.debug(data);
           this.dataSource = new MatTableDataSource(data.monitoringInformation);
           const monitoringGroupArr = data.monitoringInformation.map((item) => {
             return this.createMonitoringGroup(item);

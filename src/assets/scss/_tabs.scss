@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material/theming';
 
 .tab-content {
   display: flex;
@@ -7,17 +7,17 @@
   padding: 10px;
 }
 
-.mat-tab-group {
-  margin: 1rem 0rem;
+mat-mdc-tab-group {
+  // margin: 1rem 0rem;
 
-  .mat-tab-body {
+  .mat-mdc-tab-body {
     overflow: hidden;
-
-    &.mat-tab-body-active {
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+    &.mat-mdc-tab-body-active {
       overflow: hidden;
     }
-
-    .mat-tab-body-content {
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+    .mat-mdc-tab-body-content {
       margin: 2rem 0 0 0;
     }
   }

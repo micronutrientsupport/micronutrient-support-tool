@@ -1,6 +1,6 @@
 // MAPS Custom Angular Materials theme
 @use '@angular/material' as mat;
-
+@use 'sass:map';
 // @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import 'layout';
 @import 'gridster';
@@ -47,6 +47,19 @@ $app-theme-standard: mat.define-light-theme(
 
 // Create the theme object (a Sass map containing all of the palettes).
 // $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+$bmgf-maps-button: mat.define-typography-level(
+  $font-family: 'Roboto',
+  $font-weight: 500,
+  $font-size: 2rem,
+  $line-height: 1,
+  $letter-spacing: 'normal',
+);
+
+// $custom-typography: map-merge(
+//   mat.define-typography-config(
+//     $button: $bmgf-maps-button,
+//   )
+// );
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
