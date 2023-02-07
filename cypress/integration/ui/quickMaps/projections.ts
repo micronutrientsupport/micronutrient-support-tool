@@ -34,17 +34,12 @@ describe('Quick maps - Projections', () => {
     cy.get('.mat-expansion-panel-body').should('be.visible');
     cy.get('.content-container > :nth-child(1) > strong').should('be.visible');
     cy.get('app-quick-maps-header.ng-star-inserted').click();
-    cy.get('.content-container > :nth-child(1) > strong').should('have.text', 'Malawi');
-    cy.get(':nth-child(2) > strong').should('be.visible');
-    cy.get(':nth-child(2) > strong').should('have.text', 'Calcium');
-    cy.get('.capitalize-text').should('be.visible');
-    cy.get('.capitalize-text').should('have.text', 'diet Data');
-    cy.get(':nth-child(4) > strong').should('be.visible');
-    cy.get(':nth-child(4) > strong').should('have.text', 'SSP2');
+    cy.get('#projection-desc-nation-name').should('contain', 'Malawi');
+    cy.get('#projection-desc-mn').should('contain', 'Calcium');
+    cy.get('#projection-desc-metric').should('contain', 'diet Data');
+    cy.get('#projection-desc-baseline').should('contain', 'SSP2');
     cy.get('app-estimate > .container').should('be.visible');
-    cy.get(
-      '#mat-tab-content-0-0 > .mat-mdc-tab-body-content > .ng-star-inserted > :nth-child(1) > .chartjs-render-monitor',
-    ).should('be.visible');
+    cy.get('.chartjs-render-monitor').should('be.visible');
     /* ==== End Cypress Studio ==== */
   });
 });
