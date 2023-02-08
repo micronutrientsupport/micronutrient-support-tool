@@ -27,7 +27,6 @@ import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSumma
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
-import { InterventionReviewModule } from 'src/app/pages/quickMaps/pages/costEffectiveness/interventionReview.module';
 
 @NgModule({
   declarations: [
