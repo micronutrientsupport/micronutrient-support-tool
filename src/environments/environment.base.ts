@@ -14,12 +14,13 @@ export const environment = {
 
   //main API
   // apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
-  apiBaseUrl: 'https://api.micronutrient.support/',
+  // apiBaseUrl: 'https://api.micronutrient.support/',
+  apiBaseUrl: 'https://api.micronutrient.support/v2',
 
   //temp api:
   //apiBaseUrl: 'http://zhwldock002.ad.nerc.ac.uk:3001/',
   // local running api project
-  // apiBaseUrl: 'http://localhost:3000',
+  //apiBaseUrl: 'http://localhost:3000',
 
   analyticsSnippetUrl: 'https://stats.micronutrient.support/js/plausible.js',
   analyticsDomain: 'preview.micronutrient.support',

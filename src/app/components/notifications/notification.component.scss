@@ -1,5 +1,8 @@
 @import 'src/assets/scss/_colour.scss';
 
+// .mat-mdc-snack-bar-container.mdc-snackbar__surface {
+//   background-color: yellow !important;
+// }
 .holding-container {
   border-radius: 5px;
   color: white;
@@ -8,7 +11,7 @@
   align-items: center;
   min-height: 4em;
   max-height: 4em;
-  & .mat-snackbar-close {
+  & .mat-mdc-snackbar-close {
     margin-right: 2em;
     box-shadow: none;
     & i.fas {
@@ -51,7 +54,7 @@
   &.holding-container {
     background-color: #eaf6fc;
   }
-  & .mat-snackbar-close {
+  & .mat-mdc-snackbar-close {
     background-color: #eaf6fc;
   }
   & .notification-symbol {
@@ -65,7 +68,7 @@
   &.holding-container {
     background-color: #f1fbf5;
   }
-  & .mat-snackbar-close {
+  & .mat-mdc-snackbar-close {
     background-color: #f1fbf5;
   }
   & .notification-symbol {
@@ -80,7 +83,7 @@
   &.holding-container {
     background-color: #fdefef;
   }
-  &.mat-snackbar-close {
+  &.mat-mdc-snackbar-close {
     background-color: #fdefef;
   }
   & .notification-symbol {

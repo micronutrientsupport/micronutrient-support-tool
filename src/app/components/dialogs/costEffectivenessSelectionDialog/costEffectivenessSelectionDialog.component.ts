@@ -50,7 +50,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
-  private getInterventionById(id: string) {
+  public getInterventionById(id: string) {
     this.interventionDataService
       .getIntervention(id)
       .then((response) => {
