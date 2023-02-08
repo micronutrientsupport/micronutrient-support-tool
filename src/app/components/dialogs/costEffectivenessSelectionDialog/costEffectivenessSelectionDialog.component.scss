@@ -1,6 +1,9 @@
 @use '@angular/material/theming';
 @import '/src/assets/scss/colour';
 
+.content-container {
+  padding: 10px;
+}
 h2,
 p {
   text-align: center;
@@ -11,7 +14,6 @@ h2 {
 }
 
 p {
-  max-width: 50%;
   display: flex;
   align-self: center;
 }
@@ -25,15 +27,13 @@ mat-form-field {
 
 .btn-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
-  position: absolute;
-  bottom: 0;
   z-index: 10;
 
   button {
-    margin-right: 1rem;
+    margin-left: 5px;
 
     &.btn-proceed {
       background-color: map_get($_primary_pallete, A700);
@@ -53,20 +53,6 @@ mat-form-field {
 
 .intervention-title {
   margin-top: 1rem;
-}
-
-.result-wrapper {
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-  margin-top: 1.5rem;
-
-  &.visible {
-    opacity: 1;
-  }
-
-  &.hidden {
-    opacity: 0;
-  }
 }
 
 form {

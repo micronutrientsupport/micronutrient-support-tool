@@ -60,23 +60,22 @@ export class InterventionComplianceComponent implements OnInit {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      void this.quickMapsService.micronutrient.obs
-        .subscribe((mn: MicronutrientDictionaryItem) => {
-          if (null != mn) {
-            this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(() => {
-              void this.interventionDataService
-                .getInterventionBaselineAssumptions(activeInterventionId)
-                .then((data: InterventionBaselineAssumptions) => {
-                  this.createTableObject(data);
-                });
-            });
-            // .then((data: InterventionFoodVehicleStandards) => {
-            // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-            //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
-            // });
-            // });
-          }
-        })
+      void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
+        if (null != mn) {
+          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(() => {
+            void this.interventionDataService
+              .getInterventionBaselineAssumptions(activeInterventionId)
+              .then((data: InterventionBaselineAssumptions) => {
+                this.createTableObject(data);
+              });
+          });
+          // .then((data: InterventionFoodVehicleStandards) => {
+          // this.activeStandard = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+          //   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+          // });
+          // });
+        }
+      }),
     );
   }
 

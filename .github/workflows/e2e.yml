@@ -19,7 +19,6 @@ jobs:
           wait-on: http://localhost:8100
           # 120 //secs
           wait-on-timeout: 120
-          install-command: npm install --no-package-lock
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3

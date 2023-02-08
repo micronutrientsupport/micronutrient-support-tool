@@ -16,7 +16,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -50,14 +50,13 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: NonNullableFormBuilder,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public ngAfterViewInit(): void {
-    // console.debug('id:', this.activeInterventionId);
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
@@ -100,5 +99,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
   public openCalculatedFortificationInfoDialog(): void {
     void this.dialogService.openCalculatedFortificationInfoDialog();
+  }
+
+  public resetForm() {
+    this.form.reset();
   }
 }

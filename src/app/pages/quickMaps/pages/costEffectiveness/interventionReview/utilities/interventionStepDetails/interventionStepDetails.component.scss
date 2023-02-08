@@ -30,7 +30,9 @@ div:not(.box) {
   padding: 10px;
   // height: 50px;
 }
-
+.red-icon {
+  color: red;
+}
 .item-bottom-row {
   flex-grow: 1;
   justify-content: center;
