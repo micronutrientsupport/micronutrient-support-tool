@@ -1,93 +1,11 @@
 @import 'src/assets/scss/_colour';
 
-.fix-height {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 700px;
-}
-
-::ng-deep {
-  & .dialog-custom-backdrop-wrapper {
-    position: relative;
-  }
-  & .dialog-custom-backdrop {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.32); // same as .cdk-overlay-dark-backdrop
-  }
-}
-::ng-deep .base-dialog {
-  & .mat-mdc-dialog-container {
-    padding: 2em;
-  }
-  & .mat-mdc-dialog-container,
-  & .mat-dialog-container > *,
-  & .mat-dialog-container > * > app-base-dialog,
-  & .mat-dialog-container > * > app-base-dialog .scroll-wrapper {
-    display: flex;
-    flex-direction: column;
-    // align-items: center;
-    flex: 1 1;
-    min-height: 0;
-  }
-}
-
 :host {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1;
-  min-height: 0;
-  padding: 24px;
-
-  & h1 {
-    font-size: 1.4em;
-    text-align: center;
-  }
-
-  & .header {
-    display: flex;
-    justify-content: center;
-    margin: 0 5em;
-  }
-
-  & .mat-mdc-dialog-content {
-    max-height: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-height: 1px;
-    font-size: 1.2em;
-    margin: 0 -10px;
-    padding: 0 10px;
-  }
-  & ::ng-deep {
-    & .buttons-wrapper {
-      display: flex;
-      justify-content: center;
-      padding: 5px;
-    }
-  }
+  display: contents;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
 .mat-dialog-close {
   position: absolute;
   right: 10px;
   top: 10px;
-  // background-color: $close_button_background_colour;
-  // color: $close_button_colour;
-  // &:hover {
-  // background-color: $close_button_hover_background_colour
-  // }
-}
-
-.content-padding {
-  padding: 12px;
 }

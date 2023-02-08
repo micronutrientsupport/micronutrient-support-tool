@@ -4,7 +4,7 @@
     <div class="title">
       <span>Review of program assumptions</span>
     </div>
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table class="no-margin" mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Intervention year</th>
         <td mat-cell *matCellDef="let element">{{element.title}}</td>
@@ -63,7 +63,7 @@
     </div>
     <div class="lower-table-wrapper">
       <div class="focus-mn">
-        <span>Focus micronutrient</span>
+        <span class="sub-header">Focus micronutrient</span>
         <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
       </div>
       <table mat-table [dataSource]="newDataSource" matSort>

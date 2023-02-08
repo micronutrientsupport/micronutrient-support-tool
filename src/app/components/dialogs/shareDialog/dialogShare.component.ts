@@ -1,11 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DialogData } from '../baseDialogService.abstract';
+import { NotificationsService } from '../../notifications/notification.service';
 
 export interface ShareDialogData {
   shareLink: string;
+  title: string;
 }
 
 @Component({
@@ -15,16 +16,19 @@ export interface ShareDialogData {
 })
 export class ShareDialogComponent {
   public copyLinkUrl: string;
+  public title = '';
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData<ShareDialogData>,
     private clipboard: Clipboard,
-    private snackbarService: SnackbarService,
+    private notificationService: NotificationsService,
   ) {
+    console.debug(data.dataIn);
     this.copyLinkUrl = data.dataIn.shareLink;
+    this.title = data.dataIn.title;
   }
 
   public copyLink(): void {
     this.clipboard.copy(this.copyLinkUrl);
-    this.snackbarService.openSnackBar('Link copied: ' + this.copyLinkUrl, 'close');
+    this.notificationService.sendInformative('Link copied: ' + this.copyLinkUrl);
   }
 }

@@ -13,22 +13,7 @@ export class SharingService {
   }
 
   public doShare(text: string, title?: string, url?: string): Promise<unknown> {
-    if (!this.canShare()) {
-      console.log('This service/api is not supported in your Browser');
-      return this.modalService.openShareDialog(window.location.href);
-    }
-
-    this.share({
-      title,
-      text,
-      url,
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return this.modalService.openShareDialog(url);
   }
 
   public canShare(): boolean {
