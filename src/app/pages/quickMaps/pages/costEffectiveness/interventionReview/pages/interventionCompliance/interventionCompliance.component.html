@@ -6,67 +6,69 @@
     </div>
     <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Intervention year</th>
-        <td mat-cell *matCellDef="let element">{{element.title}}</td>
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention
+          year
+        </th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">{{element.title}}</td>
       </ng-container>
       <ng-container matColumnDef="standard">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Standard</th>
+        <th mat-header-cell *matHeaderCellDef>Standard</th>
         <td mat-cell *matCellDef="let element"></td>
       </ng-container>
       <ng-container matColumnDef="year0">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
+        <th mat-header-cell *matHeaderCellDef>2021</th>
         <td mat-cell *matCellDef="let element">{{element.year0 | percent}}</td>
       </ng-container>
       <ng-container matColumnDef="year1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2022</th>
+        <th mat-header-cell *matHeaderCellDef>2022</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year0)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year2">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2023</th>
+        <th mat-header-cell *matHeaderCellDef>2023</th>
         <td mat-cell *matCellDef="let element">
           <input matInput appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year2)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year3">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2024</th>
+        <th mat-header-cell *matHeaderCellDef>2024</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year3)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year4">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2025</th>
+        <th mat-header-cell *matHeaderCellDef>2025</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year4)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year5">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2026</th>
+        <th mat-header-cell *matHeaderCellDef>2026</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year5)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year6">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2027</th>
+        <th mat-header-cell *matHeaderCellDef>2027</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year6)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year7">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2028</th>
+        <th mat-header-cell *matHeaderCellDef>2028</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year7)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year8">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2029</th>
+        <th mat-header-cell *matHeaderCellDef>2029</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year8)">
         </td>
       </ng-container>
       <ng-container matColumnDef="year9">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2030</th>
+        <th mat-header-cell *matHeaderCellDef>2030</th>
         <td mat-cell *matCellDef="let element">
           <input appDecimalInput type="text" [ngModel]="formatNumberForDisplay(element.year9)">
         </td>
@@ -86,63 +88,63 @@
       </div>
       <table mat-table [dataSource]="newDataSource" matSort class="table-full-width">
         <ng-container matColumnDef="standard">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Standard</th>
+          <th mat-header-cell *matHeaderCellDef>Standard</th>
           <td mat-cell *matCellDef="let element">{{element.standard}}</td>
         </ng-container>
         <ng-container matColumnDef="year0">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2021</th>
+          <th mat-header-cell *matHeaderCellDef>2021</th>
           <td mat-cell *matCellDef="let element">{{element.year0}}</td>
         </ng-container>
         <ng-container matColumnDef="year1">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2022</th>
+          <th mat-header-cell *matHeaderCellDef>2022</th>
           <td mat-cell *matCellDef="let element">
             {{element.year1 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year2">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2023</th>
+          <th mat-header-cell *matHeaderCellDef>2023</th>
           <td mat-cell *matCellDef="let element">
             {{element.year2 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year3">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2024</th>
+          <th mat-header-cell *matHeaderCellDef>2024</th>
           <td mat-cell *matCellDef="let element">
             {{element.year3 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year4">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2025</th>
+          <th mat-header-cell *matHeaderCellDef>2025</th>
           <td mat-cell *matCellDef="let element">
             {{element.year4 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year5">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2026</th>
+          <th mat-header-cell *matHeaderCellDef>2026</th>
           <td mat-cell *matCellDef="let element">
             {{element.year5 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year6">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2027</th>
+          <th mat-header-cell *matHeaderCellDef>2027</th>
           <td mat-cell *matCellDef="let element">
             {{element.year6 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year7">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2028</th>
+          <th mat-header-cell *matHeaderCellDef>2028</th>
           <td mat-cell *matCellDef="let element">
             {{element.year7 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year8">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2029</th>
+          <th mat-header-cell *matHeaderCellDef>2029</th>
           <td mat-cell *matCellDef="let element">
             {{element.year8 | number:'1.1-2'}}
           </td>
         </ng-container>
         <ng-container matColumnDef="year9">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">2030</th>
+          <th mat-header-cell *matHeaderCellDef>2030</th>
           <td mat-cell *matCellDef="let element">
             {{element.year9 | number:'1.1-2'}}
           </td>

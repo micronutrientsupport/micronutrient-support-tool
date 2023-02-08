@@ -5,9 +5,9 @@
       <span>Baseline Assumptions</span>
     </div>
 
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" class="table-full-width">
       <ng-container matColumnDef="title">
-        <td mat-cell *matCellDef="let element">
+        <td class="row-title-left" mat-cell *matCellDef="let element">
           {{ element.title }}
         </td>
       </ng-container>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="lower-table-wrapper">
-      <table mat-table [dataSource]="FVdataSource">
+      <table mat-table [dataSource]="FVdataSource" class="table-full-width">
         <ng-container matColumnDef="micronutrient">
           <th class="row-title focus" mat-header-cell *matHeaderCellDef>
             Micronutrient
