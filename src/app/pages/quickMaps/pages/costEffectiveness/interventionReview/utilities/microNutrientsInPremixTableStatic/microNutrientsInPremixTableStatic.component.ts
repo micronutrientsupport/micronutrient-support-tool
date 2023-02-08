@@ -15,11 +15,11 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 import { CostEffectivenessService } from '../../../costEffectiveness.service';
 
 @Component({
-  selector: 'app-micro-nutrients-in-premix-table',
-  templateUrl: './microNutrientsInPremixTable.component.html',
-  styleUrls: ['./microNutrientsInPremixTable.component.scss'],
+  selector: 'app-micro-nutrients-in-premix-table-static',
+  templateUrl: './microNutrientsInPremixTableStatic.component.html',
+  styleUrls: ['./microNutrientsInPremixTableStatic.component.scss'],
 })
-export class MicroNutrientsInPremixTableComponent {
+export class MicroNutrientsInPremixTableStaticComponent {
   @Input() public editable = false;
 
   public baselineAssumptions: BaselineAssumptions;

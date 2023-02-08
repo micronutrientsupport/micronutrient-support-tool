@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Input, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -17,6 +17,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   styleUrls: ['./interventionCompliance.component.scss'],
 })
 export class InterventionComplianceComponent implements OnInit {
+  @Input() public editable = false;
   public ROUTES = AppRoutes;
   public pageStepperPosition = 1;
   public interventionName = 'IntName';

@@ -8,6 +8,7 @@ import { CostEffectivenessService } from '../../../costEffectiveness.service';
   styleUrls: ['./interventionStepDetails.component.scss'],
 })
 export class InterventionStepDetailsComponent {
+  @Input('addMn') public addMn = false;
   @Input('resetDefaultValues') public resetDefaultValues = false;
   @Input('showFocusMn') public showFocusMn = false;
   @Input('showUserValues') public showUserValues = false;

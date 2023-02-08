@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+@import '/src/assets/scss/colour';
+
+::ng-deep mat-accordion {
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    background: none;
+    box-shadow: none;
+    margin-top: 1em;
+  }
+}
+
+mat-panel-title {
+  span {
+    display: flex;
+    align-items: center;
+
+    .border {
+      width: 3px;
+      height: 15px;
+      background: mat.get-color-from-palette($_primary_pallete, A700);
+      margin-right: 0.5rem;
+      border-radius: 4px;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="micronutrient">
         <td class="column-title" mat-cell *matCellDef="let element">
+
             <ng-container *ngIf="!editable">
                 <span class="micronutrient-title">{{ element.micronutrient }}</span>
             </ng-container>
