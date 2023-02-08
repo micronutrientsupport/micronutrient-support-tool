@@ -23,12 +23,27 @@ table {
   width: 100%;
   background: none;
   table-layout: fixed;
+  padding: 0 0 0 1.75rem;
+
   td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
+    text-align: left;
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+
+    .micronutrient-title {
+      text-transform: capitalize;
+      font-weight: 700;
+      font-family: 'Quicksand';
+    }
   }
+
   .mat-mdc-button:not([class*='remove-mn']) {
     color: $color_primary;
   }
+
   .remove-mn {
     mat-icon {
       color: $color_accent;

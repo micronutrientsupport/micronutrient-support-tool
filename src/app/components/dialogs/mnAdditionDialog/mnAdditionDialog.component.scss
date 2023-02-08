@@ -3,3 +3,11 @@
 .primary-button {
   color: $color_primary;
 }
+
+h2 {
+  font-weight: 600;
+}
+
+div[mat-dialog-actions] {
+  padding: 0;
+}
