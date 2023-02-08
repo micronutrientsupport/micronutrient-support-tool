@@ -193,6 +193,9 @@ export class InterventionComplianceComponent implements OnInit {
       year9: [Number(item.year9), []],
     });
   }
+  public confirmAndContinue(): void {
+    this.interventionDataService.interventionPageConfirmContinue();
+  }
 }
 
 interface AverageNutrientLevelTableObject {
