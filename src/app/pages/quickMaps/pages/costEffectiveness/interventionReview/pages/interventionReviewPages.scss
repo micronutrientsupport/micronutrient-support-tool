@@ -88,14 +88,14 @@ table {
 
   td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
-    text-align: left;
+    text-align: center;
 
-    &.mat-column-micronutrient {
-      color: mat.get-color-from-palette($_primary_pallete, A700);
-      font-weight: 700;
-      font-family: 'Quicksand', sans-serif;
-      padding: 0 1.25rem;
-    }
+    // &.mat-column-micronutrient {
+    //   color: mat.get-color-from-palette($_primary_pallete, A700);
+    //   font-weight: 700;
+    //   font-family: 'Quicksand', sans-serif;
+    //   padding: 0 1.25rem;
+    // }
   }
 }
 
