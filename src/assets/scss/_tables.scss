@@ -1,18 +1,55 @@
 @import './colour';
 
-.mat-mdc-table {
+.mat-mdc-header-cell {
   font-family: 'Ubuntu Mono' !important;
-  text-align: right !important;
+  text-align: center !important;
+}
+.mat-sort-header-container {
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+.mat-mdc-cell {
+  font-family: 'Ubuntu Mono' !important;
+  text-align: center !important;
+}
+.mat-mdc-footer-cell {
+  font-family: 'Ubuntu Mono' !important;
+  text-align: center !important;
+}
+
+.column-title {
+  text-align: center !important;
+  &-left {
+    text-align: left !important;
+  }
+}
+.row-title {
+  text-align: center !important;
+  &-left {
+    text-align: left !important;
+  }
 }
 
 .table-full-width {
   width: 100%;
 }
 
+.table-edit-button {
+  text-align: left !important;
+  font-size: 12px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 th.mat-mdc-header-cell {
-  text-align: right !important;
+  // text-align: right !important;
 }
 
 .mdc-data-table__table {
   min-width: 1px !important;
+}
+
+.mdc-data-table__cell {
+  padding: 0px !important;
 }

@@ -23,8 +23,6 @@ export class InterventionComplianceComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 1;
   public interventionName = 'IntName';
-  public form: UntypedFormGroup;
-  public formChanges: InterventionForm['formChanges'] = {};
   public activeStandard: FoodVehicleStandard[];
   public rawDataArray: Array<PotentiallyFortified | ActuallyFortified> = [];
 
@@ -57,6 +55,8 @@ export class InterventionComplianceComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
   private subscriptions = new Array<Subscription>();
+  public form: UntypedFormGroup;
+  public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     public quickMapsService: QuickMapsService,

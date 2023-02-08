@@ -126,6 +126,9 @@ mat-tooltip-component .mat-mdc-tooltip {
 .mat-vertical-stepper-header {
   pointer-events: none !important;
 }
+.mat-step-label {
+  white-space: unset !important;
+}
 .mat-step-label-selected .mat-step-text-label {
   font-size: 20px;
   font-weight: bold;
