@@ -30,7 +30,6 @@ export abstract class BaseDialogService {
       dataIn,
       dataOut: {},
     } as DialogData<DataInType, DataOutType>;
-    console.debug(data);
     return data;
   }
 
