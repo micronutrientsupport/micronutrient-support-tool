@@ -31,7 +31,7 @@ export class DialogService extends BaseDialogService {
   }
 
   public openShareDialog(shareLink: string): Promise<DialogData> {
-    return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink });
+    return this.openDialog('sharingDialog', ShareDialogComponent, true, { shareLink: shareLink, title: 'Share Page' });
   }
 
   public openIframeDialog(IframeUrl: string): Promise<DialogData> {

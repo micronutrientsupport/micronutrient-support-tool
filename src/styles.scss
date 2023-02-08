@@ -56,7 +56,17 @@ path.leaflet-interactive:focus {
   outline: none;
 }
 
+// Prevent default black background and drop shadow for snackbar
 .mat-mdc-snack-bar-container .mdc-snackbar__surface {
   background-color: transparent !important;
   box-shadow: none !important;
+}
+
+// Dialogs content use correct full height
+.mat-mdc-dialog-content {
+  display: flex !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  display: flex !important;
 }
