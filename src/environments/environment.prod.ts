@@ -4,6 +4,8 @@ export const environment = {
   ...baseEnvironment,
   production: true,
   apiBaseUrl: 'https://api.micronutrient.support/v2',
+  // apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
+
   // useLiveApi: false,
 
   unleashUrl: 'https://feature-flags.micronutrient.support/',

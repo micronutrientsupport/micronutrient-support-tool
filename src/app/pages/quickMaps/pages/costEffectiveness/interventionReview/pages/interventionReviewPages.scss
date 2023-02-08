@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import 'src/assets/scss/_colour.scss';
 
 .container {
@@ -5,11 +6,13 @@
   flex-direction: column;
   height: 100%;
 }
+
 .content {
   flex: 1;
   overflow: auto;
   padding: 10px;
 }
+
 footer {
   background: #fafafa;
   flex-direction: row;
@@ -18,6 +21,7 @@ footer {
   justify-content: flex-end;
   border-top: 1px solid $color_background_form;
 }
+
 .intervention-navigation {
   margin-right: 10px;
 
@@ -43,17 +47,32 @@ footer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 2rem;
+
+  mat-select {
+    text-transform: capitalize;
+
+    mat-option {
+      span {
+        text-transform: capitalize;
+      }
+    }
+  }
+
   .focus-mn {
     display: flex;
     flex-direction: column;
     margin-top: 2.5em;
+
     .sub-header {
       margin-left: 1.5em;
     }
+
     span {
       display: flex;
       justify-content: flex-end;
     }
+
     .mn-title {
       color: $color_primary;
       font-weight: bold;
@@ -65,10 +84,18 @@ footer {
 
 table {
   width: 100%;
-  margin: 0 2em;
   background: none;
+
   td.mat-mdc-cell {
     border-bottom-color: rgba(0, 0, 0, 0);
+    text-align: left;
+
+    &.mat-column-micronutrient {
+      color: mat.get-color-from-palette($_primary_pallete, A700);
+      font-weight: 700;
+      font-family: 'Quicksand', sans-serif;
+      padding: 0 1.25rem;
+    }
   }
 }
 

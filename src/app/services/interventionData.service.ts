@@ -150,22 +150,50 @@ export class InterventionDataService {
     this.interventionRecurringCostChangedSrc.next(source);
   }
 
-  public getCachedMnInPremix(): Array<FoodVehicleStandard> {
-    return this.cachedMnInPremix;
+  public getCachedMnInPremix(): Array<FoodVehicleStandard> | null {
+    const ls = localStorage.getItem('cachedMnInPremix');
+    const cached = JSON.parse(ls);
+    return cached;
   }
 
   public getMnInPremixCount(): number {
-    return this.cachedMnInPremix.length;
+    const ls = localStorage.getItem('cachedMnInPremix');
+    const cached = JSON.parse(ls);
+
+    if (cached) {
+      return cached.length;
+    } else {
+      return 0;
+    }
   }
 
   public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
-    this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
+    const ls = localStorage.getItem('cachedMnInPremix');
+    const cached = JSON.parse(ls);
+
+    if (cached) {
+      switch (true) {
+        case cached.length > 0:
+          this.cachedMnInPremix = cached.concat(items);
+          break;
+        case cached.length === 0:
+          this.cachedMnInPremix = items;
+          break;
+        default:
+          this.cachedMnInPremix = [];
+      }
+    } else {
+      this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
+    }
+
+    localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
     this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
       return mnItem !== item;
     });
+    localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
     return this.cachedMnInPremix;
   }
 
@@ -176,7 +204,6 @@ export class InterventionDataService {
 
   public getActiveInterventionId(): string {
     const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
-    // console.debug('aactiveId from service', activeId);
     if (null == activeId) {
       const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;

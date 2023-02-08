@@ -4,3 +4,27 @@
     padding-bottom: 0.5rem;
   }
 }
+
+.mat-form-field-appearance-outline {
+  .mat-form-field-infix {
+    padding: 0.25rem 0 0.5rem 0 !important;
+  }
+}
+
+mat-form-field {
+  &.override {
+    .mat-mdc-text-field-wrapper {
+      &.mdc-text-field--outlined {
+        .mat-mdc-form-field-infix {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          min-height: 32px;
+        }
+      }
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
