@@ -30,6 +30,7 @@ export abstract class BaseDialogService {
       dataIn,
       dataOut: {},
     } as DialogData<DataInType, DataOutType>;
+    console.debug(data);
     return data;
   }
 
@@ -52,7 +53,7 @@ export abstract class BaseDialogService {
       const config = {
         maxHeight: '95vh',
         maxWidth: '90vw',
-        panelClass: 'base-dialog',
+        // panelClass: 'base-dialog',
         data: dialogData,
         id: dialogId,
         hasBackdrop: null == parentElement,

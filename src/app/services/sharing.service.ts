@@ -3,6 +3,7 @@
 // to support Angular version 13
 import { Injectable } from '@angular/core';
 import { DialogService } from '../components/dialogs/dialog.service';
+import { ShareDialogComponent } from '../components/dialogs/shareDialog/dialogShare.component';
 
 @Injectable()
 export class SharingService {
@@ -13,22 +14,22 @@ export class SharingService {
   }
 
   public doShare(text: string, title?: string, url?: string): Promise<unknown> {
-    if (!this.canShare()) {
-      console.log('This service/api is not supported in your Browser');
-      return this.modalService.openShareDialog(window.location.href);
-    }
+    // if (!this.canShare()) {
+    // console.log('This service/api is not supported in your Browser');
+    return this.modalService.openShareDialog(url);
+    // }
 
-    this.share({
-      title,
-      text,
-      url,
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // this.share({
+    //   title,
+    //   text,
+    //   url,
+    // })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }
 
   public canShare(): boolean {
