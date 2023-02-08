@@ -26,9 +26,9 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="targetVal">
-        <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
+        <td class="column-title" mat-cell *matCellDef="let element;">
             <div class="double-cell">
-                <input type="number" matInput required [value]="selectedCompound[i].targetVal">
+                <input type="number" matInput required [value]="selectedCompound.targetVal">
                 <button mat-button>
                     GFDx<mat-icon>arrow_right_alt</mat-icon>
                 </button>
@@ -36,10 +36,10 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="avgVal">
-        <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
+        <td class="column-title" mat-cell *matCellDef="let element;">
             <div class="double-cell">
                 <span>
-                    {{ selectedCompound[i].targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig: 3 }}
+                    {{ selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig: 3 }}
                 </span>
                 <span>
                     <button mat-button>
