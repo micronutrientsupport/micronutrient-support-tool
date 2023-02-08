@@ -83,6 +83,8 @@ app-quick-maps-header {
 
   .title {
     font-size: 64px;
+    text-align: center;
+    line-height: 1.2;
   }
 
   .subtitle {
@@ -94,5 +96,8 @@ app-quick-maps-header {
   .status {
     font-size: 18px;
     margin-top: 2rem;
+    text-align: center;
+    padding: 2rem;
+    line-height: 1.4;
   }
 }
