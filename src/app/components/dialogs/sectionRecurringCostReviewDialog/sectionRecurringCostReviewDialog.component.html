@@ -188,6 +188,7 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </form>
+    <button mat-stroked-button color="warn" (click)="resetAll()">Reset form</button>
     <div class="button-container">
       <button mat-stroked-button (click)="dialogData.close()">Back</button>
       <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>

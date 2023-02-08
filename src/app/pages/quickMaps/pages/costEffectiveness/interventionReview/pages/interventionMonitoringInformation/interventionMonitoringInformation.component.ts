@@ -35,13 +35,27 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
-
+  public userInput = false;
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
   ) {}
 
+  editRows: number[] = [];
+
+  toggleButton(i: number) {
+    // eslint-disable-next-line prefer-const
+    let index = this.editRows.findIndex((x) => x == i);
+
+    if (index == -1) this.editRows.push(i);
+    else this.editRows.splice(index, 1);
+    console.debug('EDITED ROWS', this.editRows);
+  }
+
+  isEditedRow(i: number) {
+    return this.editRows.findIndex((x) => x == i) > -1;
+  }
   /**
    * Create a table data source from API response, then construct into a FormArray.
    *
@@ -94,6 +108,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
                             [item[0]]: Number(item[1]),
                           };
                           changes[rowIndex]['rowIndex'] = rowIndex;
+                          console.debug('rowIndex: ', rowIndex);
                         }
                       });
                     }
@@ -110,6 +125,12 @@ export class InterventionMonitoringInformationComponent implements OnInit {
                 ...this.formChanges,
               };
               this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+
+              // if (this.userInput.valueOf()) {
+              //   return (this.userInput = true);
+              // }
+              // console.log('user Input? ', this.userInput);
+              // console.log('userinput value of? ', this.userInput.valueOf());
             });
         });
     }
@@ -147,4 +168,10 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public resetForm() {
     this.form.reset();
   }
+
+  // public checkUserInput() {
+  //   if (this.form.dirty) {
+  //     return (this.userInput = true);
+  //   }
+  // }
 }
