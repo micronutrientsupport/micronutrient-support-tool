@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DialogData } from '../baseDialogService.abstract';
 import { NotificationsService } from '../../notifications/notification.service';
 
