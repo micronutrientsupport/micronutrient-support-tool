@@ -38,8 +38,7 @@ import { InterventionStepDetailsComponent } from './interventionReview/utilities
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MicroNutrientsInPremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/microNutrientsInPremixTable.component';
 import { PremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTable.component';
-import { MicroNutrientsInPremixTableStaticComponent } from './interventionReview/utilities/microNutrientsInPremixTableStatic/microNutrientsInPremixTableStatic.component';
-import { PremixTableStaticComponent } from './interventionReview/utilities/microNutrientsInPremixTableStatic/premixTableRowStatic/premixTableStatic.component';
+import { AvgMnTableComponent } from './interventionReview/utilities/avgMnTable/avgMnTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
@@ -66,8 +65,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     InterventionStepDetailsComponent,
     MicroNutrientsInPremixTableComponent,
     PremixTableComponent,
-    MicroNutrientsInPremixTableStaticComponent,
-    PremixTableStaticComponent,
+    AvgMnTableComponent,
   ],
   imports: [
     CommonModule,
