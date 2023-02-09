@@ -1,4 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -9,7 +10,7 @@ import {
 import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 @Component({
   selector: 'app-intervention-compliance',
@@ -17,7 +18,6 @@ import { InterventionSideNavContentService } from '../../components/intervention
   styleUrls: ['./interventionCompliance.component.scss'],
 })
 export class InterventionComplianceComponent implements OnInit {
-  @Input() public editable = false;
   public ROUTES = AppRoutes;
   public pageStepperPosition = 1;
   public interventionName = 'IntName';
@@ -53,6 +53,8 @@ export class InterventionComplianceComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
   private subscriptions = new Array<Subscription>();
+  public form: UntypedFormGroup;
+  public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     public quickMapsService: QuickMapsService,

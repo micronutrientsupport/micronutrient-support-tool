@@ -43,10 +43,20 @@ table {
   .mat-mdc-button:not([class*='remove-mn']) {
     color: $color_primary;
   }
-
+  mat-form-field {
+    width: 85% !important;
+  }
   .remove-mn {
     mat-icon {
       color: $color_accent;
     }
   }
+}
+.icon-display {
+  transform: scale(0.6);
+}
+// // user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
 }

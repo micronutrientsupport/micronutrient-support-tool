@@ -1,7 +1,9 @@
-<table mat-table [dataSource]="dataSource">
+<table mat-table [dataSource]="dataSource" class="table-full-width">
     <ng-container matColumnDef="micronutrient">
+        <th class="row-title focus " mat-header-cell *matHeaderCellDef>
+            Micronutrient
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-
             <ng-container *ngIf="!editable">
                 <span class="micronutrient-title">{{ element.micronutrient }}</span>
             </ng-container>
@@ -14,6 +16,9 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="compounds">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>
+            Compound
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element">
             <mat-form-field appearance="outline" class="override">
                 <mat-select [(ngModel)]="selectedCompound" matNativeControl
@@ -27,32 +32,42 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="targetVal">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>Standard/target nutrient level at point of
+            fortification (mg/kg)
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element;">
-            <div class="double-cell">
-                <input type="number" matInput required [value]="selectedCompound.targetVal">
+            <div *ngIf="editable" class="double-cell">
+                <input type="number" matInput required [ngModel]="selectedCompound.targetVal">
                 <button mat-button>
                     GFDx<mat-icon>arrow_right_alt</mat-icon>
                 </button>
             </div>
+            <div *ngIf="!editable" class="double-cell">
+                {{selectedCompound.targetVal}}
+            </div>
         </td>
     </ng-container>
     <ng-container matColumnDef="avgVal">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>Calculated average fortification level (mg/kg) among
+            fortifiable food vehicle at point of fortification
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
+                <mat-icon class="icon-display">question_mark</mat-icon>
+            </button>
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element;">
             <div class="double-cell">
                 <span>
                     {{ selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig: 3 }}
                 </span>
-                <span>
-                    <button mat-button>
-                        GFDx<mat-icon>arrow_right_alt</mat-icon>
-                    </button>
-                </span>
             </div>
         </td>
     </ng-container>
     <ng-container matColumnDef="optFort">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>Optional user-entered average fortification level
+            (mg/kg) among fortifiable food vehicle at point of fortification
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-            <div class="double-cell">
+            <div *ngIf="editable" class="double-cell">
                 <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
                 <span>
                     <button mat-button>
@@ -60,9 +75,19 @@
                     </button>
                 </span>
             </div>
+            <div *ngIf="!editable" class="double-cell">
+                {{optionalUserEnteredAverageAtPointOfFortification}}
+            </div>
         </td>
     </ng-container>
     <ng-container matColumnDef="calcFort">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>
+            Calculated average fortification level (mg/kg) among
+            all food vehicle
+            <button class="icon-display" mat-mini-fab color="primary" (click)="openCalculatedFortificationInfoDialog()">
+                <mat-icon class="icon-display">question_mark</mat-icon>
+            </button>
+        </th>
         <td class="column-title" mat-cell *matCellDef="let element">
             <span>
                 {{ (optionalUserEnteredAverageAtPointOfFortification *
@@ -71,6 +96,8 @@
             </span>
         </td>
     </ng-container>
-
+    <div *ngIf="!editable">
+        <tr mat-header-row *matHeaderRowDef="addedFVdisplayedColumns;"></tr>
+    </div>
     <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
 </table>

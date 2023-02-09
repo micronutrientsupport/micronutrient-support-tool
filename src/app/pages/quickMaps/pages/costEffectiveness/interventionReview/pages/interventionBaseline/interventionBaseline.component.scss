@@ -59,9 +59,10 @@
 
 table {
   width: 100%;
+  background: none;
   table-layout: fixed;
-  font-family: 'Quicksand', sans-serif !important;
-  padding: 0 0 0 2rem;
+  // font-family: 'Quicksand', sans-serif !important;
+  padding: 0 0 0 1.75rem;
 
   .row-title {
     &.focus {
@@ -70,12 +71,15 @@ table {
     }
   }
 
-  th {
-    &.mat-mdc-header-cell {
-      border-bottom: none;
-      text-align: left !important;
-    }
-  }
+  // th {
+  //   &.mat-mdc-header-cell {
+  //     border-bottom: none;
+  //     text-align: middle !important;
+  //   }
+  // }
+}
+mat-form-field {
+  width: 85% !important;
 }
 
 .intervention-baseline-panel {
