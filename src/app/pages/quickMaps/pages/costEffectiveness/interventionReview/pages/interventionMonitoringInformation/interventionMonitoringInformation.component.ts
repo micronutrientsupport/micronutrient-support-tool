@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormArray, NonNullableFormBuilder } from '@angular/forms';
+import { UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   InterventionMonitoringInformation,
@@ -58,7 +58,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionMonitoringInformation(activeInterventionId)
         .then((data: InterventionMonitoringInformation) => {
-          console.debug(data);
           this.dataSource = new MatTableDataSource(data.monitoringInformation);
           const monitoringGroupArr = data.monitoringInformation.map((item) => {
             return this.createMonitoringGroup(item);
@@ -113,10 +112,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
             });
         });
     }
-  }
-
-  get monitoringArray(): UntypedFormArray {
-    return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
   private createMonitoringGroup(item: MonitoringInformation): UntypedFormGroup {
