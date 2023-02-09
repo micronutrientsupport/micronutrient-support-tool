@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './avgMnTable.component.html',
   styleUrls: ['./avgMnTable.component.scss'],
 })
-export class AvgMnTableComponent {
+export class AvgMnTableComponent implements OnInit {
   public activeStandard: FoodVehicleStandard[];
 
   public assumptionsDisplayedColumns = [
