@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>{{ null != title ? title : '' }}</h1>
-<button *ngIf="data.closable" mat-button [mat-dialog-close]="" class="mat-dialog-close"><i
+<button *ngIf="data?.closable" mat-button [mat-dialog-close]="" class="mat-dialog-close"><i
     class="fas fa-times"></i></button>
 <mat-dialog-content>
   <ng-content></ng-content>
