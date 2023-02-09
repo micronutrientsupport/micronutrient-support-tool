@@ -15,7 +15,7 @@
       <ng-container matColumnDef="baseline_value">
         <td mat-cell *matCellDef="let element">
           <div class="double-cell">
-            <input type="text" appDecimalInput required [value]=element.year0.toFixed(2)>
+            <input type="text" appDecimalInput required [ngModel]="element.year0.toFixed(2)">
             <button mat-button color="primary">
               GFDx<mat-icon>arrow_right_alt</mat-icon>
             </button>
@@ -28,6 +28,7 @@
           GFDx<mat-icon>arrow_right_alt</mat-icon>
         </button>
       </span>
+
       <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
     </table>
 
@@ -40,10 +41,6 @@
         <span>Baseline compliance/fortification in practice</span>
       </div>
     </div>
-
-    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-      [showMnUnits]="true" [showAddMicronutrient]="true">
-    </app-intervention-step-details>
 
     <div class="focus-mn">
       <div class="divider"></div>
@@ -149,7 +146,12 @@
       </table>
     </div>
 
-    <app-micro-nutrients-in-premix-table [editable]="true"></app-micro-nutrients-in-premix-table>
+    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
+      [showMnUnits]="true" (onAddMn)="handleAddMn($event)">
+    </app-intervention-step-details>
+
+    <app-micro-nutrients-in-premix-table [editable]="true"
+      [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"

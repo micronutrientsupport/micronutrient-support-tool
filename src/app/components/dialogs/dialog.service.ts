@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { RecurringCost, RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
@@ -104,7 +105,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openCEResetDialog', CeResetDialogComponent, false);
   }
 
-  public openMnAdditionDialog(): Promise<DialogData<Array<MicronutrientDictionaryItem>>> {
+  public openMnAdditionDialog(): Promise<DialogData<Array<FoodVehicleStandard>, MicronutrientDictionaryItem>> {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
   public openFortificationInfoDialog(): Promise<DialogData> {
