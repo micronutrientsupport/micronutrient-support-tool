@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -17,8 +17,9 @@ import { InterventionSideNavContentService } from '../../components/intervention
   styleUrls: ['./avgMnTable.component.scss'],
 })
 export class AvgMnTableComponent implements OnInit {
+  public micronutrients: Array<FoodVehicleStandard> = [];
   public activeStandard: FoodVehicleStandard[];
-
+  public baselineAssumptions: BaselineAssumptions;
   public assumptionsDisplayedColumns = [
     'title',
     'standard',
@@ -55,10 +56,12 @@ export class AvgMnTableComponent implements OnInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    public readonly interventionDataService: InterventionDataService,
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
-    private interventionDataService: InterventionDataService,
   ) {
+    this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+    console.debug(this.micronutrients);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
@@ -82,6 +85,14 @@ export class AvgMnTableComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.interventionDataService
+      .getInterventionBaselineAssumptions('1')
+      .then((data: InterventionBaselineAssumptions) => {
+        this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+        if (this.interventionDataService.getCachedMnInPremix()) {
+          this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+        }
+      });
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
