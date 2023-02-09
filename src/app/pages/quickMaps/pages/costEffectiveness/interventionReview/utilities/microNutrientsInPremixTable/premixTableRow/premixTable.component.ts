@@ -21,16 +21,26 @@ export class PremixTableComponent {
   public optionalUserEnteredAverageAtPointOfFortification = 0;
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
+  public selectedCompound: FoodVehicleCompound;
+  // public selectedCompound: Record<number, FoodVehicleStandard> = {};
+  // public selectedCompounds: Array<FoodVehicleStandard> = [];
 
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
   @Input()
   set micronutrients(micronutrients: FoodVehicleStandard[]) {
     this.data.next(micronutrients);
+    if (micronutrients.length > 0) {
+      // const index = this.dataSource.data.length - 1;
+      // this.selectedCompounds.push(micronutrients[0]);
+      // console.log('selectedCompound', this.selectedCompounds);
+    }
   }
 
   ngOnInit(): void {
     this.data.subscribe((micronutrients: FoodVehicleStandard[]) => {
+      console.log('data.subscribe', micronutrients);
+
       if (this.dataSource.data.length === 0) {
         if (micronutrients.length > 0) {
           this.initTable(micronutrients);

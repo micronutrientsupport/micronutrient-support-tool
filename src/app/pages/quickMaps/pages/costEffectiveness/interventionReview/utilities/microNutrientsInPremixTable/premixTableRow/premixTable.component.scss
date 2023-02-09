@@ -59,9 +59,11 @@ table {
     color: $color_accent;
   }
 }
+
 .icon-display {
   transform: scale(0.6);
 }
+
 // // user edited values
 input.ng-dirty {
   color: $color_input_blue;
@@ -70,4 +72,9 @@ input.ng-dirty {
 
 .floater {
   display: flex;
+}
+
+mat-select,
+mat-option {
+  text-transform: capitalize;
 }
