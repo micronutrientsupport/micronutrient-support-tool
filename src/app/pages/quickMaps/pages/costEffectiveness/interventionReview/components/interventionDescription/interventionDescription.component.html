@@ -11,6 +11,10 @@
     <div class="value">Wheat Flour</div>
   </div>
   <div class="item">
+    <div class="title">Micronutrient:</div>
+    <div class="value">{{ (quickMapsService.micronutrient.obs | async)?.name }}</div>
+  </div>
+  <div class="item">
     <div class="title">Status:</div>
     <div class="value">Voluntary, transitioning to mandatory</div>
   </div>
