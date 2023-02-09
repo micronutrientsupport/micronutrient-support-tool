@@ -65,6 +65,7 @@ path.leaflet-interactive:focus {
 // Dialogs content use correct full height
 .mat-mdc-dialog-content {
   display: flex !important;
+  flex-direction: column;
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
