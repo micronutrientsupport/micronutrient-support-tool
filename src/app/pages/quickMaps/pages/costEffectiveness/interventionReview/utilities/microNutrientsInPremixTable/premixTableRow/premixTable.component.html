@@ -1,11 +1,11 @@
 <table mat-table [dataSource]="dataSource" class="table-full-width">
   <ng-container matColumnDef="micronutrient">
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title-left" mat-cell *matCellDef="let element">
       <span class="micronutrient-title">{{ element.micronutrient }}</span>
     </td>
   </ng-container>
   <ng-container matColumnDef="compounds">
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title-left" mat-cell *matCellDef="let element">
       <mat-form-field appearance="outline" class="override">
         <mat-select [(ngModel)]="selectedCompound" matNativeControl (selectionChange)="handleSelectCompound($event)">
           <mat-option *ngFor="let item of element.compounds" [value]="item">
@@ -17,7 +17,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="targetVal">
-    <td class="column-title" mat-cell *matCellDef="let element;">
+    <td class="column-title-left" mat-cell *matCellDef="let element;">
       <div class="double-cell">
         <input matInput required [ngModel]="selectedCompound.targetVal">
         <button mat-button>
@@ -27,7 +27,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="avgVal">
-    <td class="column-title" mat-cell *matCellDef="let element;">
+    <td class="column-title-left" mat-cell *matCellDef="let element;">
       <div class="double-cell">
         <span>
           {{ selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig: 3 }}
@@ -41,7 +41,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="optFort">
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title-left" mat-cell *matCellDef="let element">
       <div class="double-cell">
         <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
         <span>
@@ -53,7 +53,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="calcFort">
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title-left" mat-cell *matCellDef="let element">
       <span>
         {{ (optionalUserEnteredAverageAtPointOfFortification *
         baselineAssumptions.actuallyFortified.year0 *
