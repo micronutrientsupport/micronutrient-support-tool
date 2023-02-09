@@ -1,0 +1,14 @@
+.add-mn-button {
+  margin-left: 0.5rem;
+  padding: 0 4px 0 4px;
+  background: transparent;
+
+  span {
+    margin-left: 0.5rem;
+  }
+
+  &::ng-deep .mdc-button__label {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -30,6 +30,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
+    }
+
+    .flex-row {
+      display: flex;
     }
 
     button {

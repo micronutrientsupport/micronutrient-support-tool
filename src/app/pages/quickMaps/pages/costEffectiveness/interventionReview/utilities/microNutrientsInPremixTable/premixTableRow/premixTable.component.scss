@@ -1,4 +1,4 @@
-@import 'src/assets/scss/_colour';
+@import 'src/assets/scss/colour';
 
 .double-cell {
   display: flex;
@@ -17,6 +17,11 @@ input {
   border-radius: 5px;
   border: black 0.5px solid;
   text-align: center;
+
+  &.ng-dirty {
+    color: $color_input_blue;
+    border-color: $color_input_blue;
+  }
 }
 
 table {
@@ -45,8 +50,8 @@ table {
   }
 
   .remove-mn {
-    mat-icon {
-      color: $color_accent;
-    }
+    padding: 0;
+    vertical-align: middle;
+    margin-left: 5rem;
   }
 }
