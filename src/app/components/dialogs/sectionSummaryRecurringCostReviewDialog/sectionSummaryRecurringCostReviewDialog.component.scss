@@ -4,7 +4,9 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin: 1em 0;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
 
   button {
     margin: 0 5px 0 5px;
