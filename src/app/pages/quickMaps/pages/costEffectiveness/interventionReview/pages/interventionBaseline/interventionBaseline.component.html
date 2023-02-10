@@ -15,7 +15,7 @@
       <ng-container matColumnDef="baseline_value">
         <td mat-cell *matCellDef="let element">
           <div class="double-cell">
-            <input type="text" appDecimalInput required [value]=element.year0.toFixed(2)>
+            <input type="text" appDecimalInput required [ngModel]="element.year0.toFixed(2)">
             <button mat-button color="primary">
               GFDx<mat-icon>arrow_right_alt</mat-icon>
             </button>
@@ -28,6 +28,7 @@
           GFDx<mat-icon>arrow_right_alt</mat-icon>
         </button>
       </span>
+
       <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
     </table>
 
@@ -41,10 +42,13 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <app-intervention-step-details [addMn]="true" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showMnUnits]="true">
     </app-intervention-step-details>
 
+=======
+>>>>>>> d7625a0e9cbffbbb2892cd27ba2613f40e12c942
     <div class="focus-mn">
       <div class="divider"></div>
       <span class="sub-header">Focus micronutrient</span>
@@ -53,7 +57,7 @@
     <div class="lower-table-wrapper">
       <table mat-table [dataSource]="FVdataSource" class="table-full-width">
         <ng-container matColumnDef="micronutrient">
-          <th class="row-title focus" mat-header-cell *matHeaderCellDef>
+          <th class="row-title-left focus" mat-header-cell *matHeaderCellDef>
             Micronutrient
           </th>
           <td mat-cell *matCellDef="let element">
@@ -61,7 +65,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="compound">
-          <th class="row-title" mat-header-cell *matHeaderCellDef>
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>
             Compound
           </th>
           <td mat-cell *matCellDef="let element">
@@ -75,7 +79,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="targetVal">
-          <th class="row-title" mat-header-cell *matHeaderCellDef>Standard/target nutrient level at point of
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Standard/target nutrient level at point of
             fortification (mg/kg)
           </th>
           <td mat-cell *matCellDef="let element">
@@ -90,7 +94,8 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="avgVal">
-          <th class="row-title" mat-header-cell *matHeaderCellDef>Calculated average fortification level (mg/kg) among
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Calculated average fortification level (mg/kg)
+            among
             fortifiable food vehicle at point of fortification
             <button class="icon-display" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
               <mat-icon class="icon-display">question_mark</mat-icon>
@@ -107,7 +112,7 @@
         </ng-container>
 
         <ng-container matColumnDef="optFort">
-          <th class="row-title" mat-header-cell *matHeaderCellDef>Optional user-entered average fortification level
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Optional user-entered average fortification level
             (mg/kg) among fortifiable food vehicle at point of fortification
           </th>
           <td mat-cell *matCellDef="let element">
@@ -124,7 +129,7 @@
         </ng-container>
 
         <ng-container matColumnDef="calcFort">
-          <th class="row-title" mat-header-cell *matHeaderCellDef>
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>
             Calculated average fortification level (mg/kg) among
             all food vehicle
             <button class="icon-display" mat-mini-fab color="primary" (click)="openCalculatedFortificationInfoDialog()">
@@ -145,7 +150,12 @@
       </table>
     </div>
 
-    <app-micro-nutrients-in-premix-table [editable]="true"></app-micro-nutrients-in-premix-table>
+    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
+      [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
+    </app-intervention-step-details>
+
+    <app-micro-nutrients-in-premix-table [editable]="true"
+      [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"

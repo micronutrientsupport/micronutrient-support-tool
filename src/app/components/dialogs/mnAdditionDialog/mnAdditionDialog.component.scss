@@ -1,13 +1,8 @@
 @import 'src/assets/scss/_colour.scss';
 
-.primary-button {
-  color: $color_primary;
+.container {
+  flex-direction: column;
 }
-
-h2 {
-  font-weight: 600;
-}
-
-div[mat-dialog-actions] {
-  padding: 0;
+mat-form-field.mat-mdc-form-field {
+  width: 100% !important;
 }

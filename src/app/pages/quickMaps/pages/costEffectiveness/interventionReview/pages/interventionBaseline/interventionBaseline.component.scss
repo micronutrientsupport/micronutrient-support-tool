@@ -71,12 +71,11 @@ table {
     }
   }
 
-  // th {
-  //   &.mat-mdc-header-cell {
-  //     border-bottom: none;
-  //     text-align: middle !important;
-  //   }
-  // }
+  th {
+    &.mat-mdc-header-cell {
+      border-bottom: none;
+    }
+  }
 }
 mat-form-field {
   width: 85% !important;

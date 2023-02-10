@@ -40,6 +40,7 @@ import { MicroNutrientsInPremixTableComponent } from './interventionReview/utili
 import { PremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTable.component';
 import { AvgMnTableComponent } from './interventionReview/utilities/avgMnTable/avgMnTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     MicroNutrientsInPremixTableComponent,
     PremixTableComponent,
     AvgMnTableComponent,
+    AddMicronutrientComponent,
   ],
   imports: [
     CommonModule,

@@ -51,7 +51,8 @@ export class PremixTableComponent {
 
   public removeMn(mn: FoodVehicleStandard): void {
     this.interventionDataService.removeMnFromCachedMnInPremix(mn);
-    this.dataSource = new MatTableDataSource([]);
+    this.dataSource.data.splice(this.dataSource.data.indexOf(mn), 1);
+    this.dataSource._updateChangeSubscription();
   }
 
   public handleSelectCompound(event: MatSelectChange): void {

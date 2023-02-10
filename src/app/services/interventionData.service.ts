@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ApiService } from '../apiAndObjects/api/api.service';
+import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { Intervention } from '../apiAndObjects/objects/intervention';
 import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interventionBaselineAssumptions';
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
@@ -26,6 +27,7 @@ export class InterventionDataService {
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
+
   private readonly interventionSummaryChartPDFSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPDFObs = this.interventionSummaryChartPDFSrc.asObservable();
 
@@ -39,8 +41,12 @@ export class InterventionDataService {
 
   private readonly interventionStartupCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionStartupCostChangedObs = this.interventionStartupCostChangedSrc.asObservable();
+
   private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
+
+  private readonly newMicronutrientInPremix = new ReplaySubject<MicronutrientDictionaryItem>();
+  public newMicronutrientInPremixObs = this.newMicronutrientInPremix.asObservable();
 
   constructor(private apiService: ApiService, private readonly router: Router, public route: ActivatedRoute) {}
 
@@ -52,6 +58,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionData(id: string): Promise<InterventionData> {
     return this.apiService.endpoints.intervention.getInterventionData.call(
       {
@@ -60,6 +67,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionFoodVehicleStandards(id: string): Promise<InterventionFoodVehicleStandards> {
     return this.apiService.endpoints.intervention.getInterventionFoodVehicleStandards.call(
       {
@@ -68,6 +76,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionMonitoringInformation(id: string): Promise<InterventionMonitoringInformation> {
     return this.apiService.endpoints.intervention.getInterventionMonitoringInformation.call(
       {
@@ -76,6 +85,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionIndustryInformation(id: string): Promise<InterventionIndustryInformation> {
     return this.apiService.endpoints.intervention.getInterventionIndustryInformation.call(
       {
@@ -84,6 +94,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionRecurringCosts(id: string): Promise<InterventionRecurringCosts> {
     return this.apiService.endpoints.intervention.getInterventionRecurringCosts.call(
       {
@@ -92,6 +103,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionStartupCosts(id: string): Promise<InterventionStartupCosts> {
     return this.apiService.endpoints.intervention.getInterventionStartupCosts.call(
       {
@@ -100,6 +112,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionBaselineAssumptions(id: string): Promise<InterventionBaselineAssumptions> {
     return this.apiService.endpoints.intervention.getInterventionBaselineAssumptions.call(
       {
@@ -108,6 +121,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public getInterventionCostSummary(id: string): Promise<InterventionCostSummary> {
     return this.apiService.endpoints.intervention.getInterventionCostSummary.call(
       {
@@ -116,6 +130,7 @@ export class InterventionDataService {
       false,
     );
   }
+
   public setIntervention(
     parentInterventionId: number,
     newInterventionName: string,
@@ -131,6 +146,7 @@ export class InterventionDataService {
   public setInterventionSummaryChartPNG(chart: string): void {
     this.interventionSummaryChartPNGSrc.next(chart);
   }
+
   public setInterventionSummaryChartPDF(chart: string): void {
     this.interventionSummaryChartPDFSrc.next(chart);
   }
@@ -138,6 +154,7 @@ export class InterventionDataService {
   public setInterventionDetailedChartPNG(chart: string): void {
     this.interventionDetailedChartPNGSrc.next(chart);
   }
+
   public setInterventionDetailedChartPDF(chart: string): void {
     this.interventionDetailedChartPDFSrc.next(chart);
   }
@@ -185,14 +202,25 @@ export class InterventionDataService {
     } else {
       this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
     }
-
     localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
-    this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
-      return mnItem !== item;
-    });
+    const ls = localStorage.getItem('cachedMnInPremix');
+    const cached = JSON.parse(ls);
+
+    if (cached) {
+      this.cachedMnInPremix = cached;
+    }
+
+    if (this.cachedMnInPremix.length === 1) {
+      this.cachedMnInPremix = [];
+    } else {
+      this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
+        return mnItem.micronutrient !== item.micronutrient;
+      });
+    }
+
     localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
     return this.cachedMnInPremix;
   }
@@ -204,6 +232,7 @@ export class InterventionDataService {
 
   public getActiveInterventionId(): string {
     const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
+
     if (null == activeId) {
       const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;
@@ -250,6 +279,10 @@ export class InterventionDataService {
     } else {
       return;
     }
+  }
+
+  public setNewMicronutrientInPremix(micronutrient: MicronutrientDictionaryItem | null): void {
+    this.newMicronutrientInPremix.next(micronutrient);
   }
 }
 

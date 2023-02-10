@@ -22,7 +22,6 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
 
   public assumptionsDisplayedColumns = [
     'title',
-    'standard',
     'year0',
     'year1',
     'year2',

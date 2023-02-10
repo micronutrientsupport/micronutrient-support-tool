@@ -1,9 +1,10 @@
-<div class="DeletionDialog">
-  <h2>Reset All</h2>
-  <p>Are you sure you want to reset all values in this step?</p>
+<app-base-dialog title="Reset All">
+  <div class="container">
+    <p>Are you sure you want to reset all values in this step?</p>
 
-  <div class="button-group" mat-dialog-actions align="center">
-    <button mat-stroked-button type=" button" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
-    <button mat-stroked-button color="warn" (click)="resetAll()">Yes, reset all</button>
+    <div class="button-group" mat-dialog-actions align="end">
+      <button mat-stroked-button color="primary" (click)="closeDialog()">Cancel</button>
+      <button mat-flat-button color="primary" (click)="resetAll()">Confirm</button>
+    </div>
   </div>
-</div>
+</app-base-dialog>
