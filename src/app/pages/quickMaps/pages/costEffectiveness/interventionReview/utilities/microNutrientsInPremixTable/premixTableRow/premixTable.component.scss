@@ -49,9 +49,20 @@ table {
     color: $color_primary;
   }
 
+  ::ng-deep mat-form-field {
+    width: 85%;
+  }
   .remove-mn {
     padding: 0;
     vertical-align: middle;
     margin-left: 5rem;
   }
+}
+.icon-display {
+  transform: scale(0.6);
+}
+// // user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
 }

@@ -59,9 +59,10 @@
 
 table {
   width: 100%;
+  background: none;
   table-layout: fixed;
-  font-family: 'Quicksand', sans-serif !important;
-  padding: 0 0 0 2rem;
+  // font-family: 'Quicksand', sans-serif !important;
+  padding: 0 0 0 1.75rem;
 
   .row-title {
     &.focus {
@@ -75,6 +76,9 @@ table {
       border-bottom: none;
     }
   }
+}
+mat-form-field {
+  width: 85% !important;
 }
 
 .intervention-baseline-panel {
@@ -102,10 +106,6 @@ table {
   button {
     margin-left: 2rem;
   }
-}
-
-input {
-  width: 50px;
 }
 
 th {
