@@ -35,7 +35,7 @@
           <mat-form-field appearance="outline">
             <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionLoad"
               (ngModelChange)="this.proceed.next(true);" matNativeControl required>
-              <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+              <mat-option *ngFor="let intervention of interventionsAllowedToUse" [value]="intervention">
                 (<strong>ID:</strong> {{ intervention.id }}) <strong>Name:</strong> {{ intervention.name }}
               </mat-option>
             </mat-select>

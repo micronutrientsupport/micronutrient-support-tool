@@ -15,6 +15,7 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventions: Array<InterventionsDictionaryItem>;
+  public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
   public selectedInterventionEdit: Intervention;
   public selectedInterventionLoad: Intervention;
   public interventionId = '';
@@ -23,6 +24,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionForm: UntypedFormGroup;
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
+  private onlyAllowInterventionsAboveID = 3;
 
   constructor(
     public dialog: MatDialog,
@@ -31,6 +33,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
   ) {
     this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
+    // Only allow interventions to be loaded directly which are above an ID. This can be updated to check for an intervention parameter when API allows it.
+    this.interventionsAllowedToUse = this.interventions.filter(
+      (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
+    );
   }
 
   ngOnInit(): void {
