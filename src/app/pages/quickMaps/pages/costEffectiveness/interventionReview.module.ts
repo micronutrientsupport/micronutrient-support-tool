@@ -41,7 +41,6 @@ import { PremixTableComponent } from './interventionReview/utilities/microNutrie
 import { AvgMnTableComponent } from './interventionReview/utilities/avgMnTable/avgMnTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
-import { QuickMapsModule } from '../../quickMaps.module';
 
 @NgModule({
   declarations: [
