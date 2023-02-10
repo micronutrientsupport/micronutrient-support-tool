@@ -27,7 +27,10 @@
               "unleash-proxy-client",
               "merge-options",
               "file-saver",
-              "dom-to-image"
+              "dom-to-image",
+              "moment",
+              "chroma-js",
+              "driver.js"
             ],
             "outputPath": "dist/micronutrient-support-tool",
             "index": "src/index.html",
@@ -44,10 +47,7 @@
               },
               "src/manifest.webmanifest"
             ],
-            "styles": [
-              "src/styles.scss",
-              "./node_modules/leaflet/dist/leaflet.css"
-            ],
+            "styles": ["src/styles.scss", "./node_modules/leaflet/dist/leaflet.css"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -149,14 +149,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         },
