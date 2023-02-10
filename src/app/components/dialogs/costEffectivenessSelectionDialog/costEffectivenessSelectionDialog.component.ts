@@ -15,13 +15,16 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventions: Array<InterventionsDictionaryItem>;
-  public selectedIntervention: Intervention;
+  public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
+  public selectedInterventionEdit: Intervention;
+  public selectedInterventionLoad: Intervention;
   public interventionId = '';
   public tabID = 'copy';
   public err = new BehaviorSubject<boolean>(false);
   public interventionForm: UntypedFormGroup;
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
+  private onlyAllowInterventionsAboveID = 3;
 
   constructor(
     public dialog: MatDialog,
@@ -30,6 +33,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
   ) {
     this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
+    // Only allow interventions to be loaded directly which are above an ID. This can be updated to check for an intervention parameter when API allows it.
+    this.interventionsAllowedToUse = this.interventions.filter(
+      (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
+    );
   }
 
   ngOnInit(): void {
@@ -50,23 +57,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
-  public getInterventionById(id: string) {
-    this.interventionDataService
-      .getIntervention(id)
-      .then((response) => {
-        this.err.next(false);
-        this.selectedIntervention = response;
-        this.proceed.next(true);
-      })
-      .catch((err) => {
-        console.error(err);
-        this.err.next(true);
-      });
-  }
-
   private createInterventionCopy(newName: string, newDesc: string): void {
     this.interventionDataService
-      .setIntervention(Number(this.selectedIntervention.id), newName, newDesc)
+      .setIntervention(Number(this.selectedInterventionEdit.id), newName, newDesc)
       .then((result) => {
         this.dialogData.dataOut = result;
         this.closeDialog();
@@ -93,11 +86,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.proceed.next(false);
   }
 
-  public handleLookup(): void {
-    this.getInterventionById(this.interventionId);
-    this.showResults.next(true);
-  }
-
   public handleChange(): void {
     this.proceed.next(false);
     this.showResults.next(false);
@@ -117,8 +105,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
   public createIntervention(): void {
     if (this.tabID === 'load') {
-      if (this.selectedIntervention !== null) {
-        this.dialogData.dataOut = this.selectedIntervention;
+      if (this.selectedInterventionLoad !== null) {
+        this.dialogData.dataOut = this.selectedInterventionLoad;
         this.closeDialog();
       }
     }

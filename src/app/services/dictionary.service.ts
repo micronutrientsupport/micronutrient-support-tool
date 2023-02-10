@@ -15,7 +15,7 @@ export class DictionaryService {
   public getDictionary(type: DictionaryType): Promise<Dictionary> {
     return this.apiService.getDictionary(type);
   }
-  public getDictionaries(types: Array<DictionaryType>): Promise<Array<Dictionary>> {
-    return this.apiService.getDictionaries(types);
+  public getDictionaries(types: Array<DictionaryType>, useCache?: boolean): Promise<Array<Dictionary>> {
+    return this.apiService.getDictionaries(types, useCache);
   }
 }
