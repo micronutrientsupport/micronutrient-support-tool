@@ -26,6 +26,7 @@ import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./interventionBaseline.component.scss'],
 })
 export class InterventionBaselineComponent implements AfterViewInit {
+  public dirtyIndexes = [];
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
 
@@ -50,6 +51,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public formChanges: InterventionForm['formChanges'] = {};
   public compoundAvailable = false;
   public compoundUnavailable = true;
+  public inputTwo = 2;
+  public inputThree = 3;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -189,5 +192,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {
     this.newMnInPremix = micronutrient;
+  }
+  public storeIndex(index: number) {
+    this.dirtyIndexes.push(index);
+    this.dirtyIndexes.push(this.inputTwo);
+    this.dirtyIndexes.push(this.inputThree);
   }
 }
