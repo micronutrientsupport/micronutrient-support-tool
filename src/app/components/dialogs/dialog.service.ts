@@ -109,10 +109,20 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
   public openFortificationInfoDialog(): Promise<DialogData> {
-    return this.openDialog('ceFortificationInfoDialog', CeFortificationInfoDialogComponent);
+    return this.openDialog('ceFortificationInfoDialog', CeFortificationInfoDialogComponent, true, null, {
+      width: '50vw',
+    });
   }
   public openCalculatedFortificationInfoDialog(): Promise<DialogData> {
-    return this.openDialog('ceCalculatedFortificationInfoDialog', CeCalculatedFortificationInfoDialogComponent);
+    return this.openDialog(
+      'ceCalculatedFortificationInfoDialog',
+      CeCalculatedFortificationInfoDialogComponent,
+      true,
+      null,
+      {
+        width: '50vw',
+      },
+    );
   }
 
   public openSectionRecurringCostReviewDialog(

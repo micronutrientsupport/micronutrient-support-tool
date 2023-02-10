@@ -8,7 +8,7 @@
 <div class="intervention-summary-panel">
   <div class="item">
     <div class="title">Food Vehicle:</div>
-    <div class="value">Wheat Flour</div>
+    <div class="value">{{ selectedIntervention?.foodVehicleName | titlecase }}</div>
   </div>
   <div class="item">
     <div class="title">Micronutrient:</div>
@@ -16,10 +16,11 @@
   </div>
   <div class="item">
     <div class="title">Status:</div>
-    <div class="value">Voluntary, transitioning to mandatory</div>
+    <div class="value">{{ (selectedIntervention?.programStatus | titlecase) || "Voluntary, transitioning to mandatory"}}
+    </div>
   </div>
   <div class="item">
     <div class="title">Base year:</div>
-    <div class="value">2021</div>
+    <div class="value">{{ (selectedIntervention?.baseYear) || "2021"}}</div>
   </div>
 </div>
