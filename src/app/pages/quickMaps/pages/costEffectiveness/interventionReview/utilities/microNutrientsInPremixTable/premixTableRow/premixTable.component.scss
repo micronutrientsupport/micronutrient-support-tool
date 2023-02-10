@@ -48,8 +48,9 @@ table {
   .mat-mdc-button:not([class*='remove-mn']) {
     color: $color_primary;
   }
-  mat-form-field {
-    width: 85% !important;
+
+  ::ng-deep mat-form-field {
+    width: 85%;
   }
   .remove-mn {
     padding: 0;

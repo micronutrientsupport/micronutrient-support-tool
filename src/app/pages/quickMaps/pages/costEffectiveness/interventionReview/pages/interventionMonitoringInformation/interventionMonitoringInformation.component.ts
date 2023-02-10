@@ -50,7 +50,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
 
     if (index == -1) this.editRows.push(i);
     else this.editRows.splice(index, 1);
-    console.debug('EDITED ROWS', this.editRows);
   }
 
   isEditedRow(i: number) {
@@ -107,7 +106,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
                             [item[0]]: Number(item[1]),
                           };
                           changes[rowIndex]['rowIndex'] = rowIndex;
-                          console.debug('rowIndex: ', rowIndex);
                         }
                       });
                     }
