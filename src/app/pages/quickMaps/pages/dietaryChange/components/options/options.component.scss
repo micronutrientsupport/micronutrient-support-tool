@@ -134,7 +134,8 @@ mat-radio-group {
   display: grid;
   grid-template-columns: min-content auto auto auto auto;
   align-items: center;
-  gap: 1rem;
+  padding: 5px;
+  gap: 5px;
   &.mode-food_item {
     grid-template-columns: min-content auto auto auto auto auto;
   }

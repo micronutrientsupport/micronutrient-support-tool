@@ -1,27 +1,11 @@
 @use '@angular/material/theming';
-@import '/src/assets/scss/colour';
-
-.content-container {
-  padding: 10px;
-}
-h2,
-p {
-  text-align: center;
-}
-
-h2 {
-  font-weight: 600;
-}
-
-p {
-  display: flex;
-  align-self: center;
-}
+@import '/src/assets/scss/_colour.scss';
 
 mat-form-field {
   &.mat-mdc-form-field {
-    width: 100%;
+    width: 99%;
     font-weight: 500;
+    margin: 8px 0 8px 0;
   }
 }
 
@@ -48,15 +32,9 @@ mat-form-field {
 }
 
 .dropdown-title {
-  margin-bottom: 0.25rem;
+  margin-top: 20px;
 }
 
-.intervention-title {
-  margin-top: 1rem;
-}
-
-form {
-  &#form {
-    margin-bottom: 2rem;
-  }
+.result-wrapper {
+  margin: 5px 0 5px 0;
 }

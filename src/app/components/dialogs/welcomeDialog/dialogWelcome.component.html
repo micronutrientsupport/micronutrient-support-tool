@@ -1,16 +1,13 @@
-<app-base-dialog [data]="data">
+<app-base-dialog [data]="data" title="Welcome to Quick MAPS">
 
   <div class="bmgf-maps-nice-scrollbar">
-    <div class="title">
-      <span>Welcome to Quick MAPS</span>
-    </div>
-    <p class="text-center"><img style="width: 30%; max-width: 100px;"
-        src="https://micronutrient.support/images/logo.svg"></p>
+    <p class="text-center"><img class="maps-welcome-header-image" src="https://micronutrient.support/images/logo.svg">
+    </p>
     <p class="welcome-text">This version of the MAPS tool is released for user-testing and feedback: we would be
       delighted to receive your
       views on the ease of use of the tool before you leave our site, using the
       <button mat-mini-fab color="primary" arial-label="feedback" class="mini-button">
-        <mat-icon>feedback</mat-icon>
+        <mat-icon>add_comment</mat-icon>
       </button> button at the bottom right of the page. We also
       have a ‘Submit Feedback’ button on the right side of the screen – this can be
       used
@@ -28,8 +25,8 @@
 
     <p class="welcome-text">
       You can return to this dialog at any point using the
-      <button arial-label="help" mat-mini-fab color="secondary" class="mini-button">
-        <mat-icon>help</mat-icon>
+      <button arial-label="help" mat-mini-fab color="primary" class="mini-button">
+        <mat-icon>tour</mat-icon>
       </button> icon in the bottom right of the page.
     </p>
 

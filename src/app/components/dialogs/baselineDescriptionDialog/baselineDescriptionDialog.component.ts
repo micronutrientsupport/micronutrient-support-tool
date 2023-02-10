@@ -17,6 +17,7 @@ export class BaselineDescriptionDialogComponent implements OnInit {
   public dataSource: DietDataSource;
   public country: string;
   public micronutrient: string;
+  public title = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -29,6 +30,7 @@ export class BaselineDescriptionDialogComponent implements OnInit {
     this.dataSource = this.quickMapsService.dietDataSource.get();
     this.country = this.quickMapsService.country.get().name;
     this.micronutrient = this.quickMapsService.micronutrient.get().name;
+    this.title = 'Dietary supply of ' + this.micronutrient + ' in ' + this.country + ': Dataset Details';
   }
 
   public copyLink(): void {
