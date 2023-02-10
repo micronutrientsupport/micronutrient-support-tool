@@ -29,7 +29,7 @@ export class InterventionCreationComponent {
     private router: Router,
     private interventionCreationService: InterventionCreationService,
   ) {
-    void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS]).then((dicts: Array<Dictionary>) => {
+    void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS], false).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
       this.loadInterventions();
     });
@@ -69,9 +69,18 @@ export class InterventionCreationComponent {
         });
         this.selectedInterventions.push(data.dataOut);
         this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
+        this.updateInterventionsFromAPI();
         this.cdr.detectChanges();
       }
     });
+  }
+
+  public updateInterventionsFromAPI(): void {
+    void this.dictionariesService
+      .getDictionaries([DictionaryType.INTERVENTIONS], false)
+      .then((dicts: Array<Dictionary>) => {
+        this.interventionsDictionaryItems = dicts.shift().getItems();
+      });
   }
 
   public removeInterventionById(interventionToRemove: string): void {

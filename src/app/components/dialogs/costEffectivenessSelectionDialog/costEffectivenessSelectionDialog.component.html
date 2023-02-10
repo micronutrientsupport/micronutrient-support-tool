@@ -8,23 +8,23 @@
       <mat-tab label="Copy & edit intervention template">
         <h2 class="dropdown-title">Select intervention template</h2>
         <mat-form-field appearance="outline">
-          <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedIntervention"
+          <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionEdit"
             matNativeControl required>
             <mat-option *ngFor="let intervention of interventions" [value]="intervention">
               {{ intervention.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <ng-container *ngIf="selectedIntervention">
+        <ng-container *ngIf="selectedInterventionEdit">
           <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="form">
             <mat-form-field appearance="outline">
               <mat-label>Intervention name</mat-label>
-              <input matInput [placeholder]="selectedIntervention.name" name="newInterventionName"
+              <input matInput [placeholder]="selectedInterventionEdit.name" name="newInterventionName"
                 formControlName="newInterventionName" required>
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Intervention description</mat-label>
-              <textarea matInput [placeholder]="selectedIntervention.description" name="newInterventionDesc"
+              <textarea matInput [placeholder]="selectedInterventionEdit.description" name="newInterventionDesc"
                 formControlName="newInterventionDesc"></textarea>
             </mat-form-field>
           </form>
@@ -32,23 +32,24 @@
       </mat-tab>
       <mat-tab label="Load an existing intervention">
         <div class="content-container">
-          <mat-form-field appearance="outline" class="intervention-form-field">
-            <mat-label>Intervention ID</mat-label>
-            <input matInput placeholder="Enter intervention ID" type="text" [(ngModel)]="interventionId"
-              (ngModelChange)="handleChange()">
+          <mat-form-field appearance="outline">
+            <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionLoad"
+              (ngModelChange)="this.proceed.next(true);" matNativeControl required>
+              <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+                (<strong>ID:</strong> {{ intervention.id }}) <strong>Name:</strong> {{ intervention.name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-          <button mat-stroked-button color="primary" (click)="handleLookup()">
-            Look up ID
-          </button>
         </div>
         <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
-          <ng-container *ngIf="selectedIntervention">
+          <ng-container *ngIf="selectedInterventionLoad">
             <ng-container *ngIf="(err.asObservable() | async) === false">
-              <p><strong>Intervention Name:</strong> {{ selectedIntervention.name }}</p>
-              <p><strong>Description:</strong> {{ selectedIntervention.description }}</p>
+              <h2>Selected Intervention Summary</h2>
+              <p><strong>Intervention Name:</strong> {{ selectedInterventionLoad.name }}</p>
+              <p><strong>Description:</strong> {{ selectedInterventionLoad.description }}</p>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="(err.asObservable() | async) === true || selectedIntervention === null">
+          <ng-container *ngIf="(err.asObservable() | async) === true || selectedInterventionLoad === null">
             <strong>No intervention found with ID: {{ interventionId }}</strong>
           </ng-container>
         </div>

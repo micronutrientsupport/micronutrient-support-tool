@@ -17,6 +17,9 @@ router-outlet ::ng-deep + * {
   left: 0;
   right: 0;
 }
+.map-placeholder {
+  background-color: #dddddd;
+}
 
 // fix the footer position
 ::ng-deep app-footer-light {

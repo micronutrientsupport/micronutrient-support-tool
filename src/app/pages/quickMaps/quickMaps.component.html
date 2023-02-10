@@ -1,6 +1,6 @@
 <div role="main">
   <div *ngIf="(quickMapsService.init.obs | async) === false" class="service-down">
-    <div class="flex-col">
+    <!-- <div class="flex-col">
       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle" width="150"
         height="150" viewBox="0 0 24 24" stroke-width="1.5" stroke="#703aa3" fill="none" stroke-linecap="round"
         stroke-linejoin="round">
@@ -13,7 +13,7 @@
       <p class="status">Alternatively, you can monitor the status of services by clicking on
         <a href="https://stats.uptimerobot.com/g8Vr6ulQEm" rel="noopen noreferrer" target="_blank">this link.</a>
       </p>
-    </div>
+    </div> -->
   </div>
   <mat-sidenav-container class="sidenav-container" *ngIf="quickMapsService.init.obs | async">
     <mat-sidenav [disableClose]="true" opened mode="side"
