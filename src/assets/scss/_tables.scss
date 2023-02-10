@@ -1,5 +1,8 @@
 @import './colour';
 
+table {
+  padding: 5px;
+}
 .mat-mdc-header-cell {
   font-family: 'Ubuntu Mono' !important;
   text-align: center !important;
@@ -28,6 +31,10 @@
   &-left {
     text-align: left !important;
   }
+}
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 0 0 0 0 !important;
 }
 
 .table-full-width {

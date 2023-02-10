@@ -192,9 +192,11 @@ export class MapViewComponent implements AfterViewInit {
 
   private init(dataPromise: Promise<ExtendedRespose<MnAvailibiltyItem>>): void {
     this.loadingSrc.next(true);
+    console.log('map dataPromise: ', dataPromise);
     dataPromise
       .then((data: ExtendedRespose<MnAvailibiltyItem>) => {
         this.data = data.data;
+        console.debug('map dada: ', this.data);
         if (data.meta.bins) {
           const range = data.meta.bins.data as number[];
           if (range[0] === 0) {
