@@ -157,7 +157,7 @@
     </div>
   </div>
   <footer>
-    <a disabled="{{compoundAvailable}}" class="intervention-navigation" mat-stroked-button
+    <a *ngIf="compoundUnavailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Back</a>
     <a disabled="{{compoundUnavailable}}" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
