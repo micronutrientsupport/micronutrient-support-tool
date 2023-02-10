@@ -5,6 +5,7 @@
       <span>Review of program assumptions</span>
     </div>
     <form [formGroup]="form" *ngIf="form">
+
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="title">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention
