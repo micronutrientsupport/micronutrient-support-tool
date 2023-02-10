@@ -36,7 +36,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public dataSource = new MatTableDataSource();
   public baselinedisplayedColumns = ['title', 'year0'];
 
-  public FVdataSource = new MatTableDataSource();
+  public FVdataSource = new MatTableDataSource<Array<FoodVehicleStandard>>();
   public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
   public optionalUserEnteredAverageAtPointOfFortification = 0;
@@ -46,6 +46,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public newMnInPremix: MicronutrientDictionaryItem;
   public rawBaselineDataArray: Array<PotentiallyFortified | ActuallyFortified> = [];
 
+  public focusMnForm: UntypedFormGroup;
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
@@ -75,6 +76,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 this.createFVTableObject(this.activeNutrientFVS);
 
                 this.initBaselineAssumptionTable();
+                this.initFocusMnTable();
               }
             });
         }
@@ -135,7 +137,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
             filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
           )
           .subscribe((value) => {
-            console.debug(value);
             this.formChanges = value;
             const newInterventionChanges = {
               ...this.interventionDataService.getInterventionDataChanges(),
@@ -153,6 +154,58 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
   }
 
+  private initFocusMnTable() {
+    const focusMnCompoundGroupArr = this.createFocusMnDataGroup(this.selectedCompound);
+
+    this.focusMnForm = this.formBuilder.group({
+      items: this.formBuilder.array([focusMnCompoundGroupArr]),
+    });
+    const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
+      return Object.entries(b).filter(([key, value]) => value !== a[key]);
+    };
+    const changes = {};
+
+    this.focusMnForm.valueChanges
+      .pipe(
+        startWith(this.focusMnForm.value),
+        pairwise(),
+        map(([oldState, newState]) => {
+          for (const key in newState.items) {
+            const rowIndex = this.focusMnForm.get('items')['controls'][key]['controls'].rowIndex.value;
+            if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
+              const diff = compareObjs(oldState.items[key], newState.items[key]);
+              if (Array.isArray(diff) && diff.length > 0) {
+                diff.forEach((item) => {
+                  if (changes[rowIndex]) {
+                    changes[rowIndex] = {
+                      ...changes[rowIndex],
+                      [item[0]]: Number(item[1]),
+                    };
+                    changes[rowIndex]['rowIndex'] = rowIndex;
+                  } else {
+                    changes[rowIndex] = {
+                      [item[0]]: Number(item[1]),
+                    };
+                    changes[rowIndex]['rowIndex'] = rowIndex;
+                  }
+                });
+              }
+            }
+          }
+          return changes;
+        }),
+        filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
+      )
+      .subscribe((value) => {
+        this.formChanges = value;
+        const newInterventionChanges = {
+          ...this.interventionDataService.getInterventionDataChanges(),
+          ...this.formChanges,
+        };
+        this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+      });
+  }
+
   public confirmAndContinue(): void {
     this.interventionDataService.interventionPageConfirmContinue();
   }
@@ -167,7 +220,15 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
     this.selectedCompound = fvdata[0].compounds[0];
-    this.FVdataSource = new MatTableDataSource(fvdata);
+    this.FVdataSource = new MatTableDataSource([fvdata]);
+  }
+
+  private createFocusMnDataGroup(item: FoodVehicleCompound) {
+    console.debug(item);
+    return this.formBuilder.group({
+      rowIndex: [item.rowIndex, []],
+      targetValue: [Number(item.targetVal), []],
+    });
   }
 
   public openFortificationInfoDialog(): void {

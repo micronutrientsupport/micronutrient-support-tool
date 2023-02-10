@@ -35,7 +35,7 @@ export class MicroNutrientsInPremixTableComponent {
 
   ngOnInit(): void {
     this.interventionDataService
-      .getInterventionBaselineAssumptions('1')
+      .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())
       .then((data: InterventionBaselineAssumptions) => {
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
         if (this.interventionDataService.getCachedMnInPremix()) {
@@ -47,7 +47,7 @@ export class MicroNutrientsInPremixTableComponent {
   private addMnToTable(micronutrient: MicronutrientDictionaryItem): void {
     if (micronutrient && Object.keys(micronutrient).length !== 0) {
       this.interventionDataService
-        .getInterventionFoodVehicleStandards('1')
+        .getInterventionFoodVehicleStandards(this.interventionDataService.getActiveInterventionId())
         .then((data: InterventionFoodVehicleStandards) => {
           if (data != null) {
             const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
