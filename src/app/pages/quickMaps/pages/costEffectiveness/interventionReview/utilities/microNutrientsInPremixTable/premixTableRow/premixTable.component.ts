@@ -7,6 +7,7 @@ import {
   FoodVehicleCompound,
   FoodVehicleStandard,
 } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({
@@ -15,7 +16,7 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   styleUrls: ['./premixTable.component.scss'],
 })
 export class PremixTableComponent {
-  constructor(private interventionDataService: InterventionDataService) {}
+  constructor(private interventionDataService: InterventionDataService, private dialogService: DialogService) {}
 
   private data = new Subject<FoodVehicleStandard[]>();
   public optionalUserEnteredAverageAtPointOfFortification = 0;
@@ -56,5 +57,11 @@ export class PremixTableComponent {
 
   public handleSelectCompound(event: MatSelectChange): void {
     console.log(event);
+  }
+  public openFortificationInfoDialog(): void {
+    void this.dialogService.openFortificationInfoDialog();
+  }
+  public openCalculatedFortificationInfoDialog(): void {
+    void this.dialogService.openCalculatedFortificationInfoDialog();
   }
 }

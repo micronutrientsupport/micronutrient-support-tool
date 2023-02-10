@@ -148,4 +148,8 @@ export class SectionRecurringCostReviewDialogComponent {
       this.dialogData.close();
     }
   }
+  public resetAll(): void {
+    //reset all needes to only reset values in the current review component
+    this.dialogData.dataOut = true;
+  }
 }

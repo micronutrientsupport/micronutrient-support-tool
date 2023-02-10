@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -12,16 +12,17 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 @Component({
-  selector: 'app-intervention-assumptions-review',
-  templateUrl: './interventionAssumptionsReview.component.html',
-  styleUrls: ['./interventionAssumptionsReview.component.scss'],
+  selector: 'app-avg-mn-table',
+  templateUrl: './avgMnTable.component.html',
+  styleUrls: ['./avgMnTable.component.scss'],
 })
-export class InterventionAssumptionsReviewComponent implements OnInit {
-  @Input() public editable = false;
+export class AvgMnTableComponent implements OnInit {
+  public micronutrients: Array<FoodVehicleStandard> = [];
   public activeStandard: FoodVehicleStandard[];
-
+  public baselineAssumptions: BaselineAssumptions;
   public assumptionsDisplayedColumns = [
     'title',
+    'standard',
     'year0',
     'year1',
     'year2',
@@ -55,10 +56,12 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   private subscriptions = new Array<Subscription>();
 
   constructor(
+    public readonly interventionDataService: InterventionDataService,
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
-    private interventionDataService: InterventionDataService,
   ) {
+    this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+    console.debug(this.micronutrients);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
@@ -82,6 +85,14 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.interventionDataService
+      .getInterventionBaselineAssumptions('1')
+      .then((data: InterventionBaselineAssumptions) => {
+        this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+        if (this.interventionDataService.getCachedMnInPremix()) {
+          this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+        }
+      });
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 

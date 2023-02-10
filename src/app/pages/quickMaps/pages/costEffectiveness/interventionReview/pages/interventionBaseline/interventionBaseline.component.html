@@ -78,14 +78,14 @@
             fortification (mg/kg)
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="double-cell">
-              <input type="text" appDecimalInput required [ngModel]="selectedCompound.targetVal">
+            <ng-container class="double-cell">
+              <input type="number" matInput required [ngModel]="selectedCompound.targetVal">
               <span>
                 <button mat-button color="primary">
                   GFDx <mat-icon>arrow_right_alt</mat-icon>
                 </button>
               </span>
-            </div>
+            </ng-container>
           </td>
         </ng-container>
         <ng-container matColumnDef="avgVal">
@@ -97,16 +97,12 @@
             </button>
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="double-cell">
+            <ng-container class="double-cell">
               <span>
-                {{ selectedCompound.targetVal * baselineAssumptions?.potentiallyFortified.year0 }}
+                {{ selectedCompound.targetVal * baselineAssumptions?.potentiallyFortified.year0 | sigFig: 3 }}
               </span>
-              <span>
-                <button mat-button color="primary">
-                  GFDx<mat-icon>arrow_right_alt</mat-icon>
-                </button>
-              </span>
-            </div>
+
+            </ng-container>
           </td>
         </ng-container>
 
@@ -116,7 +112,7 @@
             (mg/kg) among fortifiable food vehicle at point of fortification
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="double-cell">
+            <ng-container class="double-cell">
               <input type="text" appDecimalInput required
                 [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
               <span>
@@ -124,7 +120,7 @@
                   GFDx <mat-icon>arrow_right_alt</mat-icon>
                 </button>
               </span>
-            </div>
+            </ng-container>
           </td>
         </ng-container>
 
@@ -137,12 +133,12 @@
             </button>
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="double-cell">
+            <ng-container class="double-cell">
               <span *ngIf="null != baselineAssumptions">
                 {{ optionalUserEnteredAverageAtPointOfFortification * baselineAssumptions.actuallyFortified.year0 *
                 baselineAssumptions.potentiallyFortified.year0 | sigFig:3 }}
               </span>
-            </div>
+            </ng-container>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>

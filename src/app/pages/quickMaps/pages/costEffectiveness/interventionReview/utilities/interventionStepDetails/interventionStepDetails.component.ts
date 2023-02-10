@@ -10,7 +10,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 })
 export class InterventionStepDetailsComponent {
   constructor(private dialogService: DialogService) {}
-
+  @Input('addMn') public addMn = false;
   @Input('resetDefaultValues') public resetDefaultValues = false;
   @Input('showFocusMn') public showFocusMn = false;
   @Input('showUserValues') public showUserValues = false;
