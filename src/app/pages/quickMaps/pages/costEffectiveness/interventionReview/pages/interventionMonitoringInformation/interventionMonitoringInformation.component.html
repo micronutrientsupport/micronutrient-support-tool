@@ -141,8 +141,15 @@
                 GFDx<mat-icon>arrow_right_alt</mat-icon>
               </button>
               <!-- ngIf*="form.get('year9').dirty"  -->
-              <!-- <button *ngFor="let i = index" [ngClass]="isEditedRow(i) ? 'editRow' : ''" matTooltip="User entered data"
-                mat-button color="primary">
+              <!-- <button *ngFor="let i = index" (change)="toggleButton(i)" matTooltip="User entered data" mat-button
+                color="primary">
+                User Input
+              </button> -->
+              <!-- <button *ngIf="editComplete" matTooltip="User entered data" mat-button color="primary">
+                User Input
+              </button>
+              <button *ngFor="let i = index" [ngModel]="isEditedRow(i)" matTooltip="User entered data" mat-button
+                color="primary">
                 User Input
               </button> -->
             </span>

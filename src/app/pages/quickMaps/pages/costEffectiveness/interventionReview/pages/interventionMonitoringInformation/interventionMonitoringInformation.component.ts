@@ -43,17 +43,33 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   ) {}
 
   editRows: number[] = [];
+  editComplete = false;
+
+  public editingIndex;
+  editColumn(index: number) {
+    console.log('edit row data', index);
+
+    this.editingIndex = index;
+
+    `enter code here`;
+  }
 
   toggleButton(i: number) {
     // eslint-disable-next-line prefer-const
     let index = this.editRows.findIndex((x) => x == i);
 
-    if (index == -1) this.editRows.push(i);
-    else this.editRows.splice(index, 1);
+    if (index == -1) {
+      this.editRows.push(i);
+      this.editComplete = true;
+      console.debug('IF EDITED ROW output row index', this.editRows);
+    } else this.editRows.splice(index, 1);
   }
 
   isEditedRow(i: number) {
-    return this.editRows.findIndex((x) => x == i) > -1;
+    if (i == -1) {
+      this.editComplete = true;
+      return this.editRows.findIndex((x) => x == i) > -1;
+    }
   }
   /**
    * Create a table data source from API response, then construct into a FormArray.
@@ -106,6 +122,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
                             [item[0]]: Number(item[1]),
                           };
                           changes[rowIndex]['rowIndex'] = rowIndex;
+                          console.debug('rowIndex: ', rowIndex);
                         }
                       });
                     }
