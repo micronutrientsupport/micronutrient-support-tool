@@ -4,6 +4,9 @@
     <div class="title">
       <span>Baseline Assumptions</span>
     </div>
+    <div *ngIf="this.compoundAvailable === false">
+      <app-quickmaps-no-results></app-quickmaps-no-results>
+    </div>
 
     <form [formGroup]="form" *ngIf="form">
 
@@ -105,7 +108,8 @@
         </ng-container>
 
         <ng-container matColumnDef="optFort">
-          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Optional user-entered average fortification level
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Optional user-entered average fortification
+            level
             (mg/kg) among fortifiable food vehicle at point of fortification
           </th>
           <td mat-cell *matCellDef="let element">
@@ -151,11 +155,11 @@
       [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
   </div>
   <footer>
-    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
-      queryParamsHandling="preserve">Save and close</a>
-    <a class="intervention-navigation-confirm" mat-stroked-button
+    <a disabled="{{compoundUnavailable}}" class="intervention-navigation" mat-stroked-button
+      [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
+    <button disabled="{{compoundUnavailable}}" class="intervention-navigation-confirm" mat-stroked-button
       [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route" queryParamsHandling="preserve"
       (click)="confirmAndContinue()">Confirm and
-      continue</a>
+      continue</button>
   </footer>
 </div>

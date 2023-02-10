@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { QuickMapsService } from '../../quickMaps.service';
+import { QuickMapsService } from '../../pages/quickMaps/quickMaps.service';
 
 @Component({
   selector: 'app-quickmaps-no-results',
