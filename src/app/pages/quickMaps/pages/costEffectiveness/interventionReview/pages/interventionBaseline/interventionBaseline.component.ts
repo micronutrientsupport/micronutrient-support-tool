@@ -153,6 +153,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
   }
 
+  public confirmAndContinue(): void {
+    this.interventionDataService.interventionPageConfirmContinue();
+  }
+
   public createBaselineTableObject(): void {
     this.rawBaselineDataArray.push(
       this.baselineAssumptions.actuallyFortified,
