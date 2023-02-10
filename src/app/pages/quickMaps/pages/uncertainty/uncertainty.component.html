@@ -1,5 +1,6 @@
 <mat-fab-menu #fabMenu matTooltip="Dashboard Layout" [matTooltipDisabled]="fabMenu.isActive" class="fab-layout"
-  color="accent" [fabButtons]="layoutOptions" icon="dashboard_customize" (onFabMenuItemSelected)="layoutChange($event)">
+  color="primary" [fabButtons]="layoutOptions" icon="dashboard_customize"
+  (onFabMenuItemSelected)="layoutChange($event)">
 </mat-fab-menu>
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
   <app-uncertainty-description></app-uncertainty-description>

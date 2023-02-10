@@ -24,13 +24,13 @@
       <app-quick-maps-header *ngIf="showHeader"></app-quick-maps-header>
       <router-outlet></router-outlet>
       <div class="help-fab-container">
-        <button mat-fab matTooltip="View help and tour" color="accent" aria-label="View help information and tour"
+        <button mat-fab matTooltip="View help and tour" color="primary" aria-label="View help information and tour"
           (click)="openWelcomeDialog()">
-          <mat-icon>help</mat-icon>
+          <mat-icon>tour</mat-icon>
         </button>
         <button mat-fab matTooltip="Open usability survey" color="primary" aria-label="Open usability survey"
           (click)="openFeedbackSurvey()">
-          <mat-icon>feedback</mat-icon>
+          <mat-icon>add_comment</mat-icon>
         </button>
       </div>
     </div>

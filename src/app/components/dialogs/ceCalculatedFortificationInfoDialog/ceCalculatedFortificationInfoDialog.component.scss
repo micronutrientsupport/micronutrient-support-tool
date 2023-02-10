@@ -1,6 +1,5 @@
 @import 'src/assets/scss/_colour.scss';
-@import 'src/app/components/dialogs/baseDialog/baseDialog.component.scss';
 
-app-base-dialog {
-  width: 1000px;
+.container {
+  flex-direction: column;
 }

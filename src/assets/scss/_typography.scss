@@ -28,3 +28,7 @@ $custom-typography: mat.define-typography-config(
   $body-2: mat.define-typography-level(14px, 20px, 500),
   $button: mat.define-typography-level(14px, 20px, 600, 'Quicksand', normal),
 );
+
+p {
+  color: black;
+}
