@@ -60,7 +60,35 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
+  editRows: number[] = [];
+  editComplete = false;
 
+  public editingIndex;
+  editColumn(index: number) {
+    console.log('edit row data', index);
+
+    this.editingIndex = index;
+
+    `enter code here`;
+  }
+
+  toggleButton(i: number) {
+    // eslint-disable-next-line prefer-const
+    let index = this.editRows.findIndex((x) => x == i);
+
+    if (index == -1) {
+      this.editRows.push(i);
+      this.editComplete = true;
+      console.debug('IF EDITED ROW output row index', this.editRows);
+    } else this.editRows.splice(index, 1);
+  }
+
+  isEditedRow(i: number) {
+    if (i == -1) {
+      this.editComplete = true;
+      return this.editRows.findIndex((x) => x == i) > -1;
+    }
+  }
   public ngAfterViewInit(): void {
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
