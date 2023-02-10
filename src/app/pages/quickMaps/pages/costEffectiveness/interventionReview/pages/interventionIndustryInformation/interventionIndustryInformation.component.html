@@ -15,10 +15,11 @@
           <th mat-header-cell *matHeaderCellDef> 2021 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year0
+                formControlName="year0">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year0 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year0 * 100"
                 (input)="element.year0 = $any($event.target).value / 100" formControlName="year0">
             </div>
           </td>
@@ -27,10 +28,11 @@
           <th mat-header-cell *matHeaderCellDef> 2022 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year1
+                formControlName="year1">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year1 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year1 * 100"
                 (input)="element.year1 = $any($event.target).value / 100" formControlName="year1">
             </div>
           </td>
@@ -39,10 +41,11 @@
           <th mat-header-cell *matHeaderCellDef> 2023 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year2
+                formControlName="year2">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year2 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year2 * 100"
                 (input)="element.year2 = $any($event.target).value / 100" formControlName="year2">
             </div>
           </td>
@@ -51,10 +54,11 @@
           <th mat-header-cell *matHeaderCellDef> 2024 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year3
+                formControlName="year3">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year3 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year3 * 100"
                 (input)="element.year3 = $any($event.target).value / 100" formControlName="year3">
             </div>
           </td>
@@ -63,10 +67,11 @@
           <th mat-header-cell *matHeaderCellDef> 2025 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year4
+                formControlName="year4">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year4 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year4 * 100"
                 (input)="element.year4 = $any($event.target).value / 100" formControlName="year4">
             </div>
           </td>
@@ -75,10 +80,11 @@
           <th mat-header-cell *matHeaderCellDef> 2026 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year5
+                formControlName="year5">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year5 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year5 * 100"
                 (input)="element.year5 = $any($event.target).value / 100" formControlName="year5">
             </div>
           </td>
@@ -87,10 +93,11 @@
           <th mat-header-cell *matHeaderCellDef> 2027</th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year6
+                formControlName="year6">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year6 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year6 * 100"
                 (input)="element.year6 = $any($event.target).value / 100" formControlName="year6">
             </div>
           </td>
@@ -99,10 +106,11 @@
           <th mat-header-cell *matHeaderCellDef> 2028 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year7
+                formControlName="year7">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year7 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year7 * 100"
                 (input)="element.year7 = $any($event.target).value / 100" formControlName="year7">
             </div>
           </td>
@@ -111,10 +119,11 @@
           <th mat-header-cell *matHeaderCellDef> 2029 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year8
+                formControlName="year8">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year8 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year8 * 100"
                 (input)="element.year8 = $any($event.target).value / 100" formControlName="year8">
             </div>
           </td>
@@ -123,20 +132,24 @@
           <th mat-header-cell *matHeaderCellDef> 2030 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year9
+                formControlName="year9">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input type="text" appDecimalInput [value]="element.year9 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year9 * 100"
                 (input)="element.year9 = $any($event.target).value / 100" formControlName="year9">
             </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="source">
           <th mat-header-cell *matHeaderCellDef> Source </th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element let index = index">
             <span>
-              <button mat-button color="primary">
+              <button *ngIf="dirtyIndexes.includes(index) === false" mat-button color="primary">
                 GFDx<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+              <button *ngIf="dirtyIndexes.includes(index)" mat-button color="primary">
+                User Inputed
               </button>
             </span>
           </td>
