@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { filter, map, pairwise, startWith, Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
+  ActuallyFortified,
   BaselineAssumptions,
   InterventionBaselineAssumptions,
+  PotentiallyFortified,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleCompound,
@@ -14,9 +16,9 @@ import {
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormGroup } from '@angular/forms';
+import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -32,7 +34,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public activeNutrientFVS: Array<FoodVehicleStandard>;
 
   public dataSource = new MatTableDataSource();
-  public baselinedisplayedColumns = ['title', 'baseline_value'];
+  public baselinedisplayedColumns = ['title', 'year0'];
 
   public FVdataSource = new MatTableDataSource();
   public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
@@ -41,9 +43,11 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   private subscriptions = new Array<Subscription>();
   public activeInterventionId: string;
-  public form: FormGroup;
-
   public newMnInPremix: MicronutrientDictionaryItem;
+  public rawBaselineDataArray: Array<PotentiallyFortified | ActuallyFortified> = [];
+
+  public form: UntypedFormGroup;
+  public formChanges: InterventionForm['formChanges'] = {};
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -51,6 +55,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private dialogService: DialogService,
     private intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
+    private formBuilder: NonNullableFormBuilder,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
@@ -69,13 +74,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 });
                 this.createFVTableObject(this.activeNutrientFVS);
 
-                void this.interventionDataService
-                  .getInterventionBaselineAssumptions(this.activeInterventionId)
-                  .then((data: InterventionBaselineAssumptions) => {
-                    this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-                    this.createBaselineTableObject();
-                    this.cdr.detectChanges();
-                  });
+                this.initBaselineAssumptionTable();
               }
             });
         }
@@ -84,10 +83,86 @@ export class InterventionBaselineComponent implements AfterViewInit {
     );
   }
 
+  private initBaselineAssumptionTable() {
+    void this.interventionDataService
+      .getInterventionBaselineAssumptions(this.activeInterventionId)
+      .then((data: InterventionBaselineAssumptions) => {
+        this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+        this.cdr.detectChanges();
+
+        this.createBaselineTableObject();
+        const baselineGroupArr = this.rawBaselineDataArray.map((item) => {
+          return this.createBaselineDataGroup(item);
+        });
+        this.form = this.formBuilder.group({
+          items: this.formBuilder.array(baselineGroupArr),
+        });
+        const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
+          return Object.entries(b).filter(([key, value]) => value !== a[key]);
+        };
+        const changes = {};
+
+        this.form.valueChanges
+          .pipe(
+            startWith(this.form.value),
+            pairwise(),
+            map(([oldState, newState]) => {
+              for (const key in newState.items) {
+                const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
+
+                if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
+                  const diff = compareObjs(oldState.items[key], newState.items[key]);
+                  if (Array.isArray(diff) && diff.length > 0) {
+                    diff.forEach((item) => {
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
+                    });
+                  }
+                }
+              }
+              return changes;
+            }),
+            filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
+          )
+          .subscribe((value) => {
+            console.debug(value);
+            this.formChanges = value;
+            const newInterventionChanges = {
+              ...this.interventionDataService.getInterventionDataChanges(),
+              ...this.formChanges,
+            };
+            this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+          });
+      });
+  }
+
+  private createBaselineDataGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
+    return this.formBuilder.group({
+      rowIndex: [item.rowIndex, []],
+      year0: [Number(item.year0), []],
+    });
+  }
+
+  public confirmAndContinue(): void {
+    this.interventionDataService.interventionPageConfirmContinue();
+  }
+
   public createBaselineTableObject(): void {
-    const dataArray = [];
-    dataArray.push(this.baselineAssumptions.actuallyFortified, this.baselineAssumptions.potentiallyFortified);
-    this.dataSource = new MatTableDataSource(dataArray);
+    this.rawBaselineDataArray.push(
+      this.baselineAssumptions.actuallyFortified,
+      this.baselineAssumptions.potentiallyFortified,
+    );
+    this.dataSource = new MatTableDataSource(this.rawBaselineDataArray);
   }
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {

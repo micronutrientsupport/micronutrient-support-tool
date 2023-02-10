@@ -60,7 +60,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
-          console.debug('IndustryInfo: ', data);
           this.dataSource = new MatTableDataSource(data.industryInformation);
           const industryGroupArr = data.industryInformation.map((item) => {
             return this.createIndustryGroup(item);
