@@ -16,6 +16,7 @@ import { pairwise, map, filter, startWith } from 'rxjs/operators';
   styleUrls: ['./interventionIndustryInformation.component.scss'],
 })
 export class InterventionIndustryInformationComponent implements OnInit {
+  public dirtyIndexes = [];
   public displayedColumns: string[] = [
     'labelText',
     'year0',
@@ -147,5 +148,9 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public resetForm() {
     this.form.reset();
+  }
+
+  public storeIndex(index: number) {
+    this.dirtyIndexes.push(index);
   }
 }
