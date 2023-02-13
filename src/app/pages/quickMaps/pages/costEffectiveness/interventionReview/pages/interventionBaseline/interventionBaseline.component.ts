@@ -49,10 +49,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
-  public compoundAvailable = false;
-  public compoundUnavailable = true;
-  public inputTwo = 2;
-  public inputThree = 3;
+  public compoundAvailable = true;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -78,9 +75,12 @@ export class InterventionBaselineComponent implements AfterViewInit {
                   return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
                 });
                 this.createFVTableObject(this.activeNutrientFVS);
-
+                this.compoundAvailable = true;
                 this.initBaselineAssumptionTable();
               }
+            })
+            .catch(() => {
+              this.compoundAvailable = false;
             });
         }
         this.cdr.detectChanges();
@@ -172,10 +172,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
     this.selectedCompound = fvdata[0].compounds[0];
-    console.debug('Compound', this.selectedCompound);
-    this.compoundAvailable = true;
-    this.compoundUnavailable = false;
-
     this.FVdataSource = new MatTableDataSource(fvdata);
   }
 
@@ -195,7 +191,5 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
-    this.dirtyIndexes.push(this.inputTwo);
-    this.dirtyIndexes.push(this.inputThree);
   }
 }
