@@ -1,5 +1,4 @@
 <app-base-dialog [data]="dialogData" [title]="title">
-  <app-dialog-step-details [resetDefaultValues]="true" [showUserValues]="true"></app-dialog-step-details>
   <div class="bmgf-maps-nice-scrollbar">
     <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
       <ng-container matColumnDef="section">
@@ -62,6 +61,7 @@
       <tr class="mat-row" *matNoDataRow></tr>
       <tr mat-footer-row *matFooterRowDef="displayHeaders"></tr>
     </table>
+    <app-dialog-step-details [resetDefaultValues]="true" [showUserValues]="true"></app-dialog-step-details>
     <div class="button-container">
       <button mat-stroked-button (click)="dialogData.close()">Close</button>
     </div>
