@@ -14,6 +14,7 @@ import { NotificationModule } from './notifications/notification.module';
 import { NotFoundComponent } from './notFound/notFound.component';
 import { DownloadComponent } from '../pages/quickMaps/components/download/download.component';
 import { DirectivesModule } from '../directives/directives.module';
+import { NoResultsComponent } from './noResults/noResults.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DirectivesModule } from '../directives/directives.module';
     CardComponent,
     NotFoundComponent,
     DownloadComponent,
+    NoResultsComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { DirectivesModule } from '../directives/directives.module';
     CardComponent,
     NotFoundComponent,
     DownloadComponent,
+    NoResultsComponent,
   ],
 })
 export class ComponentsModule {}

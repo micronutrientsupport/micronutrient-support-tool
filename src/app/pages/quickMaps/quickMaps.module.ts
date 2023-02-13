@@ -21,13 +21,14 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CostEffectivenessModule } from './pages/costEffectiveness/costEffectiveness.module';
-import { NoResultsComponent } from './pages/noResults/noResults.component';
+
 import { InterventionReviewModule } from './pages/costEffectiveness/interventionReview.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { TourService } from 'src/app/services/tour.service';
 import { UncertaintyModule } from './pages/uncertainty/uncertainty.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 @NgModule({
-  declarations: [QuickMapsComponent, LocationSelectComponent, NoResultsComponent],
+  declarations: [QuickMapsComponent, LocationSelectComponent],
   imports: [
     CommonModule,
     QuickMapsRoutingModule,
@@ -48,6 +49,7 @@ import { UncertaintyModule } from './pages/uncertainty/uncertainty.module';
     InterventionReviewModule,
     UncertaintyModule,
     DirectivesModule,
+    ComponentsModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService, TourService],
 })

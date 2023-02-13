@@ -8,7 +8,7 @@ import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
 import { CostEffectivenessComponent } from './pages/costEffectiveness/costEffectiveness.component';
 import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
-import { NoResultsComponent } from './pages/noResults/noResults.component';
+import { NoResultsComponent } from '../../components/noResults/noResults.component';
 import { ProjectionComponent } from './pages/projection/projection.component';
 import { UncertaintyComponent } from './pages/uncertainty/uncertainty.component';
 import { QuickMapsComponent } from './quickMaps.component';
