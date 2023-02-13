@@ -1,4 +1,5 @@
 <app-base-dialog [data]="dialogData" [title]="title">
+  <app-dialog-step-details [resetDefaultValues]="true" [showUserValues]="true"></app-dialog-step-details>
   <div class="bmgf-maps-nice-scrollbar">
     <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
       <ng-container matColumnDef="section">
