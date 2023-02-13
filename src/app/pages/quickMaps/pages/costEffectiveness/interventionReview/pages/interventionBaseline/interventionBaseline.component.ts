@@ -26,6 +26,7 @@ import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./interventionBaseline.component.scss'],
 })
 export class InterventionBaselineComponent implements AfterViewInit {
+  public dirtyIndexes = [];
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
 
@@ -196,5 +197,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
     } else if (value === 2) {
       this.buttonTwoEdited = true;
     }
+  }
+
+  public storeIndex(index: number) {
+    this.dirtyIndexes.push(index);
   }
 }

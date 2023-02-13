@@ -1,0 +1,93 @@
+@import 'src/assets/scss/_colour';
+
+.box {
+  height: 20px;
+  width: 20px;
+  border: 1px solid white;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.purple {
+  background-color: $color_primary;
+}
+
+.blue {
+  background-color: $color_input_blue;
+}
+
+.static-review-elements {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //   padding: 10px;
+
+  .group {
+    &.flex-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+    }
+
+    .flex-row {
+      display: flex;
+    }
+
+    button {
+      &::ng-deep .mdc-button__label {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+.red-icon {
+  color: red;
+}
+.item-bottom-row {
+  flex-grow: 1;
+  justify-content: center;
+  margin: 15px;
+  align-items: center;
+  display: inline-block;
+  white-space: nowrap;
+  justify-content: flex-end;
+}
+
+.item-group {
+  display: inline-block;
+  padding-right: 0.75rem;
+}
+
+.button-wrapper {
+  button {
+    margin: 0;
+    padding: 0 0.25rem;
+
+    span {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.item-reset {
+  margin-left: 0.75rem !important;
+}
+
+.add-mn-button,
+.item-reset {
+  background: transparent;
+}
+
+.add-mn-button {
+  margin-left: 0.5rem;
+  padding: 0 4px 0 4px;
+
+  span {
+    margin-left: 0.5rem;
+  }
+}

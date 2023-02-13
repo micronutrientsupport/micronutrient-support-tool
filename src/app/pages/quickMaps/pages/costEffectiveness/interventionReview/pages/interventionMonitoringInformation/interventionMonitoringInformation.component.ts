@@ -43,19 +43,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     private formBuilder: NonNullableFormBuilder,
   ) {}
 
-  editRows: number[] = [];
-
-  toggleButton(i: number) {
-    // eslint-disable-next-line prefer-const
-    let index = this.editRows.findIndex((x) => x == i);
-
-    if (index == -1) this.editRows.push(i);
-    else this.editRows.splice(index, 1);
-  }
-
-  isEditedRow(i: number) {
-    return this.editRows.findIndex((x) => x == i) > -1;
-  }
   /**
    * Create a table data source from API response, then construct into a FormArray.
    *

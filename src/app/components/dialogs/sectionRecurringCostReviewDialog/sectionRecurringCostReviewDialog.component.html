@@ -1,6 +1,6 @@
 <app-base-dialog [data]="dialogData" [title]="title">
   <div class="bmgf-maps-nice-scrollbar">
-
+    <app-dialog-step-details [resetDefaultValues]="true" [showUserValues]="true"></app-dialog-step-details>
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
         <ng-container matColumnDef="name">

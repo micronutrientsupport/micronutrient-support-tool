@@ -4,6 +4,8 @@
     <div class="title">
       <span>Program Monitoring Information</span>
     </div>
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="labelText">
@@ -130,14 +132,13 @@
         </ng-container>
         <ng-container matColumnDef="year9">
           <th class="column-title" mat-header-cell *matHeaderCellDef> 2030 </th>
-          <td class="column-title" mat-cell *matCellDef="let element; let i = index" [formGroupName]="i"
-            [ngClass]="isEditedRow(i) ? 'editRow' : ''">
+          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input (change)="storeIndex(i)" (change)="toggleButton(i)" type="text" appDecimalInput required
-                [value]=element.year9 formControlName="year9">
+              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year9
+                formControlName="year9">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(i)" type="text" appDecimalInput [value]="element.year9 * 100"
+              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year9 * 100"
                 (input)="element.year9 = $any($event.target).value / 100" formControlName="year9">
             </div>
           </td>
