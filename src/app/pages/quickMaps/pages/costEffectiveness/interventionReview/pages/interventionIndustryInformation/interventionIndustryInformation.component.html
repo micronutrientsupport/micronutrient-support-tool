@@ -4,8 +4,6 @@
     <div class="title">
       <span> Industry Information </span>
     </div>
-    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
-      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="labelText">
@@ -160,6 +158,9 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </form>
+
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button

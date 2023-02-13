@@ -24,7 +24,6 @@ export class PremixTableComponent {
 
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public selectedCompound: FoodVehicleCompound;
-  public buttonOneEdited = false;
 
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;

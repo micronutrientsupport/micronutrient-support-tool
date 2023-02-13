@@ -4,8 +4,6 @@
     <div class="title">
       <span>Program Monitoring Information</span>
     </div>
-    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
-      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="labelText">

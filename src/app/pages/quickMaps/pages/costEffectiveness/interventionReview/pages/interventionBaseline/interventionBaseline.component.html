@@ -37,9 +37,6 @@
           <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
         </table>
       </form>
-      <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-        [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
-      </app-intervention-step-details>
 
       <div class="header-row">
         <div class="title standard">
@@ -162,10 +159,12 @@
       </div>
 
 
-
       <app-micro-nutrients-in-premix-table [editable]="true"
         [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
     </div>
+    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
+      [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
+    </app-intervention-step-details>
   </div>
 
   <footer>
