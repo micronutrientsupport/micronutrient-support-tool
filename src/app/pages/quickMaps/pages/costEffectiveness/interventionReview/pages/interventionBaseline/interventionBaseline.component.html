@@ -80,10 +80,14 @@
             </th>
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
-                <input type="number" matInput required [ngModel]="selectedCompound.targetVal">
+                <input (change)="udpateButtonState(1)" type="number" matInput required
+                  [ngModel]="selectedCompound.targetVal">
                 <span>
-                  <button mat-button color="primary">
-                    GFDx <mat-icon>arrow_right_alt</mat-icon>
+                  <button *ngIf="!buttonOneEdited" mat-button color="primary">
+                    GFDx<mat-icon>arrow_right_alt</mat-icon>
+                  </button>
+                  <button *ngIf="buttonOneEdited" mat-button color="primary">
+                    User Input<mat-icon>arrow_right_alt</mat-icon>
                   </button>
                 </span>
               </ng-container>
@@ -114,11 +118,14 @@
             </th>
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
-                <input type="text" appDecimalInput required
+                <input (change)="udpateButtonState(2)" type="text" appDecimalInput required
                   [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
                 <span>
-                  <button mat-button color="primary">
-                    GFDx <mat-icon>arrow_right_alt</mat-icon>
+                  <button *ngIf="!buttonTwoEdited" mat-button color="primary">
+                    GFDx<mat-icon>arrow_right_alt</mat-icon>
+                  </button>
+                  <button *ngIf="buttonTwoEdited" mat-button color="primary">
+                    User Input<mat-icon>arrow_right_alt</mat-icon>
                   </button>
                 </span>
               </ng-container>
