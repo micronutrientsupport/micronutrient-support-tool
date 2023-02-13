@@ -4,10 +4,10 @@
     <div class="title">
       <span>Baseline Assumptions</span>
     </div>
-    <div *ngIf="this.compoundAvailable === false">
+    <div *ngIf="!this.compoundAvailable">
       <app-quickmaps-no-results></app-quickmaps-no-results>
     </div>
-    <div *ngIf="this.compoundAvailable === true">
+    <div *ngIf="this.compoundAvailable">
       <form [formGroup]="form" *ngIf="form">
 
         <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
@@ -157,11 +157,11 @@
     </div>
   </div>
   <footer>
-    <a *ngIf="compoundUnavailable" class="intervention-navigation" mat-stroked-button
+    <a *ngIf="!compoundAvailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Back</a>
-    <a disabled="{{compoundUnavailable}}" class="intervention-navigation" mat-stroked-button
+    <a [disabled]="!compoundAvailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
-    <button disabled="{{compoundUnavailable}}" class="intervention-navigation-confirm" mat-stroked-button
+    <button [disabled]="!compoundAvailable" class="intervention-navigation-confirm" mat-stroked-button
       [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route" queryParamsHandling="preserve"
       (click)="confirmAndContinue()">Confirm and
       continue</button>
