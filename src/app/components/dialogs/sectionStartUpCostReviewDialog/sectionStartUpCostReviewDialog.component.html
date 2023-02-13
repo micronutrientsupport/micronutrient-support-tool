@@ -1,5 +1,6 @@
 <app-base-dialog [data]="dialogData" [title]="title">
   <div class="bmgf-maps-nice-scrollbar">
+    <app-dialog-step-details [resetDefaultValues]="true" [showUserValues]="true"></app-dialog-step-details>
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
         <ng-container matColumnDef="name">
@@ -51,7 +52,6 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </form>
-
     <div class="button-container">
       <button mat-stroked-button (click)="dialogData.close()">Back</button>
       <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
