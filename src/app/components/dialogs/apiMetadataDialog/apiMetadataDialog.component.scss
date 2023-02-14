@@ -2,8 +2,19 @@
   color: #703aa3;
 }
 
-.title {
-  width: 70%;
-  padding-left: 1em;
-  padding-right: 1em;
+.verison-list {
+  width: 100%;
+}
+.version-chip {
+  margin: 5px 0 5px 0;
+}
+.mdc-list-item__secondary-text {
+  word-wrap: break-word !important;
+  white-space: pre-wrap !important;
+}
+.mat-mdc-list-item.mdc-list-item--with-three-lines {
+  height: initial !important;
+}
+.version-chip {
+  font-family: 'Ubuntu Mono' !important;
 }
