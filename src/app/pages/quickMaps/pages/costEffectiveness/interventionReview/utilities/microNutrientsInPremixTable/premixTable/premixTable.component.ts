@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
@@ -22,8 +24,8 @@ export class PremixTableComponent {
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public selectedCompound: FoodVehicleCompound;
-  // public selectedCompound: Record<number, FoodVehicleStandard> = {};
-  // public selectedCompounds: Array<FoodVehicleStandard> = [];
+  public selectedCompounds: Record<number, FoodVehicleCompound | Record<string, unknown>> = {};
+  public compound: FormGroup;
 
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
@@ -31,16 +33,25 @@ export class PremixTableComponent {
   set micronutrients(micronutrients: FoodVehicleStandard[]) {
     this.data.next(micronutrients);
     if (micronutrients.length > 0) {
-      // const index = this.dataSource.data.length - 1;
-      // this.selectedCompounds.push(micronutrients[0]);
-      // console.log('selectedCompound', this.selectedCompounds);
+      const compound = micronutrients[0].compounds;
+      const index = compound[0].rowIndex;
+
+      this.selectedCompounds[index] = compound[0];
     }
   }
 
+  // private checkForDuplicates(micronutrients: Array<FoodVehicleStandard>): Array<FoodVehicleStandard> {
+  //   if (this.dataSource.data.length > 1) {
+  //     const duplicates = this.dataSource.data.filter(
+  //       (item) => item.micronutrient.trim() === micronutrients[0].micronutrient.trim(),
+  //     );
+  //     return duplicates;
+  //   }
+  //   return [];
+  // }
+
   ngOnInit(): void {
     this.data.subscribe((micronutrients: FoodVehicleStandard[]) => {
-      console.log('data.subscribe', micronutrients);
-
       if (this.dataSource.data.length === 0) {
         if (micronutrients.length > 0) {
           this.initTable(micronutrients);
@@ -69,6 +80,7 @@ export class PremixTableComponent {
   public openFortificationInfoDialog(): void {
     void this.dialogService.openFortificationInfoDialog();
   }
+
   public openCalculatedFortificationInfoDialog(): void {
     void this.dialogService.openCalculatedFortificationInfoDialog();
   }

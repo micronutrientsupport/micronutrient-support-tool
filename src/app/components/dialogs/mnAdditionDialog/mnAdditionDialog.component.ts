@@ -51,7 +51,7 @@ export class MnAdditionDialogComponent {
 
   public filterSortMicronutrients(): void {
     this.interventionDataService
-      .getInterventionFoodVehicleStandards('1')
+      .getInterventionFoodVehicleStandards(this.interventionDataService.getActiveInterventionId())
       .then((data: InterventionFoodVehicleStandards) => {
         if (data != null) {
           const available = data.foodVehicleStandard.map((item) => item.micronutrient.trim());
@@ -67,5 +67,16 @@ export class MnAdditionDialogComponent {
 
   public handleSelectionChange(event: MatSelectChange): void {
     this.micronutrientsSelected = event.value;
+  }
+
+  public alreadyAdded(micronutrientName: string): boolean {
+    const cached = this.interventionDataService.getCachedMnInPremix();
+    if (cached && cached.length > 0) {
+      return (
+        cached.filter((item) => item.micronutrient.trim().toLocaleLowerCase() === micronutrientName.toLocaleLowerCase())
+          .length > 0
+      );
+    }
+    return false;
   }
 }

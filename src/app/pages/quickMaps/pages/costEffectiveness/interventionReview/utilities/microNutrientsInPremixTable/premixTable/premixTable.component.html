@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="dataSource" class="table-full-width">
   <ng-container matColumnDef="micronutrient">
-    <th class="row-title focus " mat-header-cell *matHeaderCellDef>
+    <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
       Micronutrient
     </th>
     <td class="column-title" mat-cell *matCellDef="let element">
@@ -19,12 +19,11 @@
     <th class="row-title-left" mat-header-cell *matHeaderCellDef>
       Compound
     </th>
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title-left" mat-cell *matCellDef="let element; let i = index;">
       <mat-form-field appearance="outline" class="override">
         <mat-select placeholder="Please select a compound" matNativeControl [compareWith]="compareObjects"
           [(ngModel)]="element.selectedCompound" (selectionChange)="handleSelectCompound(element)">
           <mat-option *ngFor="let item of element.compounds" [value]="item">
-            {{ item.id }}
             {{ item.compound }}
           </mat-option>
         </mat-select>
@@ -36,7 +35,7 @@
       point of
       fortification (mg/kg)
     </th>
-    <td class="column-title" mat-cell *matCellDef="let element;">
+    <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <div *ngIf="editable" class="double-cell">
         <input type="number" matInput required
           [ngModel]="element.selectedCompound ? element.selectedCompound.targetVal : '0'">
@@ -57,7 +56,7 @@
         <mat-icon class="icon-display">question_mark</mat-icon>
       </button>
     </th>
-    <td class="column-title" mat-cell *matCellDef="let element;">
+    <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <div class="double-cell">
         <span>
           {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
@@ -82,7 +81,7 @@
         </span>
       </div>
       <div *ngIf="!editable" class="double-cell">
-        {{optionalUserEnteredAverageAtPointOfFortification}}
+        {{ optionalUserEnteredAverageAtPointOfFortification }}
       </div>
     </td>
   </ng-container>
@@ -101,6 +100,10 @@
         baselineAssumptions.actuallyFortified.year0 *
         baselineAssumptions.potentiallyFortified.year0) | sigFig: 3 }}
       </span>
+      <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
+        class="remove-mn" (click)="removeMn(element)">
+        <mat-icon>highlight_off</mat-icon>
+      </button>
     </td>
   </ng-container>
   <div *ngIf="!editable">

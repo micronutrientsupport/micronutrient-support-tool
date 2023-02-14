@@ -8,6 +8,7 @@ import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interv
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import {
+  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
@@ -25,6 +26,8 @@ export const RECENT_INTERVENTIONS = 'recentInterventions';
   providedIn: 'root',
 })
 export class InterventionDataService {
+  private cachedMnInPremix: Array<FoodVehicleStandard> = [];
+  private cachedSelectedCompounds: Record<number, FoodVehicleCompound | Record<string, unknown>> = {};
   public ROUTES = AppRoutes;
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
@@ -179,6 +182,30 @@ export class InterventionDataService {
     this.interventionRecurringCostChangedSrc.next(source);
   }
 
+  public getCachedSelectedCompoundsInMn(): Record<number, FoodVehicleCompound | Record<string, unknown>> {
+    const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
+    const cached = JSON.parse(ls);
+    return cached;
+  }
+
+  public addSelectedCompoundsToCachedPremix(
+    items: Record<number, FoodVehicleCompound | Record<string, unknown>>,
+  ): void {
+    const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
+    const cached = JSON.parse(ls);
+
+    if (cached) {
+      Object.keys(items).forEach((key) => {
+        if (!Object.prototype.hasOwnProperty.call(cached, key)) {
+          this.cachedSelectedCompounds = { ...cached, ...items[key] };
+        }
+      });
+    } else {
+      this.cachedSelectedCompounds = { ...items };
+    }
+    localStorage.setItem('cachedSelectedCompoundsInPremix', JSON.stringify(this.cachedSelectedCompounds));
+  }
+
   public getCachedMnInPremix(): Array<FoodVehicleStandard> | null {
     const ls = localStorage.getItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`);
     const cached = JSON.parse(ls);
@@ -315,6 +342,7 @@ export class InterventionDataService {
 
   public interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
+    console.log(interventionChanges);
     if (interventionChanges) {
       const dataArr = [];
       for (const key in interventionChanges) {
