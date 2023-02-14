@@ -69,7 +69,7 @@ export class MnAdditionDialogComponent {
     this.micronutrientsSelected = event.value;
   }
 
-  public alreadyAdded(micronutrientName: string): boolean {
+  public alreadyAdded(micronutrientName: MicronutrientDictionaryItem['name']): boolean {
     const cached = this.interventionDataService.getCachedMnInPremix();
     if (cached && cached.length > 0) {
       return (
