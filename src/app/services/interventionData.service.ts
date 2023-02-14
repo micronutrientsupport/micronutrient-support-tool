@@ -8,7 +8,6 @@ import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interv
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import {
-  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
@@ -27,7 +26,7 @@ export const RECENT_INTERVENTIONS = 'recentInterventions';
 })
 export class InterventionDataService {
   private cachedMnInPremix: Array<FoodVehicleStandard> = [];
-  private cachedSelectedCompounds: Record<number, FoodVehicleCompound | Record<string, unknown>> = {};
+  private cachedSelectedCompounds: Record<number, string> = {};
   public ROUTES = AppRoutes;
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
@@ -182,26 +181,26 @@ export class InterventionDataService {
     this.interventionRecurringCostChangedSrc.next(source);
   }
 
-  public getCachedSelectedCompoundsInMn(): Record<number, FoodVehicleCompound | Record<string, unknown>> {
+  public getCachedSelectedCompoundsInMn(): Record<number, string> {
     const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
     const cached = JSON.parse(ls);
     return cached;
   }
 
-  public addSelectedCompoundsToCachedPremix(
-    items: Record<number, FoodVehicleCompound | Record<string, unknown>>,
-  ): void {
+  public addSelectedCompoundsToCachedPremix(items: Record<number, string>): void {
     const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
     const cached = JSON.parse(ls);
 
-    if (cached) {
+    if (cached && Object.keys(cached).length > 0) {
       Object.keys(items).forEach((key) => {
         if (!Object.prototype.hasOwnProperty.call(cached, key)) {
-          this.cachedSelectedCompounds = { ...cached, ...items[key] };
+          const newObj = {};
+          newObj[key] = items[key];
+          this.cachedSelectedCompounds = { ...cached, ...newObj };
         }
       });
     } else {
-      this.cachedSelectedCompounds = { ...items };
+      this.cachedSelectedCompounds = items;
     }
     localStorage.setItem('cachedSelectedCompoundsInPremix', JSON.stringify(this.cachedSelectedCompounds));
   }

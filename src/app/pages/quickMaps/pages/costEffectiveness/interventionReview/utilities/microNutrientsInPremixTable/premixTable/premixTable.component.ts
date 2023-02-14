@@ -23,8 +23,7 @@ export class PremixTableComponent {
   public optionalUserEnteredAverageAtPointOfFortification = 0;
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
-  public selectedCompound: FoodVehicleCompound;
-  public selectedCompounds: Record<number, FoodVehicleCompound | Record<string, unknown>> = {};
+  public selectedCompounds: Record<number, string> = {};
   public compound: FormGroup;
 
   @Input() public editable = false;
@@ -36,19 +35,10 @@ export class PremixTableComponent {
       const compound = micronutrients[0].compounds;
       const index = compound[0].rowIndex;
 
-      this.selectedCompounds[index] = compound[0];
+      this.selectedCompounds[index] = compound[0].compound;
+      this.interventionDataService.addSelectedCompoundsToCachedPremix(this.selectedCompounds);
     }
   }
-
-  // private checkForDuplicates(micronutrients: Array<FoodVehicleStandard>): Array<FoodVehicleStandard> {
-  //   if (this.dataSource.data.length > 1) {
-  //     const duplicates = this.dataSource.data.filter(
-  //       (item) => item.micronutrient.trim() === micronutrients[0].micronutrient.trim(),
-  //     );
-  //     return duplicates;
-  //   }
-  //   return [];
-  // }
 
   ngOnInit(): void {
     this.data.subscribe((micronutrients: FoodVehicleStandard[]) => {
