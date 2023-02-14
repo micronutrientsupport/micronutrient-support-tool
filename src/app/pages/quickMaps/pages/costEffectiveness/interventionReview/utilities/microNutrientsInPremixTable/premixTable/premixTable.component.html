@@ -71,9 +71,9 @@
       fortification level
       (mg/kg) among fortifiable food vehicle at point of fortification
     </th>
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <div *ngIf="editable" class="double-cell">
-        <input type="number" matInput required [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
+        <input type="number" matInput required [(ngModel)]="optionalAverages[i]">
         <span>
           <button mat-button>
             GFDx<mat-icon>arrow_right_alt</mat-icon>
@@ -81,7 +81,7 @@
         </span>
       </div>
       <div *ngIf="!editable" class="double-cell">
-        {{ optionalUserEnteredAverageAtPointOfFortification }}
+        {{ optionalAverages[i] }}
       </div>
     </td>
   </ng-container>
@@ -94,14 +94,13 @@
         <mat-icon class="icon-display">question_mark</mat-icon>
       </button>
     </th>
-    <td class="column-title" mat-cell *matCellDef="let element">
+    <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <span>
-        {{ (optionalUserEnteredAverageAtPointOfFortification *
-        baselineAssumptions.actuallyFortified.year0 *
+        {{ (optionalAverages[i] * baselineAssumptions.actuallyFortified.year0 *
         baselineAssumptions.potentiallyFortified.year0) | sigFig: 3 }}
       </span>
       <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
-        class="remove-mn" (click)="removeMn(element)">
+        class="remove-mn" (click)="removeMn(element, element.compounds[0].rowIndex)">
         <mat-icon>highlight_off</mat-icon>
       </button>
     </td>

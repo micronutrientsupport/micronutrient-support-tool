@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
@@ -20,11 +18,11 @@ export class PremixTableComponent {
   constructor(private interventionDataService: InterventionDataService, private dialogService: DialogService) {}
 
   private data = new Subject<FoodVehicleStandard[]>();
-  public optionalUserEnteredAverageAtPointOfFortification = 0;
+  public optionalAverages: Record<number, number> = {};
   public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
-  public selectedCompounds: Record<number, string> = {};
-  public compound: FormGroup;
+  public selectedCompounds: Array<FoodVehicleCompound> = [];
+  public tableIndex: number;
 
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
@@ -32,11 +30,13 @@ export class PremixTableComponent {
   set micronutrients(micronutrients: FoodVehicleStandard[]) {
     this.data.next(micronutrients);
     if (micronutrients.length > 0) {
-      const compound = micronutrients[0].compounds;
-      const index = compound[0].rowIndex;
-
-      this.selectedCompounds[index] = compound[0].compound;
-      this.interventionDataService.addSelectedCompoundsToCachedPremix(this.selectedCompounds);
+      micronutrients.forEach((micronutrient: FoodVehicleStandard, index: number) => {
+        console.log(micronutrient.compounds[0]);
+        this.selectedCompounds.push(micronutrient.compounds[0]);
+        this.selectedCompounds = this.selectedCompounds.filter((x) => x);
+        console.log(this.selectedCompounds);
+        this.optionalAverages[index] = 0;
+      });
     }
   }
 
@@ -56,10 +56,8 @@ export class PremixTableComponent {
     this.dataSource = new MatTableDataSource(mnArr);
   }
 
-  public removeMn(mn: FoodVehicleStandard): void {
-    this.interventionDataService.removeMnFromCachedMnInPremix(mn);
-    this.dataSource.data.splice(this.dataSource.data.indexOf(mn), 1);
-    this.dataSource._updateChangeSubscription();
+  public compareObjects(obj1: Record<string, unknown>, obj2: Record<string, unknown>): boolean {
+    return obj1.compound === obj2.compound && obj1.rowIndex === obj2.rowIndex;
   }
 
   public handleSelectCompound(mn: FoodVehicleStandard): void {
@@ -75,7 +73,7 @@ export class PremixTableComponent {
     void this.dialogService.openCalculatedFortificationInfoDialog();
   }
 
-  public compareObjects(o1: FoodVehicleCompound, o2: FoodVehicleCompound): boolean {
-    return o1.compound === o2.compound;
+  public removeMn(element: any, rowIndex?: number): void {
+    //
   }
 }

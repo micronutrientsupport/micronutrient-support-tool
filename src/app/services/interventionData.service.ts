@@ -8,6 +8,7 @@ import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interv
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import {
+  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
@@ -26,7 +27,7 @@ export const RECENT_INTERVENTIONS = 'recentInterventions';
 })
 export class InterventionDataService {
   private cachedMnInPremix: Array<FoodVehicleStandard> = [];
-  private cachedSelectedCompounds: Record<number, string> = {};
+  private cachedSelectedCompounds: Record<number, FoodVehicleCompound> = {};
   public ROUTES = AppRoutes;
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
@@ -181,28 +182,30 @@ export class InterventionDataService {
     this.interventionRecurringCostChangedSrc.next(source);
   }
 
-  public getCachedSelectedCompoundsInMn(): Record<number, string> {
+  public getCachedSelectedCompoundsInMn(): Record<number, FoodVehicleCompound> {
     const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
     const cached = JSON.parse(ls);
     return cached;
   }
 
-  public addSelectedCompoundsToCachedPremix(items: Record<number, string>): void {
-    const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
-    const cached = JSON.parse(ls);
-
-    if (cached && Object.keys(cached).length > 0) {
-      Object.keys(items).forEach((key) => {
-        if (!Object.prototype.hasOwnProperty.call(cached, key)) {
-          const newObj = {};
-          newObj[key] = items[key];
-          this.cachedSelectedCompounds = { ...cached, ...newObj };
-        }
-      });
-    } else {
-      this.cachedSelectedCompounds = items;
-    }
+  public addSelectedCompoundsToCachedPremix(compound: FoodVehicleCompound, index: number): void {
+    this.cachedSelectedCompounds[index] = compound;
     localStorage.setItem('cachedSelectedCompoundsInPremix', JSON.stringify(this.cachedSelectedCompounds));
+  }
+
+  public removeSelectedCompoundFromCachedMnInPremix(index: number): void {
+    // const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
+    // const cached = JSON.parse(ls);
+    // if (cached) {
+    //   this.cachedSelectedCompounds = cached;
+    // }
+    // if (cached && Object.keys(cached).length > 0) {
+    //   if (Object.prototype.hasOwnProperty.call(cached, index)) {
+    //     delete this.cachedSelectedCompounds[index];
+    //   }
+    // }
+    // localStorage.setItem('cachedSelectedCompoundsInPremix', JSON.stringify(this.cachedSelectedCompounds));
+    // return this.cachedSelectedCompounds;
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> | null {
