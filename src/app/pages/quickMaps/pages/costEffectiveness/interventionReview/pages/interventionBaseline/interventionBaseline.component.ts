@@ -26,6 +26,7 @@ import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
   styleUrls: ['./interventionBaseline.component.scss'],
 })
 export class InterventionBaselineComponent implements AfterViewInit {
+  public dirtyIndexes = [];
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
 
@@ -49,6 +50,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public compoundAvailable = true;
+  public buttonOneEdited = false;
+  public buttonTwoEdited = false;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -139,7 +142,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
             filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
           )
           .subscribe((value) => {
-            console.debug(value);
             this.formChanges = value;
             const newInterventionChanges = {
               ...this.interventionDataService.getInterventionDataChanges(),
@@ -187,5 +189,17 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {
     this.newMnInPremix = micronutrient;
+  }
+
+  public udpateButtonState(value: number): void {
+    if (value === 1) {
+      this.buttonOneEdited = true;
+    } else if (value === 2) {
+      this.buttonTwoEdited = true;
+    }
+  }
+
+  public storeIndex(index: number) {
+    this.dirtyIndexes.push(index);
   }
 }

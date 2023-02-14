@@ -158,9 +158,9 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </form>
+
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>
-
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
