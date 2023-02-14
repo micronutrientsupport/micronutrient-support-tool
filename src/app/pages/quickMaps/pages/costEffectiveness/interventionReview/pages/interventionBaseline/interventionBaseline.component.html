@@ -172,7 +172,7 @@
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Back</a>
     <a [disabled]="!compoundAvailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
-    <button [disabled]="!compoundAvailable" class="intervention-navigation-confirm" mat-stroked-button
+    <button [disabled]="!compoundAvailable" class="intervention-navigation-confirm" mat-flat-button color="primary"
       [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route" queryParamsHandling="preserve"
       (click)="confirmAndContinue()">Confirm and
       continue</button>
