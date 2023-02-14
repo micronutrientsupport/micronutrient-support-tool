@@ -1,36 +1,31 @@
-<app-base-dialog [data]="data">
-  <h2>MAPS Tool Component Versions</h2>
-  <hr>
-
+<app-base-dialog [data]="data" title="MAPS Tool Component Versions">
   <mat-list>
     <mat-list-item>
       <mat-icon matListItemIcon>web</mat-icon>
-      <div class="title" matListItemTitle>Front-End Interface
-        <i class="fas fa-question-circle" matTooltip="The web application you are using to read this text"></i>
-      </div>
-      <div matListItemLine>{{ version }}</div>
+      <div class="title" matListItemTitle>Front-End Interface</div>
+      <div matListItemLine>The web application you are using to read this text.</div>
+      <div matListItemLine class="version-chip"><mat-chip class="version-chip">Version: {{ version }}</mat-chip></div>
     </mat-list-item>
     <mat-list-item>
       <mat-icon matListItemIcon>webhook</mat-icon>
-      <div class="title" matListItemTitle>API
-        <i class="fas fa-question-circle" matTooltip="Interface between the database and front-end application"></i>
-      </div>
-      <div matListItemLine>{{ dataVersions.apiVersion }}</div>
+      <div class="title" matListItemTitle>API</div>
+      <div matListItemLine>Interface between the database and front-end application.</div>
+      <div matListItemLine class="version-chip"><mat-chip class="version-chip">Version: {{ dataVersions.apiVersion
+          }}</mat-chip></div>
     </mat-list-item>
     <mat-list-item>
       <mat-icon matListItemIcon>table_view</mat-icon>
-      <div class="title" matListItemTitle>Data Schema
-        <i class="fas fa-question-circle" matTooltip="Data structures for storing various data types"></i>
-      </div>
-      <div matListItemLine>{{ dataVersions.schemaVersion }}</div>
+      <div class="title" matListItemTitle>Data Schema</div>
+      <div matListItemLine>Data structures for storing various data types.</div>
+      <div matListItemLine class="version-chip"><mat-chip class="version-chip">Version: {{ dataVersions.schemaVersion
+          }}</mat-chip></div>
     </mat-list-item>
     <mat-list-item>
       <mat-icon matListItemIcon>dataset</mat-icon>
-      <div class="title" matListItemTitle>Source Datasets
-        <i class="fas fa-question-circle"
-          matTooltip="The preloaded datasets within the tool (Food composition, Food consumption etc.)"></i>
-      </div>
-      <div matListItemLine>{{ dataVersions.dataVersion }}</div>
+      <div class="title" matListItemTitle>Source Datasets</div>
+      <div matListItemLine>The preloaded datasets within the tool (Food composition, Food consumption etc.).</div>
+      <div matListItemLine class="version-chip"><mat-chip class="version-chip">Version: {{ dataVersions.dataVersion
+          }}</mat-chip></div>
     </mat-list-item>
   </mat-list>
 
