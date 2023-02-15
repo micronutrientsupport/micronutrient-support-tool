@@ -136,22 +136,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
     return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  public defaultFormInput = new FormControl(this.createDefaultIndustryGroup);
-  private createDefaultIndustryGroup(item: IndustryInformation): UntypedFormGroup {
-    return this.formBuilder.group({
-      year0Default: [Number(item.year0Default), []],
-      year1Default: [Number(item.year1Default), []],
-      year2Default: [Number(item.year2Default), []],
-      year3Default: [Number(item.year3Default), []],
-      year4Default: [Number(item.year4Default), []],
-      year5Default: [Number(item.year5Default), []],
-      year6Default: [Number(item.year6Default), []],
-      year7Default: [Number(item.year7Default), []],
-      year8Default: [Number(item.year8Default), []],
-      year9Default: [Number(item.year9Default), []],
-    });
-  }
-
   private createIndustryGroup(item: IndustryInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
