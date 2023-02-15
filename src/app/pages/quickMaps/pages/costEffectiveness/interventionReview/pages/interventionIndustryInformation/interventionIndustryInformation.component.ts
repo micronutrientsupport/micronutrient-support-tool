@@ -7,7 +7,7 @@ import {
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder, FormControl } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 
 @Component({
@@ -121,19 +121,55 @@ export class InterventionIndustryInformationComponent implements OnInit {
     return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
+  public defaultFormInput = new FormControl(this.createDefaultIndustryGroup);
+  private createDefaultIndustryGroup(item: IndustryInformation): UntypedFormGroup {
+    return this.formBuilder.group({
+      year0Default: [Number(item.year0Default), []],
+      year1Default: [Number(item.year1Default), []],
+      year2Default: [Number(item.year2Default), []],
+      year3Default: [Number(item.year3Default), []],
+      year4Default: [Number(item.year4Default), []],
+      year5Default: [Number(item.year5Default), []],
+      year6Default: [Number(item.year6Default), []],
+      year7Default: [Number(item.year7Default), []],
+      year8Default: [Number(item.year8Default), []],
+      year9Default: [Number(item.year9Default), []],
+    });
+  }
+
   private createIndustryGroup(item: IndustryInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],
+      year0Edited: [Number(item.year0Edited), []],
+      year0Default: [Number(item.year0Default), []],
       year1: [Number(item.year1), []],
+      year1Edited: [Number(item.year1Edited), []],
+      year1Default: [Number(item.year1Default), []],
       year2: [Number(item.year2), []],
+      year2Edited: [Number(item.year2Edited), []],
+      year2Default: [Number(item.year2Default), []],
       year3: [Number(item.year3), []],
+      year3Edited: [Number(item.year3Edited), []],
+      year3Default: [Number(item.year3Default), []],
       year4: [Number(item.year4), []],
+      year4Edited: [Number(item.year4Edited), []],
+      year4Default: [Number(item.year4Default), []],
       year5: [Number(item.year5), []],
+      year5Edited: [Number(item.year5Edited), []],
+      year5Default: [Number(item.year5Default), []],
       year6: [Number(item.year6), []],
+      year6Edited: [Number(item.year6Edited), []],
+      year6Default: [Number(item.year6Default), []],
       year7: [Number(item.year7), []],
+      year7Edited: [Number(item.year7Edited), []],
+      year7Default: [Number(item.year7Default), []],
       year8: [Number(item.year8), []],
+      year8Edited: [Number(item.year8Edited), []],
+      year8Default: [Number(item.year8Default), []],
       year9: [Number(item.year9), []],
+      year9Edited: [Number(item.year9Edited), []],
+      year9Default: [Number(item.year9Default), []],
     });
   }
 
