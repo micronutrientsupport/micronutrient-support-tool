@@ -20,7 +20,7 @@
             10-year total cost: <strong>{{ intervention.tenYearTotalCost | currency }}</strong>
           </div>
           <div class="item">
-            Last updated: <strong>{{today | date:'medium'}}</strong>
+            Last updated: <strong>{{(intervention.lastEdited | date:'medium') || 'Not available'}}</strong>
           </div>
         </div>
       </div>

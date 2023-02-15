@@ -5,7 +5,7 @@ import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/ob
 import { DialogData } from '../baseDialogService.abstract';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -63,6 +63,20 @@ export class SectionRecurringCostReviewDialogComponent {
       this.form = this.formBuilder.group({
         items: this.formBuilder.array(reucrringGroupArr),
       });
+
+      // Mark fields as touched/dirty if they have been previously edited and stored via the API
+      this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+        let yearIndex = 0;
+        Object.keys(formRow.controls).forEach((key: string) => {
+          if (key === 'year' + yearIndex) {
+            if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
+              formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+            }
+            yearIndex++;
+          }
+        });
+      });
+
       const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
         return Object.entries(b).filter(([key, value]) => value !== a[key]);
       };
@@ -119,15 +133,25 @@ export class SectionRecurringCostReviewDialogComponent {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],
+      year0Edited: [Boolean(item.year0Edited), []],
       year1: [Number(item.year1), []],
+      year1Edited: [Boolean(item.year1Edited), []],
       year2: [Number(item.year2), []],
+      year2Edited: [Boolean(item.year2Edited), []],
       year3: [Number(item.year3), []],
+      year3Edited: [Boolean(item.year3Edited), []],
       year4: [Number(item.year4), []],
+      year4Edited: [Boolean(item.year4Edited), []],
       year5: [Number(item.year5), []],
+      year5Edited: [Boolean(item.year5Edited), []],
       year6: [Number(item.year6), []],
+      year6Edited: [Boolean(item.year6Edited), []],
       year7: [Number(item.year7), []],
+      year7Edited: [Boolean(item.year7Edited), []],
       year8: [Number(item.year8), []],
+      year8Edited: [Boolean(item.year8Edited), []],
       year9: [Number(item.year9), []],
+      year9Edited: [Boolean(item.year9Edited), []],
     });
   }
 

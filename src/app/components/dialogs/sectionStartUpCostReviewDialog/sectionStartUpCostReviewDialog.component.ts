@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { StartUpCostBreakdown, StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { DialogData } from '../baseDialogService.abstract';
-import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 
@@ -48,6 +48,20 @@ export class SectionStartUpCostReviewDialogComponent {
       this.form = this.formBuilder.group({
         items: this.formBuilder.array(startupGroupArr),
       });
+
+      // Mark fields as touched/dirty if they have been previously edited and stored via the API
+      this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+        let yearIndex = 0;
+        Object.keys(formRow.controls).forEach((key: string) => {
+          if (key === 'year' + yearIndex) {
+            if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
+              formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+            }
+            yearIndex++;
+          }
+        });
+      });
+
       const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
         return Object.entries(b).filter(([key, value]) => value !== a[key]);
       };
@@ -104,7 +118,9 @@ export class SectionStartUpCostReviewDialogComponent {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],
+      year0Edited: [Boolean(item.year0Edited), []],
       year1: [Number(item.year1), []],
+      year1Edited: [Boolean(item.year1Edited), []],
     });
   }
 
