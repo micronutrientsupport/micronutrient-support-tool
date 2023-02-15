@@ -344,7 +344,8 @@ export class InterventionDataService {
 
   public interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
-    console.log(interventionChanges);
+    console.log('INTERVENTION CHANGES', interventionChanges);
+
     if (interventionChanges) {
       const dataArr = [];
       for (const key in interventionChanges) {

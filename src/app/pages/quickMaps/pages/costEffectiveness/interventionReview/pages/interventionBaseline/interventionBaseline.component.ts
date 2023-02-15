@@ -55,6 +55,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public buttonTwoEdited = false;
 
   public dataLoaded = false;
+  public focusMnForm: UntypedFormGroup;
+  public focusMnData: Array<Record<string, unknown>> = [];
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -67,6 +69,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+  }
+
+  public ngOnInit(): void {
+    this.initFocusMicronutrientTable();
   }
 
   public ngAfterViewInit(): void {
@@ -83,6 +89,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 this.createFVTableObject(this.activeNutrientFVS);
                 this.compoundAvailable = true;
                 this.initBaselineAssumptionTable();
+
+                this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
+                // this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
               }
             })
             .catch(() => {
@@ -92,6 +101,34 @@ export class InterventionBaselineComponent implements AfterViewInit {
         this.cdr.detectChanges();
       }),
     );
+  }
+
+  private initFocusMicronutrientTable(): void {
+    this.focusMnForm = this.formBuilder.group({
+      compound: ['', Validators.required],
+      targetVal: [''],
+      optFort: [''],
+    });
+    this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value)).subscribe((changes) => {
+      if (changes.targetVal !== '') {
+        this.selectedCompound = changes.compound;
+
+        const changesArr = this.focusMnData.filter((item) => item.rowIndex === changes.compound.rowIndex);
+        if (changesArr.length === 0) {
+          this.focusMnData.push({
+            rowIndex: changes.compound.rowIndex,
+          });
+        } else {
+          changesArr[0].year0 = changes.targetVal;
+        }
+
+        const newInterventionChanges = {
+          ...this.interventionDataService.getInterventionDataChanges(),
+          ...changesArr,
+        };
+        this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+      }
+    });
   }
 
   private initBaselineAssumptionTable() {
@@ -200,6 +237,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
     this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
+
+    this.focusMnForm.get('compound').setValue(this.selectedCompound);
+    this.cdr.detectChanges();
   }
 
   public openFortificationInfoDialog(): void {
