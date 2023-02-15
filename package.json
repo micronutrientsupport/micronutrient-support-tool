@@ -64,7 +64,7 @@
     "leaflet": "^1.9.3",
     "moment-es6": "^1.0.0",
     "ng-customer-feedback-maps": "^0.0.2",
-    "ngx-papaparse": "^5.1.0",
+    "ngx-papaparse": "^7.0.0",
     "ngx-sharebuttons": "11.0.0",
     "quickchart-js": "git+https://github.com/micronutrientsupport/quickchart-js.git",
     "rxjs": "^7.8.0",
