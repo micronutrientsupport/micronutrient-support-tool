@@ -18,7 +18,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -161,6 +161,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],
+      year0Edited: [Number(item.year0Edited), []],
+      year0Default: [Number(item.year0Default), []],
     });
   }
 
@@ -189,7 +191,22 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public resetForm() {
-    this.form.reset();
+    // set fields to default values as delivered per api
+    this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+      let yearIndex = 0;
+      Object.keys(formRow.controls).forEach((key: string) => {
+        if (key === 'year' + yearIndex) {
+          if (formRow.controls['year' + yearIndex + 'Default'].value !== formRow.controls['year' + yearIndex].value) {
+            formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value); // set the default value
+          }
+          yearIndex++;
+        }
+      });
+    });
+    //on reset mark forma as pristine to remove blue highlights
+    this.form.markAsPristine();
+    //remove dirty indexes to reset button to GFDx input
+    this.dirtyIndexes.splice(0);
   }
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {

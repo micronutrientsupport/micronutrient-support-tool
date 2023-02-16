@@ -224,8 +224,8 @@
       </table>
     </div>
     <app-micro-nutrients-in-premix-table [editable]="false"></app-micro-nutrients-in-premix-table>
-    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-      [showAddMicronutrient]="false" [showMnUnits]="true"></app-intervention-step-details>
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showAddMicronutrient]="false" [showMnUnits]="true"></app-intervention-step-details>
 
   </div>
   <footer>
