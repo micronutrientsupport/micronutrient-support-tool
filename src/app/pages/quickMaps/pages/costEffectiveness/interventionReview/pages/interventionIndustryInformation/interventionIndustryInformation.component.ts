@@ -38,6 +38,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
+  public dataLoaded = false;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -68,6 +69,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
           this.form = this.formBuilder.group({
             items: this.formBuilder.array(industryGroupArr),
           });
+
+          this.dataLoaded = true;
 
           // Mark fields as touched/dirty if they have been previously edited and stored via the API
           this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {

@@ -58,6 +58,8 @@ export class InterventionComplianceComponent implements OnInit {
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
+  public dataLoaded = false;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
@@ -80,6 +82,8 @@ export class InterventionComplianceComponent implements OnInit {
                 this.form = this.formBuilder.group({
                   items: this.formBuilder.array(assumptionsGroupArr),
                 });
+
+                this.dataLoaded = true;
 
                 // Mark fields as touched/dirty if they have been previously edited and stored via the API
                 this.form.controls.items['controls'].forEach((formRow: FormGroup) => {

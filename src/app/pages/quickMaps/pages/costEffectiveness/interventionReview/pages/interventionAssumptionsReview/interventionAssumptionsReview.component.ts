@@ -54,6 +54,8 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
 
+  public dataLoaded = false;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
@@ -89,6 +91,7 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
     const dataArray = [];
     const rawData = data.baselineAssumptions as BaselineAssumptions;
     dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
+    this.dataLoaded = true;
     this.dataSource = new MatTableDataSource(dataArray);
     this.createAvNutrientLevelTable(rawData);
   }

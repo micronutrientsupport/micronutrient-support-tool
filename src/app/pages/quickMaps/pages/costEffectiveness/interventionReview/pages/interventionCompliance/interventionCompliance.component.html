@@ -4,6 +4,9 @@
     <div class="title">
       <span>Review of program assumptions</span>
     </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
+
     <form [formGroup]="form" *ngIf="form">
 
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
