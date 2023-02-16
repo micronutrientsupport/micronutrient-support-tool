@@ -200,6 +200,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
     //on reset mark forma as pristine to remove blue highlights
     this.form.markAsPristine();
+    //remove dirty indexes to reset button to GFDx input
+    this.dirtyIndexes.splice(0);
   }
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {
