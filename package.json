@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@angular-material-extensions/fab-menu": "^6.1.0",
-    "@angular/animations": "^15.1.4",
+    "@angular/animations": "^15.1.5",
     "@angular/cdk": "^15.1.4",
     "@angular/common": "^15.1.4",
     "@angular/compiler": "^15.1.4",
