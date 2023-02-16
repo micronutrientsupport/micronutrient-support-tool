@@ -119,8 +119,10 @@ export class SectionStartUpCostReviewDialogComponent {
       rowIndex: [item.rowIndex, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
+      year0Default: [Number(item.year0Default), []],
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
+      year1Default: [Number(item.year1Default), []],
     });
   }
 
@@ -137,5 +139,20 @@ export class SectionStartUpCostReviewDialogComponent {
     } else {
       this.dialogData.close();
     }
+  }
+
+  public resetForm() {
+    // set fields to default values as delivered per api
+    this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+      let yearIndex = 0;
+      Object.keys(formRow.controls).forEach((key: string) => {
+        if (key === 'year' + yearIndex) {
+          if (formRow.controls['year' + yearIndex + 'Default'].value !== formRow.controls['year' + yearIndex].value) {
+            formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value); // set the default value
+          }
+          yearIndex++;
+        }
+      });
+    });
   }
 }
