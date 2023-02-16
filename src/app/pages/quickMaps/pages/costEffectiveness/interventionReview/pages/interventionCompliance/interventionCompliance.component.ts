@@ -90,6 +90,9 @@ export class InterventionComplianceComponent implements OnInit {
                   let yearIndex = 0;
                   Object.keys(formRow.controls).forEach((key: string) => {
                     if (key === 'year' + yearIndex) {
+                      if (formRow.controls['isEditable'].value === false) {
+                        formRow.controls[key].disable();
+                      }
                       if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
                         formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
                       }
@@ -199,6 +202,7 @@ export class InterventionComplianceComponent implements OnInit {
   private createAssumptionGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
