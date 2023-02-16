@@ -41,7 +41,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public FVdataSource = new MatTableDataSource();
   public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
-  public optionalUserEnteredAverageAtPointOfFortification = 0;
+  public optionalUserEnteredAverageAtPointOfFortification = '0';
 
   private subscriptions = new Array<Subscription>();
   public activeInterventionId: string;
@@ -91,7 +91,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 this.initBaselineAssumptionTable();
 
                 this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
-                // this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
+                this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
               }
             })
             .catch(() => {
@@ -107,11 +107,14 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.focusMnForm = this.formBuilder.group({
       compound: ['', Validators.required],
       targetVal: [''],
-      optFort: [''],
+      optFort: [this.optionalUserEnteredAverageAtPointOfFortification],
     });
+
     this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value)).subscribe((changes) => {
       if (changes.targetVal !== '') {
         this.selectedCompound = changes.compound;
+        this.selectedCompound.targetVal = changes.targetVal;
+        this.optionalUserEnteredAverageAtPointOfFortification = changes.optFort;
 
         const changesArr = this.focusMnData.filter((item) => item.rowIndex === changes.compound.rowIndex);
         if (changesArr.length === 0) {
@@ -272,7 +275,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.newMnInPremix = micronutrient;
   }
 
-  public udpateButtonState(value: number): void {
+  public updateButtonState(value: number): void {
     if (value === 1) {
       this.buttonOneEdited = true;
     } else if (value === 2) {
@@ -293,5 +296,11 @@ export class InterventionBaselineComponent implements AfterViewInit {
       this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
       this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
     }
+  }
+
+  public getCalculatedAverage(actuallyFortified: number, potentiallyFortified: number): string {
+    const calc =
+      Number(this.optionalUserEnteredAverageAtPointOfFortification) * actuallyFortified * potentiallyFortified;
+    return String(calc);
   }
 }
