@@ -9,10 +9,12 @@
           <p>Quick summary overview shows the total and discounted intervention costs for the upcoming 10 years.</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
             <mat-tab label="Table">
-
+              <app-reusable-skeleton-table *ngIf="!summaryCosts"
+                [setData]="{ columns: 11, rows: 1 }"></app-reusable-skeleton-table>
               <app-intervention-cost-summary-quick-undiscounted-table *ngIf="null != summaryCosts"
                 [summaryCosts]="summaryCosts">
               </app-intervention-cost-summary-quick-undiscounted-table>
+
               <app-intervention-cost-summary-quick-discounted-table *ngIf="null != summaryCosts"
                 [summaryCosts]="summaryCosts">
               </app-intervention-cost-summary-quick-discounted-table>

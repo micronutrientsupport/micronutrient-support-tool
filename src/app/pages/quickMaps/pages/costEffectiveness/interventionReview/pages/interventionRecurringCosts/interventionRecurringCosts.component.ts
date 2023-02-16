@@ -29,6 +29,7 @@ export class InterventionRecurringCostsComponent implements OnInit {
   ];
 
   private subscriptions = new Array<Subscription>();
+  public dataLoaded = false;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -39,6 +40,8 @@ export class InterventionRecurringCostsComponent implements OnInit {
       void this.interventionDataService
         .getInterventionRecurringCosts(activeInterventionId)
         .then((data: InterventionRecurringCosts) => {
+          this.dataLoaded = true;
+          console.log('bing');
           this.recurringCosts = data.recurringCosts;
           // console.debug('initial: ', this.recurringCosts);
         });
@@ -52,6 +55,7 @@ export class InterventionRecurringCostsComponent implements OnInit {
             void this.interventionDataService
               .getInterventionRecurringCosts(activeInterventionId)
               .then((data: InterventionRecurringCosts) => {
+                this.dataLoaded = true;
                 this.recurringCosts = data.recurringCosts;
               });
           }

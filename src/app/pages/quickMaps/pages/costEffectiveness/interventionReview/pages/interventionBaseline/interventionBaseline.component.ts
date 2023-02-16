@@ -53,6 +53,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public buttonOneEdited = false;
   public buttonTwoEdited = false;
 
+  public dataLoaded = false;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private interventionDataService: InterventionDataService,
@@ -104,6 +106,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
         this.form = this.formBuilder.group({
           items: this.formBuilder.array(baselineGroupArr),
         });
+
+        this.dataLoaded = true;
+
         const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
           return Object.entries(b).filter(([key, value]) => value !== a[key]);
         };

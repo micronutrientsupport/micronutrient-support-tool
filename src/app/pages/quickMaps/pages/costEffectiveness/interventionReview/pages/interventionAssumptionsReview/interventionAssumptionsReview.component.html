@@ -4,6 +4,9 @@
     <div class="title">
       <span>Review of program assumptions</span>
     </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
+
     <table class="no-margin" mat-table [dataSource]="dataSource" matSort class="table-full-width">
       <ng-container matColumnDef="title">
         <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention year</th>

@@ -9,6 +9,7 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+
 @Component({
   selector: 'app-intervention-monitoring-information',
   templateUrl: './interventionMonitoringInformation.component.html',
@@ -37,6 +38,8 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public userInput = false;
+  public dataLoaded = false;
+
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
@@ -66,7 +69,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
           this.form = this.formBuilder.group({
             items: this.formBuilder.array(monitoringGroupArr),
           });
-
+          this.dataLoaded = true;
           // Mark fields as touched/dirty if they have been previously edited and stored via the API
           this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
             let yearIndex = 0;

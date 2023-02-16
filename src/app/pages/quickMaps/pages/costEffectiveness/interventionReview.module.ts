@@ -41,6 +41,8 @@ import { PremixTableComponent } from './interventionReview/utilities/microNutrie
 import { AvgMnTableComponent } from './interventionReview/utilities/avgMnTable/avgMnTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { AddMicronutrientComponent } from './interventionReview/components/add-m
     InterventionCostSummaryDetailedCostsGraphComponent,
     ReusableCostGraphComponent,
     ReusableCostTableComponent,
+    ReusableSkeletonTableComponent,
     InterventionStepDetailsComponent,
     MicroNutrientsInPremixTableComponent,
     PremixTableComponent,
@@ -85,6 +88,7 @@ import { AddMicronutrientComponent } from './interventionReview/components/add-m
     PipesModule,
     ComponentsModule,
     DirectivesModule,
+    NgxSkeletonLoaderModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],

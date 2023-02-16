@@ -15,6 +15,7 @@ import { FeatureFlagsService } from './services/featureFlags.service';
 import { DirectivesModule } from './directives/directives.module';
 import { NgCustomerFeedbackMapsModule } from 'ng-customer-feedback-maps';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [AppComponent, FeedbackComponent],
@@ -35,6 +36,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     }),
     DirectivesModule,
     NgCustomerFeedbackMapsModule,
+    NgxSkeletonLoaderModule,
   ],
   exports: [],
   providers: [

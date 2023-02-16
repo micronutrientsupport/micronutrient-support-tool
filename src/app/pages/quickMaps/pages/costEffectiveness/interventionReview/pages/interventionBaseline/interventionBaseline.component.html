@@ -8,6 +8,10 @@
       <app-quickmaps-no-results></app-quickmaps-no-results>
     </div>
     <div *ngIf="this.compoundAvailable">
+
+      <app-reusable-skeleton-table *ngIf="!dataLoaded"
+        [setData]="{ columns: 3, rows: 2 }"></app-reusable-skeleton-table>
+
       <form [formGroup]="form" *ngIf="form">
 
         <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">

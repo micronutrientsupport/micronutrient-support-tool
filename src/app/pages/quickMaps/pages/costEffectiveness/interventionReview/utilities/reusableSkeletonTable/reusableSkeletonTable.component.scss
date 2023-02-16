@@ -1,0 +1,18 @@
+@import 'src/assets/scss/_colour.scss';
+
+table {
+  width: 95%;
+  margin-left: 2em;
+  background: none;
+  th.mat-mdc-header-cell {
+    border-bottom-color: rgba(0, 0, 0, 0);
+    padding: 5px !important;
+  }
+  td.mat-mdc-cell {
+    border-bottom-color: rgba(0, 0, 0, 0);
+    padding: 5px !important;
+  }
+  tr.mat-mdc-footer-row {
+    font-weight: bold;
+  }
+}
