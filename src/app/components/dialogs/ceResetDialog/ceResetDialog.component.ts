@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InterventionMonitoringInformation } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
 import { DialogData } from '../baseDialogService.abstract';
 
@@ -10,7 +10,7 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class CeResetDialogComponent implements OnInit {
   public monitoringInformation: InterventionMonitoringInformation;
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData) {
     //add content
   }
 
@@ -19,12 +19,12 @@ export class CeResetDialogComponent implements OnInit {
   }
   public closeDialog(): void {
     this.dialogData.dataOut = false;
-    this.dialog.closeAll();
+    this.dialogData.close();
   }
 
   public resetAll(): void {
     //reset all needes to only reset values in the current review component
     this.dialogData.dataOut = true;
-    this.dialog.closeAll();
+    this.dialogData.close();
   }
 }

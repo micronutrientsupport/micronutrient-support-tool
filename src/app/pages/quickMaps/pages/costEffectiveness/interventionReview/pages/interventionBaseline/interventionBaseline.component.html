@@ -162,8 +162,8 @@
       <app-micro-nutrients-in-premix-table [editable]="true"
         [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
     </div>
-    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-      [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
     </app-intervention-step-details>
   </div>
 
