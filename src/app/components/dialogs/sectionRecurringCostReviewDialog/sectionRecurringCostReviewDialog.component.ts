@@ -195,5 +195,7 @@ export class SectionRecurringCostReviewDialogComponent {
         }
       });
     });
+    //on reset mark forma as pristine to remove blue highlights
+    this.form.markAsPristine();
   }
 }

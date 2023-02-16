@@ -194,6 +194,8 @@ export class InterventionMonitoringInformationComponent implements OnInit {
         }
       });
     });
+    //on reset mark forma as pristine to remove blue highlights
+    this.form.markAsPristine();
   }
 
   public storeIndex(index: number) {
