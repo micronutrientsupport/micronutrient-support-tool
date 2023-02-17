@@ -56,15 +56,16 @@ footer {
   .focus-mn {
     display: flex;
     flex-direction: column;
-    margin-top: 2.5em;
+    justify-content: center;
+    font-family: 'Ubuntu Mono';
 
     .sub-header {
-      margin-left: 1.5em;
+      margin-left: 0em;
     }
 
     span {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
 
     .mn-title {
