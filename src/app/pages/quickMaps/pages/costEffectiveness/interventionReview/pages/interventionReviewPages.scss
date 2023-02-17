@@ -93,6 +93,14 @@ table {
   }
 }
 
+input {
+  &:disabled {
+    background-color: $color_grey;
+    border: 0px;
+    color: white;
+  }
+}
+
 // user edited values
 input.ng-dirty {
   color: $color_input_blue;

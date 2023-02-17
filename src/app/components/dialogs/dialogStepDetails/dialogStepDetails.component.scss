@@ -3,19 +3,19 @@
 .box {
   height: 20px;
   width: 20px;
-  border: 1px solid white;
   display: inline-block;
   vertical-align: middle;
   border-radius: 5px;
   margin: 5px;
-}
-
-.purple {
-  background-color: $color_primary;
-}
-
-.blue {
-  background-color: $color_input_blue;
+  &.purple {
+    background-color: $color_primary;
+  }
+  &.blue {
+    border: 1px solid $color_input_blue;
+  }
+  &.grey {
+    background-color: $color_grey;
+  }
 }
 
 .static-review-elements {
@@ -30,7 +30,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 90%;
+      width: 100%;
     }
 
     .flex-row {
@@ -60,7 +60,6 @@
 
 .item-group {
   display: inline-block;
-  padding-right: 0.75rem;
 }
 
 .button-wrapper {

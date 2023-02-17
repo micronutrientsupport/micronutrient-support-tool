@@ -160,6 +160,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   private createBaselineDataGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
       year0Edited: [Number(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
