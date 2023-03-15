@@ -72,7 +72,7 @@
             [placeholder]="'Select ' + groupMND?.value + ' option'">
             <mat-option *ngFor="let mnd of selectMNDsFiltered" [value]="mnd">{{ mnd.name }}</mat-option>
           </mat-select>
-          <mat-error>Please select MND ({{groupMND.value}})</mat-error>
+          <mat-error>Please select a ({{groupMND.value}})</mat-error>
         </mat-form-field>
       </ng-container>
     </fieldset>
@@ -82,21 +82,21 @@
       tourTitle="Select underlying metric" tourPosition="right">
       <legend>
         <div class="field-title">
-          <h2>Measure of nutrient deficiency</h2>
-          <i class="fas fa-question-circle" matTooltip="Select diet proxy or biomarker, if both are available"></i>
+          <h2>Data to use</h2>
+          <i class="fas fa-question-circle" matTooltip="Select food systems or biomarker, if both are available"></i>
         </div>
       </legend>
       <div class="toggle-buttons">
-        <mat-button-toggle-group aria-label="Measure of MNDs" formControlName="measure">
+        <mat-button-toggle-group aria-label="Data to use" formControlName="measure">
           <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.FOOD_SYSTEMS" [disabled]="!measureDietEnabled">
-            Diet Data
+            Food Systems
           </mat-button-toggle>
           <!-- <mat-button-toggle #biomarkerToggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
             [disabled]="!measureBiomarkerEnabled">
             Biomarker Data
           </mat-button-toggle> -->
           <mat-button-toggle disabled matTooltip="This feature is under development and currently not available">
-            Biomarker Data
+            Biomarkers
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
