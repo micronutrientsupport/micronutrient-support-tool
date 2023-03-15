@@ -17,19 +17,22 @@
           </div>
           <div class="item">
             Data level:
-            <strong class="capitalize-text"> {{ (quickMapsService.dietDataSource.obs | async)?.dataLevel }} </strong>
+            <strong class="capitalize-text"> {{ (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel }}
+            </strong>
           </div>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description" *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
+    <div class="description"
+      *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
       <p>These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall
         of
         household-level data. These proxy for consumption is joined to locally relevant food composition table data.
         These apparent intake values do not account for intake via fortification
       </p>
     </div>
-    <div class="description" *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
+    <div class="description"
+      *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
       <p>These data present ‘nutrient availability’ of micronutrients, calculated from commodity statistics reported to
         FAO
         at the national level. This proxy for consumption is joined to locally relevant food composition table.
@@ -43,7 +46,7 @@
           <p>
             <strong>
               {{ matches[0].matchedCountPerc | number : '1.2-2' }}%</strong> of food items
-            listed in <em> {{ quickMapsService.dietDataSource.get().consumptionDataName }}</em>
+            listed in <em> {{ quickMapsService.FoodSystemsDataSource.get().consumptionDataName }}</em>
             were matched to <em> {{
               matches[0].matchedFctName }}</em> food composition table (FCT).
             <strong>{{ matchedTotals.matchedCount - matches[0].matchedCountPerc | number : '1.2-2' }}%</strong> of

@@ -2,7 +2,7 @@ import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryItem';
 import { CurrentConsumption } from '../../objects/currentConsumption';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
@@ -33,6 +33,6 @@ export class GetCurrentConsumption extends Endpoint<CurrentConsumption, GetCurre
 }
 
 export interface GetCurrentConsumptionParams {
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   foodItem: FoodDictionaryItem;
 }

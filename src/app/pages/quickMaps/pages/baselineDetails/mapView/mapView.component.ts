@@ -125,15 +125,15 @@ export class MapViewComponent implements AfterViewInit {
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource.get();
+          const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
 
           this.title =
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD
               ? 'Median apparent intake of '
               : 'Median nutrient availability') +
             micronutrient.name +
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) at ' : ' (per capita) at ') +
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) at ' : ' (per capita) at ') +
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
             ' level, ' +
             country.name;
           this.downloadTitle = 'Baseline Map';
@@ -142,8 +142,8 @@ export class MapViewComponent implements AfterViewInit {
           }
 
           //  only if all set
-          if (null != country && null != micronutrient && null != dietDataSource) {
-            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, dietDataSource));
+          if (null != country && null != micronutrient && null != FoodSystemsDataSource) {
+            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, FoodSystemsDataSource));
           }
         }),
       );
@@ -335,7 +335,7 @@ export class MapViewComponent implements AfterViewInit {
   private getTooltip(feature: FEATURE_TYPE): string {
     const props = feature.properties;
 
-    if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
+    if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
       const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
       return `
       <div>

@@ -90,7 +90,7 @@ export class FoodItemsComponent implements AfterViewInit {
         // respond to parameter updates
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource.get();
+          const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
           this.title =
             'Top 20 food items apparent intake for ' +
             micronutrient?.name +
@@ -99,8 +99,8 @@ export class FoodItemsComponent implements AfterViewInit {
           this.card.title = this.title;
 
           //  only if all set
-          if (null != micronutrient && null != dietDataSource) {
-            this.init(this.dietDataService.getTopFoods(micronutrient, dietDataSource));
+          if (null != micronutrient && null != FoodSystemsDataSource) {
+            this.init(this.dietDataService.getTopFoods(micronutrient, FoodSystemsDataSource));
           }
         }),
         this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -228,7 +228,7 @@ export class FoodItemsComponent implements AfterViewInit {
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
               const mnUnit = this.mnUnit;
-              if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.COUNTRY) {
+              if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
                 return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/capita/day`;
               } else {
                 return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;

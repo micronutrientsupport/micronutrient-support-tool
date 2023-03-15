@@ -128,12 +128,12 @@ export class ComparisonCardComponent implements AfterViewInit {
   private updateBaselineData(): void {
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const dietDataSource = this.quickMapsService.dietDataSource.get();
+    const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
 
-    if (null != country && null != micronutrient && null != dietDataSource) {
+    if (null != country && null != micronutrient && null != FoodSystemsDataSource) {
       this.startLoading();
       this.dietDataService
-        .getMicronutrientAvailability(country, micronutrient, dietDataSource)
+        .getMicronutrientAvailability(country, micronutrient, FoodSystemsDataSource)
         .then((data: ExtendedRespose<MnAvailibiltyItem>) => {
           this.baselineData = data.data;
 
@@ -159,13 +159,13 @@ export class ComparisonCardComponent implements AfterViewInit {
   }
   private updateScenarioData(): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const dietDataSource = this.quickMapsService.dietDataSource.get();
+    const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
     const useableChangeItems = this.dietaryChangeService.changeItems.get().filter((item) => item.isComplete);
 
-    if (null != micronutrient && null != dietDataSource && useableChangeItems.length > 0) {
+    if (null != micronutrient && null != FoodSystemsDataSource && useableChangeItems.length > 0) {
       this.startLoading();
       this.scenarioDataService
-        .getDietChange(dietDataSource, micronutrient, this.dietaryChangeService.mode.get(), useableChangeItems)
+        .getDietChange(FoodSystemsDataSource, micronutrient, this.dietaryChangeService.mode.get(), useableChangeItems)
         .then((data: Array<MnAvailibiltyItem>) => {
           this.scenarioData = data;
         })

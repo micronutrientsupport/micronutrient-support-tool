@@ -42,7 +42,7 @@ export class Intervention extends BaseObject implements Named {
     this.name = this._getString(Intervention.KEYS.NAME);
     this.description = this._getString(Intervention.KEYS.DESCRIPTION);
 
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
+    // this.dataLevel = this._getEnum(FoodSystemsDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
 
     this.countryId = this._getString(Intervention.KEYS.COUNTRY_ID);
     this.fortificationTypeId = this._getString(Intervention.KEYS.FORTIFICATION_ID);

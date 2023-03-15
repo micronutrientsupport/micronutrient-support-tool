@@ -2,7 +2,7 @@ import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { FoodDictionaryItem } from '../../objects/dictionaries/foodDictionaryItem';
 import { CurrentComposition } from '../../objects/currentComposition';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
@@ -35,7 +35,7 @@ export class GetCurrentComposition extends Endpoint<CurrentComposition, GetCurre
 }
 
 export interface GetCurrentCompositionParams {
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   foodItem: FoodDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
 }

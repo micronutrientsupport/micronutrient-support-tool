@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="mode-select" *ngIf="(quickMapsService.measure.obs | async) === MEASURE_TYPES.DIET">
+<div class="mode-select" *ngIf="(quickMapsService.measure.obs | async) === MEASURE_TYPES.FOOD_SYSTEMS">
   <a class="mode-select-button quickmaps-baseline-link" mat-stroked-button
     [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" [queryParams]="route.queryParams | async"
     routerLinkActive="active-route">Baseline

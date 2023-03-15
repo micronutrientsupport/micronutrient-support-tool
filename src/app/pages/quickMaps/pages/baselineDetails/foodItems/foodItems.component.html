@@ -29,11 +29,11 @@
           </ng-container>
           <ng-container matColumnDef="dailyMnContribution">
             <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">
-              <span *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
+              <span *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
                 {{ (quickMapsService.micronutrient.obs |
                 async)?.id }} ({{ mnUnit }}/AFE/day)
               </span>
-              <span *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.dietDataSource.obs | async)?.dataLevel">
+              <span *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
                 {{ (quickMapsService.micronutrient.obs |
                 async)?.id }} ({{ mnUnit }}/capita/day)
               </span>

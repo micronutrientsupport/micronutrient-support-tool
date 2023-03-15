@@ -78,7 +78,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource.get();
+          const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
           this.title =
             'Household apparent ' +
             (micronutrient?.type !== MicronutrientType.OTHER ? 'micronutrient ' : '') +
@@ -88,10 +88,10 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             country?.name;
           this.card.title = this.title;
           //  only if all set
-          if (null != country && null != micronutrient && null != dietDataSource) {
+          if (null != country && null != micronutrient && null != FoodSystemsDataSource) {
             this.init(
               this.dietDataService
-                .getHouseholdSummaries(country, micronutrient, dietDataSource)
+                .getHouseholdSummaries(country, micronutrient, FoodSystemsDataSource)
                 .then((data) => this.householdSummariesToSummarizedData(data)),
             );
           }

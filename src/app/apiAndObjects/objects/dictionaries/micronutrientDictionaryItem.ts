@@ -11,7 +11,7 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
     UNIT: 'unit',
     IS_IN_IMPACT: 'isInImpact',
     IS_BIOMARKER: 'isBiomarker',
-    IS_DIET: 'isDiet',
+    IS_FOOD_SYSTEMS: 'isDiet',
   };
 
   public readonly type: MicronutrientType;
@@ -28,9 +28,9 @@ export class MicronutrientDictionaryItem extends MapsDictionaryItem {
     this.unit = this._getString(MicronutrientDictionaryItem.KEYS.UNIT);
     this.isInImpact = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_IN_IMPACT);
 
-    this.isDiet = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_DIET);
+    this.isDiet = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_FOOD_SYSTEMS);
     if (this.isDiet) {
-      this.measures.push(MicronutrientMeasureType.DIET);
+      this.measures.push(MicronutrientMeasureType.FOOD_SYSTEMS);
     }
 
     this.isBiomarker = this._getBoolean(MicronutrientDictionaryItem.KEYS.IS_BIOMARKER);

@@ -25,7 +25,7 @@ import { QuickMapsRouteGuardService } from '../../quickMapsRouteGuard.service';
 import { GeographyTypes } from './geographyTypes.enum';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
+import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { Named } from 'src/app/apiAndObjects/objects/named.interface';
@@ -139,9 +139,11 @@ export class SideNavContentComponent {
           }),
         );
         this.subscriptions.push(
-          this.quickMapsForm.get('dataSource').valueChanges.subscribe((value: DietDataSource | BiomarkerDataSource) => {
-            this.quickMapsService.setDataSource(value);
-          }),
+          this.quickMapsForm
+            .get('dataSource')
+            .valueChanges.subscribe((value: FoodSystemsDataSource | BiomarkerDataSource) => {
+              this.quickMapsService.setDataSource(value);
+            }),
         );
 
         this.updateDataMeasureOptions();
@@ -179,7 +181,7 @@ export class SideNavContentComponent {
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
       this.navigate(
-        this.quickMapsService.measure.get() === MicronutrientMeasureType.DIET
+        this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS
           ? AppRoutes.QUICK_MAPS_BASELINE
           : AppRoutes.QUICK_MAPS_BIOMARKER,
       );
@@ -191,7 +193,7 @@ export class SideNavContentComponent {
     let valid = true;
     if (null != this.quickMapsForm) {
       const measureControl = this.quickMapsForm.get('measure');
-      valid = measureControl.value === MicronutrientMeasureType.DIET || null != ageGenderControl.value;
+      valid = measureControl.value === MicronutrientMeasureType.FOOD_SYSTEMS || null != ageGenderControl.value;
     }
     return valid ? null : { ageGender: 'required' };
   }
@@ -210,7 +212,7 @@ export class SideNavContentComponent {
     if (null == currentMeasure) {
       // if nothing selected, select first enabled one
       if (this.measureDietEnabled) {
-        requiredMeasureValue = MicronutrientMeasureType.DIET;
+        requiredMeasureValue = MicronutrientMeasureType.FOOD_SYSTEMS;
       } else if (this.measureBiomarkerEnabled) {
         requiredMeasureValue = MicronutrientMeasureType.BIOMARKER;
       }
@@ -219,10 +221,10 @@ export class SideNavContentComponent {
       requiredMeasureValue = null;
     } else {
       // if disabled item selected, change it.
-      if (!this.measureDietEnabled && currentMeasure === MicronutrientMeasureType.DIET) {
+      if (!this.measureDietEnabled && currentMeasure === MicronutrientMeasureType.FOOD_SYSTEMS) {
         requiredMeasureValue = MicronutrientMeasureType.BIOMARKER;
       } else if (!this.measureBiomarkerEnabled && currentMeasure === MicronutrientMeasureType.BIOMARKER) {
-        requiredMeasureValue = MicronutrientMeasureType.DIET;
+        requiredMeasureValue = MicronutrientMeasureType.FOOD_SYSTEMS;
       }
     }
 
@@ -239,7 +241,7 @@ export class SideNavContentComponent {
 
     if (null != country && null != micronutrient && null != measure) {
       switch (measure) {
-        case MicronutrientMeasureType.DIET: {
+        case MicronutrientMeasureType.FOOD_SYSTEMS: {
           dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
           break;
         }
