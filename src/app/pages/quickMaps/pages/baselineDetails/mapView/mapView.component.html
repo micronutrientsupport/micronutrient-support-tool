@@ -5,7 +5,8 @@
       <div #map1 id="absolute-map"></div>
     </mat-tab>
 
-    <mat-tab label="Variation from Threshold">
+    <mat-tab *ngIf="dataLevelEnum.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel"
+      label="Variation from Threshold">
       <a class="leaflet-screenshot" (click)="exportMapAsImage('threshold')"><i class="fas fa-camera"></i></a>
       <div #map2 id="threshold-map"></div>
     </mat-tab>
