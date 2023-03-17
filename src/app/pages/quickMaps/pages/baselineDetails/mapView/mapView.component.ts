@@ -346,8 +346,8 @@ export class MapViewComponent implements AfterViewInit {
           <td>${props.areaName}</td>
         </tr>
         <tr>
-          <td><strong>Dietary Availability (AFE):</td>
-          <td>${dietarySupplySF} ${props.unit} per day</td>
+          <td><strong>Dietary Availability:</td>
+          <td>${dietarySupplySF} ${props.unit} (AFE) per day</td>
         </tr>
         <tr>
           <td><strong>Prevalence of inadequate<br/>apparent intake (EAR):</td>

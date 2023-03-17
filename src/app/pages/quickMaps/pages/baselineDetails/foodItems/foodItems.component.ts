@@ -227,11 +227,14 @@ export class FoodItemsComponent implements AfterViewInit {
               const label: string = dataItem['g'] as string;
               // tslint:disable-next-line: no-string-literal
               const value: string = dataItem['v'] as string;
-              const mnUnit = this.mnUnit;
               if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
-                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/capita/day`;
+                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                  this.quickMapsService.micronutrient.get().unit
+                }/capita/day`;
               } else {
-                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${mnUnit}/AFE/day`;
+                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                  this.quickMapsService.micronutrient.get().unit
+                }/AFE/day`;
               }
             },
           },

@@ -24,9 +24,10 @@
     </mat-expansion-panel-header>
     <div class="description"
       *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
-      <p>These data present ‘apparent intake’ of micronutrients, derived from socio-economic surveys conducting recall
+      <p>These data present ‘apparent intake’ per Adult Female Equivalent (AFE) per day of micronutrients, derived from
+        socio-economic surveys conducting recall
         of
-        household-level data. These proxy for consumption is joined to locally relevant food composition table data.
+        household-level data. This proxy for consumption is joined to locally relevant food composition table data.
         These apparent intake values do not account for intake via fortification
       </p>
     </div>
