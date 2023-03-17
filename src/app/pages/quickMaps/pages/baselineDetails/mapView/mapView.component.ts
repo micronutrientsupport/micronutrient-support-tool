@@ -130,9 +130,9 @@ export class MapViewComponent implements AfterViewInit {
           this.title =
             (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD
               ? 'Median apparent intake of '
-              : 'Median nutrient availability ') +
+              : 'Median nutrient availability of ') +
             micronutrient.name +
-            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) at ' : ' (per capita), ') +
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) in ' : ' (per capita) in ') +
             country.name;
           this.downloadTitle = 'Baseline Map';
           if (null != this.card) {

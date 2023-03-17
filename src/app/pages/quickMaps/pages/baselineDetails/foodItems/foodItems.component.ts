@@ -92,12 +92,11 @@ export class FoodItemsComponent implements AfterViewInit {
           const micronutrient = this.quickMapsService.micronutrient.get();
           const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
           this.title =
-            'Top 20 food items apparent intake for ' +
+            'Top 20 food items contributing to apparent intake for ' +
             micronutrient?.name +
             ' in ' +
             this.quickMapsService.country.get()?.name;
           this.card.title = this.title;
-
           //  only if all set
           if (null != micronutrient && null != FoodSystemsDataSource) {
             this.init(this.dietDataService.getTopFoods(micronutrient, FoodSystemsDataSource));
