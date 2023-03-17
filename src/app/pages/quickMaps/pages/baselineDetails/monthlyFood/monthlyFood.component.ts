@@ -50,7 +50,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   constructor(
     private notificationService: NotificationsService,
     private dietDataService: DietDataService,
-    private quickMapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
@@ -73,7 +73,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
-          this.title = 'Monthly apparent micronutrient intake for ' + micronutrient?.name + ' in ' + country?.name;
+          this.title =
+            'Seasonality in apparent micronutrient intake for ' + micronutrient?.name + ' in ' + country?.name;
           this.card.title = this.title;
 
           //  only if all set
@@ -94,6 +95,14 @@ export class MonthlyFoodComponent implements AfterViewInit {
   public navigateToInfoTab(): void {
     this.selectedTab = 4;
     this.cdr.detectChanges();
+  }
+
+  public isLikelyANumericString(str): boolean {
+    return !isNaN(str);
+  }
+
+  public isNumber(val): boolean {
+    return typeof val === 'number';
   }
 
   private init(dataPromise: Promise<Array<MonthlyFoodGroup>>): void {
@@ -182,6 +191,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
           position: 'bottom',
           align: 'center',
         },
+        tooltips: {
+          callbacks: {
+            label: (item, result) => {
+              console.log(item);
+              console.log(result);
+              return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+            },
+          },
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -201,7 +219,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
               scaleLabel: {
                 display: true,
-                labelString: 'percentage',
+                labelString: 'Percentage Contribution',
               },
             },
           ],
@@ -227,6 +245,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
           position: 'bottom',
           align: 'center',
         },
+        tooltips: {
+          callbacks: {
+            label: (item, result) => {
+              console.log(item);
+              console.log(result);
+              return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+            },
+          },
+        },
         maintainAspectRatio: false,
         scales: {
           xAxes: [
@@ -246,7 +273,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
               scaleLabel: {
                 display: true,
-                labelString: 'percentage',
+                labelString: 'Percentage Contribution',
               },
             },
           ],
