@@ -120,13 +120,23 @@ export class MonthlyFoodComponent implements AfterViewInit {
         const timePeriod = [...new Set(data.map((item) => item.month.name))];
 
         // Generate the stacked chart
-        const monthlyChartData = {
+        const monthlyStackedChartData = {
+          labels: timePeriod,
+          datasets: [],
+        };
+
+        const monthlyLineChartData = {
           labels: timePeriod,
           datasets: [],
         };
 
         foodTypes.forEach((thing, index) => {
-          monthlyChartData.datasets.push({
+          monthlyStackedChartData.datasets.push({
+            label: foodTypes[index],
+            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+            backgroundColor: this.genColorHex(foodTypes[index]),
+          });
+          monthlyLineChartData.datasets.push({
             label: foodTypes[index],
             data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
             backgroundColor: this.genColorHex(foodTypes[index]),
@@ -159,8 +169,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
         // show table and init paginator and sorter
         this.cdr.detectChanges();
         this.initialiseTable(newTableData);
-        this.initialiseStackedGraph(monthlyChartData);
-        this.initialiseLineGraph(monthlyChartData);
+        this.initialiseStackedGraph(monthlyStackedChartData);
+        this.initialiseLineGraph(monthlyLineChartData);
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -194,8 +204,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
         tooltips: {
           callbacks: {
             label: (item, result) => {
-              console.log(item);
-              console.log(result);
               return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
             },
           },
@@ -248,9 +256,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
         tooltips: {
           callbacks: {
             label: (item, result) => {
-              console.log(item);
-              console.log(result);
-              return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+              return `${result.datasets[item.datasetIndex].label}: ${item.value}`;
             },
           },
         },
@@ -273,6 +279,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
               scaleLabel: {
                 display: true,
+                //labelString: `National nutrient availability ${this.quickMapsService.micronutrient.get().unit}/month`,
                 labelString: 'Percentage Contribution',
               },
             },

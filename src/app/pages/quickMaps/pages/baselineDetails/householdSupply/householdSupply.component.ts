@@ -56,7 +56,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   constructor(
     private dietDataService: DietDataService,
-    private quickMapsService: QuickMapsService,
+    public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
@@ -79,13 +79,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
           const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
-          this.title =
-            'Household apparent ' +
-            (micronutrient?.type !== MicronutrientType.OTHER ? 'micronutrient ' : '') +
-            'intake for ' +
-            micronutrient?.name +
-            ' in ' +
-            country?.name;
+          this.title = 'Apparent intake of ' + micronutrient?.name + ' in ' + country?.name + ' by household';
           this.card.title = this.title;
           //  only if all set
           if (null != country && null != micronutrient && null != FoodSystemsDataSource) {
@@ -226,7 +220,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             {
               scaleLabel: {
                 display: true,
-                labelString: 'Count',
+                labelString: 'Number of households',
               },
 
               display: true,
