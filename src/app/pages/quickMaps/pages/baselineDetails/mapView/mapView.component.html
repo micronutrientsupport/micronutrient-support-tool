@@ -5,8 +5,7 @@
       <div #map1 id="absolute-map"></div>
     </mat-tab>
 
-    <mat-tab *ngIf="dataLevelEnum.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel"
-      label="Variation from Threshold">
+    <mat-tab label="Variation from Threshold">
       <a class="leaflet-screenshot" (click)="exportMapAsImage('threshold')"><i class="fas fa-camera"></i></a>
       <div #map2 id="threshold-map"></div>
     </mat-tab>
@@ -16,15 +15,16 @@
       <app-download></app-download>
     </mat-tab> -->
 
-    <mat-tab label="About {{title}}">
+    <mat-tab label="About these estimates">
       <div class="about-container">
-        <h2>About {{title}}</h2>
+        <h2>About these estimates</h2>
         <div *ngIf="dataLevelEnum.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">
           <p>The map provides a spatial overview for the selected micronutrient and geography of interest. The map is
             zoomable and using ‘hover’ will enable viewing of data for individual areas.</p>
 
           <p>The view defaults to the calculated median value for each administrative area presented, use ‘Adult Female
-            Equivalent’ units. The colour ramp is presented by quartiles of the data range: this colour ramp can be
+            Equivalent’ (AFE) units. The colour ramp is presented by quartiles of the data range: this colour ramp can
+            be
             altered to user preference by using the ‘cog’ icon on the top left of this card.</p>
 
           <p>The alternative mapped presentation is of the expected proportion of the households which are predicted to
