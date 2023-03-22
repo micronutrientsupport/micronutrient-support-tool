@@ -125,16 +125,14 @@ export class MapViewComponent implements AfterViewInit {
         this.quickMapsService.dietParameterChangedObs.subscribe(() => {
           const country = this.quickMapsService.country.get();
           const micronutrient = this.quickMapsService.micronutrient.get();
-          const dietDataSource = this.quickMapsService.dietDataSource.get();
+          const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
 
           this.title =
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD
               ? 'Median apparent intake of '
-              : 'Median nutrient availability') +
+              : 'Median nutrient availability of ') +
             micronutrient.name +
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) at ' : ' (per capita) at ') +
-            (dietDataSource.dataLevel == DataLevel.HOUSEHOLD ? 'district' : 'country') +
-            ' level, ' +
+            (FoodSystemsDataSource.dataLevel == DataLevel.HOUSEHOLD ? ' (AFE) in ' : ' (per capita) in ') +
             country.name;
           this.downloadTitle = 'Baseline Map';
           if (null != this.card) {
@@ -142,8 +140,8 @@ export class MapViewComponent implements AfterViewInit {
           }
 
           //  only if all set
-          if (null != country && null != micronutrient && null != dietDataSource) {
-            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, dietDataSource));
+          if (null != country && null != micronutrient && null != FoodSystemsDataSource) {
+            this.init(this.dietDataService.getMicronutrientAvailability(country, micronutrient, FoodSystemsDataSource));
           }
         }),
       );
@@ -313,7 +311,10 @@ export class MapViewComponent implements AfterViewInit {
         addItemToHtml(gradObj.hexString, text);
         previousGradObj = gradObj;
       });
-      addItemToHtml(colourGradient.moreThanHex, `>${previousGradObj.lessThanTestValue}mg`);
+      addItemToHtml(
+        colourGradient.moreThanHex,
+        `>${previousGradObj.lessThanTestValue} ${this.quickMapsService.micronutrient.get().unit}`,
+      );
 
       return div;
     };
@@ -335,23 +336,45 @@ export class MapViewComponent implements AfterViewInit {
   private getTooltip(feature: FEATURE_TYPE): string {
     const props = feature.properties;
 
-    if (this.quickMapsService.dietDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
-      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+    if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 3);
       return `
-      <div>
-        Region: <b>${props.areaName}</b><br/>
-        Dietary Availability (AFE): ${dietarySupplySF} ${props.unit} per day<br/>
-        Prevalence of inadequate apparent intake (EAR): ${props.deficientPercentage}% of sampled households (${props.deficientCount}/${props.householdCount})<br/>
-      </div>`;
+      <table>
+      <tbody>
+        <tr>
+          <td><strong>Geography:</td>
+          <td>${props.areaName}</td>
+        </tr>
+        <tr>
+          <td><strong>Dietary Availability:</td>
+          <td>${dietarySupplySF} ${props.unit} (AFE) per day</td>
+        </tr>
+        <tr>
+          <td><strong>Prevalence of inadequate<br/>apparent intake (EAR):</td>
+          <td>${props.deficientPercentage}% of sampled<br/>households (${props.deficientCount}/${props.householdCount})</td>
+        </tr>
+      </tbody>
+      </table>`;
     } else {
-      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 6);
+      const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 3);
       const defThreshold = props.dietarySupply < props.deficientValue ? 'Below' : 'Above';
       return `
-      <div>
-        Region: <b>${props.areaName}</b><br/>
-        Dietary Availability: ${dietarySupplySF} ${props.unit} per capita per day<br/>
-        ${defThreshold} the threshold for deficiency<br/>
-      </div>`;
+      <table>
+      <tbody>
+        <tr>
+          <td><strong>Geography:</td>
+          <td>${props.areaName}</td>
+        </tr>
+        <tr>
+          <td><strong>Dietary Availability:</td>
+          <td>${dietarySupplySF} ${props.unit} per capita per day</td>
+        </tr>
+        <tr>
+          <td><strong>Inadequacy:</td>
+          <td>${defThreshold} the threshold for<br/>inadequacy</td>
+        </tr>
+      </tbody>
+      </table>`;
     }
   }
   private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {

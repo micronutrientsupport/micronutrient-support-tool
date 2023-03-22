@@ -79,7 +79,7 @@ export class OptionsComponent {
           this.scenarioDataService,
           this.foodGroupsDict,
           this.dietaryChangeService.mode,
-          this.quickMapsService.dietDataSource,
+          this.quickMapsService.FoodSystemsDataSource,
           this.quickMapsService.micronutrient,
         );
         // after service has loaded in query data etc

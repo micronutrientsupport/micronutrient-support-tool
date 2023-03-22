@@ -41,23 +41,23 @@ export class BaselineDescriptionComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit(): void {
-    const dietDataSource = this.quickMapsService.dietDataSource.get();
+    const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
-    // console.log('Init, dataSource=', dietDataSource);
-    if (null != dietDataSource) {
-      this.init(this.dietDataService.getMatchedTotals(dietDataSource, micronutrient));
+    // console.log('Init, dataSource=', FoodSystemsDataSource);
+    if (null != FoodSystemsDataSource) {
+      this.init(this.dietDataService.getMatchedTotals(FoodSystemsDataSource, micronutrient));
     }
   }
 
   ngAfterViewInit(): void {
     this.subscriptions.push(
       this.quickMapsService.dietParameterChangedObs.subscribe(() => {
-        const dietDataSource = this.quickMapsService.dietDataSource.get();
+        const FoodSystemsDataSource = this.quickMapsService.FoodSystemsDataSource.get();
         const micronutrient = this.quickMapsService.micronutrient.get();
-        // console.log('Refresh, dataSource=', dietDataSource);
+        // console.log('Refresh, dataSource=', FoodSystemsDataSource);
         //  only if all set
-        if (null != dietDataSource) {
-          this.init(this.dietDataService.getMatchedTotals(dietDataSource, micronutrient));
+        if (null != FoodSystemsDataSource) {
+          this.init(this.dietDataService.getMatchedTotals(FoodSystemsDataSource, micronutrient));
         }
       }),
     );

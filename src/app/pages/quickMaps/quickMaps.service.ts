@@ -4,7 +4,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
+import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
@@ -23,7 +23,7 @@ export class QuickMapsService {
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
   public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
   public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
-  public readonly dietDataSource = new NullableAccessor<DietDataSource>(null);
+  public readonly FoodSystemsDataSource = new NullableAccessor<FoodSystemsDataSource>(null);
   public readonly biomarkerDataSource = new NullableAccessor<BiomarkerDataSource>(null);
   public readonly ageGenderGroup = new NullableAccessor<AgeGenderDictionaryItem>(null);
 
@@ -111,12 +111,12 @@ export class QuickMapsService {
     }, 10);
   }
 
-  public get dataSource(): DietDataSource | BiomarkerDataSource {
-    return this.dietDataSource.get() ?? this.biomarkerDataSource.get();
+  public get dataSource(): FoodSystemsDataSource | BiomarkerDataSource {
+    return this.FoodSystemsDataSource.get() ?? this.biomarkerDataSource.get();
   }
-  public setDataSource(dataSource: DietDataSource | BiomarkerDataSource, force = false): void {
-    const newDietVal = dataSource instanceof DietDataSource ? dataSource : null;
-    this.dietDataSource.set(newDietVal, force);
+  public setDataSource(dataSource: FoodSystemsDataSource | BiomarkerDataSource, force = false): void {
+    const newDietVal = dataSource instanceof FoodSystemsDataSource ? dataSource : null;
+    this.FoodSystemsDataSource.set(newDietVal, force);
     const newBiomarkerVal = dataSource instanceof BiomarkerDataSource ? dataSource : null;
     this.biomarkerDataSource.set(newBiomarkerVal, force);
   }
@@ -164,14 +164,14 @@ export class QuickMapsService {
     this.country.obs.subscribe(() => this.parameterChanged());
     this.micronutrient.obs.subscribe(() => this.parameterChanged());
     this.measure.obs.subscribe(() => this.parameterChanged());
-    this.dietDataSource.obs.subscribe(() => this.parameterChanged());
+    this.FoodSystemsDataSource.obs.subscribe(() => this.parameterChanged());
     this.biomarkerDataSource.obs.subscribe(() => this.parameterChanged());
     this.ageGenderGroup.obs.subscribe(() => this.parameterChanged());
 
     this.country.obs.subscribe(() => this.dietParameterChanged());
     this.micronutrient.obs.subscribe(() => this.dietParameterChanged());
     this.measure.obs.subscribe(() => this.dietParameterChanged());
-    this.dietDataSource.obs.subscribe(() => this.dietParameterChanged());
+    this.FoodSystemsDataSource.obs.subscribe(() => this.dietParameterChanged());
 
     this.country.obs.subscribe(() => this.biomarkerParameterChanged());
     this.micronutrient.obs.subscribe(() => this.biomarkerParameterChanged());
@@ -187,12 +187,14 @@ export class QuickMapsService {
     ageGenderGroup: AgeGenderDictionaryItem,
   ): Promise<void> {
     const promises = new Array<Promise<unknown>>();
-    if (MicronutrientMeasureType.DIET === measure) {
+    if (MicronutrientMeasureType.FOOD_SYSTEMS === measure) {
       promises.push(
-        this.dietDataService.getDataSources(country, micronutrient, true).then((ds) => this.dietDataSource.set(ds[0])), // always first item
+        this.dietDataService
+          .getDataSources(country, micronutrient, true)
+          .then((ds) => this.FoodSystemsDataSource.set(ds[0])), // always first item
       );
     } else {
-      this.dietDataSource.set(null);
+      this.FoodSystemsDataSource.set(null);
     }
     if (MicronutrientMeasureType.BIOMARKER === measure) {
       promises.push(

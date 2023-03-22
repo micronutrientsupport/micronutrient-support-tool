@@ -77,35 +77,35 @@ export class AppRoutes {
     segments: 'noResults',
     parent: AppRoutes.QUICK_MAPS,
   };
-  public static readonly QUICK_MAPS_DIET = {
+  public static readonly QUICK_MAPS_FOOD_SYSTEMS = {
     ...BASE_ROUTE,
-    segments: 'diet',
+    segments: 'food-systems',
     parent: AppRoutes.QUICK_MAPS,
   };
   public static readonly QUICK_MAPS_BASELINE = {
     ...BASE_ROUTE,
     segments: 'baseline',
-    parent: AppRoutes.QUICK_MAPS_DIET,
+    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
   public static readonly QUICK_MAPS_PROJECTION = {
     ...BASE_ROUTE,
     segments: 'projection',
-    parent: AppRoutes.QUICK_MAPS_DIET,
+    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
   public static readonly QUICK_MAPS_UNCERTAINTY = {
     ...BASE_ROUTE,
     segments: 'uncertainty',
-    parent: AppRoutes.QUICK_MAPS_DIET,
+    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
   public static readonly QUICK_MAPS_DIETARY_CHANGE = {
     ...BASE_ROUTE,
     segments: 'dietary-change',
-    parent: AppRoutes.QUICK_MAPS_DIET,
+    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
   public static readonly QUICK_MAPS_COST_EFFECTIVENESS = {
     ...BASE_ROUTE,
     segments: 'cost-effectiveness',
-    parent: AppRoutes.QUICK_MAPS_DIET,
+    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,

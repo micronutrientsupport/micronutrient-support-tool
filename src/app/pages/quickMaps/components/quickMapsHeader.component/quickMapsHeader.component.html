@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="mode-select" *ngIf="(quickMapsService.measure.obs | async) === MEASURE_TYPES.DIET">
+<div class="mode-select" *ngIf="(quickMapsService.measure.obs | async) === MEASURE_TYPES.FOOD_SYSTEMS">
   <a class="mode-select-button quickmaps-baseline-link" mat-stroked-button
     [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" [queryParams]="route.queryParams | async"
     routerLinkActive="active-route">Baseline
@@ -32,13 +32,6 @@
     tourDescription="Click here to view more details of the projections to 2050" tourTitle="Projections to 2050"
     tourPosition="auto" tourStage="6">Explore projections to 2050
   </a>
-  <div class="mode-select-button" matTooltip="This feature is under development and currently not available"
-    [matTooltipDisabled]="featureFlagsServive.isEnabled('Uncertainty-Enable')">
-    <a [disabled]=" featureFlagsServive.isDisabled('Uncertainty-Enable')" class="quickmaps-uncertainty-link"
-      mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_UNCERTAINTY | route" [queryParams]="route.queryParams | async"
-      routerLinkActive="active-route">Explore uncertainty
-    </a>
-  </div>
   <div class="mode-select-button" matTooltip="This feature is under development and currently not available"
     [matTooltipDisabled]="featureFlagsServive.isEnabled('DietaryScenarios-Enable')">
     <a [disabled]=" featureFlagsServive.isDisabled('DietaryScenarios-Enable')" class="quickmaps-dieray-change-link"
