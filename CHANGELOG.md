@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.0...v1.7.1) (2023-03-23)
+
+
+### Bug Fixes
+
+* update dockerfile build image ([3017503](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/301750385626df0c371e66434939118267142bde))
+
 ## [1.7.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.6.1...v1.7.0) (2023-03-22)
 
 
