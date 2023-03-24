@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.1...v1.7.2) (2023-03-24)
+
+
+### Bug Fixes
+
+* update map popup dependent on presence of threshold value ([0d9c7a2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/0d9c7a22da0ff289874f4155db65534df3bfbca6))
+
 ## [1.7.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.0...v1.7.1) (2023-03-23)
 
 
