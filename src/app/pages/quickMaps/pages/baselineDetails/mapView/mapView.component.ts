@@ -338,7 +338,7 @@ export class MapViewComponent implements AfterViewInit {
 
     if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.HOUSEHOLD) {
       const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 3);
-      return `
+      let table = `
       <table>
       <tbody>
         <tr>
@@ -348,17 +348,22 @@ export class MapViewComponent implements AfterViewInit {
         <tr>
           <td><strong>Dietary Availability:</td>
           <td>${dietarySupplySF} ${props.unit} (AFE) per day</td>
-        </tr>
+        </tr>`;
+      if (props.deficientValue) {
+        table += `
         <tr>
           <td><strong>Prevalence of inadequate<br/>apparent intake (EAR):</td>
           <td>${props.deficientPercentage}% of sampled<br/>households (${props.deficientCount}/${props.householdCount})</td>
-        </tr>
+        </tr>`;
+      }
+      table += `
       </tbody>
       </table>`;
+      return table;
     } else {
       const dietarySupplySF = this.sigFig.transform(props.dietarySupply, 3);
       const defThreshold = props.dietarySupply < props.deficientValue ? 'Below' : 'Above';
-      return `
+      let table = `
       <table>
       <tbody>
         <tr>
@@ -368,13 +373,18 @@ export class MapViewComponent implements AfterViewInit {
         <tr>
           <td><strong>Dietary Availability:</td>
           <td>${dietarySupplySF} ${props.unit} per capita per day</td>
-        </tr>
-        <tr>
-          <td><strong>Inadequacy:</td>
-          <td>${defThreshold} the threshold for<br/>inadequacy</td>
-        </tr>
+        </tr>`;
+      if (props.deficientValue) {
+        table += `
+          <tr>
+            <td><strong>Inadequacy:</td>
+            <td>${defThreshold} the threshold for<br/>inadequacy</td>
+          </tr>`;
+      }
+      table += `
       </tbody>
       </table>`;
+      return table;
     }
   }
   private createGeoJsonLayer(featureColourFunc: (feature: FEATURE_TYPE) => string): L.GeoJSON {
