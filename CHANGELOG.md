@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.3](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.2...v1.7.3) (2023-04-06)
+
+
+### Bug Fixes
+
+* set starting unit for projections card based on loaded mn ([e0a990a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e0a990a76f587d13d5dffa35ce04f5dbbb9d946b))
+
 ## [1.7.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.1...v1.7.2) (2023-03-24)
 
 
