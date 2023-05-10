@@ -1,5 +1,6 @@
 <ng-template #componentTemplate>
-  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
+  <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab"
+    [ngClass]="{'hide-tab2': !showThresholdMap}">
     <mat-tab label="Absolute Values">
       <a class="leaflet-screenshot" (click)="exportMapAsImage('absolute')"><i class="fas fa-camera"></i></a>
       <div #map1 id="absolute-map"></div>
@@ -9,7 +10,6 @@
       <a class="leaflet-screenshot" (click)="exportMapAsImage('threshold')"><i class="fas fa-camera"></i></a>
       <div #map2 id="threshold-map"></div>
     </mat-tab>
-
 
     <!-- <mat-tab label="Download">
       <app-download></app-download>
