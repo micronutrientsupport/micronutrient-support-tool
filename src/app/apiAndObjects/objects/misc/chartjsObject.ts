@@ -64,6 +64,12 @@ export interface ChartJSObject {
           id?: string;
           stacked?: boolean;
           display?: boolean;
+          ticks?: {
+            min?: number;
+            max?: number;
+            stepSize?: number;
+            callback?: (value: number, index: number, ticks: any) => string | void;
+          };
           scaleLabel?: {
             display: boolean;
             labelString: string;
