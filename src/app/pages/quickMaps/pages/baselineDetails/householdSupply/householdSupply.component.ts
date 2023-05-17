@@ -22,7 +22,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DietaryHouseholdSummary } from 'src/app/apiAndObjects/objects/dietaryHouseholdSummary';
-import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 
 @Component({
   selector: 'app-household-supply',
@@ -107,9 +106,9 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private householdSummariesToSummarizedData(data: Array<DietaryHouseholdSummary>): null | SummarizedData {
     // should this stepSize be worked out from the data to ensure only a fixed/max number of table rows/bars on the chart?
-    const stepSize = 50;
+    console.log(data);
+    const stepSize = 25;
     let summarizedData: SummarizedData = null;
-
     if (data.length > 0) {
       const overviewMap = new Map<number, number>();
 
@@ -131,6 +130,17 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       // iterate through from min value to max in steps of x
       const dataArray = new Array<DataFrequency>();
       for (let i = Math.min(...overviewMap.keys()); i <= Math.max(...overviewMap.keys()); i = i + stepSize) {
+        if (
+          data[0].deficientValue > 0 &&
+          (0 === i ? 0 : i - stepSize) < data[0].deficientValue &&
+          i > data[0].deficientValue
+        ) {
+          dataArray.push({
+            rangeMin: data[0].deficientValue,
+            rangeMax: data[0].deficientValue,
+            frequency: 0,
+          });
+        }
         dataArray.push({
           rangeMin: 0 === i ? 0 : i - stepSize,
           rangeMax: i,
@@ -144,6 +154,11 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       };
     }
     return summarizedData;
+  }
+
+  private orderOfMagnitude(n): number {
+    const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
+    return Math.pow(10, order);
   }
 
   private init(dataPromise: Promise<SummarizedData>): void {
@@ -181,7 +196,40 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private initialiseGraph(data: SummarizedData): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
     const generatedChart: ChartJSObject = {
-      plugins: [ChartAnnotation],
+      plugins: [
+        ChartAnnotation,
+        {
+          beforeDraw: (chart) => {
+            const ctx = chart.chart.ctx;
+            const xAxis = chart.scales['x-axis-0'];
+            const yAxis = chart.scales['y-axis-0'];
+            ctx.save();
+            //ctx.ticks.forEach((tick) => console.log(tick));
+            console.log(chart.data.ticks);
+            chart.data.labels.forEach((l) => {
+              if (data.threshold > 0 && l === data.threshold) {
+                const x = xAxis.getPixelForValue(l);
+                ctx.textAlign = 'right';
+                ctx.font = 'bold 14px';
+                ctx.fillStyle = 'black';
+
+                ctx.beginPath(); // Start a new path
+                ctx.strokeStyle = 'black';
+                ctx.moveTo(x, yAxis.bottom); // Move the pen to (30, 50)
+                ctx.lineTo(x - 10, yAxis.bottom + 25); // Draw a line to (150, 100)
+                ctx.stroke(); // Render the path
+
+                ctx.translate(x - 8, yAxis.bottom + 30);
+
+                // rotate 270 degrees
+                ctx.rotate((31 * Math.PI) / 18); //310deg
+                ctx.fillText('' + data.threshold, 0, 0);
+              }
+            });
+            ctx.restore();
+          },
+        },
+      ],
       type: 'bar',
       data: {
         labels: data.data.map((item) => item.rangeMax),
@@ -212,6 +260,23 @@ export class HouseholdSupplyComponent implements AfterViewInit {
                 display: true,
                 labelString: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
               },
+              ticks: {
+                stepSize: 25, //this.orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 20,
+                // Don't write label for threshold value as it is drawn by custom plugin code
+                callback: function (value) {
+                  const orderOfMagnitude = (n) => {
+                    const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
+                    return Math.pow(10, order);
+                  };
+                  console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
+                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
+                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);
+                  if (value === data.threshold) {
+                    return '';
+                  }
+                  return '' + value;
+                },
+              },
               display: true,
               id: 'x-axis-0',
             },
@@ -222,30 +287,35 @@ export class HouseholdSupplyComponent implements AfterViewInit {
                 display: true,
                 labelString: 'Number of households',
               },
-
               display: true,
               id: 'y-axis-0',
             },
           ],
         },
         annotation: {
-          annotations: [
-            {
-              type: 'line',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: data.threshold, // data-value at which the line is drawn
-              borderWidth: 2.5,
-              borderColor: 'black',
-              label: {
-                enabled: true,
-                content: 'Threshold for inadequacy for AFEs',
-              },
-            },
-          ],
+          annotations: [],
         },
       },
     };
+
+    if (data.threshold && data.threshold > 0) {
+      // Limit max value to 5x threshold value
+      generatedChart.options.scales.xAxes[0].ticks.max = data.threshold * 5;
+
+      // Add annotation line for threshold
+      generatedChart.options.annotation.annotations.push({
+        type: 'line',
+        mode: 'vertical',
+        scaleID: 'x-axis-0',
+        value: data.threshold, // data-value at which the line is drawn
+        borderWidth: 2.5,
+        borderColor: 'black',
+        label: {
+          enabled: true,
+          content: 'Threshold for inadequacy',
+        },
+      });
+    }
 
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

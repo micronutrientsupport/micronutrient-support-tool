@@ -4,7 +4,7 @@
 </mat-fab-menu>
 <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
   <app-base-desc></app-base-desc>
-  <app-estimate class="details-panel" [showProjectionLink]="true"
+  <app-estimate class="details-panel" [showProjectionLink]="true" [showFullData]="false"
     [class.details-panel-hidden]="!(quickMapsService.micronutrient.obs | async)?.isInImpact" appTour
     tourName="Quick MAPS Baseline Data"
     tourDescription="If available for your chosen nation and micronutrient, this summary bar provides projections of micronutrient availability to 2050"

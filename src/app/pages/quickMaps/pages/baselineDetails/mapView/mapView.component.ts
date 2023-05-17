@@ -53,6 +53,7 @@ export class MapViewComponent implements AfterViewInit {
   public selectedTab: number;
   public absoluteMapDiv: HTMLDivElement;
   public thresholdMapDiv: HTMLDivElement;
+  public showThresholdMap = false;
   private data: Array<MnAvailibiltyItem>;
   private defaultPalette = ColourPalette.PALETTES.find(
     (value: ColourPalette) => value.name === ColourPaletteType.BLUEREDYELLOWGREEN,
@@ -214,6 +215,21 @@ export class MapViewComponent implements AfterViewInit {
           type: 'FeatureCollection',
           features: data.data.map((item) => item.toFeature()),
         };
+
+        // Only display threshold map when houeshold level data and a valid threshold exists
+        if (
+          this.quickMapsService.FoodSystemsDataSource.get().dataLevel == DataLevel.HOUSEHOLD &&
+          data.data[0].deficientValue
+        ) {
+          this.showThresholdMap = true;
+        } else {
+          this.showThresholdMap = false;
+          if (this.selectedTab == 1) {
+            // If currently on the thresholds tab, switch to absout
+            this.selectedTab = 0;
+          }
+        }
+        this.cdr.detectChanges();
 
         this.initialiseMapAbsolute();
         this.initialiseMapThreshold();

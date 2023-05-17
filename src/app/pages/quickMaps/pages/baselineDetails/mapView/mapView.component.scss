@@ -1,1 +1,4 @@
 // @import 'src/assets/scss/_colour.scss';
+.hide-tab2::ng-deep div.mat-mdc-tab-labels div[role='tab']:nth-child(2) {
+  display: none;
+}
