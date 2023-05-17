@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.8.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.3...v1.8.0) (2023-05-17)
+
+
+### Features
+
+* add national median values to impact bar ([16895d6](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/16895d6ed971a8c756d894300f0904f527b6ed80))
+* display threshold on household histogram ([4547642](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4547642ffb09bced2a5d46a28dd1995f80634310))
+* only display threshold variation map for household data where a threshold exists ([358075f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/358075fe95ec5ee8c276f9ab5d7185f778369b2b))
+
+
+### Miscellaneous
+
+* actually fix ([74f4504](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/74f4504371dea10c9a926a6d3106e4dc561a119f))
+* fix linting ([6480631](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/64806314530e2a8329d8781900bd7d62165739a3))
+* revert unneeded changes ([ba354ed](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/ba354edc2eb02b82068c864a61e0df4fd28dd6c8))
+
 ## [1.7.3](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.7.2...v1.7.3) (2023-04-06)
 
 
