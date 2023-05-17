@@ -22,7 +22,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DietaryHouseholdSummary } from 'src/app/apiAndObjects/objects/dietaryHouseholdSummary';
-import { MicronutrientType } from 'src/app/apiAndObjects/objects/enums/micronutrientType.enum';
 
 @Component({
   selector: 'app-household-supply',
@@ -207,7 +206,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             ctx.save();
             //ctx.ticks.forEach((tick) => console.log(tick));
             console.log(chart.data.ticks);
-            chart.data.labels.forEach((l, i) => {
+            chart.data.labels.forEach((l) => {
               if (data.threshold > 0 && l === data.threshold) {
                 const x = xAxis.getPixelForValue(l);
                 ctx.textAlign = 'right';
