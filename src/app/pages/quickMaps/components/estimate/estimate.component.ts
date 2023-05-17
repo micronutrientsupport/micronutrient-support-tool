@@ -9,6 +9,7 @@ import { ProjectionDataService } from 'src/app/services/projectionData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 
 interface NameValue {
   name: string;
@@ -23,6 +24,10 @@ interface NameValue {
 })
 export class EstimateComponent {
   @Input() showProjectionLink = false;
+  @Input() showFullData = true;
+
+  public readonly DATA_LEVEL = DataLevel;
+
   public readonly DEFAULT_PLACEHOLDER = '-';
   private readonly massArrayMg: NameValue[] = [
     { name: 'mcg', value: 1000 },
