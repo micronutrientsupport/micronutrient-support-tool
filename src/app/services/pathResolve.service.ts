@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { distance } from 'fastest-levenshtein';
 @Injectable({
   providedIn: 'root',
 })
-export class PathResolveService implements Resolve<string | null> {
+export class PathResolveService  {
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): string | null {
     const allRoutes = Object.keys(AppRoutes).map((key: string) => AppRoutes[key].getRoute().join('/'));
     const typoPath = state.url.replace('/', '');

@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, ParamMap, Router, UrlTree } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, ParamMap, Router, UrlTree } from '@angular/router';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
@@ -13,7 +13,7 @@ import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
  * Service provided in app module as that's where the routing is controlled from.
  */
 @Injectable()
-export class QuickMapsRouteGuardService implements CanActivate {
+export class QuickMapsRouteGuardService  {
   private readonly quickMapsParameters: QuickMapsQueryParams;
 
   constructor(
