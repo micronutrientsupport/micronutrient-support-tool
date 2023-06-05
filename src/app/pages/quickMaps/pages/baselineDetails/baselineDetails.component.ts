@@ -3,7 +3,7 @@ import { QuickMapsService } from '../../quickMaps.service';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
-import { MatFabMenu } from '@angular-material-extensions/fab-menu';
+// import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 
 // eslint-disable-next-line no-shadow
 enum GridsterLayoutOptions {
@@ -27,20 +27,20 @@ export class BaselineDetailsComponent implements OnInit {
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  public layoutOptions: MatFabMenu[] = [
-    {
-      id: GridsterLayoutOptions.DEFAULT_VIEW,
-      icon: 'grid_view',
-      tooltip: 'Grid View',
-      tooltipPosition: 'before',
-    },
-    {
-      id: GridsterLayoutOptions.LIST_VIEW,
-      icon: 'view_agenda',
-      tooltip: 'List View',
-      tooltipPosition: 'before',
-    },
-  ];
+  // public layoutOptions: MatFabMenu[] = [
+  //   {
+  //     id: GridsterLayoutOptions.DEFAULT_VIEW,
+  //     icon: 'grid_view',
+  //     tooltip: 'Grid View',
+  //     tooltipPosition: 'before',
+  //   },
+  //   {
+  //     id: GridsterLayoutOptions.LIST_VIEW,
+  //     icon: 'view_agenda',
+  //     tooltip: 'List View',
+  //     tooltipPosition: 'before',
+  //   },
+  // ];
 
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 6;

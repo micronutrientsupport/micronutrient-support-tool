@@ -1,9 +1,9 @@
 <div class="bmgf-maps-nice-scrollbar">
     <div *ngIf="selectedOption =='cda' ">
         <div class="status-element">
-            <ngx-chartjs #boxplot id="box-chart" *ngIf="boxChartData" [data]="boxChartData.data"
+            <!-- <ngx-chartjs #boxplot id="box-chart" *ngIf="boxChartData" [data]="boxChartData.data"
                 [type]="boxChartData.type" [options]="boxChartData.options" [plugins]="boxChartData.plugins">
-            </ngx-chartjs>
+            </ngx-chartjs> -->
         </div>
         <div class="status-element">
             <div class="row">
@@ -29,9 +29,9 @@
     </div>
 
     <div *ngIf="selectedOption ==='pod' || selectedOption ==='poe' || selectedOption ==='cde' " class="status-element">
-        <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
+        <!-- <ngx-chartjs #barchart *ngIf="null != barChartData" id="histo" [data]="barChartData.data"
             [type]="barChartData.type" [options]="barChartData.options" [plugins]="barChartData.plugins">
-        </ngx-chartjs>
+        </ngx-chartjs> -->
         <div class="status-element">Description of how deficiency/excess was measuredand details about the
             group</div>
     </div>

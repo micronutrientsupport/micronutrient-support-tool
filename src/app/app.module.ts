@@ -13,7 +13,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FeatureFlagsFactory } from './services/featureFlags.factory';
 import { FeatureFlagsService } from './services/featureFlags.service';
 import { DirectivesModule } from './directives/directives.module';
-import { NgCustomerFeedbackMapsModule } from 'ng-customer-feedback-maps';
+// import { NgCustomerFeedbackMapsModule } from 'ng-customer-feedback-maps';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
@@ -35,7 +35,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     DirectivesModule,
-    NgCustomerFeedbackMapsModule,
+    // NgCustomerFeedbackMapsModule,
     NgxSkeletonLoaderModule,
   ],
   exports: [],
