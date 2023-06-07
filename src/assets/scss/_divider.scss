@@ -1,0 +1,6 @@
+@import './colour';
+
+.mat-divider {
+  border-top-color: $color_primary !important;
+  border-top-width: 2px !important;
+}

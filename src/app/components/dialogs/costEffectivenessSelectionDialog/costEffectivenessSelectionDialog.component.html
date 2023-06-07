@@ -9,14 +9,88 @@
         <h2 class="dropdown-title">Select intervention template</h2>
         <mat-form-field appearance="outline">
           <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionEdit"
-            matNativeControl required>
+            (selectionChange)="handleInterventionChange($event)" matNativeControl required>
             <mat-option *ngFor="let intervention of interventions" [value]="intervention">
               {{ intervention.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <ng-container *ngIf="parameterForm">
+          <form [formGroup]="parameterForm" id="parameter-form">
+            <div class="form-flex-wrapper">
+              <div>
+                <h4>1. Nation</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)">
+                    <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <h4>2. Focus geography</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select [disabled]="regionOptionArray.length === 0">
+                    <mat-option *ngFor="let item of regionOptionArray" [value]="item.id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <h4>3. Focus micronutrient</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select [(value)]="selectedMn">
+                    <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <h4>4. Intervention type</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select [disabled]="interventionTypeOptionArray.length === 0"
+                    [value]="interventionTypeOptionArray[0]">
+                    <mat-option *ngFor="let item of interventionTypeOptionArray" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <h4>5. Food vehicle</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select [disabled]="foodVehicleOptionArray.length === 0" [value]="foodVehicleOptionArray[0]">
+                    <mat-option *ngFor="let item of foodVehicleOptionArray" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div>
+                <h4>6. Intervention status</h4>
+                <mat-form-field>
+                  <mat-label>Select</mat-label>
+                  <mat-select>
+                    <mat-option value="option1">Option 1</mat-option>
+                    <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
+                    <mat-option value="option3">Option 3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+          <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
+        </ng-container>
         <ng-container *ngIf="selectedInterventionEdit">
-          <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="form">
+          <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
             <mat-form-field appearance="outline">
               <mat-label>Intervention name</mat-label>
               <input matInput [placeholder]="selectedInterventionEdit.name" name="newInterventionName"

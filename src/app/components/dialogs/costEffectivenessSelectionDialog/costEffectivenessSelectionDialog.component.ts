@@ -8,6 +8,13 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { DialogData } from '../baseDialogService.abstract';
+import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { Params } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-costEffectivenessSelectionDialog',
@@ -16,6 +23,7 @@ import { DialogData } from '../baseDialogService.abstract';
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventions: Array<InterventionsDictionaryItem>;
+  public queryParams: Params;
   public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
   public selectedInterventionEdit: Intervention;
   public selectedInterventionLoad: Intervention;
@@ -25,13 +33,25 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionForm: UntypedFormGroup;
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
+  public parameterForm: UntypedFormGroup;
+  public countryOptionArray: DictionaryItem[] = [];
+  public regionOptionArray: DictionaryItem[] = [];
+  public micronutrientsOptionArray: DictionaryItem[] = [];
+  public interventionTypeOptionArray: string[] = [];
+  public foodVehicleOptionArray: string[] = [];
+  public selectedCountry = '';
+  public selectedMn = '';
   private onlyAllowInterventionsAboveID = 3;
+  private countriesDictionary: Dictionary;
+  private micronutrientsDictionary: Dictionary;
 
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    private dictionariesService: DictionaryService,
+    private http: HttpClient,
     private readonly route: ActivatedRoute,
   ) {
     this.route.queryParamMap.subscribe(async (queryParams) => {
@@ -57,9 +77,20 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         (i) => !currentlySelectedInterventionIDsAsStrings.includes(i.id),
       );
     });
+    this.interventions = this.dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
+    this.queryParams = this.dialogData.dataIn.params;
+    /**
+     * Only allow interventions to be loaded directly which are above an ID.
+     * This can be updated to check for an intervention parameter when API allows it.
+     */
+    this.interventionsAllowedToUse = this.interventions.filter(
+      (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
+    );
+    this.createParameterForm();
   }
 
   ngOnInit(): void {
+    this.initParamFormData();
     this.createInterventionForm();
     this.interventionForm.valueChanges.subscribe((fields) => {
       if (fields.newInterventionName !== '') {
@@ -70,7 +101,70 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
-  private createInterventionForm() {
+  private initParamFormData(): void {
+    this.dictionariesService
+      .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.MICRONUTRIENTS, DictionaryType.AGE_GENDER_GROUPS])
+      .then((dicts: Array<Dictionary>) => {
+        this.countriesDictionary = dicts.shift();
+        this.micronutrientsDictionary = dicts.shift();
+
+        this.getDictionaryItems(DictionaryType.COUNTRIES);
+        this.getDictionaryItems(DictionaryType.MICRONUTRIENTS);
+      });
+    if (this.queryParams['country-id']) {
+      this.http
+        .get(
+          `https://api.micronutrient.support/dev/v2/countries/${this.queryParams['country-id']}/regions?includeGeometry=false`,
+        )
+        .subscribe((result: any) => {
+          this.regionOptionArray = result.data.sort(this.sort);
+        });
+    }
+  }
+
+  private sort(a: DictionaryItem, b: DictionaryItem) {
+    return a.name < b.name ? -1 : 1;
+  }
+
+  private setPreselected(type: DictionaryType): void {
+    if (type === DictionaryType.COUNTRIES) {
+      const filtered = this.countryOptionArray.filter((item) => item.id === this.queryParams['country-id']);
+      if (filtered.length > 0) {
+        this.selectedCountry = filtered.shift().id;
+      }
+    } else if (type === DictionaryType.MICRONUTRIENTS) {
+      const filtered = this.micronutrientsOptionArray.filter((item) => item.id === this.queryParams['mnd-id']);
+      if (filtered.length > 0) {
+        this.selectedMn = filtered.shift().id;
+      }
+    }
+  }
+
+  private getDictionaryItems(type: DictionaryType): void {
+    switch (true) {
+      case type === DictionaryType.COUNTRIES:
+        this.countryOptionArray = this.countriesDictionary.getItems().sort(this.sort);
+        this.setPreselected(DictionaryType.COUNTRIES);
+        break;
+      case type === DictionaryType.MICRONUTRIENTS:
+        this.micronutrientsOptionArray = this.micronutrientsDictionary.getItems().sort(this.sort);
+        this.setPreselected(DictionaryType.MICRONUTRIENTS);
+        break;
+    }
+  }
+
+  private createParameterForm(): void {
+    this.parameterForm = this.formBuilder.group({
+      nation: new UntypedFormControl('', [Validators.required]),
+      focusGeography: new UntypedFormControl('', []),
+      focusMicronutrient: new UntypedFormControl('', []),
+      interventionType: new UntypedFormControl('', []),
+      foodVehicle: new UntypedFormControl('', []),
+      interventionStatus: new UntypedFormControl('', []),
+    });
+  }
+
+  private createInterventionForm(): void {
     this.interventionForm = this.formBuilder.group({
       newInterventionName: new UntypedFormControl('', [Validators.required]),
       newInterventionDesc: new UntypedFormControl(''),
@@ -130,5 +224,18 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.closeDialog();
       }
     }
+  }
+
+  public handleNationChange(change: MatSelectChange): void {
+    this.http
+      .get(`https://api.micronutrient.support/dev/v2/countries/${change.value}/regions?includeGeometry=false`)
+      .subscribe((result: any) => {
+        this.regionOptionArray = result.data.sort(this.sort);
+      });
+  }
+
+  public handleInterventionChange(change: MatSelectChange): void {
+    this.interventionTypeOptionArray.push(change.value.fortificationTypeName);
+    this.foodVehicleOptionArray.push(change.value.foodVehicleName);
   }
 }

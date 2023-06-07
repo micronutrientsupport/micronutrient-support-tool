@@ -25,6 +25,13 @@ import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostRev
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
+import { Params } from '@angular/router';
+
+type InterventionDialogParams = {
+  interventions: Array<InterventionsDictionaryItem>;
+  params: Params;
+};
+
 @Injectable()
 export class DialogService extends BaseDialogService {
   constructor(public dialog: MatDialog) {
@@ -70,12 +77,16 @@ export class DialogService extends BaseDialogService {
 
   public openCESelectionDialog(
     interventions: Array<InterventionsDictionaryItem>,
-  ): Promise<DialogData<Array<InterventionsDictionaryItem>>> {
+    queryParams: Params,
+  ): Promise<DialogData<InterventionDialogParams>> {
     return this.openDialog(
       'costEffectivenessSelectionDialog',
       CostEffectivenessSelectionDialogComponent,
       false,
-      interventions,
+      {
+        interventions: interventions,
+        params: queryParams,
+      },
       {},
     );
   }
