@@ -14,7 +14,19 @@ import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { Params } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
+import { ApiService } from 'src/app/apiAndObjects/api/api.service';
+import { Region } from 'src/app/apiAndObjects/objects/region';
 import { HttpClient } from '@angular/common/http';
+
+interface InterventionType {
+  fortificationTypeId?: string;
+  fortificationTypeName?: string;
+}
+
+interface FoodVehicle {
+  foodVehicleId?: number;
+  foodVehicleName?: string;
+}
 
 @Component({
   selector: 'app-costEffectivenessSelectionDialog',
@@ -35,10 +47,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public showResults = new BehaviorSubject<boolean>(false);
   public parameterForm: UntypedFormGroup;
   public countryOptionArray: DictionaryItem[] = [];
-  public regionOptionArray: DictionaryItem[] = [];
+  public regionOptionArray: Region[] = [];
   public micronutrientsOptionArray: DictionaryItem[] = [];
-  public interventionTypeOptionArray: string[] = [];
-  public foodVehicleOptionArray: string[] = [];
+  public interventionTypeOptionArray: InterventionType[] = [];
+  public foodVehicleOptionArray: FoodVehicle[] = [];
   public selectedCountry = '';
   public selectedMn = '';
   private onlyAllowInterventionsAboveID = 3;
@@ -53,6 +65,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private dictionariesService: DictionaryService,
     private http: HttpClient,
     private readonly route: ActivatedRoute,
+    private apiService: ApiService,
   ) {
     this.route.queryParamMap.subscribe(async (queryParams) => {
       const currentlySelectedInterventionIDs: Array<string> = queryParams.get('intIds')
@@ -112,17 +125,17 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.getDictionaryItems(DictionaryType.MICRONUTRIENTS);
       });
     if (this.queryParams['country-id']) {
-      this.http
-        .get(
-          `https://api.micronutrient.support/dev/v2/countries/${this.queryParams['country-id']}/regions?includeGeometry=false`,
-        )
-        .subscribe((result: any) => {
-          this.regionOptionArray = result.data.sort(this.sort);
+      this.apiService.endpoints.region.getRegions
+        .call({
+          countryId: this.queryParams['country-id'],
+        })
+        .then((response: Region[]) => {
+          this.regionOptionArray = response.sort(this.sort);
         });
     }
   }
 
-  private sort(a: DictionaryItem, b: DictionaryItem) {
+  private sort(a: DictionaryItem | Region, b: DictionaryItem | Region) {
     return a.name < b.name ? -1 : 1;
   }
 
@@ -158,9 +171,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       nation: new UntypedFormControl('', [Validators.required]),
       focusGeography: new UntypedFormControl('', []),
       focusMicronutrient: new UntypedFormControl('', []),
-      interventionType: new UntypedFormControl('', []),
-      foodVehicle: new UntypedFormControl('', []),
-      interventionStatus: new UntypedFormControl('', []),
+      interventionType: new UntypedFormControl({ value: '', disabled: true }, []),
+      foodVehicle: new UntypedFormControl({ value: '', disabled: true }, []),
+      interventionStatus: new UntypedFormControl({ value: '', disabled: true }, []),
+    });
+    this.parameterForm.valueChanges.subscribe((changes) => {
+      console.log(changes);
     });
   }
 
@@ -227,15 +243,23 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   public handleNationChange(change: MatSelectChange): void {
-    this.http
-      .get(`https://api.micronutrient.support/dev/v2/countries/${change.value}/regions?includeGeometry=false`)
-      .subscribe((result: any) => {
-        this.regionOptionArray = result.data.sort(this.sort);
+    this.apiService.endpoints.region.getRegions
+      .call({
+        countryId: change.value,
+      })
+      .then((response: Region[]) => {
+        this.regionOptionArray = response.sort(this.sort);
       });
   }
 
   public handleInterventionChange(change: MatSelectChange): void {
-    this.interventionTypeOptionArray.push(change.value.fortificationTypeName);
-    this.foodVehicleOptionArray.push(change.value.foodVehicleName);
+    this.interventionTypeOptionArray.push({
+      fortificationTypeId: change.value.fortificationTypeId,
+      fortificationTypeName: change.value.fortificationTypeName,
+    });
+    this.foodVehicleOptionArray.push({
+      foodVehicleId: change.value.foodVehicleId,
+      foodVehicleName: change.value.foodVehicleName,
+    });
   }
 }

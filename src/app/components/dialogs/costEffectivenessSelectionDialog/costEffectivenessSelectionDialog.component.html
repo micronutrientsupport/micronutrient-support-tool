@@ -22,7 +22,8 @@
                 <h4>1. Nation</h4>
                 <mat-form-field>
                   <mat-label>Select</mat-label>
-                  <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)">
+                  <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)" name="nation"
+                    formControlName="nation">
                     <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
                       {{ item.name }}
                     </mat-option>
@@ -33,7 +34,8 @@
                 <h4>2. Focus geography</h4>
                 <mat-form-field>
                   <mat-label>Select</mat-label>
-                  <mat-select [disabled]="regionOptionArray.length === 0">
+                  <mat-select [disabled]="regionOptionArray.length === 0" name="focusGeography"
+                    formControlName="focusGeography">
                     <mat-option *ngFor="let item of regionOptionArray" [value]="item.id">
                       {{ item.name }}
                     </mat-option>
@@ -44,7 +46,7 @@
                 <h4>3. Focus micronutrient</h4>
                 <mat-form-field>
                   <mat-label>Select</mat-label>
-                  <mat-select [(value)]="selectedMn">
+                  <mat-select [(value)]="selectedMn" name="focusMicronutrient" formControlName="focusMicronutrient">
                     <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
                       {{ item.name }}
                     </mat-option>
@@ -54,11 +56,10 @@
               <div>
                 <h4>4. Intervention type</h4>
                 <mat-form-field>
-                  <mat-label>Select</mat-label>
-                  <mat-select [disabled]="interventionTypeOptionArray.length === 0"
-                    [value]="interventionTypeOptionArray[0]">
-                    <mat-option *ngFor="let item of interventionTypeOptionArray" [value]="item">
-                      {{ item }}
+                  <mat-select [disabled]="true" [value]="interventionTypeOptionArray[0]?.fortificationTypeId"
+                    name="interventionType" formControlName="interventionType">
+                    <mat-option *ngFor="let item of interventionTypeOptionArray" [value]="item.fortificationTypeId">
+                      {{ item.fortificationTypeName }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -66,10 +67,10 @@
               <div>
                 <h4>5. Food vehicle</h4>
                 <mat-form-field>
-                  <mat-label>Select</mat-label>
-                  <mat-select [disabled]="foodVehicleOptionArray.length === 0" [value]="foodVehicleOptionArray[0]">
-                    <mat-option *ngFor="let item of foodVehicleOptionArray" [value]="item">
-                      {{ item }}
+                  <mat-select [disabled]="true" [value]="foodVehicleOptionArray[0]?.foodVehicleId" name="foodVehicle"
+                    formControlName="foodVehicle">
+                    <mat-option *ngFor="let item of foodVehicleOptionArray" [value]="item.foodVehicleId">
+                      {{ item.foodVehicleName }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -77,8 +78,7 @@
               <div>
                 <h4>6. Intervention status</h4>
                 <mat-form-field>
-                  <mat-label>Select</mat-label>
-                  <mat-select>
+                  <mat-select [disabled]="true" name="interventionStatus" formControlName="interventionStatus">
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
                     <mat-option value="option3">Option 3</mat-option>
