@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -17,6 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { Region } from 'src/app/apiAndObjects/objects/region';
 import { HttpClient } from '@angular/common/http';
+import { CostEffectivenessRequest } from 'src/app/apiAndObjects/objects/costEffectivenessRequest.interface';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -53,6 +54,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public foodVehicleOptionArray: FoodVehicle[] = [];
   public selectedCountry = '';
   public selectedMn = '';
+  public parameterFormObj: CostEffectivenessRequest;
   private onlyAllowInterventionsAboveID = 3;
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
@@ -175,9 +177,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       foodVehicle: new UntypedFormControl({ value: '', disabled: true }, []),
       interventionStatus: new UntypedFormControl({ value: '', disabled: true }, []),
     });
-    this.parameterForm.valueChanges.subscribe((changes) => {
-      console.log(changes);
-    });
+    this.parameterForm.valueChanges
+      .pipe(map(() => this.parameterForm.getRawValue()))
+      .subscribe((changes: CostEffectivenessRequest) => {
+        console.log(changes);
+        this.parameterFormObj = changes;
+      });
   }
 
   private createInterventionForm(): void {
@@ -239,6 +244,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.dialogData.dataOut = this.selectedInterventionLoad;
         this.closeDialog();
       }
+    } else if (this.tabID === 'copy') {
+      // TODO: POST to endpoint with paramaterFormObj as body
+      console.log(this.parameterFormObj);
     }
   }
 
