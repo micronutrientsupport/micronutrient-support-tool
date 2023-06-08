@@ -34,8 +34,7 @@
                 <h4>2. Focus geography</h4>
                 <mat-form-field>
                   <mat-label>Select</mat-label>
-                  <mat-select [disabled]="regionOptionArray.length === 0" name="focusGeography"
-                    formControlName="focusGeography">
+                  <mat-select name="focusGeography" formControlName="focusGeography">
                     <mat-option *ngFor="let item of regionOptionArray" [value]="item.id">
                       {{ item.name }}
                     </mat-option>
@@ -56,8 +55,8 @@
               <div>
                 <h4>4. Intervention type</h4>
                 <mat-form-field>
-                  <mat-select [disabled]="true" [value]="interventionTypeOptionArray[0]?.fortificationTypeId"
-                    name="interventionType" formControlName="interventionType">
+                  <mat-select [value]="interventionTypeOptionArray[0]?.fortificationTypeId" name="interventionType"
+                    formControlName="interventionType">
                     <mat-option *ngFor="let item of interventionTypeOptionArray" [value]="item.fortificationTypeId">
                       {{ item.fortificationTypeName }}
                     </mat-option>
@@ -67,7 +66,7 @@
               <div>
                 <h4>5. Food vehicle</h4>
                 <mat-form-field>
-                  <mat-select [disabled]="true" [value]="foodVehicleOptionArray[0]?.foodVehicleId" name="foodVehicle"
+                  <mat-select [value]="foodVehicleOptionArray[0]?.foodVehicleId" name="foodVehicle"
                     formControlName="foodVehicle">
                     <mat-option *ngFor="let item of foodVehicleOptionArray" [value]="item.foodVehicleId">
                       {{ item.foodVehicleName }}
@@ -78,7 +77,7 @@
               <div>
                 <h4>6. Intervention status</h4>
                 <mat-form-field>
-                  <mat-select [disabled]="true" name="interventionStatus" formControlName="interventionStatus">
+                  <mat-select name="interventionStatus" formControlName="interventionStatus">
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2" disabled>Option 2 (disabled)</mat-option>
                     <mat-option value="option3">Option 3</mat-option>

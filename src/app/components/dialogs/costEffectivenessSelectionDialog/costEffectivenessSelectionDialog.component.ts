@@ -17,7 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { Region } from 'src/app/apiAndObjects/objects/region';
 import { HttpClient } from '@angular/common/http';
-import { CostEffectivenessRequest } from 'src/app/apiAndObjects/objects/costEffectivenessRequest.interface';
+import { CEFormBody, InterventionCERequest } from 'src/app/apiAndObjects/objects/interventionCE.interface';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -54,7 +54,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public foodVehicleOptionArray: FoodVehicle[] = [];
   public selectedCountry = '';
   public selectedMn = '';
-  public parameterFormObj: CostEffectivenessRequest;
+  public parameterFormObj: CEFormBody;
+  public interventionRequestBody: InterventionCERequest;
   private onlyAllowInterventionsAboveID = 3;
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
@@ -105,10 +106,20 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.interventionRequestBody = {
+      parentInterventionId: 0,
+      newInterventionName: '',
+      newInterventionDescription: '',
+      newInterventionFocusMicronutrient: '',
+      newInterventionNation: '',
+      newInterventionFocusGeography: '',
+    };
     this.initParamFormData();
     this.createInterventionForm();
     this.interventionForm.valueChanges.subscribe((fields) => {
       if (fields.newInterventionName !== '') {
+        this.interventionRequestBody.newInterventionName = fields.newInterventionName;
+        this.interventionRequestBody.newInterventionDescription = fields.newInterventionDesc;
         this.proceed.next(true);
       } else {
         this.proceed.next(false);
@@ -116,7 +127,16 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
+  private toggleRegionDropdown(regions: Region[]): void {
+    if (regions.length === 0) {
+      this.parameterForm.get('focusGeography').disable();
+    } else {
+      this.parameterForm.get('focusGeography').enable();
+    }
+  }
+
   private initParamFormData(): void {
+    this.regionOptionArray = [];
     this.dictionariesService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.MICRONUTRIENTS, DictionaryType.AGE_GENDER_GROUPS])
       .then((dicts: Array<Dictionary>) => {
@@ -132,6 +152,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           countryId: this.queryParams['country-id'],
         })
         .then((response: Region[]) => {
+          this.toggleRegionDropdown(response);
           this.regionOptionArray = response.sort(this.sort);
         });
     }
@@ -179,9 +200,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
     this.parameterForm.valueChanges
       .pipe(map(() => this.parameterForm.getRawValue()))
-      .subscribe((changes: CostEffectivenessRequest) => {
-        console.log(changes);
+      .subscribe((changes: CEFormBody) => {
         this.parameterFormObj = changes;
+        this.interventionRequestBody.newInterventionNation = changes.nation;
+        this.interventionRequestBody.newInterventionFocusGeography = changes.focusGeography;
+        this.interventionRequestBody.newInterventionFocusMicronutrient = changes.focusMicronutrient;
       });
   }
 
@@ -256,11 +279,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         countryId: change.value,
       })
       .then((response: Region[]) => {
+        this.toggleRegionDropdown(response);
         this.regionOptionArray = response.sort(this.sort);
       });
   }
 
   public handleInterventionChange(change: MatSelectChange): void {
+    this.interventionRequestBody.parentInterventionId = this.selectedInterventionEdit.id;
     this.interventionTypeOptionArray.push({
       fortificationTypeId: change.value.fortificationTypeId,
       fortificationTypeName: change.value.fortificationTypeName,
