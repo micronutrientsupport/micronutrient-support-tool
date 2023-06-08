@@ -15,10 +15,8 @@ jobs:
         with:
           # build: npm run build
           start: npm run start-cypress
-          # config: requestTimeout=41000
-          wait-on: http://localhost:8100
-          # 120 //secs
-          wait-on-timeout: 120
+          # config: requestTimeout=120s
+          wait-on: 'npx wait-on --timeout 120000 http://localhost:8100'
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v3
