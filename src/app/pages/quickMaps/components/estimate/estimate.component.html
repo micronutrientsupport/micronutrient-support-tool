@@ -2,7 +2,7 @@
   <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
     <div class="wideItem left-text" *ngIf="!showFullData">
-      <div>
+      <div class="median">
         <span class="estimateHeader">National Median:</span>
         <span class="estimateValue blue">
           {{(null == projectionsSummary?.nationalMedian) ? '-' : projectionsSummary.nationalMedian | sigFig:3 | number}}
@@ -14,13 +14,13 @@
           *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">({{quickMapsService.micronutrient.get().unit}}
           per capita per day)</small>
       </div>
-      <div>
+      <div class="adequacy">
         <span class="estimateHeader">Adequacy Threshold:</span>
         <span class="estimateValue green">{{(null == targetCalc) ? '-' : targetCalc | sigFig:3 | number}}</span>
         <small>({{quickMapsService.micronutrient.get().unit}}
           (AFE) per day)</small>
       </div>
-      <div>
+      <div class="prevalence">
         <span class="estimateHeader"
           *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">Prevalence of
           inadequate supply:</span>

@@ -6,7 +6,7 @@ describe('Quick maps - Dietary Change', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit(
-      '/quick-maps/food-systems/dietary-change?country-id=MWI&mnd-id=Ca&data-level=household&age-gender-group=all',
+      '/quick-maps/food-systems/dietary-change?country-id=MWI&mnd-id=Ca&measure=food systems&data-level=household&age-gender-group=all',
     );
     cy.wait(8000);
     cy.get('.minimize-button').click();
