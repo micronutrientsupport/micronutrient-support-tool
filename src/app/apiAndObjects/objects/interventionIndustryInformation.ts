@@ -1,6 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { DataLevel } from './enums/dataLevel.enum';
 import { Named } from './named.interface';
+import * as jsonLogic from 'json-logic-js';
 
 export class InterventionIndustryInformation extends BaseObject implements Named {
   public static readonly KEYS = {
@@ -39,6 +40,7 @@ export interface IndustryInformation {
   labelText: string;
   dataSource: string;
   isEditable: boolean;
+  year0Formula: jsonLogic.RulesLogic;
   year0Edited: number;
   year1Edited: number;
   year2Edited: number;

@@ -19,8 +19,18 @@
           <th mat-header-cell *matHeaderCellDef> 2021 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year0
-                formControlName="year0">
+
+              <!-- If rowFormula exists, this will be a read-only input which needs to update based on changes in other fields specified by formula -->
+              <div *ngIf="element.rowFormula">
+                <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
+                  formControlName="year0" (input)="bing()">
+              </div>
+              <!-- If rowFormula does not exist, this is a standard input field which may affect other fields -->
+              <div *ngIf="!element.rowFormula">
+                <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
+                  formControlName="year0" (input)="bing()">
+              </div>
+
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year0 * 100"
@@ -162,6 +172,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </form>
+
+    <!-- <pre>{{form?.value|json}}</pre> -->
 
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>

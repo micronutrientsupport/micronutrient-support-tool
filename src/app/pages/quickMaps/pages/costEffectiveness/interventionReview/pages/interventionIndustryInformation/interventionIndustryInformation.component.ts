@@ -9,6 +9,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+import * as jsonLogic from 'json-logic-js';
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -62,9 +63,12 @@ export class InterventionIndustryInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
+          // console.debug('raw data: ', data);
+
           this.dataSource = new MatTableDataSource(data.industryInformation);
           const industryGroupArr = data.industryInformation.map((item) => {
-            return this.createIndustryGroup(item);
+            // for each item in the API result, create a row of results to populate the table
+            return this.createIndustryGroup(item, data);
           });
           this.form = this.formBuilder.group({
             items: this.formBuilder.array(industryGroupArr),
@@ -78,6 +82,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
             Object.keys(formRow.controls).forEach((key: string) => {
               if (key === 'year' + yearIndex) {
                 if (formRow.controls['isEditable'].value === false) {
+                  // TODO: not all rows will have formulas. When this change is made can renable below, otherwise all fields are disabled and untestable
+                  // if (formRow.controls['isEditable'].value === false || formRow.controls['year0Formula'].value !== '{}') {
                   formRow.controls[key].disable();
                 }
                 if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
@@ -101,7 +107,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
               map(([oldState, newState]) => {
                 for (const key in newState.items) {
                   const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-
+                  // console.debug('CCCCHANGES rowindex = ', rowIndex);
                   if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                     const diff = compareObjs(oldState.items[key], newState.items[key]);
                     if (Array.isArray(diff) && diff.length > 0) {
@@ -142,13 +148,14 @@ export class InterventionIndustryInformationComponent implements OnInit {
     return this.form.get('items')['controls'] as UntypedFormArray;
   }
 
-  private createIndustryGroup(item: IndustryInformation): UntypedFormGroup {
+  private createIndustryGroup(item: IndustryInformation, data: InterventionIndustryInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
+      year0Formula: item.year0Formula,
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
       year1Default: [Number(item.year1Default), []],
@@ -177,6 +184,40 @@ export class InterventionIndustryInformationComponent implements OnInit {
       year9Edited: [Boolean(item.year9Edited), []],
       year9Default: [Number(item.year9Default), []],
     });
+  }
+
+  // On load, the table datasource needs to be updated from the vanilla results
+  // to the calculated values by applying the formula in the json logic
+  // TODO: once the initial data is calculated it will need to wire up
+  // the change detection so that when the user updates a field which is
+  // under the formular control, the correct fields are subsequently updated
+  public calc(
+    data: InterventionIndustryInformation,
+    rowIndex: number,
+    value: number,
+    logic: jsonLogic.RulesLogic,
+  ): any {
+    // console.log(rowIndex, value, logic);
+
+    if (rowIndex !== 31) {
+      return value;
+    } else {
+      // get the json logic formula
+
+      // const newVarFn = function(variable) {
+      //   const row_index = variable.row;
+      //   const year = variable.col;
+      //   const val = row_index, year;
+      //   return val;
+      // }
+      // jsonLogic.add_operation("var", newVarFn);
+
+      // get the input values needed to process the json logic
+      const results = data.industryInformation.filter((item: IndustryInformation) => item.rowIndex === 36);
+      console.log('res: ', results);
+      console.log('jsonlogic ', jsonLogic.apply(logic, results));
+      return value * results[0].year0;
+    }
   }
 
   public ngOnInit(): void {
@@ -209,5 +250,9 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
+  }
+
+  public bing(): void {
+    console.debug('bing');
   }
 }
