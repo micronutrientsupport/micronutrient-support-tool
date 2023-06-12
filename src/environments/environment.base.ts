@@ -14,7 +14,7 @@ export const environment = {
 
   //main API
   // apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
-  apiBaseUrl: 'https://api.micronutrient.support/v2',
+  apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
 
   //temp api:
   //apiBaseUrl: 'http://zhwldock002.ad.nerc.ac.uk:3001/',

@@ -20,7 +20,6 @@
 
 table {
   width: 100%;
-  //   margin: 0 1em;
   tr.mat-mdc-footer-row {
     font-weight: bold;
   }
@@ -47,6 +46,12 @@ input {
   border-radius: 5px;
   border: black 0.5px solid;
   text-align: center;
+
+  &:disabled {
+    background-color: $color_grey;
+    border: 0px;
+    color: white;
+  }
 }
 
 // user edited values

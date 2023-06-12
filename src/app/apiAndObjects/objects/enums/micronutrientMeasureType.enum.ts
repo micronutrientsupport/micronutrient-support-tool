@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-shadow
 export enum MicronutrientMeasureType {
-  DIET = 'diet',
+  FOOD_SYSTEMS = 'food systems',
   BIOMARKER = 'biomarker',
 }

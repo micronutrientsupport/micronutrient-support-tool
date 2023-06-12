@@ -4,6 +4,9 @@
     <div class="title">
       <span>Review of program assumptions</span>
     </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
+
     <form [formGroup]="form" *ngIf="form">
 
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
@@ -220,9 +223,9 @@
         </tr>
       </table>
     </div>
-    <app-avg-mn-table></app-avg-mn-table>
-    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-      [showAddMicronutrient]="false" [showMnUnits]="true"></app-intervention-step-details>
+    <app-micro-nutrients-in-premix-table [editable]="false"></app-micro-nutrients-in-premix-table>
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showAddMicronutrient]="false" [showMnUnits]="true"></app-intervention-step-details>
 
   </div>
   <footer>

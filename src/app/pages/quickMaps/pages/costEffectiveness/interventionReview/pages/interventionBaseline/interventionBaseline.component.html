@@ -8,6 +8,10 @@
       <app-quickmaps-no-results></app-quickmaps-no-results>
     </div>
     <div *ngIf="this.compoundAvailable">
+
+      <app-reusable-skeleton-table *ngIf="!dataLoaded"
+        [setData]="{ columns: 3, rows: 2 }"></app-reusable-skeleton-table>
+
       <form [formGroup]="form" *ngIf="form">
 
         <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
@@ -162,8 +166,8 @@
       <app-micro-nutrients-in-premix-table [editable]="true"
         [micronutrient]="newMnInPremix"></app-micro-nutrients-in-premix-table>
     </div>
-    <app-intervention-step-details [resetDefaultValues]="true" [showFocusMn]="true" [showUserValues]="true"
-      [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="true" (onAddMn)="handleAddMn($event)">
     </app-intervention-step-details>
   </div>
 

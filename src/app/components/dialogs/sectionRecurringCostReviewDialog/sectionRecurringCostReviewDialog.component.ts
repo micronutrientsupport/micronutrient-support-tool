@@ -5,7 +5,7 @@ import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/ob
 import { DialogData } from '../baseDialogService.abstract';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -63,6 +63,23 @@ export class SectionRecurringCostReviewDialogComponent {
       this.form = this.formBuilder.group({
         items: this.formBuilder.array(reucrringGroupArr),
       });
+
+      // Mark fields as touched/dirty if they have been previously edited and stored via the API
+      this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+        let yearIndex = 0;
+        Object.keys(formRow.controls).forEach((key: string) => {
+          if (key === 'year' + yearIndex) {
+            if (formRow.controls['isEditable'].value === false) {
+              formRow.controls[key].disable();
+            }
+            if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
+              formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+            }
+            yearIndex++;
+          }
+        });
+      });
+
       const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
         return Object.entries(b).filter(([key, value]) => value !== a[key]);
       };
@@ -118,16 +135,37 @@ export class SectionRecurringCostReviewDialogComponent {
   private createRecurringCostGroup(item: RecurringCostBreakdown): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
+      year0Edited: [Boolean(item.year0Edited), []],
+      year0Default: [Number(item.year0Default), []],
       year1: [Number(item.year1), []],
+      year1Edited: [Boolean(item.year1Edited), []],
+      year1Default: [Number(item.year1Default), []],
       year2: [Number(item.year2), []],
+      year2Edited: [Boolean(item.year2Edited), []],
+      year2Default: [Number(item.year2Default), []],
       year3: [Number(item.year3), []],
+      year3Edited: [Boolean(item.year3Edited), []],
+      year3Default: [Number(item.year3Default), []],
       year4: [Number(item.year4), []],
+      year4Edited: [Boolean(item.year4Edited), []],
+      year4Default: [Number(item.year4Default), []],
       year5: [Number(item.year5), []],
+      year5Edited: [Boolean(item.year5Edited), []],
+      year5Default: [Number(item.year5Default), []],
       year6: [Number(item.year6), []],
+      year6Edited: [Boolean(item.year6Edited), []],
+      year6Default: [Number(item.year6Default), []],
       year7: [Number(item.year7), []],
+      year7Edited: [Boolean(item.year7Edited), []],
+      year7Default: [Number(item.year7Default), []],
       year8: [Number(item.year8), []],
+      year8Edited: [Boolean(item.year8Edited), []],
+      year8Default: [Number(item.year8Default), []],
       year9: [Number(item.year9), []],
+      year9Edited: [Boolean(item.year9Edited), []],
+      year9Default: [Number(item.year9Default), []],
     });
   }
 
@@ -148,8 +186,20 @@ export class SectionRecurringCostReviewDialogComponent {
       this.dialogData.close();
     }
   }
-  public resetAll(): void {
-    //reset all needes to only reset values in the current review component
-    this.dialogData.dataOut = true;
+  public resetForm() {
+    // set fields to default values as delivered per api
+    this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
+      let yearIndex = 0;
+      Object.keys(formRow.controls).forEach((key: string) => {
+        if (key === 'year' + yearIndex) {
+          if (formRow.controls['year' + yearIndex + 'Default'].value !== formRow.controls['year' + yearIndex].value) {
+            formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value); // set the default value
+          }
+          yearIndex++;
+        }
+      });
+    });
+    //on reset mark forma as pristine to remove blue highlights
+    this.form.markAsPristine();
   }
 }

@@ -1,17 +1,19 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
-    <mat-tab label="Household Histogram">
+    <mat-tab label="Histogram">
       <ngx-chartjs *ngIf="null != chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
         [options]="chartData.options" [plugins]="chartData.plugins">
 
       </ngx-chartjs>
     </mat-tab>
 
-    <mat-tab label="Household Data">
+    <mat-tab label="Table (All Data)">
       <div class="bmgf-maps-nice-scrollbar">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="rangeMax">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Value</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{
+              (quickMapsService.micronutrient.obs | async)?.name }} in {{ (quickMapsService.micronutrient.obs |
+              async)?.unit }}/AFE/day</th>
             <td mat-cell *matCellDef="let element">
               {{ (element.rangeMin === element.rangeMax)
               ? element.rangeMin : element.rangeMin + " - " + element.rangeMax}}
@@ -32,9 +34,9 @@
       </app-download>
     </mat-tab>
 
-    <mat-tab label="About {{title}}">
+    <mat-tab label="About these estimates">
       <div class="about-container">
-        <h2>About {{title}}</h2>
+        <h2>About these estimates</h2>
         <p>This card provides the overview of the household apparent intake data at national scale, in both histogram
           (default view) and text formats. These outputs are available to download.</p>
       </div>

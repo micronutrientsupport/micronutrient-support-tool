@@ -3,7 +3,7 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { CountryDictionaryItem } from '../apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietaryHouseholdSummary } from '../apiAndObjects/objects/dietaryHouseholdSummary';
-import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
+import { FoodSystemsDataSource } from '../apiAndObjects/objects/foodSystemsDataSource';
 import { ExtendedRespose, MnAvailibiltyCountryItem } from '../apiAndObjects/objects/mnAvailibilityCountryItem';
 import { MnAvailibiltyHouseholdItem } from '../apiAndObjects/objects/mnAvailibilityHouseholdItem';
 import { MonthlyFoodGroup } from '../apiAndObjects/objects/monthlyFoodGroup';
@@ -24,7 +24,7 @@ export class DietDataService {
 
   public getTopFoods(
     micronutrient: MicronutrientDictionaryItem,
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
   ): Promise<Array<TopFoodSource>> {
     return this.apiService.endpoints.diet.getTopFoods.call({
       micronutrient,
@@ -35,7 +35,7 @@ export class DietDataService {
   public getMicronutrientAvailability(
     country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
   ): Promise<ExtendedRespose<MnAvailibiltyCountryItem> | ExtendedRespose<MnAvailibiltyHouseholdItem>> {
     return this.apiService.endpoints.diet.getMicronutrientAvailability.call({
       country,
@@ -49,7 +49,7 @@ export class DietDataService {
     country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
     singleOptionOnly = false,
-  ): Promise<Array<DietDataSource>> {
+  ): Promise<Array<FoodSystemsDataSource>> {
     return this.apiService.endpoints.diet.getDataSources.call({
       country,
       micronutrient,
@@ -60,7 +60,7 @@ export class DietDataService {
   public getMonthlyFoodGroups(
     country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
   ): Promise<Array<MonthlyFoodGroup>> {
     return this.apiService.endpoints.diet.getMonthlyFoodGroups.call({
       country,
@@ -72,7 +72,7 @@ export class DietDataService {
   public getHouseholdSummaries(
     country: CountryDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
   ): Promise<Array<DietaryHouseholdSummary>> {
     return this.apiService.endpoints.diet.getNationalSummary.call({
       country,
@@ -82,7 +82,7 @@ export class DietDataService {
   }
 
   public getMatchedTotals(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
   ): Promise<Array<MatchedTotals>> {
     return this.apiService.endpoints.diet.getMatchedTotals.call({

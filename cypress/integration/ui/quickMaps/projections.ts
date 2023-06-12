@@ -6,7 +6,7 @@ describe('Quick maps - Projections', () => {
 
   it('checks page for a11y compliance', () => {
     cy.visit(
-      '/quick-maps/diet/projection?country-id=MWI&mnd-id=Ca&measure=diet&data-level=household&age-gender-group=all',
+      '/quick-maps/food-systems/projection?country-id=MWI&mnd-id=Ca&measure=food systems&data-level=household&age-gender-group=all',
     );
     cy.wait(4000);
     cy.get('.minimize-button').click();
@@ -29,7 +29,7 @@ describe('Quick maps - Projections', () => {
   // /* ==== Test Created with Cypress Studio ==== */
   // it('Projections page displaying content', function () {
   //   /* ==== Generated with Cypress Studio ==== */
-  //   cy.visit('/quick-maps/diet/projection?country-id=MWI&mnd-id=Ca&measure=diet&age-gender-group-id=WRA&sm=0&si=');
+  //   cy.visit('/quick-maps/food-systems/projection?country-id=MWI&mnd-id=Ca&age-gender-group-id=WRA&sm=0&si=');
   //   cy.wait(2000);
   //   cy.get('.mat-expansion-panel-body').should('be.visible');
   //   cy.get('.content-container > :nth-child(1) > strong').should('be.visible');

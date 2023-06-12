@@ -103,7 +103,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
     return this.quickMapsParameters.getMeasure(snapshot.queryParamMap).then((measure) => {
       let navRoute: AppRoute; // route to navigate to
-      if (MicronutrientMeasureType.DIET === measure && !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_DIET)) {
+      if (
+        MicronutrientMeasureType.FOOD_SYSTEMS === measure &&
+        !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_FOOD_SYSTEMS)
+      ) {
         navRoute = AppRoutes.QUICK_MAPS_BASELINE;
       } else if (
         MicronutrientMeasureType.BIOMARKER === measure &&
@@ -145,7 +148,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
     ageGenderGroup: AgeGenderDictionaryItem,
   ): Promise<boolean> {
     return Promise.resolve(
-      measure === MicronutrientMeasureType.DIET ||
+      measure === MicronutrientMeasureType.FOOD_SYSTEMS ||
         (measure === MicronutrientMeasureType.BIOMARKER && null != ageGenderGroup),
     );
   }

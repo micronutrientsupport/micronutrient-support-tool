@@ -10,10 +10,12 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
     MICRONUTRIENT: 'micronutrient',
     SCENARIO: 'scenario',
     RECOMMENDED: 'recommended',
-    REFERENCE_VAL: 'referenceVal',
-    REFERENCE_YEAR: 'referenceYear',
-    INTERSECT_YEAR: 'intersectYear',
-    DIFFERENCE: 'difference',
+    REFERENCE_VAL: 'impactReferenceVal',
+    REFERENCE_YEAR: 'impactReferenceYear',
+    INTERSECT_YEAR: 'impactIntersectYear',
+    DIFFERENCE: 'impactDifference',
+    NATIONAL_MEDIAN: 'dietarySupplyMedian',
+    INADEQUACY_STATEMENT: 'dietaryInadequacy',
   };
 
   public static readonly requiredDictionaryTypes: Array<DictionaryType> = [
@@ -29,6 +31,8 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
   public readonly referenceYear: number;
   public readonly intersectYear: string;
   public readonly difference: number;
+  public readonly nationalMedian: number;
+  public readonly inadequacyStatement: string;
 
   protected constructor(sourceObject?: Record<string, unknown>, dictionaries?: Array<Dictionary>) {
     super(sourceObject, dictionaries);
@@ -47,5 +51,7 @@ export class ProjectionsSummary extends BaseObjectRequiresDictionaries {
     this.referenceYear = this._getNumber(ProjectionsSummary.KEYS.REFERENCE_YEAR);
     this.intersectYear = this._getString(ProjectionsSummary.KEYS.INTERSECT_YEAR);
     this.difference = this._getNumber(ProjectionsSummary.KEYS.DIFFERENCE);
+    this.nationalMedian = this._getNumber(ProjectionsSummary.KEYS.NATIONAL_MEDIAN);
+    this.inadequacyStatement = this._getString(ProjectionsSummary.KEYS.INADEQUACY_STATEMENT);
   }
 }

@@ -47,6 +47,11 @@ input {
   border-radius: 5px;
   border: black 0.5px solid;
   text-align: center;
+  &:disabled {
+    background-color: $color_grey;
+    border: 0px;
+    color: white;
+  }
 }
 
 // user edited values

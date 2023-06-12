@@ -1,4 +1,4 @@
-FROM node:16 AS builder
+FROM node:16-alpine AS builder
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 

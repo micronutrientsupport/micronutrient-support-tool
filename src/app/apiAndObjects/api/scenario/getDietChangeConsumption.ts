@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { MnAvailibiltyItem } from '../../objects/mnAvailibilityItem.abstract';
-import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../diet/mnAvailabilityEndpointHelper';
+import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../foodSystems/mnAvailabilityEndpointHelper';
 import { NumberChangeItem } from '../../objects/dietaryChangeItem';
 import { lastValueFrom } from 'rxjs';
 
@@ -60,7 +60,7 @@ export class GetDietChangeConsumption extends Endpoint<
 }
 
 export interface GetDietChangeConsumptionParams {
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   micronutrient: MicronutrientDictionaryItem;
   changeItems: Array<NumberChangeItem>;
   asGeoJson?: boolean;

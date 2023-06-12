@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { DataLevel } from '../../objects/enums/dataLevel.enum';
 import { TopFoodSource } from '../../objects/topFoodSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
@@ -49,7 +49,7 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
     );
   }
 
-  private getDataLevelSegment(dataSource: DietDataSource): string {
+  private getDataLevelSegment(dataSource: FoodSystemsDataSource): string {
     switch (dataSource.dataLevel) {
       case DataLevel.COUNTRY:
         return 'country';
@@ -60,5 +60,5 @@ export class GetTopFood extends CacheableEndpoint<Array<TopFoodSource>, TopFoodP
 }
 export interface TopFoodParams {
   micronutrient: MicronutrientDictionaryItem;
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
 }

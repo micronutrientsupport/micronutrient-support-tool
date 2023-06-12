@@ -3,10 +3,13 @@
     <app-intervention-description></app-intervention-description>
     <mat-tab-group>
       <mat-tab label="Tables">
+        <app-reusable-skeleton-table *ngIf="!dataLoaded"
+          [setData]="{ columns: 11, rows: 6 }"></app-reusable-skeleton-table>
         <div *ngFor="let recurringCost of recurringCosts">
           <div class="title">
             <span>{{recurringCost.category}}</span>
           </div>
+
           <div class="recurringCostTable">
             <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
               [headers]="displayHeaders">

@@ -4,6 +4,10 @@
     <div class="title">
       <span>Program Monitoring Information</span>
     </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded"
+      [setData]="{ columns: 12, rows: 10 }"></app-reusable-skeleton-table>
+
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="labelText">

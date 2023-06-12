@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { MatchedTotals } from '../../objects/matchedTotals';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -43,6 +43,6 @@ export class GetMatchedTotals extends CacheableEndpoint<Array<MatchedTotals>, Ge
 }
 
 export interface GetMatchedTotalsParams {
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   micronutrient: MicronutrientDictionaryItem;
 }

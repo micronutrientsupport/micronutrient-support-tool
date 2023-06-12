@@ -15,13 +15,15 @@ export class Intervention extends BaseObject implements Named {
     FOOD_VEHICLE_NAME: 'foodVehicleName',
     BASE_YEAR: 'baseYear',
     TEN_YEAR_TOTAL: 'tenYearTotalCost',
+    LAST_EDITED: 'lastEdited',
+    IS_TEMPLATE_INTERVENTION: 'isTemplateIntervention',
+    PARENT_INTERVENTION: 'parentIntervention',
   };
 
   public readonly id: number;
   public readonly name: string;
   public readonly description: string;
   public readonly dataLevel: DataLevel;
-
   public readonly countryId: string;
   public readonly fortificationTypeId: string;
   public readonly fortificationTypeName: string;
@@ -30,13 +32,17 @@ export class Intervention extends BaseObject implements Named {
   public readonly foodVehicleName: string;
   public readonly baseYear: number;
   public readonly tenYearTotalCost: number;
+  public readonly lastEdited: string;
+  public readonly isTemplateIntervention: boolean;
+  public readonly parentIntervention: number;
+
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
     this.id = this._getNumber(Intervention.KEYS.ID);
     this.name = this._getString(Intervention.KEYS.NAME);
     this.description = this._getString(Intervention.KEYS.DESCRIPTION);
 
-    // this.dataLevel = this._getEnum(DietDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
+    // this.dataLevel = this._getEnum(FoodSystemsDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
 
     this.countryId = this._getString(Intervention.KEYS.COUNTRY_ID);
     this.fortificationTypeId = this._getString(Intervention.KEYS.FORTIFICATION_ID);
@@ -46,5 +52,8 @@ export class Intervention extends BaseObject implements Named {
     this.foodVehicleName = this._getString(Intervention.KEYS.FOOD_VEHICLE_NAME);
     this.baseYear = this._getNumber(Intervention.KEYS.BASE_YEAR);
     this.tenYearTotalCost = this._getNumber(Intervention.KEYS.TEN_YEAR_TOTAL);
+    this.lastEdited = this._getString(Intervention.KEYS.LAST_EDITED);
+    this.isTemplateIntervention = this._getBoolean(Intervention.KEYS.IS_TEMPLATE_INTERVENTION);
+    this.parentIntervention = this._getNumber(Intervention.KEYS.PARENT_INTERVENTION);
   }
 }

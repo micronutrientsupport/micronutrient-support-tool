@@ -11,6 +11,9 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
     FOOD_VEHICLE_NAME: 'foodVehicleName',
     BASE_YEAR: 'baseYear',
     TEN_YEAR_TOTAL: 'tenYearTotalCost',
+    LAST_EDITED: 'lastEdited',
+    IS_TEMPLATE_INTERVENTION: 'isTemplateIntervention',
+    PARENT_INTERVENTION: 'parentIntervention',
   };
   public readonly countryId: string;
   public readonly fortificationTypeId: string;
@@ -20,6 +23,9 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
   public readonly foodVehicleName: string;
   public readonly baseYear: number;
   public readonly tenYearTotalCost: number;
+  public readonly lastEdited: string;
+  public readonly isTemplateIntervention: boolean;
+  public readonly parentIntervention: number;
 
   protected constructor(sourceObject: Record<string, unknown>, id: string, name: string, description: string) {
     super(sourceObject, id, name, description);
@@ -32,5 +38,8 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
     this.foodVehicleName = this._getString(InterventionsDictionaryItem.KEYS.FOOD_VEHICLE_NAME);
     this.baseYear = this._getNumber(InterventionsDictionaryItem.KEYS.BASE_YEAR);
     this.tenYearTotalCost = this._getNumber(InterventionsDictionaryItem.KEYS.TEN_YEAR_TOTAL);
+    this.lastEdited = this._getString(InterventionsDictionaryItem.KEYS.LAST_EDITED);
+    this.isTemplateIntervention = this._getBoolean(InterventionsDictionaryItem.KEYS.IS_TEMPLATE_INTERVENTION);
+    this.parentIntervention = this._getNumber(InterventionsDictionaryItem.KEYS.PARENT_INTERVENTION);
   }
 }

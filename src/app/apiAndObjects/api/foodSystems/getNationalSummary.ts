@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { DietaryHouseholdSummary } from '../../objects/dietaryHouseholdSummary';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 
@@ -55,5 +55,5 @@ export class GetNationalSummary extends CacheableEndpoint<
 export interface GetNationalSummaryParams {
   country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
 }
