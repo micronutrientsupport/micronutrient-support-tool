@@ -23,12 +23,12 @@
               <!-- If rowFormula exists, this will be a read-only input which needs to update based on changes in other fields specified by formula -->
               <div *ngIf="element.rowFormula">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
-                  formControlName="year0" (input)="bing()">
+                  formControlName="year0">
               </div>
               <!-- If rowFormula does not exist, this is a standard input field which may affect other fields -->
               <div *ngIf="!element.rowFormula">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
-                  formControlName="year0" (input)="bing()">
+                  formControlName="year0" (change)="recalculateChanges()">
               </div>
 
             </div>
@@ -173,7 +173,7 @@
       </table>
     </form>
 
-    <!-- <pre>{{form?.value|json}}</pre> -->
+    <pre>{{form?.value|json}}</pre>
 
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showMnUnits]="true" [showAddMicronutrient]="false"></app-intervention-step-details>

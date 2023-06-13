@@ -40,7 +40,7 @@ export interface IndustryInformation {
   labelText: string;
   dataSource: string;
   isEditable: boolean;
-  year0Formula: jsonLogic.RulesLogic;
+  rowFormula: jsonLogic.RulesLogic;
   year0Edited: number;
   year1Edited: number;
   year2Edited: number;

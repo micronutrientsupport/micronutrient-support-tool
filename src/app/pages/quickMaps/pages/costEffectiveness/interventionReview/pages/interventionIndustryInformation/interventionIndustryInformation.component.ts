@@ -155,7 +155,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
-      year0Formula: item.year0Formula,
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
       year1Default: [Number(item.year1Default), []],
@@ -252,7 +251,28 @@ export class InterventionIndustryInformationComponent implements OnInit {
     this.dirtyIndexes.push(index);
   }
 
-  public bing(): void {
-    console.debug('bing');
+  public recalculateChanges(): void {
+    /*
+      1. loop through all the items
+      2. identify which ones have a formula to calculate their cell value
+      3. process the logic formula
+      4. calculate the new value
+      5. update the this.form object with the new values
+    */
+
+    const allItemsWithRowFormulas = this.dataSource.data.filter((item: IndustryInformation) => item.rowFormula);
+
+    allItemsWithRowFormulas.forEach((item: IndustryInformation) => {
+      console.log(item.rowFormula);
+      //  calculate and process the json logic formula
+    });
+
+    const plus = function (a, b) {
+      return a + b;
+    };
+    jsonLogic.add_operation('plus', plus);
+
+    console.debug(jsonLogic.apply({ plus: [23, 19] }));
+    // console.debug(allItemsWithRowFormulas);
   }
 }
