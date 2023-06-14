@@ -185,39 +185,39 @@ export class InterventionIndustryInformationComponent implements OnInit {
     });
   }
 
-  // On load, the table datasource needs to be updated from the vanilla results
-  // to the calculated values by applying the formula in the json logic
-  // TODO: once the initial data is calculated it will need to wire up
-  // the change detection so that when the user updates a field which is
-  // under the formular control, the correct fields are subsequently updated
-  public calc(
-    data: InterventionIndustryInformation,
-    rowIndex: number,
-    value: number,
-    logic: jsonLogic.RulesLogic,
-  ): any {
-    // console.log(rowIndex, value, logic);
+  // // On load, the table datasource needs to be updated from the vanilla results
+  // // to the calculated values by applying the formula in the json logic
+  // // TODO: once the initial data is calculated it will need to wire up
+  // // the change detection so that when the user updates a field which is
+  // // under the formular control, the correct fields are subsequently updated
+  // public calc(
+  //   data: InterventionIndustryInformation,
+  //   rowIndex: number,
+  //   value: number,
+  //   logic: jsonLogic.RulesLogic,
+  // ): any {
+  //   // console.log(rowIndex, value, logic);
 
-    if (rowIndex !== 31) {
-      return value;
-    } else {
-      // get the json logic formula
+  //   if (rowIndex !== 31) {
+  //     return value;
+  //   } else {
+  //     // get the json logic formula
 
-      // const newVarFn = function(variable) {
-      //   const row_index = variable.row;
-      //   const year = variable.col;
-      //   const val = row_index, year;
-      //   return val;
-      // }
-      // jsonLogic.add_operation("var", newVarFn);
+  //     // const newVarFn = function(variable) {
+  //     //   const row_index = variable.row;
+  //     //   const year = variable.col;
+  //     //   const val = row_index, year;
+  //     //   return val;
+  //     // }
+  //     // jsonLogic.add_operation("var", newVarFn);
 
-      // get the input values needed to process the json logic
-      const results = data.industryInformation.filter((item: IndustryInformation) => item.rowIndex === 36);
-      console.log('res: ', results);
-      console.log('jsonlogic ', jsonLogic.apply(logic, results));
-      return value * results[0].year0;
-    }
-  }
+  //     // get the input values needed to process the json logic
+  //     const results = data.industryInformation.filter((item: IndustryInformation) => item.rowIndex === 36);
+  //     console.log('res: ', results);
+  //     console.log('jsonlogic ', jsonLogic.apply(logic, results));
+  //     return value * results[0].year0;
+  //   }
+  // }
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
@@ -251,7 +251,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     this.dirtyIndexes.push(index);
   }
 
-  public recalculateChanges(): void {
+  public recalculateChanges(columnToUpdate: number): void {
     /*
       1. loop through all the items
       2. identify which ones have a formula to calculate their cell value
@@ -259,20 +259,84 @@ export class InterventionIndustryInformationComponent implements OnInit {
       4. calculate the new value
       5. update the this.form object with the new values
     */
+    const allItems = this.form.value.items;
+    console.debug('allItems: ', allItems);
 
-    const allItemsWithRowFormulas = this.dataSource.data.filter((item: IndustryInformation) => item.rowFormula);
+    const newVarFn = function (cellIndex: CellIndex) {
+      // console.log('Fetch cell colIndex: ', cellIndex.colIndex);
+      // console.log('Fetch cell rowIndex: ', cellIndex.rowIndex);
+      // console.log('allItems: ', allItems);
 
-    allItemsWithRowFormulas.forEach((item: IndustryInformation) => {
-      console.log(item.rowFormula);
-      //  calculate and process the json logic formula
-    });
+      // use find instead of filter as will only be one result and dont need to return a 1 length array
+      const resAtRow = allItems.find((item: IndustryInformation) => item.rowIndex == cellIndex.rowIndex);
+      // console.debug('newVarFn grabbing data that matches rowIndex: ', resAtRow);
 
-    const plus = function (a, b) {
-      return a + b;
+      type ObjectKey = keyof typeof resAtRow;
+      const colToFind = cellIndex.colIndex as ObjectKey;
+
+      const valueAtCol = resAtRow[colToFind];
+      // console.debug('newVarFn grabbing data that matches colIndex: ', valueAtCol);
+      // Get some data for rowIndex
+      return valueAtCol;
     };
-    jsonLogic.add_operation('plus', plus);
 
-    console.debug(jsonLogic.apply({ plus: [23, 19] }));
-    // console.debug(allItemsWithRowFormulas);
+    const rowIndexFn = function (rowIndex) {
+      console.log('RowIndex', rowIndex);
+      return rowIndex;
+    };
+
+    const colIndexFn = function (colIndex) {
+      console.log('colIndex', colIndex);
+      return colIndex;
+    };
+
+    const allItemsWithRowFormulas = this.dataSource.data.filter(
+      (item: IndustryInformation) => item.isEditable === false,
+    );
+
+    // find all the rows which have formulas to calculate their new value
+    allItemsWithRowFormulas.forEach((item: IndustryInformation) => {
+      // console.log(item);
+
+      const rowWantToUpdate = item.rowIndex;
+
+      if (!item['year' + columnToUpdate + 'Formula']) {
+        // if isEditable = true AND no yearXFormula exists, this is the third use case
+        // in which the calculated value is done using values entirely outside this current API endpoint
+        // and so needs to not be editable but does not need recalculating
+        return;
+      }
+
+      jsonLogic.add_operation('rowIndex', rowIndexFn);
+      jsonLogic.add_operation('colIndex', colIndexFn);
+      jsonLogic.add_operation('var', newVarFn);
+
+      // calculate the result of the formular using the inputs describes in jsonlogic
+      const theResult = jsonLogic.apply(item['year' + columnToUpdate + 'Formula'], {});
+
+      console.log({ theResult });
+      console.debug('UPDATE ', rowWantToUpdate);
+
+      // Loop through each row of the table
+      this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+        // Find the row which contains the column we want to update with the new value
+        if (formRow.value['rowIndex'] == rowWantToUpdate) {
+          // Loop through all the columns in this row to find the cell we want to update
+          Object.keys(formRow.controls).forEach((key: string) => {
+            // Once find the cell, update its value with the newly calculated on
+            if (key === 'year' + columnToUpdate) {
+              const bing = 'year' + columnToUpdate;
+              console.debug('bing = ', bing);
+              this.form.controls.items['controls'][rowIndex].patchValue({ [bing]: theResult });
+            }
+          });
+        }
+      });
+    });
   }
+}
+
+export interface CellIndex {
+  colIndex: number;
+  rowIndex: number;
 }
