@@ -90,6 +90,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 this.compoundAvailable = true;
                 this.initBaselineAssumptionTable();
 
+                console.log(localStorage.getItem('optFortAvg'));
+
                 this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
                 this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
               }
@@ -115,6 +117,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
         this.selectedCompound = changes.compound;
         this.selectedCompound.targetVal = changes.targetVal;
         this.optionalUserEnteredAverageAtPointOfFortification = changes.optFort;
+        localStorage.setItem('optFortAvg', changes.optFort);
 
         const changesArr = this.focusMnData.filter((item) => item.rowIndex === changes.compound.rowIndex);
         if (changesArr.length === 0) {
@@ -138,6 +141,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     void this.interventionDataService
       .getInterventionBaselineAssumptions(this.activeInterventionId)
       .then((data: InterventionBaselineAssumptions) => {
+        console.log(data);
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
         this.cdr.detectChanges();
 

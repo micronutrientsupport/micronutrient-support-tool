@@ -30,7 +30,7 @@
                 <button *ngIf="dirtyIndexes.includes(index) === false" mat-button color="primary">
                   GFDx<mat-icon>arrow_right_alt</mat-icon>
                 </button>
-                <button *ngIf="dirtyIndexes.includes(index)" mat-button color="primary">
+                <button *ngIf="dirtyIndexes.includes(index) || element.year0Edited === true" mat-button color="primary">
                   User Input
                 </button>
               </div>
