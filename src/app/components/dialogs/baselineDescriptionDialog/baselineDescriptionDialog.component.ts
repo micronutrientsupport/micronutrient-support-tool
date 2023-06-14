@@ -4,7 +4,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { DialogData } from '../baseDialogService.abstract';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
+import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 
 @Component({
   selector: 'app-description-dialog',
@@ -14,7 +14,7 @@ import { DietDataSource } from 'src/app/apiAndObjects/objects/dietDataSource';
 export class BaselineDescriptionDialogComponent implements OnInit {
   public copyLinkUrl: string;
 
-  public dataSource: DietDataSource;
+  public dataSource: FoodSystemsDataSource;
   public country: string;
   public micronutrient: string;
   public title = '';
@@ -27,7 +27,7 @@ export class BaselineDescriptionDialogComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.dataSource = this.quickMapsService.dietDataSource.get();
+    this.dataSource = this.quickMapsService.FoodSystemsDataSource.get();
     this.country = this.quickMapsService.country.get().name;
     this.micronutrient = this.quickMapsService.micronutrient.get().name;
     this.title = 'Dietary supply of ' + this.micronutrient + ' in ' + this.country + ': Dataset Details';

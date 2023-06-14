@@ -1,7 +1,36 @@
 <div class="container">
   <mat-spinner aria-label="spinner" *ngIf="loading" color="accent"></mat-spinner>
   <ng-container *ngIf="!loading">
-    <div class="wideItem left-text">
+    <div class="wideItem left-text" *ngIf="!showFullData">
+      <div class="median">
+        <span class="estimateHeader">National Median:</span>
+        <span class="estimateValue blue">
+          {{(null == projectionsSummary?.nationalMedian) ? '-' : projectionsSummary.nationalMedian | sigFig:3 | number}}
+        </span>
+        <small
+          *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">({{quickMapsService.micronutrient.get().unit}}
+          (AFE) per day)</small>
+        <small
+          *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">({{quickMapsService.micronutrient.get().unit}}
+          per capita per day)</small>
+      </div>
+      <div class="adequacy">
+        <span class="estimateHeader">Adequacy Threshold:</span>
+        <span class="estimateValue green">{{(null == targetCalc) ? '-' : targetCalc | sigFig:3 | number}}</span>
+        <small>({{quickMapsService.micronutrient.get().unit}}
+          (AFE) per day)</small>
+      </div>
+      <div class="prevalence">
+        <span class="estimateHeader"
+          *ngIf="DATA_LEVEL.HOUSEHOLD === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">Prevalence of
+          inadequate supply:</span>
+        <span class="estimateHeader"
+          *ngIf="DATA_LEVEL.COUNTRY === (quickMapsService.FoodSystemsDataSource.obs | async)?.dataLevel">Inadequacy:</span>
+        <span class="wrap-15">{{(null == projectionsSummary?.inadequacyStatement) ? '-' :
+          projectionsSummary.inadequacyStatement }}</span>
+      </div>
+    </div>
+    <div class="wideItem left-text" *ngIf="showFullData">
       <div class="nation">
         <span class="estimateHeader">Estimate ({{(null == projectionsSummary?.referenceYear) ? '-' :
           projectionsSummary.referenceYear}}):</span>
@@ -28,7 +57,7 @@
       </div>
     </div>
 
-    <div class="wideItem form">
+    <div class="wideItem form" *ngIf="showFullData">
 
       <mat-form-field appearance="outline" aria-label="amount" class="width-quantity">
         <mat-label>Quantity</mat-label>
@@ -52,8 +81,8 @@
     </div>
 
     <div class="wideItem right-text">
-      <span>
-        'Business as usual' to reach target in &nbsp;
+      <span class="wrap-30">
+        Under 'Business as usual' conditions, threshold projected to be reached in &nbsp;
         <strong>{{(null == projectionsSummary?.intersectYear) ? '-' : projectionsSummary.intersectYear}}</strong>
         <i class="fas fa-question-circle margin-left"
           matTooltip="Using moderate assumptions of economic and population growth, and no interventions,
@@ -63,7 +92,7 @@
       <span *ngIf="showProjectionLink">
         <a id="explore-projection-link" [routerLink]="ROUTES.QUICK_MAPS_PROJECTION | route"
           [queryParams]="route.queryParams | async" routerLinkActive="active-route" class="explore-projection-text">
-          Explore projections <i class="fas fa-arrow-right"></i>
+          Explore projections (2005 to 2050)<i class="fas fa-arrow-right"></i>
         </a>
       </span>
     </div>

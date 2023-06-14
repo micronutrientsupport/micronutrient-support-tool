@@ -1,6 +1,6 @@
 {
   "name": "micronutrient-support-tool",
-  "version": "1.6.1",
+  "version": "1.8.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -16,7 +16,7 @@
     "lint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix",
     "lint:quiet": "eslint \"*/**/*.{ts,tsx}\" --quiet --fix",
     "e2e": "ng e2e",
-    "ci:cypress-run": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng run app:cypress-run",
+    "ci:cypress-run": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng run micronutrient-support-tool:cypress-run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "build:stats": "ng build --stats-json",

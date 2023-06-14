@@ -7,13 +7,12 @@
             Nation: <strong id="projection-desc-nation-name">{{(quickMapsService.country.obs | async)?.name}}</strong>
           </div>
           <div class="item">
-            Micronutrient: <strong id="projection-desc-mn">{{ (quickMapsService.micronutrient.obs | async)?.name
+            Nutrient: <strong id="projection-desc-mn">{{ (quickMapsService.micronutrient.obs | async)?.name
               }}</strong>
           </div>
           <div class="item">
-            Underlying Metric: <strong id="projection-desc-metric" class="capitalize-text">{{
-              quickMapsService.measure.obs | async }}
-              Data</strong>
+            Data Used: <strong id="projection-desc-metric" class="capitalize-text">{{
+              quickMapsService.measure.obs | async }}</strong>
           </div>
           <div class="item">
             Baseline assumptions: <strong id="projection-desc-baseline">{{currentImpactScenario?.name}}</strong>

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { CountryDictionaryItem } from '../../objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
-import { DietDataSource } from '../../objects/dietDataSource';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
 import { ExtendedRespose } from '../../objects/mnAvailibilityCountryItem';
 import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -68,6 +68,6 @@ export class GetMicronutrientAvailability extends CacheableEndpoint<
 export interface GetMicronutrientAvailabilityParams {
   country: CountryDictionaryItem;
   micronutrient: MicronutrientDictionaryItem;
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   asGeoJson: boolean;
 }

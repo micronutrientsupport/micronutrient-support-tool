@@ -136,7 +136,7 @@ export class DietaryChangeComponent implements OnInit {
 
     this.dashboard = this.gridsterService.resetGrid(
       this.gridsterSource.BASELINE,
-      this.quickMapsService.dietDataSource.get()?.dataLevel,
+      this.quickMapsService.FoodSystemsDataSource.get()?.dataLevel,
       this.dashboard.slice(),
       this.dataLevelWidgetTypesMap,
       width,

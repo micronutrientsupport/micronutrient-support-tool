@@ -3,7 +3,7 @@ import { ApiService } from '../apiAndObjects/api/api.service';
 import { FoodDictionaryItem } from '../apiAndObjects/objects/dictionaries/foodDictionaryItem';
 import { NumberChangeItem, DietaryChangeItem, FoodItemChangeItem } from '../apiAndObjects/objects/dietaryChangeItem';
 import { DietaryChangeMode } from '../pages/quickMaps/pages/dietaryChange/dietaryChangeMode.enum';
-import { DietDataSource } from '../apiAndObjects/objects/dietDataSource';
+import { FoodSystemsDataSource } from '../apiAndObjects/objects/foodSystemsDataSource';
 import { MicronutrientDictionaryItem } from '../apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { MnAvailibiltyItem } from '../apiAndObjects/objects/mnAvailibilityItem.abstract';
 import { CurrentConsumption } from '../apiAndObjects/objects/currentConsumption';
@@ -16,7 +16,7 @@ export class ScenarioDataService {
 
   public getCurrentComposition(
     foodItem: FoodDictionaryItem,
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
   ): Promise<CurrentComposition> {
     return this.apiService.endpoints.scenario.getCurrentComposition.call({
@@ -26,7 +26,10 @@ export class ScenarioDataService {
     });
   }
 
-  public getCurrentConsumption(foodItem: FoodDictionaryItem, dataSource: DietDataSource): Promise<CurrentConsumption> {
+  public getCurrentConsumption(
+    foodItem: FoodDictionaryItem,
+    dataSource: FoodSystemsDataSource,
+  ): Promise<CurrentConsumption> {
     return this.apiService.endpoints.scenario.getCurrentConsumption.call({
       dataSource,
       foodItem,
@@ -34,7 +37,7 @@ export class ScenarioDataService {
   }
 
   public getCurrentValue(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     mode: DietaryChangeMode,
     foodItem: FoodDictionaryItem,
     micronutrient: MicronutrientDictionaryItem,
@@ -48,7 +51,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeComposition(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<NumberChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
@@ -60,7 +63,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeConsumption(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<NumberChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
@@ -72,7 +75,7 @@ export class ScenarioDataService {
   }
 
   public getDietChangeFoodItem(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
     changeItems: Array<FoodItemChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
@@ -84,14 +87,14 @@ export class ScenarioDataService {
   }
 
   public getDietChange(
-    dataSource: DietDataSource,
+    dataSource: FoodSystemsDataSource,
     micronutrient: MicronutrientDictionaryItem,
     mode: DietaryChangeMode,
     changeItems: Array<DietaryChangeItem>,
   ): Promise<Array<MnAvailibiltyItem>> {
     // console.debug('getDietChange', changeItems);
     type promiseFuncType = (
-      dataSourcey: DietDataSource,
+      dataSourcey: FoodSystemsDataSource,
       micronutrienty: MicronutrientDictionaryItem,
       changeItemsy: Array<DietaryChangeItem>,
     ) => Promise<Array<MnAvailibiltyItem>>;

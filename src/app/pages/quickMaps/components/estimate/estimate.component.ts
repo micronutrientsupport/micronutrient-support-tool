@@ -9,6 +9,7 @@ import { ProjectionDataService } from 'src/app/services/projectionData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/impactScenarioDictionaryItem';
+import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 
 interface NameValue {
   name: string;
@@ -23,13 +24,24 @@ interface NameValue {
 })
 export class EstimateComponent {
   @Input() showProjectionLink = false;
+  @Input() showFullData = true;
+
+  public readonly DATA_LEVEL = DataLevel;
+
   public readonly DEFAULT_PLACEHOLDER = '-';
-  public readonly massArray: NameValue[] = [
+  private readonly massArrayMg: NameValue[] = [
     { name: 'mcg', value: 1000 },
     { name: 'mg', value: 1 },
     { name: 'g', value: 0.001 },
     { name: 'kg', value: 0.00001 },
   ];
+  private readonly massArrayMcg: NameValue[] = [
+    { name: 'mcg', value: 1 },
+    { name: 'mg', value: 0.001 },
+    { name: 'g', value: 0.00001 },
+    { name: 'kg', value: 0.0000001 },
+  ];
+  public massArray: NameValue[];
   public readonly timeScaleArray: NameValue[] = [
     { name: 'day', value: 1 },
     { name: 'week', value: 7 },
@@ -42,7 +54,7 @@ export class EstimateComponent {
   public targetCalc: number;
   public currentEstimateCalc: number;
   public differenceQuantity: number;
-  public massNameValue = this.massArray[1];
+  public massNameValue = this.massArrayMg[1];
   public timeScaleNameValue = this.timeScaleArray[0];
 
   public ROUTES = AppRoutes;
@@ -98,6 +110,14 @@ export class EstimateComponent {
       .catch(() => null)
       .then((summary: ProjectionsSummary) => {
         this.projectionsSummary = summary;
+        const unit = this.quickMapsService.micronutrient.get().unit;
+        if (unit === 'mcg' || unit === 'mcg RAE') {
+          this.massArray = this.massArrayMcg;
+          this.massNameValue = this.massArrayMcg[0];
+        } else {
+          this.massArray = this.massArrayMg;
+          this.massNameValue = this.massArrayMg[1];
+        }
       })
       .finally(() => {
         this.calculate();

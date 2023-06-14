@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
-import { DietDataSource } from '../../objects/dietDataSource';
-import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../diet/mnAvailabilityEndpointHelper';
+import { FoodSystemsDataSource } from '../../objects/foodSystemsDataSource';
+import { MnAvailabilityEndpointHelper, MN_AVAILABILITY_TYPE } from '../foodSystems/mnAvailabilityEndpointHelper';
 import { MicronutrientDictionaryItem } from '../../objects/dictionaries/micronutrientDictionaryItem';
 import { MnAvailibiltyItem } from '../../objects/mnAvailibilityItem.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
@@ -60,7 +60,7 @@ export class GetDietChangeFoodItem extends Endpoint<
 }
 
 export interface GetDietChangeFoodItemParams {
-  dataSource: DietDataSource;
+  dataSource: FoodSystemsDataSource;
   micronutrient: MicronutrientDictionaryItem;
   changeItems: Array<FoodItemChangeItem>;
   asGeoJson?: boolean;

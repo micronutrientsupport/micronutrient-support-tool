@@ -8,14 +8,14 @@ import { FoodDictionaryItem } from './dictionaries/foodDictionaryItem';
 import { FoodGroupDictionaryItem } from './dictionaries/foodGroupDictionaryItem';
 import { MicronutrientDictionaryItem } from './dictionaries/micronutrientDictionaryItem';
 import { NumberChangeItem, DietaryChangeItem, FoodItemChangeItem } from './dietaryChangeItem';
-import { DietDataSource } from './dietDataSource';
+import { FoodSystemsDataSource } from './foodSystemsDataSource';
 
 export class DietaryChangeItemFactory {
   constructor(
     private scenarioDataService: ScenarioDataService,
     private foodGroupsDict: Dictionary,
     private modeAccessor: Accessor<DietaryChangeMode>,
-    private dietDataSourceAccessor: Accessor<DietDataSource>,
+    private FoodSystemsDataSourceAccessor: Accessor<FoodSystemsDataSource>,
     private micronutrientAccessor: Accessor<MicronutrientDictionaryItem>,
   ) {}
 
@@ -24,7 +24,7 @@ export class DietaryChangeItemFactory {
     _scenarioValue?: string | number | FoodDictionaryItem,
   ): Promise<DietaryChangeItem> {
     const mode = this.modeAccessor.get();
-    const dds = this.dietDataSourceAccessor.get();
+    const dds = this.FoodSystemsDataSourceAccessor.get();
     const micronutrient = this.micronutrientAccessor.get();
 
     let foodItem: FoodDictionaryItem;

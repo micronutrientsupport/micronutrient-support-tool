@@ -14,19 +14,19 @@ import { GetDietChangeFoodItem } from './scenario/getDietChangeFoodItem';
 import { GetDietChangeConsumption } from './scenario/getDietChangeConsumption';
 import { GetDietChangeComposition } from './scenario/getDietChangeComposition';
 import { ImpactScenarioDictionaryItem } from '../objects/dictionaries/impactScenarioDictionaryItem';
-import { GetTopFood } from './diet/getTopFoods';
+import { GetTopFood } from './foodSystems/getTopFoods';
 import { GetMicronutrientProjectionSources } from './projections/getMicronutrientProjectionSources';
 import { GetProjectionSummaries } from './projections/getProjectionSummaries';
 import { GetProjectionTotals } from './projections/getProjectionTotals';
 import { AgeGenderDictionaryItem } from '../objects/dictionaries/ageGenderDictionaryItem';
-import { GetDietDataSources } from './diet/getDietDataSources';
+import { GetFoodSystemsDataSources } from './foodSystems/getFoodSystemsDataSources';
 import { GetBiomarkerDataSources } from './biomarker/getBiomarkerDataSources';
-import { GetMicronutrientAvailability } from './diet/getMicronutrientAvailability';
+import { GetMicronutrientAvailability } from './foodSystems/getMicronutrientAvailability';
 import { CountryDictionaryItem } from '../objects/dictionaries/countryDictionaryItem';
-import { GetMonthlyFoodGroups } from './diet/getMonthlyFoodGroups';
-import { GetNationalSummary } from './diet/getNationalSummary';
+import { GetMonthlyFoodGroups } from './foodSystems/getMonthlyFoodGroups';
+import { GetNationalSummary } from './foodSystems/getNationalSummary';
 import { postFeedback } from './feedback/postFeedback';
-import { GetMatchedTotals } from './diet/getMatchedTotals';
+import { GetMatchedTotals } from './foodSystems/getMatchedTotals';
 import { InterventionsDictionaryItem } from '../objects/dictionaries/interventionDictionaryItem';
 import { GetIntervention } from './intervention/intervention/getIntervention';
 import { GetInterventionData } from './intervention/interventionData/getInterventionData';
@@ -49,7 +49,7 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     diet: {
       getTopFoods: new GetTopFood(ApiService.USE_LIVE_API),
-      getDataSources: new GetDietDataSources(ApiService.USE_LIVE_API),
+      getDataSources: new GetFoodSystemsDataSources(ApiService.USE_LIVE_API),
       getMicronutrientAvailability: new GetMicronutrientAvailability(ApiService.USE_LIVE_API),
       getMonthlyFoodGroups: new GetMonthlyFoodGroups(ApiService.USE_LIVE_API),
       getNationalSummary: new GetNationalSummary(ApiService.USE_LIVE_API),
