@@ -1,1 +1,7 @@
-<p>mn-table-cell works!</p>
+<mat-form-field appearance="outline" class="override">
+    <mat-select [(ngModel)]="selectedCompound" matNativeControl>
+        <mat-option *ngFor="let item of compounds.compounds" [value]="item">
+            {{ item.compound }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>

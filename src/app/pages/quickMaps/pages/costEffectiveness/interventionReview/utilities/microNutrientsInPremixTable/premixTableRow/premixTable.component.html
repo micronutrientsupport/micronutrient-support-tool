@@ -20,7 +20,7 @@
             Compound
         </th>
         <td class="column-title" mat-cell *matCellDef="let element">
-            <mat-form-field appearance="outline" class="override">
+            <!-- <mat-form-field appearance="outline" class="override">
                 <mat-select [(ngModel)]="selectedCompound" matNativeControl
                     (selectionChange)="handleSelectCompound($event)">
                     <mat-option *ngFor="let item of element.compounds" [value]="item">
@@ -28,7 +28,8 @@
                         {{ item.compound }}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
+            <app-mn-table-cell [compounds]="element"></app-mn-table-cell>
         </td>
     </ng-container>
     <ng-container matColumnDef="targetVal">
