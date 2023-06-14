@@ -67,7 +67,7 @@ export class AvgMnTableComponent implements OnInit {
                     }
                   });
 
-                if (null != data) {
+                if (null != data && null != this.micronutrients) {
                   const rawData = data.baselineAssumptions as BaselineAssumptions;
                   this.createAvNutrientLevelTable(rawData);
                 }
