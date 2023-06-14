@@ -13,7 +13,7 @@ export class ReusableSkeletonTableComponent {
   @Input() set setData(config: SkeletonTableConfig) {
     const cols = [];
     for (let i = 0; i < config.columns; i++) {
-      cols.push(Math.floor(Math.random() * 999).toString());
+      cols.push(Math.floor(Math.random() * 9999999).toString());
     }
     this.columnsToDisplay = cols;
     this.displayedColumns = cols;
