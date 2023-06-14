@@ -237,15 +237,15 @@ export class InterventionIndustryInformationComponent implements OnInit {
       return valueAtCol;
     };
 
-    const rowIndexFn = function (rowIndex) {
-      console.log('RowIndex', rowIndex);
-      return rowIndex;
-    };
+    // const rowIndexFn = function (rowIndex) {
+    //   console.log('RowIndex', rowIndex);
+    //   return rowIndex;
+    // };
 
-    const colIndexFn = function (colIndex) {
-      console.log('colIndex', colIndex);
-      return colIndex;
-    };
+    // const colIndexFn = function (colIndex) {
+    //   console.log('colIndex', colIndex);
+    //   return colIndex;
+    // };
 
     const allItemsWithRowFormulas = this.dataSource.data.filter(
       (item: IndustryInformation) => item.isEditable === false,
