@@ -61,12 +61,16 @@ export class InterventionCostSummaryComponent implements OnInit {
         void this.interventionDataService
           .getInterventionStartupCosts(activeInterventionId)
           .then((data: InterventionStartupCosts) => {
-            this.startupCosts = data.startupScaleupCosts;
+            if (null != data) {
+              this.startupCosts = data.startupScaleupCosts;
+            }
           }),
         void this.interventionDataService
           .getInterventionRecurringCosts(activeInterventionId)
           .then((data: InterventionRecurringCosts) => {
-            this.recurringCosts = data.recurringCosts;
+            if (null != data) {
+              this.recurringCosts = data.recurringCosts;
+            }
           }),
         void this.interventionDataService.interventionDetailedChartPNGObs.subscribe((chart: string) => {
           this.chartDetailedPNG = chart;

@@ -70,7 +70,9 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
               void this.interventionDataService
                 .getInterventionBaselineAssumptions(activeInterventionId)
                 .then((data: InterventionBaselineAssumptions) => {
-                  this.createTableObject(data);
+                  if (null != data) {
+                    this.createTableObject(data);
+                  }
                 }),
           );
           // .then((data: InterventionFoodVehicleStandards) => {

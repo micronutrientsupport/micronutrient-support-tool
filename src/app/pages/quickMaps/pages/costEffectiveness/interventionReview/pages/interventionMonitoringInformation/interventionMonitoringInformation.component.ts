@@ -62,82 +62,84 @@ export class InterventionMonitoringInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionMonitoringInformation(activeInterventionId)
         .then((data: InterventionMonitoringInformation) => {
-          this.dataSource = new MatTableDataSource(data.monitoringInformation);
-          const monitoringGroupArr = data.monitoringInformation.map((item) => {
-            return this.createMonitoringGroup(item);
-          });
-          this.form = this.formBuilder.group({
-            items: this.formBuilder.array(monitoringGroupArr),
-          });
-          this.dataLoaded = true;
-          // Mark fields as touched/dirty if they have been previously edited and stored via the API
-          this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
-            let yearIndex = 0;
-            Object.keys(formRow.controls).forEach((key: string) => {
-              if (key === 'year' + yearIndex) {
-                if (formRow.controls['isEditable'].value === false) {
-                  formRow.controls[key].disable();
-                }
-                if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
-                  formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
-                  this.storeIndex(rowIndex); // mark row as containing user info
-                }
-                yearIndex++;
-              }
+          if (null != data) {
+            this.dataSource = new MatTableDataSource(data.monitoringInformation);
+            const monitoringGroupArr = data.monitoringInformation.map((item) => {
+              return this.createMonitoringGroup(item);
             });
-          });
+            this.form = this.formBuilder.group({
+              items: this.formBuilder.array(monitoringGroupArr),
+            });
+            this.dataLoaded = true;
+            // Mark fields as touched/dirty if they have been previously edited and stored via the API
+            this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+              let yearIndex = 0;
+              Object.keys(formRow.controls).forEach((key: string) => {
+                if (key === 'year' + yearIndex) {
+                  if (formRow.controls['isEditable'].value === false) {
+                    formRow.controls[key].disable();
+                  }
+                  if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
+                    formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+                    this.storeIndex(rowIndex); // mark row as containing user info
+                  }
+                  yearIndex++;
+                }
+              });
+            });
 
-          const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
-            return Object.entries(b).filter(([key, value]) => value !== a[key]);
-          };
-          const changes = {};
+            const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
+              return Object.entries(b).filter(([key, value]) => value !== a[key]);
+            };
+            const changes = {};
 
-          this.form.valueChanges
-            .pipe(
-              startWith(this.form.value),
-              pairwise(),
-              map(([oldState, newState]) => {
-                for (const key in newState.items) {
-                  const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
+            this.form.valueChanges
+              .pipe(
+                startWith(this.form.value),
+                pairwise(),
+                map(([oldState, newState]) => {
+                  for (const key in newState.items) {
+                    const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
 
-                  if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
-                    const diff = compareObjs(oldState.items[key], newState.items[key]);
-                    if (Array.isArray(diff) && diff.length > 0) {
-                      diff.forEach((item) => {
-                        if (changes[rowIndex]) {
-                          changes[rowIndex] = {
-                            ...changes[rowIndex],
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        } else {
-                          changes[rowIndex] = {
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        }
-                      });
+                    if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
+                      const diff = compareObjs(oldState.items[key], newState.items[key]);
+                      if (Array.isArray(diff) && diff.length > 0) {
+                        diff.forEach((item) => {
+                          if (changes[rowIndex]) {
+                            changes[rowIndex] = {
+                              ...changes[rowIndex],
+                              [item[0]]: Number(item[1]),
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          } else {
+                            changes[rowIndex] = {
+                              [item[0]]: Number(item[1]),
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          }
+                        });
+                      }
                     }
                   }
-                }
-                return changes;
-              }),
-              filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
-            )
-            .subscribe((value) => {
-              this.formChanges = value;
-              const newInterventionChanges = {
-                ...this.interventionDataService.getInterventionDataChanges(),
-                ...this.formChanges,
-              };
-              this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+                  return changes;
+                }),
+                filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
+              )
+              .subscribe((value) => {
+                this.formChanges = value;
+                const newInterventionChanges = {
+                  ...this.interventionDataService.getInterventionDataChanges(),
+                  ...this.formChanges,
+                };
+                this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
 
-              // if (this.userInput.valueOf()) {
-              //   return (this.userInput = true);
-              // }
-              // console.log('user Input? ', this.userInput);
-              // console.log('userinput value of? ', this.userInput.valueOf());
-            });
+                // if (this.userInput.valueOf()) {
+                //   return (this.userInput = true);
+                // }
+                // console.log('user Input? ', this.userInput);
+                // console.log('userinput value of? ', this.userInput.valueOf());
+              });
+          }
         });
     }
   }

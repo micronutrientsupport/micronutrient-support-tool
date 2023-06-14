@@ -59,14 +59,18 @@ export class AvgMnTableComponent implements OnInit {
                 this.interventionDataService
                   .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())
                   .then((data: InterventionBaselineAssumptions) => {
-                    this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+                    if (null != data) {
+                      this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+                    }
                     if (this.interventionDataService.getCachedMnInPremix()) {
                       this.micronutrients = this.interventionDataService.getCachedMnInPremix();
                     }
                   });
 
-                const rawData = data.baselineAssumptions as BaselineAssumptions;
-                this.createAvNutrientLevelTable(rawData);
+                if (null != data) {
+                  const rawData = data.baselineAssumptions as BaselineAssumptions;
+                  this.createAvNutrientLevelTable(rawData);
+                }
               });
           });
         }

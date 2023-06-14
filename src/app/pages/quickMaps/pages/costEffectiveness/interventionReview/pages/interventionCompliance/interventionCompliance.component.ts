@@ -74,7 +74,11 @@ export class InterventionComplianceComponent implements OnInit {
             void this.interventionDataService
               .getInterventionBaselineAssumptions(activeInterventionId)
               .then((data: InterventionBaselineAssumptions) => {
-                this.createTableObject(data);
+                console.debug(data);
+                if (null != data) {
+                  this.createTableObject(data);
+                  this.dataLoaded = true;
+                }
                 this.dataSource = new MatTableDataSource(this.rawDataArray);
                 const assumptionsGroupArr = this.rawDataArray.map((item) => {
                   return this.createAssumptionGroup(item);
@@ -82,8 +86,6 @@ export class InterventionComplianceComponent implements OnInit {
                 this.form = this.formBuilder.group({
                   items: this.formBuilder.array(assumptionsGroupArr),
                 });
-
-                this.dataLoaded = true;
 
                 // Mark fields as touched/dirty if they have been previously edited and stored via the API
                 this.form.controls.items['controls'].forEach((formRow: FormGroup) => {

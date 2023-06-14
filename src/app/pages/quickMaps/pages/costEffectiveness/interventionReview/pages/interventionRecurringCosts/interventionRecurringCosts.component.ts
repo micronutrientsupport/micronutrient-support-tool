@@ -40,10 +40,10 @@ export class InterventionRecurringCostsComponent implements OnInit {
       void this.interventionDataService
         .getInterventionRecurringCosts(activeInterventionId)
         .then((data: InterventionRecurringCosts) => {
-          this.dataLoaded = true;
-          console.log('bing');
-          this.recurringCosts = data.recurringCosts;
-          // console.debug('initial: ', this.recurringCosts);
+          if (null != data) {
+            this.recurringCosts = data.recurringCosts;
+            this.dataLoaded = true;
+          }
         });
     }
 
