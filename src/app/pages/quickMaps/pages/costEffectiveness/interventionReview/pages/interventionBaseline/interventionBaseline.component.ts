@@ -90,13 +90,19 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 this.compoundAvailable = true;
                 this.initBaselineAssumptionTable();
 
-                console.log(localStorage.getItem('optFortAvg'));
+                const optFortLS = localStorage.getItem('optFortAvg');
+                if (optFortLS) {
+                  this.optionalUserEnteredAverageAtPointOfFortification = optFortLS;
+                } else {
+                  this.optionalUserEnteredAverageAtPointOfFortification = '0';
+                }
 
                 this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
                 this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              console.error(err);
               this.compoundAvailable = false;
             });
         }
@@ -112,20 +118,24 @@ export class InterventionBaselineComponent implements AfterViewInit {
       optFort: [this.optionalUserEnteredAverageAtPointOfFortification],
     });
 
-    this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value)).subscribe((changes) => {
-      if (changes.targetVal !== '') {
-        this.selectedCompound = changes.compound;
-        this.selectedCompound.targetVal = changes.targetVal;
-        this.optionalUserEnteredAverageAtPointOfFortification = changes.optFort;
-        localStorage.setItem('optFortAvg', changes.optFort);
+    this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value), pairwise()).subscribe(([prev, curr]) => {
+      if (curr.targetVal !== '') {
+        this.selectedCompound = curr.compound;
+        this.selectedCompound.targetVal = curr.targetVal;
 
-        const changesArr = this.focusMnData.filter((item) => item.rowIndex === changes.compound.rowIndex);
+        if (prev.optFort !== curr.optFort) {
+          this.optionalUserEnteredAverageAtPointOfFortification = curr.optFort;
+        }
+
+        localStorage.setItem('optFortAvg', curr.optFort);
+
+        const changesArr = this.focusMnData.filter((item) => item.rowIndex === curr.compound.rowIndex);
         if (changesArr.length === 0) {
           this.focusMnData.push({
-            rowIndex: changes.compound.rowIndex,
+            rowIndex: curr.compound.rowIndex,
           });
         } else {
-          changesArr[0].year0 = changes.targetVal;
+          changesArr[0].year0 = curr.targetVal;
         }
 
         const newInterventionChanges = {
@@ -141,7 +151,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     void this.interventionDataService
       .getInterventionBaselineAssumptions(this.activeInterventionId)
       .then((data: InterventionBaselineAssumptions) => {
-        console.log(data);
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
         this.cdr.detectChanges();
 
