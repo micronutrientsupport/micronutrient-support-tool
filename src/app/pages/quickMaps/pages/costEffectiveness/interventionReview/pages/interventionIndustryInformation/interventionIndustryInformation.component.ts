@@ -10,7 +10,6 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import * as jsonLogic from 'json-logic-js';
-import { CeCalculatedFortificationInfoDialogComponent } from 'src/app/components/dialogs/ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
 
 @Component({
   selector: 'app-intervention-industry-information',
