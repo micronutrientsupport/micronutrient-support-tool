@@ -16,7 +16,6 @@ import { Params } from '@angular/router';
 import { MatSelectChange } from '@angular/material/select';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { Region } from 'src/app/apiAndObjects/objects/region';
-import { HttpClient } from '@angular/common/http';
 import { CEFormBody, InterventionCERequest } from 'src/app/apiAndObjects/objects/interventionCE.interface';
 
 interface InterventionType {
@@ -66,10 +65,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
     private dictionariesService: DictionaryService,
-    private http: HttpClient,
     private readonly route: ActivatedRoute,
     private apiService: ApiService,
   ) {
+    this.interventions = dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
+    this.queryParams = dialogData.dataIn.params;
+
     this.route.queryParamMap.subscribe(async (queryParams) => {
       const currentlySelectedInterventionIDs: Array<string> = queryParams.get('intIds')
         ? JSON.parse(queryParams.get('intIds'))
@@ -81,7 +82,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         currentlySelectedInterventionIDsAsStrings.push(value.toString());
       });
 
-      this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
+
       // Only allow interventions to be loaded directly which are above an ID.
       // This can be updated to check for an intervention parameter when API allows it.
       this.interventionsAllowedToUse = this.interventions.filter(
@@ -92,17 +93,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       this.interventionsAllowedToUse = this.interventionsAllowedToUse.filter(
         (i) => !currentlySelectedInterventionIDsAsStrings.includes(i.id),
       );
+      this.createParameterForm();
     });
-    this.interventions = this.dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
-    this.queryParams = this.dialogData.dataIn.params;
-    /**
-     * Only allow interventions to be loaded directly which are above an ID.
-     * This can be updated to check for an intervention parameter when API allows it.
-     */
-    this.interventionsAllowedToUse = this.interventions.filter(
-      (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
-    );
-    this.createParameterForm();
   }
 
   ngOnInit(): void {
