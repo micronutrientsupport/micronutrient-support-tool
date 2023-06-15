@@ -234,7 +234,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
       const colToFind = cellIndex.colIndex as ObjectKey;
       const valueAtCol = resAtRow[colToFind];
 
-      console.debug('JSONLOGIC: looking for row/col: ', cellIndex.rowIndex, ' | ', cellIndex.colIndex);
+      console.table(cellIndex);
       console.debug('value at col: ', valueAtCol);
 
       // this is the value at selected cell
@@ -257,36 +257,38 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
     // find all the rows which have formulas to calculate their new value
     allItemsWithRowFormulas.forEach((item: IndustryInformation) => {
-      const rowWantToUpdate = item.rowIndex;
+      const rowWantToUpdate = item.rowIndex; // each row which contains a formular that requires calculating
 
-      if (!item['year' + columnToUpdate + 'Formula']) {
-        // if isEditable = true AND no yearXFormula exists, this is the third use case
-        // in which the calculated value is done using values entirely outside this current API endpoint
-        // and so needs to not be editable but does not need recalculating
-        return;
-      }
-
-      // jsonLogic.add_operation('rowIndex', rowIndexFn);
-      // jsonLogic.add_operation('colIndex', colIndexFn);
-      jsonLogic.add_operation('var', newVarFn);
-
-      // calculate the result of the formula using the inputs describes in jsonlogic
-      const theResult = jsonLogic.apply(item['year' + columnToUpdate + 'Formula'], {});
-
-      // Loop through each row of the table
-      this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
-        // Find the row which contains the column we want to update with the new value
-        if (formRow.value['rowIndex'] == rowWantToUpdate) {
-          // Loop through all the columns in this row to find the cell we want to update
-          Object.keys(formRow.controls).forEach((key: string) => {
-            // Once find the cell, update its value with the newly calculated on
-            if (key === 'year' + columnToUpdate) {
-              const dynamicYearColumn = 'year' + columnToUpdate;
-              this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
-            }
-          });
+      for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
+        if (!item['year' + columnIndex + 'Formula']) {
+          // if isEditable = true AND no yearXFormula exists, this is the third use case
+          // in which the calculated value is done using values entirely outside this current API endpoint
+          // and so needs to not be editable but does not need recalculating
+          return;
         }
-      });
+
+        // jsonLogic.add_operation('rowIndex', rowIndexFn);
+        // jsonLogic.add_operation('colIndex', colIndexFn);
+        jsonLogic.add_operation('var', newVarFn);
+
+        // calculate the result of the formula using the inputs describes in jsonlogic
+        const theResult = jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
+
+        // Loop through each row of the table
+        this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+          // Find the row which contains the column we want to update with the new value
+          if (formRow.value['rowIndex'] == rowWantToUpdate) {
+            // Loop through all the columns in this row to find the cell we want to update
+            Object.keys(formRow.controls).forEach((key: string) => {
+              // Once find the cell, update its value with the newly calculated on
+              if (key === 'year' + columnIndex) {
+                const dynamicYearColumn = 'year' + columnIndex;
+                this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
+              }
+            });
+          }
+        });
+      }
     });
   }
 }
