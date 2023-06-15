@@ -29,7 +29,7 @@
               <!-- If isEditable is true, this is a standard input field which may affect other fields -->
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
-                  formControlName="year0" (change)="recalculateChanges(0)">
+                  formControlName="year0" (change)="recalculateChanges()">
               </div>
 
             </div>
@@ -50,7 +50,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year1"
-                  formControlName="year1" (change)="recalculateChanges(1)">
+                  formControlName="year1" (change)="recalculateChanges()">
               </div>
 
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year1
@@ -72,7 +72,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year2"
-                  formControlName="year2" (change)="recalculateChanges(2)">
+                  formControlName="year2" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year2
                 formControlName="year2"> -->
@@ -93,7 +93,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year3"
-                  formControlName="year3" (change)="recalculateChanges(3)">
+                  formControlName="year3" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year3
                 formControlName="year3"> -->
@@ -114,7 +114,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year4"
-                  formControlName="year4" (change)="recalculateChanges(4)">
+                  formControlName="year4" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year4
                 formControlName="year4"> -->
@@ -135,7 +135,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year5"
-                  formControlName="year5" (change)="recalculateChanges(5)">
+                  formControlName="year5" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year5
                 formControlName="year5"> -->
@@ -156,7 +156,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year6"
-                  formControlName="year6" (change)="recalculateChanges(6)">
+                  formControlName="year6" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year6
                 formControlName="year6"> -->
@@ -177,7 +177,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year7"
-                  formControlName="year7" (change)="recalculateChanges(7)">
+                  formControlName="year7" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year7
                 formControlName="year7"> -->
@@ -198,7 +198,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year8"
-                  formControlName="year8" (change)="recalculateChanges(8)">
+                  formControlName="year8" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year8
                 formControlName="year8"> -->
@@ -219,7 +219,7 @@
               </div>
               <div *ngIf="element.isEditable === true">
                 <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year9"
-                  formControlName="year9" (change)="recalculateChanges(9)">
+                  formControlName="year9" (change)="recalculateChanges()">
               </div>
               <!-- <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]=element.year9
                 formControlName="year9"> -->

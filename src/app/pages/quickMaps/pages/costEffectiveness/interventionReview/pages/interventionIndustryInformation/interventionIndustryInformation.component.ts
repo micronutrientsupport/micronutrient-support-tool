@@ -217,7 +217,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     this.dirtyIndexes.push(index);
   }
 
-  public recalculateChanges(columnToUpdate: number): void {
+  public recalculateChanges(): void {
     /*
       1. loop through all the items
       2. identify which ones have a formula to calculate their cell value
