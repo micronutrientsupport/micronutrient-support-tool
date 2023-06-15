@@ -82,7 +82,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         currentlySelectedInterventionIDsAsStrings.push(value.toString());
       });
 
-
       // Only allow interventions to be loaded directly which are above an ID.
       // This can be updated to check for an intervention parameter when API allows it.
       this.interventionsAllowedToUse = this.interventions.filter(
@@ -260,8 +259,23 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.closeDialog();
       }
     } else if (this.tabID === 'copy') {
-      // TODO: POST to endpoint with paramaterFormObj as body
-      console.log(this.parameterFormObj);
+      // TODO: POST to endpoint with parameterFormObj as body
+      this.interventionDataService
+        .setIntervention(
+          this.interventionRequestBody.parentInterventionId,
+          this.interventionRequestBody.newInterventionName,
+          this.interventionRequestBody.newInterventionDescription,
+          this.interventionRequestBody.newInterventionNation,
+          this.interventionRequestBody.newInterventionFocusGeography,
+          this.interventionRequestBody.newInterventionFocusMicronutrient,
+        )
+        .then((result) => {
+          this.dialogData.dataOut = result;
+          this.closeDialog();
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
     }
   }
 

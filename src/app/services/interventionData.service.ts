@@ -135,11 +135,17 @@ export class InterventionDataService {
     parentInterventionId: number,
     newInterventionName: string,
     newInterventionDescription: string,
+    newInterventionNation?: string,
+    newInterventionFocusGeography?: string,
+    newInterventionFocusMicronutrient?: string,
   ): Promise<Intervention> {
     return this.apiService.endpoints.intervention.postIntervention.call({
       parentInterventionId,
       newInterventionName,
       newInterventionDescription,
+      newInterventionNation,
+      newInterventionFocusGeography,
+      newInterventionFocusMicronutrient,
     });
   }
 
