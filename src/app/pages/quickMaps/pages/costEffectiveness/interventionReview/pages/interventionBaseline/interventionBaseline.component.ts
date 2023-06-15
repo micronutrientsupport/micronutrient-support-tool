@@ -57,6 +57,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public dataLoaded = false;
   public focusMnForm: UntypedFormGroup;
   public focusMnData: Array<Record<string, unknown>> = [];
+  public focusMnFormInitVals;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -119,7 +120,14 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
 
     this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value), pairwise()).subscribe(([prev, curr]) => {
+      console.log('PREV', prev);
+      console.log('CURR', curr);
+
       if (curr.targetVal !== '') {
+        if (prev.optFort === curr.optFort) {
+          this.focusMnFormInitVals = this.focusMnForm.value;
+        }
+
         this.selectedCompound = curr.compound;
         this.selectedCompound.targetVal = curr.targetVal;
 
@@ -278,6 +286,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
         }
       });
     });
+    console.log(this.focusMnFormInitVals);
+    this.focusMnForm.reset(this.focusMnFormInitVals);
+
     //on reset mark forma as pristine to remove blue highlights
     this.form.markAsPristine();
     //remove dirty indexes to reset button to GFDx input

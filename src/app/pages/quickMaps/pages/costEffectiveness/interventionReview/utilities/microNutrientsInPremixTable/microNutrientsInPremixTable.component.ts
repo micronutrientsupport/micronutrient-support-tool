@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { BaselineAssumptions, InterventionBaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
+import {
+  BaselineAssumptions,
+  InterventionBaselineAssumptions,
+} from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,

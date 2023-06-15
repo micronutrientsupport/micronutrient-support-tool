@@ -69,13 +69,10 @@ export class MnAdditionDialogComponent {
     this.micronutrientsSelected = event.value;
   }
 
-  public alreadyAdded(micronutrientName: MicronutrientDictionaryItem['name']): boolean {
+  public alreadyAdded(micronutrientId: MicronutrientDictionaryItem['id']): boolean {
     const cached = this.interventionDataService.getCachedMnInPremix();
     if (cached && cached.length > 0) {
-      return (
-        cached.filter((item) => item.micronutrient.trim().toLocaleLowerCase() === micronutrientName.toLocaleLowerCase())
-          .length > 0
-      );
+      return cached.filter((item) => item.micronutrient === micronutrientId).length > 0;
     }
     return false;
   }
