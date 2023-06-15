@@ -10,6 +10,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import * as jsonLogic from 'json-logic-js';
+import { CeCalculatedFortificationInfoDialogComponent } from 'src/app/components/dialogs/ceCalculatedFortificationInfoDialog/ceCalculatedFortificationInfoDialog.component';
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -234,6 +235,10 @@ export class InterventionIndustryInformationComponent implements OnInit {
       const colToFind = cellIndex.colIndex as ObjectKey;
       const valueAtCol = resAtRow[colToFind];
 
+      console.debug('JSONLOGIC: looking for row/col: ', cellIndex.rowIndex, ' | ', cellIndex.colIndex);
+      console.debug('value at col: ', valueAtCol);
+
+      // this is the value at selected cell
       return valueAtCol;
     };
 
