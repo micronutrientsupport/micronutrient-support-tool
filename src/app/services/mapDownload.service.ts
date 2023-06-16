@@ -8,6 +8,8 @@ const fileSaver = require('file-saver');
   providedIn: 'root',
 })
 export class MapDownloadService {
+  public allItems: any;
+
   public captureElementAsImage(div: HTMLDivElement, filename: string): void {
     domtoimage.toBlob(div).then((blob) => {
       fileSaver.saveAs(blob, `${filename}`);

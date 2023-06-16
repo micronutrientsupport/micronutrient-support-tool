@@ -9,7 +9,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
-import * as jsonLogic from 'json-logic-js';
+import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 
 @Component({
   selector: 'app-intervention-industry-information',
@@ -45,6 +45,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
+    private jsonLogicService: JSONLogicService,
   ) {}
 
   /**
@@ -226,70 +227,25 @@ export class InterventionIndustryInformationComponent implements OnInit {
   }
 
   public recalculateChanges(): void {
-    /*
-      1. loop through all the items
-      2. identify which ones have a formula to calculate their cell value
-      3. process the logic formula
-      4. calculate the new value
-      5. update the this.form object with the new values
-    */
-    const allItems = this.form.getRawValue().items; // getRawValue returns values even if cell is marked as disabled
+    // getRawValue returns values even if cell is marked as disabled
+    const allItems = this.form.getRawValue().items;
 
-    const newVarFn = function (cellIndex: CellIndex) {
-      // use find instead of filter as will only be one result and dont need to return a 1 length array
-      const resAtRow = allItems.find((item: IndustryInformation) => item.rowIndex == cellIndex.rowIndex);
-      type ObjectKey = keyof typeof resAtRow;
-      const colToFind = cellIndex.colIndex as ObjectKey;
-      const valueAtCol = resAtRow[colToFind];
-
-      console.table(cellIndex);
-      console.debug('value at col: ', valueAtCol);
-
-      // this is the value at selected cell
-      return valueAtCol;
-    };
-
-    const roundup = function (value, decimals = 0) {
-      console.debug('roundup value | decimals: ', value, ' | ', decimals);
-      const multiplier = Math.pow(10, decimals);
-      return Math.ceil(value * multiplier) / multiplier;
-    };
-
-    const pv = function (rate, nper, pmt, fv = 0, type = 0) {
-      // console.debug('rate = ', rate);
-      // console.debug('nper = ', nper);
-      // console.debug('pmt = ', pmt);
-      // console.debug('fv = ', fv);
-      // console.debug('type = ', type);
-      if (rate === 0) {
-        return -pmt * nper - fv;
-      }
-      const pv = -((pmt * (1 + rate * type) * (Math.pow(1 + rate, nper) - 1)) / rate + fv) / Math.pow(1 + rate, nper);
-      return pv;
-    };
-
+    // find all the rows which have formulas to calculate their new value
     const allItemsWithRowFormulas = this.dataSource.data.filter(
       (item: IndustryInformation) => item.isEditable === false,
     );
 
-    // find all the rows which have formulas to calculate their new value
+    // loop through all the rows with formulas to calculate their new values
     allItemsWithRowFormulas.forEach((item: IndustryInformation) => {
-      const rowWantToUpdate = item.rowIndex; // each row which contains a formular that requires calculating
+      const rowWantToUpdate = item.rowIndex;
 
       for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
         if (!item['year' + columnIndex + 'Formula']) {
-          // if isEditable = true AND no yearXFormula exists, this is the third use case
-          // in which the calculated value is done using values entirely outside this current API endpoint
-          // and so needs to not be editable but does not need recalculating
+          // if isEditable = true AND no yearXFormula exists, calculated value by vars outside this endpoint
           return;
         }
-
-        jsonLogic.add_operation('roundup', roundup);
-        jsonLogic.add_operation('PV', pv);
-        jsonLogic.add_operation('var', newVarFn);
-
         // calculate the result of the formula using the inputs describes in jsonlogic
-        const theResult = jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
+        const theResult = this.jsonLogicService.calculateResult(item, columnIndex, allItems);
 
         // Loop through each row of the table
         this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
@@ -309,9 +265,4 @@ export class InterventionIndustryInformationComponent implements OnInit {
       }
     });
   }
-}
-
-export interface CellIndex {
-  colIndex: number;
-  rowIndex: number;
 }
