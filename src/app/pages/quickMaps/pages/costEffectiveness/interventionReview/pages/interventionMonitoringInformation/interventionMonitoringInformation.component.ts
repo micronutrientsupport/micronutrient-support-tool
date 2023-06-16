@@ -9,6 +9,7 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
+import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 
 @Component({
   selector: 'app-intervention-monitoring-information',
@@ -44,6 +45,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
+    private jsonLogicService: JSONLogicService,
   ) {}
 
   /**
@@ -209,5 +211,45 @@ export class InterventionMonitoringInformationComponent implements OnInit {
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
+  }
+
+  public recalculateChanges(): void {
+    // getRawValue returns values even if cell is marked as disabled
+    const allItems: Array<MonitoringInformation> = this.form.getRawValue().items;
+
+    // find all the rows which have formulas to calculate their new value
+    const allItemsWithRowFormulas = this.dataSource.data.filter(
+      (item: MonitoringInformation) => item.isEditable === false,
+    );
+
+    // loop through all the rows with formulas to calculate their new values
+    allItemsWithRowFormulas.forEach((item: MonitoringInformation) => {
+      const rowWantToUpdate = item.rowIndex;
+
+      for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
+        if (!item['year' + columnIndex + 'Formula']) {
+          // if isEditable = true AND no yearXFormula exists, calculated value by vars outside this endpoint
+          return;
+        }
+        // calculate the result of the formula using the inputs describes in jsonlogic
+        const theResult = this.jsonLogicService.calculateResult(item, columnIndex, allItems);
+
+        // Loop through each row of the table
+        this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+          // Find the row which contains the column we want to update with the new value
+          if (formRow.value['rowIndex'] == rowWantToUpdate) {
+            // Loop through all the columns in this row to find the cell we want to update
+            Object.keys(formRow.controls).forEach((key: string) => {
+              // Once find the cell, update its value with the newly calculated on
+              if (key === 'year' + columnIndex) {
+                const dynamicYearColumn = 'year' + columnIndex;
+                // Update the value stored in the form with the new value
+                this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
+              }
+            });
+          }
+        });
+      }
+    });
   }
 }

@@ -228,7 +228,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public recalculateChanges(): void {
     // getRawValue returns values even if cell is marked as disabled
-    const allItems = this.form.getRawValue().items;
+    const allItems: Array<IndustryInformation> = this.form.getRawValue().items;
 
     // find all the rows which have formulas to calculate their new value
     const allItemsWithRowFormulas = this.dataSource.data.filter(
