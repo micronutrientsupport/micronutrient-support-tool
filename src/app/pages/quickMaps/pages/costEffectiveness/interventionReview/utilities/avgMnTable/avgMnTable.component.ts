@@ -40,6 +40,7 @@ export class AvgMnTableComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 2;
   public interventionName = 'IntName';
+  private activeInterventionId: string;
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -48,13 +49,13 @@ export class AvgMnTableComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
   ) {
     this.micronutrients = this.interventionDataService.getCachedMnInPremix();
-    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(() => {
+          this.interventionDataService.getInterventionFoodVehicleStandards(this.activeInterventionId).then(() => {
             void this.interventionDataService
-              .getInterventionBaselineAssumptions(activeInterventionId)
+              .getInterventionBaselineAssumptions(this.activeInterventionId)
               .then((data: InterventionBaselineAssumptions) => {
                 this.interventionDataService
                   .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())

@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
@@ -31,12 +32,31 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    private readonly route: ActivatedRoute,
   ) {
-    this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
-    // Only allow interventions to be loaded directly which are above an ID. This can be updated to check for an intervention parameter when API allows it.
-    this.interventionsAllowedToUse = this.interventions.filter(
-      (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
-    );
+    this.route.queryParamMap.subscribe(async (queryParams) => {
+      const currentlySelectedInterventionIDs: Array<string> = queryParams.get('intIds')
+        ? JSON.parse(queryParams.get('intIds'))
+        : [];
+
+      // create a string array with 'real' strings as the above does not
+      const currentlySelectedInterventionIDsAsStrings: string[] = [];
+      currentlySelectedInterventionIDs.forEach((value) => {
+        currentlySelectedInterventionIDsAsStrings.push(value.toString());
+      });
+
+      this.interventions = dialogData.dataIn as Array<InterventionsDictionaryItem>;
+      // Only allow interventions to be loaded directly which are above an ID.
+      // This can be updated to check for an intervention parameter when API allows it.
+      this.interventionsAllowedToUse = this.interventions.filter(
+        (item: InterventionsDictionaryItem) => Number(item.id) > this.onlyAllowInterventionsAboveID,
+      );
+
+      // Remove interventions that are already selected
+      this.interventionsAllowedToUse = this.interventionsAllowedToUse.filter(
+        (i) => !currentlySelectedInterventionIDsAsStrings.includes(i.id),
+      );
+    });
   }
 
   ngOnInit(): void {

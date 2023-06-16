@@ -9,7 +9,7 @@
         <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
           <ng-container matColumnDef="section">
             <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years</th>
-            <td class="row-title-left" mat-cell *matCellDef="let element" class="truncate-cell">
+            <td class="row-title-left" mat-cell *matCellDef="let element">
               <button class="table-edit-button" mat-button color="primary"
                 (click)="openSectionRecurringCostReviewDialog(element.category)">
                 <mat-icon>edit</mat-icon>{{element.category}}

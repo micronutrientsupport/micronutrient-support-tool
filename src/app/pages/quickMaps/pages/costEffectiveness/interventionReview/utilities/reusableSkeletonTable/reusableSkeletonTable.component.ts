@@ -13,7 +13,7 @@ export class ReusableSkeletonTableComponent {
   @Input() set setData(config: SkeletonTableConfig) {
     const cols = [];
     for (let i = 0; i < config.columns; i++) {
-      cols.push(Math.floor(Math.random() * 999).toString());
+      cols.push(Math.floor(Math.random() * 9999999).toString());
     }
     // Assigns <cols> variable to a set then back to array to remove duplicates. When cols was populated it was causing deplicate values that were causing subsequent errors.
     this.columnsToDisplay = Array.from(new Set(cols));

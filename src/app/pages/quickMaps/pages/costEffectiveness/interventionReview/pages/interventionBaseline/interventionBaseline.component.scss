@@ -30,7 +30,7 @@
   align-items: center;
 
   .standard {
-    width: 85%;
+    width: 90%;
   }
 
   .compliance {
@@ -55,6 +55,11 @@
     margin-right: 0.5rem;
     border-radius: 4px;
   }
+}
+
+.focus-mn-title {
+  color: $color_primary;
+  font-weight: bold;
 }
 
 table {
