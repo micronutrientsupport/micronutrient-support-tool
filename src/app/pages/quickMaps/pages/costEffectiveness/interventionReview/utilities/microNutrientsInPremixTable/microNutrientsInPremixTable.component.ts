@@ -54,7 +54,7 @@ export class MicroNutrientsInPremixTableComponent {
         .then((data: InterventionFoodVehicleStandards) => {
           if (data != null) {
             const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-              return standard.micronutrient.includes(micronutrient.name.toLocaleLowerCase());
+              return standard.micronutrient.includes(micronutrient.id);
             });
             this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
             this.micronutrients = addedNutrientFVS;
