@@ -82,9 +82,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
             Object.keys(formRow.controls).forEach((key: string) => {
               if (key === 'year' + yearIndex) {
                 if (formRow.controls['isEditable'].value === false) {
-                  // TODO: not all rows will have formulas. When this change is made can renable below, otherwise all fields are disabled and untestable
-                  // if (formRow.controls['isEditable'].value === false || formRow.controls['year0Formula'].value !== '{}') {
-                  formRow.controls[key].disable();
+                  formRow.controls[key].disable(); // disabling control removes its value, for some reason
                 }
                 if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
                   formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
@@ -155,33 +153,43 @@ export class InterventionIndustryInformationComponent implements OnInit {
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
+      year0Formula: [Number(item.year0Formula), []],
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
       year1Default: [Number(item.year1Default), []],
+      year1Formula: [Number(item.year1Formula), []],
       year2: [Number(item.year2), []],
       year2Edited: [Boolean(item.year2Edited), []],
       year2Default: [Number(item.year2Default), []],
+      year2Formula: [Number(item.year2Formula), []],
       year3: [Number(item.year3), []],
       year3Edited: [Boolean(item.year3Edited), []],
       year3Default: [Number(item.year3Default), []],
+      year3Formula: [Number(item.year3Formula), []],
       year4: [Number(item.year4), []],
       year4Edited: [Boolean(item.year4Edited), []],
       year4Default: [Number(item.year4Default), []],
+      year4Formula: [Number(item.year4Formula), []],
       year5: [Number(item.year5), []],
       year5Edited: [Boolean(item.year5Edited), []],
       year5Default: [Number(item.year5Default), []],
+      year5Formula: [Number(item.year5Formula), []],
       year6: [Number(item.year6), []],
       year6Edited: [Boolean(item.year6Edited), []],
       year6Default: [Number(item.year6Default), []],
+      year6Formula: [Number(item.year6Formula), []],
       year7: [Number(item.year7), []],
       year7Edited: [Boolean(item.year7Edited), []],
       year7Default: [Number(item.year7Default), []],
+      year7Formula: [Number(item.year7Formula), []],
       year8: [Number(item.year8), []],
       year8Edited: [Boolean(item.year8Edited), []],
       year8Default: [Number(item.year8Default), []],
+      year8Formula: [Number(item.year8Formula), []],
       year9: [Number(item.year9), []],
       year9Edited: [Boolean(item.year9Edited), []],
       year9Default: [Number(item.year9Default), []],
+      year9Formula: [Number(item.year9Formula), []],
     });
   }
 
@@ -225,7 +233,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
       4. calculate the new value
       5. update the this.form object with the new values
     */
-    const allItems = this.form.value.items;
+    const allItems = this.form.getRawValue().items; // getRawValue returns values even if cell is marked as disabled
 
     const newVarFn = function (cellIndex: CellIndex) {
       // use find instead of filter as will only be one result and dont need to return a 1 length array
@@ -241,15 +249,24 @@ export class InterventionIndustryInformationComponent implements OnInit {
       return valueAtCol;
     };
 
-    // const rowIndexFn = function (rowIndex) {
-    //   console.log('RowIndex', rowIndex);
-    //   return rowIndex;
-    // };
+    const roundup = function (value, decimals = 0) {
+      console.debug('roundup value | decimals: ', value, ' | ', decimals);
+      const multiplier = Math.pow(10, decimals);
+      return Math.ceil(value * multiplier) / multiplier;
+    };
 
-    // const colIndexFn = function (colIndex) {
-    //   console.log('colIndex', colIndex);
-    //   return colIndex;
-    // };
+    const pv = function (rate, nper, pmt, fv = 0, type = 0) {
+      // console.debug('rate = ', rate);
+      // console.debug('nper = ', nper);
+      // console.debug('pmt = ', pmt);
+      // console.debug('fv = ', fv);
+      // console.debug('type = ', type);
+      if (rate === 0) {
+        return -pmt * nper - fv;
+      }
+      const pv = -((pmt * (1 + rate * type) * (Math.pow(1 + rate, nper) - 1)) / rate + fv) / Math.pow(1 + rate, nper);
+      return pv;
+    };
 
     const allItemsWithRowFormulas = this.dataSource.data.filter(
       (item: IndustryInformation) => item.isEditable === false,
@@ -267,8 +284,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
           return;
         }
 
-        // jsonLogic.add_operation('rowIndex', rowIndexFn);
-        // jsonLogic.add_operation('colIndex', colIndexFn);
+        jsonLogic.add_operation('roundup', roundup);
+        jsonLogic.add_operation('PV', pv);
         jsonLogic.add_operation('var', newVarFn);
 
         // calculate the result of the formula using the inputs describes in jsonlogic
@@ -283,6 +300,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
               // Once find the cell, update its value with the newly calculated on
               if (key === 'year' + columnIndex) {
                 const dynamicYearColumn = 'year' + columnIndex;
+                // Update the value stored in the form with the new value
                 this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
               }
             });
