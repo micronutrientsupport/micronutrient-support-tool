@@ -32,7 +32,7 @@ export class JSONLogicService {
     });
   }
 
-  public calculateResult<T>(
+  public calculateResult(
     item: IndustryInformation | MonitoringInformation,
     columnIndex: number,
     allItems: Array<IndustryInformation | MonitoringInformation>,
