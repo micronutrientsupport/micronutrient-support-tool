@@ -76,7 +76,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
             .then((data: InterventionFoodVehicleStandards) => {
               if (null != data) {
                 this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  return standard.micronutrient.includes(mn.name.toLocaleLowerCase());
+                  return standard.micronutrient.includes(mn.id);
                 });
                 this.createFVTableObject(this.activeNutrientFVS);
                 this.compoundAvailable = true;
