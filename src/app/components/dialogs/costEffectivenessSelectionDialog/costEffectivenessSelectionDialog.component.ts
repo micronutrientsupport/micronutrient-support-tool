@@ -262,7 +262,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       // TODO: POST to endpoint with parameterFormObj as body
       this.interventionDataService
         .setIntervention(
-          this.interventionRequestBody.parentInterventionId,
+          Number(this.interventionRequestBody.parentInterventionId),
           this.interventionRequestBody.newInterventionName,
           this.interventionRequestBody.newInterventionDescription,
           this.interventionRequestBody.newInterventionNation,
@@ -274,6 +274,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.closeDialog();
         })
         .catch((err) => {
+          console.log(err);
           throw new Error(err);
         });
     }
