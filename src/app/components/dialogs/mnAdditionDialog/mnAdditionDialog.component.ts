@@ -59,7 +59,7 @@ export class MnAdditionDialogComponent {
             .getItems()
             .sort((a, b) => (a.name < b.name ? -1 : 1)) as Array<MicronutrientDictionaryItem>;
 
-          this.micronutrientsFiltered = dict.filter((item) => available.includes(item.name.toLocaleLowerCase()));
+          this.micronutrientsFiltered = dict.filter((item) => available.includes(item.id));
           this.micronutrientsSelected = this.micronutrientsFiltered[0];
         }
       });
