@@ -53,6 +53,7 @@ export class AvgMnTableComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 2;
   public interventionName = 'IntName';
+  private activeInterventionId: string;
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -61,15 +62,14 @@ export class AvgMnTableComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
   ) {
     this.micronutrients = this.interventionDataService.getCachedMnInPremix();
-    console.debug(this.micronutrients);
-    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
         if (null != mn) {
-          this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(
+          this.interventionDataService.getInterventionFoodVehicleStandards(this.activeInterventionId).then(
             () =>
               void this.interventionDataService
-                .getInterventionBaselineAssumptions(activeInterventionId)
+                .getInterventionBaselineAssumptions(this.activeInterventionId)
                 .then((data: InterventionBaselineAssumptions) => {
                   this.createTableObject(data);
                 }),
@@ -86,7 +86,7 @@ export class AvgMnTableComponent implements OnInit {
 
   public ngOnInit(): void {
     this.interventionDataService
-      .getInterventionBaselineAssumptions('1')
+      .getInterventionBaselineAssumptions(this.activeInterventionId)
       .then((data: InterventionBaselineAssumptions) => {
         this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
         if (this.interventionDataService.getCachedMnInPremix()) {
