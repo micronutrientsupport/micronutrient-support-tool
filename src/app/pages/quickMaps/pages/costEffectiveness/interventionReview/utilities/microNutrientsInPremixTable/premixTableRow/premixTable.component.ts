@@ -58,10 +58,17 @@ export class PremixTableComponent {
   }
 
   public handleSelectCompound(mn: FoodVehicleStandard, event: MatSelectChange): void {
+    // Set Map with array of Mn and selected compound;
     const selectedCompound = event.value as FoodVehicleCompound;
     this.mnCompoundMap.set(mn.micronutrient, selectedCompound);
+
+    // update localstorage with updated Mn and selected compound;
+    const updated = mn;
+    updated.selectedCompound = selectedCompound;
+    this.interventionDataService.updateMnCachedInPremix(updated);
     console.debug(this.mnCompoundMap);
   }
+
   public openFortificationInfoDialog(): void {
     void this.dialogService.openFortificationInfoDialog();
   }

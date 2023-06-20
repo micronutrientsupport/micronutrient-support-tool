@@ -185,8 +185,7 @@ export class InterventionDataService {
   }
 
   public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
-    const ls = localStorage.getItem('cachedMnInPremix');
-    const cached = JSON.parse(ls);
+    const cached = this.getCachedMnInPremix();
 
     if (cached) {
       switch (true) {
@@ -203,6 +202,18 @@ export class InterventionDataService {
       this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
     }
     localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
+  }
+
+  public updateMnCachedInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
+    const cached = this.getCachedMnInPremix();
+    if (cached) {
+      const itemToUpdate = cached.find((value) => value.micronutrient === item.micronutrient);
+      const index = cached.indexOf(itemToUpdate);
+      cached[index] = item;
+      this.cachedMnInPremix = cached;
+    }
+    localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
+    return this.cachedMnInPremix;
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
