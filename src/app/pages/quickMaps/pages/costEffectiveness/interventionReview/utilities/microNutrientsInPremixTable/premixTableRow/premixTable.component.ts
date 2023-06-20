@@ -25,6 +25,8 @@ export class PremixTableComponent {
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public selectedCompound: FoodVehicleCompound;
 
+  public mnCompoundMap = new Map<string, FoodVehicleCompound>();
+
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
   @Input()
@@ -55,8 +57,10 @@ export class PremixTableComponent {
     this.dataSource._updateChangeSubscription();
   }
 
-  public handleSelectCompound(event: MatSelectChange): void {
-    console.log(event);
+  public handleSelectCompound(mn: FoodVehicleStandard, event: MatSelectChange): void {
+    const selectedCompound = event.value as FoodVehicleCompound;
+    this.mnCompoundMap.set(mn.micronutrient, selectedCompound);
+    console.debug(this.mnCompoundMap);
   }
   public openFortificationInfoDialog(): void {
     void this.dialogService.openFortificationInfoDialog();
