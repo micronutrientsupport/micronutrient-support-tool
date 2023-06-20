@@ -43,6 +43,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
+import { MnTableCellComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/mnTableCell/mnTableCell.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { ReusableSkeletonTableComponent } from './interventionReview/utilities/r
     PremixTableComponent,
     AvgMnTableComponent,
     AddMicronutrientComponent,
+    MnTableCellComponent,
   ],
   imports: [
     CommonModule,
