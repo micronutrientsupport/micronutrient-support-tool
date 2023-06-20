@@ -45,7 +45,8 @@
                 <h4>3. Focus micronutrient</h4>
                 <mat-form-field>
                   <mat-label>Select</mat-label>
-                  <mat-select [(value)]="selectedMn" name="focusMicronutrient" formControlName="focusMicronutrient">
+                  <mat-select [(value)]="selectedMn" name="focusMicronutrient" formControlName="focusMicronutrient"
+                    (valueChange)="handleMnChange($event)">
                     <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
                       {{ item.name }}
                     </mat-option>

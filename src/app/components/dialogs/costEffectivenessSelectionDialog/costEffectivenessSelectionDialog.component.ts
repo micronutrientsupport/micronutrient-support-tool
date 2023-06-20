@@ -17,6 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { Region } from 'src/app/apiAndObjects/objects/region';
 import { CEFormBody, InterventionCERequest } from 'src/app/apiAndObjects/objects/interventionCE.interface';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -218,6 +219,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       });
   }
 
+  private setUrlParams(param: string, value: string): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set(param, value);
+    const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    history.pushState(null, '', newRelativePathQuery);
+  }
+
   public handleTabChange(event: MatTabChangeEvent): void {
     this.interventionForm.reset();
     this.proceed.next(false);
@@ -274,7 +282,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.closeDialog();
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           throw new Error(err);
         });
     }
@@ -288,6 +296,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       .then((response: Region[]) => {
         this.toggleRegionDropdown(response);
         this.regionOptionArray = response.sort(this.sort);
+        this.setUrlParams('country-id', change.value);
       });
   }
 
@@ -301,5 +310,14 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       foodVehicleId: change.value.foodVehicleId,
       foodVehicleName: change.value.foodVehicleName,
     });
+  }
+
+  public handleMnChange(mnId: string): void {
+    const copy = [...this.micronutrientsOptionArray];
+    const filtered = copy.filter((item) => item.id === mnId);
+    if (filtered.length > 0) {
+      const micronutrient = filtered.shift() as MicronutrientDictionaryItem;
+      this.setUrlParams('mnd-id', micronutrient.id);
+    }
   }
 }

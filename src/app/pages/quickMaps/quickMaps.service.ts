@@ -15,6 +15,7 @@ import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enum';
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
 import { StringConverter } from './queryParams/converters/stringConverter';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class QuickMapsService {
@@ -54,13 +55,16 @@ export class QuickMapsService {
     private dietDataService: DietDataService,
     private biomarkerDataService: BiomarkerDataService,
     private dictionaryService: DictionaryService,
+    private readonly route: ActivatedRoute,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
 
     // set from query params etc. on init
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
-      this.quickMapsParameters.getMicronutrient().then((micronutrient) => this.micronutrient.set(micronutrient)),
+      this.quickMapsParameters.getMicronutrient().then((micronutrient) => {
+        this.micronutrient.set(micronutrient);
+      }),
       this.quickMapsParameters.getAgeGenderGroup().then((ageGenderGroupFromParams) =>
         (null != ageGenderGroupFromParams
           ? // use one from params
@@ -85,6 +89,13 @@ export class QuickMapsService {
         this.initSubscriptions();
         this.init.set(true);
       });
+  }
+
+  public getMicronutrientRefresh(): void {
+    this.quickMapsParameters.getMicronutrient(this.route.snapshot.queryParamMap).then((micronutrient) => {
+      console.log('refresh', micronutrient);
+      this.micronutrient.set(micronutrient);
+    });
   }
 
   public sideNavOpen(): void {
