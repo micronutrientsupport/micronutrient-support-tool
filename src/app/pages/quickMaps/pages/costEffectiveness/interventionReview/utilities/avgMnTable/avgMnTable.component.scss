@@ -1,5 +1,9 @@
 @use 'src/app/pages/quickMaps/pages/costEffectiveness/interventionReview/pages/interventionReviewPages.scss';
 
-.no-margin {
-  margin: 0;
+::ng-deep mat-accordion {
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    background: none;
+    box-shadow: none;
+    margin-top: 1em;
+  }
 }
