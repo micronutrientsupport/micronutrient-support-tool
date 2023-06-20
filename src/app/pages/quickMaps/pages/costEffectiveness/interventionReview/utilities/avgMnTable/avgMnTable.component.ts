@@ -40,6 +40,7 @@ export class AvgMnTableComponent implements OnInit {
   public ROUTES = AppRoutes;
   public pageStepperPosition = 2;
   public interventionName = 'IntName';
+  private activeInterventionId: string;
   private subscriptions = new Array<Subscription>();
 
   constructor(

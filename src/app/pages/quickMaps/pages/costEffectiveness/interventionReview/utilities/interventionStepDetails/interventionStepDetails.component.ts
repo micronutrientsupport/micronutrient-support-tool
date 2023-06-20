@@ -14,6 +14,7 @@ export class InterventionStepDetailsComponent {
   @Input('resetDefaultValues') public resetDefaultValues = false;
   @Input('showFocusMn') public showFocusMn = false;
   @Input('showUserValues') public showUserValues = false;
+  @Input('showNonEditable') public showNonEditable = false;
   @Input('showMnUnits') public showMnUnits = false;
   @Input('showAddMicronutrient') public showAddMicronutrient = false;
 
