@@ -16,7 +16,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAvailability';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { QuickchartService } from 'src/app/services/quickChart.service';
@@ -51,6 +51,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public chartData: ChartJSObject;
   public chartPNG: string;
   public chartPDF: string;
+  public chartUrlLoaded = false;
   private data: Array<ProjectedAvailability>;
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -258,9 +259,16 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       },
     };
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartUrlLoaded = chartResponse.success;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartUrlLoaded = chartResponse.success;
+      this.chartPDF = chartResponse.url;
+    });
   }
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<ProjectionAvailabilityDialogData>(ProjectionAvailabilityComponent, {

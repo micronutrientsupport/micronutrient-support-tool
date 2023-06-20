@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import ColorHash from 'color-hash-ts';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -108,13 +108,14 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     };
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.interventionDataService.setInterventionDetailedChartPNG(
-      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
-    );
-    this.interventionDataService.setInterventionDetailedChartPDF(
-      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
-    );
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.interventionDataService.setInterventionSummaryChartPNG(chartResponse.url);
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.interventionDataService.setInterventionSummaryChartPDF(chartResponse.url);
+    });
   }
 
   private genColorHex(foodTypeIndex: string) {

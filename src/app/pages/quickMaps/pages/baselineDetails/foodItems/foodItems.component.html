@@ -51,7 +51,8 @@
     </mat-tab>
 
     <mat-tab label="Download">
-      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data">
+      <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"
+        *ngIf="urlCreated">
       </app-download>
     </mat-tab>
 

@@ -12,7 +12,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -318,10 +318,15 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     }
 
     this.chartData = generatedChart;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPDF = chartResponse.url;
+    });
   }
 
   private openDialog(): void {

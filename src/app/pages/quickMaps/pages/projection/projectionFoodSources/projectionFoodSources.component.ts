@@ -13,7 +13,7 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
-import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, ChartsJSDataObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
@@ -285,9 +285,14 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     };
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPDF = chartResponse.url;
+    });
   }
 
   private openDialog(): void {

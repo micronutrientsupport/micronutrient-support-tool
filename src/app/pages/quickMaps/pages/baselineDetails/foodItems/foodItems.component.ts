@@ -15,7 +15,7 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
 import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -56,6 +56,7 @@ export class FoodItemsComponent implements AfterViewInit {
   public displayedColumns = ['ranking', 'foodGenusName', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
+  public urlCreated = false;
 
   public readonly DATA_LEVEL = DataLevel;
 
@@ -240,10 +241,15 @@ export class FoodItemsComponent implements AfterViewInit {
         },
       },
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPDF = chartResponse.url;
+    });
 
     return generatedChart;
   }

@@ -128,3 +128,8 @@ export interface ChartJSObject {
   };
   plugins?: Array<unknown>;
 }
+
+export interface CreateShortUrl {
+  success: boolean;
+  url: string;
+}

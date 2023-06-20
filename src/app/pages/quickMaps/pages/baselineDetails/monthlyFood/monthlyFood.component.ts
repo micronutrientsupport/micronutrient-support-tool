@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, ChartsJSDataObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -235,9 +235,15 @@ export class MonthlyFoodComponent implements AfterViewInit {
       },
     };
     this.chartDataStack = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPDF = chartResponse.url;
+    });
   }
   private initialiseLineGraph(monthlyChartData: ChartsJSDataObject): void {
     const generatedChart: ChartJSObject = {
@@ -288,9 +294,14 @@ export class MonthlyFoodComponent implements AfterViewInit {
       },
     };
     this.chartDataLine = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.chartPDF = chartResponse.url;
+    });
   }
 
   private genColorHex(foodTypeIndex: string) {

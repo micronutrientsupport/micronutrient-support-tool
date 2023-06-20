@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
@@ -83,12 +83,14 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     };
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
-    this.interventionDataService.setInterventionSummaryChartPNG(
-      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
-    );
-    this.interventionDataService.setInterventionSummaryChartPDF(
-      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
-    );
+
+    this.qcService.getChartViaPost(generatedChart, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.interventionDataService.setInterventionSummaryChartPNG(chartResponse.url);
+    });
+    this.qcService.getChartViaPost(generatedChart, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.interventionDataService.setInterventionSummaryChartPDF(chartResponse.url);
+    });
   }
 }

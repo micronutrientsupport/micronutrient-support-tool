@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { ChartJSObject, CreateShortUrl } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { ChartjsComponent } from '@ctrl/ngx-chartjs';
@@ -120,9 +120,14 @@ export class StatusChartComponent implements AfterViewInit {
       },
     };
 
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(this.boxChartData));
-    this.boxChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.boxChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.qcService.getChartViaPost(this.boxChartData, 'png').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.boxChartPNG = chartResponse.url;
+    });
+    this.qcService.getChartViaPost(this.boxChartData, 'pdf').subscribe((response) => {
+      const chartResponse = response as CreateShortUrl;
+      this.boxChartPDF = chartResponse.url;
+    });
   }
 
   public initialiseBarChart(dataObj: any, type: string): void {
@@ -171,19 +176,36 @@ export class StatusChartComponent implements AfterViewInit {
       },
     };
 
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(this.barChartData));
     switch (type) {
       case 'pod':
-        this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        this.qcService.getChartViaPost(this.boxChartData, 'png').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.deficiencyBarChartPNG = chartResponse.url;
+        });
+        this.qcService.getChartViaPost(this.boxChartData, 'pdf').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.deficiencyBarChartPDF = chartResponse.url;
+        });
         break;
       case 'poe':
-        this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        this.qcService.getChartViaPost(this.boxChartData, 'png').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.excessBarChartPNG = chartResponse.url;
+        });
+        this.qcService.getChartViaPost(this.boxChartData, 'pdf').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.excessBarChartPDF = chartResponse.url;
+        });
         break;
       case 'cde':
-        this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+        this.qcService.getChartViaPost(this.boxChartData, 'png').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.combinedBarChartPNG = chartResponse.url;
+        });
+        this.qcService.getChartViaPost(this.boxChartData, 'pdf').subscribe((response) => {
+          const chartResponse = response as CreateShortUrl;
+          this.combinedBarChartPDF = chartResponse.url;
+        });
         break;
     }
   }
