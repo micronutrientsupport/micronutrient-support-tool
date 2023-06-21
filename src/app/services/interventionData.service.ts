@@ -16,8 +16,10 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
+import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
+export const RECENT_INTERVENTIONS = 'recentInterventions';
 @Injectable({
   providedIn: 'root',
 })
@@ -240,6 +242,26 @@ export class InterventionDataService {
     } else {
       return activeId;
     }
+  }
+
+  public getRecentInterventions(): Array<InterventionsDictionaryItem> {
+    const ls = localStorage.getItem(RECENT_INTERVENTIONS);
+    const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
+    return cached;
+  }
+
+  public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
+    const cached = this.getRecentInterventions() ? this.getRecentInterventions() : [];
+    if (cached.length < 5) {
+      // Checks if intervention already exists in RECENT_INTERVENTIONS array.
+      if (!cached.includes(intervention)) {
+        cached.push(intervention);
+      }
+    } else {
+      cached.shift(); // Removes chronologically oldest item in array.
+      cached.push(intervention);
+    }
+    localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
   }
 
   public startReviewingIntervention(interventionID: string): void {

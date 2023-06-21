@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { AppRoutes } from 'src/app/routes/routes';
@@ -11,7 +11,7 @@ import { InterventionCreationService } from '../interventionCreation/interventio
   styleUrls: ['./intervention.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InterventionComponent {
+export class InterventionComponent implements OnInit {
   @Input() intervention: InterventionsDictionaryItem;
 
   public ROUTES = AppRoutes;
@@ -29,6 +29,14 @@ export class InterventionComponent {
   public assumptionsText = 'Confirmed';
   public costsText = 'Confirmed';
   public today: number = Date.now();
+
+  ngOnInit(): void {
+    this.addToRecentlyAccessedInterventions();
+  }
+
+  private addToRecentlyAccessedInterventions(): void {
+    this.interventionDataService.updateRecentInterventions(this.intervention);
+  }
 
   public reviewIntervention(): void {
     this.interventionDataService.startReviewingIntervention(this.intervention.id);
