@@ -40,6 +40,10 @@ export class JSONLogicService {
       return pv;
     });
 
+    /**
+     * Navigates the row and column to retrieve a given value
+     * @param {CellIndex} cellIndex - row and column to find
+     */
     jsonLogic.add_operation('var', (cellIndex: CellIndex) => {
       const formItems = this.getItems();
       const resAtRow = formItems.find(

@@ -133,12 +133,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
                 ...this.formChanges,
               };
               this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
-
-              // if (this.userInput.valueOf()) {
-              //   return (this.userInput = true);
-              // }
-              // console.log('user Input? ', this.userInput);
-              // console.log('userinput value of? ', this.userInput.valueOf());
             });
         });
     }

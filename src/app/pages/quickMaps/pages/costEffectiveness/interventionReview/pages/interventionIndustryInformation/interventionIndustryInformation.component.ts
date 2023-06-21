@@ -104,7 +104,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
               map(([oldState, newState]) => {
                 for (const key in newState.items) {
                   const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-                  // console.debug('CCCCHANGES rowindex = ', rowIndex);
                   if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                     const diff = compareObjs(oldState.items[key], newState.items[key]);
                     if (Array.isArray(diff) && diff.length > 0) {
