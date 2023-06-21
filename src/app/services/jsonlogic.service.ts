@@ -9,10 +9,29 @@ export class JSONLogicService {
   public allItems: Array<IndustryInformation | MonitoringInformation>;
 
   constructor() {
+    /**
+     * Rounds up a numeric value to a specified number of decimal places.
+     *
+     * @param {number} value - The value to be rounded up.
+     * @param {number} [decimals=0] - The number of decimal places to round up to. Defaults to 0 if not provided.
+     * @returns {number} - The rounded-up value.
+     */
     jsonLogic.add_operation('roundup', (value, decimals = 0) => {
       const multiplier = Math.pow(10, decimals);
       return Math.ceil(value * multiplier) / multiplier;
     });
+
+    /**
+     *
+     * Calculates the present value (PV) of a series of cash flows.
+     *
+     * @param {number} rate - The interest rate per period.
+     * @param {number} nper - The number of periods.
+     * @param {number} pmt - The payment amount per period.
+     * @param {number} [fv=0] - The future value at the end of the series of cash flows (optional, default is 0).
+     * @param {number} [type=0] - The timing of the payment: 0 for the end of the period, 1 for the beginning of the period (optional, default is 0).
+     * @returns {number} The present value (PV) of the series of cash flows.
+     */
     jsonLogic.add_operation('PV', (rate, nper, pmt, fv = 0, type = 0) => {
       if (rate === 0) {
         return -pmt * nper - fv;
