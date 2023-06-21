@@ -270,6 +270,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public createIntervention(): void {
     if (this.tabID === 'load') {
       console.log('interventionLoad :', this.selectedInterventionLoad);
+      console.log('interventionLoad ID :', this.selectedInterventionIDLoad);
+
       this.interventionDataService
         .getIntervention(this.selectedInterventionIDLoad)
         .then((intervention: Intervention) => {
