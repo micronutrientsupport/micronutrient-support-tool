@@ -32,6 +32,7 @@ export class InterventionComponent {
 
   public reviewIntervention(): void {
     this.interventionDataService.startReviewingIntervention(this.intervention.id);
+    this.interventionDataService.updateRecentInterventions(this.intervention.id);
   }
 
   public removeIntervention() {

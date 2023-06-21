@@ -18,6 +18,7 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
 import { AppRoutes } from '../routes/routes';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
+export const RECENT_INTERVENTIONS = 'recentInterventions';
 @Injectable({
   providedIn: 'root',
 })
@@ -246,6 +247,27 @@ export class InterventionDataService {
     } else {
       return activeId;
     }
+  }
+
+  public getRecentInterventions(): Array<string> {
+    const ls = localStorage.getItem(RECENT_INTERVENTIONS);
+    const cached = JSON.parse(ls) as Array<string>;
+    return cached;
+  }
+
+  public updateRecentInterventions(interventionId: string): void {
+    const intID = interventionId.toString(); // TODO: Bug somewhere in system which is returning interventionId as an number.
+    const cached = this.getRecentInterventions() ? this.getRecentInterventions() : [];
+    if (!cached.includes(intID)) {
+      if (cached.length < 5) {
+        // Checks if intervention already exists in RECENT_INTERVENTIONS array.
+        cached.push(intID);
+      } else {
+        cached.shift(); // Removes chronologically oldest item in array.
+        cached.push(intID);
+      }
+    }
+    localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
   }
 
   public startReviewingIntervention(interventionID: string): void {
