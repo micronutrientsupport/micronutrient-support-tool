@@ -244,22 +244,23 @@ export class InterventionDataService {
     }
   }
 
-  public getRecentInterventions(): Array<InterventionsDictionaryItem> {
+  public getRecentInterventions(): Array<string> {
     const ls = localStorage.getItem(RECENT_INTERVENTIONS);
-    const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
+    const cached = JSON.parse(ls) as Array<string>;
     return cached;
   }
 
-  public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
+  public updateRecentInterventions(interventionId: string): void {
+    const intID = interventionId.toString(); // TODO: Bug somewhere in system which is returning interventionId as an number.
     const cached = this.getRecentInterventions() ? this.getRecentInterventions() : [];
-    if (cached.length < 5) {
-      // Checks if intervention already exists in RECENT_INTERVENTIONS array.
-      if (!cached.includes(intervention)) {
-        cached.push(intervention);
+    if (!cached.includes(intID)) {
+      if (cached.length < 5) {
+        // Checks if intervention already exists in RECENT_INTERVENTIONS array.
+        cached.push(intID);
+      } else {
+        cached.shift(); // Removes chronologically oldest item in array.
+        cached.push(intID);
       }
-    } else {
-      cached.shift(); // Removes chronologically oldest item in array.
-      cached.push(intervention);
     }
     localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
   }

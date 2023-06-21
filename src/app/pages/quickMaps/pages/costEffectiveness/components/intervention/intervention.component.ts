@@ -11,7 +11,7 @@ import { InterventionCreationService } from '../interventionCreation/interventio
   styleUrls: ['./intervention.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InterventionComponent implements OnInit {
+export class InterventionComponent {
   @Input() intervention: InterventionsDictionaryItem;
 
   public ROUTES = AppRoutes;
@@ -30,16 +30,9 @@ export class InterventionComponent implements OnInit {
   public costsText = 'Confirmed';
   public today: number = Date.now();
 
-  ngOnInit(): void {
-    this.addToRecentlyAccessedInterventions();
-  }
-
-  private addToRecentlyAccessedInterventions(): void {
-    this.interventionDataService.updateRecentInterventions(this.intervention);
-  }
-
   public reviewIntervention(): void {
     this.interventionDataService.startReviewingIntervention(this.intervention.id);
+    this.interventionDataService.updateRecentInterventions(this.intervention.id);
   }
 
   public removeIntervention() {
