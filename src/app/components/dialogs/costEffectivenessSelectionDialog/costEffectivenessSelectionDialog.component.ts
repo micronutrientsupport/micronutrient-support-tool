@@ -40,6 +40,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
   public selectedInterventionEdit: Intervention;
   public selectedInterventionLoad: Intervention;
+  public selectedInterventionIDLoad: string;
   public interventionId = '';
   public tabID = 'copy';
   public err = new BehaviorSubject<boolean>(false);
@@ -59,6 +60,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private onlyAllowInterventionsAboveID = 3;
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
+  public recentInterventions = '';
 
   constructor(
     public dialog: MatDialog,
@@ -98,6 +100,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.recentInterventions = `${
+      'Recent Interventions: ' + this.interventionDataService.getRecentInterventions().toString()
+    }`;
     this.interventionRequestBody = {
       parentInterventionId: 0,
       newInterventionName: '',
@@ -260,12 +265,25 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     }
   }
 
+  // public getInterventionFromID()
+
   public createIntervention(): void {
     if (this.tabID === 'load') {
-      if (this.selectedInterventionLoad !== null) {
-        this.dialogData.dataOut = this.selectedInterventionLoad;
-        this.closeDialog();
-      }
+      console.log('interventionLoad :', this.selectedInterventionLoad);
+      this.interventionDataService
+        .getIntervention(this.selectedInterventionIDLoad)
+        .then((intervention: Intervention) => {
+          this.selectedInterventionLoad = intervention;
+          this.selectedInterventionIDLoad = intervention.id.toString();
+          console.log('INTERVENTION', intervention);
+          console.log('INTERVENTION-ID', this.selectedInterventionIDLoad);
+
+          if (this.selectedInterventionLoad !== null) {
+            this.dialogData.dataOut = this.selectedInterventionLoad;
+            console.log('interventionID', this.selectedInterventionIDLoad);
+            this.closeDialog();
+          }
+        });
     } else if (this.tabID === 'copy') {
       // TODO: POST to endpoint with parameterFormObj as body
       this.interventionDataService
