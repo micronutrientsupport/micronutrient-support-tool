@@ -48,6 +48,7 @@ export class AppRoutes {
     segments: 'quick-maps',
     routerRoot: true,
   };
+  public static readonly;
   public static readonly EDUCATIONAL_RESOURCES = {
     ...BASE_ROUTE,
     segments: 'educational-resources',
@@ -113,6 +114,12 @@ export class AppRoutes {
     parent: AppRoutes.QUICK_MAPS,
   };
   // *** quick maps end ***
+
+  public static readonly STANDALONE_COST_EFFECTIVENESS = {
+    ...BASE_ROUTE,
+    segments: 'food-systems/cost-effectiveness',
+    parent: AppRoutes.QUICK_MAPS,
+  };
 
   // used in intervention review sub-router
   public static readonly INTERVENTION_REVIEW = {

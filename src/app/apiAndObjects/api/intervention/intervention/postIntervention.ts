@@ -23,6 +23,9 @@ export class PostIntervention extends Endpoint<Intervention, PostInterventionPar
       parentInterventionId: params.parentInterventionId,
       newInterventionName: params.newInterventionName,
       newInterventionDescription: params.newInterventionDescription,
+      newInterventionNation: params.newInterventionNation,
+      newInterventionFocusGeography: params.newInterventionFocusGeography,
+      newInterventionFocusMicronutrient: params.newInterventionFocusMicronutrient,
     });
     return this.buildObjectFromResponse(Intervention, callResponsePromise);
   }
@@ -47,4 +50,7 @@ export interface PostInterventionParams {
   parentInterventionId: number;
   newInterventionName?: string;
   newInterventionDescription?: string;
+  newInterventionNation?: string;
+  newInterventionFocusGeography?: string;
+  newInterventionFocusMicronutrient?: string;
 }

@@ -1,5 +1,4 @@
 <div role="main">
-
   <div class="wave-header">
     <img src="/assets/images/purple-opacity-wave.svg" alt="">
   </div>
@@ -34,21 +33,36 @@
             <h2>Quick MAPS</h2>
             <p>Launch the MAPS Tool using default mode settings to explore micronutrient
               deficiencies risks in your
-              geography of interest and possible interventions to reduce the risk of micronutrient deficiencies</p>
-
+              geography of interest and possible interventions to reduce the risk of micronutrient deficiencies
+            </p>
           </div>
           <button class="full-width margin-top-auto" mat-flat-button color="primary"
             [routerLink]="ROUTES.QUICK_MAPS | route">View</button>
         </div>
       </div>
+
+      <div class="tool-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3-desktop">
+        <div class="basic-card tool-options-card">
+          <i class="fas fa-coins fa-5x" style="color: #703AA3;"></i>
+          <div class="text text-center margin-top-auto">
+            <h2>Cost & Effectiveness</h2>
+            <p>Go straight to exploring cost-effectiveness scenarios by experimenting with model parameters and
+              configuration.
+            </p>
+          </div>
+          <button class="full-width margin-top-auto" mat-flat-button color="primary"
+            [routerLink]="ROUTES.STANDALONE_COST_EFFECTIVENESS | route" queryParamsHandling="merge">View</button>
+        </div>
+      </div>
+
       <div class="tool-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3-desktop">
         <div class="basic-card tool-options-card">
           <i class="fas fa-user-cog fa-5x" style="color: #703AA3;"></i>
           <div class="text text-center margin-top-auto">
             <h2>My MAPS</h2>
             <p>Log-in to create or access your stored workspace, including uploading your own
-              data</p>
-
+              data
+            </p>
           </div>
           <button class="full-width margin-top-auto" mat-flat-button color="primary" disabled>Coming Soon</button>
         </div>
@@ -60,8 +74,8 @@
           <div class="text text-center margin-top-auto">
             <h2>Choices in MAPS</h2>
             <p>Launch the MAPS Tool with data and model selection options enabled for you to
-              make customised choices</p>
-
+              make customised choices
+            </p>
           </div>
           <button class="full-width margin-top-auto" mat-flat-button color="primary" disabled>Coming Soon</button>
         </div>
@@ -73,12 +87,10 @@
           <div class="text text-center margin-top-auto">
             <h2>Sharing MAPS</h2>
             <p>Log-in to a shared MAPS Tool workspace</p>
-
           </div>
           <button class="full-width margin-top-auto" mat-flat-button color="primary" disabled>Coming Soon</button>
         </div>
       </div>
     </div>
   </div>
-
 </div>
