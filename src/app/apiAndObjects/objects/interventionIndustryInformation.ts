@@ -23,6 +23,23 @@ export class InterventionIndustryInformation extends BaseObject implements Named
   }
 }
 
+export interface IndustryInformationMissingDataItem {
+  year0: number;
+  year1: number;
+  year2: number;
+  year3: number;
+  year4: number;
+  year5: number;
+  year6: number;
+  year7: number;
+  year8: number;
+  year9: number;
+  rowIndex: number;
+}
+export interface IndustryInformationMissingData {
+  [number: string]: IndustryInformationMissingDataItem;
+}
+
 export interface IndustryInformation {
   year0: number;
   year1: number;
@@ -40,16 +57,8 @@ export interface IndustryInformation {
   labelText: string;
   dataSource: string;
   isEditable: boolean;
-  year0Formula: jsonLogic.RulesLogic;
-  year1Formula: jsonLogic.RulesLogic;
-  year2Formula: jsonLogic.RulesLogic;
-  year3Formula: jsonLogic.RulesLogic;
-  year4Formula: jsonLogic.RulesLogic;
-  year5Formula: jsonLogic.RulesLogic;
-  year6Formula: jsonLogic.RulesLogic;
-  year7Formula: jsonLogic.RulesLogic;
-  year8Formula: jsonLogic.RulesLogic;
-  year9Formula: jsonLogic.RulesLogic;
+  missingData: IndustryInformationMissingData;
+  missingRows: Array<number>;
   year0Edited: number;
   year1Edited: number;
   year2Edited: number;
@@ -61,15 +70,27 @@ export interface IndustryInformation {
   year8Edited: number;
   year9Edited: number;
   dataCitation: string;
+  reportedRows: Array<number>;
   year0Default: number;
+  year0Formula: jsonLogic.RulesLogic;
   year1Default: number;
+  year1Formula: jsonLogic.RulesLogic;
   year2Default: number;
+  year2Formula: jsonLogic.RulesLogic;
   year3Default: number;
+  year3Formula: jsonLogic.RulesLogic;
   year4Default: number;
+  year4Formula: jsonLogic.RulesLogic;
   year5Default: number;
+  year5Formula: jsonLogic.RulesLogic;
   year6Default: number;
+  year6Formula: jsonLogic.RulesLogic;
   year7Default: number;
+  year7Formula: jsonLogic.RulesLogic;
   year8Default: number;
+  year8Formula: jsonLogic.RulesLogic;
   year9Default: number;
-  dataSourceDefault: string;
+  year9Formula: jsonLogic.RulesLogic;
+  dependentRows: Array<number>;
+  dataSourceDefault: number;
 }

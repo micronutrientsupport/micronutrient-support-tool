@@ -19,7 +19,7 @@
         <ng-container matColumnDef="year0">
           <th mat-header-cell *matHeaderCellDef> 2021 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
                 formControlName="year0" (change)="recalculateChanges()">
             </div>
@@ -33,7 +33,7 @@
         <ng-container matColumnDef="year1">
           <th mat-header-cell *matHeaderCellDef> 2022 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year1"
                 formControlName="year1" (change)="recalculateChanges()">
             </div>
@@ -47,7 +47,7 @@
         <ng-container matColumnDef="year2">
           <th mat-header-cell *matHeaderCellDef> 2023 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year2"
                 formControlName="year2" (change)="recalculateChanges()">
             </div>
@@ -61,7 +61,7 @@
         <ng-container matColumnDef="year3">
           <th mat-header-cell *matHeaderCellDef> 2024 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year3"
                 formControlName="year3" (change)="recalculateChanges()">
             </div>
@@ -75,7 +75,7 @@
         <ng-container matColumnDef="year4">
           <th mat-header-cell *matHeaderCellDef> 2025 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year4"
                 formControlName="year4" (change)="recalculateChanges()">
             </div>
@@ -89,7 +89,7 @@
         <ng-container matColumnDef="year5">
           <th mat-header-cell *matHeaderCellDef> 2026 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
 
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year5"
                 formControlName="year5" (change)="recalculateChanges()">
@@ -104,7 +104,7 @@
         <ng-container matColumnDef="year6">
           <th mat-header-cell *matHeaderCellDef> 2027</th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year6"
                 formControlName="year6" (change)="recalculateChanges()">
             </div>
@@ -118,7 +118,7 @@
         <ng-container matColumnDef="year7">
           <th mat-header-cell *matHeaderCellDef> 2028 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year7"
                 formControlName="year7" (change)="recalculateChanges()">
             </div>
@@ -132,7 +132,7 @@
         <ng-container matColumnDef="year8">
           <th mat-header-cell *matHeaderCellDef> 2029 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year8"
                 formControlName="year8" (change)="recalculateChanges()">
             </div>
@@ -146,7 +146,7 @@
         <ng-container matColumnDef="year9">
           <th mat-header-cell *matHeaderCellDef> 2030 </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null">
               <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year9"
                 formControlName="year9" (change)="recalculateChanges()">
             </div>

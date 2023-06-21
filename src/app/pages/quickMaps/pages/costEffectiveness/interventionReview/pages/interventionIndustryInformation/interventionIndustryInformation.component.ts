@@ -64,8 +64,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionIndustryInformation(activeInterventionId)
         .then((data: InterventionIndustryInformation) => {
-          // console.debug('raw data: ', data);
-
           this.dataSource = new MatTableDataSource(data.industryInformation);
           const industryGroupArr = data.industryInformation.map((item) => {
             // for each item in the API result, create a row of results to populate the table
@@ -154,43 +152,43 @@ export class InterventionIndustryInformationComponent implements OnInit {
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
-      year0Formula: [Number(item.year0Formula), []],
+      year0Formula: item.year0Formula,
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
       year1Default: [Number(item.year1Default), []],
-      year1Formula: [Number(item.year1Formula), []],
+      year1Formula: item.year1Formula,
       year2: [Number(item.year2), []],
       year2Edited: [Boolean(item.year2Edited), []],
       year2Default: [Number(item.year2Default), []],
-      year2Formula: [Number(item.year2Formula), []],
+      year2Formula: item.year2Formula,
       year3: [Number(item.year3), []],
       year3Edited: [Boolean(item.year3Edited), []],
       year3Default: [Number(item.year3Default), []],
-      year3Formula: [Number(item.year3Formula), []],
+      year3Formula: item.year3Formula,
       year4: [Number(item.year4), []],
       year4Edited: [Boolean(item.year4Edited), []],
       year4Default: [Number(item.year4Default), []],
-      year4Formula: [Number(item.year4Formula), []],
+      year4Formula: item.year4Formula,
       year5: [Number(item.year5), []],
       year5Edited: [Boolean(item.year5Edited), []],
       year5Default: [Number(item.year5Default), []],
-      year5Formula: [Number(item.year5Formula), []],
+      year5Formula: item.year5Formula,
       year6: [Number(item.year6), []],
       year6Edited: [Boolean(item.year6Edited), []],
       year6Default: [Number(item.year6Default), []],
-      year6Formula: [Number(item.year6Formula), []],
+      year6Formula: item.year6Formula,
       year7: [Number(item.year7), []],
       year7Edited: [Boolean(item.year7Edited), []],
       year7Default: [Number(item.year7Default), []],
-      year7Formula: [Number(item.year7Formula), []],
+      year7Formula: item.year7Formula,
       year8: [Number(item.year8), []],
       year8Edited: [Boolean(item.year8Edited), []],
       year8Default: [Number(item.year8Default), []],
-      year8Formula: [Number(item.year8Formula), []],
+      year8Formula: item.year8Formula,
       year9: [Number(item.year9), []],
       year9Edited: [Boolean(item.year9Edited), []],
       year9Default: [Number(item.year9Default), []],
-      year9Formula: [Number(item.year9Formula), []],
+      year9Formula: item.year9Formula,
     });
   }
 
