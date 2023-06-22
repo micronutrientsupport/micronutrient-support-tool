@@ -18,12 +18,12 @@ import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionS
 import { AppRoutes } from '../routes/routes';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
+export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
 export const RECENT_INTERVENTIONS = 'recentInterventions';
 @Injectable({
   providedIn: 'root',
 })
 export class InterventionDataService {
-  private cachedMnInPremix: Array<FoodVehicleStandard> = [];
   public ROUTES = AppRoutes;
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
@@ -175,13 +175,13 @@ export class InterventionDataService {
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> | null {
-    const ls = localStorage.getItem('cachedMnInPremix');
+    const ls = localStorage.getItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`);
     const cached = JSON.parse(ls);
     return cached;
   }
 
   public getMnInPremixCount(): number {
-    const ls = localStorage.getItem('cachedMnInPremix');
+    const ls = localStorage.getItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`);
     const cached = JSON.parse(ls);
 
     if (cached) {
@@ -192,44 +192,53 @@ export class InterventionDataService {
   }
 
   public addMnToCachedMnInPremix(items: Array<FoodVehicleStandard>): void {
-    const ls = localStorage.getItem('cachedMnInPremix');
-    const cached = JSON.parse(ls);
+    const cached = this.getCachedMnInPremix();
+    let cachedMnInPremix = [];
 
     if (cached) {
       switch (true) {
         case cached.length > 0:
-          this.cachedMnInPremix = cached.concat(items);
+          cachedMnInPremix = cached.concat(items);
           break;
         case cached.length === 0:
-          this.cachedMnInPremix = items;
+          cachedMnInPremix = items;
           break;
         default:
-          this.cachedMnInPremix = [];
+          cachedMnInPremix = [];
       }
     } else {
-      this.cachedMnInPremix = this.cachedMnInPremix.concat(items);
+      cachedMnInPremix = cachedMnInPremix.concat(items);
     }
-    localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
+    localStorage.setItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`, JSON.stringify(cachedMnInPremix));
+  }
+
+  public updateMnCachedInPremix(item: FoodVehicleStandard) {
+    const cached = this.getCachedMnInPremix();
+    if (cached) {
+      const itemToUpdate = cached.find((value) => value.micronutrient === item.micronutrient);
+      const index = cached.indexOf(itemToUpdate);
+      cached[index] = item;
+      cached;
+      localStorage.setItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`, JSON.stringify(cached));
+    }
   }
 
   public removeMnFromCachedMnInPremix(item: FoodVehicleStandard): Array<FoodVehicleStandard> {
-    const ls = localStorage.getItem('cachedMnInPremix');
-    const cached = JSON.parse(ls);
+    const ls = localStorage.getItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`);
+    let cached = JSON.parse(ls);
 
     if (cached) {
-      this.cachedMnInPremix = cached;
-    }
+      if (cached.length === 1) {
+        cached = [];
+      } else {
+        cached = cached.filter((mnItem: FoodVehicleStandard) => {
+          return mnItem.micronutrient !== item.micronutrient;
+        });
+      }
 
-    if (this.cachedMnInPremix.length === 1) {
-      this.cachedMnInPremix = [];
-    } else {
-      this.cachedMnInPremix = this.cachedMnInPremix.filter((mnItem: FoodVehicleStandard) => {
-        return mnItem.micronutrient !== item.micronutrient;
-      });
+      localStorage.setItem(`${CACHED_MN_IN_PREMIX}:${this.getActiveInterventionId()}`, JSON.stringify(cached));
     }
-
-    localStorage.setItem('cachedMnInPremix', JSON.stringify(this.cachedMnInPremix));
-    return this.cachedMnInPremix;
+    return cached;
   }
 
   public setActiveInterventionId(id: string): void {

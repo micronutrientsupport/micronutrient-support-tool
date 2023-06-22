@@ -23,6 +23,7 @@ export class InterventionFoodVehicleStandards extends BaseObject implements Name
 export interface FoodVehicleStandard {
   micronutrient: string;
   compounds: Array<FoodVehicleCompound>;
+  selectedCompound?: FoodVehicleCompound;
 }
 export interface FoodVehicleCompound {
   compound: string;

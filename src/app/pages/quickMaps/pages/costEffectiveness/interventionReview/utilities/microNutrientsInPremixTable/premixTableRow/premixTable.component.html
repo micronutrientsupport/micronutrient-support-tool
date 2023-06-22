@@ -21,8 +21,8 @@
         </th>
         <td class="column-title" mat-cell *matCellDef="let element">
             <mat-form-field appearance="outline" class="override">
-                <mat-select [(ngModel)]="selectedCompound" matNativeControl
-                    (selectionChange)="handleSelectCompound($event)">
+                <mat-select placeholder="Please select a compound" matNativeControl [compareWith]="compareObjects"
+                    [(ngModel)]="element.selectedCompound" (selectionChange)="handleSelectCompound(element)">
                     <mat-option *ngFor="let item of element.compounds" [value]="item">
                         {{ item.id }}
                         {{ item.compound }}
@@ -37,13 +37,14 @@
         </th>
         <td class="column-title" mat-cell *matCellDef="let element;">
             <div *ngIf="editable" class="double-cell">
-                <input type="number" matInput required [ngModel]="selectedCompound.targetVal">
+                <input type="number" matInput required
+                    [ngModel]="element.selectedCompound ? element.selectedCompound.targetVal : '0'">
                 <button mat-button>
                     GFDx<mat-icon>arrow_right_alt</mat-icon>
                 </button>
             </div>
             <div *ngIf="!editable" class="double-cell">
-                {{selectedCompound.targetVal}}
+                {{element.selectedCompound ? element.selectedCompound.targetVal : '0'}}
             </div>
         </td>
     </ng-container>
@@ -57,7 +58,9 @@
         <td class="column-title" mat-cell *matCellDef="let element;">
             <div class="double-cell">
                 <span>
-                    {{ selectedCompound.targetVal * baselineAssumptions.potentiallyFortified.year0 | sigFig: 3 }}
+                    {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
+                    baselineAssumptions.potentiallyFortified.year0 | sigFig: 3
+                    }}
                 </span>
             </div>
         </td>
