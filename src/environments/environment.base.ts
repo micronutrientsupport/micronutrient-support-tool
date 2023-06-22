@@ -13,7 +13,8 @@ export const environment = {
   // gitBranchName: '{GIT-BRANCH-NAME}', // populated during pipeline
 
   //main API
-  // apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
+  // apiBaseUrl: 'http://10.148.7.2:3001',
+  // apiBaseUrl: 'http://bmgf-maps-api-1.bgslcdevops.test:3001',
   apiBaseUrl: 'https://api.micronutrient.support/dev/v2',
 
   //temp api:
