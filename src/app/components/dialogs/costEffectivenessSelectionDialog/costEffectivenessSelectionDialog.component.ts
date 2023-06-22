@@ -134,9 +134,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       .then((dicts: Array<Dictionary>) => {
         this.countriesDictionary = dicts.shift();
         this.micronutrientsDictionary = dicts.shift();
-
-        this.getDictionaryItems(DictionaryType.COUNTRIES);
-        this.getDictionaryItems(DictionaryType.MICRONUTRIENTS);
       });
     if (this.queryParams['country-id']) {
       this.apiService.endpoints.region.getRegions
@@ -185,8 +182,14 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.parameterForm = this.formBuilder.group({
       nation: new UntypedFormControl('', [Validators.required]),
       focusGeography: new UntypedFormControl('', []),
-      focusMicronutrient: new UntypedFormControl('', []),
-      interventionType: new UntypedFormControl({ value: '', disabled: true }, []),
+      focusMicronutrient: new UntypedFormControl('', [Validators.required]),
+      interventionType: new UntypedFormControl(
+        {
+          value: this.interventionTypeOptionArray,
+          disabled: true,
+        },
+        [],
+      ),
       foodVehicle: new UntypedFormControl({ value: '', disabled: true }, []),
       interventionStatus: new UntypedFormControl({ value: '', disabled: true }, []),
     });
@@ -301,6 +304,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   public handleInterventionChange(change: MatSelectChange): void {
+    setTimeout(() => {
+      this.getDictionaryItems(DictionaryType.COUNTRIES);
+      this.getDictionaryItems(DictionaryType.MICRONUTRIENTS);
+    }, 100);
+
     this.interventionRequestBody.parentInterventionId = this.selectedInterventionEdit.id;
     this.interventionTypeOptionArray.push({
       fortificationTypeId: change.value.fortificationTypeId,
