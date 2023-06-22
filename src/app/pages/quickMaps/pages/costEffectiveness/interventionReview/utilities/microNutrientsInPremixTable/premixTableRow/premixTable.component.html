@@ -21,8 +21,8 @@
         </th>
         <td class="column-title" mat-cell *matCellDef="let element">
             <mat-form-field appearance="outline" class="override">
-                <mat-select matNativeControl [compareWith]="compareObjects" [(ngModel)]="element.selectedCompound"
-                    (selectionChange)="handleSelectCompound(element)">
+                <mat-select placeholder="Please select a compound" matNativeControl [compareWith]="compareObjects"
+                    [(ngModel)]="element.selectedCompound" (selectionChange)="handleSelectCompound(element)">
                     <mat-option *ngFor="let item of element.compounds" [value]="item">
                         {{ item.id }}
                         {{ item.compound }}
