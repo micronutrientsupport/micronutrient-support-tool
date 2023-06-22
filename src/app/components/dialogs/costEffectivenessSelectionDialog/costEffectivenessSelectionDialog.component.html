@@ -115,24 +115,31 @@
             </mat-select>
           </mat-form-field> -->
 
-          <mat-form-field>
+          <mat-form-field #inputt>
             <mat-label>Intervention ID</mat-label>
             <input matInput [placeholder]="recentInterventions" [(ngModel)]="selectedInterventionIDLoad"
-              [(ngModel)]="selectedInterventionLoad" matNativeControl required>
+              (keyup)="updateForm()" matNativeControl required>
           </mat-form-field>
 
-          <p>Make note of your Intervention ID in order to access it at a later date.</p>
+          <!-- <p>Make note of your Intervention ID in order to access it at a later date.</p> -->
         </div>
         <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
-          <ng-container *ngIf="selectedInterventionLoad">
-            <ng-container *ngIf="(err.asObservable() | async) === false">
+          <ng-container *ngIf="interventionPreview">
+            <ng-container>
+              <!-- *ngIf="(err.asObservable() | async) === false" -->
               <h2>Selected Intervention Summary</h2>
-              <p><strong>Intervention Name:</strong> {{ selectedInterventionLoad.name }}</p>
-              <p><strong>Description:</strong> {{ selectedInterventionLoad.description }}</p>
+              <p><strong>Intervention Name:</strong> {{ interventionPreview.name }}</p>
+              <p><strong>Description:</strong> {{ interventionPreview.description }}</p>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="(err.asObservable() | async) === true || selectedInterventionLoad === null">
-            <strong>No intervention found with ID: {{ interventionId }}</strong>
+          <!-- <ng-container *ngIf="selectedInterventionIDLoad === '' && null !== interventionPreview">
+
+            <p> Insert a recent intervention ID.</p>
+          </ng-container> -->
+          <ng-container *ngIf="null == interventionPreview || selectedInterventionIDLoad === ''">
+            <!-- interventionPreview===null" || interventionPreview===null" -->
+            <p> The intervention ID <strong>{{ selectedInterventionIDLoad }}</strong> does not match any of your recent
+              interventions.</p>
           </ng-container>
         </div>
       </mat-tab>

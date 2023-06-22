@@ -16,6 +16,7 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
+import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const RECENT_INTERVENTIONS = 'recentInterventions';
@@ -249,22 +250,25 @@ export class InterventionDataService {
     }
   }
 
-  public getRecentInterventions(): Array<string> {
+  public getRecentInterventions(): Array<InterventionsDictionaryItem> {
     const ls = localStorage.getItem(RECENT_INTERVENTIONS);
-    const cached = JSON.parse(ls) as Array<string>;
+    const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
     return cached;
   }
 
-  public updateRecentInterventions(interventionId: string): void {
-    const intID = interventionId.toString(); // TODO: Bug somewhere in system which is returning interventionId as an number.
+  public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
+    const intID = intervention.id.toString();
+    // TODO: Bug somewhere in system which is returning interventionId as an number.
     const cached = this.getRecentInterventions() ? this.getRecentInterventions() : [];
-    if (!cached.includes(intID)) {
+    const exists =
+      cached.filter((intervention: InterventionsDictionaryItem) => intervention.id.toString() === intID).length > 0;
+    if (!exists) {
       if (cached.length < 5) {
         // Checks if intervention already exists in RECENT_INTERVENTIONS array.
-        cached.push(intID);
+        cached.push(intervention);
       } else {
         cached.shift(); // Removes chronologically oldest item in array.
-        cached.push(intID);
+        cached.push(intervention);
       }
     }
     localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
@@ -35,12 +35,13 @@ interface FoodVehicle {
   styleUrls: ['./costEffectivenessSelectionDialog.component.scss'],
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
+  inteventionIDInput = new FormControl('');
   public interventions: Array<InterventionsDictionaryItem>;
   public queryParams: Params;
   public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
   public selectedInterventionEdit: Intervention;
   public selectedInterventionLoad: Intervention;
-  public selectedInterventionIDLoad: string;
+  public selectedInterventionIDLoad = '';
   public interventionId = '';
   public tabID = 'copy';
   public err = new BehaviorSubject<boolean>(false);
@@ -61,6 +62,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
   public recentInterventions = '';
+
+  public interventionPreview: InterventionsDictionaryItem | null;
 
   constructor(
     public dialog: MatDialog,
@@ -100,9 +103,21 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recentInterventions = `${
-      'Recent Interventions: ' + this.interventionDataService.getRecentInterventions().toString()
-    }`;
+    const recentInterventions = [];
+    this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
+      recentInterventions.push(intervention.id.toString());
+    });
+    this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
+
+    // this.recentInterventions = `${
+    //   'Recent Interventions: ' +
+    //   this.interventionDataService
+    //     .getRecentInterventions()
+    //     .find(
+    //       (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
+    //     )
+    // }`;
+    // console.log('RecentIDs ', this.selectedInterventionIDLoad);
     this.interventionRequestBody = {
       parentInterventionId: 0,
       newInterventionName: '',
@@ -283,6 +298,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           if (this.selectedInterventionLoad !== null) {
             this.dialogData.dataOut = this.selectedInterventionLoad;
             console.log('interventionID', this.selectedInterventionIDLoad);
+            console.log('selectInterventionLoad', this.selectedInterventionLoad);
             this.closeDialog();
           }
         });
@@ -306,6 +322,15 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           throw new Error(err);
         });
     }
+  }
+
+  public updateForm() {
+    this.interventionPreview = this.interventionDataService
+      .getRecentInterventions()
+      .find(
+        (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
+      );
+    console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
   }
 
   public handleNationChange(change: MatSelectChange): void {
