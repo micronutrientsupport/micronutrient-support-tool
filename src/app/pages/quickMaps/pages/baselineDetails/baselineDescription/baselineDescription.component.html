@@ -39,7 +39,7 @@
       </p>
     </div>
   </mat-expansion-panel>
-  <mat-expansion-panel [expanded]="false" *ngIf="matches" class="match-panel">
+  <mat-expansion-panel [expanded]="false" *ngIf="matches && matches.length > 0" class="match-panel">
     <mat-expansion-panel-header class="desc-header">
       <mat-panel-title>
         <div class="match-summary">

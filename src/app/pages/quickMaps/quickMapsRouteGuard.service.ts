@@ -30,13 +30,13 @@ export class QuickMapsRouteGuardService implements CanActivate {
     // state: RouterStateSnapshot,
   ): Promise<boolean | UrlTree> {
     const promises = new Array<Promise<boolean>>();
-    // console.debug('canActivate', snapshot);
 
     // code for potentially having different validity checks for different routes
-    // switch (route.routeConfig.path) {
+    // switch (this.route.routeConfig.path) {
     //   case AppRoutes.QUICK_MAPS_BASELINE.segments:
     //   case AppRoutes.QUICK_MAPS_PROJECTION.segments:
-    promises.push(this.validateParamsConsistency(snapshot.queryParamMap));
+
+    promises.push(this.validateParamsConsistency(snapshot.queryParamMap, snapshot));
     promises.push(this.validateMeasureForRoute(snapshot));
     promises.push(this.validateMicronutrientForRoute(snapshot));
 
@@ -118,7 +118,10 @@ export class QuickMapsRouteGuardService implements CanActivate {
     });
   }
 
-  private validateParamsConsistency(queryParamMap: ParamMap): Promise<boolean> {
+  private validateParamsConsistency(queryParamMap: ParamMap, snapshot: ActivatedRouteSnapshot): Promise<boolean> {
+    if (snapshot.routeConfig.path === 'food-systems/cost-effectiveness') {
+      return Promise.resolve(true);
+    }
     return Promise.all([
       this.quickMapsParameters.getCountry(queryParamMap),
       this.quickMapsParameters.getMicronutrient(queryParamMap),

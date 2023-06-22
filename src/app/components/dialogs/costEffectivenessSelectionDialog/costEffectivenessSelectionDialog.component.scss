@@ -38,3 +38,28 @@ mat-form-field {
 .result-wrapper {
   margin: 10px 0 5px 0;
 }
+
+form {
+  &#parameter-form {
+    margin: 2rem 0 1rem 0;
+  }
+
+  &#intervention-form {
+    margin-top: 1rem;
+  }
+
+  .form-flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    div {
+      width: 50%;
+      margin-bottom: 0.5rem;
+
+      h4 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

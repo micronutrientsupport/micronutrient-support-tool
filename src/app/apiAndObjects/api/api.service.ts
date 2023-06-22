@@ -40,6 +40,7 @@ import { GetInterventionCostSummary } from './intervention/interventionCostSumma
 import { PostIntervention } from './intervention/intervention/postIntervention';
 import { PatchInterventionData } from './intervention/interventionData/patchInterventionData';
 import { GetApiMetadata } from './misc/getApiMetadata';
+import { GetRegions } from './region/getRegions';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -86,6 +87,9 @@ export class ApiService extends BaseApi {
     misc: {
       postFeedback: new postFeedback(ApiService.USE_LIVE_API),
       getApiMetadata: new GetApiMetadata(ApiService.USE_LIVE_API),
+    },
+    region: {
+      getRegions: new GetRegions(ApiService.USE_LIVE_API),
     },
   };
 

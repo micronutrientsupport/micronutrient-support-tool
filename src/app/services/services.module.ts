@@ -11,6 +11,7 @@ import { ScenarioDataService } from './scenarioData.service';
 import { ProjectionDataService } from './projectionData.service';
 import { BiomarkerDataService } from './biomarkerData.service';
 import { DietDataService } from './dietData.service';
+import { JSONLogicService } from './jsonlogic.service';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { DietDataService } from './dietData.service';
     QuickchartService,
     GridsterService,
     ScenarioDataService,
+    JSONLogicService,
   ],
 })
 export class ServicesModule {}

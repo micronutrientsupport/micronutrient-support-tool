@@ -56,23 +56,29 @@ export class InterventionCreationComponent {
       .unsubscribe();
   }
   public openCESelectionDialog(): void {
-    void this.dialogService.openCESelectionDialog(this.interventionsDictionaryItems).then((data: DialogData) => {
-      if (data !== null && data.dataOut.id) {
-        const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
-          ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
-          : [];
-        const filtered = interventionIds.filter((x: number) => x); // remove null & zero values
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: { intIds: JSON.stringify([...filtered, Number(data.dataOut.id)]) },
-          queryParamsHandling: 'merge',
-        });
-        this.selectedInterventions.push(data.dataOut);
-        this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
-        this.updateInterventionsFromAPI();
-        this.cdr.detectChanges();
-      }
-    });
+    void this.dialogService
+      .openCESelectionDialog(this.interventionsDictionaryItems, this.route.snapshot.queryParams)
+      .then((data: DialogData) => {
+        if (data !== null && data.dataOut.id) {
+          this.quickMapsService.getMicronutrientRefresh();
+          const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
+            ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
+            : [];
+          const filtered = interventionIds.filter((x: number) => x); // remove null & zero values
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              intIds: JSON.stringify([...filtered, Number(data.dataOut.id)]),
+            },
+            queryParamsHandling: 'merge',
+          });
+          this.quickMapsService.updateQueryParams();
+          this.selectedInterventions.push(data.dataOut);
+          this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
+          this.updateInterventionsFromAPI();
+          this.cdr.detectChanges();
+        }
+      });
   }
 
   public updateInterventionsFromAPI(): void {
