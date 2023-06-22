@@ -222,13 +222,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       });
   }
 
-  private setUrlParams(param: string, value: string): void {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set(param, value);
-    const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
-    history.pushState(null, '', newRelativePathQuery);
-  }
-
   public handleTabChange(event: MatTabChangeEvent): void {
     this.interventionForm.reset();
     this.proceed.next(false);
@@ -281,7 +274,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.interventionRequestBody.newInterventionFocusMicronutrient,
         )
         .then((result) => {
-          this.dialogData.dataOut = result;
+          this.dialogData.dataOut = {
+            intervention: result,
+            mndId: this.selectedMn,
+            countryId: this.selectedCountry,
+          };
           this.closeDialog();
         })
         .catch((err) => {
@@ -299,7 +296,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       .then((response: Region[]) => {
         this.toggleRegionDropdown(response);
         this.regionOptionArray = response.sort(this.sort);
-        this.setUrlParams('country-id', change.value);
       });
   }
 
@@ -325,7 +321,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     const filtered = copy.filter((item) => item.id === mnId);
     if (filtered.length > 0) {
       const micronutrient = filtered.shift() as MicronutrientDictionaryItem;
-      this.setUrlParams('mnd-id', micronutrient.id);
+      this.selectedMn = micronutrient.id;
     }
   }
 }

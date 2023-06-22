@@ -15,7 +15,6 @@ import { QuickMapsQueryParams } from './queryParams/quickMapsQueryParams';
 import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enum';
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
 import { StringConverter } from './queryParams/converters/stringConverter';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class QuickMapsService {
@@ -55,10 +54,12 @@ export class QuickMapsService {
     private dietDataService: DietDataService,
     private biomarkerDataService: BiomarkerDataService,
     private dictionaryService: DictionaryService,
-    private readonly route: ActivatedRoute,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
+    this.initParams();
+  }
 
+  public initParams(): void {
     // set from query params etc. on init
     void Promise.all([
       this.quickMapsParameters.getCountry().then((country) => this.country.set(country)),
@@ -91,13 +92,6 @@ export class QuickMapsService {
       });
   }
 
-  public getMicronutrientRefresh(): void {
-    this.quickMapsParameters.getMicronutrient(this.route.snapshot.queryParamMap).then((micronutrient) => {
-      console.log('refresh', micronutrient);
-      this.micronutrient.set(micronutrient);
-    });
-  }
-
   public sideNavOpen(): void {
     this.slim.set(false);
     // ensure content reacts to change in size
@@ -125,6 +119,7 @@ export class QuickMapsService {
   public get dataSource(): FoodSystemsDataSource | BiomarkerDataSource {
     return this.FoodSystemsDataSource.get() ?? this.biomarkerDataSource.get();
   }
+
   public setDataSource(dataSource: FoodSystemsDataSource | BiomarkerDataSource, force = false): void {
     const newDietVal = dataSource instanceof FoodSystemsDataSource ? dataSource : null;
     this.FoodSystemsDataSource.set(newDietVal, force);

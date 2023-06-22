@@ -9,6 +9,11 @@ import { SharingService } from 'src/app/services/sharing.service';
 })
 export class MapsToolComponent {
   public ROUTES = AppRoutes;
+  public defaultParamsCE = {
+    'country-id': 'MWI',
+    'mnd-id': 'Ca',
+  };
+
   constructor(private sharingService: SharingService) {}
 
   public share(text: string, title?: string, url?: string): Promise<unknown> {

@@ -59,21 +59,28 @@ export class InterventionCreationComponent {
     void this.dialogService
       .openCESelectionDialog(this.interventionsDictionaryItems, this.route.snapshot.queryParams)
       .then((data: DialogData) => {
-        if (data !== null && data.dataOut.id) {
-          this.quickMapsService.getMicronutrientRefresh();
+        if (data !== null && data.dataOut.intervention.id) {
           const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
             ? JSON.parse(this.route.snapshot.queryParamMap.get('intIds')).map(Number)
             : [];
           const filtered = interventionIds.filter((x: number) => x); // remove null & zero values
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {
-              intIds: JSON.stringify([...filtered, Number(data.dataOut.id)]),
-            },
-            queryParamsHandling: 'merge',
-          });
-          this.quickMapsService.updateQueryParams();
-          this.selectedInterventions.push(data.dataOut);
+          filtered.push(data.dataOut.intervention.id);
+
+          this.router
+            .navigate([], {
+              relativeTo: this.route,
+              queryParams: {
+                intIds: JSON.stringify(filtered),
+                'mnd-id': data.dataOut.mndId,
+                'country-id': data.dataOut.countryId,
+              },
+              queryParamsHandling: 'merge',
+            })
+            .then(() => {
+              this.quickMapsService.initParams();
+            });
+
+          this.selectedInterventions.push(data.dataOut.intervention);
           this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
           this.updateInterventionsFromAPI();
           this.cdr.detectChanges();
