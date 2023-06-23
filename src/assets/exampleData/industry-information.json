@@ -1,0 +1,618 @@
+[
+  {
+    "year0": 44,
+    "year1": 33,
+    "year2": 3,
+    "year3": 3,
+    "year4": 3,
+    "year5": 3,
+    "year6": 3,
+    "year7": 3,
+    "year8": 3,
+    "year9": 3,
+    "rowName": "number_domestic_factories",
+    "rowIndex": 33,
+    "rowUnits": "number",
+    "labelText": "Number of domstic industrial sugar refineries (capacity to refine > 5 MT/day)",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 3,
+    "year1": 3,
+    "year2": 3,
+    "year3": 3,
+    "year4": 3,
+    "year5": 3,
+    "year6": 3,
+    "year7": 3,
+    "year8": 3,
+    "year9": 3,
+    "rowName": "number_domestic_factories_fortifying",
+    "rowIndex": 34,
+    "rowUnits": "number",
+    "labelText": "Number of domestic industrial sugar refineries fortifying sugar",
+    "dataSource": null,
+    "isEditable": false,
+    "missingData": {
+      "29": {
+        "year0": 0.82,
+        "year1": 0.82,
+        "year2": 0.82,
+        "year3": 0.82,
+        "year4": 0.82,
+        "year5": 0.82,
+        "year6": 0.82,
+        "year7": 0.82,
+        "year8": 0.82,
+        "year9": 0.82,
+        "rowIndex": 29
+      }
+    },
+    "missingRows": [29],
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": [39, 33, 38, 37, 36, 35, 34, 40],
+    "year0Default": null,
+    "year0Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year0",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year1Default": null,
+    "year1Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year1",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year2Default": null,
+    "year2Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year2",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year3Default": null,
+    "year3Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year3",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year4Default": null,
+    "year4Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year4",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year5Default": null,
+    "year5Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year5",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year6Default": null,
+    "year6Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year6",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year7Default": null,
+    "year7Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year7",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year8Default": null,
+    "year8Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year8",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "year9Default": null,
+    "year9Formula": [
+      {
+        "roundup": [
+          {
+            "*": [
+              0.82,
+              {
+                "var": {
+                  "colIndex": "year9",
+                  "rowIndex": "33"
+                }
+              }
+            ]
+          },
+          0
+        ]
+      }
+    ],
+    "dependentRows": [33, 29],
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 270,
+    "year1": 270,
+    "year2": 270,
+    "year3": 270,
+    "year4": 270,
+    "year5": 270,
+    "year6": 270,
+    "year7": 270,
+    "year8": 270,
+    "year9": 270,
+    "rowName": "annual_factory_operating_days",
+    "rowIndex": 35,
+    "rowUnits": "number",
+    "labelText": "Average number of refining days per year",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 24,
+    "year1": 24,
+    "year2": 24,
+    "year3": 24,
+    "year4": 24,
+    "year5": 24,
+    "year6": 24,
+    "year7": 24,
+    "year8": 24,
+    "year9": 24,
+    "rowName": "number_daily_internal_nutrient1_tests",
+    "rowIndex": 36,
+    "rowUnits": "number",
+    "labelText": "Average number of in-house quantitative or qualitative vitamin A tests per refinery per day",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 0,
+    "year1": 0,
+    "year2": 0,
+    "year3": 0,
+    "year4": 0,
+    "year5": 0,
+    "year6": 0,
+    "year7": 0,
+    "year8": 0,
+    "year9": 0,
+    "rowName": "number_daily_internal_nutrient2_tests",
+    "rowIndex": 37,
+    "rowUnits": "number",
+    "labelText": "Average number of in-house quantitative or qualitative tests for other micronutrient per refinery per day",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 24,
+    "year1": 24,
+    "year2": 24,
+    "year3": 24,
+    "year4": 24,
+    "year5": 24,
+    "year6": 24,
+    "year7": 24,
+    "year8": 24,
+    "year9": 24,
+    "rowName": "annual_external_tests",
+    "rowIndex": 38,
+    "rowUnits": "number",
+    "labelText": "Average number of external lab tests per refinery per year",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 1,
+    "year1": 1,
+    "year2": 1,
+    "year3": 1,
+    "year4": 1,
+    "year5": 1,
+    "year6": 1,
+    "year7": 1,
+    "year8": 1,
+    "year9": 1,
+    "rowName": "domestically_processed_vehicle_pct",
+    "rowIndex": 39,
+    "rowUnits": "percent",
+    "labelText": "Fortifiable sugar that is domestically processed (%)",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  },
+  {
+    "year0": 0,
+    "year1": 0,
+    "year2": 0,
+    "year3": 0,
+    "year4": 0,
+    "year5": 0,
+    "year6": 0,
+    "year7": 0,
+    "year8": 0,
+    "year9": 0,
+    "rowName": "imported_vehicle_pct",
+    "rowIndex": 40,
+    "rowUnits": "percent",
+    "labelText": "Fortifiable sugar that is imported (%)",
+    "dataSource": null,
+    "isEditable": true,
+    "missingData": null,
+    "missingRows": null,
+    "year0Edited": false,
+    "year1Edited": false,
+    "year2Edited": false,
+    "year3Edited": false,
+    "year4Edited": false,
+    "year5Edited": false,
+    "year6Edited": false,
+    "year7Edited": false,
+    "year8Edited": false,
+    "year9Edited": false,
+    "dataCitation": null,
+    "reportedRows": null,
+    "year0Default": null,
+    "year0Formula": {},
+    "year1Default": null,
+    "year1Formula": {},
+    "year2Default": null,
+    "year2Formula": {},
+    "year3Default": null,
+    "year3Formula": {},
+    "year4Default": null,
+    "year4Formula": {},
+    "year5Default": null,
+    "year5Formula": {},
+    "year6Default": null,
+    "year6Formula": {},
+    "year7Default": null,
+    "year7Formula": {},
+    "year8Default": null,
+    "year8Formula": {},
+    "year9Default": null,
+    "year9Formula": {},
+    "dependentRows": null,
+    "dataSourceDefault": null
+  }
+]

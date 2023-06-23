@@ -18,7 +18,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormGroup, NonNullableFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -121,22 +121,37 @@ export class InterventionBaselineComponent implements AfterViewInit {
             map(([oldState, newState]) => {
               for (const key in newState.items) {
                 const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-
+                const rowUnits = this.form.get('items')['controls'][key]['controls'].rowUnits.value;
                 if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                   const diff = compareObjs(oldState.items[key], newState.items[key]);
                   if (Array.isArray(diff) && diff.length > 0) {
                     diff.forEach((item) => {
-                      if (changes[rowIndex]) {
-                        changes[rowIndex] = {
-                          ...changes[rowIndex],
-                          [item[0]]: Number(item[1]),
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      if (rowUnits === 'percent') {
+                        if (changes[rowIndex]) {
+                          changes[rowIndex] = {
+                            ...changes[rowIndex],
+                            [item[0]]: Number(item[1]) / 100,
+                          };
+                          changes[rowIndex]['rowIndex'] = rowIndex;
+                        } else {
+                          changes[rowIndex] = {
+                            [item[0]]: Number(item[1]) / 100,
+                          };
+                          changes[rowIndex]['rowIndex'] = rowIndex;
+                        }
                       } else {
-                        changes[rowIndex] = {
-                          [item[0]]: Number(item[1]),
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
+                        if (changes[rowIndex]) {
+                          changes[rowIndex] = {
+                            ...changes[rowIndex],
+                            [item[0]]: Number(item[1]),
+                          };
+                          changes[rowIndex]['rowIndex'] = rowIndex;
+                        } else {
+                          changes[rowIndex] = {
+                            [item[0]]: Number(item[1]),
+                          };
+                          changes[rowIndex]['rowIndex'] = rowIndex;
+                        }
                       }
                     });
                   }
@@ -160,8 +175,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
   private createBaselineDataGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      rowUnits: [item.rowUnits, []],
       isEditable: [item.isEditable, []],
-      year0: [Number(item.year0), []],
+      year0: [Number(item.year0), [Validators.min(0), Validators.max(100)]],
       year0Edited: [Number(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
     });
