@@ -253,13 +253,17 @@ export class InterventionDataService {
   public getRecentInterventions(): Array<InterventionsDictionaryItem> {
     const ls = localStorage.getItem(RECENT_INTERVENTIONS);
     const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
-    return cached;
+    if (cached) {
+      return cached;
+    } else {
+      return [];
+    }
   }
 
   public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
     const intID = intervention.id.toString();
     // TODO: Bug somewhere in system which is returning interventionId as an number.
-    const cached = this.getRecentInterventions() ? this.getRecentInterventions() : [];
+    const cached = this.getRecentInterventions();
     const exists =
       cached.filter((intervention: InterventionsDictionaryItem) => intervention.id.toString() === intID).length > 0;
     if (!exists) {

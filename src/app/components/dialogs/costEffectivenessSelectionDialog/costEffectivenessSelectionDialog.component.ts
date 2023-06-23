@@ -18,6 +18,7 @@ import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { Region } from 'src/app/apiAndObjects/objects/region';
 import { CEFormBody, InterventionCERequest } from 'src/app/apiAndObjects/objects/interventionCE.interface';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { NotificationsService } from '../../notifications/notification.service';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -62,7 +63,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
   public recentInterventions = '';
-
   public interventionPreview: InterventionsDictionaryItem | null;
 
   constructor(
@@ -73,6 +73,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private dictionariesService: DictionaryService,
     private readonly route: ActivatedRoute,
     private apiService: ApiService,
+    private notificationsService: NotificationsService,
   ) {
     this.interventions = dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
     this.queryParams = dialogData.dataIn.params;
@@ -109,15 +110,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
     this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
 
-    // this.recentInterventions = `${
-    //   'Recent Interventions: ' +
-    //   this.interventionDataService
-    //     .getRecentInterventions()
-    //     .find(
-    //       (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
-    //     )
-    // }`;
-    // console.log('RecentIDs ', this.selectedInterventionIDLoad);
     this.interventionRequestBody = {
       parentInterventionId: 0,
       newInterventionName: '',
@@ -284,23 +276,21 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
   public createIntervention(): void {
     if (this.tabID === 'load') {
-      console.log('interventionLoad :', this.selectedInterventionLoad);
-      console.log('interventionLoad ID :', this.selectedInterventionIDLoad);
-
       this.interventionDataService
         .getIntervention(this.selectedInterventionIDLoad)
         .then((intervention: Intervention) => {
           this.selectedInterventionLoad = intervention;
           this.selectedInterventionIDLoad = intervention.id.toString();
-          console.log('INTERVENTION', intervention);
-          console.log('INTERVENTION-ID', this.selectedInterventionIDLoad);
 
           if (this.selectedInterventionLoad !== null) {
             this.dialogData.dataOut = this.selectedInterventionLoad;
-            console.log('interventionID', this.selectedInterventionIDLoad);
-            console.log('selectInterventionLoad', this.selectedInterventionLoad);
             this.closeDialog();
           }
+        })
+        .catch(() => {
+          this.notificationsService.sendNegative(
+            `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
+          );
         });
     } else if (this.tabID === 'copy') {
       // TODO: POST to endpoint with parameterFormObj as body

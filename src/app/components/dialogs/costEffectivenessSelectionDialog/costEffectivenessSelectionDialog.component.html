@@ -126,7 +126,6 @@
         <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
           <ng-container *ngIf="interventionPreview">
             <ng-container>
-              <!-- *ngIf="(err.asObservable() | async) === false" -->
               <h2>Selected Intervention Summary</h2>
               <p><strong>Intervention Name:</strong> {{ interventionPreview.name }}</p>
               <p><strong>Description:</strong> {{ interventionPreview.description }}</p>
@@ -136,8 +135,13 @@
 
             <p> Insert a recent intervention ID.</p>
           </ng-container> -->
+          <ng-container *ngIf="interventionPreview">
+
+            <p> The intervention is template and cannot be loaded. Please got ot "Copy & Edit" to create a new
+              intervention based upon a template.</p>
+          </ng-container>
           <ng-container *ngIf="null == interventionPreview || selectedInterventionIDLoad === ''">
-            <!-- interventionPreview===null" || interventionPreview===null" -->
+
             <p> The intervention ID <strong>{{ selectedInterventionIDLoad }}</strong> does not match any of your recent
               interventions.</p>
           </ng-container>
