@@ -111,8 +111,12 @@
                 Cancel
             </button>
             <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-                [disabled]="!interventionForm.valid || !parameterForm.valid">
-                {{ tabID === 'copy' ? 'Copy & edit' : 'Load' }}
+                *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+                Copy & edit
+            </button>
+            <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+                *ngIf="tabID === 'load'" [disabled]="(proceed.asObservable() | async) === false">
+                Load
             </button>
         </div>
     </div>
