@@ -2,10 +2,10 @@
   <div class="bmgf-maps-nice-scrollbar">
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="labelText">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
-          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}} </td>
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
 

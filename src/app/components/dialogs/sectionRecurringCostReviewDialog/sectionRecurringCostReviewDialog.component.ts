@@ -19,7 +19,7 @@ export class SectionRecurringCostReviewDialogComponent {
   public formChanges: InterventionForm['formChanges'] = {};
 
   public displayedColumns: string[] = [
-    'name',
+    'labelText',
     'year0',
     'year1',
     'year2',

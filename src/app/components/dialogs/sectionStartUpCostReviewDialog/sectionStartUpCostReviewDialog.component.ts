@@ -15,7 +15,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 export class SectionStartUpCostReviewDialogComponent {
   public dataSource = new MatTableDataSource<StartUpCostBreakdown>();
   public title = '';
-  public displayedColumns: string[] = ['name', 'year0', 'year1'];
+  public displayedColumns: string[] = ['labelText', 'year0', 'year1'];
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
 
