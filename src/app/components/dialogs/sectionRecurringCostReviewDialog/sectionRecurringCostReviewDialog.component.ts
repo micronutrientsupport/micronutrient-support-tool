@@ -6,6 +6,7 @@ import { DialogData } from '../baseDialogService.abstract';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -17,6 +18,8 @@ export class SectionRecurringCostReviewDialogComponent {
   public title = '';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
+  public year0Total = 0;
+  public year1Total = 0;
 
   public displayedColumns: string[] = [
     'labelText',
@@ -37,6 +40,7 @@ export class SectionRecurringCostReviewDialogComponent {
     public dialogData: DialogData<RecurringCosts>,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    private jsonLogicService: JSONLogicService,
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
@@ -201,5 +205,50 @@ export class SectionRecurringCostReviewDialogComponent {
     });
     //on reset mark forma as pristine to remove blue highlights
     this.form.markAsPristine();
+  }
+
+  public recalculateChanges(): void {
+    // getRawValue returns values even if cell is marked as disabled
+    const allItems: Array<RecurringCostBreakdown> = this.form.getRawValue().items;
+
+    // find all the rows which have formulas to calculate their new value
+    const allItemsWithRowFormulas = this.dataSource.data.filter(
+      (item: RecurringCostBreakdown) => item.isEditable === false,
+    );
+
+    // loop through all the rows with formulas to calculate their new values
+    allItemsWithRowFormulas.forEach((item: RecurringCostBreakdown) => {
+      const rowWantToUpdate = item.rowIndex;
+
+      for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
+        if (!item['year' + columnIndex + 'Formula']) {
+          // if isEditable = true AND no yearXFormula exists, calculated value by vars outside this endpoint
+          return;
+        }
+        if (Object.keys(item['year' + columnIndex + 'Formula']).length === 0) {
+          // Check to see if the formula is present as expected, otherwise display static value
+          console.debug('missing year' + columnIndex + 'Formula');
+          return;
+        }
+        // calculate the result of the formula using the inputs describes in jsonlogic
+        const theResult = this.jsonLogicService.calculateResult(item, columnIndex, allItems);
+
+        // Loop through each row of the table
+        this.form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+          // Find the row which contains the column we want to update with the new value
+          if (formRow.value['rowIndex'] == rowWantToUpdate) {
+            // Loop through all the columns in this row to find the cell we want to update
+            Object.keys(formRow.controls).forEach((key: string) => {
+              // Once find the cell, update its value with the newly calculated on
+              if (key === 'year' + columnIndex) {
+                const dynamicYearColumn = 'year' + columnIndex;
+                // Update the value stored in the form with the new value
+                this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
+              }
+            });
+          }
+        });
+      }
+    });
   }
 }
