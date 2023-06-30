@@ -23,12 +23,14 @@ export class JSONLogicService {
       return Math.ceil(value * multiplier) / multiplier;
     });
 
+    /**
+     *  Calculate the total or cumulative value obtained by adding together individual values
+     *
+     * @param {Array<number>} value - An array of values to be summed up.
+     * @returns {number} - The total value of all input values.
+     */
     jsonLogic.add_operation('sum', (...values) => {
-      console.debug(
-        'sum: ',
-        values.reduce((acc, curr) => acc + curr, 0),
-      );
-      return values.reduce((acc, curr) => acc + curr, 0);
+      return Number(values.reduce((acc, curr) => acc + curr, 0));
     });
 
     /**
