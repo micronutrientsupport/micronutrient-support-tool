@@ -26,6 +26,7 @@ import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSumma
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { Params } from '@angular/router';
+import { LoginDialogComponent } from './loginDialog/loginDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -119,6 +120,11 @@ export class DialogService extends BaseDialogService {
   public openMnAdditionDialog(): Promise<DialogData<Array<FoodVehicleStandard>, MicronutrientDictionaryItem>> {
     return this.openDialog('openMnAdditionDialog', MnAdditionDialogComponent, false);
   }
+
+  public openLoginDialog(): Promise<DialogData<unknown>> {
+    return this.openDialog('openLoginDialog', LoginDialogComponent);
+  }
+
   public openFortificationInfoDialog(): Promise<DialogData> {
     return this.openDialog('ceFortificationInfoDialog', CeFortificationInfoDialogComponent, true, null, {
       width: '50vw',
