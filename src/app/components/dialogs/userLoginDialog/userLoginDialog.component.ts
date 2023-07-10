@@ -4,14 +4,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { NotificationsService } from '../../notifications/notification.service';
+import { DialogService } from '../dialog.service';
 
 @Component({
-  selector: 'app-login-dialog',
-  templateUrl: './loginDialog.component.html',
-  styleUrls: ['./loginDialog.component.scss'],
+  selector: 'app-user-login-dialog',
+  templateUrl: './userLoginDialog.component.html',
+  styleUrls: ['./userLoginDialog.component.scss'],
 })
-export class LoginDialogComponent {
-  public title = 'Please login';
+export class UserLoginDialogComponent {
+  public title = 'Please Login';
   public loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -21,6 +22,7 @@ export class LoginDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<unknown>,
     private apiService: ApiService,
     private notificationsService: NotificationsService,
+    private dialogService: DialogService,
   ) {}
 
   public handleSubmit(): void {
@@ -38,5 +40,12 @@ export class LoginDialogComponent {
           this.notificationsService.sendNegative('Unable to login', err);
         });
     }
+  }
+
+  public handleRegister() {
+    this.dialogService.dialog.closeAll();
+    setTimeout(() => {
+      this.dialogService.openRegiesterDialog();
+    }, 100);
   }
 }

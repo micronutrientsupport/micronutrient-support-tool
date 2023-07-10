@@ -26,7 +26,8 @@ import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSumma
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { Params } from '@angular/router';
-import { LoginDialogComponent } from './loginDialog/loginDialog.component';
+import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
+import { UserRegisterDialogComponent } from './user-register-dialog/userRegisterDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -122,7 +123,11 @@ export class DialogService extends BaseDialogService {
   }
 
   public openLoginDialog(): Promise<DialogData<unknown>> {
-    return this.openDialog('openLoginDialog', LoginDialogComponent);
+    return this.openDialog('openLoginDialog', UserLoginDialogComponent);
+  }
+
+  public openRegiesterDialog(): Promise<DialogData<unknown>> {
+    return this.openDialog('openLoginDialog', UserRegisterDialogComponent, false);
   }
 
   public openFortificationInfoDialog(): Promise<DialogData> {
