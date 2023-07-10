@@ -3,9 +3,9 @@ import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
 import { FeedbackResponse } from '../../objects/feedbackResponse';
 
-export class Register extends Endpoint<RegisterResponse, UserRegistrationParams, RegisterResponse> {
+export class UserRegister extends Endpoint<RegisterResponse, UserRegistrationParams, RegisterResponse> {
   protected callLive(params: UserRegistrationParams): Promise<FeedbackResponse> {
-    const callResponsePromise = this.apiCaller.doCall(['login'], RequestMethod.POST, null, {
+    const callResponsePromise = this.apiCaller.doCall(['user', 'register'], RequestMethod.POST, null, {
       username: params.username,
       password: params.password,
       email: params.email,

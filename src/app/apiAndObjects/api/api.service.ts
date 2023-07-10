@@ -41,7 +41,7 @@ import { PostIntervention } from './intervention/intervention/postIntervention';
 import { PatchInterventionData } from './intervention/interventionData/patchInterventionData';
 import { GetApiMetadata } from './misc/getApiMetadata';
 import { GetRegions } from './region/getRegions';
-import { Register } from './login/register';
+import { UserRegister } from './login/register';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -93,7 +93,7 @@ export class ApiService extends BaseApi {
       getRegions: new GetRegions(ApiService.USE_LIVE_API),
     },
     login: {
-      register: new Register(ApiService.USE_LIVE_API),
+      register: new UserRegister(ApiService.USE_LIVE_API),
     },
   };
 
