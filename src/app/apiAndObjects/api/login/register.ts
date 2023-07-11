@@ -28,5 +28,21 @@ export interface UserRegistrationParams {
 }
 
 export class RegisterResponse extends BaseObject {
-  public readonly success: boolean;
+  public static readonly KEYS = {
+    ID: 'id',
+    PROFILE_PIC: 'profilePic',
+    SESSION_TOKEN: 'sessionToken',
+  };
+
+  public readonly id: string;
+  public readonly profilePic: string;
+  public readonly sessionToken: string;
+
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
+
+    this.id = this._getString(RegisterResponse.KEYS.ID);
+    this.profilePic = this._getString(RegisterResponse.KEYS.PROFILE_PIC);
+    this.sessionToken = this._getString(RegisterResponse.KEYS.SESSION_TOKEN);
+  }
 }

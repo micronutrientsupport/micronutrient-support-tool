@@ -1,9 +1,11 @@
 <app-base-dialog [data]="data" [title]="title">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+
         <mat-form-field appearance="fill">
             <mat-label>Username</mat-label>
             <input matInput type="text" id="username" formControlName="username">
         </mat-form-field>
+
         <mat-form-field appearance="fill">
             <mat-label>Enter your password</mat-label>
             <input matInput [type]="hidePw ? 'password' : 'text'" id="password" formControlName="password">
@@ -20,17 +22,14 @@
                 [attr.aria-pressed]="hideRepeatPw">
                 <mat-icon>{{hideRepeatPw ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
+            <mat-error *ngIf="registerForm.hasError('match_error')">Passwords do not
+                match</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
             <input matInput type="email" id="email" formControlName="email">
             <mat-error *ngIf="registerForm.get('email').hasError('email')">{{getErrorMessage()}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Repeat Email</mat-label>
-            <input matInput type="email" id="repeatEmail" formControlName="repeatEmail">
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -43,8 +42,8 @@
             <input matInput type="text" id="organisation" formControlName="organisation">
         </mat-form-field>
 
-        <!-- <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
             Submit
-        </button> -->
+        </button>
     </form>
 </app-base-dialog>

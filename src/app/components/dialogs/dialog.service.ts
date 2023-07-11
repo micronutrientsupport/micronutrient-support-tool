@@ -27,7 +27,7 @@ import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
 import { Params } from '@angular/router';
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
-import { UserRegisterDialogComponent } from './user-register-dialog/userRegisterDialog.component';
+import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;

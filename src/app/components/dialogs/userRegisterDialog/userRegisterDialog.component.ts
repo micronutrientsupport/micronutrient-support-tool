@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { NotificationsService } from '../../notifications/notification.service';
 import { DialogData } from '../baseDialogService.abstract';
-import { DialogService } from '../dialog.service';
 import { UserRegistrationParams } from 'src/app/apiAndObjects/api/login/register';
 
 @Component({
@@ -21,7 +20,6 @@ export class UserRegisterDialogComponent implements OnInit {
     password: new FormControl('', [Validators.required]),
     repeatPassword: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    repeatEmail: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
     organisation: new FormControl('', [Validators.required]),
   });
@@ -29,14 +27,15 @@ export class UserRegisterDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<unknown>,
     private apiService: ApiService,
     private notificationsService: NotificationsService,
-    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.registerForm.addValidators([
       this.createCompareValidator(this.registerForm.get('password'), this.registerForm.get('repeatPassword')),
-      this.createCompareValidator(this.registerForm.get('email'), this.registerForm.get('repeatEmail')),
     ]);
+    this.registerForm.valueChanges.subscribe((changes) => {
+      console.debug(this.registerForm);
+    });
   }
 
   public handleSubmit(): void {
@@ -61,7 +60,6 @@ export class UserRegisterDialogComponent implements OnInit {
   }
 
   public getErrorMessage(): string {
-    this.cdr.detectChanges();
     if (this.registerForm.get('email').hasError('required')) {
       return 'You must enter a value';
     }

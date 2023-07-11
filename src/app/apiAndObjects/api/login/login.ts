@@ -22,5 +22,25 @@ export interface UserLoginParams {
 }
 
 export class LoginResponse extends BaseObject {
+  public static readonly KEYS = {
+    ID: 'id',
+    PROFILE_PIC: 'profilePic',
+    SESSION_TOKEN: 'sessionToken',
+    USERNAME: 'username',
+  };
+
+  public readonly id: string;
+  public readonly profilePic: string;
   public readonly sessionToken: string;
+  public readonly username: string;
+
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
+
+    this.id = this._getString(LoginResponse.KEYS.ID);
+    this.profilePic = this._getString(LoginResponse.KEYS.PROFILE_PIC);
+    this.sessionToken = this._getString(LoginResponse.KEYS.SESSION_TOKEN);
+    this.sessionToken = this._getString(LoginResponse.KEYS.SESSION_TOKEN);
+    this.username = this._getString(LoginResponse.KEYS.USERNAME);
+  }
 }
