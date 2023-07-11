@@ -42,6 +42,15 @@ a {
   }
 }
 
+.user-details {
+  display: flex;
+  align-items: center;
+  img {
+    width: 4em;
+    margin-right: 0.5em;
+  }
+}
+
 @media only screen and (max-width: 840px) {
   .large {
     display: none;
