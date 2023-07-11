@@ -25,11 +25,35 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Intervention description</mat-label>
-              <textarea matInput [placeholder]="selectedInterventionEdit.description" name="newInterventionDesc"
-                formControlName="newInterventionDesc"></textarea>
+              <textarea (click)="createID()" matInput [placeholder]="selectedInterventionEdit.description"
+                name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
             </mat-form-field>
           </form>
+
+
+          <ng-container *ngIf="selectedInterventionIDLoad" class="rememberIdContainer">
+            <h1><strong>ID:</strong> <strong style="color:blue">{{selectedInterventionIDLoad}}</strong></h1>
+            <div class="id-container">
+              <h2> <strong><mat-icon>arrow_upward</mat-icon> Note your ID for Future Intervention reloading</strong>
+              </h2>
+              <p> This ID will allow you to reload your intervention at a later time. Write it down and keep it in a
+                safe
+                place, or send it to an email address.</p>
+              <button class="copy-button" [cdkCopyToClipboard]="this.selectedInterventionIDLoad">
+                <mat-icon>file_copy</mat-icon> Copy
+                Intervention ID to clipboard</button>
+
+              <button class="email-button"> <a
+                  href="mailto:user@example.com?subject=MAPS%20Intervention%20ID&body=The%20Intervention%20ID%20for%20the%20Cost%20Effectiveness%20section%20of%20the%20MAPS%20tool%20is:%20{{selectedInterventionIDLoad}}"><mat-icon>email</mat-icon>
+                  Email Intervention ID</a></button>
+
+
+            </div>
+          </ng-container>
           <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
+
+
+
           <ng-container *ngIf="parameterForm">
             <form [formGroup]="parameterForm" id="parameter-form">
               <div class="form-flex-wrapper">
@@ -116,14 +140,17 @@
               interventions.</p>
           </ng-container>
         </div>
+
       </mat-tab>
     </mat-tab-group>
+
+
     <div class="btn-wrapper">
       <button mat-stroked-button type="button" (click)="closeDialog()">
         Cancel
       </button>
-      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+      <button form="form" mat-flat-button color="primary" (click)="createID()" (click)="createIntervention()"
+        class="btn-proceed" *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
         Copy & edit
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
