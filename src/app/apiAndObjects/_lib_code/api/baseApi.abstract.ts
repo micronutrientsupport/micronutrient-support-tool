@@ -5,7 +5,7 @@ import { GetDictionary } from './getDictionary';
 import { Endpoint } from './endpoint.abstract';
 import { Dictionary } from '../objects/dictionary';
 import { Injector } from '@angular/core';
-import { HttpResponseHandler } from './httpResponseHandler.interface';
+import { MapsHttpResponseHandler } from '../../api/mapsHttpResponseHandler';
 
 /**
  * Extend this class to create your API service.
@@ -26,7 +26,7 @@ export abstract class BaseApi {
   constructor(
     protected injector: Injector,
     httpClient: HttpClient,
-    httpCallErrorHandler: HttpResponseHandler,
+    httpCallErrorHandler: MapsHttpResponseHandler,
     apiBaseUrl: string,
   ) {
     this.apiCaller = new ApiCaller(httpClient, httpCallErrorHandler, apiBaseUrl);

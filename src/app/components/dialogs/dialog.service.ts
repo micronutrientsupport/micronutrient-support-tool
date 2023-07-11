@@ -127,7 +127,7 @@ export class DialogService extends BaseDialogService {
   }
 
   public openRegiesterDialog(): Promise<DialogData<unknown>> {
-    return this.openDialog('openLoginDialog', UserRegisterDialogComponent, false);
+    return this.openDialog('openLoginDialog', UserRegisterDialogComponent);
   }
 
   public openFortificationInfoDialog(): Promise<DialogData> {

@@ -1,10 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { NotificationsService } from '../../notifications/notification.service';
 import { DialogData } from '../baseDialogService.abstract';
 import { UserRegistrationParams } from 'src/app/apiAndObjects/api/login/register';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { DialogService } from '../dialog.service';
 
 @Component({
   selector: 'app-user-register-dialog',
@@ -12,9 +15,11 @@ import { UserRegistrationParams } from 'src/app/apiAndObjects/api/login/register
   styleUrls: ['./userRegisterDialog.component.scss'],
 })
 export class UserRegisterDialogComponent implements OnInit {
-  public title = 'Please Register';
+  public title = 'Please Register:';
   public hidePw = true;
   public hideRepeatPw = true;
+  public awaitingResponse = false;
+  public returnToLogin = false;
   public registerForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -27,18 +32,16 @@ export class UserRegisterDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<unknown>,
     private apiService: ApiService,
     private notificationsService: NotificationsService,
+    private loginService: UserLoginService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
-    this.registerForm.addValidators([
-      this.createCompareValidator(this.registerForm.get('password'), this.registerForm.get('repeatPassword')),
-    ]);
-    this.registerForm.valueChanges.subscribe((changes) => {
-      console.debug(this.registerForm);
-    });
+    this.registerForm.controls['repeatPassword'].addValidators([this.createCompareValidator()]);
   }
 
   public handleSubmit(): void {
+    this.awaitingResponse = true;
     if (this.registerForm.valid) {
       const regParams: UserRegistrationParams = {
         username: this.registerForm.value.username,
@@ -49,14 +52,23 @@ export class UserRegisterDialogComponent implements OnInit {
       };
       this.apiService.endpoints.login.register
         .call(regParams)
-        .then((response: unknown) => {
-          this.notificationsService.sendPositive('Registered!');
-          console.log(response);
+        .then(() => {
+          this.notificationsService.sendPositive('Registration successful!');
+          this.returnToLogin = true;
         })
-        .catch((err) => {
-          this.notificationsService.sendNegative('Unable to register', err);
+        .catch((err: HttpErrorResponse) => {
+          console.debug(err);
+          this.loginService.handleLoginOrRegistrationErrorNotification(err.error);
+          this.awaitingResponse = false;
         });
     }
+  }
+
+  public handleReturnToLogin(): void {
+    this.dialogService.dialog.closeAll();
+    setTimeout(() => {
+      this.dialogService.openLoginDialog();
+    }, 100);
   }
 
   public getErrorMessage(): string {
@@ -67,9 +79,10 @@ export class UserRegisterDialogComponent implements OnInit {
     return this.registerForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
-  public createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
+  public createCompareValidator(): ValidatorFn {
     return () => {
-      if (controlOne.value !== controlTwo.value) return { match_error: 'Value does not match' };
+      if (this.registerForm.get('password').value !== this.registerForm.get('repeatPassword').value)
+        return { match_error: 'Value does not match' };
       return null;
     };
   }
