@@ -5,6 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-login-dialog',
@@ -23,6 +25,7 @@ export class UserLoginDialogComponent {
     private apiService: ApiService,
     private notificationsService: NotificationsService,
     private dialogService: DialogService,
+    private loginService: UserLoginService,
   ) {}
 
   public handleSubmit(): void {
@@ -36,8 +39,8 @@ export class UserLoginDialogComponent {
           this.notificationsService.sendPositive('Logged in!');
           console.log(response);
         })
-        .catch((err) => {
-          this.notificationsService.sendNegative('Unable to login', err);
+        .catch((err: HttpErrorResponse) => {
+          this.loginService.handleLoginOrRegistrationErrorNotification(err.error);
         });
     }
   }

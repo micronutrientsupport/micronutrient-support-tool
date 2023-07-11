@@ -44,6 +44,7 @@ import { GetRegions } from './region/getRegions';
 import { UserRegister } from './login/register';
 import { UserLogin } from './login/login';
 import { UserLogout } from './login/logout';
+import { GetUserProfile } from './login/getUserProfile';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -95,6 +96,7 @@ export class ApiService extends BaseApi {
       getRegions: new GetRegions(ApiService.USE_LIVE_API),
     },
     login: {
+      getProfile: new GetUserProfile(ApiService.USE_LIVE_API),
       register: new UserRegister(ApiService.USE_LIVE_API),
       login: new UserLogin(ApiService.USE_LIVE_API),
       logout: new UserLogout(ApiService.USE_LIVE_API),
