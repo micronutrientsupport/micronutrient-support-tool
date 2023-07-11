@@ -95,7 +95,7 @@ export class ApiService extends BaseApi {
     region: {
       getRegions: new GetRegions(ApiService.USE_LIVE_API),
     },
-    login: {
+    user: {
       getProfile: new GetUserProfile(ApiService.USE_LIVE_API),
       register: new UserRegister(ApiService.USE_LIVE_API),
       login: new UserLogin(ApiService.USE_LIVE_API),

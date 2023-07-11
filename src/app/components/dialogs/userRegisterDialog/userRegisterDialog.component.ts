@@ -8,6 +8,7 @@ import { UserRegistrationParams } from 'src/app/apiAndObjects/api/login/register
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { DialogService } from '../dialog.service';
+import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 
 @Component({
   selector: 'app-user-register-dialog',
@@ -19,7 +20,7 @@ export class UserRegisterDialogComponent implements OnInit {
   public hidePw = true;
   public hideRepeatPw = true;
   public awaitingResponse = false;
-  public returnToLogin = false;
+  public registrationSuccessful = false;
   public registerForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -50,11 +51,12 @@ export class UserRegisterDialogComponent implements OnInit {
         name: this.registerForm.value.name,
         organisation: this.registerForm.value.organisation,
       };
-      this.apiService.endpoints.login.register
+      this.apiService.endpoints.user.register
         .call(regParams)
-        .then(() => {
+        .then((response: LoginRegisterResponseDataSource) => {
           this.notificationsService.sendPositive('Registration successful!');
-          this.returnToLogin = true;
+          this.registrationSuccessful = true;
+          this.loginService.setActiveUser(response);
         })
         .catch((err: HttpErrorResponse) => {
           console.debug(err);

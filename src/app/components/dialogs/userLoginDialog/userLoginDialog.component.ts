@@ -7,6 +7,7 @@ import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 
 @Component({
   selector: 'app-user-login-dialog',
@@ -15,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class UserLoginDialogComponent {
   public title = 'Please Login';
+  public awaitingResponse = false;
   public loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -29,18 +31,21 @@ export class UserLoginDialogComponent {
   ) {}
 
   public handleSubmit(): void {
+    this.awaitingResponse = true;
     if (this.loginForm.valid) {
-      this.apiService.endpoints.login.login
+      this.apiService.endpoints.user.login
         .call({
           username: this.loginForm.value.username,
           password: this.loginForm.value.password,
         })
-        .then((response: unknown) => {
+        .then((response: LoginRegisterResponseDataSource) => {
           this.notificationsService.sendPositive('Logged in!');
-          console.log(response);
+          this.loginService.setActiveUser(response);
+          this.data.close();
         })
         .catch((err: HttpErrorResponse) => {
           this.loginService.handleLoginOrRegistrationErrorNotification(err.error);
+          this.awaitingResponse = false;
         });
     }
   }

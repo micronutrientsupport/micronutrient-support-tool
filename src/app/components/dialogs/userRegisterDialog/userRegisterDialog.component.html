@@ -1,4 +1,4 @@
-<app-base-dialog *ngIf="!returnToLogin" [data]="data" [title]="title">
+<app-base-dialog *ngIf="!registrationSuccessful" [data]="data" [title]="title">
     <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
         <mat-form-field appearance="fill">
             <mat-label>Username</mat-label>
@@ -46,10 +46,8 @@
         </button>
     </form>
 </app-base-dialog>
-<div class="success-message" *ngIf="this.returnToLogin">
+<div class="success-message" *ngIf="registrationSuccessful">
     <h3>Thanks for registering <strong>{{registerForm.get('username').value}}</strong></h3>
-    <div class="button-wrapper">
-        <button mat-flat-button mat-dialog-close="data">Cancel</button>
-        <button mat-raised-button color="primary" (click)="handleReturnToLogin()">Return to login</button>
-    </div>
+    <p>You've successfully been logged in.</p>
+    <button mat-raised-button mat-dialog-close="data" color="primary">Okay</button>
 </div>

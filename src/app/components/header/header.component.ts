@@ -20,7 +20,7 @@ export class HeaderComponent {
   }
 
   public handleGetProfile() {
-    this.apiService.endpoints.login.getProfile.call().then((response) => {
+    this.apiService.endpoints.user.getProfile.call().then((response) => {
       console.debug(response);
     });
   }
