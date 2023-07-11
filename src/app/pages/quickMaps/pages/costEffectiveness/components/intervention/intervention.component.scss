@@ -125,3 +125,19 @@
 .red {
   background-color: #eb5757;
 }
+.id-container {
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0 1rem 2rem 1rem;
+  border: 2px solid blue;
+  background-color: rgba(0, 170, 255, 0.2);
+}
+.copy-button,
+.email-button {
+  border: 2px solid blue;
+  color: blue;
+  background-color: white;
+  border-radius: 6px;
+  padding: 2px;
+  margin: 5px;
+}

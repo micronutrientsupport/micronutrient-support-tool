@@ -28,7 +28,6 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
 import { DialogStepDetailsComponent } from './dialogStepDetails/dialogStepDetails.component';
-import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -63,7 +62,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     ReactiveFormsModule,
     PipesModule,
     DirectivesModule,
-    ClipboardModule,
   ],
   exports: [BaseDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
