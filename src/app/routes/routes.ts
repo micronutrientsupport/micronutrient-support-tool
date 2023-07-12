@@ -48,6 +48,11 @@ export class AppRoutes {
     segments: 'quick-maps',
     routerRoot: true,
   };
+  public static readonly COST_EFFECTIVENESS = {
+    ...BASE_ROUTE,
+    segments: 'cost-effectiveness',
+    routerRoot: true,
+  };
   public static readonly;
   public static readonly EDUCATIONAL_RESOURCES = {
     ...BASE_ROUTE,

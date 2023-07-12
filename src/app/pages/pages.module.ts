@@ -11,7 +11,7 @@ import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsModule } from './quickMaps/quickMaps.module';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
-
+import { CostEffectivenessModule } from './costEffectiveness/costEffectiveness.module';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -21,7 +21,15 @@ import { StyleGuideComponent } from './styleGuide/styleGuide.component';
     ProjectObjectivesComponent,
     StyleGuideComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule, DirectivesModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AppMaterialModule,
+    CostEffectivenessModule,
+    QuickMapsModule,
+    RoutesModule,
+    DirectivesModule,
+  ],
   providers: [],
   exports: [],
 })

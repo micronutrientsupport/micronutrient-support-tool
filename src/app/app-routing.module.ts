@@ -98,6 +98,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
   {
+    path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
+    loadChildren: () =>
+      import('./pages/costEffectiveness/costEffectiveness.module').then((m) => m.CostEffectivenessModule),
+  },
+  {
     path: '**',
     resolve: {
       path: PathResolveService,

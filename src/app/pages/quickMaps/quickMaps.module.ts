@@ -20,9 +20,6 @@ import { ExportService } from 'src/app/services/export.service';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DietaryChangeModule } from './pages/dietaryChange/dietaryChange.module';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { CostEffectivenessModule } from './pages/costEffectiveness/costEffectiveness.module';
-
-import { InterventionReviewModule } from './pages/costEffectiveness/interventionReview.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { TourService } from 'src/app/services/tour.service';
 import { UncertaintyModule } from './pages/uncertainty/uncertainty.module';
@@ -45,8 +42,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     QuickMapsComponentsModule,
     PipesModule,
     DietaryChangeModule,
-    CostEffectivenessModule,
-    InterventionReviewModule,
     UncertaintyModule,
     DirectivesModule,
     ComponentsModule,
