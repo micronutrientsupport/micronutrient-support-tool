@@ -27,7 +27,7 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0em 4em;
+  padding: 0em 4em 0em 0em;
 
   & a {
     color: #fff;
@@ -42,12 +42,15 @@ a {
   }
 }
 
-.user-details {
+.left-content {
   display: flex;
-  align-items: center;
-  img {
-    width: 4em;
-    margin-right: 0.5em;
+  .user-details {
+    display: flex;
+    align-items: center;
+    img {
+      width: 4em;
+      margin-right: 0.5em;
+    }
   }
 }
 

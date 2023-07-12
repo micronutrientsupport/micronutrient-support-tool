@@ -1,15 +1,17 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
-    <a [routerLink]="ROUTES.HOME | route" class="header-logo">
-      <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
-    </a>
-    <div class="user-details" *ngIf="activeUser">
-      <img src="{{activeUser.profilePic}}">
-      <button mat-flat-button color="primary" (click)="handleGetProfile()">{{activeUser.username}}</button>
-    </div>
-    <div>
-      <button *ngIf="!activeUser" mat-flat-button color="primary" (click)="handleLoginDialog()">Login</button>
-      <button *ngIf="activeUser" mat-flat-button color="primary" (click)="handleLogout()">Logout</button>
+    <div class="left-content">
+      <div class="user-details" *ngIf="activeUser">
+        <img src="{{activeUser.profilePic}}">
+        <button mat-flat-button color="primary" (click)="handleGetProfile()">{{activeUser.username}}</button>
+        <button *ngIf="activeUser" mat-flat-button color="primary" (click)="handleLogout()">Logout</button>
+      </div>
+      <div>
+        <button *ngIf="!activeUser" mat-flat-button color="primary" (click)="handleLoginDialog()">Login</button>
+      </div>
+      <a [routerLink]="ROUTES.HOME | route" class="header-logo">
+        <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
+      </a>
     </div>
     <div class="large">
       <a [routerLink]="ROUTES.MAPS_TOOL | route">MAPS Tools</a>
