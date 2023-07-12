@@ -8,5 +8,5 @@ export interface HttpResponseHandler<ResponseType = unknown> {
    * Called following an unsuccessful http call and gives the implementor chance to
    * perform a consistant action upon call failure
    */
-  handleError(response: unknown): Promise<unknown>;
+  handleError(response: unknown): Promise<ResponseType>;
 }
