@@ -1,30 +1,25 @@
 import { HttpHeaders } from '@angular/common/http';
-import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
+import { UserProfileDetailDataSource } from '../../objects/userProfileDetailDataSource';
 import { LoginRegisterResponseDataSource } from '../../objects/loginRegisterResponseDataSource';
+import { Endpoint } from '../../_lib_code/api/endpoint.abstract';
 
-export class GetUserProfile extends CacheableEndpoint<
+export class GetUserProfile extends Endpoint<
+  UserProfileDetailDataSource,
   LoginRegisterResponseDataSource,
-  void,
-  LoginRegisterResponseDataSource
+  UserProfileDetailDataSource
 > {
-  protected getCacheKey(): string {
-    const params = '';
-    return JSON.stringify(params);
-  }
-
-  protected callLive(): Promise<LoginRegisterResponseDataSource> {
-    const sessionToken = 'r:482ae1b32e9511f4ce753989a5e56b25';
+  protected callLive(activeUser: LoginRegisterResponseDataSource): Promise<UserProfileDetailDataSource> {
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
-      authHeader = authHeader.append('X-Session-Token', sessionToken ? sessionToken : '');
+      authHeader = authHeader.append('X-Session-Token', activeUser ? activeUser.sessionToken : '');
       return authHeader;
     };
     const callResponsePromise = this.apiCaller.doCall(['user', 'profile'], RequestMethod.GET, null, {}, headers);
-    return this.buildObjectFromResponse(LoginRegisterResponseDataSource, callResponsePromise);
+    return this.buildObjectFromResponse(UserProfileDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<LoginRegisterResponseDataSource> {
+  protected callMock(): Promise<UserProfileDetailDataSource> {
     return null;
   }
 }
