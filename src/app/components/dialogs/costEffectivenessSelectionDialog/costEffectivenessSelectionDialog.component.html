@@ -1,123 +1,135 @@
 <app-base-dialog [data]="dialogData" title="Select an intervention">
-    <div class="content-container">
-        <p>
-            Select one of the existing interventions and customise it for your scenario or load an existing
-            intervention by its ID.
-        </p>
-        <mat-tab-group animationDuration="0ms" (selectedTabChange)="handleTabChange($event)">
-            <mat-tab label="Copy & edit intervention template">
-                <h2 class="dropdown-title">Select intervention template</h2>
-                <mat-form-field appearance="outline">
-                    <mat-label>Template</mat-label>
-                    <mat-select (empty)="null" placeholder="Select an intervention"
-                        [(ngModel)]="selectedInterventionEdit" (selectionChange)="handleInterventionChange($event)"
-                        matNativeControl required>
-                        <mat-option *ngFor="let intervention of interventions" [value]="intervention">
-                            {{ intervention.name }}
-                        </mat-option>
+  <div class="content-container">
+    <p>
+      Select one of the existing interventions and customise it for your scenario or load an existing
+      intervention by its ID.
+    </p>
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="handleTabChange($event)">
+      <mat-tab label="Copy & edit intervention template">
+        <h2 class="dropdown-title">Select intervention template</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Template</mat-label>
+          <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionEdit"
+            (selectionChange)="handleInterventionChange($event)" matNativeControl required>
+            <mat-option *ngFor="let intervention of interventions" [value]="intervention">
+              {{ intervention.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="selectedInterventionEdit">
+          <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Intervention name</mat-label>
+              <input matInput [placeholder]="selectedInterventionEdit.name" name="newInterventionName"
+                formControlName="newInterventionName" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Intervention description</mat-label>
+              <textarea matInput [placeholder]="selectedInterventionEdit.description" name="newInterventionDesc"
+                formControlName="newInterventionDesc"></textarea>
+            </mat-form-field>
+          </form>
+          <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
+          <ng-container *ngIf="parameterForm">
+            <form [formGroup]="parameterForm" id="parameter-form">
+              <div class="form-flex-wrapper">
+                <div>
+                  <h4>1. Nation</h4>
+                  <mat-form-field>
+                    <mat-label>Select</mat-label>
+                    <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)" name="nation"
+                      formControlName="nation">
+                      <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
                     </mat-select>
-                </mat-form-field>
-                <ng-container *ngIf="selectedInterventionEdit">
-                    <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Intervention name</mat-label>
-                            <input matInput [placeholder]="selectedInterventionEdit.name" name="newInterventionName"
-                                formControlName="newInterventionName" required>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Intervention description</mat-label>
-                            <textarea matInput [placeholder]="selectedInterventionEdit.description"
-                                name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
-                        </mat-form-field>
-                    </form>
-                    <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
-                    <ng-container *ngIf="parameterForm">
-                        <form [formGroup]="parameterForm" id="parameter-form">
-                            <div class="form-flex-wrapper">
-                                <div>
-                                    <h4>1. Nation</h4>
-                                    <mat-form-field>
-                                        <mat-label>Select</mat-label>
-                                        <mat-select [(value)]="selectedCountry"
-                                            (selectionChange)="handleNationChange($event)" name="nation"
-                                            formControlName="nation">
-                                            <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
-                                                {{ item.name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div>
-                                    <h4>2. Focus geography</h4>
-                                    <mat-form-field>
-                                        <mat-label>
-                                            {{ regionOptionArray.length > 0 ? 'Select' : 'No regions available.' }}
-                                        </mat-label>
-                                        <mat-select name="focusGeography" formControlName="focusGeography">
-                                            <mat-option *ngFor="let item of regionOptionArray" [value]="item.id">
-                                                {{ item.name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div>
-                                    <h4>3. Focus micronutrient</h4>
-                                    <mat-form-field>
-                                        <mat-label>Select</mat-label>
-                                        <mat-select [(value)]="selectedMn" name="focusMicronutrient"
-                                            formControlName="focusMicronutrient" (valueChange)="handleMnChange($event)">
-                                            <mat-option *ngFor="let item of micronutrientsOptionArray"
-                                                [value]="item.id">
-                                                {{ item.name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </form>
-                    </ng-container>
-                </ng-container>
-            </mat-tab>
-            <mat-tab label="Load an existing intervention">
-                <div class="content-container">
-                    <mat-form-field appearance="outline">
-                        <mat-select (empty)="null" placeholder="Select an intervention"
-                            [(ngModel)]="selectedInterventionLoad" (ngModelChange)="this.proceed.next(true);"
-                            matNativeControl required>
-                            <mat-option *ngFor="let intervention of interventionsAllowedToUse" [value]="intervention">
-                                (<strong>ID:</strong> {{ intervention.id }}) <strong>Name:</strong> {{ intervention.name
-                                }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                  </mat-form-field>
                 </div>
-                <div class="result-wrapper"
-                    [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
-                    <ng-container *ngIf="selectedInterventionLoad">
-                        <ng-container *ngIf="(err.asObservable() | async) === false">
-                            <h2>Selected Intervention Summary</h2>
-                            <p><strong>Intervention Name:</strong> {{ selectedInterventionLoad.name }}</p>
-                            <p><strong>Description:</strong> {{ selectedInterventionLoad.description }}</p>
-                        </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="(err.asObservable() | async) === true || selectedInterventionLoad === null">
-                        <strong>No intervention found with ID: {{ interventionId }}</strong>
-                    </ng-container>
+                <div>
+                  <h4>2. Focus geography</h4>
+                  <mat-form-field>
+                    <mat-label>
+                      {{ regionOptionArray.length > 0 ? 'Select' : 'No regions available.' }}
+                    </mat-label>
+                    <mat-select name="focusGeography" formControlName="focusGeography">
+                      <mat-option *ngFor="let item of regionOptionArray" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
-            </mat-tab>
-        </mat-tab-group>
-        <div class="btn-wrapper">
-            <button mat-stroked-button type="button" (click)="closeDialog()">
-                Cancel
-            </button>
-            <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-                *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
-                Copy & edit
-            </button>
-            <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-                *ngIf="tabID === 'load'" [disabled]="(proceed.asObservable() | async) === false">
-                Load
-            </button>
+                <div>
+                  <h4>3. Focus micronutrient</h4>
+                  <mat-form-field>
+                    <mat-label>Select</mat-label>
+                    <mat-select [(value)]="selectedMn" name="focusMicronutrient" formControlName="focusMicronutrient"
+                      (valueChange)="handleMnChange($event)">
+                      <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </ng-container>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Load an existing intervention">
+        <div class="content-container">
+          <!-- <mat-form-field appearance="outline">
+                  <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionLoad"
+                    (ngModelChange)="this.proceed.next(true);" matNativeControl required>
+                    <mat-option *ngFor="let intervention of interventionsAllowedToUse" [value]="intervention">
+                      (<strong>ID:</strong> {{ intervention.id }}) <strong>Name:</strong> {{ intervention.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+
+          <mat-form-field #inputt>
+            <mat-label>Intervention ID</mat-label>
+            <input matInput [placeholder]="recentInterventions" [(ngModel)]="selectedInterventionIDLoad"
+              (ngModelChange)="this.proceed.next(true);" (keyup)="updateForm()" matNativeControl required>
+          </mat-form-field>
+
+          <!-- <p>Make note of your Intervention ID in order to access it at a later date.</p> -->
         </div>
+        <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
+          <ng-container *ngIf="interventionPreview">
+            <ng-container>
+              <h2>Selected Intervention Summary</h2>
+              <p><strong>Intervention Name:</strong> {{ interventionPreview.name }}</p>
+              <p><strong>Description:</strong> {{ interventionPreview.description }}</p>
+            </ng-container>
+          </ng-container>
+          <!-- <ng-container *ngIf="selectedInterventionIDLoad === '' && null !== interventionPreview">
+      
+                  <p> Insert a recent intervention ID.</p>
+                </ng-container> -->
+          <ng-container *ngIf="interventionPreview?.isTemplateIntervention">
+            <p> This intervention is a template and cannot be loaded. Please go to "Copy & Edit" to use this
+              intervention.</p>
+          </ng-container>
+          <ng-container *ngIf="null == interventionPreview || selectedInterventionIDLoad === ''">
+
+            <p> The intervention ID <strong>{{ selectedInterventionIDLoad }}</strong> does not match any of your recent
+              interventions.</p>
+          </ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="btn-wrapper">
+      <button mat-stroked-button type="button" (click)="closeDialog()">
+        Cancel
+      </button>
+      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+        Copy & edit
+      </button>
+      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+        *ngIf="tabID === 'load'" [disabled]="(proceed.asObservable() | async) === false">
+        Load
+      </button>
     </div>
+  </div>
 </app-base-dialog>
