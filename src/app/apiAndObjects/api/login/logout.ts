@@ -22,4 +22,9 @@ export class UserLogout extends Endpoint<LogoutResponse, LoginRegisterResponseDa
 
 export class LogoutResponse extends BaseObject {
   public readonly success: boolean;
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
+
+    this.success = this._getBoolean('success');
+  }
 }

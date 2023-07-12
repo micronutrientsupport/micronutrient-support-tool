@@ -9,6 +9,7 @@ import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObj
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoute, AppRoutes } from './routes/routes';
 import { PathResolveService } from './services/pathResolve.service';
+import { UserProfileComponent } from './pages/userProfile/userProfile.component';
 
 export interface RouteData extends Data {
   appRoute: AppRoute;
@@ -34,6 +35,18 @@ const routes: Routes = [
       and dietary MN supply estimates derived from nationa-scale (Food Balance Sheets)
       or sub-national (House-hold Consumption and Expenditure Survey) data,
       presenting the user with multiple perspectives on MN deficiency risks and highlighting where there are major data gaps.`,
+    } as RouteData,
+  },
+  {
+    path: AppRoutes.PROFILE.getRouterPath(),
+    component: UserProfileComponent,
+    data: {
+      appRoute: AppRoutes.PROFILE,
+
+      title: 'Profile',
+      keywords: `tools, data,`,
+      // eslint-disable-next-line max-len
+      description: 'Tool for user to access and edit their profile details.',
     } as RouteData,
   },
   {

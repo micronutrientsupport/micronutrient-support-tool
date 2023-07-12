@@ -3,7 +3,7 @@
     <div class="left-content">
       <div class="user-details" *ngIf="activeUser">
         <img src="{{activeUser.profilePic}}">
-        <button mat-flat-button color="primary" (click)="handleGetProfile()">{{activeUser.username}}</button>
+        <button mat-flat-button color="primary" [routerLink]="ROUTES.PROFILE| route">{{activeUser.username}}</button>
         <button *ngIf="activeUser" mat-flat-button color="primary" (click)="handleLogout()">Logout</button>
       </div>
       <div>
