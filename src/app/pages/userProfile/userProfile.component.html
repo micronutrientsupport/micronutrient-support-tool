@@ -8,7 +8,7 @@
             <div class="mdc-layout-grid__cell--span-6">
                 <img class="header-image" src="/assets/images/webp/education-min.webp" alt="">
             </div>
-            <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
+            <div *ngIf="userProfile" class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
                 <div class="top-content">
                     <h1>Profile Details</h1>
                     <img src="{{userProfile.profilePic}}" alt="">
@@ -62,6 +62,14 @@
                             <div matListItemTitle>{{userProfile.updatedDate}}</div>
                         </mat-list-item>
                     </mat-list>
+                </div>
+                <mat-divider>
+                </mat-divider>
+                <div class="badges" *ngFor="let badge of userProfile.badges">
+                    <a matTooltip="{{badge.description}}" href="{{badge.url}}" target="_blank">
+                        <img src="{{badge.image}}" alt="">
+                        <p>{{badge.title}}</p>
+                    </a>
                 </div>
             </div>
         </div>
