@@ -2,58 +2,64 @@
   <div class="bmgf-maps-nice-scrollbar">
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="labelText">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
-          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}} </td>
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
         <ng-container matColumnDef="year0">
           <th mat-header-cell *matHeaderCellDef>2021</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0">
+              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0">
+              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year0 * 100" (input)="element.year0 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year0">
+                appDecimalInput formControlName="year0" (change)="recalculateChanges()">
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} TBC</td>
         </ng-container>
         <!-- year1 -->
         <ng-container matColumnDef="year1">
           <th mat-header-cell *matHeaderCellDef>2022</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1">
+              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1">
+              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year1 * 100" (input)="element.year1 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year1">
+                appDecimalInput formControlName="year1" (change)="recalculateChanges()">
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currencyExtended}} </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year1') | currencyExtended}} TBC</td>
         </ng-container>
         <!-- year2 -->
         <ng-container matColumnDef="year2">
           <th mat-header-cell *matHeaderCellDef>2023</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2">
+              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2">
+              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year2 * 100" (input)="element.year2 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year2">
+                appDecimalInput formControlName="year2" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year2') | currencyExtended}} </td>
@@ -63,14 +69,16 @@
           <th mat-header-cell *matHeaderCellDef>2024</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3">
+              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3">
+              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year3 * 100" (input)="element.year3 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year3">
+                appDecimalInput formControlName="year3" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year3') | currencyExtended}} </td>
@@ -80,14 +88,16 @@
           <th mat-header-cell *matHeaderCellDef>2025</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4">
+              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4">
+              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year4 * 100" (input)="element.year4 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year4">
+                appDecimalInput formControlName="year4" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year4') | currencyExtended}} </td>
@@ -97,14 +107,16 @@
           <th mat-header-cell *matHeaderCellDef>2026</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5">
+              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5">
+              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year4 * 100" (input)="element.year5 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year5">
+                appDecimalInput formControlName="year5" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year5') | currencyExtended}} </td>
@@ -114,14 +126,16 @@
           <th mat-header-cell *matHeaderCellDef>2027</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6">
+              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6">
+              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year6 * 100" (input)="element.year6 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year6">
+                appDecimalInput formControlName="year6" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year6') | currencyExtended}} </td>
@@ -131,15 +145,17 @@
           <th mat-header-cell *matHeaderCellDef>2028</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7">
+              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
 
-              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7">
+              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year4 * 100" (input)="element.year7 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year7">
+                appDecimalInput formControlName="year7" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year7') | currencyExtended}} </td>
@@ -149,14 +165,16 @@
           <th mat-header-cell *matHeaderCellDef>2029</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8">
+              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8">
+              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year4 * 100" (input)="element.year8 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year8">
+                appDecimalInput formControlName="year8" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year8') | currencyExtended}} </td>
@@ -166,14 +184,16 @@
           <th mat-header-cell *matHeaderCellDef>2030</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9">
+              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9">
+              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9"
+                (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
               <input type="text" [value]="element.year4 * 100" (input)="element.year9 = $any($event.target).value / 100"
-                appDecimalInput formControlName="year9">
+                appDecimalInput formControlName="year9" (change)="recalculateChanges()">
             </div>
           </td>
           <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9') | currencyExtended}} </td>
