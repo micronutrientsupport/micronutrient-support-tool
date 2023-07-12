@@ -20,7 +20,7 @@ export class JSONLogicService {
      */
     jsonLogic.add_operation('roundup', (value, decimals = 0) => {
       const multiplier = Math.pow(10, decimals);
-      return Math.ceil(value * multiplier) / multiplier;
+      return Math.ceil(Number(value) * multiplier) / multiplier;
     });
 
     /**
@@ -62,7 +62,7 @@ export class JSONLogicService {
         (item: IndustryInformation | MonitoringInformation) => item.rowIndex == cellIndex.rowIndex,
       );
       const colToFind = cellIndex.colIndex;
-      const valueAtCol = resAtRow[colToFind];
+      const valueAtCol = Number(resAtRow[colToFind]);
       return valueAtCol;
     });
   }

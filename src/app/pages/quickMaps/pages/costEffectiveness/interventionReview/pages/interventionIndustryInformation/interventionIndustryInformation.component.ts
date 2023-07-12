@@ -246,6 +246,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
           console.debug('missing year' + columnIndex + 'Formula');
           return;
         }
+
         // calculate the result of the formula using the inputs describes in jsonlogic
         const theResult = this.jsonLogicService.calculateResult(item, columnIndex, allItems);
 
