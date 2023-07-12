@@ -2,4 +2,12 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  ::ng-deep mat-form-field .mat-mdc-form-field-subscript-wrapper {
+    display: block;
+  }
+}
+
+#register {
+  margin-top: 0.5em;
 }

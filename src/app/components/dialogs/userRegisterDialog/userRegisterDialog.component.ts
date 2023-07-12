@@ -16,14 +16,14 @@ import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/l
   styleUrls: ['./userRegisterDialog.component.scss'],
 })
 export class UserRegisterDialogComponent implements OnInit {
-  public title = 'Please Register:';
+  public title = 'Please Register';
   public hidePw = true;
   public hideRepeatPw = true;
   public awaitingResponse = false;
   public registrationSuccessful = false;
   public registerForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.minLength(5)]),
     repeatPassword: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
@@ -39,6 +39,9 @@ export class UserRegisterDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm.controls['repeatPassword'].addValidators([this.createCompareValidator()]);
+    this.registerForm.valueChanges.subscribe(() => {
+      console.debug(this.registerForm.get('password'));
+    });
   }
 
   public handleSubmit(): void {

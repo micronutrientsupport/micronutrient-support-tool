@@ -6,9 +6,8 @@
         <button mat-flat-button color="primary" [routerLink]="ROUTES.PROFILE | route">{{activeUser.username}}</button>
         <button *ngIf="activeUser" mat-flat-button color="primary" (click)="handleLogout()">Logout</button>
       </div>
-      <div>
-        <button *ngIf="!activeUser" mat-flat-button color="primary" (click)="handleLoginDialog()">Login</button>
-      </div>
+      <button id="login" *ngIf="!activeUser" mat-flat-button color="primary"
+        (click)="handleLoginDialog()">Login</button>
       <a [routerLink]="ROUTES.HOME | route" class="header-logo">
         <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
       </a>

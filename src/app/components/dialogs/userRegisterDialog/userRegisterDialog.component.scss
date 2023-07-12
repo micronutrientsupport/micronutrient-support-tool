@@ -2,9 +2,10 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  // mat-form-field {
-  //   margin-bottom: 1em;
-  // }
+
+  ::ng-deep mat-form-field .mat-mdc-form-field-subscript-wrapper {
+    display: block;
+  }
 }
 
 .success-message {

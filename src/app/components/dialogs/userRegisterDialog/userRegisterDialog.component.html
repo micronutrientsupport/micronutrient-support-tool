@@ -12,6 +12,8 @@
                 [attr.aria-pressed]="hidePw">
                 <mat-icon>{{hidePw ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
+            <mat-error *ngIf="registerForm.get('password').hasError('minlength')">Passwords requires min 5
+                chars.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
