@@ -129,15 +129,24 @@
   padding: 10px;
   border-radius: 8px;
   margin: 0 1rem 2rem 1rem;
-  border: 2px solid blue;
-  background-color: rgba(0, 170, 255, 0.2);
+  border: 2px solid $color_primary;
+  // background-color: rgba(0, 170, 255, 0.2);
+  background-color: #f1ecf6;
 }
 .copy-button,
 .email-button {
-  border: 2px solid blue;
-  color: blue;
+  border: 2px dashed $color_primary;
+  color: $color_primary;
   background-color: white;
   border-radius: 6px;
   padding: 2px;
   margin: 5px;
+  cursor: pointer;
+}
+.email-link {
+  color: $color_primary;
+  background-color: white;
+  // border-radius: 6px;
+  // padding: 2px;
+  // margin: 5px;
 }
