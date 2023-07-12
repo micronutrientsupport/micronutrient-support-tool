@@ -38,7 +38,7 @@ export interface StartUpCosts {
 }
 
 export interface StartUpCostBreakdown {
-  name: string;
+  labelText: string;
   rowIndex: number;
   year0: number;
   year0Default: number;

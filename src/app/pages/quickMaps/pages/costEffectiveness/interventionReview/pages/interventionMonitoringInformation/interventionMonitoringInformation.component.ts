@@ -235,6 +235,11 @@ export class InterventionMonitoringInformationComponent implements OnInit {
           // if isEditable = true AND no yearXFormula exists, calculated value by vars outside this endpoint
           return;
         }
+        if (Object.keys(item['year' + columnIndex + 'Formula']).length === 0) {
+          // Check to see if the formula is present as expected, otherwise display static value
+          console.debug('missing year' + columnIndex + 'Formula');
+          return;
+        }
         // calculate the result of the formula using the inputs describes in jsonlogic
         const theResult = this.jsonLogicService.calculateResult(item, columnIndex, allItems);
 
