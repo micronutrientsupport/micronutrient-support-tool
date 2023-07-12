@@ -7,6 +7,7 @@ import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/l
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { LogoutResponse } from 'src/app/apiAndObjects/api/login/logout';
 import { NotificationsService } from '../notifications/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,7 @@ export class HeaderComponent {
     private apiService: ApiService,
     private userLoginSevice: UserLoginService,
     private notificationsService: NotificationsService,
+    private router: Router,
   ) {
     this.userLoginSevice.activeUserObs.subscribe((activeUser: LoginRegisterResponseDataSource | null) => {
       this.activeUser = activeUser;
@@ -42,6 +44,9 @@ export class HeaderComponent {
             `${this.userLoginSevice.getActiveUser().username} successfully logged out.`,
           );
           this.userLoginSevice.setActiveUser(null);
+          if (this.router.url.includes(this.ROUTES.PROFILE.getRouterPath())) {
+            this.router.navigate(['/']);
+          }
         }
       });
   }
