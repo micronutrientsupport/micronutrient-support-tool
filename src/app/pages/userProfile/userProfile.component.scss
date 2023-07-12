@@ -1,3 +1,26 @@
-img {
-  transform: scaleX(-1);
+.wave-header {
+  img {
+    transform: scaleX(-1);
+  }
+}
+
+.top-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+}
+
+.mid-content {
+  display: flex;
+  justify-content: space-evenly;
+  .details-list {
+    .mdc-list-item {
+      height: 56px;
+    }
+  }
 }
