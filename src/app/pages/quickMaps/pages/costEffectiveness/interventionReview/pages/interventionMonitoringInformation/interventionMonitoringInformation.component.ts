@@ -10,6 +10,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { JSONLogicService } from 'src/app/services/jsonlogic.service';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-intervention-monitoring-information',
@@ -46,6 +47,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private jsonLogicService: JSONLogicService,
+    private notificationsService: NotificationsService,
   ) {}
 
   /**
@@ -101,22 +103,37 @@ export class InterventionMonitoringInformationComponent implements OnInit {
               map(([oldState, newState]) => {
                 for (const key in newState.items) {
                   const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-
+                  const rowUnits = this.form.get('items')['controls'][key]['controls'].rowUnits.value;
                   if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                     const diff = compareObjs(oldState.items[key], newState.items[key]);
                     if (Array.isArray(diff) && diff.length > 0) {
                       diff.forEach((item) => {
-                        if (changes[rowIndex]) {
-                          changes[rowIndex] = {
-                            ...changes[rowIndex],
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
+                        if (rowUnits === 'percent') {
+                          if (changes[rowIndex]) {
+                            changes[rowIndex] = {
+                              ...changes[rowIndex],
+                              [item[0]]: Number(item[1]) / 100,
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          } else {
+                            changes[rowIndex] = {
+                              [item[0]]: Number(item[1]) / 100,
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          }
                         } else {
-                          changes[rowIndex] = {
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
+                          if (changes[rowIndex]) {
+                            changes[rowIndex] = {
+                              ...changes[rowIndex],
+                              [item[0]]: Number(item[1]),
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          } else {
+                            changes[rowIndex] = {
+                              [item[0]]: Number(item[1]),
+                            };
+                            changes[rowIndex]['rowIndex'] = rowIndex;
+                          }
                         }
                       });
                     }
@@ -141,6 +158,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   private createMonitoringGroup(item: MonitoringInformation): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      rowUnits: [item.rowUnits, []],
       isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
@@ -260,5 +278,16 @@ export class InterventionMonitoringInformationComponent implements OnInit {
         });
       }
     });
+  }
+
+  public validateUserInput(event: Event, rowIndex: number, year: string) {
+    const userInput = Number((event.target as HTMLInputElement).value);
+    if (userInput < 0) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 0 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    } else if (userInput > 100) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    }
   }
 }

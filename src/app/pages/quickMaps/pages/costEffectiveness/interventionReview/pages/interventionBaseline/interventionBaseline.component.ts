@@ -19,6 +19,7 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -62,6 +63,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
     private formBuilder: NonNullableFormBuilder,
+    private notificationsService: NotificationsService,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
@@ -240,5 +242,16 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
+  }
+
+  public validateUserInput(event: Event, rowIndex: number, year: string) {
+    const userInput = Number((event.target as HTMLInputElement).value);
+    if (userInput < 0) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 0 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    } else if (userInput > 100) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    }
   }
 }

@@ -26,7 +26,8 @@
               <div class="double-cell">
                 <div>
                   <input id="year0" name="year0" (change)="storeIndex(index)" type="number"
-                    [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100">
+                    [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100"
+                    (keyup)="validateUserInput($event, index, 'year0')">
                 </div>
                 <button *ngIf="dirtyIndexes.includes(index) === false" mat-button color="primary">
                   GFDx<mat-icon>arrow_right_alt</mat-icon>

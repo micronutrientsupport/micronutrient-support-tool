@@ -7,6 +7,7 @@ import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { JSONLogicService } from 'src/app/services/jsonlogic.service';
+import { NotificationsService } from '../../notifications/notification.service';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -16,6 +17,7 @@ import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 export class SectionRecurringCostReviewDialogComponent {
   public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
   public title = '';
+  public dirtyIndexes = [];
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public year0Total = 0;
@@ -41,6 +43,7 @@ export class SectionRecurringCostReviewDialogComponent {
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
     private jsonLogicService: JSONLogicService,
+    private notificationsService: NotificationsService,
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
@@ -96,22 +99,37 @@ export class SectionRecurringCostReviewDialogComponent {
           map(([oldState, newState]) => {
             for (const key in newState.items) {
               const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-
+              const rowUnits = this.form.get('items')['controls'][key]['controls'].rowUnits.value;
               if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                 const diff = compareObjs(oldState.items[key], newState.items[key]);
                 if (Array.isArray(diff) && diff.length > 0) {
                   diff.forEach((item) => {
-                    if (changes[rowIndex]) {
-                      changes[rowIndex] = {
-                        ...changes[rowIndex],
-                        [item[0]]: Number(item[1]),
-                      };
-                      changes[rowIndex]['rowIndex'] = rowIndex;
+                    if (rowUnits === 'percent') {
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: Number(item[1]) / 100,
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: Number(item[1]) / 100,
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
                     } else {
-                      changes[rowIndex] = {
-                        [item[0]]: Number(item[1]),
-                      };
-                      changes[rowIndex]['rowIndex'] = rowIndex;
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
                     }
                   });
                 }
@@ -139,6 +157,7 @@ export class SectionRecurringCostReviewDialogComponent {
   private createRecurringCostGroup(item: RecurringCostBreakdown): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
+      rowUnits: [item.rowUnits, []],
       isEditable: [item.isEditable, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
@@ -207,6 +226,10 @@ export class SectionRecurringCostReviewDialogComponent {
     this.form.markAsPristine();
   }
 
+  public storeIndex(index: number) {
+    this.dirtyIndexes.push(index);
+  }
+
   public recalculateChanges(): void {
     // getRawValue returns values even if cell is marked as disabled
     const allItems: Array<RecurringCostBreakdown> = this.form.getRawValue().items;
@@ -250,5 +273,16 @@ export class SectionRecurringCostReviewDialogComponent {
         });
       }
     });
+  }
+
+  public validateUserInput(event: Event, rowIndex: number, year: string) {
+    const userInput = Number((event.target as HTMLInputElement).value);
+    if (userInput < 0) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 0 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    } else if (userInput > 100) {
+      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
+      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
+    }
   }
 }
