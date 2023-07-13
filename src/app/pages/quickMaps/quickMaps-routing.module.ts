@@ -5,7 +5,6 @@ import { FeatureFlagGuard } from 'src/app/guards/featureFlagGuard';
 import { AppRoutes } from 'src/app/routes/routes';
 import { BaselineDetailsComponent } from './pages/baselineDetails/baselineDetails.component';
 import { BiomarkerComponent } from './pages/biomarkers/biomarker.component';
-import { CostEffectivenessComponent } from './pages/costEffectiveness/costEffectiveness.component';
 import { DietaryChangeComponent } from './pages/dietaryChange/dietaryChange.component';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
 import { NoResultsComponent } from '../../components/noResults/noResults.component';
@@ -100,20 +99,20 @@ const routes: Routes = [
         } as RouteData,
         canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
       },
-      {
-        path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),
-        component: CostEffectivenessComponent,
-        canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
-        canLoad: [FeatureFlagGuard],
-        data: {
-          featureFlag: 'CE-Enable',
-          appRoute: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
-          title: 'Quick MAPS - Explore cost effectiveness scenarios',
-          keywords: '',
-          description: '',
-          showLightFooter: true,
-        } as RouteData,
-      },
+      // {
+      //   path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),
+      //   component: CostEffectivenessComponent,
+      //   canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
+      //   canLoad: [FeatureFlagGuard],
+      //   data: {
+      //     featureFlag: 'CE-Enable',
+      //     appRoute: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+      //     title: 'Quick MAPS - Explore cost effectiveness scenarios',
+      //     keywords: '',
+      //     description: '',
+      //     showLightFooter: true,
+      //   } as RouteData,
+      // },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
         component: BiomarkerComponent,
@@ -128,11 +127,11 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath() + '**',
-    loadChildren: () =>
-      import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
-  },
+  // {
+  //   path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath() + '**',
+  //   loadChildren: () =>
+  //     import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
+  // },
   // {
   //   path: '**',
   //   redirectTo: '',

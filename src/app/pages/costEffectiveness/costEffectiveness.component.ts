@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, On
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
-
-import { CostEffectivenessService } from './costEffectiveness.service';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
+import { CostEffectivenessService } from './costEffectiveness.service';
 // eslint-disable-next-line no-shadow
 enum GridsterLayoutOptions {
   DEFAULT_VIEW = 0,
