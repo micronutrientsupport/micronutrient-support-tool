@@ -25,11 +25,12 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Intervention description</mat-label>
-              <textarea matInput [placeholder]="selectedInterventionEdit.description" name="newInterventionDesc"
-                formControlName="newInterventionDesc"></textarea>
+              <textarea (click)="createID()" matInput [placeholder]="selectedInterventionEdit.description"
+                name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
             </mat-form-field>
           </form>
           <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
+
           <ng-container *ngIf="parameterForm">
             <form [formGroup]="parameterForm" id="parameter-form">
               <div class="form-flex-wrapper">
@@ -116,14 +117,17 @@
               interventions.</p>
           </ng-container>
         </div>
+
       </mat-tab>
     </mat-tab-group>
+
+
     <div class="btn-wrapper">
       <button mat-stroked-button type="button" (click)="closeDialog()">
         Cancel
       </button>
-      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+      <button form="form" mat-flat-button color="primary" (click)="createID()" (click)="createIntervention()"
+        class="btn-proceed" *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
         Copy & edit
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
