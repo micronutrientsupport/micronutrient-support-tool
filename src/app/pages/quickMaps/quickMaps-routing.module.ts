@@ -131,7 +131,7 @@ const routes: Routes = [
   {
     path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath() + '**',
     loadChildren: () =>
-      import('./pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
+      import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
   },
   // {
   //   path: '**',
