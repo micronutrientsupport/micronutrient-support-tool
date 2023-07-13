@@ -25,17 +25,14 @@
     "commandCenter.border": "#e7e7e799",
     "sash.hoverBorder": "#b47ce8",
     "statusBar.background": "#9b51e0",
-    "statusBar.border": "#9b51e0",
     "statusBar.foreground": "#e7e7e7",
     "statusBarItem.hoverBackground": "#b47ce8",
     "statusBarItem.remoteBackground": "#9b51e0",
     "statusBarItem.remoteForeground": "#e7e7e7",
-    "tab.activeBorder": "#b47ce8",
     "titleBar.activeBackground": "#9b51e0",
     "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.border": "#9b51e0",
     "titleBar.inactiveBackground": "#9b51e099",
     "titleBar.inactiveForeground": "#e7e7e799"
-  },
-  "git-blame.gitWebUrl": ""
+  }
+
 }

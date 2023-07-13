@@ -24,7 +24,6 @@ export class MapsHttpResponseHandler {
   }
 
   public handleSuccess(res: ApiResponse, fullResponse = false): Promise<unknown> {
-    // console.debug(res);
     return new Promise((resolve, reject) => {
       // validate that it has a data attribute
       if (undefined === res.data) {
@@ -51,34 +50,36 @@ export class MapsHttpResponseHandler {
   public handleError(res: HttpErrorResponse): Promise<unknown> {
     // TODO: Check response meta
     // TODO: Output to console?
-    // console.debug(res);
     if (res.error) {
       const body = res.error; // .error is the body of the response?
       let returnValue: ApiResponse;
-      let errorMessage = '';
+      let error: unknown;
 
       switch (true) {
         case res.ok === false:
-          errorMessage = res.message;
+          error = res;
           break;
         case res.status === 404 && typeof body !== 'string':
           returnValue = body;
           break; // just an empty dataset
         case typeof body !== 'string':
-          errorMessage = body.msg;
+          error = body.msg;
           break;
         default:
-          errorMessage = res.message;
+          error = res;
           break;
       }
       // console.debug('error message', errorMessage, returnValue, res);
 
-      if (errorMessage) {
-        console.error('API access error - ', errorMessage);
-        this.notificationsService.sendNegative('API Error - ', 'A call to retrieve data failed');
-        return Promise.reject(errorMessage);
-      } else {
-        return Promise.resolve(returnValue);
+      if (error) {
+        const httpErr = error as HttpErrorResponse;
+        if (httpErr) {
+          console.error('API access error - ', httpErr.message);
+          this.notificationsService.sendNegative('API Error - ', 'A call to retrieve data failed');
+          return Promise.reject(httpErr);
+        } else {
+          return Promise.resolve(returnValue);
+        }
       }
     }
   }

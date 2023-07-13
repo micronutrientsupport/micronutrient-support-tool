@@ -1,0 +1,23 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  ::ng-deep mat-form-field .mat-mdc-form-field-subscript-wrapper {
+    display: block;
+  }
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 9em;
+  padding: 2em;
+  .button-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+}
