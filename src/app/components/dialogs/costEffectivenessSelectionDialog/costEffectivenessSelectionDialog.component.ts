@@ -319,9 +319,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           }
         })
         .catch(() => {
-          this.notificationsService.sendNegative(
-            `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
-          );
+          if (null != this.userLoginService.getActiveUser()) {
+            this.notificationsService.sendNegative(
+              `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
+            );
+          } else {
+            this.notificationsService.sendInformative('Make sure you are logged in to access interventions.');
+          }
         });
     } else if (this.tabID === 'copy') {
       // TODO: POST to endpoint with parameterFormObj as body
