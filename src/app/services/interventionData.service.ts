@@ -251,7 +251,7 @@ export class InterventionDataService {
     const activeId = localStorage.getItem(ACTIVE_INTERVENTION_ID);
 
     if (null == activeId) {
-      const route = this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute();
+      const route = this.ROUTES.COST_EFFECTIVENESS.getRoute();
       const params = this.route.snapshot.queryParams;
       void this.router.navigate(route, { queryParams: params });
     } else {

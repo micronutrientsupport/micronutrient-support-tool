@@ -12,6 +12,7 @@ import { ProjectionComponent } from './pages/projection/projection.component';
 import { UncertaintyComponent } from './pages/uncertainty/uncertainty.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
+import { CostEffectivenessComponent } from '../costEffectiveness/costEffectiveness.component';
 
 const routes: Routes = [
   {
@@ -113,6 +114,20 @@ const routes: Routes = [
       //     showLightFooter: true,
       //   } as RouteData,
       // },
+            {
+        path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
+        component: CostEffectivenessComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.COST_EFFECTIVENESS,
+          title: 'Explore cost effectiveness scenarios',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
         component: BiomarkerComponent,

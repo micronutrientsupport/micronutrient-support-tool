@@ -44,7 +44,7 @@
   <div class="mode-select-button" matTooltip="This feature is under development and currently not available"
     [matTooltipDisabled]="featureFlagsServive.isEnabled('CE-Enable')">
     <a [disabled]=" featureFlagsServive.isDisabled('CE-Enable')" class="quickmaps-cost-effectivness-link"
-      mat-stroked-button [routerLink]="ROUTES.QUICK_MAPS_COST_EFFECTIVENESS | route"
+      mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       [queryParams]="route.queryParams | async" routerLinkActive="active-route">Explore cost
       effectiveness scenarios</a>
   </div>

@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { QuickMapsService } from '../../quickMaps.service';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { ExportService } from 'src/app/services/export.service';
 import { PipesModule } from 'src/app/pipes/pipes.module';
@@ -43,6 +42,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
+import { QuickMapsService } from '../quickMaps/quickMaps.service';
 
 
 @NgModule({
