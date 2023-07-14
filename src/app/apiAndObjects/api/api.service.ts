@@ -87,7 +87,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
-      postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
+      postIntervention: new PostIntervention(ApiService.USE_LIVE_API, this.userLoginService),
       patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API, this.userLoginService),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),
     },
