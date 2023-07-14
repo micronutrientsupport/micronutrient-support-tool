@@ -5,10 +5,19 @@ import { CostEffectivenessComponentsModule } from './components/costEffectivenes
 import { ComponentsModule } from 'src/app/components/components.module';
 import { GridsterModule } from 'angular-gridster2';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
+// import { InterventionReviewModule } from './interventionReview.module';
+import { costEffectivenessRoutingModule } from './costEffectiveness-routing.module';
 
 @NgModule({
   declarations: [CostEffectivenessComponent],
-  imports: [ComponentsModule, CommonModule, CostEffectivenessComponentsModule, GridsterModule],
+  imports: [
+    ComponentsModule,
+    CommonModule,
+    CostEffectivenessComponentsModule,
+    GridsterModule,
+    // InterventionReviewModule,
+    costEffectivenessRoutingModule,
+  ],
   exports: [CostEffectivenessComponent],
   providers: [QuickMapsService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

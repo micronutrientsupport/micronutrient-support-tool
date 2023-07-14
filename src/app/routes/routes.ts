@@ -51,7 +51,7 @@ export class AppRoutes {
   public static readonly COST_EFFECTIVENESS = {
     ...BASE_ROUTE,
     segments: 'cost-effectiveness',
-    // routerRoot: true,
+    routerRoot: true,
   };
   public static readonly;
   public static readonly EDUCATIONAL_RESOURCES = {
@@ -108,7 +108,7 @@ export class AppRoutes {
     segments: 'dietary-change',
     parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
-  // public static readonly QUICK_MAPS_COST_EFFECTIVENESS = {
+  // public static readonly COST_EFFECTIVENESS = {
   //   ...BASE_ROUTE,
   //   segments: 'cost-effectiveness',
   //   parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,

@@ -44,7 +44,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
 
-
 @NgModule({
   declarations: [
     InterventionReviewComponent,

@@ -82,7 +82,7 @@ export class InterventionCostSummaryComponent implements OnInit {
 
   public onSubmit(): void {
     // navigate back to list of selected interventions
-    this.router.navigate(this.ROUTES.QUICK_MAPS_COST_EFFECTIVENESS.getRoute(), {
+    this.router.navigate(this.ROUTES.COST_EFFECTIVENESS.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });
   }

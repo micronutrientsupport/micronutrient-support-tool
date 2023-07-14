@@ -101,33 +101,33 @@ const routes: Routes = [
         canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
       },
       // {
-      //   path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath(),
+      //   path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
       //   component: CostEffectivenessComponent,
       //   canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
       //   canLoad: [FeatureFlagGuard],
       //   data: {
       //     featureFlag: 'CE-Enable',
-      //     appRoute: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+      //     appRoute: AppRoutes.COST_EFFECTIVENESS,
       //     title: 'Quick MAPS - Explore cost effectiveness scenarios',
       //     keywords: '',
       //     description: '',
       //     showLightFooter: true,
       //   } as RouteData,
       // },
-            {
-        path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
-        component: CostEffectivenessComponent,
-        canActivate: [FeatureFlagGuard],
-        canLoad: [FeatureFlagGuard],
-        data: {
-          featureFlag: 'CE-Enable',
-          appRoute: AppRoutes.COST_EFFECTIVENESS,
-          title: 'Explore cost effectiveness scenarios',
-          keywords: '',
-          description: '',
-          showLightFooter: true,
-        } as RouteData,
-      },
+      // {
+      //   path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
+      //   component: CostEffectivenessComponent,
+      //   canActivate: [FeatureFlagGuard],
+      //   canLoad: [FeatureFlagGuard],
+      //   data: {
+      //     featureFlag: 'CE-Enable',
+      //     appRoute: AppRoutes.COST_EFFECTIVENESS,
+      //     title: 'Explore cost effectiveness scenarios',
+      //     keywords: '',
+      //     description: '',
+      //     showLightFooter: true,
+      //   } as RouteData,
+      // },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
         component: BiomarkerComponent,
@@ -143,7 +143,7 @@ const routes: Routes = [
     ],
   },
   // {
-  //   path: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS.getRouterPath() + '**',
+  //   path: AppRoutes.COST_EFFECTIVENESS.getRouterPath() + '**',
   //   loadChildren: () =>
   //     import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
   // },
