@@ -12,7 +12,6 @@ import { ProjectionComponent } from './pages/projection/projection.component';
 import { UncertaintyComponent } from './pages/uncertainty/uncertainty.component';
 import { QuickMapsComponent } from './quickMaps.component';
 import { QuickMapsRouteGuardService } from './quickMapsRouteGuard.service';
-import { CostEffectivenessComponent } from '../costEffectiveness/costEffectiveness.component';
 
 const routes: Routes = [
   {
