@@ -45,6 +45,8 @@ import { UserRegister } from './login/register';
 import { UserLogin } from './login/login';
 import { UserLogout } from './login/logout';
 import { GetUserProfile } from './login/getUserProfile';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { PatchIntervention } from './intervention/intervention/patchIntervention';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -76,7 +78,7 @@ export class ApiService extends BaseApi {
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
     intervention: {
-      getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
+      getIntervention: new GetIntervention(ApiService.USE_LIVE_API, this.userLoginService),
       getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
       getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),
       getInterventionIndustryInformation: new GetInterventionIndustryInformation(ApiService.USE_LIVE_API),
@@ -86,6 +88,7 @@ export class ApiService extends BaseApi {
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
+      patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API, this.userLoginService),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),
     },
     misc: {
@@ -131,13 +134,13 @@ export class ApiService extends BaseApi {
         typeObj: AgeGenderDictionaryItem,
       })
       .setMockObjectsCreatorFunc((injector) => AgeGenderDictionaryItem.getMockItems(injector)),
-    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API).setDefaultParams({
+    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API, true).setDefaultParams({
       path: 'interventions',
       typeObj: InterventionsDictionaryItem,
     }),
   ];
 
-  constructor(httpClient: HttpClient, injector: Injector) {
+  constructor(httpClient: HttpClient, injector: Injector, private readonly userLoginService: UserLoginService) {
     super(injector, httpClient, new MapsHttpResponseHandler(injector), environment.apiBaseUrl);
 
     this.addDictionaries(this._dictionaries);

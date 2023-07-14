@@ -4,6 +4,8 @@ import { Dictionary } from '../objects/dictionary';
 import { BaseDictionaryItem } from '../objects/baseDictionaryItem';
 import { Injector } from '@angular/core';
 import { RequestMethod } from './requestMethod.enum';
+import { HttpHeaders } from '@angular/common/http';
+import { LoginRegisterResponseDataSource } from '../../objects/loginRegisterResponseDataSource';
 
 type OBJECT_TYPE = DictionaryItem;
 type RETURN_TYPE = Dictionary;
@@ -20,7 +22,7 @@ export class GetDictionary extends CacheableEndpoint<RETURN_TYPE, GetDictionaryI
    * @param type An identifier for the dictionary (normally an enum value)
    * @param isLive Whether to use callLive or callMock method
    */
-  constructor(public readonly type: unknown, isLive?: boolean) {
+  constructor(public readonly type: unknown, isLive?: boolean, private isAuthenticated = false) {
     super(isLive);
   }
 
@@ -67,7 +69,22 @@ export class GetDictionary extends CacheableEndpoint<RETURN_TYPE, GetDictionaryI
    * @returns A Promise of the raw data
    */
   protected callLive(params: GetDictionaryItemsParams): Promise<RETURN_TYPE> {
-    const callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET);
+    const activeUser = localStorage.getItem('activeUser')
+      ? (JSON.parse(localStorage.getItem('activeUser')) as LoginRegisterResponseDataSource)
+      : null;
+
+    let callResponsePromise;
+    if (this.isAuthenticated && activeUser) {
+      const headers = (): HttpHeaders => {
+        let authHeader = new HttpHeaders();
+        authHeader = authHeader.append('X-Session-Token', activeUser.sessionToken);
+        return authHeader;
+      };
+      callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET, null, {}, headers);
+    } else {
+      console.debug('call');
+      callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET);
+    }
 
     return this.buildObjectsFromResponse(params.typeObj, callResponsePromise).then(
       (items: Array<OBJECT_TYPE>) => new Dictionary(this.type, items as unknown as Array<OBJECT_TYPE>),
