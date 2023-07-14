@@ -64,3 +64,19 @@ form {
     }
   }
 }
+
+.login-prompt-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  .login-prompt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: $color_accent 1px solid;
+    border-radius: 10px;
+    width: 55%;
+  }
+}
