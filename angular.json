@@ -30,7 +30,8 @@
               "dom-to-image",
               "moment",
               "chroma-js",
-              "driver.js"
+              "driver.js",
+              "src/app/services/mapDownload.service"
             ],
             "outputPath": "dist/micronutrient-support-tool",
             "index": "src/index.html",

@@ -10,6 +10,7 @@ import { InterventionComparisonCardComponent } from './interventionComparison/in
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 @NgModule({
   declarations: [
     DescriptionComponent,
@@ -19,7 +20,7 @@ import { RoutesModule } from 'src/app/routes/routes.module';
     InterventionComponent,
     InterventionComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, DialogModule, RouterModule, RoutesModule],
+  imports: [CommonModule, AppMaterialModule, DialogModule, RouterModule, RoutesModule, ClipboardModule],
   exports: [
     DescriptionComponent,
     MenuComponent,

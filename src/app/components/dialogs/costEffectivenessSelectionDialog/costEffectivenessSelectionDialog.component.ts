@@ -290,6 +290,20 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   // public getInterventionFromID()
+  public createID(): void {
+    if (this.tabID === 'copy') {
+      this.interventionDataService
+        .getIntervention(this.selectedInterventionIDLoad)
+        .then((intervention: Intervention) => {
+          this.selectedInterventionLoad = intervention;
+          this.selectedInterventionIDLoad = intervention.id.toString();
+          console.log('returned ID: ', this.selectedInterventionIDLoad);
+          return this.selectedInterventionIDLoad;
+        });
+    } else {
+      return;
+    }
+  }
 
   public createIntervention(): void {
     if (this.tabID === 'load') {
