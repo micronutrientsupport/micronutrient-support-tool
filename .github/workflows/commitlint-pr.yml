@@ -1,4 +1,4 @@
-name: Verify pull request commitlint
+name: Verify pull request title meets commitlint criteria
 on:
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize']
