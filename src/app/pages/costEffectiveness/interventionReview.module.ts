@@ -44,6 +44,7 @@ import { AddMicronutrientComponent } from './interventionReview/components/add-m
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
 
+
 @NgModule({
   declarations: [
     InterventionReviewComponent,
