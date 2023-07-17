@@ -336,8 +336,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       .getRecentInterventions()
       .find(
         (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
-             )
-        this.setUrlParams('intIds', this.selectedInterventionIDLoad); 
+      );
+    this.setUrlParams('intIds', this.selectedInterventionIDLoad);
     console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
   }
 
@@ -378,5 +378,4 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       this.setUrlParams('mnd-id', micronutrient.id);
     }
   }
-
 }

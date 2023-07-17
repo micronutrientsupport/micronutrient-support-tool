@@ -166,10 +166,10 @@ const routes: Routes = [
   //   loadChildren: () =>
   //     import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
   // },
-  // {
-  //   path: '**',
-  //   redirectTo: '',
-  // },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
