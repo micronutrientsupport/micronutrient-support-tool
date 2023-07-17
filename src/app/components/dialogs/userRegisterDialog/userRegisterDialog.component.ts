@@ -61,7 +61,6 @@ export class UserRegisterDialogComponent implements OnInit {
           this.loginService.setActiveUser(response);
         })
         .catch((err: HttpErrorResponse) => {
-          console.debug(err);
           this.loginService.handleLoginOrRegistrationErrorNotification(err.error);
           this.awaitingResponse = false;
         });

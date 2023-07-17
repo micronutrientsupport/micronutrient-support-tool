@@ -324,7 +324,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
               `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
             );
           } else {
-            this.notificationsService.sendInformative('Make sure you are logged in to access interventions.');
+            this.notificationsService.sendInformative('Make sure you are logged in to load your interventions.');
           }
         });
     } else if (this.tabID === 'copy') {

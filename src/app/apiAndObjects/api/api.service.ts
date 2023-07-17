@@ -45,7 +45,6 @@ import { UserRegister } from './login/register';
 import { UserLogin } from './login/login';
 import { UserLogout } from './login/logout';
 import { GetUserProfile } from './login/getUserProfile';
-import { UserLoginService } from 'src/app/services/userLogin.service';
 import { PatchIntervention } from './intervention/intervention/patchIntervention';
 
 @Injectable()
