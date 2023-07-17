@@ -152,7 +152,7 @@ export class InterventionDataService {
   }
 
   public claimAnonymousIntervention(id: string): Promise<Intervention> {
-    return this.apiService.endpoints.intervention.patchIntervention.call({ id }, false);
+    return this.apiService.endpoints.intervention.patchIntervention.call({ id });
   }
 
   public setInterventionSummaryChartPNG(chart: string): void {

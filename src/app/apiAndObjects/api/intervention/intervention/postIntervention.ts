@@ -2,6 +2,7 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { Endpoint } from '../../../_lib_code/api/endpoint.abstract';
 import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 import { HttpHeaders } from '@angular/common/http';
+import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 
 export class PostIntervention extends Endpoint<Intervention, PostInterventionParams> {
   protected getCacheKey(params: PostInterventionParams): string {
@@ -9,7 +10,9 @@ export class PostIntervention extends Endpoint<Intervention, PostInterventionPar
   }
 
   protected callLive(params?: PostInterventionParams): Promise<Intervention> {
-    const activeUser = this.getActiveUser();
+    const activeUser = localStorage.getItem('activeUser')
+      ? (JSON.parse(localStorage.getItem('activeUser')) as LoginRegisterResponseDataSource)
+      : null;
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
       authHeader = authHeader.append('X-Session-Token', activeUser ? activeUser.sessionToken : '');

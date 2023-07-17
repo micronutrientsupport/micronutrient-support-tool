@@ -3,8 +3,6 @@ import { ApiCaller } from './apiCaller';
 import { ObjectBuilder } from '../objects/objectBuilder';
 import { BaseObject } from '../objects/baseObject';
 import { Injector } from '@angular/core';
-import { UserLoginService } from 'src/app/services/userLogin.service';
-import { LoginRegisterResponseDataSource } from '../../objects/loginRegisterResponseDataSource';
 
 export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJECT_TYPE = RETURN_TYPE> {
   protected onSuccessFuncs = new Array<(data: RETURN_TYPE) => void>();
@@ -18,7 +16,7 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
 
   private initialised = new BehaviorSubject<boolean>(false);
 
-  constructor(protected isLive = true, protected userLoginService?: UserLoginService) {}
+  constructor(protected isLive = true) {}
 
   // TODO: can we stop two simultanious, identical calls here using simpler
   // caching than in the cacheable endpoint?:
@@ -115,14 +113,6 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
   public setLive(isLive: boolean): this {
     this.isLive = isLive;
     return this;
-  }
-
-  /**
-   * Specific to MAPS project
-   * @returns the active user's details.
-   */
-  public getActiveUser(): LoginRegisterResponseDataSource | null {
-    return this.userLoginService.getActiveUser();
   }
 
   /**

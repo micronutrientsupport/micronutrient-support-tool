@@ -78,7 +78,7 @@ export class ApiService extends BaseApi {
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
     intervention: {
-      getIntervention: new GetIntervention(ApiService.USE_LIVE_API, this.userLoginService),
+      getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
       getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
       getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),
       getInterventionIndustryInformation: new GetInterventionIndustryInformation(ApiService.USE_LIVE_API),
@@ -87,8 +87,8 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
-      postIntervention: new PostIntervention(ApiService.USE_LIVE_API, this.userLoginService),
-      patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API, this.userLoginService),
+      postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
+      patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),
     },
     misc: {
@@ -140,7 +140,7 @@ export class ApiService extends BaseApi {
     }),
   ];
 
-  constructor(httpClient: HttpClient, injector: Injector, private readonly userLoginService: UserLoginService) {
+  constructor(httpClient: HttpClient, injector: Injector) {
     super(injector, httpClient, new MapsHttpResponseHandler(injector), environment.apiBaseUrl);
 
     this.addDictionaries(this._dictionaries);

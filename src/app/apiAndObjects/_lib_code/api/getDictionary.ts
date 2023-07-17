@@ -82,7 +82,6 @@ export class GetDictionary extends CacheableEndpoint<RETURN_TYPE, GetDictionaryI
       };
       callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET, null, {}, headers);
     } else {
-      console.debug('call');
       callResponsePromise = this.apiCaller.doCall(params.path, RequestMethod.GET);
     }
 
