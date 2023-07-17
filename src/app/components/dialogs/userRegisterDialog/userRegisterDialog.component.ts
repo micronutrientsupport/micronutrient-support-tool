@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { NotificationsService } from '../../notifications/notification.service';
@@ -38,10 +38,9 @@ export class UserRegisterDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm.controls['repeatPassword'].addValidators([this.createCompareValidator()]);
-    this.registerForm.valueChanges.subscribe(() => {
-      console.debug(this.registerForm.get('password'));
-    });
+    this.registerForm.controls['repeatPassword'].addValidators([
+      this.createCompareValidator(this.registerForm.get('password'), this.registerForm.get('repeatPassword')),
+    ]);
   }
 
   public handleSubmit(): void {
@@ -84,10 +83,9 @@ export class UserRegisterDialogComponent implements OnInit {
     return this.registerForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
-  public createCompareValidator(): ValidatorFn {
+  public createCompareValidator(controlA: AbstractControl, controlB: AbstractControl): ValidatorFn {
     return () => {
-      if (this.registerForm.get('password').value !== this.registerForm.get('repeatPassword').value)
-        return { match_error: 'Value does not match' };
+      if (controlA.value !== controlB.value) return { match_error: 'Value does not match' };
       return null;
     };
   }
