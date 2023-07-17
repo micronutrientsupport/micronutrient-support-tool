@@ -1,8 +1,17 @@
 <header>
   <mat-toolbar color="primary" class="space-between">
-    <a [routerLink]="ROUTES.HOME | route" class="header-logo">
-      <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
-    </a>
+    <div class="left-content">
+      <div class="user-details" *ngIf="activeUser">
+        <img src="{{activeUser.profilePic}}">
+        <button mat-flat-button color="primary" [routerLink]="ROUTES.PROFILE | route">{{activeUser.username}}</button>
+        <button *ngIf="activeUser" mat-flat-button color="primary" (click)="handleLogout()">Logout</button>
+      </div>
+      <button id="login" *ngIf="!activeUser" mat-flat-button color="primary"
+        (click)="handleLoginDialog()">Login</button>
+      <a [routerLink]="ROUTES.HOME | route" class="header-logo">
+        <img src="/assets/images/maps-logo-minimal-white.svg" alt="BMGF MAPS Logo" class="logo">
+      </a>
+    </div>
     <div class="large">
       <a [routerLink]="ROUTES.MAPS_TOOL | route">MAPS Tools</a>
       <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">Educational Resources</a>

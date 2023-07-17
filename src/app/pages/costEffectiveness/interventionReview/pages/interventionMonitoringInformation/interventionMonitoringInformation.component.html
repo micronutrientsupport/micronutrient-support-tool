@@ -23,8 +23,8 @@
                 formControlName="year0" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year0 * 100"
-                (input)="element.year0 = $any($event.target).value / 100" formControlName="year0"
+              <input id="year0" name="year0" (change)="storeIndex(index)" type="number" [ngModel]="element.year0 * 100"
+                formControlName="year0" min="0" max="100" (keyup)="validateUserInput($event, index, 'year0')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -37,8 +37,8 @@
                 formControlName="year1" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year1 * 100"
-                (input)="element.year1 = $any($event.target).value / 100" formControlName="year1"
+              <input id="year1" name="year1" (change)="storeIndex(index)" type="number" [ngModel]="element.year1 * 100"
+                formControlName="year1" min="0" max="100" (keyup)="validateUserInput($event, index, 'year1')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -51,8 +51,8 @@
                 formControlName="year2" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year2 * 100"
-                (input)="element.year2 = $any($event.target).value / 100" formControlName="year2"
+              <input id="year2" name="year2" (change)="storeIndex(index)" type="number" [ngModel]="element.year2 * 100"
+                formControlName="year2" min="0" max="100" (keyup)="validateUserInput($event, index, 'year2')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -65,8 +65,8 @@
                 formControlName="year3" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year3 * 100"
-                (input)="element.year3 = $any($event.target).value / 100" formControlName="year3"
+              <input id="year3" name="year3" (change)="storeIndex(index)" type="number" [ngModel]="element.year3 * 100"
+                formControlName="year3" min="0" max="100" (keyup)="validateUserInput($event, index, 'year3')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -79,8 +79,8 @@
                 formControlName="year4" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year4 * 100"
-                (input)="element.year4 = $any($event.target).value / 100" formControlName="year4"
+              <input id="year4" name="year4" (change)="storeIndex(index)" type="number" [ngModel]="element.year4 * 100"
+                formControlName="year4" min="0" max="100" (keyup)="validateUserInput($event, index, 'year4')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -93,8 +93,8 @@
                 formControlName="year5" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year5 * 100"
-                (input)="element.year5 = $any($event.target).value / 100" formControlName="year5"
+              <input id="year5" name="year5" (change)="storeIndex(index)" type="number" [ngModel]="element.year5 * 100"
+                formControlName="year5" min="0" max="100" (keyup)="validateUserInput($event, index, 'year5')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -107,8 +107,8 @@
                 formControlName="year6" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year6 * 100"
-                (input)="element.year6 = $any($event.target).value / 100" formControlName="year6"
+              <input id="year6" name="year6" (change)="storeIndex(index)" type="number" [ngModel]="element.year6 * 100"
+                formControlName="year6" min="0" max="100" (keyup)="validateUserInput($event, index, 'year6')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -121,8 +121,8 @@
                 formControlName="year7" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year7 * 100"
-                (input)="element.year7 = $any($event.target).value / 100" formControlName="year7"
+              <input id="year7" name="year7" (change)="storeIndex(index)" type="number" [ngModel]="element.year7 * 100"
+                formControlName="year7" min="0" max="100" (keyup)="validateUserInput($event, index, 'year7')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -135,8 +135,8 @@
                 formControlName="year8" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year8 * 100"
-                (input)="element.year8 = $any($event.target).value / 100" formControlName="year8"
+              <input id="year8" name="year8" (change)="storeIndex(index)" type="number" [ngModel]="element.year8 * 100"
+                formControlName="year8" min="0" max="100" (keyup)="validateUserInput($event, index, 'year8')"
                 (change)="recalculateChanges()">
             </div>
           </td>
@@ -149,8 +149,8 @@
                 formControlName="year9" (change)="recalculateChanges()">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput [value]="element.year9 * 100"
-                (input)="element.year9 = $any($event.target).value / 100" formControlName="year9"
+              <input id="year9" name="year9" (change)="storeIndex(index)" type="number" [ngModel]="element.year9 * 100"
+                formControlName="year9" min="0" max="100" (keyup)="validateUserInput($event, index, 'year9')"
                 (change)="recalculateChanges()">
             </div>
           </td>

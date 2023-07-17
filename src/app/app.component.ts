@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment.base';
 import { RouteData } from './app-routing.module';
 import { PageLoadingService } from './services/pageLoadingService.service';
+import { UserLoginService } from './services/userLogin.service';
+import { LoginRegisterResponseDataSource } from './apiAndObjects/objects/loginRegisterResponseDataSource';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,6 +29,7 @@ export class AppComponent implements OnInit {
     public pageLoadingService: PageLoadingService,
     private titleService: Title,
     private metaService: Meta,
+    private userLoginService: UserLoginService,
   ) {
     router.events.subscribe((event) => {
       // console.debug('router event', event);
@@ -64,6 +67,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Inject snippet for plausible.io at app startup
     this.loadAnalyticsSnippet();
+    this.getActiveUserFromLocalStorage();
   }
 
   private loadAnalyticsSnippet() {
@@ -104,5 +108,12 @@ export class AppComponent implements OnInit {
       title += `: ${subTitle}`;
     }
     this.titleService.setTitle(title);
+  }
+
+  private getActiveUserFromLocalStorage() {
+    const activeUser = localStorage.getItem(this.userLoginService.ACTIVE_USER);
+    if (null != activeUser && activeUser != undefined) {
+      this.userLoginService.setActiveUser(JSON.parse(activeUser) as LoginRegisterResponseDataSource);
+    }
   }
 }

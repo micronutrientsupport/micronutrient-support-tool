@@ -43,6 +43,10 @@ export class AppRoutes {
     ...BASE_ROUTE,
     segments: 'maps-tool',
   };
+  public static readonly PROFILE = {
+    ...BASE_ROUTE,
+    segments: 'profile',
+  };
   public static readonly QUICK_MAPS = {
     ...BASE_ROUTE,
     segments: 'quick-maps',

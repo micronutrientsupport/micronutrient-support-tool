@@ -3,10 +3,12 @@ import * as jsonLogic from 'json-logic-js';
 import { IndustryInformation } from '../apiAndObjects/objects/interventionIndustryInformation';
 import { CellIndex } from '../apiAndObjects/objects/cellIndex.interface';
 import { MonitoringInformation } from '../apiAndObjects/objects/interventionMonitoringInformation';
+import { StartUpCostBreakdown } from '../apiAndObjects/objects/interventionStartupCosts';
+import { RecurringCostBreakdown } from '../apiAndObjects/objects/interventionRecurringCosts';
 
 @Injectable()
 export class JSONLogicService {
-  public allItems: Array<IndustryInformation | MonitoringInformation>;
+  public allItems: Array<IndustryInformation | MonitoringInformation | StartUpCostBreakdown | RecurringCostBreakdown>;
 
   constructor() {
     /**
@@ -18,7 +20,17 @@ export class JSONLogicService {
      */
     jsonLogic.add_operation('roundup', (value, decimals = 0) => {
       const multiplier = Math.pow(10, decimals);
-      return Math.ceil(value * multiplier) / multiplier;
+      return Math.ceil(Number(value) * multiplier) / multiplier;
+    });
+
+    /**
+     *  Calculate the total or cumulative value obtained by adding together individual values
+     *
+     * @param {Array<number>} value - An array of values to be summed up.
+     * @returns {number} - The total value of all input values.
+     */
+    jsonLogic.add_operation('sum', (...values) => {
+      return Number(values.reduce((acc, curr) => acc + curr, 0));
     });
 
     /**
@@ -50,21 +62,23 @@ export class JSONLogicService {
         (item: IndustryInformation | MonitoringInformation) => item.rowIndex == cellIndex.rowIndex,
       );
       const colToFind = cellIndex.colIndex;
-      const valueAtCol = resAtRow[colToFind];
+      const valueAtCol = Number(resAtRow[colToFind]);
       return valueAtCol;
     });
   }
 
   public calculateResult(
-    item: IndustryInformation | MonitoringInformation,
+    item: IndustryInformation | MonitoringInformation | StartUpCostBreakdown | RecurringCostBreakdown,
     columnIndex: number,
-    allItems: Array<IndustryInformation | MonitoringInformation>,
+    allItems: Array<IndustryInformation | MonitoringInformation | StartUpCostBreakdown | RecurringCostBreakdown>,
   ): number {
     this.setItems(allItems);
     return jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
   }
 
-  public setItems(data: Array<IndustryInformation | MonitoringInformation>) {
+  public setItems(
+    data: Array<IndustryInformation | MonitoringInformation | StartUpCostBreakdown | RecurringCostBreakdown>,
+  ) {
     this.allItems = data;
   }
 

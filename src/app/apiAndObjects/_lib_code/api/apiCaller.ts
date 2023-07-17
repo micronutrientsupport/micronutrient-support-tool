@@ -1,7 +1,8 @@
 import { lastValueFrom, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpResponseHandler } from './httpResponseHandler.interface';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { RequestMethod } from './requestMethod.enum';
+import { MapsHttpResponseHandler } from '../../api/mapsHttpResponseHandler';
+import { ApiResponse } from '../../api/apiResponse.interface';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -11,7 +12,11 @@ export class ApiCaller {
    * @param httpCallErrorHandler A handler for post processing of http responses and errors
    * @param baseUrl The base url to append any relative url segments to.
    */
-  constructor(private http: HttpClient, private httpCallErrorHandler: HttpResponseHandler, private baseUrl: string) {}
+  constructor(
+    private http: HttpClient,
+    private httpCallErrorHandler: MapsHttpResponseHandler,
+    private baseUrl: string,
+  ) {}
 
   /**
    * Does an http call using the parameters given
@@ -59,10 +64,10 @@ export class ApiCaller {
       return lastValueFrom(response)
         .then((responseJson: unknown) =>
           fullResponse
-            ? this.httpCallErrorHandler.handleSuccess(responseJson, true)
-            : this.httpCallErrorHandler.handleSuccess(responseJson),
+            ? this.httpCallErrorHandler.handleSuccess(responseJson as ApiResponse, true)
+            : this.httpCallErrorHandler.handleSuccess(responseJson as ApiResponse),
         )
-        .catch((res: unknown) => {
+        .catch((res: HttpErrorResponse) => {
           console.log('doCall handleError', res);
           return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
         });
