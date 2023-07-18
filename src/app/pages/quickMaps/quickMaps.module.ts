@@ -4,7 +4,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
 import { QuickMapsRoutingModule } from './quickMaps-routing.module';
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { QuickMapsService } from './quickMaps.service';
 import { LocationSelectComponent } from './pages/locationSelect/locationSelect.component';
@@ -33,7 +32,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     HttpClientModule,
     AppMaterialModule,
     ReactiveFormsModule,
-    ChartjsModule,
     RoutesModule,
     BaselineDetailsModule,
     BiomarkerModule,

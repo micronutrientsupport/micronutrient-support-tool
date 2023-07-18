@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ChartJSObject } from '../apiAndObjects/objects/misc/chartjsObject';
+// import { ChartJSObject } from '../apiAndObjects/objects/misc/chartjsObject';
+import { Chart, ChartConfiguration, ChartData } from 'chart.js';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QuickChart = require('quickchart-js');
 
@@ -11,9 +12,9 @@ export class QuickchartService {
    * @param format - png or pdf
    * @returns
    */
-  public getChartAsImageUrl(chartData: ChartJSObject, format: string): string {
+  public getChartAsImageUrl(chartData: Chart, format: string): string {
     const tmpChart = new QuickChart();
-    chartData.options.title.display = true;
+    // chartData.options.title.display = true; TODO: update
     tmpChart.setConfig(chartData);
     tmpChart.setWidth(700);
     tmpChart.setHeight(450);
