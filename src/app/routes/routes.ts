@@ -71,8 +71,12 @@ export class AppRoutes {
     segments: 'style-guide',
   };
 
-  // *** quick maps start ***
-  // used in quick maps sub-router
+  /**
+   * *** quick maps start ***
+   * used in quick maps sub-router
+   * {@link QuickMapsRoutingModule}
+   */
+
   public static readonly QUICK_MAPS_LOCATION_SELECT = {
     ...BASE_ROUTE,
     segments: '',
@@ -118,15 +122,17 @@ export class AppRoutes {
     segments: 'biomarker',
     parent: AppRoutes.QUICK_MAPS,
   };
-  // *** quick maps end ***
+  /**
+   * *** quick maps end ***
+   */
 
-  // public static readonly STANDALONE_COST_EFFECTIVENESS = {
-  //   ...BASE_ROUTE,
-  //   segments: 'food-systems/cost-effectiveness',
-  //   parent: AppRoutes.QUICK_MAPS,
-  // };
+  /**
+   * *** CostEffectiveness start ***
+   * used in CostEffectiveness sub-router
+   * {@link CostEffectivenessRoutingModule}
+   */
+  //
 
-  // used in intervention review sub-router
   public static readonly INTERVENTION_REVIEW = {
     ...BASE_ROUTE,
     segments: 'intervention-review',
@@ -178,6 +184,10 @@ export class AppRoutes {
     segments: 'intervention-startup-scaleup-costs',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
+
+  /**
+   * *** CostEffectiveness end ***
+   */
 }
 
 export interface AppRoute {
