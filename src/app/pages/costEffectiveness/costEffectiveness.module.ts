@@ -5,8 +5,6 @@ import { CostEffectivenessComponentsModule } from './components/costEffectivenes
 import { ComponentsModule } from 'src/app/components/components.module';
 import { GridsterModule } from 'angular-gridster2';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
-// import { InterventionReviewModule } from './interventionReview.module';
-import { CostEffectivenessRoutingModule } from './costEffectiveness-routing.module';
 import { InterventionReviewModule } from './interventionReview/interventionReview.module';
 
 @NgModule({
@@ -17,7 +15,6 @@ import { InterventionReviewModule } from './interventionReview/interventionRevie
     CostEffectivenessComponentsModule,
     GridsterModule,
     InterventionReviewModule,
-    CostEffectivenessRoutingModule,
   ],
   exports: [CostEffectivenessComponent],
   providers: [QuickMapsService],

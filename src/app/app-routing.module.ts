@@ -9,6 +9,7 @@ import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObj
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoute, AppRoutes } from './routes/routes';
 import { PathResolveService } from './services/pathResolve.service';
+import { CostEffectivenessComponent } from './pages/costEffectiveness/costEffectiveness.component';
 
 export interface RouteData extends Data {
   appRoute: AppRoute;
@@ -94,13 +95,25 @@ const routes: Routes = [
     } as RouteData,
   },
   {
+    path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
+    component: CostEffectivenessComponent,
+    data: {
+      appRoute: AppRoutes.COST_EFFECTIVENESS,
+      title: 'Cost Effectivness',
+      keywords: 'Micronutrients, maps, policy, style guide',
+      description: '',
+    } as RouteData,
+  },
+  {
     path: AppRoutes.QUICK_MAPS.getRouterPath(),
     loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
   {
     path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
     loadChildren: () =>
-      import('./pages/costEffectiveness/costEffectiveness.module').then((m) => m.CostEffectivenessModule),
+      import('src/app/pages/costEffectiveness/interventionReview/interventionReview.module').then(
+        (m) => m.InterventionReviewModule,
+      ),
   },
   {
     path: '**',
