@@ -28,6 +28,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialog.component';
 import { DialogStepDetailsComponent } from './dialogStepDetails/dialogStepDetails.component';
+import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
+import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { DialogStepDetailsComponent } from './dialogStepDetails/dialogStepDetail
     WelcomeDialogComponent,
     SectionSummaryRecurringCostReviewDialogComponent,
     DialogStepDetailsComponent,
+    UserLoginDialogComponent,
+    UserRegisterDialogComponent,
   ],
   imports: [
     CommonModule,

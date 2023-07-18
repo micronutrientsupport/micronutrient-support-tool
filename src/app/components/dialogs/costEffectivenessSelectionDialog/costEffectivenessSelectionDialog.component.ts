@@ -19,6 +19,9 @@ import { Region } from 'src/app/apiAndObjects/objects/region';
 import { CEFormBody, InterventionCERequest } from 'src/app/apiAndObjects/objects/interventionCE.interface';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { NotificationsService } from '../../notifications/notification.service';
+import { DialogService } from '../dialog.service';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -59,11 +62,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public selectedMn = '';
   public parameterFormObj: CEFormBody;
   public interventionRequestBody: InterventionCERequest;
+  public recentInterventions = '';
+  public interventionPreview: InterventionsDictionaryItem | null;
+  public activeUser: LoginRegisterResponseDataSource | null;
   private onlyAllowInterventionsAboveID = 3;
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
-  public recentInterventions = '';
-  public interventionPreview: InterventionsDictionaryItem | null;
 
   constructor(
     public dialog: MatDialog,
@@ -74,9 +78,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private apiService: ApiService,
     private notificationsService: NotificationsService,
+    private dialogService: DialogService,
+    private userLoginService: UserLoginService,
   ) {
     this.interventions = dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
     this.queryParams = dialogData.dataIn.params;
+    this.activeUser = userLoginService.getActiveUser();
 
     this.route.queryParamMap.subscribe(async (queryParams) => {
       const currentlySelectedInterventionIDs: Array<string> = queryParams.get('intIds')
@@ -241,6 +248,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     history.pushState(null, '', newRelativePathQuery);
   }
 
+  public handleLogin(): void {
+    this.dialogService.dialog.closeAll();
+    setTimeout(() => {
+      this.dialogService.openLoginDialog();
+    }, 100);
+  }
+
   public handleTabChange(event: MatTabChangeEvent): void {
     this.interventionForm.reset();
     this.proceed.next(false);
@@ -305,9 +319,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           }
         })
         .catch(() => {
-          this.notificationsService.sendNegative(
-            `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
-          );
+          if (null != this.userLoginService.getActiveUser()) {
+            this.notificationsService.sendNegative(
+              `Warning - Intervention with ID:${this.selectedInterventionIDLoad} does not exist.`,
+            );
+          } else {
+            this.notificationsService.sendInformative('Make sure you are logged in to load your interventions.');
+          }
         });
     } else if (this.tabID === 'copy') {
       // TODO: POST to endpoint with parameterFormObj as body

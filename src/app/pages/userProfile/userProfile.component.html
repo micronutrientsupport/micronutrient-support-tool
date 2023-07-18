@@ -1,0 +1,77 @@
+<div role="main">
+
+    <div class="wave-header">
+        <img src="/assets/images/purple-opacity-wave.svg" alt="">
+    </div>
+    <div class="mdc-layout-grid header">
+        <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
+                <img class="header-image" src="/assets/images/maps_logo_purple.svg" alt="">
+            </div>
+            <div *ngIf="userProfile" class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
+                <div class="top-content">
+                    <h1>Profile Details</h1>
+                    <img src="{{userProfile.profilePic}}" alt="">
+                </div>
+                <mat-divider></mat-divider>
+                <div class="mid-content">
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>badge</mat-icon>
+                            <div matListItemTitle><strong>Name</strong></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>person</mat-icon>
+                            <div matListItemTitle> <strong>Username</strong></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>workspaces</mat-icon>
+                            <div matListItemTitle> <strong>Organisation</strong></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>mail</mat-icon>
+                            <div matListItemTitle> <strong>Email</strong></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>how_to_reg</mat-icon>
+                            <div matListItemTitle> <strong>Registration Date</strong></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon matListItemIcon>edit</mat-icon>
+                            <div matListItemTitle> <strong> Last Updated</strong></div>
+                        </mat-list-item>
+
+                    </mat-list>
+                    <mat-list class="details-list">
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.name}}</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.username}}</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.organisation}}</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.email}}</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.registrationDate}}</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <div matListItemTitle>{{userProfile.updatedDate}}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="badges" *ngFor="let badge of userProfile.badges">
+                    <a matTooltip="{{badge.description}}" href="{{badge.url}}" target="_blank">
+                        <img src="{{badge.image}}" alt="">
+                        <p>{{badge.title}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

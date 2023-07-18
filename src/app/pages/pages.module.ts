@@ -12,6 +12,8 @@ import { ProjectObjectivesComponent } from './projectObjectives/projectObjective
 import { QuickMapsModule } from './quickMaps/quickMaps.module';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 import { CostEffectivenessModule } from './costEffectiveness/costEffectiveness.module';
+import { UserProfileComponent } from './userProfile/userProfile.component';
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -20,6 +22,7 @@ import { CostEffectivenessModule } from './costEffectiveness/costEffectiveness.m
     HelpComponent,
     ProjectObjectivesComponent,
     StyleGuideComponent,
+    UserProfileComponent,
   ],
   imports: [
     CommonModule,

@@ -41,7 +41,7 @@ export interface RecurringCosts {
   year9Total: number;
 }
 export interface RecurringCostBreakdown {
-  name: string;
+  labelText: string;
   rowIndex: number;
   year0: number;
   year0Default: number;

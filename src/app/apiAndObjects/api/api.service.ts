@@ -41,6 +41,11 @@ import { PostIntervention } from './intervention/intervention/postIntervention';
 import { PatchInterventionData } from './intervention/interventionData/patchInterventionData';
 import { GetApiMetadata } from './misc/getApiMetadata';
 import { GetRegions } from './region/getRegions';
+import { UserRegister } from './login/register';
+import { UserLogin } from './login/login';
+import { UserLogout } from './login/logout';
+import { GetUserProfile } from './login/getUserProfile';
+import { PatchIntervention } from './intervention/intervention/patchIntervention';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -82,6 +87,7 @@ export class ApiService extends BaseApi {
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
+      patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),
     },
     misc: {
@@ -90,6 +96,12 @@ export class ApiService extends BaseApi {
     },
     region: {
       getRegions: new GetRegions(ApiService.USE_LIVE_API),
+    },
+    user: {
+      getProfile: new GetUserProfile(ApiService.USE_LIVE_API),
+      register: new UserRegister(ApiService.USE_LIVE_API),
+      login: new UserLogin(ApiService.USE_LIVE_API),
+      logout: new UserLogout(ApiService.USE_LIVE_API),
     },
   };
 
@@ -121,7 +133,7 @@ export class ApiService extends BaseApi {
         typeObj: AgeGenderDictionaryItem,
       })
       .setMockObjectsCreatorFunc((injector) => AgeGenderDictionaryItem.getMockItems(injector)),
-    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API).setDefaultParams({
+    new GetDictionary(DictionaryType.INTERVENTIONS, ApiService.USE_LIVE_API, true).setDefaultParams({
       path: 'interventions',
       typeObj: InterventionsDictionaryItem,
     }),
