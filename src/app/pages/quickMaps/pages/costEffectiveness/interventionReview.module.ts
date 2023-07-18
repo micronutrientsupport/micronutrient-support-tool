@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuickMapsService } from '../../quickMaps.service';
 import { RoutesModule } from 'src/app/routes/routes.module';
@@ -79,7 +78,6 @@ import { ReusableSkeletonTableComponent } from './interventionReview/utilities/r
     HttpClientModule,
     AppMaterialModule,
     ReactiveFormsModule,
-    ChartjsModule,
     RoutesModule,
     CostEffectivenessComponentsModule,
     InterventionReviewComponentsModule,

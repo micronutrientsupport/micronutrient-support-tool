@@ -14,8 +14,9 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+// import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem }
+import { Chart, TooltipItem } from 'chart.js';
+// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -28,6 +29,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { TitleCasePipe } from '@angular/common';
+import { ChartDataset } from 'chart.js';
+import { Point } from 'chart.js';
 
 // Uitlity type
 type Mutable<Type> = {
@@ -49,8 +52,11 @@ export class FoodItemsComponent implements AfterViewInit {
   public title = 'Top 20 Food Items';
   public selectedTab: number;
 
-  public chartDataGroup: ChartJSObject;
-  public chartDataGenus: ChartJSObject;
+  public chartDataGroup: Chart;
+  public chartDataGenus: Chart;
+
+  public bing: any;
+
   public chartPNG: string;
   public chartPDF: string;
   public displayedColumns = ['ranking', 'foodGenusName', 'foodGroupName', 'dailyMnContribution'];
@@ -155,34 +161,42 @@ export class FoodItemsComponent implements AfterViewInit {
       });
   }
 
-  private initTreemap(
+  public initTreemap(
     data: Array<TopFoodSource>,
     dataField: string,
     backgroundFillField: string,
     tooltipTitle: string,
-  ): ChartJSObject {
+  ): Chart {
     // Convert foodGenusName to titlecase
     data = (data as Array<Mutable<TopFoodSource>>).map((value) => {
       value.foodGenusName = this.titlecasePipe.transform(value.foodGenusName);
       return value;
     }) as Array<TopFoodSource>;
 
-    const generatedChart: ChartJSObject = {
+    const generatedChart = new Chart(dataField, {
+      // const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
         datasets: [
           {
-            tree: data,
+            data: [],
+            tree: [15, 6, 6, 5, 4, 3, 2, 2], // TODO: use real data format
+            // tree: data,
             key: 'dailyMnContribution',
             groups: [dataField],
-            groupLabels: true,
-            fontColor: '#ffffff',
-            fontFamily: 'Quicksand',
-            fontSize: 12,
-            fontStyle: 'normal',
-            backgroundColor: (result: ChartData) => {
+            captions: {
+              display: true,
+              color: '#ffffff',
+              font: {
+                family: 'Quicksand',
+                size: 12,
+                style: 'normal',
+              },
+            },
+            backgroundColor: (result: any) => {
+              // TODO: fix type
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartData: ChartDataSets = result['dataset']['data'];
+              const groupedChartData: ChartDataset = result['dataset']['data'];
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
               if (groupedChartDataAtCurrentIndex) {
@@ -200,48 +214,53 @@ export class FoodItemsComponent implements AfterViewInit {
         ],
       },
       options: {
-        title: {
-          display: false,
-          text: this.title,
-        },
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          callbacks: {
-            title: (item: ChartTooltipItem) => {
-              if (dataField !== 'foodGroupName') {
-                const dataItem = data[item[0].index];
-                return `${tooltipTitle} (Parent group: ${dataItem.foodGroupName})`;
-              } else {
-                return tooltipTitle;
-              }
-            },
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              // tslint:disable-next-line: no-string-literal
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            callbacks: {
+              title: (item: any) => {
+                // TODO: fix type
+                if (dataField !== 'foodGroupName') {
+                  const dataItem = data[item[0].index];
+                  return `${tooltipTitle} (Parent group: ${dataItem.foodGroupName})`;
+                } else {
+                  return tooltipTitle;
+                }
+              },
+              label: (item: any) => {
+                // TODO: fix type
+                return 'string';
+                // const dataset: ChartDataset = result.datasets[item.datasetIndex];
+                // const dataItem: number | number[] | Point = dataset.data[item.index];
+                // // tslint:disable-next-line: no-string-literal
 
-              const label: string = dataItem['g'] as string;
-              // tslint:disable-next-line: no-string-literal
-              const value: string = dataItem['v'] as string;
-              if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
-                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
-                  this.quickMapsService.micronutrient.get().unit
-                }/capita/day`;
-              } else {
-                return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
-                  this.quickMapsService.micronutrient.get().unit
-                }/AFE/day`;
-              }
+                // const label: string = dataItem['g'] as string;
+                // // tslint:disable-next-line: no-string-literal
+                // const value: string = dataItem['v'] as string;
+                // if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
+                //   return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                //     this.quickMapsService.micronutrient.get().unit
+                //   }/capita/day`;
+                // } else {
+                //   return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                //     this.quickMapsService.micronutrient.get().unit
+                //   }/AFE/day`;
+                // }
+              },
             },
           },
         },
+        maintainAspectRatio: false,
       },
-    };
+    });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(this.bing));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 

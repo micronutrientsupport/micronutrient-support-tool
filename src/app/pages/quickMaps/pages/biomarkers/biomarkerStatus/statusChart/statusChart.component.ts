@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { Chart } from 'chart.js';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { QuickchartService } from 'src/app/services/quickChart.service';
-import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { BiomarkerDataType } from '../biomarkerStatus.component';
 
 @Component({

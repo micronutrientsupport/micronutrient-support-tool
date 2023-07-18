@@ -1,15 +1,17 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Tree (Food Genus)">
-      <ngx-chartjs *ngIf="chartDataGenus" id="treemap" [data]="chartDataGenus.data" [type]="chartDataGenus.type"
+      <canvas id="chartDataGenus">{{ chartDataGenus }}</canvas>
+      <!-- <ngx-chartjs *ngIf="chartDataGenus" id="treemap" [data]="chartDataGenus.data" [type]="chartDataGenus.type"
         [options]="chartDataGenus.options" [plugins]="chartDataGenus.plugins">
-      </ngx-chartjs>
+      </ngx-chartjs> -->
     </mat-tab>
 
     <mat-tab label="Tree (Food Group)">
-      <ngx-chartjs *ngIf="chartDataGroup" id="treemap" [data]="chartDataGroup.data" [type]="chartDataGroup.type"
+      <canvas id="chartDataGroup">{{ chartDataGroup }}</canvas>
+      <!-- <ngx-chartjs *ngIf="chartDataGroup" id="treemap" [data]="chartDataGroup.data" [type]="chartDataGroup.type"
         [options]="chartDataGroup.options" [plugins]="chartDataGroup.plugins">
-      </ngx-chartjs>
+      </ngx-chartjs> -->
     </mat-tab>
 
     <mat-tab label="Table (All Data)">
