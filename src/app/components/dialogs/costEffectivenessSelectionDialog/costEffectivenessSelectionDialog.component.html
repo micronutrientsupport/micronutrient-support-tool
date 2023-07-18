@@ -1,5 +1,9 @@
 <app-base-dialog [data]="dialogData" title="Select an intervention">
   <div class="content-container">
+    <span *ngIf="!activeUser" class="login-prompt-wrapper">
+      <div class="login-prompt">Please login to access your created interventions: <button mat-flat-button
+          (click)="handleLogin()">Login</button></div>
+    </span>
     <p>
       Select one of the existing interventions and customise it for your scenario or load an existing
       intervention by its ID.

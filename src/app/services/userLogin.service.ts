@@ -34,7 +34,6 @@ export class UserLoginService {
   }
 
   public handleLoginOrRegistrationErrorNotification(err: RegisterLoginResponseError): void {
-    console.debug(err);
     switch (err.msg) {
       case RegisterLoginResponseErrorMessage.INVALID_CREDENTIALS: {
         this.notificationSevice.sendNegative('Invalid username or password, please try again.', null, 8000);
