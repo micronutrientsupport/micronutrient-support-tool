@@ -4,7 +4,7 @@ import { ActivatedRoute, ChildActivationEnd, NavigationEnd, Router } from '@angu
 import { Subscription } from 'rxjs';
 import { RouteData } from 'src/app/app-routing.module';
 import { AppRoutes } from 'src/app/routes/routes';
-import { QuickMapsService } from '../quickMaps/quickMaps.service';
+import { QuickMapsService } from '../../quickMaps/quickMaps.service';
 
 @Component({
   selector: 'app-intervention-review',

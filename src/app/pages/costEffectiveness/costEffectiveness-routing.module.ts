@@ -12,7 +12,9 @@ const routes: Routes = [
   {
     path: AppRoutes.COST_EFFECTIVENESS.getRouterPath() + '**',
     loadChildren: () =>
-      import('src/app/pages/costEffectiveness/interventionReview.module').then((m) => m.InterventionReviewModule),
+      import('src/app/pages/costEffectiveness/interventionReview/interventionReview.module').then(
+        (m) => m.InterventionReviewModule,
+      ),
   },
   // {
   //   path: '**',
