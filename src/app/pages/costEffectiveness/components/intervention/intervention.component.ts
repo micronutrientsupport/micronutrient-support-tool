@@ -22,7 +22,6 @@ export class InterventionComponent {
     private readonly router: Router,
     public route: ActivatedRoute,
   ) {}
-
   public toggleAssumptions = true;
   public toggleCosts = true;
 
