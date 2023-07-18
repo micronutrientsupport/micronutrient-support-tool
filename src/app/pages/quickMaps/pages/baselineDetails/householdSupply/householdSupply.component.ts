@@ -9,10 +9,12 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
+// import * as ChartAnnotation from 'chartjs-plugin-annotation';
+import annotationPlugin from 'chartjs-plugin-annotation';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { Chart } from 'chart.js';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -38,7 +40,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   public title = 'Household apparent micronutrient intake at national scale - histogram';
   public selectedTab: number;
 
-  public chartData: ChartJSObject;
+  public chartData: Chart;
   public chartPNG: string;
   public chartPDF: string;
   public displayedColumns = ['rangeMax', 'frequency'];
@@ -195,41 +197,13 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private initialiseGraph(data: SummarizedData): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
-    const generatedChart: ChartJSObject = {
-      plugins: [
-        ChartAnnotation,
-        {
-          beforeDraw: (chart) => {
-            const ctx = chart.chart.ctx;
-            const xAxis = chart.scales['x-axis-0'];
-            const yAxis = chart.scales['y-axis-0'];
-            ctx.save();
-            //ctx.ticks.forEach((tick) => console.log(tick));
-            console.log(chart.data.ticks);
-            chart.data.labels.forEach((l) => {
-              if (data.threshold > 0 && l === data.threshold) {
-                const x = xAxis.getPixelForValue(l);
-                ctx.textAlign = 'right';
-                ctx.font = 'bold 14px';
-                ctx.fillStyle = 'black';
+    const generatedChart = new Chart('chartData', {
+      // plugins: [
+      //   annotationPlugin,
+      //   {
 
-                ctx.beginPath(); // Start a new path
-                ctx.strokeStyle = 'black';
-                ctx.moveTo(x, yAxis.bottom); // Move the pen to (30, 50)
-                ctx.lineTo(x - 10, yAxis.bottom + 25); // Draw a line to (150, 100)
-                ctx.stroke(); // Render the path
-
-                ctx.translate(x - 8, yAxis.bottom + 30);
-
-                // rotate 270 degrees
-                ctx.rotate((31 * Math.PI) / 18); //310deg
-                ctx.fillText('' + data.threshold, 0, 0);
-              }
-            });
-            ctx.restore();
-          },
-        },
-      ],
+      //   },
+      // ],
       type: 'bar',
       data: {
         labels: data.data.map((item) => item.rangeMax),
@@ -239,87 +213,119 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             data: data.data.map((item) => item.frequency),
             borderColor: '#ff6384',
             backgroundColor: () => '#ff6384',
-            fill: true,
+            // fill: true, // TODO: fix
           },
         ],
       },
       options: {
-        title: {
-          display: false,
-          text: this.title,
-        },
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: false,
+          },
+          annotation: {
+            beforeDraw: (chart: any) => {
+              const ctx = chart.chart.ctx;
+              const xAxis = chart.scales['x-axis-0'];
+              const yAxis = chart.scales['y-axis-0'];
+              ctx.save();
+              //ctx.ticks.forEach((tick) => console.log(tick));
+              console.log(chart.data.ticks);
+              chart.data.labels.forEach((l) => {
+                if (data.threshold > 0 && l === data.threshold) {
+                  const x = xAxis.getPixelForValue(l);
+                  ctx.textAlign = 'right';
+                  ctx.font = 'bold 14px';
+                  ctx.fillStyle = 'black';
+
+                  ctx.beginPath(); // Start a new path
+                  ctx.strokeStyle = 'black';
+                  ctx.moveTo(x, yAxis.bottom); // Move the pen to (30, 50)
+                  ctx.lineTo(x - 10, yAxis.bottom + 25); // Draw a line to (150, 100)
+                  ctx.stroke(); // Render the path
+
+                  ctx.translate(x - 8, yAxis.bottom + 30);
+
+                  // rotate 270 degrees
+                  ctx.rotate((31 * Math.PI) / 18); //310deg
+                  ctx.fillText('' + data.threshold, 0, 0);
+                }
+              });
+              ctx.restore();
+            },
+          },
         },
 
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
-              },
-              ticks: {
-                stepSize: 25, //this.orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 20,
-                // Don't write label for threshold value as it is drawn by custom plugin code
-                callback: function (value) {
-                  const orderOfMagnitude = (n) => {
-                    const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
-                    return Math.pow(10, order);
-                  };
-                  console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
-                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
-                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);
-                  if (value === data.threshold) {
-                    return '';
-                  }
-                  return '' + value;
-                },
-              },
+          x: {
+            type: 'linear',
+            title: {
               display: true,
-              id: 'x-axis-0',
+              text: `${micronutrient?.name} in ${micronutrient?.unit}/AFE/day`,
             },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: 'Number of households',
+            ticks: {
+              stepSize: 25, //this.orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 20,
+              // Don't write label for threshold value as it is drawn by custom plugin code
+              callback: function (value) {
+                const orderOfMagnitude = (n) => {
+                  const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
+                  return Math.pow(10, order);
+                };
+                console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
+                console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
+                console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);
+                if (value === data.threshold) {
+                  return '';
+                }
+                return '' + value;
               },
-              display: true,
-              id: 'y-axis-0',
             },
-          ],
-        },
-        annotation: {
-          annotations: [],
+            display: true,
+            // id: 'x-axis-0',
+          },
+          y: {
+            type: 'linear',
+            title: {
+              display: true,
+              text: 'Number of households',
+            },
+            // scaleLabel: {
+            //   display: true,
+            //   labelString: 'Number of households',
+            // },
+            display: true,
+            // id: 'y-axis-0',
+          },
         },
       },
-    };
+    });
 
-    if (data.threshold && data.threshold > 0) {
-      // Limit max value to 5x threshold value
-      generatedChart.options.scales.xAxes[0].ticks.max = data.threshold * 5;
+    // TODO: fix this annotation
+    // if (data.threshold && data.threshold > 0) {
+    //   // Limit max value to 5x threshold value
+    //   generatedChart.options.scales.xAxes[0].ticks.max = data.threshold * 5;
 
-      // Add annotation line for threshold
-      generatedChart.options.annotation.annotations.push({
-        type: 'line',
-        mode: 'vertical',
-        scaleID: 'x-axis-0',
-        value: data.threshold, // data-value at which the line is drawn
-        borderWidth: 2.5,
-        borderColor: 'black',
-        label: {
-          enabled: true,
-          content: 'Threshold for inadequacy',
-        },
-      });
-    }
+    //   // Add annotation line for threshold
+    //   generatedChart.options.annotation.annotations.push({
+    //     type: 'line',
+    //     mode: 'vertical',
+    //     scaleID: 'x-axis-0',
+    //     value: data.threshold, // data-value at which the line is drawn
+    //     borderWidth: 2.5,
+    //     borderColor: 'black',
+    //     label: {
+    //       enabled: true,
+    //       content: 'Threshold for inadequacy',
+    //     },
+    //   });
+    // }
 
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
