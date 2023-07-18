@@ -20,6 +20,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -71,27 +72,28 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.subscriptions.push(
-      void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        console.debug('mn at first stage', mn);
-        if (null != mn) {
-          this.interventionDataService
-            .getInterventionFoodVehicleStandards(this.activeInterventionId)
-            .then((data: InterventionFoodVehicleStandards) => {
-              if (null != data) {
-                this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                  return standard.micronutrient.includes(mn.id);
-                });
-                this.createFVTableObject(this.activeNutrientFVS);
-                this.compoundAvailable = true;
-                this.initBaselineAssumptionTable();
-              }
-            })
-            .catch(() => {
-              this.compoundAvailable = false;
-            });
-        }
-        this.cdr.detectChanges();
-      }),
+      void this.interventionDataService
+        .getIntervention(this.activeInterventionId)
+        .then((intervention: Intervention) => {
+          if (null != intervention.focusMicronutrient) {
+            this.interventionDataService
+              .getInterventionFoodVehicleStandards(this.activeInterventionId)
+              .then((data: InterventionFoodVehicleStandards) => {
+                if (null != data) {
+                  this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+                    return standard.micronutrient.includes(intervention.focusMicronutrient);
+                  });
+                  this.createFVTableObject(this.activeNutrientFVS);
+                  this.compoundAvailable = true;
+                  this.initBaselineAssumptionTable();
+                }
+              })
+              .catch(() => {
+                this.compoundAvailable = false;
+              });
+          }
+          this.cdr.detectChanges();
+        }),
     );
   }
 
