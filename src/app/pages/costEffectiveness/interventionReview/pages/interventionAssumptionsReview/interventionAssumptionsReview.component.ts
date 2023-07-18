@@ -11,6 +11,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 @Component({
   selector: 'app-intervention-assumptions-review',
   templateUrl: './interventionAssumptionsReview.component.html',
@@ -63,8 +64,8 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
+      void this.interventionDataService.getIntervention(activeInterventionId).then((intervention: Intervention) => {
+        if (null != intervention.focusMicronutrient) {
           this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(
             () =>
               void this.interventionDataService

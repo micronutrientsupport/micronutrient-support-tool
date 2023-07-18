@@ -32,7 +32,10 @@
     "titleBar.activeBackground": "#9b51e0",
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#9b51e099",
-    "titleBar.inactiveForeground": "#e7e7e799"
-  }
-
+    "titleBar.inactiveForeground": "#e7e7e799",
+    "statusBar.border": "#9b51e0",
+    "tab.activeBorder": "#b47ce8",
+    "titleBar.border": "#9b51e0"
+  },
+  "git-blame.gitWebUrl": ""
 }

@@ -15,6 +15,8 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+
 @Component({
   selector: 'app-intervention-compliance',
   templateUrl: './interventionCompliance.component.html',
@@ -70,8 +72,8 @@ export class InterventionComplianceComponent implements OnInit {
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.subscriptions.push(
-      void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
-        if (null != mn) {
+      void this.interventionDataService.getIntervention(activeInterventionId).then((intervention: Intervention) => {
+        if (null != intervention.focusMicronutrient) {
           this.interventionDataService.getInterventionFoodVehicleStandards(activeInterventionId).then(() => {
             void this.interventionDataService
               .getInterventionBaselineAssumptions(activeInterventionId)
