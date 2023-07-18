@@ -28,6 +28,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { TitleCasePipe } from '@angular/common';
+import { ChartDataset } from 'chart.js';
+import { Point } from 'chart.js';
 
 import { TreemapController, TreemapElement } from 'chartjs-chart-treemap';
 
