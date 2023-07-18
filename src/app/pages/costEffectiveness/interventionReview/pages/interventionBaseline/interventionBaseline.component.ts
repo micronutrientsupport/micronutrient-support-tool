@@ -72,6 +72,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.subscriptions.push(
       void this.quickMapsService.micronutrient.obs.subscribe((mn: MicronutrientDictionaryItem) => {
+        console.debug('mn at first stage', mn);
         if (null != mn) {
           this.interventionDataService
             .getInterventionFoodVehicleStandards(this.activeInterventionId)

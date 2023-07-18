@@ -9,6 +9,7 @@ export class Intervention extends BaseObject implements Named {
     DESCRIPTION: 'description',
     USER_ID: 'userId',
     COUNTRY_ID: 'countryId',
+    FOCUS_MICRONUTRIENT: 'focusMicronutrient',
     FORTIFICATION_ID: 'fortificationTypeId',
     FORTIFICATION_NAME: 'fortificationTypeName',
     PROGRAM_STATUS: 'programStatus',
@@ -27,6 +28,7 @@ export class Intervention extends BaseObject implements Named {
   public readonly dataLevel: DataLevel;
   public readonly countryId: string;
   public readonly userId: string;
+  public readonly focusMicronutrient: string;
   public readonly fortificationTypeId: string;
   public readonly fortificationTypeName: string;
   public readonly programStatus: string;
@@ -48,6 +50,7 @@ export class Intervention extends BaseObject implements Named {
 
     this.userId = this._getString(Intervention.KEYS.USER_ID);
     this.countryId = this._getString(Intervention.KEYS.COUNTRY_ID);
+    this.focusMicronutrient = this._getString(Intervention.KEYS.FOCUS_MICRONUTRIENT);
     this.fortificationTypeId = this._getString(Intervention.KEYS.FORTIFICATION_ID);
     this.fortificationTypeName = this._getString(Intervention.KEYS.FORTIFICATION_NAME);
     this.programStatus = this._getString(Intervention.KEYS.PROGRAM_STATUS);
