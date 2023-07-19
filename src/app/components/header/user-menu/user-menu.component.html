@@ -1,0 +1,19 @@
+<ng-container *ngIf="activeUser">
+  <button mat-button [matMenuTriggerFor]="menu" #t="matMenuTrigger">
+    <span class="dropdown">
+      {{ activeUser.username }}
+      <span class="icon-wrapper" [ngClass]="t.menuOpen ? 'rotate-180' : ''">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </span>
+    </span>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="ROUTES.PROFILE | route">Profile</button>
+    <button mat-menu-item (click)="handleLogout()">Log out</button>
+  </mat-menu>
+</ng-container>
+<ng-container *ngIf="!activeUser">
+  <button id="login" mat-raised-button (click)="handleLoginDialog()">
+    Log in
+  </button>
+</ng-container>

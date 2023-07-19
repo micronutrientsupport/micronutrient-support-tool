@@ -15,6 +15,8 @@ import { NotFoundComponent } from './notFound/notFound.component';
 import { DownloadComponent } from '../pages/quickMaps/components/download/download.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { NoResultsComponent } from './noResults/noResults.component';
+import { UserMenuComponent } from './header/user-menu/user-menu.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { NoResultsComponent } from './noResults/noResults.component';
     NotFoundComponent,
     DownloadComponent,
     NoResultsComponent,
+    UserMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +39,7 @@ import { NoResultsComponent } from './noResults/noResults.component';
     DialogModule,
     NotificationModule,
     DirectivesModule,
+    MatMenuModule,
   ],
   exports: [
     HeaderComponent,

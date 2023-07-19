@@ -42,7 +42,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public FVdataSource = new MatTableDataSource();
   public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
 
-  public optionalUserEnteredAverageAtPointOfFortification = 0;
+  public optionalUserEnteredAverageAtPointOfFortification = '0';
 
   private subscriptions = new Array<Subscription>();
   public activeInterventionId: string;
@@ -56,6 +56,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public buttonTwoEdited = false;
 
   public dataLoaded = false;
+  public focusMnForm: UntypedFormGroup;
+  public focusMnData: Array<Record<string, unknown>> = [];
+  public focusMnFormInitVals;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -68,6 +71,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+  }
+
+  public ngOnInit(): void {
+    this.initFocusMicronutrientTable();
   }
 
   public ngAfterViewInit(): void {
@@ -86,15 +93,69 @@ export class InterventionBaselineComponent implements AfterViewInit {
                   this.createFVTableObject(this.activeNutrientFVS);
                   this.compoundAvailable = true;
                   this.initBaselineAssumptionTable();
+
+                  const optFortLS = localStorage.getItem('optFortAvg');
+                  if (optFortLS) {
+                    this.optionalUserEnteredAverageAtPointOfFortification = optFortLS;
+                  } else {
+                    this.optionalUserEnteredAverageAtPointOfFortification = '0';
+                  }
+
+                  this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
+                  this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
                 }
               })
-              .catch(() => {
+              .catch((err) => {
+                console.error(err);
                 this.compoundAvailable = false;
               });
           }
           this.cdr.detectChanges();
         }),
     );
+  }
+
+  private initFocusMicronutrientTable(): void {
+    this.focusMnForm = this.formBuilder.group({
+      compound: ['', Validators.required],
+      targetVal: [''],
+      optFort: [this.optionalUserEnteredAverageAtPointOfFortification],
+    });
+
+    this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value), pairwise()).subscribe(([prev, curr]) => {
+      console.log('PREV', prev);
+      console.log('CURR', curr);
+
+      if (curr.targetVal !== '') {
+        if (prev.optFort === curr.optFort) {
+          this.focusMnFormInitVals = this.focusMnForm.value;
+        }
+
+        this.selectedCompound = curr.compound;
+        this.selectedCompound.targetVal = curr.targetVal;
+
+        if (prev.optFort !== curr.optFort) {
+          this.optionalUserEnteredAverageAtPointOfFortification = curr.optFort;
+        }
+
+        localStorage.setItem('optFortAvg', curr.optFort);
+
+        const changesArr = this.focusMnData.filter((item) => item.rowIndex === curr.compound.rowIndex);
+        if (changesArr.length === 0) {
+          this.focusMnData.push({
+            rowIndex: curr.compound.rowIndex,
+          });
+        } else {
+          changesArr[0].year0 = curr.targetVal;
+        }
+
+        const newInterventionChanges = {
+          ...this.interventionDataService.getInterventionDataChanges(),
+          ...changesArr,
+        };
+        this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
+      }
+    });
   }
 
   private initBaselineAssumptionTable() {
@@ -203,6 +264,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
     this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
+
+    this.focusMnForm.get('compound').setValue(this.selectedCompound);
+    this.cdr.detectChanges();
   }
 
   public openFortificationInfoDialog(): void {
@@ -225,6 +289,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
         }
       });
     });
+    console.log(this.focusMnFormInitVals);
+    this.focusMnForm.reset(this.focusMnFormInitVals);
+
     //on reset mark forma as pristine to remove blue highlights
     this.form.markAsPristine();
     //remove dirty indexes to reset button to GFDx input
@@ -235,7 +302,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.newMnInPremix = micronutrient;
   }
 
-  public udpateButtonState(value: number): void {
+  public updateButtonState(value: number): void {
     if (value === 1) {
       this.buttonOneEdited = true;
     } else if (value === 2) {
@@ -256,5 +323,11 @@ export class InterventionBaselineComponent implements AfterViewInit {
       this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
       this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
     }
+  }
+
+  public getCalculatedAverage(actuallyFortified: number, potentiallyFortified: number): string {
+    const calc =
+      Number(this.optionalUserEnteredAverageAtPointOfFortification) * actuallyFortified * potentiallyFortified;
+    return String(calc);
   }
 }
