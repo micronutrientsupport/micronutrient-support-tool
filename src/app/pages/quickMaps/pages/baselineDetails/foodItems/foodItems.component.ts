@@ -32,6 +32,10 @@ import { TitleCasePipe } from '@angular/common';
 import { ChartDataset } from 'chart.js';
 import { Point } from 'chart.js';
 
+import { TreemapController, TreemapElement } from 'chartjs-chart-treemap';
+
+Chart.register(TreemapController, TreemapElement);
+
 // Uitlity type
 type Mutable<Type> = {
   -readonly [Key in keyof Type]: Type[Key];
@@ -54,8 +58,6 @@ export class FoodItemsComponent implements AfterViewInit {
 
   public chartDataGroup: Chart;
   public chartDataGenus: Chart;
-
-  public bing: any;
 
   public chartPNG: string;
   public chartPDF: string;
@@ -172,7 +174,7 @@ export class FoodItemsComponent implements AfterViewInit {
       value.foodGenusName = this.titlecasePipe.transform(value.foodGenusName);
       return value;
     }) as Array<TopFoodSource>;
-
+    console.debug(data);
     const generatedChart = new Chart(dataField, {
       // const generatedChart: ChartJSObject = {
       type: 'treemap',
@@ -180,36 +182,36 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             data: [],
-            tree: [15, 6, 6, 5, 4, 3, 2, 2], // TODO: use real data format
-            // tree: data,
+            // tree: [15, 6, 6, 5, 4, 3, 2, 2], // TODO: use real data format
+            tree: data as any,
             key: 'dailyMnContribution',
             groups: [dataField],
-            captions: {
-              display: true,
-              color: '#ffffff',
-              font: {
-                family: 'Quicksand',
-                size: 12,
-                style: 'normal',
-              },
-            },
-            backgroundColor: (result: any) => {
-              // TODO: fix type
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartData: ChartDataset = result['dataset']['data'];
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-              if (groupedChartDataAtCurrentIndex) {
-                // TODO: find a cleaner way to access this data
-                const backgroundTextString =
-                  result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
-                return this.genColorHex(backgroundTextString);
-              } else {
-                return '#000';
-              }
-            },
+            // captions: {
+            //   display: true,
+            //   color: '#ffffff',
+            //   font: {
+            //     family: 'Quicksand',
+            //     size: 12,
+            //     style: 'normal',
+            //   },
+            // },
+            // backgroundColor: (result: any) => {
+            //   // TODO: fix type
+            //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            //   const groupedChartData: ChartDataset = result['dataset']['data'];
+            //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            //   const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
+            //   if (groupedChartDataAtCurrentIndex) {
+            //     // TODO: find a cleaner way to access this data
+            //     const backgroundTextString =
+            //       result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
+            //     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            //     //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+            //     return this.genColorHex(backgroundTextString);
+            //   } else {
+            //     return '#000';
+            //   }
+            // },
           },
         ],
       },
@@ -260,7 +262,7 @@ export class FoodItemsComponent implements AfterViewInit {
       },
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: Chart = JSON.parse(JSON.stringify(this.bing));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
