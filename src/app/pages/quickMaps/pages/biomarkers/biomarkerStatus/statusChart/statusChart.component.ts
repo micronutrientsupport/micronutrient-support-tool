@@ -31,8 +31,8 @@ export class StatusChartComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedOption;
 
-  public boxChartData: ChartJSObject;
-  public barChartData: ChartJSObject;
+  public boxChartData: Chart;
+  public barChartData: Chart;
 
   public boxChartPNG: string;
   public boxChartPDF: string;

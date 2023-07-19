@@ -11,7 +11,7 @@ import { QuickchartService } from 'src/app/services/quickChart.service';
 })
 export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
   @Input() summaryCosts: InterventionCostSummary;
-  public chartData: ChartJSObject;
+  public chartData: Chart;
   public chartPNG: string;
   public chartPDF: string;
 
@@ -31,7 +31,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
 
-    const generatedChart: ChartJSObject = {
+    const generatedChart = new Chart('chartData', {
       type: 'bar',
       data: {
         labels: ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
@@ -40,51 +40,50 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements OnInit {
             label: 'Undiscounted',
             backgroundColor: () => '#809ec2',
             data: unDiscountedValues,
-            fill: true,
+            // fill: true,
           },
           {
             label: 'Discounted',
             backgroundColor: () => '#9c85c0',
             data: discountedValues,
-            fill: true,
+            // fill: true,
           },
         ],
       },
       options: {
-        title: {
-          display: true,
-          text: 'Total annual wheat flour fortification costs',
+        plugins: {
+          title: {
+            display: true,
+            text: 'Total annual wheat flour fortification costs',
+          },
+          legend: {
+            display: true,
+          },
         },
+
         responsive: true,
         maintainAspectRatio: false,
-        legend: {
-          display: true,
-        },
-
         scales: {
-          xAxes: [
-            {
-              display: true,
-              id: 'x-axis-0',
-            },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: 'Thousands of 2021 USD',
-              },
+          x: {
+            display: true,
+            // id: 'x-axis-0',
+          },
 
+          y: {
+            title: {
               display: true,
-              id: 'y-axis-0',
+              text: 'Thousands of 2021 USD',
             },
-          ],
+
+            display: true,
+            // id: 'y-axis-0',
+          },
         },
       },
-    };
+    });
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.interventionDataService.setInterventionSummaryChartPNG(
       this.qcService.getChartAsImageUrl(chartForRender, 'png'),
     );

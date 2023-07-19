@@ -198,12 +198,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private initialiseGraph(data: SummarizedData): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
     const generatedChart = new Chart('chartData', {
-      // plugins: [
-      //   annotationPlugin,
-      //   {
-
-      //   },
-      // ],
       type: 'bar',
       data: {
         labels: data.data.map((item) => item.rangeMax),

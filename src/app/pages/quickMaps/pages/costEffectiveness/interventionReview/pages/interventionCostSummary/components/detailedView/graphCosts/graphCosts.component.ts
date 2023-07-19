@@ -16,7 +16,7 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 export class InterventionCostSummaryDetailedCostsGraphComponent implements OnInit {
   @Input() recurringCost: Array<RecurringCost>;
 
-  public chartData: ChartJSObject;
+  public chartData: Chart;
 
   public dataSource = new MatTableDataSource<RecurringCosts>();
   public displayHeaders = [
@@ -73,43 +73,42 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       });
     });
 
-    const generatedChart: ChartJSObject = {
+    const generatedChart = new Chart('chartData', {
       type: 'bar',
       data: yearlyChartData,
+
       options: {
-        title: {
-          display: true,
-          text: 'Annual undiscounted wheat flour fortification costs by activity',
-        },
         responsive: true,
         maintainAspectRatio: false,
-        legend: {
-          display: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Annual undiscounted wheat flour fortification costs by activity',
+          },
+          legend: {
+            display: true,
+          },
         },
-
         scales: {
-          xAxes: [
-            {
-              stacked: true,
-            },
-          ],
-          yAxes: [
-            {
-              stacked: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Thousands of 2021 USD',
-              },
+          x: {
+            stacked: true,
+          },
 
+          y: {
+            stacked: true,
+            title: {
               display: true,
+              text: 'Thousands of 2021 USD',
             },
-          ],
+
+            display: true,
+          },
         },
       },
-    };
+    });
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.interventionDataService.setInterventionDetailedChartPNG(
       this.qcService.getChartAsImageUrl(chartForRender, 'png'),
     );

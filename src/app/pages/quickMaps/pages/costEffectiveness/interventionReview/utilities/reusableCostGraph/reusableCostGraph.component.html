@@ -1,7 +1,8 @@
 <div class="pie-chart-container">
-    <div class="card">
-        <ngx-chartjs class="pie-chart" *ngIf="costChart != null" [data]="costChart.data" [type]="costChart.type"
+  <div class="card">
+    <canvas id="pie-chart">{{ costChart }}</canvas>
+    <!-- <ngx-chartjs class="pie-chart" *ngIf="costChart != null" [data]="costChart.data" [type]="costChart.type"
             [options]="costChart.options">
-        </ngx-chartjs>
-    </div>
+        </ngx-chartjs> -->
+  </div>
 </div>
