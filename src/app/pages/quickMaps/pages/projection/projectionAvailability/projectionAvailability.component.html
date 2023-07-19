@@ -2,8 +2,9 @@
 
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-      <ngx-chartjs *ngIf="chartData" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
-      </ngx-chartjs>
+      <canvas id="chartData">{{ chartData }}</canvas>
+      <!-- <ngx-chartjs *ngIf="chartData" [data]="chartData.data" [type]="chartData.type" [options]="chartData.options">
+      </ngx-chartjs> -->
     </mat-tab>
 
     <mat-tab label="Table">

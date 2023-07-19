@@ -49,7 +49,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   public dataSource: MatTableDataSource<ProjectedAvailability>;
   public columns = [];
   public displayedColumns = [];
-  public chartData: ChartJSObject;
+  public chartData: Chart;
   public chartPNG: string;
   public chartPDF: string;
   private data: Array<ProjectedAvailability>;
@@ -198,7 +198,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       datasets.push(scenarioDetails);
     });
 
-    const generatedChart: ChartJSObject = {
+    const generatedChart = new Chart('chartData', {
       type: 'line',
       data: {
         labels: scenarioArrays[0].map((item) => item.year),
@@ -206,60 +206,60 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       },
       options: {
         maintainAspectRatio: false,
-        title: {
-          display: false,
-          text: this.title,
-        },
-        legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center',
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'center',
+          },
+          tooltip: {
+            // callbacks: { // TODO: fix chart
+            //   label: (item: ChartTooltipItem, result: ChartData) => {
+            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+            //     const label: string = dataset.label;
+            //     const value: number = dataItem as number;
+            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
+            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+            //   },
+            // },
+          },
+          annotation: {
+            annotations: [
+              {
+                type: 'line',
+                // mode: 'horizontal',
+                scaleID: 'y-axis-0',
+                value: this.projectionsSummary.recommended,
+                borderWidth: 2.0,
+                borderColor: 'rgba(200,0,0,0.5)',
+                label: {
+                  // enabled: true,
+                  content: 'Threshold: ' + this.projectionsSummary.recommended,
+                  backgroundColor: 'rgba(200,0,0,0.8)',
+                },
+              },
+            ],
+          },
         },
         scales: {
-          xAxes: [{}],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: micronutrient.name + ' availability in ' + micronutrient.unit + '/capita/day',
-              },
-            },
-          ],
-        },
-        tooltips: {
-          callbacks: {
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              const label: string = dataset.label;
-              const value: number = dataItem as number;
-              const sigFigLength = Math.ceil(Math.log10(value + 1));
-              const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-              return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+          x: {},
+          y: {
+            title: {
+              display: true,
+              text: micronutrient.name + ' availability in ' + micronutrient.unit + '/capita/day',
             },
           },
         },
-        annotation: {
-          annotations: [
-            {
-              type: 'line',
-              mode: 'horizontal',
-              scaleID: 'y-axis-0',
-              value: this.projectionsSummary.recommended,
-              borderWidth: 2.0,
-              borderColor: 'rgba(200,0,0,0.5)',
-              label: {
-                enabled: true,
-                content: 'Threshold: ' + this.projectionsSummary.recommended,
-                backgroundColor: 'rgba(200,0,0,0.8)',
-              },
-            },
-          ],
-        },
       },
-    };
+    });
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }

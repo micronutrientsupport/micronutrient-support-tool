@@ -26,7 +26,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
   @Input() card: CardComponent;
   static additionalData: unknown;
-  public chartData: ChartJSObject;
+  public chartData: Chart;
   public chartPNG: string;
   public chartPDF: string;
   public title = 'Additional Information';
@@ -240,83 +240,78 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     }
   }
   private setChart() {
-    const generatedChart: ChartJSObject = {
-      // this.chartData = {
-      plugins: [ChartAnnotation],
+    const generatedChart = new Chart('chartData', {
       type: 'bar',
       data: {
         labels: this.labels,
-
         datasets: [
           {
             label: `${this.selectedNutrient}`,
             backgroundColor: () => 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
-            outlierColor: 'rgba(0,0,0,0.5)',
-            outlierRadius: 4,
+            // outlierColor: 'rgba(0,0,0,0.5)',
+            // outlierRadius: 4,
             data: this.binData,
           },
         ],
       },
       options: {
-        title: {
-          display: false,
-          text: this.title,
-        },
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `Concentration of ${this.selectedNutrient} in microg/DI`,
-              },
+          x: {
+            title: {
+              display: true,
+              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
             },
-          ],
-          yAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: `Number of ${this.selectedAgeGenderGroup}`,
-              },
+          },
+          y: {
+            title: {
+              display: true,
+              text: `Number of ${this.selectedAgeGenderGroup}`,
             },
-          ],
+          },
         },
-        annotation: {
-          annotations: [
-            {
-              type: 'line',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: this.defThreshold,
-              borderWidth: 2.0,
-              borderColor: 'rgba(255,0,0,0.5)',
-              label: {
-                enabled: true,
-                content: 'Deficiency threshold',
-                backgroundColor: 'rgba(255,0,0,0.8)',
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          annotation: {
+            annotations: [
+              {
+                type: 'line',
+                // mode: 'vertical',
+                scaleID: 'x-axis-0',
+                value: this.defThreshold,
+                borderWidth: 2.0,
+                borderColor: 'rgba(255,0,0,0.5)',
+                label: {
+                  // enabled: true,
+                  content: 'Deficiency threshold',
+                  backgroundColor: 'rgba(255,0,0,0.8)',
+                },
               },
-            },
-            {
-              type: 'line',
-              id: 'abnLine',
-              mode: 'vertical',
-              scaleID: 'x-axis-0',
-              value: this.abnThreshold,
-              borderWidth: 2.0,
-              borderColor: 'rgba(0,0,255,0.5)',
-              label: {
-                enabled: true,
-                content: 'Threshold for abnormal values',
-                backgroundColor: 'rgba(0,0,255,0.8)',
+              {
+                type: 'line',
+                id: 'abnLine',
+                // mode: 'vertical',
+                scaleID: 'x-axis-0',
+                value: this.abnThreshold,
+                borderWidth: 2.0,
+                borderColor: 'rgba(0,0,255,0.5)',
+                label: {
+                  // enabled: true,
+                  content: 'Threshold for abnormal values',
+                  backgroundColor: 'rgba(0,0,255,0.8)',
+                },
               },
-            },
-          ],
+            ],
+          },
         },
       },
-    };
+    });
     this.chartData = generatedChart;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     console.log(this.chartPNG);
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
