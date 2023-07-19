@@ -45,7 +45,7 @@ export class InterventionDescriptionComponent {
                     (this.selectedIntervention = selectedInterventionSecondAttempt),
                 );
             } else {
-              this.router.navigate(this.ROUTES.STANDALONE_COST_EFFECTIVENESS.getRoute());
+              this.router.navigate(this.ROUTES.COST_EFFECTIVENESS.getRoute());
             }
           });
         }
