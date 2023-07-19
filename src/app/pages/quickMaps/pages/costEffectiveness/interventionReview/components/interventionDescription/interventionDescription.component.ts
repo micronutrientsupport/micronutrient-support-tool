@@ -35,7 +35,10 @@ export class InterventionDescriptionComponent {
             if (data.dataOut) {
               this.interventionDataService
                 .getIntervention(this.interventionDataService.getActiveInterventionId())
-                .then(() => (this.selectedIntervention = selectedIntervention));
+                .then(
+                  (selectedInterventionSecondAttempt: Intervention) =>
+                    (this.selectedIntervention = selectedInterventionSecondAttempt),
+                );
             }
           });
         }
