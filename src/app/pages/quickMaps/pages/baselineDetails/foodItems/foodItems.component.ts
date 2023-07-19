@@ -15,7 +15,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-import { Chart, LinearScale } from 'chart.js';
+import { Chart, LinearScale, TooltipItem, Tooltip } from 'chart.js';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -82,7 +82,7 @@ export class FoodItemsComponent implements AfterViewInit {
     private titlecasePipe: TitleCasePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
   ) {
-    Chart.register(TreemapController, TreemapElement, LinearScale);
+    Chart.register(TreemapController, TreemapElement, LinearScale, Tooltip);
   }
 
   ngAfterViewInit(): void {
@@ -237,36 +237,40 @@ export class FoodItemsComponent implements AfterViewInit {
             display: false,
           },
           tooltip: {
+            enabled: true,
+            mode: 'nearest',
+            position: 'average',
             callbacks: {
-              title: (item: any) => {
+              title: (item: Array<TooltipItem<'treemap'>>) => {
                 // TODO: fix type
+                // console.debug('tooltip title: ', item);
                 if (dataField !== 'foodGroupName') {
-                  const dataItem = data[item[0].index];
+                  const dataItem = data[item[0].dataIndex];
                   return `${tooltipTitle} (Parent group: ${dataItem.foodGroupName})`;
                 } else {
                   return tooltipTitle;
                 }
               },
-              label: (item: any) => {
+              label: (item: TooltipItem<'treemap'>) => {
                 // TODO: fix type
-                console.debug(item);
-                return 'string';
-                // const dataset: ChartDataset = result.datasets[item.datasetIndex];
-                // const dataItem: number | number[] | Point = dataset.data[item.index];
-                // // tslint:disable-next-line: no-string-literal
+                // console.debug('tooltime label ', item);
+                // return 'string';
+                const dataItem = item.dataset.data[item.dataIndex];
+                // const dataItem: number | number[] = dataset.data[item.dataIndex];
+                // tslint:disable-next-line: no-string-literal
 
-                // const label: string = dataItem['g'] as string;
-                // // tslint:disable-next-line: no-string-literal
-                // const value: string = dataItem['v'] as string;
-                // if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
-                //   return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
-                //     this.quickMapsService.micronutrient.get().unit
-                //   }/capita/day`;
-                // } else {
-                //   return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
-                //     this.quickMapsService.micronutrient.get().unit
-                //   }/AFE/day`;
-                // }
+                const label = String(dataItem.g);
+                // tslint:disable-next-line: no-string-literal
+                const value = String(dataItem.v);
+                if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
+                  return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                    this.quickMapsService.micronutrient.get().unit
+                  }/capita/day`;
+                } else {
+                  return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
+                    this.quickMapsService.micronutrient.get().unit
+                  }/AFE/day`;
+                }
               },
             },
           },
