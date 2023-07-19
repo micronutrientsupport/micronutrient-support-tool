@@ -32,7 +32,9 @@ export class UserLoginDialogComponent {
     private notificationsService: NotificationsService,
     private dialogService: DialogService,
     private loginService: UserLoginService,
-  ) {}
+  ) {
+    this.data.dataOut = false;
+  }
 
   public handleSubmit(): void {
     this.awaitingResponse = true;
