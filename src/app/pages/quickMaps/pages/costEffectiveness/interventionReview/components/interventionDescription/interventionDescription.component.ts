@@ -21,6 +21,7 @@ export class InterventionDescriptionComponent {
     private readonly userLoginService: UserLoginService,
     private readonly dialogService: DialogService,
   ) {
+    console.debug('call');
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
       .then((selectedIntervention: Intervention) => {
