@@ -33,6 +33,8 @@ import { Point } from 'chart.js';
 
 import { TreemapController, TreemapElement } from 'chartjs-chart-treemap';
 
+Chart.register(TreemapController, TreemapElement);
+
 // Uitlity type
 type Mutable<Type> = {
   -readonly [Key in keyof Type]: Type[Key];
