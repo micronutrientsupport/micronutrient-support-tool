@@ -37,7 +37,7 @@ import { ReusableCostTableComponent } from './interventionReview/utilities/reusa
 import { InterventionStepDetailsComponent } from './interventionReview/utilities/interventionStepDetails/interventionStepDetails.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MicroNutrientsInPremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/microNutrientsInPremixTable.component';
-import { PremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTableRow/premixTable.component';
+import { PremixTableComponent } from './interventionReview/utilities/microNutrientsInPremixTable/premixTable/premixTable.component';
 import { AvgMnTableComponent } from './interventionReview/utilities/avgMnTable/avgMnTable.component';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';

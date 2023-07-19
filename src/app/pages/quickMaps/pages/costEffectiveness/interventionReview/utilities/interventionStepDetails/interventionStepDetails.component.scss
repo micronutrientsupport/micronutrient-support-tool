@@ -79,7 +79,9 @@
 
 .add-mn-button,
 .item-reset {
-  background: transparent;
+  &.mdc-button {
+    background-color: transparent;
+  }
 }
 
 .add-mn-button {

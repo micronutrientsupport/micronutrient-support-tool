@@ -23,8 +23,8 @@ export class MicroNutrientsInPremixTableComponent {
       this.addMnToTable(micronutrient);
     }
   }
+  @Input() baselineAssumptions: BaselineAssumptions;
 
-  public baselineAssumptions: BaselineAssumptions;
   public micronutrients: Array<FoodVehicleStandard> = [];
   public updateTrigger = new Subject<null>();
   public displayPremixTable: BehaviorSubject<boolean> = new BehaviorSubject(false);
