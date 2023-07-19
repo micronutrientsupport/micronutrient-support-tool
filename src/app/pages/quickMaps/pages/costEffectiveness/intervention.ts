@@ -1,5 +1,5 @@
 // Temporary object until implementation of API
-export interface Intervention {
+export interface SimpleIntervention {
   name: string;
   baseYear: number;
   totalCost: number;
@@ -7,7 +7,7 @@ export interface Intervention {
   costsConfirmation: boolean;
 }
 
-export const Interventions: Array<Intervention> = [
+export const SimpleInterventions: Array<SimpleIntervention> = [
   {
     name: 'Wheat flour fortification',
     baseYear: 2021,

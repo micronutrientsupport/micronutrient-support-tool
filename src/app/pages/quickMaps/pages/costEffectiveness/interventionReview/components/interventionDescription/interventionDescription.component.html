@@ -2,7 +2,7 @@
   <span>Intervention name: <strong>{{ selectedIntervention?.name }}</strong></span>
   <span>ID: <strong>{{ selectedIntervention?.id }}</strong></span>
   <div>
-    <span *ngIf="selectedIntervention.userId === 'Anonymous'">Intervention not claimed: <button mat-flat-button
+    <span *ngIf="selectedIntervention?.userId === 'Anonymous'">Intervention not claimed: <button mat-flat-button
         (click)="handleClaimIntervention()">Claim</button> </span>
   </div>
 </div>
