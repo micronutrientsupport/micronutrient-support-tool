@@ -15,7 +15,11 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
+<<<<<<< HEAD
 import { Chart, LinearScale, TooltipItem, Tooltip } from 'chart.js/auto';
+=======
+import { Chart, LinearScale } from 'chart.js';
+>>>>>>> 7ee4c5f4 (refactor: upgrading chartjs and dependencies to latest)
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -28,12 +32,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { TitleCasePipe } from '@angular/common';
-import { ChartDataset } from 'chart.js';
-import { Point } from 'chart.js';
 
 import { TreemapController, TreemapElement } from 'chartjs-chart-treemap';
-
-Chart.register(TreemapController, TreemapElement);
 
 // Uitlity type
 type Mutable<Type> = {
