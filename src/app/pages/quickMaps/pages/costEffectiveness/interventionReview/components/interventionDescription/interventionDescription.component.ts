@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -17,10 +19,27 @@ export class InterventionDescriptionComponent {
     private readonly interventionDataService: InterventionDataService,
     private readonly notificationsService: NotificationsService,
     private readonly userLoginService: UserLoginService,
+    private readonly dialogService: DialogService,
   ) {
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
-      .then((selectedIntervention: Intervention) => (this.selectedIntervention = selectedIntervention));
+      .then((selectedIntervention: Intervention) => {
+        this.selectedIntervention = selectedIntervention;
+        /** Undefined response means that session token is invalid. */
+        if (undefined == this.selectedIntervention) {
+          /** If a user is logged in with an invalid session token then log them out */
+          this.userLoginService.setActiveUser(null);
+          /** Ask user to login */
+          this.dialogService.openLoginDialog().then((data: DialogData) => {
+            /** If they successfully log back in then repeat the call with a valid session token */
+            if (data.dataOut) {
+              this.interventionDataService
+                .getIntervention(this.interventionDataService.getActiveInterventionId())
+                .then(() => (this.selectedIntervention = selectedIntervention));
+            }
+          });
+        }
+      });
   }
 
   public handleClaimIntervention(): void {
