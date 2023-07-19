@@ -7,6 +7,7 @@ import {
   Component,
   AfterViewInit,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { CardComponent } from 'src/app/components/card/card.component';
@@ -39,7 +40,9 @@ import { ColourPalette } from '../../../components/colourObjects/colourPalette';
 export class ProjectionAvailabilityComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('chartData') public c1!: ElementRef<HTMLCanvasElement>;
   @Input() card: CardComponent;
+
   public title = 'Projected availability';
   public selectedTab: number;
   public headingText = 'Multinutrient';
@@ -57,6 +60,8 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
   private baselineScenario: ImpactScenarioDictionaryItem;
   private subscriptions = new Array<Subscription>();
+  private counter = 0;
+
   constructor(
     private dictionaryService: DictionaryService,
     private projectionDataService: ProjectionDataService,
@@ -67,6 +72,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     private sigFig: SignificantFiguresPipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
   ) {}
+
   ngAfterViewInit(): void {
     // get baseline scenario
     void this.dictionaryService.getDictionaries([DictionaryType.IMPACT_SCENARIOS]).then((dicts) => {
@@ -112,10 +118,16 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
       }
     });
   }
+
+  ngOnDestroy(): void {
+    this.chartData.destroy();
+  }
+
   public navigateToInfoTab(): void {
     this.selectedTab = 3;
     this.cdr.detectChanges();
   }
+
   private init(dataPromise: Promise<Array<ProjectedAvailability>>, summaryPromise: Promise<ProjectionsSummary>): void {
     this.loadingSrc.next(true);
     Promise.all([dataPromise, summaryPromise])
@@ -145,6 +157,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         throw e;
       });
   }
+
   private initialiseTable(data: Array<ProjectedAvailability>): void {
     const micronutrient = this.quickMapsService.micronutrient.get();
     this.columns = [
@@ -169,100 +182,107 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
   }
+
   private initialiseGraph(data: Array<ProjectedAvailability>): void {
-    const micronutrient = this.quickMapsService.micronutrient.get();
+    this.counter++;
 
-    // Create new objects, each object represents a scenario case delievered by API
-    const rawData = data.reduce((res, obj: ProjectedAvailability) => {
-      if (!res[obj.scenario]) {
-        res[obj.scenario] = [];
-      }
-      res[obj.scenario].push(obj);
-      return res;
-    }, {});
+    if (this.counter === 1) {
+      const micronutrient = this.quickMapsService.micronutrient.get();
 
-    // Create multiple arrays for each scenario object
-    const scenarioArrays: Array<ProjectedAvailability[]> = Object.entries(rawData).map((array) => array[1]) as Array<
-      ProjectedAvailability[]
-    >;
+      // Create new objects, each object represents a scenario case delievered by API
+      const rawData = data.reduce((res, obj: ProjectedAvailability) => {
+        if (!res[obj.scenario]) {
+          res[obj.scenario] = [];
+        }
+        res[obj.scenario].push(obj);
+        return res;
+      }, {});
 
-    const datasets = new Array<ChartDataset>();
-    // Iterate through each scenario array and create ChartDataset object to be injected into chart
-    scenarioArrays.forEach((array: Array<ProjectedAvailability>) => {
-      const scenarioDetails: ChartDataset = {
-        label: array[0].scenario,
-        data: array.map((item) => item.data[micronutrient.id].value),
-        fill: false,
-        borderColor: ColourPalette.generateRandomColour(array[0].scenario),
-      };
-      datasets.push(scenarioDetails);
-    });
+      // Create multiple arrays for each scenario object
+      const scenarioArrays: Array<ProjectedAvailability[]> = Object.entries(rawData).map((array) => array[1]) as Array<
+        ProjectedAvailability[]
+      >;
 
-    const generatedChart = new Chart('chartData', {
-      type: 'line',
-      data: {
-        labels: scenarioArrays[0].map((item) => item.year),
-        datasets: datasets,
-      },
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: false,
-            text: this.title,
-          },
-          legend: {
-            display: true,
-            position: 'bottom',
-            align: 'center',
-          },
-          tooltip: {
-            // callbacks: { // TODO: fix chart
-            //   label: (item: ChartTooltipItem, result: ChartData) => {
-            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-            //     const label: string = dataset.label;
-            //     const value: number = dataItem as number;
-            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
-            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
-            //   },
-            // },
-          },
-          annotation: {
-            annotations: [
-              {
-                type: 'line',
-                // mode: 'horizontal',
-                scaleID: 'y-axis-0',
-                value: this.projectionsSummary.recommended,
-                borderWidth: 2.0,
-                borderColor: 'rgba(200,0,0,0.5)',
-                label: {
-                  // enabled: true,
-                  content: 'Threshold: ' + this.projectionsSummary.recommended,
-                  backgroundColor: 'rgba(200,0,0,0.8)',
-                },
-              },
-            ],
-          },
+      const datasets = new Array<ChartDataset>();
+      // Iterate through each scenario array and create ChartDataset object to be injected into chart
+      scenarioArrays.forEach((array: Array<ProjectedAvailability>) => {
+        const scenarioDetails: ChartDataset = {
+          label: array[0].scenario,
+          data: array.map((item) => item.data[micronutrient.id].value),
+          fill: false,
+          borderColor: ColourPalette.generateRandomColour(array[0].scenario),
+        };
+        datasets.push(scenarioDetails);
+      });
+
+      const ctx = this.c1.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: scenarioArrays[0].map((item) => item.year),
+          datasets: datasets,
         },
-        scales: {
-          x: {},
-          y: {
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
             title: {
+              display: false,
+              text: this.title,
+            },
+            legend: {
               display: true,
-              text: micronutrient.name + ' availability in ' + micronutrient.unit + '/capita/day',
+              position: 'bottom',
+              align: 'center',
+            },
+            tooltip: {
+              // callbacks: { // TODO: fix chart
+              //   label: (item: ChartTooltipItem, result: ChartData) => {
+              //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+              //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+              //     const label: string = dataset.label;
+              //     const value: number = dataItem as number;
+              //     const sigFigLength = Math.ceil(Math.log10(value + 1));
+              //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+              //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+              //   },
+              // },
+            },
+            annotation: {
+              annotations: [
+                {
+                  type: 'line',
+                  // mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: this.projectionsSummary.recommended,
+                  borderWidth: 2.0,
+                  borderColor: 'rgba(200,0,0,0.5)',
+                  label: {
+                    // enabled: true,
+                    content: 'Threshold: ' + this.projectionsSummary.recommended,
+                    backgroundColor: 'rgba(200,0,0,0.8)',
+                  },
+                },
+              ],
+            },
+          },
+          scales: {
+            x: {},
+            y: {
+              title: {
+                display: true,
+                text: micronutrient.name + ' availability in ' + micronutrient.unit + '/capita/day',
+              },
             },
           },
         },
-      },
-    });
-    this.chartData = generatedChart;
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      });
+      this.chartData = generatedChart;
+      // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
+      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
   }
+
   private openDialog(): void {
     void this.dialogService.openDialogForComponent<ProjectionAvailabilityDialogData>(ProjectionAvailabilityComponent, {
       title: this.title,

@@ -7,6 +7,7 @@ import {
   Inject,
   AfterViewInit,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -21,7 +22,16 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 // import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { Chart } from 'chart.js';
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { FoodSourceGroup } from 'src/app/apiAndObjects/objects/enums/foodSourceGroup.enum';
@@ -47,6 +57,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
+  @ViewChild('stackedChart') public c1!: ElementRef<HTMLCanvasElement>;
 
   @Input() card: CardComponent;
 
@@ -77,6 +88,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
+  private counter = 0;
 
   constructor(
     private dictionaryService: DictionaryService,
@@ -123,6 +135,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     });
   }
 
+  ngOnInit(): void {
+    Chart.register(PointElement, CategoryScale, LinearScale, LineController, BarElement, LineElement);
+  }
+
   ngAfterViewInit(): void {
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
@@ -151,6 +167,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.chartData.destroy();
   }
 
   public navigateToInfoTab(): void {
@@ -239,57 +259,61 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private initialiseGraph(stackedChartData: any): void {
     // TODO: fix chart any
-    const generatedChart = new Chart('chartData', {
-      type: 'bar',
-      data: stackedChartData,
-      options: {
-        plugins: {
-          title: {
-            display: false,
-            text: this.title,
-          },
-          legend: {
-            display: true,
-            position: 'bottom',
-            align: 'center',
-          },
-          tooltip: {
-            // callbacks: { // TODO: fix chart
-            //   label: (item: ChartTooltipItem, result: ChartData) => {
-            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-            //     const label: string = dataset.label;
-            //     const value: number = dataItem as number;
-            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
-            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-            //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
-            //   },
-            // },
-          },
-        },
+    this.counter++;
 
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-          },
-
-          y: {
-            stacked: true,
+    if (this.counter === 1) {
+      const ctx = this.c1.nativeElement.getContext('2d');
+      console.log(ctx);
+      const generatedChart = new Chart(ctx, {
+        type: 'bar',
+        data: stackedChartData,
+        options: {
+          plugins: {
             title: {
+              display: false,
+              text: this.title,
+            },
+            legend: {
               display: true,
-              text: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
+              position: 'bottom',
+              align: 'center',
+            },
+            tooltip: {
+              // callbacks: { // TODO: fix chart
+              //   label: (item: ChartTooltipItem, result: ChartData) => {
+              //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+              //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+              //     const label: string = dataset.label;
+              //     const value: number = dataItem as number;
+              //     const sigFigLength = Math.ceil(Math.log10(value + 1));
+              //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+              //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+              //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+              //   },
+              // },
+            },
+          },
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: true,
+            },
+
+            y: {
+              stacked: true,
+              title: {
+                display: true,
+                text: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
+              },
             },
           },
         },
-      },
-    });
-
-    this.chartData = generatedChart;
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      });
+      this.chartData = generatedChart;
+    }
+    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {

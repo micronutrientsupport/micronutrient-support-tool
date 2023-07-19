@@ -20,7 +20,7 @@
         </mat-form-field>
         <!-- <ngx-chartjs *ngIf="chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
           [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs> -->
-        <canvas id="histo">{{ chartData }}</canvas>
+        <canvas #histo>{{ chartData }}</canvas>
 
         <div class="status-chart-header">Descriptive Statistics</div>
 
