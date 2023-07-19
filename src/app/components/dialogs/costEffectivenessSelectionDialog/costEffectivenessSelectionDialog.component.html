@@ -20,7 +20,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <ng-container *ngIf="selectedInterventionEdit">
+        <ng-container *ngIf="selectedInterventionEdit && interventionForm">
           <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
             <mat-form-field appearance="outline">
               <mat-label>Intervention name</mat-label>
@@ -108,7 +108,7 @@
             </ng-container>
           </ng-container>
           <!-- <ng-container *ngIf="selectedInterventionIDLoad === '' && null !== interventionPreview">
-      
+
                   <p> Insert a recent intervention ID.</p>
                 </ng-container> -->
           <ng-container *ngIf="interventionPreview?.isTemplateIntervention">
