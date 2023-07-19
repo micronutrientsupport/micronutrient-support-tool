@@ -120,7 +120,6 @@ export class InterventionComplianceComponent implements OnInit {
                         if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
                           const diff = compareObjs(oldState.items[key], newState.items[key]);
                           if (Array.isArray(diff) && diff.length > 0) {
-                            console.debug('bing');
                             diff.forEach((item) => {
                               if (rowUnits === 'percent') {
                                 if (changes[rowIndex]) {

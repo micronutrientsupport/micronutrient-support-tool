@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -19,7 +19,6 @@ export class InterventionComponent {
   constructor(
     private readonly interventionDataService: InterventionDataService,
     private interventionCreationService: InterventionCreationService,
-    private readonly router: Router,
     public route: ActivatedRoute,
   ) {}
 
