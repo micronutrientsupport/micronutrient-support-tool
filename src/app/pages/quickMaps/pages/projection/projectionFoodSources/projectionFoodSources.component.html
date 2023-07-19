@@ -27,9 +27,10 @@
         </form>
       </div>
 
-      <ngx-chartjs class="panelChart" id="stacked-chart" *ngIf="chartData" [data]="chartData.data"
+      <canvas id="stacked-chart">{{ chartData }}</canvas>
+      <!-- <ngx-chartjs class="panelChart" id="stacked-chart" *ngIf="chartData" [data]="chartData.data"
         [type]="chartData.type" [options]="chartData.options">
-      </ngx-chartjs>
+      </ngx-chartjs> -->
 
 
     </mat-tab>

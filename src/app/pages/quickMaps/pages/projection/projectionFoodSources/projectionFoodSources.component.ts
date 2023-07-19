@@ -55,7 +55,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public micronutrientsDictionary: Dictionary;
   public micronutrientName = '';
   public mnUnit = '';
-  public chartData: ChartJSObject;
+  public chartData: Chart;
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
   public impactScenariosDict: Dictionary;
@@ -237,56 +237,57 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseGraph(stackedChartData: ChartsJSDataObject): void {
-    const generatedChart: ChartJSObject = {
+  private initialiseGraph(stackedChartData: any): void {
+    // TODO: fix chart any
+    const generatedChart = new Chart('chartData', {
       type: 'bar',
       data: stackedChartData,
       options: {
-        title: {
-          display: false,
-          text: this.title,
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'center',
+          },
+          tooltip: {
+            // callbacks: { // TODO: fix chart
+            //   label: (item: ChartTooltipItem, result: ChartData) => {
+            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+            //     const label: string = dataset.label;
+            //     const value: number = dataItem as number;
+            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
+            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+            //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+            //   },
+            // },
+          },
         },
-        legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center',
-        },
+
         maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
-              stacked: true,
-            },
-          ],
-          yAxes: [
-            {
-              stacked: true,
-              scaleLabel: {
-                display: true,
-                labelString: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
-              },
-            },
-          ],
-        },
-        tooltips: {
-          callbacks: {
-            label: (item: ChartTooltipItem, result: ChartData) => {
-              const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              const label: string = dataset.label;
-              const value: number = dataItem as number;
-              const sigFigLength = Math.ceil(Math.log10(value + 1));
-              const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+          x: {
+            stacked: true,
+          },
+
+          y: {
+            stacked: true,
+            title: {
+              display: true,
+              text: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
             },
           },
         },
       },
-    };
+    });
 
     this.chartData = generatedChart;
-    const chartForRender: ChartJSObject = JSON.parse(JSON.stringify(generatedChart));
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
