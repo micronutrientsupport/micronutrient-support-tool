@@ -7,6 +7,7 @@ import {
   Inject,
   Optional,
   AfterViewInit,
+  ElementRef,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,9 +15,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-// import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem }
-import { Chart, TooltipItem } from 'chart.js';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { Chart, LinearScale } from 'chart.js';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -29,12 +28,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { TitleCasePipe } from '@angular/common';
-import { ChartDataset } from 'chart.js';
-import { Point } from 'chart.js';
 
 import { TreemapController, TreemapElement } from 'chartjs-chart-treemap';
-
-Chart.register(TreemapController, TreemapElement);
 
 // Uitlity type
 type Mutable<Type> = {
@@ -48,6 +43,7 @@ type Mutable<Type> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodItemsComponent implements AfterViewInit {
+  @ViewChild('chartDataGenus') public c1!: ElementRef<HTMLCanvasElement>;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -74,6 +70,8 @@ export class FoodItemsComponent implements AfterViewInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public tmpCounter = 0;
+
   constructor(
     private notificationService: NotificationsService,
     private dietDataService: DietDataService,
@@ -83,7 +81,9 @@ export class FoodItemsComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private titlecasePipe: TitleCasePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
-  ) {}
+  ) {
+    Chart.register(TreemapController, TreemapElement, LinearScale);
+  }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -150,8 +150,12 @@ export class FoodItemsComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        this.chartDataGenus = this.initTreemap(data, 'foodGenusName', 'foodGroupName', 'Food Genus');
-        this.chartDataGroup = this.initTreemap(data, 'foodGroupName', 'foodGroupName', 'Food Group');
+        if (this.tmpCounter === 0) {
+          this.chartDataGenus = this.initTreemap(data, 'foodGenusName', 'foodGroupName', 'Food Genus');
+          this.tmpCounter++;
+        }
+
+        // this.chartDataGroup = this.initTreemap(data, 'foodGroupName', 'foodGroupName', 'Food Group');
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -174,8 +178,10 @@ export class FoodItemsComponent implements AfterViewInit {
       value.foodGenusName = this.titlecasePipe.transform(value.foodGenusName);
       return value;
     }) as Array<TopFoodSource>;
-    console.debug(data);
-    const generatedChart = new Chart(dataField, {
+    // console.debug(data);
+    // console.log(this.c1.nativeElement, 'canvas');
+    const ctx = this.c1.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
       // const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
@@ -186,32 +192,32 @@ export class FoodItemsComponent implements AfterViewInit {
             tree: data as any,
             key: 'dailyMnContribution',
             groups: [dataField],
-            // captions: {
-            //   display: true,
-            //   color: '#ffffff',
-            //   font: {
-            //     family: 'Quicksand',
-            //     size: 12,
-            //     style: 'normal',
-            //   },
-            // },
-            // backgroundColor: (result: any) => {
-            //   // TODO: fix type
-            //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-            //   const groupedChartData: ChartDataset = result['dataset']['data'];
-            //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-            //   const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-            //   if (groupedChartDataAtCurrentIndex) {
-            //     // TODO: find a cleaner way to access this data
-            //     const backgroundTextString =
-            //       result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
-            //     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            //     //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
-            //     return this.genColorHex(backgroundTextString);
-            //   } else {
-            //     return '#000';
-            //   }
-            // },
+            captions: {
+              display: true,
+              color: '#ffffff',
+              font: {
+                family: 'Quicksand',
+                size: 12,
+                style: 'normal',
+              },
+            },
+            backgroundColor: (result: any) => {
+              // // TODO: fix type
+              // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              // const groupedChartData: ChartDataset = result['dataset']['data'];
+              // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              // const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
+              // if (groupedChartDataAtCurrentIndex) {
+              //   // TODO: find a cleaner way to access this data
+              //   const backgroundTextString =
+              //     result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
+              //   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              //   //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+              //   return this.genColorHex(backgroundTextString);
+              // } else {
+              return '#000';
+              // }
+            },
           },
         ],
       },
@@ -262,9 +268,9 @@ export class FoodItemsComponent implements AfterViewInit {
       },
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
     return generatedChart;
   }
