@@ -12,7 +12,6 @@ import { RouterModule } from '@angular/router';
 import { BiomarkerComponent } from './biomarker.component';
 import { BiomarkerDescriptionComponent } from './biomarkerDescription/biomarkerDescription.component';
 import { BiomarkerStatusComponent } from './biomarkerStatus/biomarkerStatus.component';
-import 'chartjs-chart-box-and-violin-plot';
 import { BiomarkerInfoComponent } from './biomarkerInfo/biomarkerInfo.component';
 import { BiomarkerOverviewComponent } from './biomarkerOverview/biomarkerOverview.component';
 import { StatusMapsComponent } from './biomarkerStatus/statusMaps/statusMaps.component';
