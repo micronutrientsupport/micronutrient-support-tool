@@ -1,9 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 // import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { Chart } from 'chart.js';
+import { BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import ColorHash from 'color-hash-ts';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -13,11 +22,11 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   templateUrl: './graphCosts.component.html',
   styleUrls: ['./graphCosts.component.scss'],
 })
-export class InterventionCostSummaryDetailedCostsGraphComponent implements OnInit {
+export class InterventionCostSummaryDetailedCostsGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() recurringCost: Array<RecurringCost>;
+  @ViewChild('barChart') public c1!: ElementRef<HTMLCanvasElement>;
 
   public chartData: Chart;
-
   public dataSource = new MatTableDataSource<RecurringCosts>();
   public displayHeaders = [
     'section',
@@ -32,18 +41,26 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
     'year8Total',
     'year9Total',
   ];
+  private counter = 0;
 
-  constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
+  constructor(
+    private qcService: QuickchartService,
+    private interventionDataService: InterventionDataService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
-    if (null != this.recurringCost) {
-      this.initialiseGraph();
-    }
+    Chart.register(CategoryScale, LinearScale, BarElement);
   }
 
-  // public openSectionCostReviewDialog(costs: RecurringCosts): void {
-  // console.debug(costs);
-  // }
+  ngAfterViewInit(): void {
+    this.initialiseGraph();
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.chartData.destroy();
+  }
 
   private initialiseGraph(): void {
     const timePeriod = ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
@@ -73,48 +90,49 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       });
     });
 
-    const generatedChart = new Chart('chartData', {
-      type: 'bar',
-      data: yearlyChartData,
-
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Annual undiscounted wheat flour fortification costs by activity',
-          },
-          legend: {
-            display: true,
-          },
-        },
-        scales: {
-          x: {
-            stacked: true,
-          },
-
-          y: {
-            stacked: true,
+    this.counter++;
+    if (this.counter === 1) {
+      const ctx = this.c1.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'bar',
+        data: yearlyChartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
             title: {
               display: true,
-              text: 'Thousands of 2021 USD',
+              text: 'Annual undiscounted wheat flour fortification costs by activity',
             },
-
-            display: true,
+            legend: {
+              display: true,
+            },
+          },
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+              title: {
+                display: true,
+                text: 'Thousands of 2021 USD',
+              },
+              display: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    this.chartData = generatedChart;
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    this.interventionDataService.setInterventionDetailedChartPNG(
-      this.qcService.getChartAsImageUrl(chartForRender, 'png'),
-    );
-    this.interventionDataService.setInterventionDetailedChartPDF(
-      this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
-    );
+      this.chartData = generatedChart;
+      // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
+      // this.interventionDataService.setInterventionDetailedChartPNG(
+      //   this.qcService.getChartAsImageUrl(chartForRender, 'png'),
+      // );
+      // this.interventionDataService.setInterventionDetailedChartPDF(
+      //   this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
+      // );
+    }
   }
 
   private genColorHex(foodTypeIndex: string) {
