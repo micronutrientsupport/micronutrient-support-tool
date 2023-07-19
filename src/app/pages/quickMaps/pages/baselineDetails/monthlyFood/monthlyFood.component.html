@@ -1,14 +1,14 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Stacked Bar">
-      <canvas id="stacked-chart">{{ chartDataStack }}</canvas>
+      <canvas #stackedChart>{{ chartDataStack }}</canvas>
       <!-- <ngx-chartjs id="stacked-chart" *ngIf="chartDataStack" [data]="chartDataStack.data" [type]="chartDataStack.type"
         [options]="chartDataStack.options">
       </ngx-chartjs> -->
     </mat-tab>
 
     <mat-tab label="Line Chart">
-      <canvas id="line-chart">{{ chartDataLine }}</canvas>
+      <canvas #lineChart>{{ chartDataLine }}</canvas>
       <!-- <ngx-chartjs id="line-chart" *ngIf="chartDataLine" [data]="chartDataLine.data" [type]="chartDataLine.type"
         [options]="chartDataLine.options">
       </ngx-chartjs> -->

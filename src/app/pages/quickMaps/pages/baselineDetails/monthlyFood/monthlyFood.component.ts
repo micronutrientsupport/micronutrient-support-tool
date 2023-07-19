@@ -7,11 +7,12 @@ import {
   Optional,
   Inject,
   AfterViewInit,
+  ElementRef,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 // import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { Chart } from 'chart.js';
+import { CategoryScale, Chart, LineController, LineElement, PointElement } from 'chart.js';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -34,7 +35,10 @@ import ColorHash from 'color-hash-ts';
 export class MonthlyFoodComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('stackedChart') public c1!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('lineChart') public c2: ElementRef<HTMLCanvasElement>;
   @Input() card: CardComponent;
+
   public title = 'Monthly apparent micronutrient intake';
   public selectedTab: number;
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
@@ -47,6 +51,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
   private subscriptions = new Array<Subscription>();
+  private stackedCounter = 0;
+  private lineCounter = 0;
 
   constructor(
     private notificationService: NotificationsService,
@@ -57,6 +63,10 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
   ) {}
+
+  ngOnInit(): void {
+    Chart.register(CategoryScale, LineController, PointElement, LineElement);
+  }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -91,6 +101,10 @@ export class MonthlyFoodComponent implements AfterViewInit {
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.chartDataStack.destroy();
   }
 
   public navigateToInfoTab(): void {
@@ -194,105 +208,112 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   private initialiseStackedGraph(monthlyChartData: any): void {
     // TODO: fix type
-    const generatedChart = new Chart('stacked-chart', {
-      type: 'bar',
-      data: monthlyChartData,
-      options: {
-        plugins: {
-          title: {
-            display: false,
-            text: this.title,
-          },
-          legend: {
-            display: false,
-            position: 'bottom',
-            align: 'center',
-          },
-          // tooltip: { // TODO: fix the tooltips
-          //   callbacks: {
-          //     label: (item, result) => {
-          //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
-          //     },
-          //   },
-          // },
-        },
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-          },
-
-          y: {
-            stacked: true,
-
-            min: 0,
-            max: 100,
-            ticks: {
-              stepSize: 10,
-            },
+    this.stackedCounter++;
+    if (this.stackedCounter === 1) {
+      const ctx = this.c1.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'bar',
+        data: monthlyChartData,
+        options: {
+          plugins: {
             title: {
-              display: true,
-              text: 'Percentage Contribution',
+              display: false,
+              text: this.title,
+            },
+            legend: {
+              display: false,
+              position: 'bottom',
+              align: 'center',
+            },
+            // tooltip: { // TODO: fix the tooltips
+            //   callbacks: {
+            //     label: (item, result) => {
+            //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+            //     },
+            //   },
+            // },
+          },
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+              min: 0,
+              max: 100,
+              ticks: {
+                stepSize: 10,
+              },
+              title: {
+                display: true,
+                text: 'Percentage Contribution',
+              },
             },
           },
         },
-      },
-    });
-    this.chartDataStack = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      });
+      this.chartDataStack = generatedChart;
+      // const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
+      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
   }
+
   private initialiseLineGraph(monthlyChartData: any): void {
     // TODO: fix type
-    const generatedChart = new Chart('line-chart', {
-      type: 'line',
-      data: monthlyChartData,
-      options: {
-        plugins: {
-          title: {
-            display: false,
-            text: this.title,
-          },
-          legend: {
-            display: false,
-            position: 'bottom',
-            align: 'center',
-          },
-          // tooltip: { // TODO: fix the tooltips
-          //   callbacks: {
-          //     label: (item, result) => {
-          //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
-          //     },
-          //   },
-          // },
-        },
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-          },
-
-          y: {
-            stacked: true,
-
-            min: 0,
-            max: 100,
-            ticks: {
-              stepSize: 10,
-            },
+    this.lineCounter++;
+    if (this.lineCounter === 1) {
+      const ctx = this.c2.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'line',
+        data: monthlyChartData,
+        options: {
+          plugins: {
             title: {
-              display: true,
-              text: 'Percentage Contribution',
+              display: false,
+              text: this.title,
+            },
+            legend: {
+              display: false,
+              position: 'bottom',
+              align: 'center',
+            },
+            // tooltip: { // TODO: fix the tooltips
+            //   callbacks: {
+            //     label: (item, result) => {
+            //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+            //     },
+            //   },
+            // },
+          },
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              stacked: true,
+            },
+
+            y: {
+              stacked: true,
+
+              min: 0,
+              max: 100,
+              ticks: {
+                stepSize: 10,
+              },
+              title: {
+                display: true,
+                text: 'Percentage Contribution',
+              },
             },
           },
         },
-      },
-    });
-    this.chartDataLine = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      });
+      this.chartDataLine = generatedChart;
+      // const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
+      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    }
   }
 
   private genColorHex(foodTypeIndex: string) {
