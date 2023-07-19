@@ -188,35 +188,41 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             data: [],
-            // tree: [15, 6, 6, 5, 4, 3, 2, 2], // TODO: use real data format
             tree: data as any,
             key: 'dailyMnContribution',
             groups: [dataField],
-            captions: {
+            labels: {
               display: true,
+              overflow: 'fit',
+              position: 'middle',
+              align: 'center',
+              padding: 0,
               color: '#ffffff',
               font: {
                 family: 'Quicksand',
                 size: 12,
                 style: 'normal',
               },
+              formatter(ctx) {
+                return ctx.raw.g.split(','); // split the results into multiple lines
+              },
             },
             backgroundColor: (result: any) => {
-              // // TODO: fix type
-              // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              // const groupedChartData: ChartDataset = result['dataset']['data'];
-              // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              // const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-              // if (groupedChartDataAtCurrentIndex) {
-              //   // TODO: find a cleaner way to access this data
-              //   const backgroundTextString =
-              //     result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
-              //   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              //   //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
-              //   return this.genColorHex(backgroundTextString);
-              // } else {
-              return '#000';
-              // }
+              // // TODO: fix chart type
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartData: any = result['dataset']['data'];
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+              const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
+              if (groupedChartDataAtCurrentIndex) {
+                // TODO: find a cleaner way to access this data
+                const backgroundTextString =
+                  result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
+                return this.genColorHex(backgroundTextString);
+              } else {
+                return '#000';
+              }
             },
           },
         ],
@@ -243,6 +249,7 @@ export class FoodItemsComponent implements AfterViewInit {
               },
               label: (item: any) => {
                 // TODO: fix type
+                console.debug(item);
                 return 'string';
                 // const dataset: ChartDataset = result.datasets[item.datasetIndex];
                 // const dataItem: number | number[] | Point = dataset.data[item.index];
