@@ -88,7 +88,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private counter = 0;
+  private chartInitialised = false;
 
   constructor(
     private dictionaryService: DictionaryService,
@@ -121,6 +121,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         .find((item) => item.isBaseline);
 
       this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value) => {
+        this.chartInitialised = false;
+        this.chartData.destroy();
         this.init();
         this.selectedGroup = value;
       });
@@ -207,7 +209,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             throw new Error('data error');
           }
 
-          //
           this.dataSource = new MatTableDataSource(data);
           // this.csvDownloadData.push(data);
 
@@ -233,17 +234,20 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           const tableData = data.filter((item) => String(item.year) === selectedYearString);
 
           this.errorSrc.next(false);
-          this.chartData = null;
+          // this.chartData = null;
 
           // remove chart before re-setting it to stop js error
           this.cdr.detectChanges();
 
-          this.initialiseGraph(stackedChartData);
+          if (!this.chartInitialised) {
+            this.initialiseGraph(stackedChartData);
+          }
           this.initialiseTable(tableData);
         })
         .finally(() => {
           this.loadingSrc.next(false);
           this.cdr.detectChanges();
+          this.chartInitialised = true;
         })
         .catch((e) => {
           this.errorSrc.next(true);
@@ -259,58 +263,52 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private initialiseGraph(stackedChartData: any): void {
     // TODO: fix chart any
-    this.counter++;
-
-    if (this.counter === 1) {
-      const ctx = this.c1.nativeElement.getContext('2d');
-      console.log(ctx);
-      const generatedChart = new Chart(ctx, {
-        type: 'bar',
-        data: stackedChartData,
-        options: {
-          plugins: {
-            title: {
-              display: false,
-              text: this.title,
-            },
-            legend: {
-              display: true,
-              position: 'bottom',
-              align: 'center',
-            },
-            tooltip: {
-              // callbacks: { // TODO: fix chart
-              //   label: (item: ChartTooltipItem, result: ChartData) => {
-              //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-              //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-              //     const label: string = dataset.label;
-              //     const value: number = dataItem as number;
-              //     const sigFigLength = Math.ceil(Math.log10(value + 1));
-              //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-              //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
-              //   },
-              // },
-            },
+    const ctx = this.c1.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
+      type: 'bar',
+      data: stackedChartData,
+      options: {
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
           },
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              stacked: true,
-            },
-
-            y: {
-              stacked: true,
-              title: {
-                display: true,
-                text: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
-              },
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'center',
+          },
+          tooltip: {
+            // callbacks: { // TODO: fix chart
+            //   label: (item: ChartTooltipItem, result: ChartData) => {
+            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
+            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
+            //     const label: string = dataset.label;
+            //     const value: number = dataItem as number;
+            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
+            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+            //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+            //   },
+            // },
+          },
+        },
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+            title: {
+              display: true,
+              text: this.micronutrientName + ' in ' + this.mnUnit + '/capita/day',
             },
           },
         },
-      });
-      this.chartData = generatedChart;
-    }
+      },
+    });
+    this.chartData = generatedChart;
     // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
     // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
@@ -330,9 +328,3 @@ export interface ProjectionFoodSourcesDialogData {
   data: Array<MicronutrientProjectionSource>;
   selectedTab: number;
 }
-
-// export interface MicronutrientProjectionSourceTable {
-//   year: number;
-//   foodName: string;
-//   value: number;
-// }

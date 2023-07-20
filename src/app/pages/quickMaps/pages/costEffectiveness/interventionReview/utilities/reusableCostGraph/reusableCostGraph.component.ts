@@ -43,7 +43,9 @@ export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDest
   }
 
   ngOnDestroy(): void {
-    this.costChart.destroy();
+    if (this.costChart) {
+      this.costChart.destroy();
+    }
   }
 
   private initChartData(): void {
