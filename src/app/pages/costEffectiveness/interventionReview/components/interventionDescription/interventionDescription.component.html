@@ -7,8 +7,8 @@
   </div>
 </div>
 
-<div class="intervention-summary-title">{{ (quickMapsService.micronutrient.obs | async)?.name }} intervention in {{
-  (quickMapsService.country.obs | async)?.name }}</div>
+<div class="intervention-summary-title">{{ activeMn }} intervention in {{
+  activeCountry }}</div>
 <div class="intervention-summary-panel">
   <div class="item">
     <div class="title">Food Vehicle:</div>
@@ -16,7 +16,7 @@
   </div>
   <div class="item">
     <div class="title">Micronutrient:</div>
-    <div class="value">{{ (quickMapsService.micronutrient.obs | async)?.name }}</div>
+    <div class="value">{{ activeMn }}</div>
   </div>
   <div class="item">
     <div class="title">Status:</div>

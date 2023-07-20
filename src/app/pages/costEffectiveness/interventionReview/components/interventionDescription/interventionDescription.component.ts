@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
+import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 
@@ -17,6 +22,9 @@ import { UserLoginService } from 'src/app/services/userLogin.service';
 export class InterventionDescriptionComponent {
   public ROUTES = AppRoutes;
   public selectedIntervention: Intervention;
+  public activeMn = '';
+  public activeCountry = '';
+
   constructor(
     public quickMapsService: QuickMapsService,
     private readonly interventionDataService: InterventionDataService,
@@ -24,31 +32,42 @@ export class InterventionDescriptionComponent {
     private readonly userLoginService: UserLoginService,
     private readonly dialogService: DialogService,
     private router: Router,
+    private dictionaryService: DictionaryService,
   ) {
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
       .then((selectedIntervention: Intervention) => {
         this.selectedIntervention = selectedIntervention;
         /** Undefined response means that session token is invalid. */
-        if (undefined == this.selectedIntervention) {
+        if (undefined != this.selectedIntervention) {
+          this.getSelectedCountryMnValues();
+        } else if (undefined == this.selectedIntervention) {
           /** If a user is logged in with an invalid session token then log them out */
           this.userLoginService.setActiveUser(null);
           /** Ask user to login */
           this.dialogService.openLoginDialog().then((data: DialogData) => {
-            console.debug('data', data);
             /** If they successfully log back in then repeat the call with a valid session token */
             if (data.dataOut) {
               this.interventionDataService
                 .getIntervention(this.interventionDataService.getActiveInterventionId())
-                .then(
-                  (selectedInterventionSecondAttempt: Intervention) =>
-                    (this.selectedIntervention = selectedInterventionSecondAttempt),
-                );
+                .then((selectedInterventionSecondAttempt: Intervention) => {
+                  this.selectedIntervention = selectedInterventionSecondAttempt;
+                  this.getSelectedCountryMnValues();
+                });
             } else {
               this.router.navigate(this.ROUTES.COST_EFFECTIVENESS.getRoute());
             }
           });
         }
+      });
+  }
+
+  public getSelectedCountryMnValues(): void {
+    this.dictionaryService
+      .getDictionaries([DictionaryType.MICRONUTRIENTS, DictionaryType.COUNTRIES], true)
+      .then((dictionary: Array<Dictionary>) => {
+        this.activeMn = dictionary.shift().getItem(this.selectedIntervention.focusMicronutrient).name;
+        this.activeCountry = dictionary.pop().getItem(this.selectedIntervention.countryId).name;
       });
   }
 
