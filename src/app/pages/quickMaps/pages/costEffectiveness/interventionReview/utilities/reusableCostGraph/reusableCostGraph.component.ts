@@ -1,142 +1,174 @@
-import { Component, Input, OnInit } from '@angular/core';
-// import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { Chart } from 'chart.js';
+import { ArcElement, CategoryScale, Chart, ChartData, Color, Legend, PieController, TooltipItem } from 'chart.js';
 import { StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { Tooltip } from 'chart.js';
 
 @Component({
   selector: 'app-reusable-cost-graph',
   templateUrl: './reusableCostGraph.component.html',
   styleUrls: ['./reusableCostGraph.component.scss'],
 })
-export class ReusableCostGraphComponent implements OnInit {
-  public costChart: Chart<'pie'>;
+export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() costData: RecurringCost | StartUpScaleUpCost;
+  @ViewChild('pieChart') public c1!: ElementRef<HTMLCanvasElement>;
 
-  public chartColours: Array<string> = ['#703aa3', '#1c0d31', '#dca9a7', '#763671', '#98557d', '#461e53'];
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  public costChart: Chart<'pie'>;
+  public chartColours: Array<Color> = ['#703aa3', '#1c0d31', '#dca9a7', '#763671', '#98557d', '#461e53'];
+  public canRenderChart = true;
+  private chartData: ChartData<'pie'>;
 
   ngOnInit(): void {
-    if (null != this.costData) {
-      this.initialiseCostPieChart(this.costData);
+    this.initChartData();
+    Chart.register(PieController, ArcElement, Legend, Tooltip, CategoryScale);
+    Chart.defaults.font.family = 'Quicksand, sans-serif';
+  }
+
+  ngAfterViewInit(): void {
+    if (null != this.chartData) {
+      this.initialiseCostPieChart();
+      this.cdr.detectChanges();
     }
   }
 
-  private initialiseCostPieChart(costData) {
-    const chartLabels = <Array<string>>[...new Set(costData.costs.map((item) => item.section))];
+  ngOnDestroy(): void {
+    this.costChart.destroy();
+  }
 
-    // init the pie chart
+  private initChartData(): void {
+    const data = [];
+    this.costData.costs.forEach((cost) => {
+      let total = 0;
+      Object.entries(cost).forEach(([key, value]) => {
+        if (/year\dTotal/.test(key)) {
+          total += Number(value);
+        }
+      });
+      data.push(Number(Number(total).toFixed(2)));
+    });
+
+    this.canRenderChart = !data.every((item) => item === 0);
+
+    const chartLabels = <Array<string>>[...new Set(this.costData.costs.map((item) => item.section))];
     const chartData = {
       labels: chartLabels,
       datasets: [
         {
-          label: costData.category,
-          data: [],
-          // backgroundColor: () => this.chartColours,
-          // hoverBorderColor: this.chartColours,
-          // borderWidth: 0,
-          // hoverBorderWidth: 3,
-          // hoverOffset: 5,
+          label: this.costData.category,
+          data: data,
+          backgroundColor: this.chartColours,
+          hoverBorderColor: this.chartColours,
         },
       ],
     };
+    this.chartData = chartData;
+  }
 
-    costData.costs.forEach((cost) => {
-      let total = 0;
-      Object.entries(cost).forEach(([key, value]) => {
-        if (/year\dTotal/.test(key)) total += +value;
-      });
-      chartData.datasets[0].data.push(Number(total).toFixed(2));
-    });
+  private initialiseCostPieChart() {
+    if (this.c1) {
+      const ctx = this.c1.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'pie',
+        data: this.chartData,
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              onClick: () => {
+                return null;
+              },
+              labels: {
+                generateLabels: (chart: Chart) => {
+                  const data = chart.data;
+                  if (data.labels.length && data.datasets.length) {
+                    return data.labels.map((label, i) => {
+                      const meta = chart.getDatasetMeta(0);
+                      const ds = data.datasets[0];
+                      const arc = meta.data[i];
 
-    const generatedChart = new Chart('pie-chart', {
-      type: 'pie',
-      data: chartData,
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'right',
-            onClick: () => {
-              return null;
+                      if (arc.options != null) {
+                        const fill = arc.options.backgroundColor;
+                        const stroke = arc.options.stroke;
+                        const borderWidth = arc.options.borderWidth;
+                        const value = ds.data[arc['$context'].dataIndex];
+
+                        return {
+                          text:
+                            label +
+                            '(' +
+                            Number(value).toLocaleString('en-US', {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                              style: 'currency',
+                              currency: 'USD',
+                            }) +
+                            ')',
+                          fillStyle: fill,
+                          strokeStyle: stroke,
+                          lineWidth: borderWidth,
+                          hidden: isNaN(value as number),
+                          index: i,
+                        };
+                      } else {
+                        return {
+                          text: 'Label',
+                          fillStyle: 'rgb(156, 211, 72)',
+                          lineWidth: 2,
+                          index: i,
+                        };
+                      }
+                    });
+                  } else {
+                    return [];
+                  }
+                },
+                usePointStyle: true,
+              },
             },
-            // labels: { // TODO: chart fix labels
-            //   generateLabels: (chart) => {
-            //     const data = chart.data;
-            //     if (data.labels.length && data.datasets.length) {
-            //       return data.labels.map(function (label, i) {
-            //         const meta = chart.getDatasetMeta(0);
-            //         const ds = data.datasets[0];
-            //         const arc = meta.data[i];
-            //         const custom = (arc && arc.custom) || {};
-            //         const getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
-            //         const arcOpts = chart.options.elements.arc;
-            //         const fill = custom.backgroundColor
-            //           ? custom.backgroundColor
-            //           : getValueAtIndexOrDefault(ds.backgroundColor(), i, arcOpts.backgroundColor);
-            //         const stroke = custom.borderColor
-            //           ? custom.borderColor
-            //           : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
-            //         const bw = custom.borderWidth
-            //           ? custom.borderWidth
-            //           : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
-
-            //         // value of the current label
-            //         const value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
-
-            //         return {
-            //           // add the value to the string
-            //           text:
-            //             label +
-            //             ' (' +
-            //             (+value).toLocaleString('en-US', {
-            //               minimumFractionDigits: 2,
-            //               maximumFractionDigits: 2,
-            //               style: 'currency',
-            //               currency: 'USD',
-            //             }) +
-            //             ')',
-            //           fillStyle: fill,
-            //           strokeStyle: stroke,
-            //           lineWidth: bw,
-            //           hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
-            //           index: i,
-            //         };
-            //       });
-            //     } else {
-            //       return [];
-            //     }
-            //   },
-            //   usePointStyle: true,
-            // },
-          },
-          tooltip: {
-            // callbacks: {
-            //   title: (item: Chart.ChartTooltipItem, data: Chart.ChartData) => {
-            //     return data.labels[item[0].index];
-            //   },
-            //   label: (item: Chart.ChartTooltipItem, data: Chart.ChartData) => {
-            //     const dataset_value = data.datasets[item.datasetIndex].data[item.index];
-            //     return (+dataset_value).toLocaleString('en-US', {
-            //       minimumFractionDigits: 2,
-            //       maximumFractionDigits: 2,
-            //       style: 'currency',
-            //       currency: 'USD',
-            //     });
-            //   },
-            // },
-            // backgroundColor: '#fff',
-            // titleFontSize: 16,
-            // titleFontColor: '#000',
-            // bodyFontSize: 14,
-            // bodyFontColor: '#000',
-            // borderWidth: 1,
-            // borderColor: '#000',
+            tooltip: {
+              callbacks: {
+                title: (tooltipItems: TooltipItem<'pie'>[]) => {
+                  return tooltipItems[0].label;
+                },
+                label: (tooltipItem: TooltipItem<'pie'>) => {
+                  const datasetVal = tooltipItem.dataset.data[tooltipItem.dataIndex];
+                  return datasetVal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    style: 'currency',
+                    currency: 'USD',
+                  });
+                },
+              },
+              backgroundColor: '#fff',
+              titleColor: '#000',
+              titleFont: {
+                size: 16,
+              },
+              bodyColor: '#000',
+              bodyFont: {
+                size: 16,
+              },
+              borderWidth: 1,
+              borderColor: '#000',
+            },
           },
         },
-      },
-    });
-
-    this.costChart = generatedChart;
+      });
+      this.costChart = generatedChart;
+    }
   }
 }
