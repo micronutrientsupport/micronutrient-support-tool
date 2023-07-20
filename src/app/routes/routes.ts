@@ -116,11 +116,6 @@ export class AppRoutes {
     segments: 'dietary-change',
     parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
-  // public static readonly COST_EFFECTIVENESS = {
-  //   ...BASE_ROUTE,
-  //   segments: 'cost-effectiveness',
-  //   parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
-  // };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,
     segments: 'biomarker',
@@ -131,9 +126,9 @@ export class AppRoutes {
    */
 
   /**
-   * *** CostEffectiveness start ***
-   * used in CostEffectiveness sub-router
-   * {@link CostEffectivenessRoutingModule}
+   * *** Intervention Review start ***
+   * used in Intervention Review sub-router
+   * {@link InterventionReviewRoutingModule}
    */
   //
 
@@ -190,7 +185,7 @@ export class AppRoutes {
   };
 
   /**
-   * *** CostEffectiveness end ***
+   * *** Intervention Review end ***
    */
 }
 

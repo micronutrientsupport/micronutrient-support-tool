@@ -118,15 +118,15 @@ const routes: Routes = [
     } as RouteData,
   },
   {
-    path: AppRoutes.QUICK_MAPS.getRouterPath(),
-    loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
-  },
-  {
     path: AppRoutes.COST_EFFECTIVENESS.getRouterPath(),
     loadChildren: () =>
       import('src/app/pages/costEffectiveness/interventionReview/interventionReview.module').then(
         (m) => m.InterventionReviewModule,
       ),
+  },
+  {
+    path: AppRoutes.QUICK_MAPS.getRouterPath(),
+    loadChildren: () => import('./pages/quickMaps/quickMaps.module').then((m) => m.QuickMapsModule),
   },
   {
     path: '**',
