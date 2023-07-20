@@ -1,5 +1,4 @@
 // @import 'src/assets/scss/_colour';
-
 .container {
   display: flex;
   flex-flow: row;
@@ -32,11 +31,20 @@
   height: fit-content;
   background-color: yellow;
 }
+
 .panelInput {
-  position: absolute !important;
+  position: fixed !important;
   height: 60px !important;
   width: 100% !important;
+  background: #ffffff;
+  padding: 1rem;
+  border-bottom: 1px solid #efefef;
 }
+
+.canvas-wrapper {
+  padding-top: 8rem;
+}
+
 .panelChart {
   position: absolute !important;
   height: calc(100% - 60px) !important;
@@ -55,6 +63,7 @@
     display: none;
   }
 }
+
 @media screen and (max-width: 1200px) {
   #chart-text-grouped-by {
     font-size: 11px;
