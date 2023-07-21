@@ -15,7 +15,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-import { Chart, LinearScale, TooltipItem, Tooltip } from 'chart.js';
+import { Chart, LinearScale, TooltipItem, Tooltip } from 'chart.js/auto';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -43,7 +43,8 @@ type Mutable<Type> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoodItemsComponent implements AfterViewInit {
-  @ViewChild('chartDataGenus') public c1!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartDataGenus') public chartDataGenusCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartDataGroup') public chartDataGroupCanvas: ElementRef<HTMLCanvasElement>;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -141,8 +142,8 @@ export class FoodItemsComponent implements AfterViewInit {
         // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
-        this.chartDataGroup = null;
-        this.chartDataGenus = null;
+        // this.chartDataGroup = null;
+        // this.chartDataGenus = null;
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
@@ -150,12 +151,44 @@ export class FoodItemsComponent implements AfterViewInit {
 
         this.dataSource.sort = this.sort;
 
-        if (this.tmpCounter === 0) {
-          this.chartDataGenus = this.initTreemap(data, 'foodGenusName', 'foodGroupName', 'Food Genus');
-          this.tmpCounter++;
+        // if chart exists, does the data match existing i.e. no need to updatw
+        if (this.chartDataGenus) {
+          this.chartDataGenus.destroy();
+          this.chartDataGenus = this.initTreemap(
+            data,
+            'foodGenusName',
+            'foodGroupName',
+            'Food Genus',
+            this.chartDataGenusCanvas,
+          );
+        } else {
+          this.chartDataGenus = this.initTreemap(
+            data,
+            'foodGenusName',
+            'foodGroupName',
+            'Food Genus',
+            this.chartDataGenusCanvas,
+          );
         }
 
-        // this.chartDataGroup = this.initTreemap(data, 'foodGroupName', 'foodGroupName', 'Food Group');
+        if (this.chartDataGroup) {
+          this.chartDataGroup.destroy();
+          this.chartDataGroup = this.initTreemap(
+            data,
+            'foodGroupName',
+            'foodGroupName',
+            'Food Group',
+            this.chartDataGroupCanvas,
+          );
+        } else {
+          this.chartDataGroup = this.initTreemap(
+            data,
+            'foodGroupName',
+            'foodGroupName',
+            'Food Group',
+            this.chartDataGroupCanvas,
+          );
+        }
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -172,6 +205,7 @@ export class FoodItemsComponent implements AfterViewInit {
     dataField: string,
     backgroundFillField: string,
     tooltipTitle: string,
+    canvas: ElementRef<HTMLCanvasElement>,
   ): Chart {
     // Convert foodGenusName to titlecase
     data = (data as Array<Mutable<TopFoodSource>>).map((value) => {
@@ -180,7 +214,14 @@ export class FoodItemsComponent implements AfterViewInit {
     }) as Array<TopFoodSource>;
     // console.debug(data);
     // console.log(this.c1.nativeElement, 'canvas');
-    const ctx = this.c1.nativeElement.getContext('2d');
+    const ctx = canvas.nativeElement.getContext('2d');
+    // if (this.chartDataGenus) {
+    //   this.chartDataGenus.destroy();
+    // }
+    // if (this.chartDataGroup) {
+    //   this.chartDataGroup.destroy();
+    // }
+
     const generatedChart = new Chart(ctx, {
       // const generatedChart: ChartJSObject = {
       type: 'treemap',
