@@ -251,6 +251,16 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
             },
           },
+          // legend: {
+          //   display: false,
+          // },
+          // tooltip: { // TODO: fix the tooltips
+          //   callbacks: {
+          //     label: (item, result) => {
+          //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+          //     },
+          //   },
+          // },
         },
       });
       this.chartDataStack = generatedChart;
@@ -306,6 +316,18 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
             },
           },
+          // legend: {
+          //   display: false,
+          //   position: 'bottom',
+          //   align: 'center',
+          // },
+          // tooltip: { // TODO: fix the tooltips
+          //   callbacks: {
+          //     label: (item, result) => {
+          //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+          //     },
+          //   },
+          // },
         },
       });
       this.chartDataLine = generatedChart;
