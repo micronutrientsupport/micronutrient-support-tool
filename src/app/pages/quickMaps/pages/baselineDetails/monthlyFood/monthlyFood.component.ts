@@ -12,7 +12,7 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 // import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { CategoryScale, Chart, LineController, LineElement, PointElement } from 'chart.js';
+import { CategoryScale, Chart, LineController, LineElement, PointElement, TooltipItem } from 'chart.js';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -25,6 +25,7 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import ColorHash from 'color-hash-ts';
+import { Tooltip } from 'chart.js';
 
 @Component({
   selector: 'app-monthly-food',
@@ -51,8 +52,8 @@ export class MonthlyFoodComponent implements AfterViewInit {
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
   private subscriptions = new Array<Subscription>();
-  private stackedCounter = 0;
-  private lineCounter = 0;
+  private stackedChartInitialised = false;
+  private lineChartInitialised = false;
 
   constructor(
     private notificationService: NotificationsService,
@@ -65,7 +66,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    Chart.register(CategoryScale, LineController, PointElement, LineElement);
+    Chart.register(CategoryScale, LineController, PointElement, LineElement, Tooltip);
   }
 
   ngAfterViewInit(): void {
@@ -208,8 +209,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
 
   private initialiseStackedGraph(monthlyChartData: any): void {
     // TODO: fix type
-    this.stackedCounter++;
-    if (this.stackedCounter === 1) {
+    if (!this.stackedChartInitialised) {
       const ctx = this.c1.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
         type: 'bar',
@@ -225,13 +225,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
               position: 'bottom',
               align: 'center',
             },
-            // tooltip: { // TODO: fix the tooltips
-            //   callbacks: {
-            //     label: (item, result) => {
-            //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
-            //     },
-            //   },
-            // },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem: TooltipItem<'bar'>) => {
+                  return `${tooltipItem.label}: ${tooltipItem.formattedValue}%`;
+                },
+              },
+            },
           },
           maintainAspectRatio: false,
           scales: {
@@ -254,16 +254,17 @@ export class MonthlyFoodComponent implements AfterViewInit {
         },
       });
       this.chartDataStack = generatedChart;
-      // const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
-      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
+      this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+      this.stackedChartInitialised = true;
     }
   }
 
   private initialiseLineGraph(monthlyChartData: any): void {
     // TODO: fix type
-    this.lineCounter++;
-    if (this.lineCounter === 1) {
+    if (!this.lineChartInitialised) {
       const ctx = this.c2.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
         type: 'line',
@@ -279,23 +280,21 @@ export class MonthlyFoodComponent implements AfterViewInit {
               position: 'bottom',
               align: 'center',
             },
-            // tooltip: { // TODO: fix the tooltips
-            //   callbacks: {
-            //     label: (item, result) => {
-            //       return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
-            //     },
-            //   },
-            // },
+            tooltip: {
+              callbacks: {
+                label: (tooltipItem: TooltipItem<'bar'>) => {
+                  return `${tooltipItem.label}: ${tooltipItem.formattedValue}%`;
+                },
+              },
+            },
           },
           maintainAspectRatio: false,
           scales: {
             x: {
               stacked: true,
             },
-
             y: {
               stacked: true,
-
               min: 0,
               max: 100,
               ticks: {
@@ -310,9 +309,11 @@ export class MonthlyFoodComponent implements AfterViewInit {
         },
       });
       this.chartDataLine = generatedChart;
-      // const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
-      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+      const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as Chart;
+      this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+      this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+      this.lineChartInitialised = true;
     }
   }
 
