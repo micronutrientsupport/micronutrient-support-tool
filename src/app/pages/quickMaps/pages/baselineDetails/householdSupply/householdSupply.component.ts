@@ -56,7 +56,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private counter = 0;
+  private chartInitialised = false;
 
   constructor(
     private dietDataService: DietDataService,
@@ -106,6 +106,10 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.chartData.destroy();
   }
 
   public navigateToInfoTab(): void {
@@ -203,10 +207,9 @@ export class HouseholdSupplyComponent implements AfterViewInit {
   }
 
   private initialiseGraph(data: SummarizedData): void {
-    this.counter++;
-    const micronutrient = this.quickMapsService.micronutrient.get();
+    if (!this.chartInitialised) {
+      const micronutrient = this.quickMapsService.micronutrient.get();
 
-    if (this.counter === 1) {
       const ctx = this.c1.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
         type: 'bar',
@@ -308,6 +311,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       });
       this.chartData = generatedChart;
     }
+    this.chartInitialised = true;
 
     // TODO: fix this annotation
     // if (data.threshold && data.threshold > 0) {
