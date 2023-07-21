@@ -22,7 +22,6 @@ export class ShareDialogComponent {
     private clipboard: Clipboard,
     private notificationService: NotificationsService,
   ) {
-    console.debug(data.dataIn);
     this.copyLinkUrl = data.dataIn.shareLink;
     this.title = data.dataIn.title;
   }

@@ -7,6 +7,7 @@ import {
   Inject,
   AfterViewInit,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -21,7 +22,16 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 // import { ChartData, ChartDataSets, ChartPoint, ChartTooltipItem } from 'chart.js';
-import { Chart } from 'chart.js';
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  LineController,
+  LineElement,
+  LinearScale,
+  PointElement,
+} from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { FoodSourceGroup } from 'src/app/apiAndObjects/objects/enums/foodSourceGroup.enum';
@@ -47,6 +57,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
+  @ViewChild('stackedChart') public c1!: ElementRef<HTMLCanvasElement>;
 
   @Input() card: CardComponent;
 
@@ -77,6 +88,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
+  private chartInitialised = false;
 
   constructor(
     private dictionaryService: DictionaryService,
@@ -109,6 +121,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         .find((item) => item.isBaseline);
 
       this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value) => {
+        this.chartInitialised = false;
+        this.chartData.destroy();
         this.init();
         this.selectedGroup = value;
       });
@@ -121,6 +135,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
       this.projectionFoodFormGroup.get('scenario').setValue(baselineScenario);
     });
+  }
+
+  ngOnInit(): void {
+    Chart.register(PointElement, CategoryScale, LinearScale, LineController, BarElement, LineElement);
   }
 
   ngAfterViewInit(): void {
@@ -151,6 +169,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.tabGroup.selectedIndex = this.dialogData.dataIn.selectedTab;
       this.cdr.detectChanges();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.chartData.destroy();
   }
 
   public navigateToInfoTab(): void {
@@ -187,7 +209,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             throw new Error('data error');
           }
 
-          //
           this.dataSource = new MatTableDataSource(data);
           // this.csvDownloadData.push(data);
 
@@ -213,17 +234,20 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           const tableData = data.filter((item) => String(item.year) === selectedYearString);
 
           this.errorSrc.next(false);
-          this.chartData = null;
+          // this.chartData = null;
 
           // remove chart before re-setting it to stop js error
           this.cdr.detectChanges();
 
-          this.initialiseGraph(stackedChartData);
+          if (!this.chartInitialised) {
+            this.initialiseGraph(stackedChartData);
+          }
           this.initialiseTable(tableData);
         })
         .finally(() => {
           this.loadingSrc.next(false);
           this.cdr.detectChanges();
+          this.chartInitialised = true;
         })
         .catch((e) => {
           this.errorSrc.next(true);
@@ -239,7 +263,8 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private initialiseGraph(stackedChartData: any): void {
     // TODO: fix chart any
-    const generatedChart = new Chart('chartData', {
+    const ctx = this.c1.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
       type: 'bar',
       data: stackedChartData,
       options: {
@@ -274,7 +299,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           x: {
             stacked: true,
           },
-
           y: {
             stacked: true,
             title: {
@@ -285,11 +309,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
       },
     });
-
     this.chartData = generatedChart;
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {
@@ -306,9 +329,3 @@ export interface ProjectionFoodSourcesDialogData {
   data: Array<MicronutrientProjectionSource>;
   selectedTab: number;
 }
-
-// export interface MicronutrientProjectionSourceTable {
-//   year: number;
-//   foodName: string;
-//   value: number;
-// }

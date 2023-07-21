@@ -9,6 +9,10 @@ import { UserLoginService } from 'src/app/services/userLogin.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 
+export interface LoginData {
+  submit: boolean;
+}
+
 @Component({
   selector: 'app-user-login-dialog',
   templateUrl: './userLoginDialog.component.html',
@@ -23,12 +27,14 @@ export class UserLoginDialogComponent {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<unknown>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<LoginData>,
     private apiService: ApiService,
     private notificationsService: NotificationsService,
     private dialogService: DialogService,
     private loginService: UserLoginService,
-  ) {}
+  ) {
+    this.data.dataOut = false;
+  }
 
   public handleSubmit(): void {
     this.awaitingResponse = true;
@@ -41,6 +47,7 @@ export class UserLoginDialogComponent {
         .then((response: LoginRegisterResponseDataSource) => {
           this.notificationsService.sendPositive('Logged in!');
           this.loginService.setActiveUser(response);
+          this.data.dataOut = true;
           this.data.close();
         })
         .catch((err: HttpErrorResponse) => {

@@ -1,0 +1,26 @@
+button {
+  &#login {
+    margin-left: 2rem;
+  }
+
+  &[mat-button] {
+    margin-left: 1rem;
+  }
+}
+
+span {
+  &.dropdown {
+    display: flex;
+    align-items: center;
+  }
+
+  &.icon-wrapper {
+    display: flex;
+    align-items: center;
+    transition: transform 0.25s ease-in-out;
+
+    &.rotate-180 {
+      transform: rotate(180deg);
+    }
+  }
+}

@@ -207,7 +207,6 @@ export class SectionStartUpCostReviewDialogComponent {
         }
         if (Object.keys(item['year' + columnIndex + 'Formula']).length === 0) {
           // Check to see if the formula is present as expected, otherwise display static value
-          console.debug('missing year' + columnIndex + 'Formula');
           return;
         }
         // calculate the result of the formula using the inputs describes in jsonlogic

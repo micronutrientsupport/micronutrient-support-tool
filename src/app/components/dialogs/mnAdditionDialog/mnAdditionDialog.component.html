@@ -2,8 +2,9 @@
   <div class="container">
     <p>Select the micronutrient that you would like to add</p>
     <mat-form-field appearance="outline">
-      <mat-select [(ngModel)]="micronutrientsFiltered[0]" (selectionChange)="handleSelectionChange($event)">
-        <mat-option *ngFor="let micronutrient of micronutrientsFiltered" [value]="micronutrient">
+      <mat-select [(ngModel)]="micronutrientsSelected" (selectionChange)="handleSelectionChange($event)">
+        <mat-option *ngFor="let micronutrient of micronutrientsFiltered" [value]="micronutrient"
+          [disabled]="alreadyAdded(micronutrient.id)">
           {{ micronutrient.name }}
         </mat-option>
       </mat-select>

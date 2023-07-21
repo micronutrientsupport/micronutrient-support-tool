@@ -8,6 +8,7 @@ import { InterventionBaselineAssumptions } from '../apiAndObjects/objects/interv
 import { InterventionCostSummary } from '../apiAndObjects/objects/interventionCostSummary';
 import { InterventionData } from '../apiAndObjects/objects/interventionData';
 import {
+  FoodVehicleCompound,
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from '../apiAndObjects/objects/interventionFoodVehicleStandards';
@@ -25,6 +26,7 @@ export const RECENT_INTERVENTIONS = 'recentInterventions';
   providedIn: 'root',
 })
 export class InterventionDataService {
+  private cachedSelectedCompounds: Record<number, FoodVehicleCompound> = {};
   public ROUTES = AppRoutes;
 
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
@@ -151,6 +153,10 @@ export class InterventionDataService {
     });
   }
 
+  public claimAnonymousIntervention(id: string): Promise<Intervention> {
+    return this.apiService.endpoints.intervention.patchIntervention.call({ id });
+  }
+
   public setInterventionSummaryChartPNG(chart: string): void {
     this.interventionSummaryChartPNGSrc.next(chart);
   }
@@ -173,6 +179,17 @@ export class InterventionDataService {
 
   public interventionRecurringCostChanged(source: boolean): void {
     this.interventionRecurringCostChangedSrc.next(source);
+  }
+
+  public getCachedSelectedCompoundsInMn(): Record<number, FoodVehicleCompound> {
+    const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
+    const cached = JSON.parse(ls);
+    return cached;
+  }
+
+  public addSelectedCompoundsToCachedPremix(compound: FoodVehicleCompound, index: number): void {
+    this.cachedSelectedCompounds[index] = compound;
+    localStorage.setItem('cachedSelectedCompoundsInPremix', JSON.stringify(this.cachedSelectedCompounds));
   }
 
   public getCachedMnInPremix(): Array<FoodVehicleStandard> | null {
@@ -311,6 +328,7 @@ export class InterventionDataService {
 
   public interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
+
     if (interventionChanges) {
       const dataArr = [];
       for (const key in interventionChanges) {

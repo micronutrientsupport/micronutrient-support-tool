@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionCreationService } from './interventionCreation.service';
+import { UserLoginService } from 'src/app/services/userLogin.service';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -28,6 +29,7 @@ export class InterventionCreationComponent {
     private readonly route: ActivatedRoute,
     private router: Router,
     private interventionCreationService: InterventionCreationService,
+    private readonly userLoginService: UserLoginService,
   ) {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS], false).then((dicts: Array<Dictionary>) => {
       this.interventionsDictionaryItems = dicts.shift().getItems();
@@ -36,6 +38,10 @@ export class InterventionCreationComponent {
 
     this.interventionCreationService.interventionRemovalObs.subscribe((interventionIdToRemove: string) => {
       this.removeInterventionById(interventionIdToRemove);
+    });
+
+    this.userLoginService.activeUserObs.subscribe(() => {
+      this.updateInterventionsFromAPI();
     });
   }
   public async loadInterventions(): Promise<void> {

@@ -1,10 +1,10 @@
 import { Intervention } from '../../../objects/intervention';
-import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 import { HttpHeaders } from '@angular/common/http';
 import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
+import { Endpoint } from 'src/app/apiAndObjects/_lib_code/api/endpoint.abstract';
 
-export class GetIntervention extends CacheableEndpoint<Intervention, GetInverventionsParams, Intervention> {
+export class PatchIntervention extends Endpoint<Intervention, GetInverventionsParams, Intervention> {
   protected getCacheKey(params: GetInverventionsParams): string {
     return JSON.stringify(params);
   }
@@ -20,7 +20,7 @@ export class GetIntervention extends CacheableEndpoint<Intervention, GetInverven
     };
     const callResponsePromise = this.apiCaller.doCall(
       ['interventions', params.id],
-      RequestMethod.GET,
+      RequestMethod.PATCH,
       null,
       {},
       headers,
