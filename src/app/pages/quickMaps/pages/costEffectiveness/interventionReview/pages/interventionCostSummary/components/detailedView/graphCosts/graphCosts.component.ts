@@ -106,7 +106,6 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
             },
             legend: {
               display: true,
-              text: 'Thousands of 2021 USD',
             },
           },
           scales: {

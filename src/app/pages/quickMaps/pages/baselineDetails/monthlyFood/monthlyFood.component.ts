@@ -251,11 +251,9 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
             },
           },
-          legend: {
-            display: false,
-            position: 'bottom',
-            align: 'center',
-          },
+          // legend: {
+          //   display: false,
+          // },
           // tooltip: { // TODO: fix the tooltips
           //   callbacks: {
           //     label: (item, result) => {
@@ -318,11 +316,11 @@ export class MonthlyFoodComponent implements AfterViewInit {
               },
             },
           },
-          legend: {
-            display: false,
-            position: 'bottom',
-            align: 'center',
-          },
+          // legend: {
+          //   display: false,
+          //   position: 'bottom',
+          //   align: 'center',
+          // },
           // tooltip: { // TODO: fix the tooltips
           //   callbacks: {
           //     label: (item, result) => {
