@@ -139,11 +139,9 @@ export class FoodItemsComponent implements AfterViewInit {
           throw new Error('data error');
         }
 
-        // console.log('top 20 table data: ', data);
         this.dataSource = new MatTableDataSource(data);
         this.errorSrc.next(false);
-        // this.chartDataGroup = null;
-        // this.chartDataGenus = null;
+
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
@@ -212,18 +210,9 @@ export class FoodItemsComponent implements AfterViewInit {
       value.foodGenusName = this.titlecasePipe.transform(value.foodGenusName);
       return value;
     }) as Array<TopFoodSource>;
-    // console.debug(data);
-    // console.log(this.c1.nativeElement, 'canvas');
-    const ctx = canvas.nativeElement.getContext('2d');
-    // if (this.chartDataGenus) {
-    //   this.chartDataGenus.destroy();
-    // }
-    // if (this.chartDataGroup) {
-    //   this.chartDataGroup.destroy();
-    // }
 
+    const ctx = canvas.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
-      // const generatedChart: ChartJSObject = {
       type: 'treemap',
       data: {
         datasets: [
@@ -283,8 +272,6 @@ export class FoodItemsComponent implements AfterViewInit {
             position: 'average',
             callbacks: {
               title: (item: Array<TooltipItem<'treemap'>>) => {
-                // TODO: fix type
-                // console.debug('tooltip title: ', item);
                 if (dataField !== 'foodGroupName') {
                   const dataItem = data[item[0].dataIndex];
                   return `${tooltipTitle} (Parent group: ${dataItem.foodGroupName})`;
@@ -293,15 +280,8 @@ export class FoodItemsComponent implements AfterViewInit {
                 }
               },
               label: (item: TooltipItem<'treemap'>) => {
-                // TODO: fix type
-                // console.debug('tooltime label ', item);
-                // return 'string';
                 const dataItem = item.dataset.data[item.dataIndex];
-                // const dataItem: number | number[] = dataset.data[item.dataIndex];
-                // tslint:disable-next-line: no-string-literal
-
                 const label = String(dataItem.g);
-                // tslint:disable-next-line: no-string-literal
                 const value = String(dataItem.v);
                 if (this.quickMapsService.FoodSystemsDataSource.get().dataLevel === DataLevel.COUNTRY) {
                   return `${this.titlecasePipe.transform(label)}: ${Number(value).toPrecision(4)} ${
@@ -319,10 +299,9 @@ export class FoodItemsComponent implements AfterViewInit {
         maintainAspectRatio: false,
       },
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
     return generatedChart;
   }
