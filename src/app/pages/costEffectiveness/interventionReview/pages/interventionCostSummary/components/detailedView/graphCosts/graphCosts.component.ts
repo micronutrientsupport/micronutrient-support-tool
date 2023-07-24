@@ -59,7 +59,9 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
   }
 
   ngOnDestroy(): void {
-    this.chartData.destroy();
+    if (this.chartData) {
+      this.chartData.destroy();
+    }
   }
 
   private initialiseGraph(): void {
@@ -89,6 +91,8 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
         });
       });
     });
+
+    console.log(yearlyChartData);
 
     this.counter++;
     if (this.counter === 1) {
