@@ -75,9 +75,11 @@ export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDest
       ],
     };
     this.chartData = chartData;
+    console.log(chartLabels);
   }
 
   private initialiseCostPieChart() {
+    // TODO: CHART DOESN'T RENDER WHEN ALL VALUES ARE ZERO
     if (this.c1) {
       const ctx = this.c1.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
@@ -93,51 +95,35 @@ export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDest
                 return null;
               },
               labels: {
-                generateLabels: (chart: Chart) => {
+                generateLabels: (chart) => {
                   const data = chart.data;
-                  if (data.labels.length && data.datasets.length) {
-                    return data.labels.map((label, i) => {
-                      const meta = chart.getDatasetMeta(0);
-                      const ds = data.datasets[0];
-                      const arc = meta.data[i];
+                  const dataset = data.datasets[0];
 
-                      if (arc.options != null) {
-                        const fill = arc.options.backgroundColor;
-                        const stroke = arc.options.stroke;
-                        const borderWidth = arc.options.borderWidth;
-                        const value = ds.data[arc['$context'].dataIndex];
-
-                        return {
-                          text:
-                            label +
-                            '(' +
-                            Number(value).toLocaleString('en-US', {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                              style: 'currency',
-                              currency: 'USD',
-                            }) +
-                            ')',
-                          fillStyle: fill,
-                          strokeStyle: stroke,
-                          lineWidth: borderWidth,
-                          hidden: isNaN(value as number),
-                          index: i,
-                        };
-                      } else {
-                        return {
-                          text: 'Label',
-                          fillStyle: 'rgb(156, 211, 72)',
-                          lineWidth: 2,
-                          index: i,
-                        };
-                      }
+                  if (data) {
+                    return data.labels.map((label: string, i: number) => {
+                      const value = dataset.data[i];
+                      return {
+                        index: i,
+                        datasetIndex: i,
+                        text:
+                          label +
+                          '(' +
+                          Number(value).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            style: 'currency',
+                            currency: 'USD',
+                          }) +
+                          ')',
+                        fillStyle: this.chartColours[i],
+                        strokeStyle: this.chartColours[i],
+                        hidden: chart.getDatasetMeta(i).hidden,
+                      };
                     });
                   } else {
                     return [];
                   }
                 },
-                usePointStyle: true,
               },
             },
             tooltip: {

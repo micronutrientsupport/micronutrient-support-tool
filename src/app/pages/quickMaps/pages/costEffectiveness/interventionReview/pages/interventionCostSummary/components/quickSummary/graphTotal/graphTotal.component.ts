@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
-import { Chart } from 'chart.js';
+// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import { BarController, Chart } from 'chart.js';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
@@ -18,12 +19,18 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
 
   constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
 
+  ngOnInit(): void {
+    Chart.register(BarController);
+  }
+
   ngAfterViewInit(): void {
     this.initialiseGraph();
   }
 
   ngOnDestroy(): void {
-    this.chartData.destroy();
+    if (this.chartData) {
+      this.chartData.destroy();
+    }
   }
 
   // public openSectionCostReviewDialog(costs: RecurringCosts): void {
@@ -31,10 +38,13 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
   // }
 
   private initialiseGraph(): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+    // TODO: RESOLVE DATA BEING UNDEFINED
+    if (this.summaryCosts) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+    }
 
     const ctx = this.c1.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {

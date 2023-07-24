@@ -83,7 +83,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.chartData.destroy();
+    if (this.chartData) {
+      this.chartData.destroy();
+    }
   }
 
   public navigateToInfoTab(): void {

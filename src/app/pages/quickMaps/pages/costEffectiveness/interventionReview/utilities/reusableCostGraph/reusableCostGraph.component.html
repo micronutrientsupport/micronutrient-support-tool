@@ -1,11 +1,6 @@
 <div class="pie-chart-container">
   <div class="card">
-    <ng-container *ngIf="canRenderChart">
-      <canvas #pieChart>{{ costChart }}</canvas>
-    </ng-container>
-    <ng-container>
-      <h2>Unable to render chart, no data available.</h2>
-    </ng-container>
+    <canvas #pieChart>{{ costChart }}</canvas>
     <!-- <ngx-chartjs class="pie-chart" *ngIf="costChart != null" [data]="costChart.data" [type]="costChart.type"
             [options]="costChart.options">
         </ngx-chartjs> -->
