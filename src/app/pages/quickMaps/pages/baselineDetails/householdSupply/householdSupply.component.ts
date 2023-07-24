@@ -10,11 +10,9 @@ import {
   ElementRef,
 } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-// import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { BarElement, Chart } from 'chart.js';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -239,7 +237,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
           },
           annotation: {
             annotations: {
-              bing: {
+              threshold: {
                 type: 'line',
                 value: 0,
                 xMin: 0,
@@ -322,13 +320,13 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       // Limit max value to 5x threshold value
       generatedChart.options.scales.x.ticks.maxTicksLimit = data.threshold * 5;
       // Add annotation line for threshold
-      generatedChart.options.plugins.annotation.annotations['bing'].type = 'line';
-      generatedChart.options.plugins.annotation.annotations['bing'].value = data.threshold;
-      generatedChart.options.plugins.annotation.annotations['bing'].xMin = data.threshold;
-      generatedChart.options.plugins.annotation.annotations['bing'].xMax = data.threshold;
-      generatedChart.options.plugins.annotation.annotations['bing'].borderWidth = 2;
-      generatedChart.options.plugins.annotation.annotations['bing'].borderColor = 'black';
-      generatedChart.options.plugins.annotation.annotations['bing'].label = {
+      generatedChart.options.plugins.annotation.annotations['threshold'].type = 'line';
+      generatedChart.options.plugins.annotation.annotations['threshold'].value = data.threshold;
+      generatedChart.options.plugins.annotation.annotations['threshold'].xMin = data.threshold;
+      generatedChart.options.plugins.annotation.annotations['threshold'].xMax = data.threshold;
+      generatedChart.options.plugins.annotation.annotations['threshold'].borderWidth = 2;
+      generatedChart.options.plugins.annotation.annotations['threshold'].borderColor = 'black';
+      generatedChart.options.plugins.annotation.annotations['threshold'].label = {
         display: true,
         content: 'Threshold for inadequacy',
       };
