@@ -31,6 +31,7 @@ import {
   LineElement,
   LinearScale,
   PointElement,
+  TooltipItem,
 } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -57,7 +58,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
     }
   }
-  @ViewChild('stackedChart') public c1!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartStackedBar') public stackedChartCanvas!: ElementRef<HTMLCanvasElement>;
 
   @Input() card: CardComponent;
 
@@ -66,7 +67,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public micronutrientsDictionary: Dictionary;
   public micronutrientName = '';
   public mnUnit = '';
-  public chartData: Chart;
+  public chartStackedBar: Chart;
   public displayedColumns = ['name', 'value'];
   public dataSource = new MatTableDataSource();
   public impactScenariosDict: Dictionary;
@@ -88,7 +89,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   private errorSrc = new BehaviorSubject<boolean>(false);
 
   private subscriptions = new Array<Subscription>();
-  private chartInitialised = false;
 
   constructor(
     private dictionaryService: DictionaryService,
@@ -121,8 +121,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         .find((item) => item.isBaseline);
 
       this.projectionFoodFormGroup.get('groupedBy').valueChanges.subscribe((value) => {
-        this.chartInitialised = false;
-        this.chartData.destroy();
         this.init();
         this.selectedGroup = value;
       });
@@ -172,7 +170,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.chartData.destroy();
+    this.chartStackedBar.destroy();
   }
 
   public navigateToInfoTab(): void {
@@ -234,20 +232,22 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           const tableData = data.filter((item) => String(item.year) === selectedYearString);
 
           this.errorSrc.next(false);
-          // this.chartData = null;
 
           // remove chart before re-setting it to stop js error
           this.cdr.detectChanges();
 
-          if (!this.chartInitialised) {
+          if (this.chartStackedBar) {
+            this.chartStackedBar.destroy();
+            this.initialiseGraph(stackedChartData);
+          } else {
             this.initialiseGraph(stackedChartData);
           }
+
           this.initialiseTable(tableData);
         })
         .finally(() => {
           this.loadingSrc.next(false);
           this.cdr.detectChanges();
-          this.chartInitialised = true;
         })
         .catch((e) => {
           this.errorSrc.next(true);
@@ -263,7 +263,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
 
   private initialiseGraph(stackedChartData: any): void {
     // TODO: fix chart any
-    const ctx = this.c1.nativeElement.getContext('2d');
+    const ctx = this.stackedChartCanvas.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
       type: 'bar',
       data: stackedChartData,
@@ -279,18 +279,16 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
             align: 'center',
           },
           tooltip: {
-            // callbacks: { // TODO: fix chart
-            //   label: (item: ChartTooltipItem, result: ChartData) => {
-            //     const dataset: ChartDataSets = result.datasets[item.datasetIndex];
-            //     const dataItem: number | number[] | ChartPoint = dataset.data[item.index];
-            //     const label: string = dataset.label;
-            //     const value: number = dataItem as number;
-            //     const sigFigLength = Math.ceil(Math.log10(value + 1));
-            //     const valueToSigFig = this.sigFig.transform(value, sigFigLength);
-            //     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-            //     return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
-            //   },
-            // },
+            callbacks: {
+              label: (item: TooltipItem<'bar'>) => {
+                const dataItem = item.dataset.data[item.dataIndex];
+                const label: string = item.dataset.label;
+                const value: number = dataItem as number;
+                const sigFigLength = Math.ceil(Math.log10(value + 1));
+                const valueToSigFig = this.sigFig.transform(value, sigFigLength);
+                return label + ': ' + valueToSigFig + ' (' + sigFigLength + ' s.f)';
+              },
+            },
           },
         },
 
@@ -309,10 +307,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
         },
       },
     });
-    this.chartData = generatedChart;
-    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.chartStackedBar = generatedChart;
+    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart.config));
+    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {
