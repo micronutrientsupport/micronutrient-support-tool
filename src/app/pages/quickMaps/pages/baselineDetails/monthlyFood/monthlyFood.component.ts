@@ -12,7 +12,16 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 // import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
-import { CategoryScale, Chart, LineController, LineElement, PointElement, TooltipItem, Tooltip } from 'chart.js';
+import {
+  CategoryScale,
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  TooltipItem,
+  Tooltip,
+  ChartData,
+} from 'chart.js';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -133,12 +142,12 @@ export class MonthlyFoodComponent implements AfterViewInit {
         const timePeriod = [...new Set(data.map((item) => item.month.name))];
 
         // Generate the stacked chart
-        const monthlyStackedChartData = {
+        const monthlyStackedChartData: ChartData = {
           labels: timePeriod,
           datasets: [],
         };
 
-        const monthlyLineChartData = {
+        const monthlyLineChartData: ChartData = {
           labels: timePeriod,
           datasets: [],
         };
@@ -216,8 +225,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseStackedGraph(monthlyChartData: any): void {
-    // TODO: fix type
+  private initialiseStackedGraph(monthlyChartData: ChartData): void {
     const ctx = this.stackedChartCanvas.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
       type: 'bar',
@@ -267,8 +275,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
     this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
-  private initialiseLineGraph(monthlyChartData: any): void {
-    // TODO: fix type
+  private initialiseLineGraph(monthlyChartData: ChartData): void {
     const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
       type: 'line',
