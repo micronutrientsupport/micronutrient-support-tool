@@ -1,7 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
