@@ -24,6 +24,7 @@ import {
   BarElement,
   CategoryScale,
   Chart,
+  ChartData,
   LineController,
   LineElement,
   LinearScale,
@@ -71,8 +72,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public projectionFoodFormGroup: UntypedFormGroup;
   public groupByOptions = Object.values(FoodSourceGroup);
   public selectedGroup = '';
-
-  // TODO: from API??
   public yearOptions = new Array<string>();
   public chartPNG: string;
   public chartPDF: string;
@@ -212,7 +211,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
 
           // Generate the stacked chart
-          const stackedChartData = {
+          const stackedChartData: ChartData = {
             labels: quinquennialPeriod,
             datasets: [],
           };
@@ -258,8 +257,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseGraph(stackedChartData: any): void {
-    // TODO: fix chart any
+  private initialiseGraph(stackedChartData: ChartData): void {
     const ctx = this.stackedChartCanvas.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
       type: 'bar',

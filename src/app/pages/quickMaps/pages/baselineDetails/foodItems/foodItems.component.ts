@@ -15,7 +15,7 @@ import { TopFoodSource } from 'src/app/apiAndObjects/objects/topFoodSource';
 import { QuickMapsService } from '../../../quickMaps.service';
 import 'chartjs-chart-treemap';
 import ColorHash from 'color-hash-ts';
-import { Chart, LinearScale, TooltipItem, Tooltip } from 'chart.js/auto';
+import { Chart, LinearScale, TooltipItem, Tooltip, ScriptableContext } from 'chart.js/auto';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -237,22 +237,11 @@ export class FoodItemsComponent implements AfterViewInit {
                 return ctx.raw.g.split(','); // split the results into multiple lines
               },
             },
-            backgroundColor: (result: any) => {
-              // // TODO: fix chart type
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartData: any = result['dataset']['data'];
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-              const groupedChartDataAtCurrentIndex = groupedChartData[result['dataIndex']];
-              if (groupedChartDataAtCurrentIndex) {
-                // TODO: find a cleaner way to access this data
-                const backgroundTextString =
-                  result['dataset']['data'][result['dataIndex']]['_data']['children'][0][backgroundFillField];
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                //return this.genColorHex(groupedChartDataAtCurrentIndex['g']);
-                return this.genColorHex(backgroundTextString);
-              } else {
-                return '#000';
+            backgroundColor: (ctx: ScriptableContext<'treemap'>) => {
+              if (ctx.type !== 'data') {
+                return 'transparent';
               }
+              return this.genColorHex(ctx.raw['g']);
             },
           },
         ],
