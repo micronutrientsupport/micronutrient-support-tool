@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 // import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { BarController, Chart } from 'chart.js';
@@ -40,9 +40,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
   private initialiseGraph(): void {
     // TODO: RESOLVE DATA BEING UNDEFINED
     if (this.summaryCosts) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
     }
 
