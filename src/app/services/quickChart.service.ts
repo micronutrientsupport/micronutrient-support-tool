@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // import { ChartJSObject } from '../apiAndObjects/objects/misc/chartjsObject';
-import { Chart, ChartConfiguration, ChartData } from 'chart.js';
+import { Chart } from 'chart.js';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QuickChart = require('quickchart-js');
 
