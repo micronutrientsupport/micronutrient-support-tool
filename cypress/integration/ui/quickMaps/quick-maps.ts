@@ -45,7 +45,7 @@ describe('Quick Map Tests', () => {
     cy.wait(3000);
     populateSelectValues();
     cy.get('#button-view-results').click({ force: true });
-    cy.get('.mode-select a.quickmaps-projection-link').click({ force: true });
+    cy.get('#modeButtonSelectProjection').click();
     cy.get('app-quickmaps-projection').should('be.visible');
   });
 });
