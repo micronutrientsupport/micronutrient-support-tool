@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { Chart } from 'chart.js';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { QuickchartService } from 'src/app/services/quickChart.service';
