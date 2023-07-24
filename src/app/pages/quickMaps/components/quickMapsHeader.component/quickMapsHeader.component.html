@@ -25,7 +25,8 @@
     [routerLink]="ROUTES.QUICK_MAPS_BASELINE | route" [queryParams]="route.queryParams | async"
     routerLinkActive="active-route">Baseline
   </a>
-  <a class="mode-select-button quickmaps-projection-link" mat-stroked-button [routerLink]="
+  <a id="modeButtonSelectProjection" class="mode-select-button quickmaps-projection-link" mat-stroked-button
+    [routerLink]="
       (quickMapsService.micronutrient.obs | async)?.isInImpact ? (ROUTES.QUICK_MAPS_PROJECTION | route) : null
     " [queryParams]="route.queryParams | async" routerLinkActive="active-route"
     [disabled]="!(quickMapsService.micronutrient.obs | async)?.isInImpact" appTour tourName="Quick MAPS Baseline Data"
