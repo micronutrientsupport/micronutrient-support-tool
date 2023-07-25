@@ -266,15 +266,7 @@ export class SideNavContentComponent {
           }
         } else if (options.length >= 1) {
           this.quickMapsForm.get('dataSource').setValue(options[0]);
-          if (!this.showGoButton) {
-            // valid data --> valid data
-            void this.routeGuardService.getRequiredNavRoute().then((requiredRoute: AppRoute) => {
-              if (null != requiredRoute) {
-                this.navigate(requiredRoute);
-              }
-            });
-          } else {
-            // location page with valid data
+          if (this.showGoButton) {
             this.btnViewResultsActive = true;
           }
         }
@@ -283,7 +275,7 @@ export class SideNavContentComponent {
   }
 
   private navigate(appRoute: AppRoute): void {
-    // console.debug('navigate', this.quickMapsService.measure, route);
+    console.debug('navigate', this.quickMapsService.measure, appRoute);
     void this.router.navigate(appRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });
