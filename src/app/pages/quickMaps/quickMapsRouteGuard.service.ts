@@ -119,7 +119,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
   }
 
   private validateParamsConsistency(queryParamMap: ParamMap, snapshot: ActivatedRouteSnapshot): Promise<boolean> {
-    if (snapshot.routeConfig.path === 'food-systems/cost-effectiveness') {
+    if (snapshot.routeConfig.path === 'cost-effectiveness') {
       return Promise.resolve(true);
     }
     return Promise.all([

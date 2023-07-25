@@ -52,6 +52,11 @@ export class AppRoutes {
     segments: 'quick-maps',
     routerRoot: true,
   };
+  public static readonly COST_EFFECTIVENESS = {
+    ...BASE_ROUTE,
+    segments: 'cost-effectiveness',
+    routerRoot: true,
+  };
   public static readonly;
   public static readonly EDUCATIONAL_RESOURCES = {
     ...BASE_ROUTE,
@@ -70,8 +75,12 @@ export class AppRoutes {
     segments: 'style-guide',
   };
 
-  // *** quick maps start ***
-  // used in quick maps sub-router
+  /**
+   * *** quick maps start ***
+   * used in quick maps sub-router
+   * {@link QuickMapsRoutingModule}
+   */
+
   public static readonly QUICK_MAPS_LOCATION_SELECT = {
     ...BASE_ROUTE,
     segments: '',
@@ -107,76 +116,77 @@ export class AppRoutes {
     segments: 'dietary-change',
     parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
   };
-  public static readonly QUICK_MAPS_COST_EFFECTIVENESS = {
-    ...BASE_ROUTE,
-    segments: 'cost-effectiveness',
-    parent: AppRoutes.QUICK_MAPS_FOOD_SYSTEMS,
-  };
   public static readonly QUICK_MAPS_BIOMARKER = {
     ...BASE_ROUTE,
     segments: 'biomarker',
     parent: AppRoutes.QUICK_MAPS,
   };
-  // *** quick maps end ***
+  /**
+   * *** quick maps end ***
+   */
 
-  public static readonly STANDALONE_COST_EFFECTIVENESS = {
-    ...BASE_ROUTE,
-    segments: 'food-systems/cost-effectiveness',
-    parent: AppRoutes.QUICK_MAPS,
-  };
+  /**
+   * *** Intervention Review start ***
+   * used in Intervention Review sub-router
+   * {@link InterventionReviewRoutingModule}
+   */
+  //
 
-  // used in intervention review sub-router
   public static readonly INTERVENTION_REVIEW = {
     ...BASE_ROUTE,
     segments: 'intervention-review',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
     // routerRoot: true,
   };
   public static readonly INTERVENTION_REVIEW_BASELINE = {
     ...BASE_ROUTE,
     segments: 'intervention-baseline',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW = {
     ...BASE_ROUTE,
     segments: 'intervention-assumptions-review',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_COMPLIANCE = {
     ...BASE_ROUTE,
     segments: 'intervention-compliance',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_CONSUMPTION = {
     ...BASE_ROUTE,
     segments: 'intervention-consumption',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_COST_SUMMARY = {
     ...BASE_ROUTE,
     segments: 'intervention-cost-summary',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_INDUSTRY_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-industry-information',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_MONITORING_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-monitoring-information',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_RECURRING_COSTS = {
     ...BASE_ROUTE,
     segments: 'intervention-recurring-costs',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS = {
     ...BASE_ROUTE,
     segments: 'intervention-startup-scaleup-costs',
-    parent: AppRoutes.QUICK_MAPS_COST_EFFECTIVENESS,
+    parent: AppRoutes.COST_EFFECTIVENESS,
   };
+
+  /**
+   * *** Intervention Review end ***
+   */
 }
 
 export interface AppRoute {

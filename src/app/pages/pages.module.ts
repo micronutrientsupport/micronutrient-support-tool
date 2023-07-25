@@ -11,6 +11,7 @@ import { MapsToolComponent } from './mapsTool/mapsTool.component';
 import { ProjectObjectivesComponent } from './projectObjectives/projectObjectives.component';
 import { QuickMapsModule } from './quickMaps/quickMaps.module';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
+import { CostEffectivenessModule } from './costEffectiveness/costEffectiveness.module';
 import { UserProfileComponent } from './userProfile/userProfile.component';
 
 @NgModule({
@@ -23,7 +24,15 @@ import { UserProfileComponent } from './userProfile/userProfile.component';
     StyleGuideComponent,
     UserProfileComponent,
   ],
-  imports: [CommonModule, RouterModule, AppMaterialModule, QuickMapsModule, RoutesModule, DirectivesModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AppMaterialModule,
+    CostEffectivenessModule,
+    QuickMapsModule,
+    RoutesModule,
+    DirectivesModule,
+  ],
   providers: [],
   exports: [],
 })
