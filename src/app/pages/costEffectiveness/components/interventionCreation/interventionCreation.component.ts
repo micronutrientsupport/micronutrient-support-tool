@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionCreationService } from './interventionCreation.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { SimpleIntervention } from '../../intervention';
+import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -47,10 +48,26 @@ export class InterventionCreationComponent {
     });
 
     this.interventionService.simpleInterventionArrChangedObs.subscribe((interventions: Array<SimpleIntervention>) => {
-      this.selectedSimpleInterventions = interventions.filter(
-        (intervention: SimpleIntervention) =>
-          intervention.userId === this.userLoginService.getActiveUser().id || intervention.userId === 'Anonymous',
-      );
+      this.selectedSimpleInterventions = interventions.filter((intervention: SimpleIntervention) => {
+        if (this.userLoginService.getActiveUser()) {
+          return (
+            intervention.userId === this.userLoginService.getActiveUser().id || intervention.userId === 'Anonymous'
+          );
+        }
+      });
+    });
+
+    this.userLoginService.activeUserObs.subscribe((user: LoginRegisterResponseDataSource) => {
+      if (null != user) {
+        this.selectedSimpleInterventions = this.interventionService
+          .getSimpleInterventionsFromStorage()
+          .filter((intervention: SimpleIntervention) => {
+            return intervention.userId === user.id || intervention.userId === 'Anonymous';
+          });
+      } else {
+        this.selectedSimpleInterventions = [];
+      }
+      this.cdr.detectChanges();
     });
   }
 
