@@ -92,8 +92,6 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       });
     });
 
-    console.log(yearlyChartData);
-
     this.counter++;
     if (this.counter === 1) {
       const ctx = this.c1.nativeElement.getContext('2d');
@@ -136,6 +134,11 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       // this.interventionDataService.setInterventionDetailedChartPDF(
       //   this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
       // );
+      this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
+        response.then((imageUrl: string) => {
+          this.interventionDataService.setInterventionDetailedChartPNG(imageUrl);
+        });
+      });
     }
   }
 

@@ -1,16 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// import { ChartJSObject } from '../apiAndObjects/objects/misc/chartjsObject';
-import { Chart } from 'chart.js';
+import { Chart, ChartConfiguration } from 'chart.js';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QuickChart = require('quickchart-js');
 
 @Injectable()
 export class QuickchartService {
+  constructor(private http: HttpClient) {}
+
+  private chartPNG = new BehaviorSubject<string>('');
+  public chartPNGObs = this.chartPNG.asObservable();
+
   /**
    *
    * @param chartData - object containing type, data, labels and options for your chart
    * @param format - png or pdf
-   * @returns
+   * @returns string
    */
   public getChartAsImageUrl(chartData: Chart, format: string): string {
     const tmpChart = new QuickChart();
@@ -22,5 +28,44 @@ export class QuickchartService {
     const chartUrl: string = tmpChart.getUrl();
 
     return chartUrl;
+  }
+
+  /**
+   *
+   * @param image Chart.js API response in Blob format
+   * @returns Promise
+   */
+  private createImageFromBlob(image: Blob): Promise<unknown> {
+    const promise = new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+
+      if (image) {
+        reader.readAsDataURL(image);
+      }
+    });
+    return promise;
+  }
+
+  /**
+   *
+   * @param chartData object containing type, data, labels and options for your chart
+   * @param imgType png or pdf
+   * @returns Observable
+   */
+  public postChartData(chartData: ChartConfiguration, imgType: string): Observable<Promise<unknown>> {
+    const postData = {
+      backgroundColor: '#fff',
+      width: 1500,
+      height: 750,
+      devicePixelRatio: 1.0,
+      chart: chartData,
+      format: imgType,
+    };
+    return this.http
+      .post('http://localhost:3400/chart', postData, { responseType: 'blob' })
+      .pipe(map(this.createImageFromBlob));
   }
 }

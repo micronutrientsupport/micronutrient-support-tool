@@ -289,9 +289,12 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     });
     console.debug('this.projectionsSummary.recommended: ', this.projectionsSummary.recommended);
     this.chartData = generatedChart;
-    const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart.config));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
+      response.then((imageUrl: string) => (this.chartPNG = imageUrl));
+    });
+    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart.config));
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private openDialog(): void {

@@ -289,8 +289,12 @@ export class FoodItemsComponent implements AfterViewInit {
       },
     });
     const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
+    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+
+    // this.qcService.postChartData(chartForRender.config, '').subscribe((response) => {
+    //   this.createImageFromBlob(response);
+    // });
 
     return generatedChart;
   }
