@@ -11,6 +11,7 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionCreationService } from './interventionCreation.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
+import { SimpleIntervention } from '../../intervention';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -19,6 +20,7 @@ import { UserLoginService } from 'src/app/services/userLogin.service';
 export class InterventionCreationComponent {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
   public selectedInterventions: Array<InterventionsDictionaryItem> = [];
+  public selectedSimpleInterventions: Array<SimpleIntervention> = [];
   public routerSubscription: Subscription;
   constructor(
     public quickMapsService: QuickMapsService,
@@ -43,7 +45,15 @@ export class InterventionCreationComponent {
     this.userLoginService.activeUserObs.subscribe(() => {
       this.updateInterventionsFromAPI();
     });
+
+    this.interventionService.simpleInterventionArrChangedObs.subscribe((interventions: Array<SimpleIntervention>) => {
+      this.selectedSimpleInterventions = interventions.filter(
+        (intervention: SimpleIntervention) =>
+          intervention.userId === this.userLoginService.getActiveUser().id || intervention.userId === 'Anonymous',
+      );
+    });
   }
+
   public async loadInterventions(): Promise<void> {
     this.route.queryParamMap
       .subscribe(async (queryParams) => {

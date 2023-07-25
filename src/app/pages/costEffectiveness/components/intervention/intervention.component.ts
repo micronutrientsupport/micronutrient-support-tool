@@ -4,6 +4,7 @@ import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionCreationService } from '../interventionCreation/interventionCreation.service';
+import { SimpleIntervention } from '../../intervention';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -12,7 +13,7 @@ import { InterventionCreationService } from '../interventionCreation/interventio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionComponent {
-  @Input() intervention: InterventionsDictionaryItem;
+  @Input() intervention: SimpleIntervention;
 
   public ROUTES = AppRoutes;
 
@@ -30,12 +31,12 @@ export class InterventionComponent {
   public today: number = Date.now();
 
   public reviewIntervention(): void {
-    this.interventionDataService.startReviewingIntervention(this.intervention.id);
-    this.interventionDataService.updateRecentInterventions(this.intervention);
+    this.interventionDataService.startReviewingIntervention(this.intervention.id.toString());
+    // this.interventionDataService.updateRecentInterventions(this.intervention);
   }
 
   public removeIntervention() {
-    this.interventionCreationService.interventionRemove(this.intervention.id);
+    this.interventionCreationService.interventionRemove(this.intervention.id.toString());
   }
 
   public onConfirmAssumptions(): void {

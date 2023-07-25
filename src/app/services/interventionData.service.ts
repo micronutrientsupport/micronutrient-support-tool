@@ -51,6 +51,11 @@ export class InterventionDataService {
   private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
 
+  private readonly simpleInterventionArrChangedSrc = new BehaviorSubject<Array<SimpleIntervention>>(
+    this.getSimpleInterventionsFromStorage(),
+  );
+  public simpleInterventionArrChangedObs = this.simpleInterventionArrChangedSrc.asObservable();
+
   private readonly newMicronutrientInPremix = new ReplaySubject<MicronutrientDictionaryItem>();
   public newMicronutrientInPremixObs = this.newMicronutrientInPremix.asObservable();
 
@@ -178,6 +183,7 @@ export class InterventionDataService {
     if (null == testDuplicate) {
       activeItemsArr.push(simpleIntervention);
       localStorage.setItem(RECENT_INTERVENTIONS_SIMPLE, JSON.stringify(activeItemsArr));
+      this.simpleInterventionArrChangedSrc.next(activeItemsArr);
     }
   }
 

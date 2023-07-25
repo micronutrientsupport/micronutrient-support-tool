@@ -6,7 +6,7 @@
         <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
 
         <span class="int-id">ID: {{ intervention.id }}</span>
-        <button class="copy-button" [cdkCopyToClipboard]="intervention.id">
+        <button class="copy-button" [cdkCopyToClipboard]="intervention.id.toString()">
           <mat-icon>file_copy</mat-icon> Copy
           Intervention ID to clipboard</button>
         <button class="email-button"><a class="email-link"
@@ -26,7 +26,7 @@
             <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
           </div>
           <div class="item">
-            10-year total cost: <strong>{{ intervention.tenYearTotalCost | currency }}</strong>
+            10-year total cost: <strong>{{ intervention.totalCost| currency }}</strong>
           </div>
           <div class="item">
             Last updated: <strong>{{(intervention.lastEdited | date:'medium') || 'Not available'}}</strong>
