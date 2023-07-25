@@ -292,7 +292,7 @@ export class FoodItemsComponent implements AfterViewInit {
     // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
-    // this.qcService.postChartData(chartForRender.config, '').subscribe((response) => {
+    // this.qcService.postChartData(chartForRender.config).subscribe((response) => {
     //   this.createImageFromBlob(response);
     // });
 

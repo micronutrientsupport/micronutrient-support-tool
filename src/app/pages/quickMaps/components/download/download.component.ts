@@ -1,16 +1,17 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ExportService } from 'src/app/services/export.service';
-
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
+import { jsPDF } from 'jspdf';
+
 @Component({
   selector: 'app-download',
   templateUrl: './download.component.html',
   styleUrls: ['../../pages/expandableTabGroup.scss', './download.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DownloadComponent implements AfterViewInit {
+export class DownloadComponent {
   @Input() chartDownloadPNG: string;
   @Input() chartDownloadPDF: string;
   @Input() dataArray: Array<Exportable>;
@@ -55,11 +56,24 @@ export class DownloadComponent implements AfterViewInit {
     private mapDownloadService: MapDownloadService,
   ) {}
 
-  ngAfterViewInit(): void {
-    // console.debug(this.mapDownloadPDF);
+  private makePDF(base64Img): void {
+    const doc = new jsPDF({
+      orientation: 'l',
+      unit: 'pt',
+      format: 'a4',
+    });
+    const width = doc.internal.pageSize.getWidth();
+    const height = doc.internal.pageSize.getHeight();
+
+    doc.addImage(base64Img, 'JPEG', 0, 0, width, height);
+    doc.save('maps-chart.pdf');
   }
 
   public exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
+  }
+
+  public handleSavePDF(): void {
+    this.makePDF(this.chartDownloadPDF);
   }
 }

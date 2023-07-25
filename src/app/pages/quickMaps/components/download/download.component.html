@@ -8,9 +8,11 @@
   </div>
   <div class="element-container">
     <i class="fas fa-file-image"></i>
-    <a [href]="chartDownloadPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+    <!-- <a [href]="chartDownloadPDF" target="_blank" referrerpolicy="no-referrer-when-downgrade">
       <button [disabled]="!chartDownloadPDF ? true : null" mat-stroked-button color="primary">Save as .pdf</button>
-    </a>
+    </a> -->
+    <button [disabled]="!chartDownloadPDF ? true : null" mat-stroked-button color="primary"
+      (click)="handleSavePDF()">Save as .pdf</button>
     <p>Adobe PDF document of the visualisation that can be used for editing and redesigning the chart</p>
   </div>
   <div class="element-container">

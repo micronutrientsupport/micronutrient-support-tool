@@ -340,9 +340,10 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
-    this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
+    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
       response.then((imageUrl: string) => {
         this.chartPNG = imageUrl;
+        this.chartPDF = imageUrl;
       });
     });
   }

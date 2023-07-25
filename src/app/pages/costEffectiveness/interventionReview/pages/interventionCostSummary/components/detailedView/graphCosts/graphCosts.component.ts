@@ -134,9 +134,10 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
       // this.interventionDataService.setInterventionDetailedChartPDF(
       //   this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
       // );
-      this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
+      this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
         response.then((imageUrl: string) => {
           this.interventionDataService.setInterventionDetailedChartPNG(imageUrl);
+          this.interventionDataService.setInterventionDetailedChartPDF(imageUrl);
         });
       });
     }

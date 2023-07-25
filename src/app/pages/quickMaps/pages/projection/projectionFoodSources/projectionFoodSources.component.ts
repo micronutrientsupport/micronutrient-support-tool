@@ -41,6 +41,7 @@ import { ImpactScenarioDictionaryItem } from 'src/app/apiAndObjects/objects/dict
 import { ProjectionDataService } from 'src/app/services/projectionData.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ColourPalette } from '../../../components/colourObjects/colourPalette';
+
 @Component({
   selector: 'app-proj-food-sources ',
   templateUrl: './projectionFoodSources.component.html',
@@ -306,8 +307,11 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
-    this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
-      response.then((imageUrl: string) => (this.chartPNG = imageUrl));
+    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
+      response.then((imageUrl: string) => {
+        this.chartPNG = imageUrl;
+        this.chartPDF = imageUrl;
+      });
     });
   }
 

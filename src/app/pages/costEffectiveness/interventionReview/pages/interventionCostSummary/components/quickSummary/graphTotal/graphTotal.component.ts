@@ -96,9 +96,10 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
     });
 
     this.chartData = generatedChart;
-    this.qcService.postChartData(generatedChart.config['_config'], 'png').subscribe((response) => {
+    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
       response.then((imageUrl: string) => {
         this.interventionDataService.setInterventionSummaryChartPNG(imageUrl);
+        this.interventionDataService.setInterventionSummaryChartPDF(imageUrl);
       });
     });
     // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));

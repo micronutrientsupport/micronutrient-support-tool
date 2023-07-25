@@ -55,14 +55,13 @@ export class QuickchartService {
    * @param imgType png or pdf
    * @returns Observable
    */
-  public postChartData(chartData: ChartConfiguration, imgType: string): Observable<Promise<unknown>> {
+  public postChartData(chartData: ChartConfiguration): Observable<Promise<unknown>> {
     const postData = {
       backgroundColor: '#fff',
       width: 1500,
       height: 750,
       devicePixelRatio: 1.0,
       chart: chartData,
-      format: imgType,
     };
     return this.http
       .post('http://localhost:3400/chart', postData, { responseType: 'blob' })
