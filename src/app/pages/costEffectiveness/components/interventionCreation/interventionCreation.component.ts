@@ -12,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionCreationService } from './interventionCreation.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { SimpleIntervention } from '../../intervention';
-import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
