@@ -18,10 +18,12 @@ import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventio
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
 import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
+import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
 export const RECENT_INTERVENTIONS = 'recentInterventions';
+export const RECENT_INTERVENTIONS_SIMPLE = 'recentUserInterventions';
 @Injectable({
   providedIn: 'root',
 })
@@ -151,6 +153,32 @@ export class InterventionDataService {
       newInterventionFocusGeography,
       newInterventionFocusMicronutrient,
     });
+  }
+
+  public getSimpleInterventionsFromStorage(): Array<SimpleIntervention> {
+    const itemsArr = localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)
+      ? (JSON.parse(localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)) as Array<SimpleIntervention>)
+      : [];
+    return itemsArr;
+  }
+
+  public setSimpleInterventionInStorage(intervention: Intervention) {
+    const activeItemsArr = this.getSimpleInterventionsFromStorage();
+    const simpleIntervention: SimpleIntervention = {
+      name: intervention.name,
+      id: intervention.id,
+      baseYear: intervention.baseYear,
+      totalCost: intervention.tenYearTotalCost,
+      description: intervention.description,
+      lastEdited: intervention.lastEdited,
+      userId: intervention.userId,
+    };
+    const testDuplicate = activeItemsArr.find((activeItem: SimpleIntervention) => activeItem.id === intervention.id);
+
+    if (null == testDuplicate) {
+      activeItemsArr.push(simpleIntervention);
+      localStorage.setItem(RECENT_INTERVENTIONS_SIMPLE, JSON.stringify(activeItemsArr));
+    }
   }
 
   public claimAnonymousIntervention(id: string): Promise<Intervention> {

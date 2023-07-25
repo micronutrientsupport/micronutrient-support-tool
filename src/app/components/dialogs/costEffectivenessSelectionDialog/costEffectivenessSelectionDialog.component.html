@@ -130,8 +130,8 @@
       <button mat-stroked-button type="button" (click)="closeDialog()">
         Cancel
       </button>
-      <button form="form" mat-flat-button color="primary" (click)="createID()" (click)="createIntervention()"
-        class="btn-proceed" *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
         Copy & edit
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
