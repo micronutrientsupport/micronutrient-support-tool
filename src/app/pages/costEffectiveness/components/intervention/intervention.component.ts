@@ -34,8 +34,9 @@ export class InterventionComponent {
     // this.interventionDataService.updateRecentInterventions(this.intervention);
   }
 
-  public removeIntervention() {
+  public removeIntervention(): void {
     this.interventionCreationService.interventionRemove(this.intervention.id.toString());
+    this.interventionDataService.removeSimpleInterventionFromStorage(this.intervention);
   }
 
   public onConfirmAssumptions(): void {

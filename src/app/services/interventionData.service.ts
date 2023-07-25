@@ -187,6 +187,15 @@ export class InterventionDataService {
     }
   }
 
+  public removeSimpleInterventionFromStorage(interventionToRemove: SimpleIntervention) {
+    const activeInterventions = this.getSimpleInterventionsFromStorage();
+    const newArr = activeInterventions.filter(
+      (intervention: SimpleIntervention) => intervention.id !== interventionToRemove.id,
+    );
+    localStorage.setItem(RECENT_INTERVENTIONS_SIMPLE, JSON.stringify(newArr));
+    this.simpleInterventionArrChangedSrc.next(newArr);
+  }
+
   public claimAnonymousIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.patchIntervention.call({ id });
   }

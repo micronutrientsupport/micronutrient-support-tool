@@ -57,18 +57,18 @@ export class InterventionCreationComponent {
       });
     });
 
-    this.userLoginService.activeUserObs.subscribe((user: LoginRegisterResponseDataSource) => {
-      if (null != user) {
-        this.selectedSimpleInterventions = this.interventionService
-          .getSimpleInterventionsFromStorage()
-          .filter((intervention: SimpleIntervention) => {
-            return intervention.userId === user.id || intervention.userId === 'Anonymous';
-          });
-      } else {
-        this.selectedSimpleInterventions = [];
-      }
-      this.cdr.detectChanges();
-    });
+    // this.userLoginService.activeUserObs.subscribe((user: LoginRegisterResponseDataSource) => {
+    //   if (null != user) {
+    //     this.selectedSimpleInterventions = this.interventionService
+    //       .getSimpleInterventionsFromStorage()
+    //       .filter((intervention: SimpleIntervention) => {
+    //         return intervention.userId === user.id || intervention.userId === 'Anonymous';
+    //       });
+    //   } else {
+    //     this.selectedSimpleInterventions = [];
+    //   }
+    //   this.cdr.detectChanges();
+    // });
   }
 
   public async loadInterventions(): Promise<void> {
