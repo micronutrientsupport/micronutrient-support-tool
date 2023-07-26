@@ -2,21 +2,29 @@
   <mat-card>
     <mat-card-title class="int-header">
       <div class="title">
-        <div>
-          <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
-          <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
-          <span class="int-id">ID: {{ intervention.id }}</span>
+        <div class="left-content">
+          <div>
+            <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
+            <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
+            <span class="int-id">ID: {{ intervention.id }}</span>
+          </div>
+          <div class="copy-email-wrapper">
+            <button mat-flat-button class="copy-button" [cdkCopyToClipboard]="intervention.id.toString()">
+              <mat-icon>file_copy</mat-icon> Copy
+              Intervention ID to clipboard</button>
+            <a mat-flat-button class="email-button"
+              href="mailto:user@example.com?subject=MAPS%20Intervention%20ID&body=The%20Intervention%20ID%20for%20the%20Cost%20Effectiveness%20section%20of%20the%20MAPS%20tool%20is:%20{{intervention.id}}"><mat-icon>email</mat-icon>
+              Email Intervention ID</a>
+            <i class="fas fa-question-circle margin-left" mat-tooltip
+              matTooltip="Note your ID for Future Invertention Reloading! This ID will allow you to reload your intervention at a later time. Write it down and keep it in a safe place, or send it to your email address"
+              style="color: grey;"></i>
+          </div>
         </div>
-        <div class="copy-email-wrapper">
-          <button mat-flat-button class="copy-button" [cdkCopyToClipboard]="intervention.id.toString()">
-            <mat-icon>file_copy</mat-icon> Copy
-            Intervention ID to clipboard</button>
-          <a mat-flat-button class="email-button"
-            href="mailto:user@example.com?subject=MAPS%20Intervention%20ID&body=The%20Intervention%20ID%20for%20the%20Cost%20Effectiveness%20section%20of%20the%20MAPS%20tool%20is:%20{{intervention.id}}"><mat-icon>email</mat-icon>
-            Email Intervention ID</a>
-          <i class="fas fa-question-circle margin-left" mat-tooltip
-            matTooltip="Note your ID for Future Invertention Reloading! This ID will allow you to reload your intervention at a later time. Write it down and keep it in a safe place, or send it to your email address"
-            style="color: grey;"></i>
+        <div class="right-content">
+          <span *ngIf="intervention.userId === 'Anonymous'"><strong>Intervention not claimed: </strong><button
+              mat-flat-button color="primary" class="claim-button"
+              (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
+              Claim</button> </span>
         </div>
       </div>
     </mat-card-title>
@@ -39,20 +47,8 @@
 
 
       <div class="column-container">
-        <div>
-          <span *ngIf="intervention.userId === 'Anonymous'"><strong>Intervention not claimed: </strong><button
-              mat-flat-button class="claim-button" (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
-              Claim</button> </span>
-        </div>
-
-        <div class="button-container">
-          <button mat-stroked-button type="button" class="btn btn-primary"
-            (click)="removeIntervention()">Remove</button>
-        </div>
-        <div class="button-container">
-          <a mat-flat-button color="primary" (click)="reviewIntervention()">Review</a>
-
-        </div>
+        <button mat-stroked-button type="button" class="btn btn-primary" (click)="removeIntervention()">Remove</button>
+        <a mat-flat-button color="primary" (click)="reviewIntervention()">Review</a>
       </div>
     </div>
   </mat-card>
