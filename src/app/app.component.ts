@@ -114,6 +114,7 @@ export class AppComponent implements OnInit {
     const activeUser = localStorage.getItem(this.userLoginService.ACTIVE_USER);
     if (null != activeUser && activeUser != undefined) {
       this.userLoginService.setActiveUser(JSON.parse(activeUser) as LoginRegisterResponseDataSource);
+      console.log('activeUser ID', activeUser);
     }
   }
 }

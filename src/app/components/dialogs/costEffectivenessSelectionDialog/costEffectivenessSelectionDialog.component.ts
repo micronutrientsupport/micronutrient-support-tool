@@ -111,11 +111,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const recentInterventions = [];
-    this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
-      recentInterventions.push(intervention.id.toString());
-    });
-    this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
+    // const recentInterventions = [];
+    // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
+    //   recentInterventions.push(intervention.id.toString());
+    // });
+    // this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
 
     this.interventionRequestBody = {
       parentInterventionId: 0,
@@ -289,7 +289,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     }
   }
 
-  // public getInterventionFromID()
   public createID(): void {
     if (this.tabID === 'copy') {
       this.interventionDataService
@@ -310,6 +309,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       this.interventionDataService
         .getIntervention(this.selectedInterventionIDLoad)
         .then((intervention: Intervention) => {
+          this.interventionDataService.setSimpleInterventionInStorage(intervention);
           this.selectedInterventionLoad = intervention;
           this.selectedInterventionIDLoad = intervention.id.toString();
 
@@ -338,7 +338,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.interventionRequestBody.newInterventionFocusGeography,
           this.interventionRequestBody.newInterventionFocusMicronutrient,
         )
-        .then((result) => {
+        .then((result: Intervention) => {
+          this.selectedInterventionIDLoad = result.id.toString();
           this.dialogData.dataOut = result;
           this.closeDialog();
         })
@@ -349,14 +350,14 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     }
   }
 
-  public updateForm() {
-    this.interventionPreview = this.interventionDataService
-      .getRecentInterventions()
-      .find(
-        (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
-      );
-    console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
-  }
+  // public updateForm() {
+  //   this.interventionPreview = this.interventionDataService
+  //     .getRecentInterventions()
+  //     .find(
+  //       (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
+  //     );
+  //   console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
+  // }
 
   public handleNationChange(change: MatSelectChange): void {
     this.apiService.endpoints.region.getRegions

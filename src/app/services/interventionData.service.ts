@@ -17,11 +17,12 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
-import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
+import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
-export const RECENT_INTERVENTIONS = 'recentInterventions';
+// export const RECENT_INTERVENTIONS = 'recentInterventions';
+export const RECENT_INTERVENTIONS_SIMPLE = 'recentUserInterventions';
 @Injectable({
   providedIn: 'root',
 })
@@ -48,6 +49,11 @@ export class InterventionDataService {
 
   private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
+
+  private readonly simpleInterventionArrChangedSrc = new BehaviorSubject<Array<SimpleIntervention>>(
+    this.getSimpleInterventionsFromStorage(),
+  );
+  public simpleInterventionArrChangedObs = this.simpleInterventionArrChangedSrc.asObservable();
 
   private readonly newMicronutrientInPremix = new ReplaySubject<MicronutrientDictionaryItem>();
   public newMicronutrientInPremixObs = this.newMicronutrientInPremix.asObservable();
@@ -151,6 +157,47 @@ export class InterventionDataService {
       newInterventionFocusGeography,
       newInterventionFocusMicronutrient,
     });
+  }
+
+  public getSimpleInterventionsFromStorage(): Array<SimpleIntervention> {
+    const itemsArr = localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)
+      ? (JSON.parse(localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)) as Array<SimpleIntervention>)
+      : [];
+    return itemsArr;
+  }
+
+  public setSimpleInterventionInStorage(intervention: Intervention) {
+    const activeItemsArr = this.getSimpleInterventionsFromStorage();
+    const simpleIntervention: SimpleIntervention = {
+      name: intervention.name,
+      id: intervention.id,
+      baseYear: intervention.baseYear,
+      totalCost: intervention.tenYearTotalCost,
+      description: intervention.description,
+      lastEdited: intervention.lastEdited,
+      userId: intervention.userId,
+    };
+    const testDuplicate = activeItemsArr.find((activeItem: SimpleIntervention) => activeItem.id === intervention.id);
+
+    if (null == testDuplicate) {
+      activeItemsArr.push(simpleIntervention);
+      localStorage.setItem(RECENT_INTERVENTIONS_SIMPLE, JSON.stringify(activeItemsArr));
+      this.simpleInterventionArrChangedSrc.next(activeItemsArr);
+    }
+  }
+
+  public removeSimpleInterventionFromStorage(interventionToRemove: SimpleIntervention) {
+    const activeInterventions = this.getSimpleInterventionsFromStorage();
+    const newArr = activeInterventions.filter(
+      (intervention: SimpleIntervention) => intervention.id !== interventionToRemove.id,
+    );
+    localStorage.setItem(RECENT_INTERVENTIONS_SIMPLE, JSON.stringify(newArr));
+    this.simpleInterventionArrChangedSrc.next(newArr);
+  }
+
+  // This function can be used to update the intervention list when a user logs in or out.
+  public triggerSimpleInterventionRefresh() {
+    this.simpleInterventionArrChangedSrc.next(this.getSimpleInterventionsFromStorage());
   }
 
   public claimAnonymousIntervention(id: string): Promise<Intervention> {
@@ -276,33 +323,35 @@ export class InterventionDataService {
     }
   }
 
-  public getRecentInterventions(): Array<InterventionsDictionaryItem> {
-    const ls = localStorage.getItem(RECENT_INTERVENTIONS);
-    const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
-    if (cached) {
-      return cached;
-    } else {
-      return [];
-    }
-  }
+  // public getRecentInterventions(): Array<InterventionsDictionaryItem> {
+  //   //changed RECENT_INTERVENTIONS to RECENT_INTERVENTIONS_SIMPLE
+  //   const ls = localStorage.getItem(RECENT_INTERVENTIONS);
+  //   const cached = JSON.parse(ls) as Array<InterventionsDictionaryItem>;
+  //   if (cached) {
+  //     return cached;
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
-  public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
-    const intID = intervention.id.toString();
-    // TODO: Bug somewhere in system which is returning interventionId as an number.
-    const cached = this.getRecentInterventions();
-    const exists =
-      cached.filter((intervention: InterventionsDictionaryItem) => intervention.id.toString() === intID).length > 0;
-    if (!exists) {
-      if (cached.length < 5) {
-        // Checks if intervention already exists in RECENT_INTERVENTIONS array.
-        cached.push(intervention);
-      } else {
-        cached.shift(); // Removes chronologically oldest item in array.
-        cached.push(intervention);
-      }
-    }
-    localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
-  }
+  // public updateRecentInterventions(intervention: InterventionsDictionaryItem): void {
+  //   const intID = intervention.id.toString();
+  //   // TODO: Bug somewhere in system which is returning interventionId as an number.
+  //   const cached = this.getRecentInterventions();
+  //   const exists =
+  //     cached.filter((intervention: InterventionsDictionaryItem) => intervention.id.toString() === intID).length > 0;
+  //   if (!exists) {
+  //     if (cached.length < 5) {
+  //       // Checks if intervention already exists in RECENT_INTERVENTIONS array.
+  //       cached.push(intervention);
+  //     } else {
+  //       cached.shift(); // Removes chronologically oldest item in array.
+  //       cached.push(intervention);
+  //     }
+  //   }
+  //   //changed RECENT_INTERVENTIONS to RECENT_INTERVENTIONS_SIMPLE
+  //   localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
+  // }
 
   public startReviewingIntervention(interventionID: string): void {
     this.setActiveInterventionId(interventionID);

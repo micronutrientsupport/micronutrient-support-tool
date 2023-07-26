@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
-import { InterventionCreationService } from '../interventionCreation/interventionCreation.service';
+import { SimpleIntervention } from '../../intervention';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -12,13 +14,14 @@ import { InterventionCreationService } from '../interventionCreation/interventio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionComponent {
-  @Input() intervention: InterventionsDictionaryItem;
-
+  @Input() intervention: SimpleIntervention;
   public ROUTES = AppRoutes;
+  public selectedSimpleInterventions: Array<SimpleIntervention> = [];
 
   constructor(
     private readonly interventionDataService: InterventionDataService,
-    private interventionCreationService: InterventionCreationService,
+    private readonly userLoginService: UserLoginService,
+    private readonly notificationsService: NotificationsService,
     public route: ActivatedRoute,
   ) {}
 
@@ -30,12 +33,11 @@ export class InterventionComponent {
   public today: number = Date.now();
 
   public reviewIntervention(): void {
-    this.interventionDataService.startReviewingIntervention(this.intervention.id);
-    this.interventionDataService.updateRecentInterventions(this.intervention);
+    this.interventionDataService.startReviewingIntervention(this.intervention.id.toString());
   }
 
-  public removeIntervention() {
-    this.interventionCreationService.interventionRemove(this.intervention.id);
+  public removeIntervention(): void {
+    this.interventionDataService.removeSimpleInterventionFromStorage(this.intervention);
   }
 
   public onConfirmAssumptions(): void {
@@ -46,5 +48,20 @@ export class InterventionComponent {
   public onConfirmCosts(): void {
     this.toggleCosts = !this.toggleCosts;
     this.costsText = this.toggleCosts ? 'Confirmed' : 'Not confirmed';
+  }
+
+  public handleClaimIntervention(): void {
+    if (null != this.userLoginService.getActiveUser()) {
+      this.interventionDataService
+        .claimAnonymousIntervention(this.intervention.id.toString())
+        .then((claimedIntervention: Intervention) => {
+          this.interventionDataService.removeSimpleInterventionFromStorage(this.intervention);
+          this.interventionDataService.setSimpleInterventionInStorage(claimedIntervention);
+          this.notificationsService.sendPositive('Intervention successfully claimed!');
+        })
+        .catch(() => this.notificationsService.sendNegative('Unable to claim intervention'));
+    } else {
+      this.notificationsService.sendInformative('You must login to claim an intervention');
+    }
   }
 }

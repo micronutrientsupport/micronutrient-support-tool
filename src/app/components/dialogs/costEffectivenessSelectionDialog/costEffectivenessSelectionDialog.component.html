@@ -93,10 +93,10 @@
 
           <mat-form-field #inputt>
             <mat-label>Intervention ID</mat-label>
-            <input matInput [placeholder]="recentInterventions" [(ngModel)]="selectedInterventionIDLoad"
-              (ngModelChange)="this.proceed.next(true);" (keyup)="updateForm()" matNativeControl required>
+            <input matInput [(ngModel)]="selectedInterventionIDLoad" (ngModelChange)="this.proceed.next(true);"
+              matNativeControl required>
           </mat-form-field>
-
+          <!--  [placeholder]="recentInterventions"(keyup)="updateForm()"  -->
           <!-- <p>Make note of your Intervention ID in order to access it at a later date.</p> -->
         </div>
         <div class="result-wrapper" [ngClass]="(showResults.asObservable() | async) === true ? 'visible' : 'hidden'">
@@ -117,8 +117,8 @@
           </ng-container>
           <ng-container *ngIf="null == interventionPreview || selectedInterventionIDLoad === ''">
 
-            <p> The intervention ID <strong>{{ selectedInterventionIDLoad }}</strong> does not match any of your recent
-              interventions.</p>
+            <!-- <p> The intervention ID <strong>{{ selectedInterventionIDLoad }}</strong> does not match any of your recent
+              interventions.</p> -->
           </ng-container>
         </div>
 
@@ -130,8 +130,8 @@
       <button mat-stroked-button type="button" (click)="closeDialog()">
         Cancel
       </button>
-      <button form="form" mat-flat-button color="primary" (click)="createID()" (click)="createIntervention()"
-        class="btn-proceed" *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
+      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid">
         Copy & edit
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"

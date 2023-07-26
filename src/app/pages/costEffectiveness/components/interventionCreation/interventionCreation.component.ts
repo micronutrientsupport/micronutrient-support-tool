@@ -9,8 +9,8 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { Subscription } from 'rxjs';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InterventionCreationService } from './interventionCreation.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
+import { SimpleIntervention } from '../../intervention';
 @Component({
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
@@ -19,6 +19,7 @@ import { UserLoginService } from 'src/app/services/userLogin.service';
 export class InterventionCreationComponent {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
   public selectedInterventions: Array<InterventionsDictionaryItem> = [];
+  public selectedSimpleInterventions: Array<SimpleIntervention> = [];
   public routerSubscription: Subscription;
   constructor(
     public quickMapsService: QuickMapsService,
@@ -28,7 +29,6 @@ export class InterventionCreationComponent {
     private cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
     private router: Router,
-    private interventionCreationService: InterventionCreationService,
     private readonly userLoginService: UserLoginService,
   ) {
     void dictionariesService.getDictionaries([DictionaryType.INTERVENTIONS], false).then((dicts: Array<Dictionary>) => {
@@ -36,14 +36,28 @@ export class InterventionCreationComponent {
       this.loadInterventions();
     });
 
-    this.interventionCreationService.interventionRemovalObs.subscribe((interventionIdToRemove: string) => {
-      this.removeInterventionById(interventionIdToRemove);
-    });
-
     this.userLoginService.activeUserObs.subscribe(() => {
       this.updateInterventionsFromAPI();
     });
+
+    this.interventionService.simpleInterventionArrChangedObs.subscribe((interventions: Array<SimpleIntervention>) => {
+      this.selectedSimpleInterventions = interventions.filter((intervention: SimpleIntervention) => {
+        if (this.userLoginService.getActiveUser()) {
+          return (
+            intervention.userId === this.userLoginService.getActiveUser().id || intervention.userId === 'Anonymous'
+          );
+        } else {
+          return intervention.userId === 'Anonymous';
+        }
+      });
+      this.cdr.markForCheck();
+    });
+
+    this.userLoginService.activeUserObs.subscribe(() => {
+      this.interventionService.triggerSimpleInterventionRefresh();
+    });
   }
+
   public async loadInterventions(): Promise<void> {
     this.route.queryParamMap
       .subscribe(async (queryParams) => {
@@ -52,7 +66,6 @@ export class InterventionCreationComponent {
           for (const id of interventionIds) {
             await this.interventionService.getIntervention(id.toString()).then((data: unknown) => {
               this.selectedInterventions.push(data as InterventionsDictionaryItem);
-              this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
               this.cdr.detectChanges();
             });
           }
@@ -80,7 +93,6 @@ export class InterventionCreationComponent {
           });
           this.quickMapsService.updateQueryParams();
           this.selectedInterventions.push(data.dataOut);
-          this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
           this.updateInterventionsFromAPI();
           this.cdr.detectChanges();
         }
@@ -100,7 +112,6 @@ export class InterventionCreationComponent {
 
     // remove from list of selected interventions
     this.selectedInterventions = this.selectedInterventions.filter((value) => value.id !== interventionToRemove);
-    this.interventionCreationService.updateCurrentInterventionsCount(this.selectedInterventions.length);
 
     // get current query param array
     const interventionIds = this.route.snapshot.queryParamMap.get('intIds')
