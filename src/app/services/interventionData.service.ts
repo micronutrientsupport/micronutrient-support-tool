@@ -17,7 +17,6 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
-import { InterventionsDictionaryItem } from '../apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
