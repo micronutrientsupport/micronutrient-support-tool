@@ -1,9 +1,11 @@
 <div class="container-row">
   <div class="element-container">
     <i class="fas fa-file-image"></i>
-    <a [href]="chartDownloadPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
+    <!-- <a [href]="chartDownloadPNG" target="_blank" referrerpolicy="no-referrer-when-downgrade">
       <button [disabled]="!chartDownloadPNG ? true : null" mat-stroked-button color="primary">Save as .png</button>
-    </a>
+    </a> -->
+    <button [disabled]="!chartDownloadPNG ? true : null" mat-stroked-button color="primary"
+      (click)="handleSavePNG()">Save as .png</button>
     <p>PNG image of the visualisation that can be used in reports and presentations</p>
   </div>
   <div class="element-container">

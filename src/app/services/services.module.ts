@@ -12,6 +12,7 @@ import { ProjectionDataService } from './projectionData.service';
 import { BiomarkerDataService } from './biomarkerData.service';
 import { DietDataService } from './dietData.service';
 import { JSONLogicService } from './jsonlogic.service';
+import { QrCodeService } from './qrCode.service';
 
 @NgModule({
   declarations: [],
@@ -29,6 +30,7 @@ import { JSONLogicService } from './jsonlogic.service';
     GridsterService,
     ScenarioDataService,
     JSONLogicService,
+    QrCodeService,
   ],
 })
 export class ServicesModule {}

@@ -227,6 +227,14 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         ],
       },
       options: {
+        devicePixelRatio: 2,
+        animation: {
+          onComplete: () => {
+            const base64 = this.householdSupplyHistogram.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
+        },
         plugins: {
           title: {
             display: false,
@@ -340,12 +348,12 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
     // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
 
-    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-      response.then((imageUrl: string) => {
-        this.chartPNG = imageUrl;
-        this.chartPDF = imageUrl;
-      });
-    });
+    // this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
+    //   response.then((imageUrl: string) => {
+    //     this.chartPNG = imageUrl;
+    //     this.chartPDF = imageUrl;
+    //   });
+    // });
   }
 
   private openDialog(): void {

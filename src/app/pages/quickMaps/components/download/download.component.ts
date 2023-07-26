@@ -4,6 +4,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
 import { MapDownloadService } from 'src/app/services/mapDownload.service';
 import { jsPDF } from 'jspdf';
+import { QrCodeService } from 'src/app/services/qrCode.service';
 
 @Component({
   selector: 'app-download',
@@ -16,6 +17,16 @@ export class DownloadComponent {
   @Input() chartDownloadPDF: string;
   @Input() dataArray: Array<Exportable>;
 
+  private openImgHolder: Window;
+  private qrOpts = {
+    margin: 10,
+    width: 150,
+    errorCorrectionLevel: 'M',
+    color: {
+      dark: '703aa3',
+      light: 'fff',
+    },
+  };
   public year = new Date().getFullYear();
   public date = new Date();
   public formattedDate = this.date
@@ -54,9 +65,10 @@ export class DownloadComponent {
     private clipboard: Clipboard,
     private exportService: ExportService,
     private mapDownloadService: MapDownloadService,
+    private qrCodeService: QrCodeService,
   ) {}
 
-  private makePDF(base64Img): void {
+  private makePDF(base64Img: string): void {
     const doc = new jsPDF({
       orientation: 'l',
       unit: 'pt',
@@ -69,11 +81,77 @@ export class DownloadComponent {
     doc.save('maps-chart.pdf');
   }
 
+  private getImg(image: string): Promise<unknown> {
+    const promise = new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.src = image;
+    });
+    return promise;
+  }
+
+  private addWatermarking(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    ctx.fillStyle = '#703aa3';
+    ctx.fillRect(0, img.height + 20, img.width, 60);
+
+    ctx.font = '23px Arial';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText('www.micronutrient.support', 180, img.height + 58);
+
+    Promise.all([
+      this.getImg('/assets/images/watermark.png'),
+      this.qrCodeService.renderQR('png', null, 'https://micronutrient.support', this.qrOpts),
+    ])
+      .then((values) => {
+        const watermark = values[0] as HTMLImageElement;
+        const qrCodeUrl = values[1] as string;
+
+        if (watermark && qrCodeUrl) {
+          ctx.drawImage(watermark, 10, img.height + 28, 149, 45);
+
+          this.getImg(qrCodeUrl).then((qrCode) => {
+            ctx.drawImage(qrCode as HTMLImageElement, img.width - 80, img.height + 80 - 80, 80, 80);
+            ctx.rect(img.width - 80 - 2, img.height + 80 - 80 - 2, 84, 84);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#703aa3';
+            ctx.stroke();
+
+            const finalImg = canvas.toDataURL('image/png');
+            this.openImgHolder.location.href = finalImg;
+          });
+        }
+      })
+      .catch(function (err) {
+        console.error(err.message);
+      });
+  }
+
+  private drawCanvas(base64Img: string) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    this.getImg(base64Img).then((img: HTMLImageElement) => {
+      canvas.width = img.width;
+      canvas.height = img.height + 75;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      this.addWatermarking(canvas, ctx, img);
+    });
+  }
+
   public exportToCsv(): void {
     this.exportService.exportToCsv(this.dataArray);
   }
 
   public handleSavePDF(): void {
     this.makePDF(this.chartDownloadPDF);
+  }
+
+  public handleSavePNG(): void {
+    this.openImgHolder = window.open('', '_blank');
+    this.drawCanvas(this.chartDownloadPNG);
   }
 }
