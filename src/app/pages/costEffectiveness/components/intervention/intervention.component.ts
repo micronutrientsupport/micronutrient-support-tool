@@ -15,8 +15,6 @@ import { NotificationsService } from 'src/app/components/notifications/notificat
 })
 export class InterventionComponent {
   @Input() intervention: SimpleIntervention;
-  public userAnonymous: boolean;
-
   public ROUTES = AppRoutes;
   public selectedSimpleInterventions: Array<SimpleIntervention> = [];
 
@@ -25,19 +23,7 @@ export class InterventionComponent {
     private readonly userLoginService: UserLoginService,
     private readonly notificationsService: NotificationsService,
     public route: ActivatedRoute,
-  ) {
-    // this.interventionDataService.simpleInterventionArrChangedObs.subscribe(
-    //   (interventions: Array<SimpleIntervention>) => {
-    //     this.selectedSimpleInterventions = interventions.forEach((intervention: SimpleIntervention) => {
-    //       if (intervention.userId === 'Anonymous') {
-    //         return this.userAnonymous === true;
-    //       } else {
-    //         return this.userAnonymous === false;
-    //       }
-    //     });
-    //   },
-    // );
-  }
+  ) {}
 
   public toggleAssumptions = true;
   public toggleCosts = true;
