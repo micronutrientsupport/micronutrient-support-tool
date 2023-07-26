@@ -111,11 +111,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const recentInterventions = [];
-    this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
-      recentInterventions.push(intervention.id.toString());
-    });
-    this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
+    // const recentInterventions = [];
+    // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
+    //   recentInterventions.push(intervention.id.toString());
+    // });
+    // this.recentInterventions = `${'Recent Interventions: ' + recentInterventions}`;
 
     this.interventionRequestBody = {
       parentInterventionId: 0,
@@ -350,14 +350,14 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     }
   }
 
-  public updateForm() {
-    this.interventionPreview = this.interventionDataService
-      .getRecentInterventions()
-      .find(
-        (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
-      );
-    console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
-  }
+  // public updateForm() {
+  //   this.interventionPreview = this.interventionDataService
+  //     .getRecentInterventions()
+  //     .find(
+  //       (intervention: InterventionsDictionaryItem) => intervention.id.toString() === this.selectedInterventionIDLoad,
+  //     );
+  //   console.log('interventionPreview', this.interventionPreview ? this.interventionPreview.id : 'does not exist');
+  // }
 
   public handleNationChange(change: MatSelectChange): void {
     this.apiService.endpoints.region.getRegions
