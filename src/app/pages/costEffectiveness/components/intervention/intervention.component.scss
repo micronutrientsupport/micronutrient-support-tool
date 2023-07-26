@@ -6,12 +6,6 @@
   border-radius: 5px;
 }
 
-.button::ng-deep {
-  padding: 10px;
-  margin: 15px;
-  justify-content: space-between;
-}
-
 .container {
   border: solid 1px $color_primary;
   border-radius: 5px;
@@ -89,7 +83,22 @@
 
 .title {
   display: flex;
-  justify-content: flex-start;
+  width: 50%;
+  justify-content: space-between;
+  .copy-email-wrapper {
+    width: 70%;
+    display: flex;
+    justify-content: space-evenly;
+    :nth-child(1) {
+      margin-right: 1em;
+    }
+    .copy-button,
+    .email-button {
+      border: 2px dashed $color_primary;
+      border-radius: 6px;
+      color: $color_primary;
+    }
+  }
 }
 
 .int-id {
@@ -130,20 +139,5 @@
   border-radius: 8px;
   margin: 0 1rem 2rem 1rem;
   border: 2px solid $color_primary;
-  // background-color: rgba(0, 170, 255, 0.2);
   background-color: #f1ecf6;
-}
-.copy-button,
-.email-button {
-  border: 2px dashed $color_primary;
-  color: $color_primary;
-  background-color: white;
-  border-radius: 6px;
-  padding: 2px;
-  margin: 5px;
-  cursor: pointer;
-}
-.email-link {
-  color: $color_primary;
-  background-color: white;
 }
