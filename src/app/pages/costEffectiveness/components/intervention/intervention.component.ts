@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { SimpleIntervention } from '../../intervention';
+import { UserLoginService } from 'src/app/services/userLogin.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -12,10 +15,29 @@ import { SimpleIntervention } from '../../intervention';
 })
 export class InterventionComponent {
   @Input() intervention: SimpleIntervention;
+  public userAnonymous: boolean;
 
   public ROUTES = AppRoutes;
+  public selectedSimpleInterventions: Array<SimpleIntervention> = [];
 
-  constructor(private readonly interventionDataService: InterventionDataService, public route: ActivatedRoute) {}
+  constructor(
+    private readonly interventionDataService: InterventionDataService,
+    private readonly userLoginService: UserLoginService,
+    private readonly notificationsService: NotificationsService,
+    public route: ActivatedRoute,
+  ) {
+    // this.interventionDataService.simpleInterventionArrChangedObs.subscribe(
+    //   (interventions: Array<SimpleIntervention>) => {
+    //     this.selectedSimpleInterventions = interventions.forEach((intervention: SimpleIntervention) => {
+    //       if (intervention.userId === 'Anonymous') {
+    //         return this.userAnonymous === true;
+    //       } else {
+    //         return this.userAnonymous === false;
+    //       }
+    //     });
+    //   },
+    // );
+  }
 
   public toggleAssumptions = true;
   public toggleCosts = true;
@@ -40,5 +62,19 @@ export class InterventionComponent {
   public onConfirmCosts(): void {
     this.toggleCosts = !this.toggleCosts;
     this.costsText = this.toggleCosts ? 'Confirmed' : 'Not confirmed';
+  }
+
+  public handleClaimIntervention(): void {
+    if (null != this.userLoginService.getActiveUser()) {
+      this.interventionDataService
+        .claimAnonymousIntervention(this.intervention.id.toString())
+        .then(() => {
+          // this.selectedIntervention = claimedIntervention;
+          this.notificationsService.sendPositive('Intervention successfully claimed!');
+        })
+        .catch(() => this.notificationsService.sendNegative('Unable to claim intervention'));
+    } else {
+      this.notificationsService.sendInformative('You must login to claim an intervention');
+    }
   }
 }

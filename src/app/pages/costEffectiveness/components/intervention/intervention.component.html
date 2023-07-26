@@ -36,6 +36,16 @@
 
 
       <div class="column-container">
+        <!-- <div class="claim-button-container"> -->
+        <!-- <button *ngIf="userAnonymous" mat-flat-button class="claim-button">Claim</button> -->
+        <!-- </div> -->
+
+        <div>
+          <span *ngIf="intervention.userId === 'Anonymous'"><strong>Intervention not claimed: </strong><button
+              mat-flat-button class="claim-button" (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
+              Claim</button> </span>
+        </div>
+
         <div class="button-container">
           <button mat-stroked-button type="button" class="btn btn-primary"
             (click)="removeIntervention()">Remove</button>
