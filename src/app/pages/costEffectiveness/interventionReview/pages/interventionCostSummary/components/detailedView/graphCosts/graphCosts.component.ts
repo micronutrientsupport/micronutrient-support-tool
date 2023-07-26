@@ -93,6 +93,7 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
         type: 'bar',
         data: yearlyChartData,
         options: {
+          devicePixelRatio: 2,
           animation: {
             onComplete: () => {
               const base64 = this.chartData.toBase64Image('image/png', 1);

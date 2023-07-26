@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ExportService } from 'src/app/services/export.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Exportable } from 'src/app/apiAndObjects/objects/exportable.interface';
@@ -27,7 +27,11 @@ export class DownloadComponent {
       light: 'fff',
     },
   };
-  private finalImg!: string;
+  private downloadType!: string;
+  private canvasDimensions: {
+    width: number;
+    height: number;
+  };
   public year = new Date().getFullYear();
   public date = new Date();
   public formattedDate = this.date
@@ -72,8 +76,8 @@ export class DownloadComponent {
   private makePDF(base64Img: string): void {
     const doc = new jsPDF({
       orientation: 'l',
-      unit: 'pt',
-      format: 'a4',
+      unit: 'px',
+      format: [this.canvasDimensions.width, this.canvasDimensions.height],
     });
     const width = doc.internal.pageSize.getWidth();
     const height = doc.internal.pageSize.getHeight();
@@ -91,7 +95,7 @@ export class DownloadComponent {
     return promise;
   }
 
-  private addWatermarking(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
+  private addWatermarking(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, img: HTMLImageElement) {
     ctx.drawImage(img, 0, 0, img.width, img.height);
     ctx.fillStyle = '#703aa3';
     ctx.fillRect(0, img.height + 20, img.width, 60);
@@ -119,10 +123,17 @@ export class DownloadComponent {
             ctx.stroke();
 
             const imgStr = canvas.toDataURL('image/png');
-            this.finalImg = imgStr;
             const finalImg = new Image();
+
             finalImg.src = imgStr;
-            this.openImgHolder.document.write(finalImg.outerHTML);
+
+            if (this.openImgHolder) {
+              this.openImgHolder.document.write(finalImg.outerHTML);
+            }
+
+            if (this.downloadType === 'pdf') {
+              this.makePDF(imgStr);
+            }
           });
         }
       })
@@ -139,6 +150,11 @@ export class DownloadComponent {
       canvas.width = img.width;
       canvas.height = img.height + 75;
 
+      this.canvasDimensions = {
+        width: canvas.width,
+        height: canvas.height,
+      };
+
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -151,11 +167,12 @@ export class DownloadComponent {
   }
 
   public handleSavePDF(): void {
+    this.downloadType = 'pdf';
     this.drawCanvas(this.chartDownloadPNG);
-    this.makePDF(this.finalImg);
   }
 
   public handleSavePNG(): void {
+    this.downloadType = 'png';
     this.openImgHolder = window.open('about:blank');
     this.drawCanvas(this.chartDownloadPNG);
   }

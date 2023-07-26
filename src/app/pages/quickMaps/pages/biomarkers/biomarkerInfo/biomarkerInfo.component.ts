@@ -267,6 +267,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           ],
         },
         options: {
+          devicePixelRatio: 2,
           scales: {
             x: {
               title: {

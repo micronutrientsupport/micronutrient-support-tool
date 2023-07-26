@@ -143,6 +143,7 @@ export class StatusChartComponent implements AfterViewInit {
       type: 'bar',
       data: dataObj,
       options: {
+        devicePixelRatio: 2,
         plugins: {
           title: {
             display: true,

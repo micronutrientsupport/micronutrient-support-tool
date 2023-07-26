@@ -227,6 +227,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         datasets: datasets,
       },
       options: {
+        devicePixelRatio: 2,
         animation: {
           onComplete: () => {
             const base64 = this.chartData.toBase64Image('image/png', 1);

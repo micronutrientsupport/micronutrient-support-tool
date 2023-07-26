@@ -61,6 +61,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
         ],
       },
       options: {
+        devicePixelRatio: 2,
         animation: {
           onComplete: () => {
             const base64 = this.chartData.toBase64Image();

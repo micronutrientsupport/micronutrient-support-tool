@@ -229,6 +229,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
       type: 'bar',
       data: monthlyChartData,
       options: {
+        devicePixelRatio: 2,
         animation: {
           onComplete: () => {
             const base64 = this.chartStackedBar.toBase64Image('image/png', 1);
@@ -283,6 +284,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
       type: 'line',
       data: monthlyChartData,
       options: {
+        devicePixelRatio: 2,
         animation: {
           onComplete: () => {
             const base64 = this.chartLine.toBase64Image('image/png', 1);

@@ -256,6 +256,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       type: 'bar',
       data: stackedChartData,
       options: {
+        devicePixelRatio: 2,
         animation: {
           onComplete: () => {
             const base64 = this.chartStackedBar.toBase64Image('image/png', 1);

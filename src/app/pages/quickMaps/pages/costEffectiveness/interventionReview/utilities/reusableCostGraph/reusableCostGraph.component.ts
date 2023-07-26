@@ -86,6 +86,7 @@ export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDest
         type: 'pie',
         data: this.chartData,
         options: {
+          devicePixelRatio: 2,
           maintainAspectRatio: false,
           plugins: {
             legend: {
