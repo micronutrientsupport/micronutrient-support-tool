@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
@@ -16,6 +16,7 @@ import { SimpleIntervention } from '../../intervention';
   selector: 'app-intervention-creation',
   templateUrl: './interventionCreation.component.html',
   styleUrls: ['./interventionCreation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InterventionCreationComponent {
   public interventionsDictionaryItems: Array<InterventionsDictionaryItem>;
@@ -54,20 +55,12 @@ export class InterventionCreationComponent {
           );
         }
       });
+      this.cdr.markForCheck();
     });
 
-    // this.userLoginService.activeUserObs.subscribe((user: LoginRegisterResponseDataSource) => {
-    //   if (null != user) {
-    //     this.selectedSimpleInterventions = this.interventionService
-    //       .getSimpleInterventionsFromStorage()
-    //       .filter((intervention: SimpleIntervention) => {
-    //         return intervention.userId === user.id || intervention.userId === 'Anonymous';
-    //       });
-    //   } else {
-    //     this.selectedSimpleInterventions = [];
-    //   }
-    //   this.cdr.detectChanges();
-    // });
+    this.userLoginService.activeUserObs.subscribe(() => {
+      this.interventionService.triggerSimpleInterventionRefresh();
+    });
   }
 
   public async loadInterventions(): Promise<void> {

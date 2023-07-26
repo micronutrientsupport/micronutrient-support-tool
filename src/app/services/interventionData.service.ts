@@ -196,6 +196,11 @@ export class InterventionDataService {
     this.simpleInterventionArrChangedSrc.next(newArr);
   }
 
+  // This function can be used to update the intervention list when a user logs in or out.
+  public triggerSimpleInterventionRefresh() {
+    this.simpleInterventionArrChangedSrc.next(this.getSimpleInterventionsFromStorage());
+  }
+
   public claimAnonymousIntervention(id: string): Promise<Intervention> {
     return this.apiService.endpoints.intervention.patchIntervention.call({ id });
   }
