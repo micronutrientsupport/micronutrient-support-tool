@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { InterventionCreationService } from '../interventionCreation/interventionCreation.service';
+import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { SimpleIntervention } from '../../intervention';
 
 @Component({
   selector: 'app-ce-menu',
@@ -11,14 +12,14 @@ export class MenuComponent implements OnInit {
   public interventionCount: number;
   constructor(
     private dialogService: DialogService,
-    private interventionCreationService: InterventionCreationService,
+    private interventionDataService: InterventionDataService,
     private cdr: ChangeDetectorRef,
   ) {
-    this.interventionCreationService.interventionsSelectedCountObs.subscribe((count: number) => {
-      if (count !== null && count !== undefined) {
-        this.updateInterventionCount(count);
-      }
-    });
+    this.interventionDataService.simpleInterventionArrChangedObs.subscribe(
+      (interventions: Array<SimpleIntervention>) => {
+        this.updateInterventionCount(interventions.length);
+      },
+    );
   }
 
   ngOnInit(): void {
