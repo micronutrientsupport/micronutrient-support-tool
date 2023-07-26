@@ -19,7 +19,6 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import {
   BarElement,
   CategoryScale,
@@ -77,14 +76,10 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
   public chartPNG: string;
   public chartPDF: string;
   public csvDownloadData: Array<MicronutrientProjectionSource> = [];
-
   public data: Array<MicronutrientProjectionSource>;
-
   private sort: MatSort;
-
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -92,7 +87,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
     private projectionDataService: ProjectionDataService,
     private quickMapsService: QuickMapsService,
     private cdr: ChangeDetectorRef,
-    private qcService: QuickchartService,
     private fb: UntypedFormBuilder,
     private sigFig: SignificantFiguresPipe,
     private dialogService: DialogService,
@@ -205,9 +199,7 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
           }
 
           this.dataSource = new MatTableDataSource(data);
-          // this.csvDownloadData.push(data);
 
-          // const filteredTableDataArray = [];
           const foodTypes = [...new Set(data.map((item) => item.name))];
           const quinquennialPeriod = [...new Set(data.map((item) => item.year))];
 
@@ -264,6 +256,13 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       type: 'bar',
       data: stackedChartData,
       options: {
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartStackedBar.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
+        },
         plugins: {
           title: {
             display: false,
@@ -303,16 +302,6 @@ export class ProjectionFoodSourcesComponent implements AfterViewInit {
       },
     });
     this.chartStackedBar = generatedChart;
-    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart.config));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-
-    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-      response.then((imageUrl: string) => {
-        this.chartPNG = imageUrl;
-        this.chartPDF = imageUrl;
-      });
-    });
   }
 
   private openDialog(): void {

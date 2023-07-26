@@ -19,7 +19,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ProjectedAvailability } from 'src/app/apiAndObjects/objects/projectedAvailability';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatSort } from '@angular/material/sort';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { Chart, LineController, LinearScale, TooltipItem } from 'chart.js';
 import { SignificantFiguresPipe } from 'src/app/pipes/significantFigures.pipe';
 import { ProjectionsSummary } from 'src/app/apiAndObjects/objects/projectionSummary';
@@ -66,7 +65,6 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    private qcService: QuickchartService,
     private sigFig: SignificantFiguresPipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<ProjectionAvailabilityDialogData>,
   ) {}
@@ -229,6 +227,13 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         datasets: datasets,
       },
       options: {
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartData.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
+        },
         maintainAspectRatio: false,
         plugins: {
           title: {
@@ -287,14 +292,7 @@ export class ProjectionAvailabilityComponent implements AfterViewInit {
         },
       },
     });
-    console.debug('this.projectionsSummary.recommended: ', this.projectionsSummary.recommended);
     this.chartData = generatedChart;
-    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-      response.then((imageUrl: string) => {
-        this.chartPNG = imageUrl;
-        this.chartPDF = imageUrl;
-      });
-    });
   }
 
   private openDialog(): void {

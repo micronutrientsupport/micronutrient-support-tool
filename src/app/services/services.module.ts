@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { SnackbarService } from './snackbar.service';
 import { SharingService } from './sharing.service';
 import { PageLoadingService } from './pageLoadingService.service';
-import { QuickchartService } from './quickChart.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
 import { ProjectionDataService } from './projectionData.service';
@@ -26,7 +25,6 @@ import { QrCodeService } from './qrCode.service';
     SnackbarService,
     SharingService,
     PageLoadingService,
-    QuickchartService,
     GridsterService,
     ScenarioDataService,
     JSONLogicService,

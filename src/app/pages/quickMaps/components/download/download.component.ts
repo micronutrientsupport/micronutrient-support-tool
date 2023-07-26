@@ -27,6 +27,7 @@ export class DownloadComponent {
       light: 'fff',
     },
   };
+  private finalImg!: string;
   public year = new Date().getFullYear();
   public date = new Date();
   public formattedDate = this.date
@@ -117,8 +118,11 @@ export class DownloadComponent {
             ctx.strokeStyle = '#703aa3';
             ctx.stroke();
 
-            const finalImg = canvas.toDataURL('image/png');
-            this.openImgHolder.location.href = finalImg;
+            const imgStr = canvas.toDataURL('image/png');
+            this.finalImg = imgStr;
+            const finalImg = new Image();
+            finalImg.src = imgStr;
+            this.openImgHolder.document.write(finalImg.outerHTML);
           });
         }
       })
@@ -147,11 +151,12 @@ export class DownloadComponent {
   }
 
   public handleSavePDF(): void {
-    this.makePDF(this.chartDownloadPDF);
+    this.drawCanvas(this.chartDownloadPNG);
+    this.makePDF(this.finalImg);
   }
 
   public handleSavePNG(): void {
-    this.openImgHolder = window.open('', '_blank');
+    this.openImgHolder = window.open('about:blank');
     this.drawCanvas(this.chartDownloadPNG);
   }
 }

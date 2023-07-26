@@ -11,10 +11,8 @@ import {
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { BarElement, CategoryScale, Chart, LinearScale } from 'chart.js';
 import ColorHash from 'color-hash-ts';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({
@@ -43,11 +41,7 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
   ];
   private counter = 0;
 
-  constructor(
-    private qcService: QuickchartService,
-    private interventionDataService: InterventionDataService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  constructor(private interventionDataService: InterventionDataService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     Chart.register(CategoryScale, LinearScale, BarElement);
@@ -99,6 +93,13 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
         type: 'bar',
         data: yearlyChartData,
         options: {
+          animation: {
+            onComplete: () => {
+              const base64 = this.chartData.toBase64Image('image/png', 1);
+              this.interventionDataService.setInterventionDetailedChartPNG(base64);
+              this.interventionDataService.setInterventionDetailedChartPDF(base64);
+            },
+          },
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
@@ -125,21 +126,7 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
           },
         },
       });
-
       this.chartData = generatedChart;
-      // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-      // this.interventionDataService.setInterventionDetailedChartPNG(
-      //   this.qcService.getChartAsImageUrl(chartForRender, 'png'),
-      // );
-      // this.interventionDataService.setInterventionDetailedChartPDF(
-      //   this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
-      // );
-      this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-        response.then((imageUrl: string) => {
-          this.interventionDataService.setInterventionDetailedChartPNG(imageUrl);
-          this.interventionDataService.setInterventionDetailedChartPDF(imageUrl);
-        });
-      });
     }
   }
 

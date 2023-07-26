@@ -2,9 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { Chart } from 'chart.js';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { BiomarkerDataType } from '../biomarkerStatus.component';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 Chart.register(BoxPlotController, BoxAndWiskers);
@@ -50,8 +48,6 @@ export class StatusChartComponent implements AfterViewInit {
   public micronutirentName: string;
 
   private outlierSet: unknown[] = [];
-
-  constructor(private qcService: QuickchartService) {}
 
   ngAfterViewInit(): void {
     this.renderAllCharts();
@@ -175,16 +171,10 @@ export class StatusChartComponent implements AfterViewInit {
     const chartForRender: Chart = JSON.parse(JSON.stringify(this.barChartData));
     switch (type) {
       case 'pod':
-        this.deficiencyBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.deficiencyBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
         break;
       case 'poe':
-        this.excessBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.excessBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
         break;
       case 'cde':
-        this.combinedBarChartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-        this.combinedBarChartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
         break;
     }
   }

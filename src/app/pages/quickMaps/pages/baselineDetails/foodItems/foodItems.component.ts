@@ -23,7 +23,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
@@ -52,33 +51,24 @@ export class FoodItemsComponent implements AfterViewInit {
 
   public title = 'Top 20 Food Items';
   public selectedTab: number;
-
   public chartDataGroup: Chart;
   public chartDataGenus: Chart;
-
   public chartPNG: string;
   public chartPDF: string;
   public displayedColumns = ['ranking', 'foodGenusName', 'foodGroupName', 'dailyMnContribution'];
   public dataSource: MatTableDataSource<TopFoodSource>;
   public mnUnit = '';
-
   public readonly DATA_LEVEL = DataLevel;
-
   private data: Array<TopFoodSource>;
-
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
   private subscriptions = new Array<Subscription>();
-
-  public tmpCounter = 0;
 
   constructor(
     private notificationService: NotificationsService,
     private dietDataService: DietDataService,
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
-    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     private titlecasePipe: TitleCasePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<FoodItemsDialogData>,
@@ -247,6 +237,19 @@ export class FoodItemsComponent implements AfterViewInit {
         ],
       },
       options: {
+        animation: {
+          onComplete: () => {
+            if (this.selectedTab === 0) {
+              const base64 = this.chartDataGenus.toBase64Image();
+              this.chartPNG = base64;
+              this.chartPDF = base64;
+            } else if (this.selectedTab === 1) {
+              const base64 = this.chartDataGroup.toBase64Image();
+              this.chartPNG = base64;
+              this.chartPDF = base64;
+            }
+          },
+        },
         plugins: {
           title: {
             display: false,
@@ -288,14 +291,6 @@ export class FoodItemsComponent implements AfterViewInit {
         maintainAspectRatio: false,
       },
     });
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-
-    // this.qcService.postChartData(chartForRender.config).subscribe((response) => {
-    //   this.createImageFromBlob(response);
-    // });
-
     return generatedChart;
   }
 

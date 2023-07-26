@@ -12,7 +12,6 @@ import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 
 @Component({
@@ -56,7 +55,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     private http: HttpClient,
     private papa: Papa,
     public quickMapsService: QuickMapsService,
-    private qcService: QuickchartService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
   ) {}
 
@@ -323,11 +321,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         },
       });
       this.chartData = generatedChart;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-      // console.log(this.chartPNG);
-      // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-      // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
     }
   }
 

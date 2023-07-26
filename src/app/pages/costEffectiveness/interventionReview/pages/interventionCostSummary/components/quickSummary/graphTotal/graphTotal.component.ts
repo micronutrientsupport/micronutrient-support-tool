@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
-// import { ChartJSObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
 import { BarController, Chart } from 'chart.js';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 @Component({
   selector: 'app-intervention-cost-summary-quick-total-graph',
   templateUrl: './graphTotal.component.html',
@@ -17,7 +15,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
   public chartPNG: string;
   public chartPDF: string;
 
-  constructor(private qcService: QuickchartService, private interventionDataService: InterventionDataService) {}
+  constructor(private interventionDataService: InterventionDataService) {}
 
   ngOnInit(): void {
     Chart.register(BarController);
@@ -32,10 +30,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
       this.chartData.destroy();
     }
   }
-
-  // public openSectionCostReviewDialog(costs: RecurringCosts): void {
-  // console.debug(costs);
-  // }
 
   private initialiseGraph(): void {
     // TODO: RESOLVE DATA BEING UNDEFINED
@@ -67,6 +61,13 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
         ],
       },
       options: {
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartData.toBase64Image();
+            this.interventionDataService.setInterventionSummaryChartPNG(base64);
+            this.interventionDataService.setInterventionSummaryChartPDF(base64);
+          },
+        },
         plugins: {
           title: {
             display: true,
@@ -94,20 +95,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
         },
       },
     });
-
     this.chartData = generatedChart;
-    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-      response.then((imageUrl: string) => {
-        this.interventionDataService.setInterventionSummaryChartPNG(imageUrl);
-        this.interventionDataService.setInterventionSummaryChartPDF(imageUrl);
-      });
-    });
-    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    // this.interventionDataService.setInterventionSummaryChartPNG(
-    //   this.qcService.getChartAsImageUrl(chartForRender, 'png'),
-    // );
-    // this.interventionDataService.setInterventionSummaryChartPDF(
-    //   this.qcService.getChartAsImageUrl(chartForRender, 'pdf'),
-    // );
   }
 }

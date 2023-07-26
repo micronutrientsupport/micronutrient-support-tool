@@ -31,7 +31,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import ColorHash from 'color-hash-ts';
 
@@ -66,7 +65,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private dietDataService: DietDataService,
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
-    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
   ) {}
@@ -231,6 +229,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
       type: 'bar',
       data: monthlyChartData,
       options: {
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartStackedBar.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
+        },
         plugins: {
           title: {
             display: false,
@@ -270,16 +275,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
       },
     });
     this.chartStackedBar = generatedChart;
-    // const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-
-    this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-      response.then((imageUrl: string) => {
-        this.chartPNG = imageUrl;
-        this.chartPDF = imageUrl;
-      });
-    });
   }
 
   private initialiseLineGraph(monthlyChartData: ChartData): void {
@@ -288,6 +283,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
       type: 'line',
       data: monthlyChartData,
       options: {
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartLine.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
+        },
         plugins: {
           title: {
             display: false,
@@ -328,8 +330,6 @@ export class MonthlyFoodComponent implements AfterViewInit {
     });
     this.chartLine = generatedChart;
     const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
   }
 
   private genColorHex(foodTypeIndex: string) {

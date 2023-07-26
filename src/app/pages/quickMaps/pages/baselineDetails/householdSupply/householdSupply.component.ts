@@ -20,7 +20,6 @@ import { CardComponent } from 'src/app/components/card/card.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DietaryHouseholdSummary } from 'src/app/apiAndObjects/objects/dietaryHouseholdSummary';
 
@@ -59,7 +58,6 @@ export class HouseholdSupplyComponent implements AfterViewInit {
     private dietDataService: DietDataService,
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
-    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<HouseholdSupplyDialogData>,
   ) {}
@@ -340,20 +338,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       };
       generatedChart.update();
     }
-
     this.householdSupplyHistogram = generatedChart;
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // const chartForRender: Chart = JSON.parse(JSON.stringify(generatedChart));
-    // this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    // this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
-
-    // this.qcService.postChartData(generatedChart.config['_config']).subscribe((response) => {
-    //   response.then((imageUrl: string) => {
-    //     this.chartPNG = imageUrl;
-    //     this.chartPDF = imageUrl;
-    //   });
-    // });
   }
 
   private openDialog(): void {
