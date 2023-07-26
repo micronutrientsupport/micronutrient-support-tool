@@ -46,6 +46,8 @@ export class InterventionCreationComponent {
           return (
             intervention.userId === this.userLoginService.getActiveUser().id || intervention.userId === 'Anonymous'
           );
+        } else {
+          return intervention.userId === 'Anonymous';
         }
       });
       this.cdr.markForCheck();
