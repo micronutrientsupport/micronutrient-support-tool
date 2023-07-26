@@ -4,8 +4,8 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { SimpleIntervention } from '../../intervention';
 import { UserLoginService } from 'src/app/services/userLogin.service';
-import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 
 @Component({
   selector: 'app-ce-intervention',
@@ -54,8 +54,9 @@ export class InterventionComponent {
     if (null != this.userLoginService.getActiveUser()) {
       this.interventionDataService
         .claimAnonymousIntervention(this.intervention.id.toString())
-        .then(() => {
-          // this.selectedIntervention = claimedIntervention;
+        .then((claimedIntervention: Intervention) => {
+          this.interventionDataService.removeSimpleInterventionFromStorage(this.intervention);
+          this.interventionDataService.setSimpleInterventionInStorage(claimedIntervention);
           this.notificationsService.sendPositive('Intervention successfully claimed!');
         })
         .catch(() => this.notificationsService.sendNegative('Unable to claim intervention'));
