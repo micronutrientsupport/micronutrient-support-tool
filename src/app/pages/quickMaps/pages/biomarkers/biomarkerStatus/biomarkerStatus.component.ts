@@ -12,7 +12,6 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { UntypedFormControl } from '@angular/forms';
 import { Chart } from 'chart.js';
-// import { ChartjsComponent } from '@ctrl/ngx-chartjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
