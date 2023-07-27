@@ -14,6 +14,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { UncertaintyNutrientAvailabilityComponent } from './uncertaintyNutrientAvaliability/uncertaintyNutrientAvailability.component';
 import { UncertaintyFoodAvailablityComponent } from './uncertaintyFoodAvaliablity/uncertaintyFoodAvailablity.component';
 import { UncertaintySummaryComponent } from './uncertaintySummary/uncertaintySummary.component';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UncertaintySummaryComponent } from './uncertaintySummary/uncertaintySum
     DialogModule,
     QuickMapsComponentsModule,
     PipesModule,
+    UtilitiesModule,
   ],
   exports: [UncertaintyComponent],
 })

@@ -9,6 +9,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { DietaryChangeService } from './dietaryChange.service';
 import { FormsModule } from '@angular/forms';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 
 @NgModule({
   declarations: [DietaryChangeComponent],
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     ComponentsModule,
     DialogModule,
     FormsModule,
+    UtilitiesModule,
   ],
   providers: [DietaryChangeService],
   exports: [DietaryChangeComponent],

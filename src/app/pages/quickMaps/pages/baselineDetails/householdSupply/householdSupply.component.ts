@@ -106,7 +106,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
 
   private householdSummariesToSummarizedData(data: Array<DietaryHouseholdSummary>): null | SummarizedData {
     // should this stepSize be worked out from the data to ensure only a fixed/max number of table rows/bars on the chart?
-    // console.log(data);
+    console.log(data);
     const stepSize = 25;
     let summarizedData: SummarizedData = null;
     if (data.length > 0) {
@@ -205,7 +205,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
             const yAxis = chart.scales['y-axis-0'];
             ctx.save();
             //ctx.ticks.forEach((tick) => console.log(tick));
-            // console.log(chart.data.ticks);
+            console.log(chart.data.ticks);
             chart.data.labels.forEach((l) => {
               if (data.threshold > 0 && l === data.threshold) {
                 const x = xAxis.getPixelForValue(l);
@@ -268,9 +268,9 @@ export class HouseholdSupplyComponent implements AfterViewInit {
                     const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
                     return Math.pow(10, order);
                   };
-                  // console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
-                  // console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
-                  // console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);
+                  console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
+                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
+                  console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);
                   if (value === data.threshold) {
                     return '';
                   }

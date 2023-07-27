@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angul
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
-import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 import { QuickMapsService } from '../../quickMaps.service';
 
 // eslint-disable-next-line no-shadow
@@ -27,21 +26,6 @@ export class ProjectionComponent implements OnInit {
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public stopEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public overlapEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
-
-  public layoutOptions: MatFabMenu[] = [
-    {
-      id: GridsterLayoutOptions.DEFAULT_VIEW,
-      icon: 'view_agenda',
-      tooltip: 'List View',
-      tooltipPosition: 'before',
-    },
-    {
-      id: GridsterLayoutOptions.GRID_VIEW,
-      icon: 'grid_view',
-      tooltip: 'Grid View',
-      tooltipPosition: 'before',
-    },
-  ];
 
   private readonly defaultWidgetHeight = 3;
   private readonly defaultWidgetWidth = 8;
@@ -126,7 +110,7 @@ export class ProjectionComponent implements OnInit {
         widgetCols = this.defaultWidgetColumns;
         break;
       }
-      case GridsterLayoutOptions.GRID_VIEW: {
+      case GridsterLayoutOptions.DEFAULT_VIEW: {
         width = 6;
         height = 4;
         widgetCols = 2;
