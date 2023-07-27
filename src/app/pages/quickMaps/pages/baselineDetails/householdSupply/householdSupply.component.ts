@@ -334,7 +334,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
       generatedChart.options.plugins.annotation.annotations['threshold'].borderColor = 'black';
       generatedChart.options.plugins.annotation.annotations['threshold'].label = {
         display: true,
-        content: 'Threshold for inadequacy',
+        content: `Threshold for inadequacy (${data.threshold})`,
       };
       generatedChart.update();
     }
