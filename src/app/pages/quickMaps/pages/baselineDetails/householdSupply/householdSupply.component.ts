@@ -225,6 +225,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         devicePixelRatio: 2,
         animation: {
           onComplete: () => {
