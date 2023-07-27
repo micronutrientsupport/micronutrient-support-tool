@@ -16,7 +16,6 @@ import { DirectivesModule } from './directives/directives.module';
 import { NgCustomerFeedbackMapsModule } from 'ng-customer-feedback-maps';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { UtilitiesModule } from 'src/utility/utilities.module';
 
 @NgModule({
   declarations: [AppComponent, FeedbackComponent],
@@ -26,7 +25,6 @@ import { UtilitiesModule } from 'src/utility/utilities.module';
     BrowserAnimationsModule,
     PagesModule,
     ComponentsModule,
-    UtilitiesModule,
     ApiModule,
     ServicesModule,
     ClipboardModule,

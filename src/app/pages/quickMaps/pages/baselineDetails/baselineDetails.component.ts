@@ -124,6 +124,7 @@ export class BaselineDetailsComponent implements OnInit {
   }
 
   public layoutChange(id?: string | number): void {
+    console.debug(id);
     let widgetCols: number;
     switch (id) {
       default: {

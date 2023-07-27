@@ -1,7 +1,11 @@
-<button mat-fab color="primary" class="fab-container" (click)="toggleMenu()">
-    <mat-icon [@rotateIcon]="menuState">dashboard_customize</mat-icon>
-</button>
-<div *ngIf="displayMenu" class="menu" [@expandMenu]="menuState">
-    <button mat-mini-fab (click)="onMenuItemClick('Option 1')"><mat-icon>view_agenda</mat-icon></button>
-    <button mat-mini-fab (click)="onMenuItemClick('Option 2')"><mat-icon>grid_view</mat-icon></button>
+<div class="fab-container">
+    <button mat-fab color="primary" (click)="toggleMenu()">
+        <mat-icon [@rotateIcon]="menuState">dashboard_customize</mat-icon>
+    </button>
+    <div class="menu" [@expandMenu]="menuState">
+        <button [hidden]="!displayButtons" mat-mini-fab
+            (click)="onMenuItemClick(1)"><mat-icon>view_agenda</mat-icon></button>
+        <button [hidden]="!displayButtons" mat-mini-fab
+            (click)="onMenuItemClick(0)"><mat-icon>grid_view</mat-icon></button>
+    </div>
 </div>

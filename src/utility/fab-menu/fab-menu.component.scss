@@ -1,12 +1,7 @@
 .fab-container {
-  /* ... Existing styles for the FAB container ... */
   bottom: 20px;
   right: 20px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  transition: transform 0.2s, background-color 0.2s;
-  /* Add z-index to make sure the menu appears above other elements */
-  z-index: 100;
-  /* Set position to relative to make sure the absolute-positioned menu stays within this container */
+  z-index: 1000;
   position: fixed;
 }
 
@@ -24,10 +19,12 @@
 /* Animation to show/hide the menu */
 @keyframes expandMenu {
   from {
+    display: none;
     opacity: 0;
     transform: translateY(10px);
   }
   to {
+    display: block;
     opacity: 1;
     transform: translateY(0);
   }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Output } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-fab-menu',
@@ -19,22 +20,18 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ],
 })
 export class FabMenuComponent {
+  @Output() buttonTrigger: Subject<number> = new Subject();
+
   public menuState: 'shown' | 'hidden' = 'hidden';
-  public displayMenu = false;
+  public displayButtons = false;
 
   toggleMenu(): void {
-    if (this.menuState === 'hidden') {
-      this.displayMenu = true;
-      setTimeout(() => (this.menuState = 'shown'));
-    } else {
-      this.menuState = 'hidden';
-      setTimeout(() => (this.displayMenu = false), 200);
-    }
+    this.menuState = this.menuState === 'hidden' ? 'shown' : 'hidden';
+    this.displayButtons = this.displayButtons === false ? true : false;
   }
 
-  onMenuItemClick(item: string): void {
-    // Add your functionality here for each menu item
-    console.log('Menu item clicked:', item);
+  onMenuItemClick(item: number): void {
+    this.buttonTrigger.next(item);
     this.toggleMenu();
   }
 }
