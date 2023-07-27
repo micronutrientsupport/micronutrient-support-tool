@@ -1,11 +1,11 @@
 <div class="fab-container">
-    <button mat-fab color="primary" (click)="toggleMenu()">
+    <button mat-fab color="primary" (click)="toggleMenu()" matTooltip="Dashboard Layout" matTooltipPosition="left">
         <mat-icon [@rotateIcon]="menuState">dashboard_customize</mat-icon>
     </button>
     <div class="menu" [@expandMenu]="menuState">
-        <button [hidden]="!displayButtons" mat-mini-fab
+        <button [hidden]="!displayButtons" mat-mini-fab matTooltip="List View" matTooltipPosition="left"
             (click)="onMenuItemClick(1)"><mat-icon>view_agenda</mat-icon></button>
-        <button [hidden]="!displayButtons" mat-mini-fab
+        <button [hidden]="!displayButtons" mat-mini-fab matTooltip="Grid View" matTooltipPosition="left"
             (click)="onMenuItemClick(0)"><mat-icon>grid_view</mat-icon></button>
     </div>
 </div>
