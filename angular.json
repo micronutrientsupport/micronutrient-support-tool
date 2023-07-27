@@ -18,7 +18,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "@ctrl/ngx-chartjs",
               "moment-es6",
               "papaparse/papaparse.min.js",
               "chartjs-chart-treemap",

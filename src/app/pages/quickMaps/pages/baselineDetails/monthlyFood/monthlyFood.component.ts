@@ -7,10 +7,21 @@ import {
   Optional,
   Inject,
   AfterViewInit,
+  ElementRef,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+// import { ChartJSObject, ChartsJSDataObject } from 'src/app/apiAndObjects/objects/misc/chartjsObject';
+import {
+  CategoryScale,
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  TooltipItem,
+  Tooltip,
+  ChartData,
+} from 'chart.js';
 import { MonthlyFoodGroup } from 'src/app/apiAndObjects/objects/monthlyFoodGroup';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from '../../../quickMaps.service';
@@ -20,7 +31,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
-import { QuickchartService } from 'src/app/services/quickChart.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import ColorHash from 'color-hash-ts';
 
@@ -33,12 +43,15 @@ import ColorHash from 'color-hash-ts';
 export class MonthlyFoodComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('chartStackedBar') public stackedChartCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('chartLine') public lineChartCanvas: ElementRef<HTMLCanvasElement>;
   @Input() card: CardComponent;
+
   public title = 'Monthly apparent micronutrient intake';
   public selectedTab: number;
   public dataSource: MatTableDataSource<MonthlyFoodGroup>;
-  public chartDataStack: ChartJSObject;
-  public chartDataLine: ChartJSObject;
+  public chartStackedBar: Chart;
+  public chartLine: Chart;
   public chartPNG: string;
   public chartPDF: string;
   public displayedColumns = [];
@@ -52,10 +65,13 @@ export class MonthlyFoodComponent implements AfterViewInit {
     private dietDataService: DietDataService,
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
-    private qcService: QuickchartService,
     private cdr: ChangeDetectorRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<MonthlyFoodDialogData>,
   ) {}
+
+  ngOnInit(): void {
+    Chart.register(CategoryScale, LineController, PointElement, LineElement, Tooltip);
+  }
 
   ngAfterViewInit(): void {
     // if displayed within a card component init interactions with the card
@@ -92,6 +108,10 @@ export class MonthlyFoodComponent implements AfterViewInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.chartStackedBar.destroy();
+  }
+
   public navigateToInfoTab(): void {
     this.selectedTab = 4;
     this.cdr.detectChanges();
@@ -120,26 +140,31 @@ export class MonthlyFoodComponent implements AfterViewInit {
         const timePeriod = [...new Set(data.map((item) => item.month.name))];
 
         // Generate the stacked chart
-        const monthlyStackedChartData = {
+        const monthlyStackedChartData: ChartData = {
           labels: timePeriod,
           datasets: [],
         };
 
-        const monthlyLineChartData = {
+        const monthlyLineChartData: ChartData = {
           labels: timePeriod,
           datasets: [],
         };
 
         foodTypes.forEach((thing, index) => {
           monthlyStackedChartData.datasets.push({
+            barPercentage: 0.9,
+            categoryPercentage: 1.0,
             label: foodTypes[index],
             data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
             backgroundColor: this.genColorHex(foodTypes[index]),
           });
           monthlyLineChartData.datasets.push({
+            barPercentage: 0.9,
+            categoryPercentage: 1.0,
             label: foodTypes[index],
             data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
             backgroundColor: this.genColorHex(foodTypes[index]),
+            fill: true,
           });
         });
 
@@ -161,16 +186,27 @@ export class MonthlyFoodComponent implements AfterViewInit {
         });
 
         this.errorSrc.next(false);
-        this.chartDataStack = null;
-        this.chartDataLine = null;
 
         // force change detection to:
         // remove chart before re-setting it to stop js error
         // show table and init paginator and sorter
         this.cdr.detectChanges();
+
         this.initialiseTable(newTableData);
-        this.initialiseStackedGraph(monthlyStackedChartData);
-        this.initialiseLineGraph(monthlyLineChartData);
+
+        if (this.chartStackedBar) {
+          this.chartStackedBar.destroy();
+          this.initialiseStackedGraph(monthlyStackedChartData);
+        } else {
+          this.initialiseStackedGraph(monthlyStackedChartData);
+        }
+
+        if (this.chartLine) {
+          this.chartLine.destroy();
+          this.initialiseLineGraph(monthlyLineChartData);
+        } else {
+          this.initialiseLineGraph(monthlyLineChartData);
+        }
       })
       .finally(() => {
         this.loadingSrc.next(false);
@@ -187,110 +223,115 @@ export class MonthlyFoodComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initialiseStackedGraph(monthlyChartData: ChartsJSDataObject): void {
-    const generatedChart: ChartJSObject = {
+  private initialiseStackedGraph(monthlyChartData: ChartData): void {
+    const ctx = this.stackedChartCanvas.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
       type: 'bar',
       data: monthlyChartData,
       options: {
-        title: {
-          display: false,
-          text: this.title,
+        devicePixelRatio: 2,
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartStackedBar.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
         },
-        legend: {
-          display: false,
-          position: 'bottom',
-          align: 'center',
-        },
-        tooltips: {
-          callbacks: {
-            label: (item, result) => {
-              return `${result.datasets[item.datasetIndex].label}: ${item.value}%`;
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: false,
+            position: 'bottom',
+            align: 'center',
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem: TooltipItem<'bar'>) => {
+                return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}%`;
+              },
             },
           },
         },
         maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
-              stacked: true,
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 10,
             },
-          ],
-          yAxes: [
-            {
-              stacked: true,
-              barPercentage: 0.9,
-              categoryPercentage: 1.0,
-              ticks: {
-                min: 0,
-                max: 100,
-                stepSize: 10,
-              },
-              scaleLabel: {
-                display: true,
-                labelString: 'Percentage Contribution',
-              },
+            title: {
+              display: true,
+              text: 'Percentage Contribution',
             },
-          ],
+          },
         },
       },
-    };
-    this.chartDataStack = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    });
+    this.chartStackedBar = generatedChart;
   }
-  private initialiseLineGraph(monthlyChartData: ChartsJSDataObject): void {
-    const generatedChart: ChartJSObject = {
+
+  private initialiseLineGraph(monthlyChartData: ChartData): void {
+    const ctx = this.lineChartCanvas.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
       type: 'line',
       data: monthlyChartData,
       options: {
-        title: {
-          display: false,
-          text: this.title,
+        devicePixelRatio: 2,
+        animation: {
+          onComplete: () => {
+            const base64 = this.chartLine.toBase64Image('image/png', 1);
+            this.chartPNG = base64;
+            this.chartPDF = base64;
+          },
         },
-        legend: {
-          display: false,
-          position: 'bottom',
-          align: 'center',
-        },
-        tooltips: {
-          callbacks: {
-            label: (item, result) => {
-              return `${result.datasets[item.datasetIndex].label}: ${item.value}`;
+        plugins: {
+          title: {
+            display: false,
+            text: this.title,
+          },
+          legend: {
+            display: false,
+            position: 'bottom',
+            align: 'center',
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem: TooltipItem<'line'>) => {
+                return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}%`;
+              },
             },
           },
         },
         maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
-              stacked: false,
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 10,
             },
-          ],
-          yAxes: [
-            {
-              stacked: true,
-              barPercentage: 0.9,
-              categoryPercentage: 1.0,
-              ticks: {
-                min: 0,
-                max: 100,
-                stepSize: 10,
-              },
-              scaleLabel: {
-                display: true,
-                //labelString: `National nutrient availability ${this.quickMapsService.micronutrient.get().unit}/month`,
-                labelString: 'Percentage Contribution',
-              },
+            title: {
+              display: true,
+              text: 'Percentage Contribution',
             },
-          ],
+          },
         },
       },
-    };
-    this.chartDataLine = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart)) as ChartJSObject;
-    this.chartPNG = this.qcService.getChartAsImageUrl(chartForRender, 'png');
-    this.chartPDF = this.qcService.getChartAsImageUrl(chartForRender, 'pdf');
+    });
+    this.chartLine = generatedChart;
+    const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
   }
 
   private genColorHex(foodTypeIndex: string) {

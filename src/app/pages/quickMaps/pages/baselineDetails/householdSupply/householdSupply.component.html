@@ -1,10 +1,7 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
     <mat-tab label="Histogram">
-      <ngx-chartjs *ngIf="null != chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
-        [options]="chartData.options" [plugins]="chartData.plugins">
-
-      </ngx-chartjs>
+      <canvas #householdSupplyHistogram>{{ householdSupplyHistogram }}</canvas>
     </mat-tab>
 
     <mat-tab label="Table (All Data)">

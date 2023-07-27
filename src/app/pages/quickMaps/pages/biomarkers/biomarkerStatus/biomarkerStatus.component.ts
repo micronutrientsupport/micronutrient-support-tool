@@ -11,7 +11,7 @@ import {
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { UntypedFormControl } from '@angular/forms';
-import { ChartjsComponent } from '@ctrl/ngx-chartjs';
+import { Chart } from 'chart.js';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
@@ -71,7 +71,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  @ViewChild('boxplot') boxPlot: ChartjsComponent;
+  @ViewChild('boxplot') boxPlot: Chart;
   @ViewChild('settingsMenu', { static: true }) menu: MatMenu;
 
   public title: string;
