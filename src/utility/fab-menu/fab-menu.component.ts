@@ -11,18 +11,30 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       state('hidden', style({ opacity: 0, transform: 'translateY(10px)' })),
       transition('hidden <=> shown', animate('200ms ease-in-out')),
     ]),
+    trigger('rotateIcon', [
+      state('shown', style({ rotate: '90deg' })),
+      state('hidden', style({ rotate: '-90deg' })),
+      transition('hidden <=> shown', animate('200ms ease-in-out')),
+    ]),
   ],
 })
 export class FabMenuComponent {
-  menuState: 'shown' | 'hidden' = 'hidden';
+  public menuState: 'shown' | 'hidden' = 'hidden';
+  public displayMenu = false;
 
   toggleMenu(): void {
-    console.debug('call', this.menuState);
-    this.menuState = this.menuState === 'hidden' ? 'shown' : 'hidden';
+    if (this.menuState === 'hidden') {
+      this.displayMenu = true;
+      setTimeout(() => (this.menuState = 'shown'));
+    } else {
+      this.menuState = 'hidden';
+      setTimeout(() => (this.displayMenu = false), 200);
+    }
   }
 
   onMenuItemClick(item: string): void {
     // Add your functionality here for each menu item
     console.log('Menu item clicked:', item);
+    this.toggleMenu();
   }
 }
