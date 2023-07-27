@@ -94,13 +94,15 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
         data: yearlyChartData,
         options: {
           devicePixelRatio: 2,
-          animation: {
-            onComplete: () => {
-              const base64 = this.chartData.toBase64Image('image/png', 1);
-              this.interventionDataService.setInterventionDetailedChartPNG(base64);
-              this.interventionDataService.setInterventionDetailedChartPDF(base64);
-            },
-          },
+          // animation: {
+          //   onComplete: () => {
+          //     console.log('Hit onComplete!');
+          //     const base64 = this.chartData.toBase64Image('image/png', 1);
+          //     this.interventionDataService.setInterventionDetailedChartPNG(base64);
+          //     this.interventionDataService.setInterventionDetailedChartPDF(base64);
+          //   },
+          // },
+          animation: false,
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
@@ -128,6 +130,11 @@ export class InterventionCostSummaryDetailedCostsGraphComponent implements OnIni
         },
       });
       this.chartData = generatedChart;
+      setTimeout(() => {
+        const base64 = this.chartData.toBase64Image('image/png', 1);
+        this.interventionDataService.setInterventionDetailedChartPNG(base64);
+        this.interventionDataService.setInterventionDetailedChartPDF(base64);
+      }, 100);
     }
   }
 

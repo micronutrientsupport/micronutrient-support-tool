@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { BarController, Chart } from 'chart.js';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
@@ -15,7 +15,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
   public chartPNG: string;
   public chartPDF: string;
 
-  constructor(private interventionDataService: InterventionDataService) {}
+  constructor(private interventionDataService: InterventionDataService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     Chart.register(BarController);
@@ -23,6 +23,7 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
 
   ngAfterViewInit(): void {
     this.initialiseGraph();
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -32,7 +33,6 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
   }
 
   private initialiseGraph(): void {
-    // TODO: RESOLVE DATA BEING UNDEFINED
     if (this.summaryCosts) {
       const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
       const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
@@ -62,13 +62,15 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
       },
       options: {
         devicePixelRatio: 2,
-        animation: {
-          onComplete: () => {
-            const base64 = this.chartData.toBase64Image();
-            this.interventionDataService.setInterventionSummaryChartPNG(base64);
-            this.interventionDataService.setInterventionSummaryChartPDF(base64);
-          },
-        },
+        animation: false,
+        // animation: {
+        //   onComplete: () => {
+        //     console.log('Hit onComplete!');
+        //     const base64 = this.chartData.toBase64Image();
+        //     this.interventionDataService.setInterventionSummaryChartPNG(base64);
+        //     this.interventionDataService.setInterventionSummaryChartPDF(base64);
+        //   },
+        // },
         plugins: {
           title: {
             display: true,
@@ -97,5 +99,10 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
       },
     });
     this.chartData = generatedChart;
+    setTimeout(() => {
+      const base64 = this.chartData.toBase64Image();
+      this.interventionDataService.setInterventionSummaryChartPNG(base64);
+      this.interventionDataService.setInterventionSummaryChartPDF(base64);
+    }, 100);
   }
 }

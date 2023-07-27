@@ -17,12 +17,14 @@
         </div>
       </mat-tab>
       <mat-tab label="Graphs">
-        <div *ngFor="let recurringCost of recurringCosts">
+        <div *ngFor="let recurringCost of recurringCosts" class="recurring-cost">
           <div class="title">
             <span>{{ recurringCost.category }}</span>
           </div>
-          <!-- <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
-          </app-reusable-cost-graph> -->
+          <div class="chart-wrapper">
+            <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+            </app-reusable-cost-graph>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>

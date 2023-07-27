@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
@@ -14,12 +14,13 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './interventionCostSummary.component.html',
   styleUrls: ['./interventionCostSummary.component.scss'],
 })
-export class InterventionCostSummaryComponent implements OnInit {
+export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
   public pageStepperPosition = 7;
   public interventionName = 'IntName';
   public selectedTab: number;
+  public selectedTabSummary: number;
   public summaryCosts: InterventionCostSummary;
   public startupCosts: Array<StartUpScaleUpCost>;
   public recurringCosts: Array<RecurringCost>;
@@ -78,6 +79,10 @@ export class InterventionCostSummaryComponent implements OnInit {
         }),
       );
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.cdRef.detectChanges();
   }
 
   public onSubmit(): void {

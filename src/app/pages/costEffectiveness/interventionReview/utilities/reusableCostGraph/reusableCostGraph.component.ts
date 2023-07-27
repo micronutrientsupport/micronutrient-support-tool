@@ -44,7 +44,6 @@ export class ReusableCostGraphComponent implements OnInit {
       let total = 0;
       Object.entries(cost).forEach(([key, value]) => {
         if (/year\dTotal/.test(key)) {
-          console.log(value);
           total += Number(value);
         }
       });
@@ -69,83 +68,85 @@ export class ReusableCostGraphComponent implements OnInit {
   }
 
   private initialiseCostPieChart() {
-    const ctx = this.c1.nativeElement.getContext('2d');
-    const generatedChart = new Chart(ctx, {
-      type: 'pie',
-      data: this.chartData,
-      options: {
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'right',
-            onClick: () => {
-              return null;
-            },
-            labels: {
-              filter: (legendItem, data) => data.datasets[0].data[legendItem.index] != 0,
-              generateLabels: (chart) => {
-                const data = chart.data;
-                const dataset = data.datasets[0];
+    if (this.c1) {
+      const ctx = this.c1.nativeElement.getContext('2d');
+      const generatedChart = new Chart(ctx, {
+        type: 'pie',
+        data: this.chartData,
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+              onClick: () => {
+                return null;
+              },
+              labels: {
+                filter: (legendItem, data) => data.datasets[0].data[legendItem.index] != 0,
+                generateLabels: (chart) => {
+                  const data = chart.data;
+                  const dataset = data.datasets[0];
 
-                if (data) {
-                  return data.labels.map((label: string, i: number) => {
-                    const value = dataset.data[i];
-                    return {
-                      index: i,
-                      datasetIndex: i,
-                      text:
-                        label +
-                        '(' +
-                        Number(value).toLocaleString('en-US', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                          style: 'currency',
-                          currency: 'USD',
-                        }) +
-                        ')',
-                      fillStyle: this.chartColours[i],
-                      strokeStyle: this.chartColours[i],
-                      hidden: chart.getDatasetMeta(i).hidden,
-                    };
+                  if (data) {
+                    return data.labels.map((label: string, i: number) => {
+                      const value = dataset.data[i];
+                      return {
+                        index: i,
+                        datasetIndex: i,
+                        text:
+                          label +
+                          '(' +
+                          Number(value).toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            style: 'currency',
+                            currency: 'USD',
+                          }) +
+                          ')',
+                        fillStyle: this.chartColours[i],
+                        strokeStyle: this.chartColours[i],
+                        hidden: chart.getDatasetMeta(i).hidden,
+                      };
+                    });
+                  } else {
+                    return [];
+                  }
+                },
+                usePointStyle: true,
+              },
+            },
+            tooltip: {
+              callbacks: {
+                title: (tooltipItems: TooltipItem<'pie'>[]) => {
+                  return tooltipItems[0].label;
+                },
+                label: (tooltipItem: TooltipItem<'pie'>) => {
+                  const datasetVal = tooltipItem.dataset.data[tooltipItem.dataIndex];
+                  return datasetVal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    style: 'currency',
+                    currency: 'USD',
                   });
-                } else {
-                  return [];
-                }
+                },
               },
-              usePointStyle: true,
-            },
-          },
-          tooltip: {
-            callbacks: {
-              title: (tooltipItems: TooltipItem<'pie'>[]) => {
-                return tooltipItems[0].label;
+              backgroundColor: '#fff',
+              titleColor: '#000',
+              titleFont: {
+                size: 16,
               },
-              label: (tooltipItem: TooltipItem<'pie'>) => {
-                const datasetVal = tooltipItem.dataset.data[tooltipItem.dataIndex];
-                return datasetVal.toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                  style: 'currency',
-                  currency: 'USD',
-                });
+              bodyColor: '#000',
+              bodyFont: {
+                size: 16,
               },
+              borderWidth: 1,
+              borderColor: '#000',
             },
-            backgroundColor: '#fff',
-            titleColor: '#000',
-            titleFont: {
-              size: 16,
-            },
-            bodyColor: '#000',
-            bodyFont: {
-              size: 16,
-            },
-            borderWidth: 1,
-            borderColor: '#000',
           },
         },
-      },
-    });
-    this.costChart = generatedChart;
+      });
+      this.costChart = generatedChart;
+    }
   }
 }

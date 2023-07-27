@@ -239,15 +239,9 @@ export class FoodItemsComponent implements AfterViewInit {
       options: {
         animation: {
           onComplete: () => {
-            if (this.selectedTab === 0) {
-              const base64 = this.chartDataGenus.toBase64Image();
-              this.chartPNG = base64;
-              this.chartPDF = base64;
-            } else if (this.selectedTab === 1) {
-              const base64 = this.chartDataGroup.toBase64Image();
-              this.chartPNG = base64;
-              this.chartPDF = base64;
-            }
+            const base64 = this.chartDataGenus.toBase64Image();
+            this.chartPNG = base64;
+            this.chartPDF = base64;
           },
         },
         plugins: {

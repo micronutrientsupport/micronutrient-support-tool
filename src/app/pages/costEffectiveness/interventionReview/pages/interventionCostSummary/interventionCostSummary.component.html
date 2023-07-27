@@ -7,7 +7,7 @@
         <div class="tab-content">
           <h2>Quick summary</h2>
           <p>Quick summary overview shows the total and discounted intervention costs for the upcoming 10 years.</p>
-          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group" [(selectedIndex)]="selectedTabSummary">
             <mat-tab label="Table">
               <app-reusable-skeleton-table *ngIf="!summaryCosts"
                 [setData]="{ columns: 11, rows: 1 }"></app-reusable-skeleton-table>
@@ -20,7 +20,8 @@
               </app-intervention-cost-summary-quick-discounted-table>
             </mat-tab>
             <mat-tab label="Graph">
-              <app-intervention-cost-summary-quick-total-graph [summaryCosts]="summaryCosts">
+              <app-intervention-cost-summary-quick-total-graph [summaryCosts]="summaryCosts"
+                *ngIf="selectedTabSummary === 1">
               </app-intervention-cost-summary-quick-total-graph>
             </mat-tab>
             <mat-tab label="Download">
