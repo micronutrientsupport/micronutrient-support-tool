@@ -1,0 +1,28 @@
+@import 'src/assets/scss/_colour.scss';
+
+.fab-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: $color_primary; /* Replace with MAPS colour theme */
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Replace with your desired icon color */
+  font-size: 24px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.fab-container:hover {
+  background-color: #0056b3; /* Replace with MAPS colour theme  */
+  transform: scale(1.1);
+}
+
+.material-icons {
+  font-size: 24px;
+}
