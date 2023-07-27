@@ -13,6 +13,7 @@ import { QuickMapsModule } from './quickMaps/quickMaps.module';
 import { StyleGuideComponent } from './styleGuide/styleGuide.component';
 import { CostEffectivenessModule } from './costEffectiveness/costEffectiveness.module';
 import { UserProfileComponent } from './userProfile/userProfile.component';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserProfileComponent } from './userProfile/userProfile.component';
     QuickMapsModule,
     RoutesModule,
     DirectivesModule,
+    UtilitiesModule,
   ],
   providers: [],
   exports: [],

@@ -1,0 +1,9 @@
+<div class="fab-container" (click)="toggleMenu()">
+    <i class="material-icons">add</i>
+    <div class="menu" [@expandMenu]="menuState">
+        <!-- Add menu items or content here -->
+        <button (click)="onMenuItemClick('Option 1')">Option 1</button>
+        <button (click)="onMenuItemClick('Option 2')">Option 2</button>
+        <!-- Add more menu items as needed -->
+    </div>
+</div>

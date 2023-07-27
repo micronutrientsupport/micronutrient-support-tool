@@ -1,0 +1,53 @@
+.fab-container {
+  /* ... Existing styles for the FAB container ... */
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #007bff; /* Replace with your desired background color */
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* Replace with your desired icon color */
+  font-size: 24px;
+  transition: transform 0.2s, background-color 0.2s;
+  /* Add z-index to make sure the menu appears above other elements */
+  z-index: 100;
+  /* Set position to relative to make sure the absolute-positioned menu stays within this container */
+  position: fixed;
+}
+
+.fab-container:hover {
+  background-color: #0056b3; /* Replace with your desired hover background color */
+  transform: scale(1.1);
+}
+
+.menu {
+  /* Hide the menu by default */
+  // display: none;
+  /* Absolute position the menu below the FAB */
+  position: absolute;
+  bottom: 65px; /* Adjust the distance from the FAB as needed */
+  right: 20px; /* Adjust the distance from the FAB as needed */
+  /* Add your desired styles for the menu background, border, etc. */
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  /* Add padding and other styles for the menu content */
+  padding: 8px;
+}
+
+/* Animation to show/hide the menu */
+@keyframes expandMenu {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
