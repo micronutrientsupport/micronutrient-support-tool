@@ -1,21 +1,31 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
-import { ArcElement, CategoryScale, Chart, ChartData, Legend, PieController, Tooltip, TooltipItem } from 'chart.js';
+import { ArcElement, CategoryScale, Chart, ChartData, Color, Legend, PieController, TooltipItem } from 'chart.js';
 import { StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import { Tooltip } from 'chart.js';
 
 @Component({
   selector: 'app-reusable-cost-graph',
   templateUrl: './reusableCostGraph.component.html',
   styleUrls: ['./reusableCostGraph.component.scss'],
 })
-export class ReusableCostGraphComponent implements OnInit {
+export class ReusableCostGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() costData: RecurringCost | StartUpScaleUpCost;
   @ViewChild('pieChart') public c1!: ElementRef<HTMLCanvasElement>;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  public chartColours: Array<string> = ['#703aa3', '#1c0d31', '#dca9a7', '#763671', '#98557d', '#461e53'];
   public costChart: Chart<'pie'>;
+  public chartColours: Array<Color> = ['#703aa3', '#1c0d31', '#dca9a7', '#763671', '#98557d', '#461e53'];
   public canRenderChart = true;
   private chartData: ChartData<'pie'>;
 
@@ -65,25 +75,27 @@ export class ReusableCostGraphComponent implements OnInit {
       ],
     };
     this.chartData = chartData;
+    console.log(chartLabels);
   }
 
   private initialiseCostPieChart() {
+    // TODO: CHART DOESN'T RENDER WHEN ALL VALUES ARE ZERO
     if (this.c1) {
       const ctx = this.c1.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
         type: 'pie',
         data: this.chartData,
         options: {
+          devicePixelRatio: 2,
           maintainAspectRatio: false,
           plugins: {
             legend: {
               display: true,
-              position: 'right',
+              position: 'bottom',
               onClick: () => {
                 return null;
               },
               labels: {
-                filter: (legendItem, data) => data.datasets[0].data[legendItem.index] != 0,
                 generateLabels: (chart) => {
                   const data = chart.data;
                   const dataset = data.datasets[0];
@@ -113,7 +125,6 @@ export class ReusableCostGraphComponent implements OnInit {
                     return [];
                   }
                 },
-                usePointStyle: true,
               },
             },
             tooltip: {

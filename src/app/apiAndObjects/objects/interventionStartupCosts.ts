@@ -19,6 +19,7 @@ export class InterventionStartupCosts extends BaseObject implements Named {
 
     this.interventionId = this._getNumber(InterventionStartupCosts.KEYS.INTERVENTION_ID);
     this.startupScaleupCosts = this._getArray(InterventionStartupCosts.KEYS.STARTUP_COSTS);
+    console.log(this.startupScaleupCosts);
   }
 }
 export interface StartUpScaleUpCost {

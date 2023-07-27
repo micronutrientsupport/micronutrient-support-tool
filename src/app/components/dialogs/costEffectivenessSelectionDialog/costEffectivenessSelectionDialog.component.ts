@@ -339,6 +339,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.interventionRequestBody.newInterventionFocusMicronutrient,
         )
         .then((result: Intervention) => {
+          this.interventionDataService.setSimpleInterventionInStorage(result);
           this.selectedInterventionIDLoad = result.id.toString();
           this.dialogData.dataOut = result;
           this.closeDialog();

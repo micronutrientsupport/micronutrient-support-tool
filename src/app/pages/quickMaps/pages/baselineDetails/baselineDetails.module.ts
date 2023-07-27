@@ -3,7 +3,6 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from 'src/app/app-material.module';
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { GridsterModule } from 'angular-gridster2';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutesModule } from 'src/app/routes/routes.module';
@@ -37,7 +36,6 @@ import { UtilitiesModule } from 'src/utility/utilities.module';
     HttpClientModule,
     AppMaterialModule,
     ReactiveFormsModule,
-    ChartjsModule,
     RoutesModule,
     GridsterModule,
     ComponentsModule,
