@@ -1,20 +1,25 @@
 .pie-chart-container {
-    display: block;
-    height: 200px;
-    width: 100%;
+  display: block;
+  height: 200px;
+  width: 100%;
 }
 
 ::ng-deep.pie-chart > div > canvas {
-    height: 200px !important;
-
+  height: 200px !important;
 }
 
 .pie-chart {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.no-chart-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 // @media only screen and (max-width: 900px) {
