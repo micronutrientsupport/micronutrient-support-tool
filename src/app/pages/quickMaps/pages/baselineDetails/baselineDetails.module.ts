@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 @NgModule({
   declarations: [
     BaselineDetailsComponent,
@@ -42,6 +43,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     RouterModule,
     QuickMapsComponentsModule,
     DirectivesModule,
+    UtilitiesModule,
   ],
   providers: [TitleCasePipe],
 })

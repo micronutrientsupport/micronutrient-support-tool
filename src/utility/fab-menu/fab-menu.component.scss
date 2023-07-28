@@ -1,0 +1,31 @@
+.fab-container {
+  right: 16px;
+  bottom: 133px;
+  z-index: 1000;
+  position: fixed;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 16px;
+  bottom: 180px;
+  button {
+    margin-bottom: 1em;
+  }
+}
+
+/* Animation to show/hide the menu */
+@keyframes expandMenu {
+  from {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

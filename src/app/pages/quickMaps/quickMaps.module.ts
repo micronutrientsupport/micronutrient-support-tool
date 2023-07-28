@@ -23,6 +23,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { TourService } from 'src/app/services/tour.service';
 import { UncertaintyModule } from './pages/uncertainty/uncertainty.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 @NgModule({
   declarations: [QuickMapsComponent, LocationSelectComponent],
   imports: [
@@ -43,6 +44,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     UncertaintyModule,
     DirectivesModule,
     ComponentsModule,
+    UtilitiesModule,
   ],
   providers: [QuickMapsService, QuickMapsRouteGuardService, ExportService, PipesModule, DialogService, TourService],
 })

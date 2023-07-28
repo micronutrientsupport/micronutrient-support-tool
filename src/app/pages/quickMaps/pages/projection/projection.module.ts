@@ -14,6 +14,7 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { ProjectionDescriptionComponent } from './projectionDescription/projectionDescription.component';
 import { QuickMapsComponentsModule } from '../../components/quickMapsComponents.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { UtilitiesModule } from 'src/utility/utilities.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     DialogModule,
     QuickMapsComponentsModule,
     PipesModule,
+    UtilitiesModule,
   ],
 })
 export class ProjectionModule {}
