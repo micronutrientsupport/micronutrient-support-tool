@@ -48,3 +48,35 @@ table {
 .red-icon {
   color: red;
 }
+
+.u-wrap {
+  position: relative;
+}
+
+.u-wrap:focus-within > button {
+  visibility: visible;
+}
+
+.u-button {
+  visibility: hidden;
+  position: absolute;
+  margin-right: 4px;
+  width: 13px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  border-radius: 0 5px 5px 0;
+  padding: 0;
+  background: rgb(112, 58, 163);
+  color: #fff;
+  border: none;
+  padding-top: 0.6em;
+
+  mat-icon {
+    font-size: 1em;
+    width: 10px;
+  }
+}
+
+.u-input:focus + button {
+}

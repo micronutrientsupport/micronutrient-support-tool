@@ -242,6 +242,29 @@ export class InterventionIndustryInformationComponent implements OnInit {
     this.dirtyIndexes.push(index);
   }
 
+  public copyAcross(index: number, year: number) {
+    console.log('Copy across from ', index);
+    console.log(this.form.getRawValue().items);
+
+    const cellVal = this.form.getRawValue().items[index]['year' + year];
+
+    // Set values for all cells to the right, and dirty if neccesary
+    let rowDirtied = false;
+    for (let i = year; i < 10; i++) {
+      const currentValue = this.form.controls.items['controls'][index].getRawValue()['year' + i];
+      this.form.controls.items['controls'][index].patchValue({ ['year' + i]: cellVal });
+      if (currentValue != cellVal) {
+        this.form.controls.items['controls'][index]['controls']['year' + i].markAsDirty();
+        rowDirtied = true;
+      }
+    }
+
+    if (rowDirtied) {
+      this.storeIndex(index);
+    }
+    this.recalculateChanges();
+  }
+
   public recalculateChanges(): void {
     // getRawValue returns values even if cell is marked as disabled
     const allItems: Array<IndustryInformation> = this.form.getRawValue().items;

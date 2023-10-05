@@ -42,6 +42,8 @@ import { PremixTableComponent } from './utilities/microNutrientsInPremixTable/pr
 import { ReusableCostGraphComponent } from './utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './utilities/reusableCostTable/reusableCostTable.component';
 import { ReusableSkeletonTableComponent } from './utilities/reusableSkeletonTable/reusableSkeletonTable.component';
+import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
+import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { ReusableSkeletonTableComponent } from './utilities/reusableSkeletonTabl
     InterventionStartupScaleupCostsComponent,
     InterventionConsumptionComponent,
     InterventionAssumptionsReviewComponent,
+    InterventionEffectivenessHouseholdsComponent,
+    InterventionEffectivenessMetricsComponent,
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,

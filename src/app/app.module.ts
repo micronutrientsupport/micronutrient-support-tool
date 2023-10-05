@@ -16,6 +16,7 @@ import { DirectivesModule } from './directives/directives.module';
 import { NgCustomerFeedbackMapsModule } from 'ng-customer-feedback-maps';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @NgModule({
   declarations: [AppComponent, FeedbackComponent],
@@ -47,6 +48,10 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
       multi: true,
       useFactory: FeatureFlagsFactory.preloadFeatureFlags,
       deps: [FeatureFlagsService],
+    },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
     },
   ],
   bootstrap: [AppComponent],

@@ -33,3 +33,69 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.sidebar-expansion {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.expansion-header {
+  padding: 0 5px;
+}
+
+.expansion-header:hover {
+  background: transparent !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .mat-expansion-panel-header.mat-expanded {
+  height: 48px !important;
+}
+
+.intervention-steps {
+  padding: 0;
+}
+
+:host .stepper-disabled ::ng-deep .mat-step {
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, #ccc 10px, #ccc 20px),
+    /* on "bottom" */ linear-gradient(to bottom, #eee, #999);
+}
+
+// :host .intervention-steps ::ng-deep .mat-vertical-content-container {
+//   display: none;
+// }
+
+// :host .is-active .intervention-steps ::ng-deep .mat-vertical-content-container {
+//   display: block;
+// }
+
+:host ::ng-deep .mat-expansion-panel:not(.is-active) .intervention-steps {
+  .mat-vertical-content-container {
+    display: none;
+  }
+
+  .mat-step-label-active .mat-step-text-label {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+  }
+
+  // When expansion panel not active, don't highlight first
+  // 'selected' step
+  .mat-step:not(:last-child) {
+    .mat-step-icon-selected {
+      background-color: rgba(0, 0, 0, 0.54);
+    }
+  }
+}
+
+:host ::ng-deep .mat-expansion-panel.is-active .intervention-steps {
+  .mat-vertical-content-container {
+    display: block;
+  }
+}

@@ -13,6 +13,8 @@ import { InterventionIndustryInformationComponent } from './pages/interventionIn
 import { InterventionMonitoringInformationComponent } from './pages/interventionMonitoringInformation/interventionMonitoringInformation.component';
 import { InterventionRecurringCostsComponent } from './pages/interventionRecurringCosts/interventionRecurringCosts.component';
 import { InterventionStartupScaleupCostsComponent } from './pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
+import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
+import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
 
 const routes: Routes = [
   {
@@ -139,6 +141,34 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS.getRouterPath(),
+        component: InterventionEffectivenessHouseholdsComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS.getRouterPath(),
+        component: InterventionEffectivenessMetricsComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
           title: '',
           keywords: '',
           description: '',

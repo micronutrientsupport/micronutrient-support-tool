@@ -19,22 +19,37 @@ export class InterventionSideNavContentComponent {
   }
   private subscriptions = new Array<Subscription>();
   public ROUTES = AppRoutes;
-  @ViewChild('interventionStepper', { static: false }) stepper: MatStepper;
+  @ViewChild('interventionStepperAssumptions', { static: false }) stepperAssumptions: MatStepper;
+  @ViewChild('interventionStepperCosts', { static: false }) stepperCosts;
+  @ViewChild('interventionStepperEffectiveness', { static: false }) stepperEffectiveness: MatStepper;
+  @ViewChild('interventionStepperSummary', { static: false }) stepperSummary: MatStepper;
+
+  public assumptionSteps = 3;
+  public costsSteps = 4;
+  public effectivenessSteps = 2;
+  public summarySteps = 1;
+
   public currentStepPosition = 0;
 
   public setStepperPosition(position: number): void {
     setTimeout(() => {
-      this.stepper.selectedIndex = position;
-    });
-  }
-  public stepperPrevious(): void {
-    setTimeout(() => {
-      this.stepper.previous();
-    });
-  }
-  public stepperNext(): void {
-    setTimeout(() => {
-      this.stepper.next();
+      if (position < this.assumptionSteps) {
+        console.log(`${position} => assumptions ${position}`);
+        this.stepperAssumptions.selectedIndex = position;
+      } else if (position < this.assumptionSteps + this.costsSteps) {
+        console.log(`${position} => costs ${position - this.assumptionSteps}`);
+        this.stepperCosts.selectedIndex = position - this.assumptionSteps;
+      } else if (position < this.assumptionSteps + this.costsSteps + this.effectivenessSteps) {
+        console.log(`${position} => effectiveness ${position - (this.assumptionSteps + this.costsSteps)}`);
+        this.stepperEffectiveness.selectedIndex = position - (this.assumptionSteps + this.costsSteps);
+      } else {
+        console.log(
+          `${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`,
+        );
+        this.stepperSummary.selectedIndex =
+          position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps);
+      }
+      this.currentStepPosition = position;
     });
   }
 }
