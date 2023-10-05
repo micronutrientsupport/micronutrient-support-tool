@@ -59,3 +59,44 @@ input.ng-dirty {
   color: $color_input_blue;
   border-color: $color_input_blue;
 }
+
+.copy-wrap {
+  position: relative;
+}
+
+.copy-wrap:focus-within > button {
+  visibility: visible;
+}
+
+.copy-button {
+  visibility: hidden;
+  position: absolute;
+  width: 13px;
+  height: 100%;
+  top: 0;
+  left: calc(100% - 16px);
+  border-radius: 0 5px 5px 0;
+  padding: 0;
+  background: rgb(112, 58, 163);
+  color: #fff;
+  border: none;
+  padding-top: 0.6em;
+
+  mat-icon {
+    font-size: 1em;
+    width: 10px;
+  }
+}
+
+// Style the last data row as total values
+tr:last-child {
+  input {
+    border: none;
+    background: transparent;
+    color: black;
+    font-weight: bold;
+  }
+  td:first-child {
+    font-weight: bold;
+  }
+}

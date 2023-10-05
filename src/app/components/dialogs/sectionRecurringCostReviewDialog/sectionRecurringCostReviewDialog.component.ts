@@ -230,10 +230,47 @@ export class SectionRecurringCostReviewDialogComponent {
     this.dirtyIndexes.push(index);
   }
 
-  public recalculateChanges(): void {
-    // getRawValue returns values even if cell is marked as disabled
-    const allItems: Array<RecurringCostBreakdown> = this.form.getRawValue().items;
+  public copyAcross(index: number, year: number) {
+    console.log('Copy across from ', index);
+    console.log(this.form.getRawValue().items);
 
+    const cellVal = this.form.getRawValue().items[index]['year' + year];
+
+    // Set values for all cells to the right, and dirty if neccesary
+    let rowDirtied = false;
+    for (let i = year; i < 10; i++) {
+      const currentValue = this.form.controls.items['controls'][index].getRawValue()['year' + i];
+      this.form.controls.items['controls'][index].patchValue({ ['year' + i]: cellVal });
+      if (currentValue != cellVal) {
+        this.form.controls.items['controls'][index]['controls']['year' + i].markAsDirty();
+        rowDirtied = true;
+      }
+    }
+
+    if (rowDirtied) {
+      this.storeIndex(index);
+    }
+    this.recalculateChanges();
+  }
+
+  public getRawFormValues(): Array<RecurringCostBreakdown> {
+    // getRawValue returns values even if cell is marked as disabled
+    const allItemsRaw: Array<RecurringCostBreakdown> = this.form.getRawValue().items;
+
+    // Ensure that when passing the raw form values to jsonLogic
+    // that percentages are set back to decimal values
+    const allItems = allItemsRaw.map((item) => {
+      if (item.rowUnits == 'percent') {
+        item.year0 = item.year0 / 100;
+        item.year1 = item.year1 / 100;
+      }
+      return item;
+    });
+
+    return allItems;
+  }
+
+  public recalculateChanges(): void {
     // find all the rows which have formulas to calculate their new value
     const allItemsWithRowFormulas = this.dataSource.data.filter(
       (item: RecurringCostBreakdown) => item.isEditable === false,
@@ -242,6 +279,8 @@ export class SectionRecurringCostReviewDialogComponent {
     // loop through all the rows with formulas to calculate their new values
     allItemsWithRowFormulas.forEach((item: RecurringCostBreakdown) => {
       const rowWantToUpdate = item.rowIndex;
+      // Fetch the form values each iteration to reflect updated values from previous loops
+      const allItems = this.getRawFormValues();
 
       for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
         if (!item['year' + columnIndex + 'Formula']) {

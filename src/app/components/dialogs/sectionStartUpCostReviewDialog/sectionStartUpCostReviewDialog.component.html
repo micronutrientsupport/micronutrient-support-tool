@@ -12,21 +12,26 @@
         <ng-container matColumnDef="year0">
           <th mat-header-cell *matHeaderCellDef>2021</th>
           <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
+            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
               <input type="text" appDecimalInput required [value]=element.year0.toFixed(2) formControlName="year0"
-                (change)="recalculateChanges()">
+                (change)="recalculateChanges()" class="copy-input">
+              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
+                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
-            <div *ngIf="element.rowUnits === 'US dollars'">
+            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
               <input type="text" appDecimalInput required [value]=element.year0.toFixed(2) formControlName="year0"
-                (change)="recalculateChanges()">
+                (change)="recalculateChanges()" class="copy-input">
+              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
+                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
-            <div *ngIf="element.rowUnits === 'percent'">
+            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
               <input id="year0" name="year0" (change)="storeIndex(index)" type="number" [ngModel]="element.year0 * 100"
                 formControlName="year0" min="0" max="100" (keyup)="validateUserInput($event, index, 'year0')"
-                (change)="recalculateChanges()">
+                (change)="recalculateChanges()" class="copy-input">
+              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
+                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef> {{year0Total | currencyExtended}} TBC</td>
         </ng-container>
 
         <ng-container matColumnDef="year1">
@@ -46,13 +51,11 @@
                 (change)="recalculateChanges()">
             </div>
           </td>
-          <td mat-footer-cell *matFooterCellDef> {{year1Total | currencyExtended}} TBC</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow></tr>
-        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </form>
     <div class="button-container">

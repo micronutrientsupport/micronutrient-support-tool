@@ -7,7 +7,7 @@
         </app-reusable-skeleton-table>
         <div *ngFor="let recurringCost of recurringCosts">
           <div class="title">
-            <span>{{ recurringCost.category }}</span>
+            <span>{{ recurringCost.category }} summary</span>
           </div>
           <div class="recurringCostTable">
             <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"

@@ -34,18 +34,19 @@ export class InterventionSideNavContentComponent {
   public setStepperPosition(position: number): void {
     setTimeout(() => {
       if (position < this.assumptionSteps) {
-        console.log(`${position} => assumptions ${position}`);
+        // console.log(`${position} => assumptions ${position}`);
         this.stepperAssumptions.selectedIndex = position;
       } else if (position < this.assumptionSteps + this.costsSteps) {
-        console.log(`${position} => costs ${position - this.assumptionSteps}`);
+        // console.log(`${position} => costs ${position - this.assumptionSteps}`);
         this.stepperCosts.selectedIndex = position - this.assumptionSteps;
       } else if (position < this.assumptionSteps + this.costsSteps + this.effectivenessSteps) {
-        console.log(`${position} => effectiveness ${position - (this.assumptionSteps + this.costsSteps)}`);
+        // console.log(`${position} => effectiveness ${position - (this.assumptionSteps + this.costsSteps)}`);
         this.stepperEffectiveness.selectedIndex = position - (this.assumptionSteps + this.costsSteps);
       } else {
-        console.log(
-          `${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`,
-        );
+        console
+          .log
+          // `${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`,
+          ();
         this.stepperSummary.selectedIndex =
           position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps);
       }

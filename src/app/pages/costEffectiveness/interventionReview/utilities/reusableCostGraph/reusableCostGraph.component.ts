@@ -43,7 +43,7 @@ export class ReusableCostGraphComponent implements OnInit {
     this.costData.costs.forEach((cost) => {
       let total = 0;
       Object.entries(cost).forEach(([key, value]) => {
-        if (/year\dTotal/.test(key)) {
+        if (/year\dTotal$/.test(key)) {
           total += Number(value);
         }
       });

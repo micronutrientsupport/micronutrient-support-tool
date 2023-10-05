@@ -100,10 +100,8 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="avgVal">
-            <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated average
-              fortification level (mg/kg)
-              among
-              fortifiable food vehicle at point of fortification
+            <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated baseline
+              fortification levels in practice
               <button class="icon-display floater" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
                 <mat-icon class="icon-display">question_mark</mat-icon>
               </button>
@@ -114,28 +112,6 @@
                   {{ selectedCompound.targetVal * baselineAssumptions?.potentiallyFortified.year0 | sigFig: 3 }}
                 </span>
 
-              </ng-container>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="optFort">
-            <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Optional user-entered average
-              fortification
-              level
-              (mg/kg) among fortifiable food vehicle at point of fortification
-            </th>
-            <td mat-cell *matCellDef="let index = inputThree, let element">
-              <ng-container class="double-cell">
-                <input (change)="updateButtonState(2)" type="text" appDecimalInput required
-                  [(ngModel)]="optionalUserEnteredAverageAtPointOfFortification">
-                <span>
-                  <button *ngIf="!buttonTwoEdited" mat-button color="primary">
-                    GFDx<mat-icon>arrow_right_alt</mat-icon>
-                  </button>
-                  <button *ngIf="buttonTwoEdited" mat-button color="primary">
-                    User Input<mat-icon>arrow_right_alt</mat-icon>
-                  </button>
-                </span>
               </ng-container>
             </td>
           </ng-container>

@@ -55,7 +55,10 @@ export class InterventionRecurringCostsComponent implements OnInit {
               .getInterventionRecurringCosts(activeInterventionId)
               .then((data: InterventionRecurringCosts) => {
                 this.dataLoaded = true;
-                this.recurringCosts = data.recurringCosts;
+                setTimeout(() => {
+                  this.recurringCosts = data.recurringCosts;
+                }, 0);
+                // this.recurringCosts = data.recurringCosts;
               });
           }
         }
@@ -64,5 +67,9 @@ export class InterventionRecurringCostsComponent implements OnInit {
   }
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }

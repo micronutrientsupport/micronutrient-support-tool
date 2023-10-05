@@ -52,19 +52,20 @@
       <mat-vertical-stepper class="intervention-steps" #interventionStepperCosts>
         <mat-step index="4">
           <ng-template matStepLabel>Industry information</ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
+          <div class="intervention-stage-info">Review and update the scale of the fortification program.</div>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Monitoring information</ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
+          <div class="intervention-stage-info">Review and update the intervention monitoring process.</div>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Startup/Scaleup costs</ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
+          <div class="intervention-stage-info">Review and update costs related to the startup and scaleup of the
+            intervention program.</div>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Recurring costs</ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
+          <div class="intervention-stage-info">Review and update the recurring costs of the intervention program.</div>
         </mat-step>
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
@@ -91,8 +92,8 @@
         <mat-panel-description>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-vertical-stepper matTooltip="Under development" class="stepper-disabled intervention-steps"
-        #interventionStepperEffectiveness>
+      <mat-vertical-stepper matTooltip="This feature is under development and currently not available"
+        class="stepper-disabled intervention-steps" #interventionStepperEffectiveness>
         <mat-step>
           <ng-template matStepLabel>Projected number of households</ng-template>
           <div class="intervention-stage-info">Information about this step.</div>

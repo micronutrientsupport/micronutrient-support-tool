@@ -40,7 +40,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public baselinedisplayedColumns = ['title', 'year0'];
 
   public FVdataSource = new MatTableDataSource();
-  public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'optFort', 'calcFort'];
+  public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'calcFort'];
 
   public optionalUserEnteredAverageAtPointOfFortification = '0';
 
@@ -94,15 +94,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                   this.compoundAvailable = true;
                   this.initBaselineAssumptionTable();
 
-                  const optFortLS = localStorage.getItem('optFortAvg');
-                  if (optFortLS) {
-                    this.optionalUserEnteredAverageAtPointOfFortification = optFortLS;
-                  } else {
-                    this.optionalUserEnteredAverageAtPointOfFortification = '0';
-                  }
-
                   this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
-                  this.focusMnForm.get('optFort').setValue(this.optionalUserEnteredAverageAtPointOfFortification);
                 }
               })
               .catch((err) => {
@@ -119,7 +111,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.focusMnForm = this.formBuilder.group({
       compound: ['', Validators.required],
       targetVal: [''],
-      optFort: [this.optionalUserEnteredAverageAtPointOfFortification],
     });
 
     this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value), pairwise()).subscribe(([prev, curr]) => {
@@ -127,18 +118,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
       console.log('CURR', curr);
 
       if (curr.targetVal !== '') {
-        if (prev.optFort === curr.optFort) {
-          this.focusMnFormInitVals = this.focusMnForm.value;
-        }
+        this.focusMnFormInitVals = this.focusMnForm.value;
 
         this.selectedCompound = curr.compound;
         this.selectedCompound.targetVal = curr.targetVal;
-
-        if (prev.optFort !== curr.optFort) {
-          this.optionalUserEnteredAverageAtPointOfFortification = curr.optFort;
-        }
-
-        localStorage.setItem('optFortAvg', curr.optFort);
 
         const changesArr = this.focusMnData.filter((item) => item.rowIndex === curr.compound.rowIndex);
         if (changesArr.length === 0) {
