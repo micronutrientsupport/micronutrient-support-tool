@@ -6,6 +6,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { GridsterModule } from 'angular-gridster2';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
 import { InterventionReviewModule } from './interventionReview/interventionReview.module';
+import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 
 @NgModule({
   declarations: [CostEffectivenessComponent],
@@ -17,7 +18,7 @@ import { InterventionReviewModule } from './interventionReview/interventionRevie
     InterventionReviewModule,
   ],
   exports: [CostEffectivenessComponent],
-  providers: [QuickMapsService],
+  providers: [QuickMapsService, InterventionSideNavContentService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CostEffectivenessModule {}

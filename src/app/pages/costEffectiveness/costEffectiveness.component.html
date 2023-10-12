@@ -1,11 +1,40 @@
-<gridster class="bmgf-maps-nice-scrollbar" [options]="options">
-    <app-ce-menu></app-ce-menu>
-    <div *ngIf="enableComparisonCard">
-        <gridster-item [item]="widget" *ngFor="let widget of dashboard">
-            <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
-                <app-intervention-comparison-card *ngSwitchCase="WIDGETS.COST_EFFECTIVENESS_COMPARISION" [card]="card">
-                </app-intervention-comparison-card>
-            </app-card>
-        </gridster-item>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [disableClose]="true" opened mode="side" class="intervention-sidenav mat-sidenav">
+        <div class="content bmgf-maps-nice-scrollbar">
+            <span class="intervention-review-title">Cost Effectiveness</span>
+            <span class="intervention-review-subtitle">How To:</span>
+
+            <mat-chip-listbox class="mat-mdc-chip-set-stacked chip-box" aria-label="Color selection">
+                <mat-chip-option class="chip">1</mat-chip-option>
+                <span>Select target micronutrient, nation and population that will be used for all interventions</span>
+                <mat-chip-option class="chip">2</mat-chip-option>
+                <span>Choose either an existing (currently implemented at scale*) or hypothetical/alternatice (not
+                    currently implemented at scale or implemented under alternative assumptions) intervention</span>
+                <mat-chip-option class="chip">3</mat-chip-option>
+                <span>Review/edit the intervention</span>
+                <mat-chip-option class="chip">4</mat-chip-option>
+                <span>Once the predicted cost, effectiveness and/or cost-effectiveness of the first intervention has
+                    been displayed and stored you can add additional interventions</span>
+                <mat-chip-option class="chip">5</mat-chip-option>
+                <span>Compare and review interventions</span>
+                <mat-chip-option class="chip">6</mat-chip-option>
+                <span>Export and share the results</span>
+            </mat-chip-listbox>
+
+        </div>
+    </mat-sidenav>
+    <div class="sidenav-content">
+        <gridster class="bmgf-maps-nice-scrollbar" [options]="options">
+            <app-ce-menu></app-ce-menu>
+            <div *ngIf="enableComparisonCard">
+                <gridster-item [item]="widget" *ngFor="let widget of dashboard">
+                    <app-card #card [widget]="widget" [resizeEvent]="resizeEvent" [ngSwitch]="widget.type">
+                        <app-intervention-comparison-card *ngSwitchCase="WIDGETS.COST_EFFECTIVENESS_COMPARISION"
+                            [card]="card">
+                        </app-intervention-comparison-card>
+                    </app-card>
+                </gridster-item>
+            </div>
+        </gridster>
     </div>
-</gridster>
+</mat-sidenav-container>

@@ -4,6 +4,7 @@ import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
 import { CostEffectivenessService } from './costEffectiveness.service';
+import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 // eslint-disable-next-line no-shadow
 enum GridsterLayoutOptions {
   DEFAULT_VIEW = 0,
@@ -41,6 +42,7 @@ export class CostEffectivenessComponent implements OnInit {
     private quickMapsService: QuickMapsService,
     public gridsterService: GridsterService,
     private costEffectivenessService: CostEffectivenessService,
+    private intSideNavService: InterventionSideNavContentService,
     private cdr: ChangeDetectorRef,
   ) {
     this.costEffectivenessService.interventionComparisonActiveObs.subscribe((showCard: boolean) => {
