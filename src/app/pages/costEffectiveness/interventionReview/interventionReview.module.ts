@@ -29,6 +29,7 @@ import { InterventionCostSummaryDetailedRecurringTableComponent } from './pages/
 import { InterventionCostSummaryDetailedStartupTableComponent } from './pages/interventionCostSummary/components/detailedView/tableStartupCosts/tableStartupCosts.component';
 import { InterventionCostSummaryQuickTotalGraphComponent } from './pages/interventionCostSummary/components/quickSummary/graphTotal/graphTotal.component';
 import { InterventionCostSummaryQuickDiscountedTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalDiscounted/tableTotalDiscounted.component';
+import { InterventionCostSummaryQuickSummaryTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalSummary/tableTotalSummary.component';
 import { InterventionCostSummaryQuickUndiscountedTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalUndiscounted/tableTotalUndiscounted.component';
 import { InterventionCostSummaryComponent } from './pages/interventionCostSummary/interventionCostSummary.component';
 import { InterventionIndustryInformationComponent } from './pages/interventionIndustryInformation/interventionIndustryInformation.component';
@@ -62,6 +63,7 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,
+    InterventionCostSummaryQuickSummaryTableComponent,
     InterventionCostSummaryQuickTotalGraphComponent,
     InterventionCostSummaryDetailedStartupTableComponent,
     InterventionCostSummaryDetailedRecurringTableComponent,

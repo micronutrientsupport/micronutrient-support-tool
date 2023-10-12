@@ -21,7 +21,7 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;
-  public summaryCosts: InterventionCostSummary;
+  public summaryCosts: { costBreakdown: any[] };
   public startupCosts: Array<StartUpScaleUpCost>;
   public recurringCosts: Array<RecurringCost>;
   public chartSummaryPNG = '';
@@ -47,7 +47,10 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
         void this.interventionDataService
           .getInterventionCostSummary(activeInterventionId)
           .then((data: InterventionCostSummary) => {
-            this.summaryCosts = data;
+            console.log('summary');
+            const sums = data.summaryCosts[0]['costs'].filter((section) => section['section'] === 'Summaries');
+            console.log(sums);
+            this.summaryCosts = sums[0];
           }),
         void this.interventionDataService.interventionSummaryChartPNGObs.subscribe((chart: string) => {
           this.chartSummaryPNG = chart;
