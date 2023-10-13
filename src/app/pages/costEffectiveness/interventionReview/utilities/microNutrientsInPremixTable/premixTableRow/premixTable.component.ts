@@ -19,15 +19,7 @@ export class PremixTableComponent {
 
   private data = new Subject<FoodVehicleStandard[]>();
   public optionalAverages: Record<number, number> = {};
-  public addedFVdisplayedColumns = [
-    'actions',
-    'micronutrient',
-    'compounds',
-    'targetVal',
-    'avgVal',
-    'optFort',
-    'calcFort',
-  ];
+  public addedFVdisplayedColumns = ['actions', 'micronutrient', 'compounds', 'targetVal', 'avgVal', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public selectedCompounds: Array<FoodVehicleCompound> = [];
   public tableIndex: number;

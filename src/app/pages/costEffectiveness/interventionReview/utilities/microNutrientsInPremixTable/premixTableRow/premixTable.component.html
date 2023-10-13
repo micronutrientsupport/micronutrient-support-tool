@@ -73,29 +73,6 @@
       </div>
     </td>
   </ng-container>
-  <ng-container matColumnDef="optFort">
-    <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Optional user-entered average
-      fortification level
-      (mg/kg) among fortifiable food vehicle at point of fortification
-    </th>
-    <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
-      <div *ngIf="editable" class="double-cell">
-        <input type="number" matInput required [(ngModel)]="optionalAverages[i]" (change)="setButtonEdited(i, 2)"
-          min="0">
-        <span>
-          <button *ngIf="userEdited(i, 2) === false || userEdited(i, 2) == null" mat-button color="primary">
-            GFDx<mat-icon>arrow_right_alt</mat-icon>
-          </button>
-          <button *ngIf="userEdited(i, 2)" mat-button color="primary">
-            User Input
-          </button>
-        </span>
-      </div>
-      <div *ngIf="!editable" class="double-cell">
-        {{ optionalAverages[i] }}
-      </div>
-    </td>
-  </ng-container>
   <ng-container matColumnDef="calcFort">
     <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>
       Calculated average fortification level (mg/kg) among
