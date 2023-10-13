@@ -32,6 +32,10 @@ export class PremixTableComponent {
     this.data.next(micronutrients);
     if (micronutrients.length > 0) {
       micronutrients.forEach((micronutrient: FoodVehicleStandard, index: number) => {
+        console.log(micronutrient.compounds);
+
+        console.log(micronutrient.compounds.find((compound) => compound.targetVal > 0));
+
         this.selectedCompounds.push(micronutrient.compounds[0]);
         this.selectedCompounds = this.selectedCompounds.filter((x) => x);
         this.optionalAverages[index] = 0;

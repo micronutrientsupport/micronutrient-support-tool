@@ -96,10 +96,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B1: {
         LSFF: {
@@ -109,10 +105,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '5',
             rice: '8',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -126,10 +118,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B3: {
         LSFF: {
@@ -139,10 +127,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '5',
             rice: '8',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -156,10 +140,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B9: {
         LSFF: {
@@ -169,10 +149,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '5',
             rice: '8',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -186,10 +162,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       D: {
         LSFF: {
@@ -201,10 +173,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       E: {
         LSFF: {
@@ -213,20 +181,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       I: {
         LSFF: {
           'Existing intervention program': {
             'salt, iodine': '5',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -240,10 +200,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       Zn: {
         LSFF: {
@@ -253,10 +209,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '5',
             rice: '8',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -269,10 +221,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       Se: {
         LSFF: {
@@ -281,10 +229,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'maize flour': '3',
             rice: '8',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -302,10 +246,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B1: {
         LSFF: {
@@ -315,10 +255,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '15',
             rice: '16',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -332,10 +268,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B3: {
         LSFF: {
@@ -345,10 +277,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '15',
             rice: '16',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -362,10 +290,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       B9: {
         LSFF: {
@@ -375,10 +299,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '15',
             rice: '16',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -392,10 +312,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       D: {
         LSFF: {
@@ -407,10 +323,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       E: {
         LSFF: {
@@ -419,20 +331,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       I: {
         LSFF: {
           'Existing intervention program': {
             'salt, iodine': '15',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -446,10 +350,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       Zn: {
         LSFF: {
@@ -459,10 +359,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'salt, iodine': '15',
             rice: '16',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },
@@ -475,10 +371,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-        BF: {
-          'Existing intervention program': {},
-          'Hypothetical intervention program': {},
-        },
       },
       Se: {
         LSFF: {
@@ -487,10 +379,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
             'maize flour': '13',
             rice: '16',
           },
-          'Hypothetical intervention program': {},
-        },
-        BF: {
-          'Existing intervention program': {},
           'Hypothetical intervention program': {},
         },
       },

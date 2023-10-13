@@ -66,9 +66,17 @@ export class MicroNutrientsInPremixTableComponent {
           const nonZeroCompound = standard.compounds.find((compound) => compound.targetVal > 0);
           if (nonZeroCompound) {
             console.log(standard.micronutrient, nonZeroCompound);
+            const cache = this.interventionDataService.getCachedMnInPremix();
+            console.log('The Cache', cache);
 
-            // Prepopulate table with food vehicle standards where target value not 0
-            this.addMnToTable(this.mnDictionary.getItem(standard.micronutrient));
+            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+              console.log('Not found');
+            }
+
+            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+              // Prepopulate table with food vehicle standards where target value not 0
+              this.addMnToTable(this.mnDictionary.getItem(standard.micronutrient));
+            }
           }
         });
       });
