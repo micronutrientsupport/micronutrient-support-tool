@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, map } from 'rxjs';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
@@ -22,6 +22,7 @@ import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -40,6 +41,8 @@ interface FoodVehicle {
 })
 export class CostEffectivenessSelectionDialogComponent implements OnInit {
   inteventionIDInput = new FormControl('');
+  public isCopyMode: boolean;
+  public preselectedInterventionId: number;
   public interventions: Array<InterventionsDictionaryItem>;
   public queryParams: Params;
   public interventionsAllowedToUse: Array<InterventionsDictionaryItem>;
@@ -508,6 +511,19 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   ) {
     this.interventions = dialogData.dataIn.interventions as Array<InterventionsDictionaryItem>;
     this.queryParams = dialogData.dataIn.params;
+    this.isCopyMode = dialogData.dataIn.isCopyMode;
+    this.preselectedInterventionId = dialogData.dataIn.preselectedInterventionId;
+
+    if (this.preselectedInterventionId) {
+      console.log(this.preselectedInterventionId);
+      console.log(this.interventions);
+
+      this.selectedInterventionId = '' + this.preselectedInterventionId;
+      this.selectedIntervention = this.interventions.find((intervention) => {
+        return intervention.id == this.selectedInterventionId;
+      });
+    }
+
     this.activeUser = userLoginService.getActiveUser();
 
     this.route.queryParamMap.subscribe(async (queryParams) => {
@@ -789,7 +805,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       // TODO: POST to endpoint with parameterFormObj as body
       this.interventionDataService
         .setIntervention(
-          Number(this.selectedIntervention.id),
+          Number(this.selectedInterventionId),
           this.interventionRequestBody.newInterventionName,
           this.interventionRequestBody.newInterventionDescription,
           this.selectedCountry,
@@ -935,6 +951,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         interventionStatus
       ][this.selectedFoodVehicle];
 
+    console.log('Loading intervention', this.selectedInterventionId);
     // Grab the associated intervention from the list
     this.selectedIntervention = this.interventions.find((intervention) => {
       return intervention.id == this.selectedInterventionId;

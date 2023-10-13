@@ -62,7 +62,7 @@
               Micronutrient
             </th>
             <td mat-cell *matCellDef="let element">
-              <span class="focus-mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
+              <span class="focus-mn-title">{{ mnDictionary.getItem(activeNutrientFVS[0].micronutrient).name }} </span>
             </td>
           </ng-container>
           <ng-container matColumnDef="compound">

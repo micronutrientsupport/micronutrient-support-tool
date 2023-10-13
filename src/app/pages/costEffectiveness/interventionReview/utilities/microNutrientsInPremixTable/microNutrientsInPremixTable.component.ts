@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import {
   BaselineAssumptions,
@@ -9,6 +11,7 @@ import {
   FoodVehicleStandard,
   InterventionFoodVehicleStandards,
 } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 
 @Component({
@@ -31,12 +34,20 @@ export class MicroNutrientsInPremixTableComponent {
   public premixCount = 0;
   public subscription: Subscription;
   private activeInterventionId: string;
+  private mnDictionary: Dictionary;
 
-  constructor(public readonly interventionDataService: InterventionDataService) {
+  constructor(
+    public readonly interventionDataService: InterventionDataService,
+    private readonly dictionariesService: DictionaryService,
+  ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
   }
 
   ngOnInit(): void {
+    this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS).then((dictionary) => {
+      this.mnDictionary = dictionary;
+    });
+
     this.interventionDataService
       .getInterventionBaselineAssumptions(this.activeInterventionId)
       .then((data: InterventionBaselineAssumptions) => {
@@ -44,6 +55,22 @@ export class MicroNutrientsInPremixTableComponent {
         if (this.interventionDataService.getCachedMnInPremix()) {
           this.micronutrients = this.interventionDataService.getCachedMnInPremix();
         }
+      });
+
+    this.interventionDataService
+      .getInterventionFoodVehicleStandards(this.activeInterventionId)
+      .then((standards: InterventionFoodVehicleStandards) => {
+        console.log(standards);
+
+        standards.foodVehicleStandard.forEach((standard) => {
+          const nonZeroCompound = standard.compounds.find((compound) => compound.targetVal > 0);
+          if (nonZeroCompound) {
+            console.log(standard.micronutrient, nonZeroCompound);
+
+            // Prepopulate table with food vehicle standards where target value not 0
+            this.addMnToTable(this.mnDictionary.getItem(standard.micronutrient));
+          }
+        });
       });
   }
 

@@ -1,9 +1,9 @@
 <app-base-dialog [data]="dialogData" title="Define your intervention">
   <div class="content-container">
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="handleTabChange($event)">
-      <mat-tab label="Create new intervention">
+      <mat-tab [label]="isCopyMode ? 'Copy existing intervention' : 'Create new intervention'">
         <ng-container>
-          <ng-container *ngIf="parameterForm">
+          <ng-container *ngIf="parameterForm && !isCopyMode">
             <form [formGroup]="parameterForm" id="parameter-form">
               <div class="form-flex-wrapper">
                 <div class="form-50">
@@ -125,7 +125,7 @@
           </ng-container>
         </ng-container>
       </mat-tab>
-      <mat-tab label="Load an existing intervention">
+      <mat-tab label="Load an existing intervention" *ngIf="!isCopyMode">
         <div class="content-container">
           <!-- <mat-form-field appearance="outline">
                   <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionLoad"
@@ -182,8 +182,13 @@
         Cancel
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-        *ngIf="tabID === 'copy'" [disabled]="!interventionForm.valid || !parameterForm.valid || !selectedIntervention">
+        *ngIf="tabID === 'copy' && !isCopyMode"
+        [disabled]="!interventionForm.valid || !parameterForm.valid || !selectedIntervention">
         Create Intervention
+      </button>
+      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+        *ngIf="isCopyMode" [disabled]="!interventionForm.valid">
+        Copy Intervention
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
         *ngIf="tabID === 'load'" [disabled]="(proceed.asObservable() | async) === false">

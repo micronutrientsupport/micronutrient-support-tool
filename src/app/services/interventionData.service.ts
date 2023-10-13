@@ -176,6 +176,8 @@ export class InterventionDataService {
       description: intervention.description,
       lastEdited: intervention.lastEdited,
       userId: intervention.userId,
+      focusMicronutrient: intervention.focusMicronutrient,
+      focusNation: intervention.countryId,
     };
     const testDuplicate = activeItemsArr.find((activeItem: SimpleIntervention) => activeItem.id === intervention.id);
 

@@ -21,6 +21,10 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -59,6 +63,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public focusMnForm: UntypedFormGroup;
   public focusMnData: Array<Record<string, unknown>> = [];
   public focusMnFormInitVals;
+  public mnDictionary: Dictionary;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -68,12 +73,16 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private readonly cdr: ChangeDetectorRef,
     private formBuilder: NonNullableFormBuilder,
     private notificationsService: NotificationsService,
+    private readonly dictionariesService: DictionaryService,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public ngOnInit(): void {
+    this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS).then((dictionary) => {
+      this.mnDictionary = dictionary;
+    });
     this.initFocusMicronutrientTable();
   }
 
@@ -94,7 +103,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                   this.compoundAvailable = true;
                   this.initBaselineAssumptionTable();
 
-                  this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
+                  // this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
                 }
               })
               .catch((err) => {
@@ -117,7 +126,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
       console.log('PREV', prev);
       console.log('CURR', curr);
 
-      if (curr.targetVal !== '') {
+      if (curr.compound && curr.targetVal !== '') {
         this.focusMnFormInitVals = this.focusMnForm.value;
 
         this.selectedCompound = curr.compound;
@@ -245,10 +254,23 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
-    this.selectedCompound = fvdata[0].compounds[0];
+    console.log('Creating table with', fvdata[0]);
+    console.log(this.selectedCompound);
+    fvdata[0].compounds.forEach((compound, index) => {
+      console.log(index, compound);
+      if (compound.targetVal > 0) {
+        console.log('Bif');
+        this.selectedCompound = fvdata[0].compounds[index];
+      }
+    });
+    //this.selectedCompound = fvdata[0].compounds[0];
     this.FVdataSource = new MatTableDataSource(fvdata);
 
     this.focusMnForm.get('compound').setValue(this.selectedCompound);
+    this.focusMnForm.get('targetVal').setValue(this.selectedCompound.targetVal);
+
+    console.log(this.activeNutrientFVS);
+
     this.cdr.detectChanges();
   }
 

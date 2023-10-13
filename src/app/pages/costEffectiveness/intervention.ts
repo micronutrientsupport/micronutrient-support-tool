@@ -7,6 +7,8 @@ export interface SimpleIntervention {
   description: string;
   lastEdited: string;
   userId: string;
+  focusMicronutrient: string;
+  focusNation: string;
 }
 
 export const SimpleInterventions: Array<SimpleIntervention> = [
@@ -18,6 +20,8 @@ export const SimpleInterventions: Array<SimpleIntervention> = [
     description: 'Wheat flour description',
     lastEdited: '',
     userId: '',
+    focusMicronutrient: 'A',
+    focusNation: 'ETH',
   },
   {
     name: 'Supplementation',
@@ -27,6 +31,8 @@ export const SimpleInterventions: Array<SimpleIntervention> = [
     description: 'Supplementation description',
     lastEdited: '',
     userId: '',
+    focusMicronutrient: 'Ca',
+    focusNation: 'ETH',
   },
   {
     name: 'Wheat flour fortification',
@@ -36,5 +42,7 @@ export const SimpleInterventions: Array<SimpleIntervention> = [
     description: 'Wheat flour description',
     lastEdited: '',
     userId: '',
+    focusMicronutrient: 'Fe',
+    focusNation: 'MWI',
   },
 ];
