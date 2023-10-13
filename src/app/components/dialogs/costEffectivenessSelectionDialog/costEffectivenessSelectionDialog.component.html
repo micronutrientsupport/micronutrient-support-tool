@@ -127,6 +127,9 @@
       </mat-tab>
       <mat-tab label="Load an existing intervention" *ngIf="!isCopyMode">
         <div class="content-container">
+          <p>
+            Re-load an intervention previously created within the MAPS tool by entering the ID of the intervention below
+          </p>
           <!-- <mat-form-field appearance="outline">
                   <mat-select (empty)="null" placeholder="Select an intervention" [(ngModel)]="selectedInterventionLoad"
                     (ngModelChange)="this.proceed.next(true);" matNativeControl required>
