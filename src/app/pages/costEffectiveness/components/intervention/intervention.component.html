@@ -5,10 +5,11 @@
         <div class="left-content">
           <div>
             <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
-            <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong></span>
-            <span class="int-id">ID: {{ intervention.id }}</span>
+            <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong> |
+              {{intervention.focusNation}} |
+              {{intervention.focusMicronutrient}}</span>
           </div>
-          <div class="copy-email-wrapper">
+          <!-- <div class="copy-email-wrapper">
             <button mat-flat-button class="copy-button" [cdkCopyToClipboard]="intervention.id.toString()">
               <mat-icon>file_copy</mat-icon> Copy
               Intervention ID to clipboard</button>
@@ -18,14 +19,15 @@
             <i class="fas fa-question-circle margin-left" mat-tooltip
               matTooltip="Note your ID for Future Invertention Reloading! This ID will allow you to reload your intervention at a later time. Write it down and keep it in a safe place, or send it to your email address"
               style="color: grey;"></i>
-          </div>
+          </div> -->
+
         </div>
-        <div class="right-content">
+        <!-- <div class="right-content">
           <span *ngIf="intervention.userId === 'Anonymous'"><strong>Intervention not claimed: </strong><button
               mat-flat-button color="primary" class="claim-button"
               (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
               Claim</button> </span>
-        </div>
+        </div> -->
       </div>
     </mat-card-title>
     <p class="desc">{{ intervention.description }}</p>
@@ -36,19 +38,24 @@
             <span *ngIf="!intervention.baseYear">Base year: <strong>{{today | date:'y'}}</strong></span>
             <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
           </div>
-          <div class="item">
+          <!-- <div class="item">
             10-year total cost: <strong>{{ intervention.totalCost| currency }}</strong>
-          </div>
+          </div> -->
           <div class="item">
             Last updated: <strong>{{(intervention.lastEdited | date:'medium') || 'Not available'}}</strong>
           </div>
+          <div class="item"><span class="int-id">ID: {{ intervention.id }}</span></div>
         </div>
       </div>
 
 
       <div class="column-container">
         <button mat-stroked-button type="button" class="btn btn-primary" (click)="removeIntervention()">Remove</button>
-        <a mat-flat-button color="primary" (click)="reviewIntervention()">Review</a>
+        <button mat-stroked-button color="primary" (click)="openCESCopyDialog(intervention.id)">
+          <mat-icon>file_copy</mat-icon>
+          Copy
+        </button>
+        <a mat-flat-button color="primary" class="btn" (click)="reviewIntervention()">Review</a>
       </div>
     </div>
   </mat-card>

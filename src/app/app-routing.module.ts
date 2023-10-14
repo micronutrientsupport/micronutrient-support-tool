@@ -115,6 +115,7 @@ const routes: Routes = [
       title: 'Cost Effectivness',
       keywords: 'Micronutrients, maps, policy, style guide',
       description: '',
+      showLightFooter: true,
     } as RouteData,
   },
   {

@@ -80,6 +80,8 @@ export class DialogService extends BaseDialogService {
   public openCESelectionDialog(
     interventions: Array<InterventionsDictionaryItem>,
     queryParams: Params,
+    isCopyMode?: boolean,
+    selectedIntervention?: number,
   ): Promise<DialogData<InterventionDialogParams>> {
     return this.openDialog(
       'costEffectivenessSelectionDialog',
@@ -88,6 +90,8 @@ export class DialogService extends BaseDialogService {
       {
         interventions: interventions,
         params: queryParams,
+        isCopyMode: isCopyMode,
+        preselectedInterventionId: selectedIntervention,
       },
       {},
     );

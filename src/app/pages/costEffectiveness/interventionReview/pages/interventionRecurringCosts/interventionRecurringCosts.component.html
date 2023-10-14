@@ -7,7 +7,7 @@
         </app-reusable-skeleton-table>
         <div *ngFor="let recurringCost of recurringCosts">
           <div class="title">
-            <span>{{ recurringCost.category }}</span>
+            <span>{{ recurringCost.category }} summary</span>
           </div>
           <div class="recurringCostTable">
             <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
@@ -35,8 +35,18 @@
       [routerLink]="ROUTES.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS | route" queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <a class="intervention-navigation-confirm" mat-flat-button color="primary"
+    <a class="intervention-navigation" mat-flat-button color="primary"
       [routerLink]="ROUTES.INTERVENTION_REVIEW_COST_SUMMARY | route" queryParamsHandling="preserve">Confirm and
-      continue</a>
+      continue to Costs Summary</a>
+
+    <div class="mode-select-button" matTooltip="This feature is under development and currently not available"
+      [matTooltipDisabled]="false">
+      <a class="intervention-navigation-confirm" mat-flat-button color="primary"
+        [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS | route" disabled [matTooltipDisabled]="true"
+        matTooltip="This feature is under development and currently not available"
+        queryParamsHandling="preserve">Confirm
+        and
+        continue to Effectiveness</a>
+    </div>
   </footer>
 </div>

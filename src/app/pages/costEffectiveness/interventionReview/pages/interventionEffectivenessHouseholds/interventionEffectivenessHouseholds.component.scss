@@ -1,0 +1,26 @@
+@use '../interventionReviewPages.scss';
+@import 'src/assets/scss/_colour';
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 90%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+}
+
+// input:focus {
+//   outline: none;
+//   border: 1px solid blue;
+// }
+
+// user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+}

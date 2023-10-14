@@ -1,0 +1,97 @@
+@import 'src/assets/scss/_colour.scss';
+@import 'src/assets/scss/_layout.scss';
+
+router-outlet ::ng-deep + * {
+  flex: 1 1;
+  min-height: 0; // needs this to make the above flex rule work!
+}
+
+.mat-sidenav {
+  border: 0;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - $header_height - $footer_light_height);
+  height: calc(100vh - $header_height - $footer_light_height);
+  float: left;
+
+  .content {
+    flex-grow: 1;
+    background-color: $color_background_form;
+  }
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f1ecf6;
+  padding: 10px;
+  background-color: $color_background_form;
+}
+
+.intervention-review-title {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+.intervention-review-subtitle {
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.sidenav-container {
+  position: absolute;
+  top: $header_height;
+  bottom: $footer_light_height;
+  left: 0;
+  right: 0;
+}
+
+// fix the footer position
+::ng-deep app-footer-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chip {
+  background: #9b51e0;
+  display: block;
+  color: #fff;
+  width: 2em;
+  height: 2em;
+  border-radius: 0.2em;
+  line-height: 2em;
+}
+
+.chip-box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span {
+    display: block;
+    padding: 1em 0;
+    margin-bottom: 1em;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .intervention-sidenav {
+    display: none;
+  }
+}

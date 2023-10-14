@@ -29,6 +29,7 @@ import { InterventionCostSummaryDetailedRecurringTableComponent } from './pages/
 import { InterventionCostSummaryDetailedStartupTableComponent } from './pages/interventionCostSummary/components/detailedView/tableStartupCosts/tableStartupCosts.component';
 import { InterventionCostSummaryQuickTotalGraphComponent } from './pages/interventionCostSummary/components/quickSummary/graphTotal/graphTotal.component';
 import { InterventionCostSummaryQuickDiscountedTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalDiscounted/tableTotalDiscounted.component';
+import { InterventionCostSummaryQuickSummaryTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalSummary/tableTotalSummary.component';
 import { InterventionCostSummaryQuickUndiscountedTableComponent } from './pages/interventionCostSummary/components/quickSummary/tableTotalUndiscounted/tableTotalUndiscounted.component';
 import { InterventionCostSummaryComponent } from './pages/interventionCostSummary/interventionCostSummary.component';
 import { InterventionIndustryInformationComponent } from './pages/interventionIndustryInformation/interventionIndustryInformation.component';
@@ -42,6 +43,8 @@ import { PremixTableComponent } from './utilities/microNutrientsInPremixTable/pr
 import { ReusableCostGraphComponent } from './utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './utilities/reusableCostTable/reusableCostTable.component';
 import { ReusableSkeletonTableComponent } from './utilities/reusableSkeletonTable/reusableSkeletonTable.component';
+import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
+import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
 
 @NgModule({
   declarations: [
@@ -55,9 +58,12 @@ import { ReusableSkeletonTableComponent } from './utilities/reusableSkeletonTabl
     InterventionStartupScaleupCostsComponent,
     InterventionConsumptionComponent,
     InterventionAssumptionsReviewComponent,
+    InterventionEffectivenessHouseholdsComponent,
+    InterventionEffectivenessMetricsComponent,
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,
+    InterventionCostSummaryQuickSummaryTableComponent,
     InterventionCostSummaryQuickTotalGraphComponent,
     InterventionCostSummaryDetailedStartupTableComponent,
     InterventionCostSummaryDetailedRecurringTableComponent,

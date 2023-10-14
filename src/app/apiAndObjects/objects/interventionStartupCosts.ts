@@ -1,6 +1,7 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { DataLevel } from './enums/dataLevel.enum';
 import { Named } from './named.interface';
+import * as jsonLogic from 'json-logic-js';
 
 export class InterventionStartupCosts extends BaseObject implements Named {
   public static readonly KEYS = {
@@ -35,7 +36,9 @@ export interface StartUpCosts {
   section: string;
   costBreakdown: Array<StartUpCostBreakdown>;
   year0Total: number;
+  year0TotalFormula: jsonLogic.RulesLogic;
   year1Total: number;
+  year1TotalFormula: jsonLogic.RulesLogic;
 }
 
 export interface StartUpCostBreakdown {

@@ -74,9 +74,9 @@ export class InterventionCreationComponent {
       // Need to unsubsscribe to prevent additional calls when new intervention added
       .unsubscribe();
   }
-  public openCESelectionDialog(): void {
+  public openCESelectionDialog(isCopyMode = false): void {
     void this.dialogService
-      .openCESelectionDialog(this.interventionsDictionaryItems, this.route.snapshot.queryParams)
+      .openCESelectionDialog(this.interventionsDictionaryItems, this.route.snapshot.queryParams, isCopyMode)
       .then((data: DialogData) => {
         if (data !== null && data.dataOut.id) {
           this.quickMapsService.getMicronutrientRefresh();

@@ -30,6 +30,7 @@ import { InterventionCostSummaryDetailedRecurringTableComponent } from './interv
 import { InterventionCostSummaryDetailedStartupTableComponent } from './interventionReview/pages/interventionCostSummary/components/detailedView/tableStartupCosts/tableStartupCosts.component';
 import { InterventionCostSummaryQuickTotalGraphComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/graphTotal/graphTotal.component';
 import { InterventionCostSummaryQuickDiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalDiscounted/tableTotalDiscounted.component';
+import { InterventionCostSummaryQuickSummaryTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalSummary/tableTotalSummary.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReusableCostGraphComponent } from './interventionReview/utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './interventionReview/utilities/reusableCostTable/reusableCostTable.component';
@@ -58,6 +59,7 @@ import { ReusableSkeletonTableComponent } from './interventionReview/utilities/r
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,
+    InterventionCostSummaryQuickSummaryTableComponent,
     InterventionCostSummaryQuickTotalGraphComponent,
     InterventionCostSummaryDetailedStartupTableComponent,
     InterventionCostSummaryDetailedRecurringTableComponent,

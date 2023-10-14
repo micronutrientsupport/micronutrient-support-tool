@@ -183,6 +183,16 @@ export class AppRoutes {
     segments: 'intervention-startup-scaleup-costs',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
+  public static readonly INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS = {
+    ...BASE_ROUTE,
+    segments: 'intervention-effectiveness-households',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_EFFECTIVENESS_METRICS = {
+    ...BASE_ROUTE,
+    segments: 'intervention-effectiveness-metrics',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
 
   /**
    * *** Intervention Review end ***
