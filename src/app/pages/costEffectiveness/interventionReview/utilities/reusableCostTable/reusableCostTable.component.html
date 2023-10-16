@@ -1,6 +1,6 @@
 <table mat-table *ngIf="null != recurringCost" [dataSource]="dataSource" matSort class="table-full-width">
   <ng-container matColumnDef="section">
-    <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up</th>
+    <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention Year</th>
     <td class="row-title-left" mat-cell *matCellDef="let element">
       <button class="table-edit-button" mat-button color="primary"
         (click)="openSectionRecurringCostReviewDialog(element)">
