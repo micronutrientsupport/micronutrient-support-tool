@@ -315,8 +315,20 @@ export class InterventionBaselineComponent implements AfterViewInit {
     }
   }
 
+  public updateBaselineAssumptions(row) {
+    const actuallyFortified = this.form.controls.items['controls'][0]['controls']['year0'].value / 100;
+    const potentiallyFortified = this.form.controls.items['controls'][1]['controls']['year0'].value / 100;
+    // console.log(row);
+
+    console.log(this.baselineAssumptions);
+
+    this.baselineAssumptions.actuallyFortified.year0 = actuallyFortified;
+    this.baselineAssumptions.potentiallyFortified.year0 = potentiallyFortified;
+  }
+
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
+    console.log(this.baselineAssumptions);
   }
 
   public validateUserInput(event: Event, rowIndex: number, year: string) {

@@ -29,8 +29,8 @@
             <div *ngIf="element.rowUnits === 'percent'">
               <!-- <input type="text" appDecimalInput [value]="element.year1 * 100"
                 (input)="element.year1 = $any($event.target).value / 100" formControlName="year1"> -->
-              <input id="year1" name="year1" type="number" [ngModel]="element.year1 * 100" formControlName="year1"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year1')">
+              <input id="year1" name="year1" type="number" [ngModel]="round(element.year1 * 100)"
+                formControlName="year1" min="0" max="100" (keyup)="validateUserInput($event, index, 'year1')">
             </div>
           </td>
         </ng-container>
@@ -41,8 +41,8 @@
               <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year2" name="year2" type="number" [ngModel]="element.year2 * 100" formControlName="year2"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year2')">
+              <input id="year2" name="year2" type="number" [ngModel]="round(element.year2 * 100)"
+                formControlName="year2" min="0" max="100" (keyup)="validateUserInput($event, index, 'year2')">
             </div>
           </td>
         </ng-container>
@@ -53,8 +53,8 @@
               <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year3" name="year3" type="number" [ngModel]="element.year3 * 100" formControlName="year3"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year3')">
+              <input id="year3" name="year3" type="number" [ngModel]="round(element.year3 * 100)"
+                formControlName="year3" min="0" max="100" (keyup)="validateUserInput($event, index, 'year3')">
             </div>
           </td>
         </ng-container>
@@ -65,8 +65,8 @@
               <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year4" name="year4" type="number" [ngModel]="element.year4 * 100" formControlName="year4"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year4')">
+              <input id="year4" name="year4" type="number" [ngModel]="round(element.year4 * 100)"
+                formControlName="year4" min="0" max="100" (keyup)="validateUserInput($event, index, 'year4')">
             </div>
           </td>
         </ng-container>
@@ -77,8 +77,8 @@
               <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year5" name="year5" type="number" [ngModel]="element.year5 * 100" formControlName="year5"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year5')">
+              <input id="year5" name="year5" type="number" [ngModel]="round(element.year5 * 100)"
+                formControlName="year5" min="0" max="100" (keyup)="validateUserInput($event, index, 'year5')">
             </div>
           </td>
         </ng-container>
@@ -89,8 +89,8 @@
               <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year6" name="year6" type="number" [ngModel]="element.year6 * 100" formControlName="year6"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year6')">
+              <input id="year6" name="year6" type="number" [ngModel]="round(element.year6 * 100)"
+                formControlName="year6" min="0" max="100" (keyup)="validateUserInput($event, index, 'year6')">
             </div>
           </td>
         </ng-container>
@@ -101,8 +101,8 @@
               <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year7" name="year7" type="number" [ngModel]="element.year7 * 100" formControlName="year7"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year7')">
+              <input id="year7" name="year7" type="number" [ngModel]="round(element.year7 * 100)"
+                formControlName="year7" min="0" max="100" (keyup)="validateUserInput($event, index, 'year7')">
             </div>
           </td>
         </ng-container>
@@ -113,8 +113,8 @@
               <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year8" name="year8" type="number" [ngModel]="element.year8 * 100" formControlName="year8"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year8')">
+              <input id="year8" name="year8" type="number" [ngModel]="round(element.year8 * 100)"
+                formControlName="year8" min="0" max="100" (keyup)="validateUserInput($event, index, 'year8')">
             </div>
           </td>
         </ng-container>
@@ -125,8 +125,8 @@
               <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9">
             </div>
             <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year9" name="year9" type="number" [ngModel]="element.year9 * 100" formControlName="year9"
-                min="0" max="100" (keyup)="validateUserInput($event, index, 'year9')">
+              <input id="year9" name="year9" type="number" [ngModel]="round(element.year9 * 100)"
+                formControlName="year9" min="0" max="100" (keyup)="validateUserInput($event, index, 'year9')">
             </div>
           </td>
         </ng-container>

@@ -49,9 +49,8 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="avgVal">
-    <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated average fortification level
-      (mg/kg) among
-      fortifiable food vehicle at point of fortification
+    <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated baseline fortification
+      levels in practice
       <button class="icon-display floater" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
         <mat-icon class="icon-display">question_mark</mat-icon>
       </button>
@@ -77,7 +76,8 @@
     </th>
     <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <span>
-        {{ (optionalAverages[i] * baselineAssumptions.actuallyFortified.year0 *
+        {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
+        (baselineAssumptions.actuallyFortified.year0 *
         baselineAssumptions.potentiallyFortified.year0) | sigFig: 3 }}
       </span>
     </td>

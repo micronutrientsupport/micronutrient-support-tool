@@ -285,6 +285,10 @@ export class InterventionComplianceComponent implements OnInit {
       this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
     }
   }
+
+  public round(number: number) {
+    return Math.round(number);
+  }
 }
 
 interface AverageNutrientLevelTableObject {

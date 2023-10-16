@@ -2,7 +2,7 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
     <div class="title">
-      <span>Baseline Assumptions</span>
+      <span>Baseline Performance</span>
     </div>
     <div *ngIf="!this.compoundAvailable">
       <app-quickmaps-no-results></app-quickmaps-no-results>
@@ -23,8 +23,8 @@
             <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
               <div class="double-cell">
                 <div>
-                  <input id="year0" name="year0" (change)="storeIndex(index)" type="number"
-                    [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100"
+                  <input id="year0" name="year0" (change)="updateBaselineAssumptions(this); storeIndex(index)"
+                    type="number" [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100"
                     (keyup)="validateUserInput($event, index, 'year0')">
                 </div>
                 <button *ngIf="dirtyIndexes.includes(index) === false" mat-button color="primary">
