@@ -88,11 +88,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
+            // 'maize flour': '3',
             'refined oil': '1',
-            sugar: '4',
-            'salt, iodine': '5',
-            rice: '8',
+            // sugar: '4',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -101,9 +101,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -112,9 +112,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -123,9 +123,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -134,9 +134,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -145,9 +145,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -156,9 +156,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -167,36 +167,36 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
+            // 'maize flour': '3',
             'refined oil': '1',
-            rice: '8',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
       },
-      E: {
-        LSFF: {
-          'Existing intervention program': {
-            rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      I: {
-        LSFF: {
-          'Existing intervention program': {
-            'salt, iodine': '5',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
+      // E: {
+      //   LSFF: {
+      //     'Existing intervention program': {
+      //       // rice: '8',
+      //     },
+      //     'Hypothetical intervention program': {},
+      //   },
+      // },
+      // I: {
+      //   LSFF: {
+      //     'Existing intervention program': {
+      //       // 'salt, iodine': '5',
+      //     },
+      //     'Hypothetical intervention program': {},
+      //   },
+      // },
       Fe: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -205,9 +205,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            'salt, iodine': '5',
-            rice: '8',
+            // 'maize flour': '3',
+            // 'salt, iodine': '5',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -216,8 +216,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            rice: '8',
+            // 'maize flour': '3',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -226,8 +226,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
-            'maize flour': '3',
-            rice: '8',
+            // 'maize flour': '3',
+            // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
@@ -238,11 +238,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
+            // 'maize flour': '13',
             'refined oil': '11',
-            sugar: '14',
-            'salt, iodine': '15',
-            rice: '16',
+            // sugar: '14',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -251,9 +251,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -262,9 +262,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -273,9 +273,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -284,9 +284,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -295,9 +295,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -306,9 +306,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -317,36 +317,36 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
+            // 'maize flour': '13',
             'refined oil': '11',
-            rice: '16',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
       },
-      E: {
-        LSFF: {
-          'Existing intervention program': {
-            rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      I: {
-        LSFF: {
-          'Existing intervention program': {
-            'salt, iodine': '15',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
+      // E: {
+      //   LSFF: {
+      //     'Existing intervention program': {
+      //       // rice: '16',
+      //     },
+      //     'Hypothetical intervention program': {},
+      //   },
+      // },
+      // I: {
+      //   LSFF: {
+      //     'Existing intervention program': {
+      //       // 'salt, iodine': '15',
+      //     },
+      //     'Hypothetical intervention program': {},
+      //   },
+      // },
       Fe: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -355,9 +355,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            'salt, iodine': '15',
-            rice: '16',
+            // 'maize flour': '13',
+            // 'salt, iodine': '15',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -366,8 +366,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            rice: '16',
+            // 'maize flour': '13',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
@@ -376,8 +376,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
-            'maize flour': '13',
-            rice: '16',
+            // 'maize flour': '13',
+            // rice: '16',
           },
           'Hypothetical intervention program': {},
         },
