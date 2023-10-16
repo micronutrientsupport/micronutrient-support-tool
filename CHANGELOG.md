@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.10.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.9.0...v1.10.0) (2023-10-16)
+
+
+### Features
+
+* improve intervention header description bar ([5cc57c8](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5cc57c85b7736f7e5951364b068f5297e3b0922a))
+* populate premix compounds, improve food vehicle formatting ([753bddb](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/753bddbe04413b236782f7978cbfb8ae56a4c70b))
+
+
+### Bug Fixes
+
+* fix premix table value auto updates on baseline changes ([5bd788b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5bd788bd2206e63d0010a43cab940d7ab2962205))
+* get baseline performance page working ([9e6d100](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9e6d100b62807f206baeaf9d53b6d9c908c2efed))
+* limit food vehicle to wheat flour/oil for MNF ([f03845b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f03845bd39da64eae4af04b2e2f460a4a8e22b63))
+* tweak intervention claim wording ([2c3cb95](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2c3cb95407603632ba2b8f315e9536818186f80c))
+* update recurring costs table labelling ([1daddb7](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/1daddb73e0277753299b5cec172c5f103ad0b1c3))
+
 ## [1.9.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.8.0...v1.9.0) (2023-10-14)
 
 
