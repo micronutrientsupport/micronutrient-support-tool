@@ -7,6 +7,7 @@ import {
   InterventionBaselineAssumptions,
   PotentiallyFortified,
   ActuallyFortified,
+  AverageFortificationLevel,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
@@ -26,7 +27,7 @@ export class InterventionComplianceComponent implements OnInit {
   public pageStepperPosition = 1;
   public interventionName = 'IntName';
   public activeStandard: FoodVehicleStandard[];
-  public rawDataArray: Array<PotentiallyFortified | ActuallyFortified> = [];
+  public rawDataArray: Array<PotentiallyFortified | ActuallyFortified | AverageFortificationLevel> = [];
 
   public assumptionsDisplayedColumns = [
     'title',
@@ -175,10 +176,12 @@ export class InterventionComplianceComponent implements OnInit {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
-  public createTableObject(data: InterventionBaselineAssumptions): Array<PotentiallyFortified | ActuallyFortified> {
+  public createTableObject(
+    data: InterventionBaselineAssumptions,
+  ): Array<PotentiallyFortified | ActuallyFortified | AverageFortificationLevel> {
     // const dataArray = [];
     const rawData = data.baselineAssumptions as BaselineAssumptions;
-    this.rawDataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
+    this.rawDataArray.push(rawData.potentiallyFortified, rawData.actuallyFortified, rawData.averageFortificationLevel);
     // console.debug(dataArray);
     this.createAvNutrientLevelTable(rawData);
     return this.rawDataArray;
@@ -217,7 +220,9 @@ export class InterventionComplianceComponent implements OnInit {
     return Math.round(value * 100) / 1; // rounds the number to two decimal places and creates a percentage
   }
 
-  private createAssumptionGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
+  private createAssumptionGroup(
+    item: PotentiallyFortified | ActuallyFortified | AverageFortificationLevel,
+  ): UntypedFormGroup {
     return this.formBuilder.group({
       rowIndex: [item.rowIndex, []],
       rowUnits: [item.rowUnits, []],
@@ -288,6 +293,11 @@ export class InterventionComplianceComponent implements OnInit {
 
   public round(number: number) {
     return Math.round(number);
+  }
+
+  public keys(obj) {
+    console.log(obj);
+    return Object.keys(obj);
   }
 }
 

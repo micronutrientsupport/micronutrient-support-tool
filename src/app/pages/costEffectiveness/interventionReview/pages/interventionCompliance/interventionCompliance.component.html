@@ -142,6 +142,7 @@
     <div class="lower-table-wrapper">
       <div class="focus-mn">
         <span class="sub-header">Focus micronutrient</span>
+        {{ activeStandard}}
         <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
       </div>
       <table mat-table [dataSource]="newDataSource" matSort class="table-full-width">
