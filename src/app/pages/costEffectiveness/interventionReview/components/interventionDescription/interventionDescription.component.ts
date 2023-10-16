@@ -75,11 +75,11 @@ export class InterventionDescriptionComponent {
         .claimAnonymousIntervention(this.selectedIntervention.id.toString())
         .then((claimedIntervention: Intervention) => {
           this.selectedIntervention = claimedIntervention;
-          this.notificationsService.sendPositive('Intervention successfully claimed!');
+          this.notificationsService.sendPositive('Intervention successfully saved to your account!');
         })
-        .catch(() => this.notificationsService.sendNegative('Unable to claim intervention'));
+        .catch(() => this.notificationsService.sendNegative('Unable to save intervention to your account'));
     } else {
-      this.notificationsService.sendInformative('You must login to claim an intervention');
+      this.notificationsService.sendInformative('You must login to save an intervention to your account');
     }
   }
 }
