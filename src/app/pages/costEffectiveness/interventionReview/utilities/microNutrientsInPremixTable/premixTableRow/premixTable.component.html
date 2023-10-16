@@ -1,20 +1,13 @@
 <table mat-table [dataSource]="dataSource" class="table-full-width">
-  <ng-container matColumnDef="actions">
-    <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
-      Actions
-    </th>
-    <td class="column-title-left" mat-cell *matCellDef="let element; let i = index;">
-      <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
-        class="remove-mn" (click)="removeMn(element, i)">
-        <mat-icon>highlight_off</mat-icon>
-      </button>
-    </td>
-  </ng-container>
   <ng-container matColumnDef="micronutrient">
     <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
       Micronutrient
     </th>
-    <td class="column-title-left" mat-cell *matCellDef="let element; let i = index;">
+    <td class="mn-row column-title-left" mat-cell *matCellDef="let element; let i = index;">
+      <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
+        class="remove-mn action-button" (click)="removeMn(element, i)">
+        <mat-icon>highlight_off</mat-icon>
+      </button>
       <span class="micronutrient-title">{{ element.micronutrient }}</span>
     </td>
   </ng-container>

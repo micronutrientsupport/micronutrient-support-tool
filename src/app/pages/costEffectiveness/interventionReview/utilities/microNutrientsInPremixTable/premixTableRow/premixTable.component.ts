@@ -19,7 +19,7 @@ export class PremixTableComponent {
 
   private data = new Subject<FoodVehicleStandard[]>();
   public optionalAverages: Record<number, number> = {};
-  public addedFVdisplayedColumns = ['actions', 'micronutrient', 'compounds', 'targetVal', 'avgVal', 'calcFort'];
+  public addedFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'calcFort'];
   public dataSource = new MatTableDataSource<FoodVehicleStandard>();
   public selectedCompounds: Array<FoodVehicleCompound> = [];
   public tableIndex: number;
@@ -34,11 +34,16 @@ export class PremixTableComponent {
       micronutrients.forEach((micronutrient: FoodVehicleStandard, index: number) => {
         console.log(micronutrient.compounds);
 
-        console.log(micronutrient.compounds.find((compound) => compound.targetVal > 0));
+        const nonZero = micronutrient.compounds.find((compound) => compound.targetVal > 0);
 
-        this.selectedCompounds.push(micronutrient.compounds[0]);
+        this.selectedCompounds.push(nonZero ? nonZero : micronutrient.compounds[0]);
         this.selectedCompounds = this.selectedCompounds.filter((x) => x);
-        this.optionalAverages[index] = 0;
+
+        console.log(this.selectedCompounds);
+
+        (this.dataSource.data.find((entry) => entry.micronutrient === micronutrient.micronutrient).selectedCompound =
+          nonZero ? nonZero : micronutrient.compounds[0]),
+          (this.optionalAverages[index] = 0);
       });
     }
   }
@@ -111,5 +116,10 @@ export class PremixTableComponent {
         return rowVal.button2Edited;
       }
     }
+  }
+
+  public keys(obj) {
+    console.log(obj);
+    return Object.keys(obj);
   }
 }
