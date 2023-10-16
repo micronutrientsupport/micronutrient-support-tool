@@ -2,14 +2,14 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
     <div class="title">
-      <span>Baseline Assumptions</span>
+      <span>Baseline Performance</span>
     </div>
     <div *ngIf="!this.compoundAvailable">
       <app-quickmaps-no-results></app-quickmaps-no-results>
     </div>
     <div *ngIf="this.compoundAvailable">
       <app-reusable-skeleton-table *ngIf="!dataLoaded"
-        [setData]="{ columns: 3, rows: 2 }"></app-reusable-skeleton-table>
+        [setData]="{ columns: 3, rows: 3 }"></app-reusable-skeleton-table>
 
       <form [formGroup]="form" *ngIf="form">
         <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
@@ -23,7 +23,7 @@
             <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
               <div class="double-cell">
                 <div>
-                  <input id="year0" name="year0" (change)="storeIndex(index)" type="number"
+                  <input id="year0" name="year0" (change)="updateBaselineAssumptions(); storeIndex(index)" type="number"
                     [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100"
                     (keyup)="validateUserInput($event, index, 'year0')">
                 </div>
@@ -87,7 +87,7 @@
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
                 <input (change)="updateButtonState(1)" type="number" matInput required
-                  [ngModel]="selectedCompound.targetVal">
+                  [(ngModel)]="selectedCompound.targetVal">
                 <span>
                   <button *ngIf="!buttonOneEdited" mat-button color="primary">
                     GFDx
@@ -109,7 +109,7 @@
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
                 <span>
-                  {{ selectedCompound.targetVal * baselineAssumptions?.potentiallyFortified.year0 | sigFig: 3 }}
+                  {{ selectedCompound.targetVal * baselineAssumptions?.actuallyFortified.year0 | sigFig: 3 }}
                 </span>
 
               </ng-container>
@@ -128,8 +128,8 @@
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
                 <span *ngIf="null != baselineAssumptions">
-                  {{ getCalculatedAverage(baselineAssumptions.actuallyFortified.year0,
-                  baselineAssumptions.potentiallyFortified.year0) | sigFig:3 }}
+                  {{ selectedCompound.targetVal * baselineAssumptions.actuallyFortified.year0 *
+                  baselineAssumptions.potentiallyFortified.year0 | sigFig:3 }}
                 </span>
               </ng-container>
             </td>

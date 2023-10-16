@@ -1,20 +1,13 @@
 <table mat-table [dataSource]="dataSource" class="table-full-width">
-  <ng-container matColumnDef="actions">
-    <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
-      Actions
-    </th>
-    <td class="column-title-left" mat-cell *matCellDef="let element; let i = index;">
-      <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
-        class="remove-mn" (click)="removeMn(element, i)">
-        <mat-icon>highlight_off</mat-icon>
-      </button>
-    </td>
-  </ng-container>
   <ng-container matColumnDef="micronutrient">
     <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
       Micronutrient
     </th>
-    <td class="column-title-left" mat-cell *matCellDef="let element; let i = index;">
+    <td class="mn-row column-title-left" mat-cell *matCellDef="let element; let i = index;">
+      <button *ngIf="editable" mat-icon-button color="warn" aria-label="Remove micronutrient from premix"
+        class="remove-mn action-button" (click)="removeMn(element, i)">
+        <mat-icon>highlight_off</mat-icon>
+      </button>
       <span class="micronutrient-title">{{ element.micronutrient }}</span>
     </td>
   </ng-container>
@@ -40,8 +33,7 @@
     </th>
     <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <div *ngIf="editable" class="double-cell">
-        <input type="number" matInput required
-          [ngModel]="element.selectedCompound ? element.selectedCompound.targetVal : '0'"
+        <input type="number" matInput required [(ngModel)]="element.selectedCompound.targetVal"
           (change)="setButtonEdited(i, 1)" min="0">
         <button *ngIf="userEdited(i, 1) === false || userEdited(i, 1) == null" mat-button color="primary">
           GFDx<mat-icon>arrow_right_alt</mat-icon>
@@ -56,9 +48,8 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="avgVal">
-    <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated average fortification level
-      (mg/kg) among
-      fortifiable food vehicle at point of fortification
+    <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated baseline fortification
+      levels in practice
       <button class="icon-display floater" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
         <mat-icon class="icon-display">question_mark</mat-icon>
       </button>
@@ -67,7 +58,7 @@
       <div class="double-cell">
         <span>
           {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
-          baselineAssumptions.potentiallyFortified.year0 | sigFig: 3
+          baselineAssumptions.actuallyFortified.year0 | sigFig: 3
           }}
         </span>
       </div>
@@ -84,7 +75,8 @@
     </th>
     <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <span>
-        {{ (optionalAverages[i] * baselineAssumptions.actuallyFortified.year0 *
+        {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
+        (baselineAssumptions.actuallyFortified.year0 *
         baselineAssumptions.potentiallyFortified.year0) | sigFig: 3 }}
       </span>
     </td>

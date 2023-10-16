@@ -247,8 +247,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public createBaselineTableObject(): void {
     this.rawBaselineDataArray.push(
-      this.baselineAssumptions.actuallyFortified,
       this.baselineAssumptions.potentiallyFortified,
+      this.baselineAssumptions.actuallyFortified,
+      this.baselineAssumptions.averageFortificationLevel,
     );
     this.dataSource = new MatTableDataSource(this.rawBaselineDataArray);
   }
@@ -313,10 +314,25 @@ export class InterventionBaselineComponent implements AfterViewInit {
     } else if (value === 2) {
       this.buttonTwoEdited = true;
     }
+    this.cdr.detectChanges();
+  }
+
+  public updateBaselineAssumptions() {
+    const potentiallyFortified = this.form.controls.items['controls'][0]['controls']['year0'].value / 100;
+    const actuallyFortified = this.form.controls.items['controls'][1]['controls']['year0'].value / 100;
+    const averageFortificationLevel = this.form.controls.items['controls'][2]['controls']['year0'].value / 100;
+    // console.log(row);
+
+    console.log(this.baselineAssumptions);
+
+    this.baselineAssumptions.potentiallyFortified.year0 = potentiallyFortified;
+    this.baselineAssumptions.actuallyFortified.year0 = actuallyFortified;
+    this.baselineAssumptions.averageFortificationLevel.year0 = averageFortificationLevel;
   }
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
+    console.log(this.baselineAssumptions);
   }
 
   public validateUserInput(event: Event, rowIndex: number, year: string) {

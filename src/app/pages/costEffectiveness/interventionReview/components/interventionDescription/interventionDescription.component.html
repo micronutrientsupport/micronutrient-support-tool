@@ -2,30 +2,31 @@
   <span>Intervention name: <strong>{{ selectedIntervention?.name }}</strong></span>
   <span>ID: <strong>{{ selectedIntervention?.id }}</strong></span>
   <div>
-    <span *ngIf="selectedIntervention?.userId === 'Anonymous'"><strong>Intervention not claimed: </strong><button
-        mat-flat-button color="primary" (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
-        Claim</button> </span>
+    <span *ngIf="selectedIntervention?.userId === 'Anonymous'"><strong>Intervention not saved to a user account:
+      </strong><button mat-flat-button color="primary"
+        (click)="handleClaimIntervention()"><mat-icon>touch_app</mat-icon>
+        Save</button> </span>
   </div>
 </div>
 
-<div class="intervention-summary-title">{{ activeMn }} intervention in {{
-  activeCountry }}</div>
+<div class="intervention-summary-title">{{ selectedIntervention?.foodVehicleName | titlecase}} fortification
+  ({{selectedIntervention?.name}}) </div>
 <div class="intervention-summary-panel">
   <div class="item">
-    <div class="title">Food Vehicle:</div>
-    <div class="value">{{ selectedIntervention?.foodVehicleName | titlecase }}</div>
+    <div class="title">Nation:</div>
+    <div class="value">{{ selectedIntervention?.countryId }}</div>
   </div>
   <div class="item">
     <div class="title">Micronutrient:</div>
-    <div class="value">{{ activeMn }}</div>
+    <div class="value">{{ selectedIntervention?.focusMicronutrient }}</div>
   </div>
   <div class="item">
-    <div class="title">Status:</div>
-    <div class="value">{{ (selectedIntervention?.programStatus | titlecase) || "Voluntary, transitioning to mandatory"}}
+    <div class="title">Intervention type:</div>
+    <div class="value">{{ selectedIntervention?.fortificationTypeName | titlecase }}
     </div>
   </div>
   <div class="item">
-    <div class="title">Base year:</div>
-    <div class="value">{{ (selectedIntervention?.baseYear) || "2021"}}</div>
+    <div class="title">Food vehicle:</div>
+    <div class="value">{{ selectedIntervention?.foodVehicleName | titlecase }}</div>
   </div>
 </div>
