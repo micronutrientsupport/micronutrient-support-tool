@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.10.0...v1.10.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* fix data binding ([babce83](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/babce838f3f447c3886f70a4e696c7de6c27fa84))
+
 ## [1.10.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.9.0...v1.10.0) (2023-10-16)
 
 
