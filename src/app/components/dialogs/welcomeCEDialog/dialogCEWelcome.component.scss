@@ -1,0 +1,30 @@
+@import 'src/assets/scss/_colour.scss';
+
+.title {
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+.maps-welcome-header-image {
+  width: 30%;
+  max-width: 250px;
+  margin: 10px;
+}
+
+.welcome-text {
+  line-height: 1.7em;
+}
+
+.text-primary {
+  color: $color_primary;
+}
+
+.mini-button {
+  transform: scale(0.75);
+  pointer-events: none;
+}
+
+.warning {
+  color: $color_primary;
+}

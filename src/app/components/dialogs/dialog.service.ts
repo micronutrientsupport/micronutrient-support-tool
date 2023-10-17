@@ -25,6 +25,7 @@ import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostRev
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { ShareDialogComponent } from './shareDialog/dialogShare.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
+import { WelcomeCEDialogComponent } from './welcomeCEDialog/dialogCEWelcome.component';
 import { Params } from '@angular/router';
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
@@ -51,6 +52,18 @@ export class DialogService extends BaseDialogService {
 
   public openApiMetadataDialog(): Promise<DialogData> {
     return this.openDialog('apiMetadataDialog', ApiMetadataDialogComponent, true, {}, { width: '500px' });
+  }
+
+  public openCEWelcomeDialog(): Promise<DialogData> {
+    return this.openDialog(
+      'welcomeCEDialog',
+      WelcomeCEDialogComponent,
+      true,
+      {},
+      {
+        width: '60vw',
+      },
+    );
   }
 
   public openWelcomeDialog(IframeUrl: string): Promise<DialogData> {

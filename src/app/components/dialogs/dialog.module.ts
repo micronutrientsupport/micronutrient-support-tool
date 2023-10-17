@@ -23,6 +23,7 @@ import { SectionStartUpCostReviewDialogComponent } from './sectionStartUpCostRev
 import { SectionRecurringCostReviewDialogComponent } from './sectionRecurringCostReviewDialog/sectionRecurringCostReviewDialog.component';
 import { IframeDialogComponent } from './iFrameDialog/dialogIframe.component';
 import { WelcomeDialogComponent } from './welcomeDialog/dialogWelcome.component';
+import { WelcomeCEDialogComponent } from './welcomeCEDialog/dialogCEWelcome.component';
 import { SectionSummaryRecurringCostReviewDialogComponent } from './sectionSummaryRecurringCostReviewDialog/sectionSummaryRecurringCostReviewDialog.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
@@ -51,6 +52,7 @@ import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDi
     SectionStartUpCostReviewDialogComponent,
     IframeDialogComponent,
     WelcomeDialogComponent,
+    WelcomeCEDialogComponent,
     SectionSummaryRecurringCostReviewDialogComponent,
     DialogStepDetailsComponent,
     UserLoginDialogComponent,

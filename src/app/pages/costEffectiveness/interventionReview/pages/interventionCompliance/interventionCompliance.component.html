@@ -140,19 +140,18 @@
       <span>Average nutrient level (mg/kg) among all food vehicle at point of fortification</span>
     </div>
     <div class="lower-table-wrapper">
-      <div class="focus-mn">
-        <span class="sub-header">Focus micronutrient</span>
-        {{ activeStandard}}
-        <span class="mn-title">{{ (quickMapsService.micronutrient.obs | async)?.name }}</span>
-      </div>
       <table mat-table [dataSource]="newDataSource" matSort class="table-full-width">
+        <ng-container matColumnDef="micronutrient">
+          <th mat-header-cell *matHeaderCellDef>Micronutrient</th>
+          <td mat-cell *matCellDef="let element">{{element.micronutrient}}</td>
+        </ng-container>
         <ng-container matColumnDef="standard">
           <th mat-header-cell *matHeaderCellDef>Standard</th>
-          <td mat-cell *matCellDef="let element">{{element.standard}}</td>
+          <td mat-cell *matCellDef="let element">{{element.standard | number:'1.1-2'}}</td>
         </ng-container>
         <ng-container matColumnDef="year0">
           <th mat-header-cell *matHeaderCellDef>2021</th>
-          <td mat-cell *matCellDef="let element">{{element.year0}}</td>
+          <td mat-cell *matCellDef="let element">{{element.year0 | number:'1.1-2'}}</td>
         </ng-container>
         <ng-container matColumnDef="year1">
           <th mat-header-cell *matHeaderCellDef>2022</th>
@@ -214,7 +213,7 @@
         </tr>
       </table>
     </div>
-    <app-micro-nutrients-in-premix-table [editable]="false"></app-micro-nutrients-in-premix-table>
+    <!-- <app-micro-nutrients-in-premix-table [editable]="false"></app-micro-nutrients-in-premix-table> -->
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showAddMicronutrient]="false" [showMnUnits]="true"></app-intervention-step-details>
 
