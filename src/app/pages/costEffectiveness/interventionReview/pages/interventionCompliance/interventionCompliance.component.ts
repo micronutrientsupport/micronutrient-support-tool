@@ -9,7 +9,10 @@ import {
   ActuallyFortified,
   AverageFortificationLevel,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
-import { FoodVehicleStandard } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
+import {
+  FoodVehicleStandard,
+  InterventionFoodVehicleStandards,
+} from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
@@ -43,6 +46,7 @@ export class InterventionComplianceComponent implements OnInit {
     'year9',
   ];
   public averageNutrientDisplayedColumns = [
+    'micronutrient',
     'standard',
     'year0',
     'year1',
@@ -190,30 +194,89 @@ export class InterventionComplianceComponent implements OnInit {
 
   public createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): void {
     const standardValue = 5.63;
-    const tableObject: AverageNutrientLevelTableObject = {
-      standard: standardValue,
-      year0:
-        baselineAssumptions.actuallyFortified.year0 * baselineAssumptions.potentiallyFortified.year0 * standardValue,
-      year1:
-        baselineAssumptions.actuallyFortified.year1 * baselineAssumptions.potentiallyFortified.year1 * standardValue,
-      year2:
-        baselineAssumptions.actuallyFortified.year2 * baselineAssumptions.potentiallyFortified.year2 * standardValue,
-      year3:
-        baselineAssumptions.actuallyFortified.year3 * baselineAssumptions.potentiallyFortified.year3 * standardValue,
-      year4:
-        baselineAssumptions.actuallyFortified.year4 * baselineAssumptions.potentiallyFortified.year4 * standardValue,
-      year5:
-        baselineAssumptions.actuallyFortified.year5 * baselineAssumptions.potentiallyFortified.year5 * standardValue,
-      year6:
-        baselineAssumptions.actuallyFortified.year6 * baselineAssumptions.potentiallyFortified.year6 * standardValue,
-      year7:
-        baselineAssumptions.actuallyFortified.year7 * baselineAssumptions.potentiallyFortified.year7 * standardValue,
-      year8:
-        baselineAssumptions.actuallyFortified.year8 * baselineAssumptions.potentiallyFortified.year8 * standardValue,
-      year9:
-        baselineAssumptions.actuallyFortified.year9 * baselineAssumptions.potentiallyFortified.year9 * standardValue,
-    };
-    this.newDataSource = new MatTableDataSource([tableObject]);
+
+    // this.interventionDataService
+    // .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())
+    // .then((data: InterventionBaselineAssumptions) => {
+    //   this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
+    //   if (this.interventionDataService.getCachedMnInPremix()) {
+    //     this.micronutrients = this.interventionDataService.getCachedMnInPremix();
+    //   }
+    // });
+
+    const fvArray = [];
+
+    this.interventionDataService
+      .getInterventionFoodVehicleStandards(this.interventionDataService.getActiveInterventionId())
+      .then((standards: InterventionFoodVehicleStandards) => {
+        console.log(standards);
+
+        standards.foodVehicleStandard.forEach((standard) => {
+          const nonZeroCompound = standard.compounds.find((compound) => compound?.targetVal > 0);
+          if (nonZeroCompound) {
+            console.log(standard.micronutrient, nonZeroCompound);
+            const cache = this.interventionDataService.getCachedMnInPremix();
+            console.log('The Cache', cache);
+
+            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+              console.log('Not found');
+            }
+
+            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+              // Prepopulate table with food vehicle standards where target value not 0
+            }
+
+            const standardValue = nonZeroCompound.targetVal;
+            const tableObject: AverageNutrientLevelTableObject = {
+              micronutrient: standard.micronutrient,
+              standard: standardValue,
+              year0:
+                baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.potentiallyFortified.year0 *
+                standardValue,
+              year1:
+                baselineAssumptions.actuallyFortified.year1 *
+                baselineAssumptions.potentiallyFortified.year1 *
+                standardValue,
+              year2:
+                baselineAssumptions.actuallyFortified.year2 *
+                baselineAssumptions.potentiallyFortified.year2 *
+                standardValue,
+              year3:
+                baselineAssumptions.actuallyFortified.year3 *
+                baselineAssumptions.potentiallyFortified.year3 *
+                standardValue,
+              year4:
+                baselineAssumptions.actuallyFortified.year4 *
+                baselineAssumptions.potentiallyFortified.year4 *
+                standardValue,
+              year5:
+                baselineAssumptions.actuallyFortified.year5 *
+                baselineAssumptions.potentiallyFortified.year5 *
+                standardValue,
+              year6:
+                baselineAssumptions.actuallyFortified.year6 *
+                baselineAssumptions.potentiallyFortified.year6 *
+                standardValue,
+              year7:
+                baselineAssumptions.actuallyFortified.year7 *
+                baselineAssumptions.potentiallyFortified.year7 *
+                standardValue,
+              year8:
+                baselineAssumptions.actuallyFortified.year8 *
+                baselineAssumptions.potentiallyFortified.year8 *
+                standardValue,
+              year9:
+                baselineAssumptions.actuallyFortified.year9 *
+                baselineAssumptions.potentiallyFortified.year9 *
+                standardValue,
+            };
+            fvArray.push(tableObject);
+          }
+        });
+        console.log('FV', fvArray);
+        this.newDataSource = new MatTableDataSource(fvArray);
+      });
   }
 
   public formatNumberForDisplay(value: number): number {
@@ -302,6 +365,7 @@ export class InterventionComplianceComponent implements OnInit {
 }
 
 interface AverageNutrientLevelTableObject {
+  micronutrient: string;
   standard: number;
   year0: number;
   year1: number;
