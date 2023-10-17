@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+} from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { DataLevel } from 'src/app/apiAndObjects/objects/enums/dataLevel.enum';
 import { GridsterService, GridsterSource, GridsterWidgets } from 'src/app/services/gridster.service';
 import { QuickMapsService } from '../quickMaps/quickMaps.service';
 import { CostEffectivenessService } from './costEffectiveness.service';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 // eslint-disable-next-line no-shadow
 enum GridsterLayoutOptions {
   DEFAULT_VIEW = 0,
@@ -16,7 +24,7 @@ enum GridsterLayoutOptions {
   styleUrls: ['./costEffectiveness.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostEffectivenessComponent implements OnInit {
+export class CostEffectivenessComponent implements OnInit, AfterViewInit {
   public gridsterSource = GridsterSource;
   public readonly WIDGETS = GridsterWidgets;
   public options: GridsterConfig;
@@ -41,6 +49,7 @@ export class CostEffectivenessComponent implements OnInit {
   constructor(
     private quickMapsService: QuickMapsService,
     public gridsterService: GridsterService,
+    public modalService: DialogService,
     private costEffectivenessService: CostEffectivenessService,
     private intSideNavService: InterventionSideNavContentService,
     private cdr: ChangeDetectorRef,
@@ -109,6 +118,14 @@ export class CostEffectivenessComponent implements OnInit {
     this.quickMapsService.dietParameterChangedObs.subscribe(() => {
       this.layoutChange();
     });
+  }
+
+  public openCEWelcomeDialog(): void {
+    this.modalService.openCEWelcomeDialog();
+  }
+
+  ngAfterViewInit(): void {
+    this.openCEWelcomeDialog();
   }
 
   public layoutChange(id?: string | number): void {
