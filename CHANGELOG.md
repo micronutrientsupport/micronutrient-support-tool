@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.11.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.10.1...v1.11.0) (2023-10-17)
+
+
+### Features
+
+* add warning dialog before CE module ([ea86699](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/ea86699030be7d404109af5be2d0610ca774cb46))
+
+
+### Bug Fixes
+
+* get vague functionality for compliance pages. tweak styling ([7a9c07a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/7a9c07a815cd8ee09a3e7e906da568ceb3394bbe))
+
 ## [1.10.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.10.0...v1.10.1) (2023-10-17)
 
 
