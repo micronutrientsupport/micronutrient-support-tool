@@ -33,8 +33,9 @@
     </th>
     <td class="column-title" mat-cell *matCellDef="let element; let i = index;">
       <div *ngIf="editable" class="double-cell">
-        <input type="number" matInput required [(ngModel)]="element.selectedCompound.targetVal"
-          (change)="setButtonEdited(i, 1)" min="0">
+        <input type="number" matInput required
+          [(ngModel)]="element.selectedCompound && element.selectedCompound.targetVal" (change)="setButtonEdited(i, 1)"
+          min="0">
         <button *ngIf="userEdited(i, 1) === false || userEdited(i, 1) == null" mat-button color="primary">
           GFDx<mat-icon>arrow_right_alt</mat-icon>
         </button>
