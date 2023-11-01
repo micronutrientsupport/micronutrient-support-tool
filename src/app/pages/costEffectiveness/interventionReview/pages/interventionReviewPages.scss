@@ -98,7 +98,7 @@ input {
   &:disabled {
     background-color: #a0a0a0;
     border: 0px;
-    color: white;
+    color: white !important;
   }
 }
 

@@ -50,7 +50,7 @@ input {
   &:disabled {
     background-color: $color_grey;
     border: 0px;
-    color: white;
+    color: white !important;
   }
 }
 
@@ -93,7 +93,7 @@ tr:last-child {
   input {
     border: none;
     background: transparent;
-    color: black;
+    color: black !important;
     font-weight: bold;
   }
   td:first-child {
