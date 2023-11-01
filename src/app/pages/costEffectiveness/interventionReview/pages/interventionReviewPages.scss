@@ -107,3 +107,44 @@ input.ng-dirty {
   color: $color_input_blue;
   border-color: $color_input_blue;
 }
+
+.calculated {
+  background-color: aquamarine;
+}
+
+input.ng-dirty.calculated {
+  color: black;
+  border-color: black;
+}
+
+// user overriden calculated values
+input.calculated.ng-touched:not(.ng-pristine) {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+  background-color: aqua;
+}
+
+.reset-button {
+  display: none;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+  background: #a0a0a0;
+  color: #fff;
+
+  mat-icon {
+    font-size: 21px;
+    padding-top: 0.2em;
+  }
+}
+
+.copy-wrap:has(input.calculated.ng-touched:not(.ng-pristine)) {
+  width: 70%;
+  float: left;
+  margin-left: 2px;
+
+  & + .reset-button {
+    display: block;
+  }
+}
