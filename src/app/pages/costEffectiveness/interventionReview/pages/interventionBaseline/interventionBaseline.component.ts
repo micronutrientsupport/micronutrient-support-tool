@@ -99,6 +99,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                   this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
                     return standard.micronutrient.includes(intervention.focusMicronutrient);
                   });
+                  console.log({ activeNutrientFVS: this.activeNutrientFVS });
                   this.createFVTableObject(this.activeNutrientFVS);
                   this.compoundAvailable = true;
                   this.initBaselineAssumptionTable();
@@ -249,7 +250,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.rawBaselineDataArray.push(
       this.baselineAssumptions.potentiallyFortified,
       this.baselineAssumptions.actuallyFortified,
-      this.baselineAssumptions.averageFortificationLevel,
+      this.baselineAssumptions /* The above code is declaring a variable named
+      "averageFortificationLevel" in TypeScript. */.averageFortificationLevel,
     );
     this.dataSource = new MatTableDataSource(this.rawBaselineDataArray);
   }
