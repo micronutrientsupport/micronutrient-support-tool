@@ -141,10 +141,14 @@ input.calculated.ng-touched:not(.ng-pristine) {
 
 .copy-wrap:has(input.calculated.ng-touched:not(.ng-pristine)) {
   width: 70%;
-  float: left;
-  margin-left: 2px;
 
   & + .reset-button {
     display: block;
   }
+}
+
+.mat-mdc-cell:has(input.calculated.ng-touched:not(.ng-pristine)) {
+  display: flex;
+  height: 52px;
+  align-items: center;
 }

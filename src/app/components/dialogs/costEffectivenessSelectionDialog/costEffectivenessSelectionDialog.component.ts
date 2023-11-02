@@ -89,7 +89,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       A: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            /*     'wheat flour': '2', */
             // 'maize flour': '3',
             'refined oil': '1',
             // sugar: '4',
@@ -165,17 +165,17 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       },
-      D: {
+      /*       D: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '2', 
             // 'maize flour': '3',
             'refined oil': '1',
             // rice: '8',
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
       // E: {
       //   LSFF: {
       //     'Existing intervention program': {
@@ -192,7 +192,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       //     'Hypothetical intervention program': {},
       //   },
       // },
-      Fe: {
+      /*       Fe: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
@@ -202,7 +202,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
       Zn: {
         LSFF: {
           'Existing intervention program': {
@@ -225,7 +225,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       }, */
-      Se: {
+      /*       Se: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
@@ -234,7 +234,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
     },
     MWI: {
       A: {
@@ -283,7 +283,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       },
-      B6: {
+      /*       B6: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
@@ -293,7 +293,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
       B9: {
         LSFF: {
           'Existing intervention program': {
@@ -316,7 +316,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       },
-      D: {
+      /*       D: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
@@ -326,7 +326,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
       // E: {
       //   LSFF: {
       //     'Existing intervention program': {
@@ -365,7 +365,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       },
-      Ca: {
+      /*       Ca: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
@@ -384,7 +384,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
     },
   };
 
