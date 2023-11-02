@@ -8,7 +8,9 @@
               <div class="form-flex-wrapper">
                 <div class="form-50">
                   <div>
-                    <h4>1. Nation</h4>
+                    <h4>1. Nation <i class="fas fa-question-circle"
+                        matTooltip="Currently dummy models are provided for Ethiopia and Malawi.  In the future, the ability to customise models for other locales will also be supported."></i>
+                    </h4>
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)"
@@ -32,7 +34,9 @@
                     </mat-form-field>
                   </div>
                   <div>
-                    <h4>3. Intervention type</h4>
+                    <h4>3. Intervention type <i class="fas fa-question-circle"
+                        matTooltip="Currently only Large Scale Food Fortification (LSFF) is available, but in the future modelling of Biofortification and Agro-fortification will also be possible."></i>
+                    </h4>
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedInterventionType" name="interventionType"
@@ -46,7 +50,9 @@
                 </div>
                 <div class="form-50">
                   <div>
-                    <h4>4. Food vehicle</h4>
+                    <h4>4. Food vehicle <i class="fas fa-question-circle"
+                        matTooltip="Currently dummy models support Wheat Flour and Oil as food vehicles (subject to Micronutrient selection).  The range of available food vehicles will be expanded in the future to incliude additional vehicles."></i>
+                    </h4>
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedFoodVehicle" name="foodVehicle" formControlName="foodVehicle"
@@ -58,7 +64,9 @@
                     </mat-form-field>
                   </div>
                   <div>
-                    <h4>5. Intervention Status</h4>
+                    <h4>5. Intervention Status <i class="fas fa-question-circle"
+                        matTooltip="Current models are provided for Existing Intervention Programmes.  In the future, the ability to model Hypothetical Intervention Programmes locales will also be supported."></i>
+                    </h4>
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedInterventionStatus" name="interventionStatus"
@@ -70,7 +78,9 @@
                     </mat-form-field>
                   </div>
                   <div>
-                    <h4>6. Nature of intervention</h4>
+                    <h4>6. Nature of intervention <i class="fas fa-question-circle"
+                        matTooltip="Currently dummy models are provided for 'Scale Up' intervention programmes for modelling Scale up compliance over time when a standard has recently been established.  In the future, the ability to model other intervention natures (Status Quo, Improved Compliance, Revision of Existing Standard) will also be supported.">
+                      </i></h4>
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedInterventionNature" name="interventionNature"
