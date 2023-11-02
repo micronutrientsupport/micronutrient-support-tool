@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.12.0...v1.12.1) (2023-11-02)
+
+
+### Miscellaneous
+
+* disable some mn interventions ([400a002](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/400a0024f08621c5e0653758c3dc94fd8f8c5b92))
+* wording tweaks ([644c06d](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/644c06d7d796a706c9c3dc36583544e822d868f2))
+
 ## [1.12.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.11.0...v1.12.0) (2023-11-02)
 
 
