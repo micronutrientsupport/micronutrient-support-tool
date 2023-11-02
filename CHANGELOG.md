@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.12.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.11.0...v1.12.0) (2023-11-02)
+
+
+### Features
+
+* support formula overrides for industry information tab ([e886e6b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e886e6be4d386a0f526c9a7b1caf86101dfaaa29))
+
+
+### Bug Fixes
+
+* add helper text to intervention selection modal to explain limited options ([4977ab1](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4977ab15575cd0a81f852f8c4e1cfa178be093ed))
+* currency pipe round dollar values to nearest dollar ([9964ddf](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9964ddf11ac6b2b18097247fa40ccc876361e9e0))
+* fix baseline compliance formulae in premix table ([0fc4c26](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/0fc4c260f8466d7cf2248f3a1c06473cb402f5b8))
+* fix baseline compliance formulae to correctly use average fortification level ([330fe26](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/330fe262eb706355e8356f33bdcadce6f7e99901))
+* improve currency display in recurring costs dialogs ([6a647b6](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6a647b685ec225bacdadb1526ae1dae49f8a6df5))
+
 ## [1.11.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.10.1...v1.11.0) (2023-10-17)
 
 
