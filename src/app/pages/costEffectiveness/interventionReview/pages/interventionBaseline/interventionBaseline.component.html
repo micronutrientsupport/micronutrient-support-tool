@@ -109,7 +109,8 @@
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
                 <span>
-                  {{ selectedCompound.targetVal * baselineAssumptions?.actuallyFortified.year0 | sigFig: 3 }}
+                  {{ selectedCompound.targetVal * baselineAssumptions?.actuallyFortified.year0 *
+                  baselineAssumptions?.averageFortificationLevel.year0 | sigFig: 3 }}
                 </span>
 
               </ng-container>
@@ -128,7 +129,8 @@
             <td mat-cell *matCellDef="let element">
               <ng-container class="double-cell">
                 <span *ngIf="null != baselineAssumptions">
-                  {{ selectedCompound.targetVal * baselineAssumptions.actuallyFortified.year0 *
+                  {{ selectedCompound.targetVal * baselineAssumptions?.actuallyFortified.year0 *
+                  baselineAssumptions?.averageFortificationLevel.year0 *
                   baselineAssumptions.potentiallyFortified.year0 | sigFig:3 }}
                 </span>
               </ng-container>
