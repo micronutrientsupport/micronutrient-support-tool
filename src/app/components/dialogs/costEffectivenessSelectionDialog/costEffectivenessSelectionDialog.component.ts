@@ -55,8 +55,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionForm: UntypedFormGroup;
   public foodVehicleArray = [];
   public interventionTypeArray = [];
-  public interventionStatusArray = ['Existing intervention program', 'Hypothetical intervention program'];
-  public interventionNatureArray = ['Status Quo', 'Scale-up', 'Improved Complicance', 'Revision of existing standards'];
+  public interventionStatusArray = ['Existing intervention program' /*, 'Hypothetical intervention program' */];
+  public interventionNatureArray = [
+    /*'Status Quo',*/ 'Scale-up' /*, 'Improved Complicance', 'Revision of existing standards' */,
+  ];
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
   public parameterForm: UntypedFormGroup;
@@ -212,7 +214,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Hypothetical intervention program': {},
         },
       },
-      Ca: {
+      // Ca data not working for baseline compliance
+      /*       Ca: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '2',
@@ -221,7 +224,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           },
           'Hypothetical intervention program': {},
         },
-      },
+      }, */
       Se: {
         LSFF: {
           'Existing intervention program': {

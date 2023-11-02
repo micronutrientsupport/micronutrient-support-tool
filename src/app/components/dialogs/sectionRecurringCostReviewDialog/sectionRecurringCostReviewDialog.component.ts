@@ -261,13 +261,63 @@ export class SectionRecurringCostReviewDialogComponent {
     // that percentages are set back to decimal values
     const allItems = allItemsRaw.map((item) => {
       if (item.rowUnits == 'percent') {
-        item.year0 = item.year0 / 100;
+        item.year0 = Number(item.year0) / 100;
         item.year1 = item.year1 / 100;
+      }
+      if (item.rowUnits == 'US dollars') {
+        item.year0 = this.formatPlain(String(item.year0));
+        item.year1 = this.formatPlain(String(item.year1));
+        item.year2 = this.formatPlain(String(item.year2));
+        item.year3 = this.formatPlain(String(item.year3));
+        item.year4 = this.formatPlain(String(item.year4));
+        item.year5 = this.formatPlain(String(item.year5));
+        item.year6 = this.formatPlain(String(item.year6));
+        item.year7 = this.formatPlain(String(item.year7));
+        item.year8 = this.formatPlain(String(item.year8));
+        item.year9 = this.formatPlain(String(item.year9));
       }
       return item;
     });
 
     return allItems;
+  }
+
+  private reverseFormatNumber(val, locale) {
+    const group = new Intl.NumberFormat(locale).format(1111).replace(/1/g, '');
+    const decimal = new Intl.NumberFormat(locale).format(1.1).replace(/1/g, '');
+    let reversedVal = val.replace(new RegExp('\\' + group, 'g'), '');
+    reversedVal = reversedVal.replace(new RegExp('\\' + decimal, 'g'), '.');
+    return Number.isNaN(reversedVal) ? 0 : reversedVal;
+  }
+
+  public formatPlain(value: string) {
+    if (value.startsWith('$')) {
+      const plainCurrency = this.reverseFormatNumber(value.substr(1), 'en-US');
+      //console.log(`${value} -> ${plainCurrency}`);
+      return plainCurrency;
+    }
+    return value;
+  }
+
+  public updatePlainCurrency(event, index: number, row: number) {
+    const value = String(event.target.value);
+    const plainCurrency = this.formatPlain(value);
+    this.form.controls.items['controls'][index].patchValue({ ['year' + row]: plainCurrency });
+  }
+
+  public formatDollar(value: string | number) {
+    if (typeof value === 'number' || !value.startsWith('$')) {
+      const formattedCurrency = '$' + new Intl.NumberFormat('en-US').format(Number(value));
+      //console.log(`${value} -> ${formattedCurrency}`);
+      return formattedCurrency;
+    }
+    return value;
+  }
+
+  public updateDollarCurrency(event, index: number, row: number) {
+    const value = String(event.target.value);
+    const formattedCurrency = this.formatDollar(value);
+    this.form.controls.items['controls'][index].patchValue({ ['year' + row]: formattedCurrency });
   }
 
   public recalculateChanges(): void {
@@ -305,7 +355,14 @@ export class SectionRecurringCostReviewDialogComponent {
               if (key === 'year' + columnIndex) {
                 const dynamicYearColumn = 'year' + columnIndex;
                 // Update the value stored in the form with the new value
-                this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
+                console.log(this.form.controls.items['controls'][rowIndex]['controls']['rowUnits'].value);
+                if (this.form.controls.items['controls'][rowIndex]['controls']['rowUnits'].value === 'US dollars') {
+                  this.form.controls.items['controls'][rowIndex].patchValue({
+                    [dynamicYearColumn]: this.formatDollar(theResult),
+                  });
+                } else {
+                  this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
+                }
               }
             });
           }

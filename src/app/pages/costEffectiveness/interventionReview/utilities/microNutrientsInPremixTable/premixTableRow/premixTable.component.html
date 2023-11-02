@@ -59,7 +59,8 @@
       <div class="double-cell">
         <span>
           {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
-          baselineAssumptions.actuallyFortified.year0 | sigFig: 3
+          baselineAssumptions.actuallyFortified.year0 *
+          baselineAssumptions.averageFortificationLevel.year0 | sigFig: 3
           }}
         </span>
       </div>
@@ -78,6 +79,7 @@
       <span>
         {{ (element.selectedCompound ? element.selectedCompound.targetVal : 0) *
         (baselineAssumptions.actuallyFortified.year0 *
+        baselineAssumptions.averageFortificationLevel.year0 *
         baselineAssumptions.potentiallyFortified.year0) | sigFig: 3 }}
       </span>
     </td>

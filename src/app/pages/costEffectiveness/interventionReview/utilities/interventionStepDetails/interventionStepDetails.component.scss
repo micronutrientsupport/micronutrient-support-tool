@@ -16,6 +16,14 @@
   &.grey {
     background-color: #a0a0a0;
   }
+  &.calculated {
+    background-color: aquamarine;
+    border: 1px solid black;
+  }
+  &.overriden {
+    background-color: aqua;
+    border: 1px solid $color_input_blue;
+  }
 }
 
 .static-review-elements {

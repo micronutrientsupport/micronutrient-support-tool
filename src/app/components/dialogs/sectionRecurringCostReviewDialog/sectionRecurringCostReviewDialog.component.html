@@ -18,8 +18,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year0)"
+                formControlName="year0" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 0)"
+                (blur)="updateDollarCurrency($event, index, 0)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -44,8 +45,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year1)"
+                formControlName="year1" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 1)"
+                (blur)="updateDollarCurrency($event, index, 1)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -69,8 +71,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year2)"
+                formControlName="year2" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 2)"
+                (blur)="updateDollarCurrency($event, index, 2)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -94,8 +97,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year3)"
+                formControlName="year3" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 3)"
+                (blur)="updateDollarCurrency($event, index, 3)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -119,8 +123,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year4)"
+                formControlName="year4" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 4)"
+                (blur)="updateDollarCurrency($event, index, 4)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -144,8 +149,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year5)"
+                formControlName="year5" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 5)"
+                (blur)="updateDollarCurrency($event, index, 5)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -169,8 +175,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year6)"
+                formControlName="year6" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 6)"
+                (blur)="updateDollarCurrency($event, index, 6)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -194,9 +201,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-
-              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year7)"
+                formControlName="year7" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 7)"
+                (blur)="updateDollarCurrency($event, index, 7)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -220,8 +227,9 @@
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year8)"
+                formControlName="year8" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 8)"
+                (blur)="updateDollarCurrency($event, index, 8)" class="copy-input">
               <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
                 class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
             </div>
@@ -243,8 +251,9 @@
                 (change)="recalculateChanges()" class="copy-input">
             </div>
             <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9"
-                (change)="recalculateChanges()" class="copy-input">
+              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year9)"
+                formControlName="year9" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 9)"
+                (blur)="updateDollarCurrency($event, index, 9)" class="copy-input">
             </div>
             <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
               <input id="year9" name="year9" (change)="storeIndex(index)" type="number" [ngModel]="element.year9 * 100"

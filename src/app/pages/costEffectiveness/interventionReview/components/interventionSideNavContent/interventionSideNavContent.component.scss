@@ -67,14 +67,6 @@
     /* on "bottom" */ linear-gradient(to bottom, #eee, #999);
 }
 
-// :host .intervention-steps ::ng-deep .mat-vertical-content-container {
-//   display: none;
-// }
-
-// :host .is-active .intervention-steps ::ng-deep .mat-vertical-content-container {
-//   display: block;
-// }
-
 :host ::ng-deep .mat-expansion-panel:not(.is-active) .intervention-steps {
   .mat-vertical-content-container {
     display: none;

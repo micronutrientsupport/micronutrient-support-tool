@@ -16,6 +16,6 @@ export class CurrencyExtendedPipe extends CurrencyPipe implements PipeTransform 
     if (value === null) {
       return super.transform(0);
     }
-    return super.transform(value);
+    return super.transform(value, 'USD', 'symbol', '1.0-0');
   }
 }
