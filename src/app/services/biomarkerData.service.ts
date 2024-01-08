@@ -33,4 +33,13 @@ export class BiomarkerDataService {
       false,
     );
   }
+
+  public getBiomarkerData(surveyId: string, groupId: string, biomarker: string, aggregationField: string) {
+    return this.apiService.endpoints.biomarker.getBiomarker.call({
+      surveyId,
+      groupId,
+      biomarker,
+      aggregationField,
+    });
+  }
 }

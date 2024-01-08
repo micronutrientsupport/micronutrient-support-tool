@@ -25,6 +25,8 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 
 export interface BiomarkerStatusDialogData {
   data: unknown;
@@ -82,6 +84,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public dataTypes = new UntypedFormControl();
   public characteristics = new UntypedFormControl();
 
+  public biomarker: Biomarker;
+
   public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },
     { name: 'Prevalence of Excess', value: 'poe' },
@@ -129,6 +133,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
+    private biomarkerDataService: BiomarkerDataService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
@@ -209,6 +214,14 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     if (null != this.card) {
       this.card.title = this.title;
     }
+
+    this.biomarkerDataService
+      .getBiomarkerData('2', 'WRA', 'ferritin', 'wealth_quintile')
+      .then((data: Array<Biomarker>) => {
+        this.biomarker = data.pop();
+        console.debug(data);
+      });
+
     void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })).then(
       (data: string) => {
         const blob = this.papa.parse(data, { header: true }).data;
