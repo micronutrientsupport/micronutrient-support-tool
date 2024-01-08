@@ -24,7 +24,6 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
-import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
 
 @Component({
   selector: 'app-intervention-baseline',

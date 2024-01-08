@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { RecurringCosts } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
@@ -10,6 +9,8 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./tableTotalSummary.component.scss'],
 })
 export class InterventionCostSummaryQuickSummaryTableComponent implements OnInit {
+  //TODO: Leaving variable as any but should change.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() summaryCosts: any;
 
   public dataSource = new MatTableDataSource<RecurringCosts>();

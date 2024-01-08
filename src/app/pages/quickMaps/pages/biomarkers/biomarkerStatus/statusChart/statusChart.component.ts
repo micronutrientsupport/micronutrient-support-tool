@@ -169,15 +169,15 @@ export class StatusChartComponent implements AfterViewInit {
       },
     });
 
-    const chartForRender: Chart = JSON.parse(JSON.stringify(this.barChartData));
-    switch (type) {
-      case 'pod':
-        break;
-      case 'poe':
-        break;
-      case 'cde':
-        break;
-    }
+    // const chartForRender: Chart = JSON.parse(JSON.stringify(this.barChartData));
+    // switch (type) {
+    //   case 'pod':
+    //     break;
+    //   case 'poe':
+    //     break;
+    //   case 'cde':
+    //     break;
+    // }
   }
 
   public toggleShowOutlier(): void {
