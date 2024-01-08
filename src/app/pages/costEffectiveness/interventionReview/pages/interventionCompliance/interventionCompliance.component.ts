@@ -193,8 +193,6 @@ export class InterventionComplianceComponent implements OnInit {
   }
 
   public createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): void {
-    const standardValue = 5.63;
-
     // this.interventionDataService
     // .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())
     // .then((data: InterventionBaselineAssumptions) => {

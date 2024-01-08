@@ -56,7 +56,7 @@
                     <mat-form-field>
                       <mat-label>Select</mat-label>
                       <mat-select [(value)]="selectedFoodVehicle" name="foodVehicle" formControlName="foodVehicle"
-                        (valueChange)="handleFoodVehicleChange($event)">
+                        (valueChange)="handleFoodVehicleChange()">
                         <mat-option *ngFor="let item of foodVehicleArray" [value]="item">
                           {{ item | titlecase }}
                         </mat-option>

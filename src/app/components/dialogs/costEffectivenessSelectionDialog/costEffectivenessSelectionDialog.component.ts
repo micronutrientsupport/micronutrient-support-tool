@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map } from 'rxjs';
 import { InterventionsDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/interventionDictionaryItem';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
@@ -22,7 +22,6 @@ import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
-import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -812,7 +811,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
   }
 
-  public handleFoodVehicleChange(foodVehicle: string): void {
+  public handleFoodVehicleChange(): void {
     console.log(
       'Handle food vehicle type change',
       this.selectedCountry,

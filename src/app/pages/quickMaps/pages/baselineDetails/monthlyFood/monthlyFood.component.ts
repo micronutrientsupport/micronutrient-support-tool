@@ -331,7 +331,7 @@ export class MonthlyFoodComponent implements AfterViewInit {
       },
     });
     this.chartLine = generatedChart;
-    const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
+    // const chartForRender = JSON.parse(JSON.stringify(generatedChart.config));
   }
 
   private genColorHex(foodTypeIndex: string) {

@@ -275,7 +275,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public refreshMe(index: number, year: number) {
     console.log('Reset the thing');
-    const cellVal = this.form.getRawValue().items[index]['year' + year];
+    // const cellVal = this.form.getRawValue().items[index]['year' + year];
 
     const allItems: Array<IndustryInformation> = this.form.getRawValue().items;
 
@@ -386,8 +386,10 @@ export class InterventionIndustryInformationComponent implements OnInit {
     });
   }
 
+  //TODO: Leaving variable as any but should change.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public modelChange(event: any, index: number, year: number) {
-    console.log('Change, row', index, 'year', year);
+    // console.log('Change, row', index, 'year', year);
 
     console.log({
       touched: this.form.controls.items['controls'][index].controls['year' + year].touched,
