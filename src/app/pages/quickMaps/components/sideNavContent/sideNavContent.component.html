@@ -127,10 +127,10 @@
           </div>
         </legend>
         <mat-form-field appearance="fill">
-          <mat-select name="biomarkerDataSources" formControlName="biomarkerDataSources"
-            [placeholder]="(0 < biomarkerSources.length) ? 'Click to select option' : 'None available'"
+          <mat-select name="biomarkerSelect" formControlName="biomarkerSelect"
+            [placeholder]="(0 < biomarkerNames.length) ? 'Click to select option' : 'None available'"
             panelClass="allow-long-text">
-            <mat-option *ngFor="let item of biomarkerSources" [value]="item">{{item.biomarkerName}}
+            <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName}}
             </mat-option>
           </mat-select>
         </mat-form-field>

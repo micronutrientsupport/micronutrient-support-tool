@@ -52,8 +52,8 @@ export class SideNavContentComponent {
   public selectedMndType: MicronutrientType;
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public dataSources = new Array<Named>();
-  public biomarkerSources = new Array<BiomarkerDataSource>();
+  public dataSources = new Array<Named | BiomarkerDataSource>();
+  public biomarkerNames = new Array<BiomarkerDataSource>();
   public quickMapsForm: UntypedFormGroup;
   public sideNavToggleLock = new UntypedFormControl(false);
   public btnViewResultsActive = false;
@@ -92,6 +92,7 @@ export class SideNavContentComponent {
             this.quickMapsService.ageGenderGroup.get(),
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
+          biomarkerSelect: [this.quickMapsService.biomarkerSelect.get(), Validators.required],
         });
 
         this.subscriptions.push(
@@ -140,6 +141,28 @@ export class SideNavContentComponent {
               this.quickMapsService.ageGenderGroup.set(value);
               this.updatAgeGenderGroups();
             }
+          }),
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('biomarkerSelect').valueChanges.subscribe((value: BiomarkerDataSource) => {
+            const biomarkerOptions = [];
+            biomarkerOptions.push(value);
+
+            if (biomarkerOptions.length === 0) {
+              if (!this.showGoButton) {
+                // valid data --> invalid data
+                this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
+              } else {
+                // location page with invalid data
+                this.btnViewResultsActive = false;
+              }
+            } else if (biomarkerOptions.length >= 1) {
+              this.quickMapsForm.get('dataSource').setValue(biomarkerOptions[0]);
+              if (this.showGoButton) {
+                this.btnViewResultsActive = true;
+              }
+            }
+            this.dataSources = biomarkerOptions;
           }),
         );
         this.subscriptions.push(
@@ -246,10 +269,11 @@ export class SideNavContentComponent {
 
     void biomarkerSourcePromise.then((options: Array<BiomarkerDataSource>) => {
       console.debug(options);
-      this.biomarkerSources = options;
+      this.biomarkerNames = options;
       if (null != country && null != micronutrient && null != measure) {
-        if (options.length >= 1) {
-          this.quickMapsForm.get('biomarkerDataSources').setValue(options[0]);
+        if (options.length >= 1 && this.quickMapsForm.get('biomarkerSelect')) {
+          console.debug(this.quickMapsForm.get('biomarkerSelect'));
+          this.quickMapsForm.get('biomarkerSelect').setValue(options[0]);
         }
       }
     });
