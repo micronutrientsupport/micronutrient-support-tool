@@ -91,18 +91,15 @@
           <mat-button-toggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.FOOD_SYSTEMS" [disabled]="!measureDietEnabled">
             Food Systems
           </mat-button-toggle>
-          <!--mat-button-toggle #biomarkerToggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
+          <mat-button-toggle #biomarkerToggle [value]="MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER"
             [disabled]="!measureBiomarkerEnabled">
-            Biomarker Data
-          </mat-button-toggle -->
-          <mat-button-toggle disabled matTooltip="This feature is under development and currently not available">
             Biomarker Data
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </fieldset>
 
-    <!-- <div [hidden]="!biomarkerToggle.checked">
+    <div [hidden]="!biomarkerToggle.checked">
       <fieldset>
         <legend>
           <div class="field-title">
@@ -119,7 +116,26 @@
           </mat-select>
         </mat-form-field>
       </fieldset>
-    </div> -->
+    </div>
+
+    <div [hidden]="!biomarkerToggle.checked">
+      <fieldset>
+        <legend>
+          <div class="field-title">
+            <h2>Biomarker</h2>
+            <i class="fas fa-question-circle" matTooltip="Placeholder"></i>
+          </div>
+        </legend>
+        <mat-form-field appearance="fill">
+          <mat-select name="biomarkerDataSources" formControlName="biomarkerDataSources"
+            [placeholder]="(0 < biomarkerSources.length) ? 'Click to select option' : 'None available'"
+            panelClass="allow-long-text">
+            <mat-option *ngFor="let item of biomarkerSources" [value]="item">{{item.biomarkerName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </fieldset>
+    </div>
 
     <fieldset appTour tourName="Quick MAPS Sidebar" tourStage="3"
       tourDescription="Quick MAPS will select the best available data in the tool based on your chosen selections"
