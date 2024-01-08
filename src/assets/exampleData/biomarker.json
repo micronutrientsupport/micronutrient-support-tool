@@ -1,0 +1,3762 @@
+{
+  "totalStats": [
+    {
+      "mean": 42.2916,
+      "median": 35.7175,
+      "standardDeviation": 42.3627,
+      "minimum": 3.1057,
+      "maximum": 755.2601,
+      "lowerQuartile": 21.3234,
+      "upperQuartile": 54.8361,
+      "upperOutlier": 105.1051,
+      "lowerOutlier": -28.9457,
+      "n": 28821,
+      "NaS": 0
+    }
+  ],
+  "aggregatedStats": [
+    {
+      "aggregation": "1",
+      "mean": 42.7228,
+      "median": 35.0525,
+      "standardDeviation": 54.995,
+      "lowerQuartile": 19.8008,
+      "upperQuartile": 53.4283,
+      "upperOutlier": 103.8696,
+      "lowerOutlier": -30.6405,
+      "n": 13065
+    },
+    {
+      "aggregation": "2",
+      "mean": 41.2324,
+      "median": 34.5421,
+      "standardDeviation": 27.2368,
+      "lowerQuartile": 22.0671,
+      "upperQuartile": 57.4639,
+      "upperOutlier": 110.5592,
+      "lowerOutlier": -31.0282,
+      "n": 7917
+    },
+    {
+      "aggregation": "3",
+      "mean": 43.7391,
+      "median": 41.3125,
+      "standardDeviation": 26.5023,
+      "lowerQuartile": 22.4605,
+      "upperQuartile": 57.401,
+      "upperOutlier": 109.8116,
+      "lowerOutlier": -29.9501,
+      "n": 4017
+    },
+    {
+      "aggregation": "4",
+      "mean": 40.7541,
+      "median": 36.7361,
+      "standardDeviation": 22.9502,
+      "lowerQuartile": 25.5423,
+      "upperQuartile": 49.4618,
+      "upperOutlier": 85.3409,
+      "lowerOutlier": -10.3368,
+      "n": 2652
+    },
+    {
+      "aggregation": "5",
+      "mean": 45.003,
+      "median": 48.3693,
+      "standardDeviation": 32.3894,
+      "lowerQuartile": 14.0725,
+      "upperQuartile": 65.4044,
+      "upperOutlier": 142.4024,
+      "lowerOutlier": -62.9255,
+      "n": 1170
+    }
+  ],
+  "aggregatedOutliers": [
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.2172,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 132.3432,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 755.2601,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 114.3266,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 123.3724,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 117.0961,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 110.0745,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 130.4946,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 111.7596,
+      "aggregation": "1"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 112.6814,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 164.5808,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 136.371,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 139.112,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 128.9385,
+      "aggregation": "2"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 118.6039,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 163.164,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 121.6278,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 117.5083,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 125.1367,
+      "aggregation": "3"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 93.8627,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 92.4882,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 90.881,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    },
+    {
+      "measurement": 133.3362,
+      "aggregation": "4"
+    }
+  ],
+  "aggregatedThresholds": {
+    "deficiency1": [
+      {
+        "aggregation": "1",
+        "deficiency1": 0.1568,
+        "confidenceIntervalLower": 0.1159,
+        "confidenceIntervalUpper": 0.2089
+      },
+      {
+        "aggregation": "2",
+        "deficiency1": 0.1507,
+        "confidenceIntervalLower": 0.0992,
+        "confidenceIntervalUpper": 0.2224
+      },
+      {
+        "aggregation": "3",
+        "deficiency1": 0.139,
+        "confidenceIntervalLower": 0.0724,
+        "confidenceIntervalUpper": 0.2503
+      },
+      {
+        "aggregation": "4",
+        "deficiency1": 0.1207,
+        "confidenceIntervalLower": 0.047,
+        "confidenceIntervalUpper": 0.2765
+      },
+      {
+        "aggregation": "5",
+        "deficiency1": 0.2543,
+        "confidenceIntervalLower": 0.1024,
+        "confidenceIntervalUpper": 0.505
+      }
+    ],
+    "excess1": [
+      {
+        "aggregation": "1",
+        "excess1": 0.0047,
+        "confidenceIntervalLower": 0.0006,
+        "confidenceIntervalUpper": 0.034
+      },
+      {
+        "aggregation": "2",
+        "excess1": 0.0006,
+        "confidenceIntervalLower": 0.0001,
+        "confidenceIntervalUpper": 0.0043
+      },
+      {
+        "aggregation": "3",
+        "excess1": 0.0021,
+        "confidenceIntervalLower": 0.0003,
+        "confidenceIntervalUpper": 0.0155
+      },
+      {
+        "aggregation": "4",
+        "excess1": 2.5028e-12,
+        "confidenceIntervalLower": 1.7177e-12,
+        "confidenceIntervalUpper": 3.6468e-12
+      },
+      {
+        "aggregation": "5",
+        "excess1": 2.5325e-12,
+        "confidenceIntervalLower": 1.3569e-12,
+        "confidenceIntervalUpper": 4.7267e-12
+      }
+    ],
+    "excess2": [
+      {
+        "aggregation": "1",
+        "excess2": 0.0047,
+        "confidenceIntervalLower": 0.0006,
+        "confidenceIntervalUpper": 0.034
+      },
+      {
+        "aggregation": "2",
+        "excess2": 2.5794e-12,
+        "confidenceIntervalLower": 1.9819e-12,
+        "confidenceIntervalUpper": 3.357e-12
+      },
+      {
+        "aggregation": "3",
+        "excess2": 2.539e-12,
+        "confidenceIntervalLower": 1.7874e-12,
+        "confidenceIntervalUpper": 3.6068e-12
+      },
+      {
+        "aggregation": "4",
+        "excess2": 2.5028e-12,
+        "confidenceIntervalLower": 1.7177e-12,
+        "confidenceIntervalUpper": 3.6468e-12
+      },
+      {
+        "aggregation": "5",
+        "excess2": 2.5325e-12,
+        "confidenceIntervalLower": 1.3569e-12,
+        "confidenceIntervalUpper": 4.7267e-12
+      }
+    ]
+  }
+}
