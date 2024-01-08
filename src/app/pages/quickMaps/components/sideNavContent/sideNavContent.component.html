@@ -95,14 +95,11 @@
             [disabled]="!measureBiomarkerEnabled">
             Biomarker Data
           </mat-button-toggle>
-          <!-- <mat-button-toggle disabled matTooltip="This feature is under development and currently not available">
-            Biomarker Data
-          </mat-button-toggle> -->
         </mat-button-toggle-group>
       </div>
     </fieldset>
 
-    <!-- <div [hidden]="!biomarkerToggle.checked">
+    <div [hidden]="!biomarkerToggle.checked">
       <fieldset>
         <legend>
           <div class="field-title">
@@ -119,7 +116,7 @@
           </mat-select>
         </mat-form-field>
       </fieldset>
-    </div> -->
+    </div>
 
     <fieldset appTour tourName="Quick MAPS Sidebar" tourStage="3"
       tourDescription="Quick MAPS will select the best available data in the tool based on your chosen selections"
