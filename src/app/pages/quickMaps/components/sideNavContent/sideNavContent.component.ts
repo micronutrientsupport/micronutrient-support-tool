@@ -116,6 +116,7 @@ export class SideNavContentComponent {
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.country.set(value);
+            this.quickMapsForm.get('micronutrient').reset();
             this.updateDataSources();
           }),
         );
