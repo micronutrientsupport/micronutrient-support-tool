@@ -47,11 +47,11 @@ jobs:
           args: deploy --dir=dist/micronutrient-support-tool --alias ${PR} --debug
 
       - name: Netlify Preview URL
-        uses: micronutrientsupport/comment-on-pr@master
+        uses: thollander/actions-comment-pull-request@v1
         if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Deploy log: ${{ steps.deploy-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-netlify.outputs.NETLIFY_URL }}"
         with:
-          msg: ${{ env.OUTPUT }}
+          message: ${{ env.OUTPUT }}
           check_for_duplicate_msg: false
