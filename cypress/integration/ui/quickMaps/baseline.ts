@@ -44,11 +44,11 @@ describe('Quick maps - Baseline', () => {
     );
     cy.wait(3000);
     cy.get('.median > .estimateValue').should('be.visible');
-    cy.get('.median > .estimateValue').should('have.text', ' 88.2 ');
+    cy.get('.median > .estimateValue').should('have.text', ' 401 ');
     cy.get('.adequacy > .estimateValue').should('be.visible');
     cy.get('.adequacy > .estimateValue').should('have.text', '814');
     cy.get('.prevalence > .wrap-15').should('be.visible');
-    cy.get('.prevalence > .wrap-15').should('have.text', '99.87% of sampled households (12396/12412)');
+    cy.get('.prevalence > .wrap-15').should('have.text', '85.75% of sampled households (10643/12412)');
     cy.get('.right-text > :nth-child(1) > strong').should('be.visible');
     cy.get('.right-text > :nth-child(1) > strong').should('have.text', 'Beyond 2050');
     /* ==== End Cypress Studio ==== */

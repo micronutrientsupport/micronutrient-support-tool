@@ -208,6 +208,7 @@ export class FoodItemsComponent implements AfterViewInit {
         datasets: [
           {
             data: [],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             tree: data as any,
             key: 'dailyMnContribution',
             groups: [dataField],

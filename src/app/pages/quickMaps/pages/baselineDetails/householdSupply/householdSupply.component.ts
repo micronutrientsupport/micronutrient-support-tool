@@ -254,6 +254,7 @@ export class HouseholdSupplyComponent implements AfterViewInit {
                 borderWidth: 2,
               },
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             beforeDraw: (chart: any) => {
               const ctx = chart.chart.ctx;
               const xAxis = chart.chart.scales.x;
@@ -296,10 +297,10 @@ export class HouseholdSupplyComponent implements AfterViewInit {
               stepSize: 25, //this.orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 20,
               // Don't write label for threshold value as it is drawn by custom plugin code
               callback: function (value) {
-                const orderOfMagnitude = (n) => {
-                  const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
-                  return Math.pow(10, order);
-                };
+                // const orderOfMagnitude = (n) => {
+                //   const order = Math.floor(Math.log(n) / Math.LN10 + 0.000000001); // because float math sucks like that
+                //   return Math.pow(10, order);
+                // };
                 // console.log(data.data[0].rangeMin, data.data[data.data.length - 1].rangeMax);
                 // console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax));
                 // console.log(orderOfMagnitude(data.data[data.data.length - 1].rangeMax) / 2);

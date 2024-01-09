@@ -8,7 +8,7 @@ export const populateSelectValues = (): void => {
   // wait for previous select to close and this one to open
   cy.wait(500);
   cy.get('#qmSelectMNDMineral-button').click({ force: true });
-  cy.get('#qmSelectMND-panel', { timeout: 10000 }).contains('Iron').click({ force: true });
+  cy.get('#qmSelectMND-panel', { timeout: 10000 }).contains('Zinc').click({ force: true });
   // wait for auto select of pop group and mnds data
   cy.wait(3000);
 };

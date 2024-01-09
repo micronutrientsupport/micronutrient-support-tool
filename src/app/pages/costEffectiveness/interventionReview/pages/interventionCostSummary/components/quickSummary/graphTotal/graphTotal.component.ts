@@ -34,8 +34,8 @@ export class InterventionCostSummaryQuickTotalGraphComponent implements AfterVie
 
   private initialiseGraph(): void {
     if (this.summaryCosts) {
-      const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
-      const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
+      // const discountedValues: any[] = Object.values(this.summaryCosts.summaryCostsDiscounted).splice(4, 10);
+      // const unDiscountedValues: any[] = Object.values(this.summaryCosts.summaryCosts).splice(4, 10);
     }
 
     const ctx = this.c1.nativeElement.getContext('2d');

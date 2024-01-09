@@ -23,11 +23,14 @@ export class BiomarkerDataService {
     ageGenderGroup: AgeGenderDictionaryItem,
     singleOptionOnly = false,
   ): Promise<Array<BiomarkerDataSource>> {
-    return this.apiService.endpoints.biomarker.getDataSources.call({
-      country,
-      micronutrient,
-      ageGenderGroup,
-      singleOptionOnly,
-    });
+    return this.apiService.endpoints.biomarker.getDataSources.call(
+      {
+        country,
+        micronutrient,
+        ageGenderGroup,
+        singleOptionOnly,
+      },
+      false,
+    );
   }
 }

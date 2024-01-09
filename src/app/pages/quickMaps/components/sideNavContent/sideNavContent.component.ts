@@ -52,7 +52,8 @@ export class SideNavContentComponent {
   public selectedMndType: MicronutrientType;
   public geographyOptionArray: Array<DictionaryItem>;
   public selectMNDsFiltered = new Array<DictionaryItem>();
-  public dataSources = new Array<Named>();
+  public dataSources = new Array<Named | BiomarkerDataSource>();
+  public biomarkerNames = new Array<BiomarkerDataSource>();
   public quickMapsForm: UntypedFormGroup;
   public sideNavToggleLock = new UntypedFormControl(false);
   public btnViewResultsActive = false;
@@ -91,6 +92,7 @@ export class SideNavContentComponent {
             this.quickMapsService.ageGenderGroup.get(),
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
+          biomarkerSelect: [this.quickMapsService.biomarkerSelect.get(), Validators.required],
         });
 
         this.subscriptions.push(
@@ -115,6 +117,7 @@ export class SideNavContentComponent {
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.country.set(value);
+            this.quickMapsForm.get('micronutrient').reset();
             this.updateDataSources();
           }),
         );
@@ -134,8 +137,32 @@ export class SideNavContentComponent {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('ageGenderGroup').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
-            this.quickMapsService.ageGenderGroup.set(value);
-            this.updateDataSources();
+            if (this.measureBiomarkerEnabled) {
+              this.quickMapsService.ageGenderGroup.set(value);
+              this.updatAgeGenderGroups();
+            }
+          }),
+        );
+        this.subscriptions.push(
+          this.quickMapsForm.get('biomarkerSelect').valueChanges.subscribe((value: BiomarkerDataSource) => {
+            const biomarkerOptions = [];
+            biomarkerOptions.push(value);
+
+            if (biomarkerOptions.length === 0) {
+              if (!this.showGoButton) {
+                // valid data --> invalid data
+                this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
+              } else {
+                // location page with invalid data
+                this.btnViewResultsActive = false;
+              }
+            } else if (biomarkerOptions.length >= 1) {
+              this.quickMapsForm.get('dataSource').setValue(biomarkerOptions[0]);
+              if (this.showGoButton) {
+                this.btnViewResultsActive = true;
+              }
+            }
+            this.dataSources = biomarkerOptions;
           }),
         );
         this.subscriptions.push(
@@ -231,24 +258,38 @@ export class SideNavContentComponent {
     measureControl.setValue(requiredMeasureValue);
   }
 
+  private updatAgeGenderGroups(): void {
+    const country = this.quickMapsService.country.get();
+    const micronutrient = this.quickMapsService.micronutrient.get();
+    const measure = this.quickMapsService.measure.get();
+    const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
+
+    let biomarkerSourcePromise: Promise<Array<BiomarkerDataSource>> = Promise.resolve([] as Array<BiomarkerDataSource>);
+    biomarkerSourcePromise = this.biomarkerDataService.getDataSources(country, micronutrient, ageGenderGroup, false);
+
+    void biomarkerSourcePromise.then((options: Array<BiomarkerDataSource>) => {
+      console.debug(options);
+      this.biomarkerNames = options;
+      if (null != country && null != micronutrient && null != measure) {
+        if (options.length >= 1 && this.quickMapsForm.get('biomarkerSelect')) {
+          console.debug(this.quickMapsForm.get('biomarkerSelect'));
+          this.quickMapsForm.get('biomarkerSelect').setValue(options[0]);
+        }
+      }
+    });
+  }
+
   private updateDataSources(): void {
     let dataSourcePromise: Promise<Array<Named>> = Promise.resolve([] as Array<Named>);
     // no point in calling API if required parameters aren't set
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
     const measure = this.quickMapsService.measure.get();
-    const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     if (null != country && null != micronutrient && null != measure) {
       switch (measure) {
         case MicronutrientMeasureType.FOOD_SYSTEMS: {
           dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
-          break;
-        }
-        case MicronutrientMeasureType.BIOMARKER: {
-          if (null != ageGenderGroup) {
-            dataSourcePromise = this.biomarkerDataService.getDataSources(country, micronutrient, ageGenderGroup, true);
-          }
           break;
         }
       }

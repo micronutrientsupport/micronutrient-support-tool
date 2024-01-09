@@ -27,6 +27,7 @@ export class QuickMapsService {
   public readonly FoodSystemsDataSource = new NullableAccessor<FoodSystemsDataSource>(null);
   public readonly biomarkerDataSource = new NullableAccessor<BiomarkerDataSource>(null);
   public readonly ageGenderGroup = new NullableAccessor<AgeGenderDictionaryItem>(null);
+  public readonly biomarkerSelect = new NullableAccessor<BiomarkerDataSource>(null);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
