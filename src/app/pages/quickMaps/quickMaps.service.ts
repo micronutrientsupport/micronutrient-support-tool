@@ -6,7 +6,6 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
-import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -16,6 +15,8 @@ import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enu
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
 import { StringConverter } from './queryParams/converters/stringConverter';
 import { ActivatedRoute } from '@angular/router';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 
 @Injectable()
 export class QuickMapsService {
@@ -45,6 +46,10 @@ export class QuickMapsService {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerParameterChangedObs = this.biomarkerParameterChangedSrc.asObservable();
 
+  private readonly biomarkerDataSrc = new BehaviorSubject<Biomarker>(null);
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  public biomarkerDataObs = this.biomarkerDataSrc.asObservable();
+
   private parameterChangeTimeout: NodeJS.Timeout;
   private dietParameterChangeTimeout: NodeJS.Timeout;
   private biomarkerParameterChangeTimeout: NodeJS.Timeout;
@@ -54,8 +59,8 @@ export class QuickMapsService {
   constructor(
     injector: Injector,
     private dietDataService: DietDataService,
-    private biomarkerDataService: BiomarkerDataService,
     private dictionaryService: DictionaryService,
+    private apiService: ApiService,
     private readonly route: ActivatedRoute,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
@@ -210,13 +215,43 @@ export class QuickMapsService {
     }
     if (MicronutrientMeasureType.BIOMARKER === measure) {
       promises.push(
-        this.biomarkerDataService
-          .getDataSources(country, micronutrient, ageGenderGroup, true)
-          .then((ds) => this.biomarkerDataSource.set(ds[0])), // always first item
+        this.getBiomarkerDataSources(country, micronutrient, ageGenderGroup, true).then((ds) =>
+          this.biomarkerDataSource.set(ds[0]),
+        ), // always first item
       );
     } else {
       this.biomarkerDataSource.set(null);
     }
     return Promise.all(promises).then();
+  }
+
+  public getBiomarkerDataSources(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    ageGenderGroup: AgeGenderDictionaryItem,
+    singleOptionOnly = false,
+  ): Promise<Array<BiomarkerDataSource>> {
+    return this.apiService.endpoints.biomarker.getDataSources.call(
+      {
+        country,
+        micronutrient,
+        ageGenderGroup,
+        singleOptionOnly,
+      },
+      false,
+    );
+  }
+
+  public getBiomarkerData(surveyId: string, aggregationField: string) {
+    return this.apiService.endpoints.biomarker.getBiomarker
+      .call({
+        surveyId,
+        groupId: this.ageGenderGroup.get().groupId,
+        biomarker: this.biomarkerSelect.get().biomarkerName,
+        aggregationField,
+      })
+      .then((data: Array<Biomarker>) => {
+        this.biomarkerDataSrc.next(data.pop());
+      });
   }
 }

@@ -25,7 +25,6 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
-import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 
 export interface BiomarkerStatusDialogData {
@@ -133,7 +132,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
-    private biomarkerDataService: BiomarkerDataService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
@@ -151,8 +149,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
+
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
-        this.init();
+        // Perhaps this can be used to trigger messgage to show tell user to refresh model
+        // this.init();
       }),
     );
 
@@ -215,12 +215,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.card.title = this.title;
     }
 
-    this.biomarkerDataService
-      .getBiomarkerData('2', 'WRA', 'ferritin', 'wealth_quintile')
-      .then((data: Array<Biomarker>) => {
-        this.biomarker = data.pop();
-        console.debug(data);
-      });
+    // this.biomarkerDataService
+    //   .getBiomarkerData('2', this.quickMapsService.ageGenderGroup.get().groupId, this.quickMapsService.biomarkerSelect.get().id, 'wealth_quintile')
+    //   .then((data: Array<Biomarker>) => {
+    //     this.biomarker = data.pop();
+    //     console.debug(data);
+    //   });
 
     void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })).then(
       (data: string) => {

@@ -74,7 +74,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.createBins();
-        this.init();
+        // Perhaps this can be used to trigger messgage to show tell user to refresh model
+        // this.init();
       }),
     );
   }

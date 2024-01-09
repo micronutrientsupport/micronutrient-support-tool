@@ -27,7 +27,6 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { Named } from 'src/app/apiAndObjects/objects/named.interface';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Unsubscriber('subscriptions')
@@ -66,7 +65,6 @@ export class SideNavContentComponent {
     public routeGuardService: QuickMapsRouteGuardService,
     private fb: UntypedFormBuilder,
     private dietDataService: DietDataService,
-    private biomarkerDataService: BiomarkerDataService,
     private router: Router,
     private dialogService: DialogService,
   ) {
@@ -180,7 +178,6 @@ export class SideNavContentComponent {
   public mndChange(type: MicronutrientType): void {
     if (type !== this.selectedMndType) {
       this.selectedMndType = type;
-
       this.selectMNDsFiltered = this.micronutrientsDictionary
         .getItems()
         .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
@@ -207,11 +204,12 @@ export class SideNavContentComponent {
 
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
-      this.navigate(
-        this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS
-          ? AppRoutes.QUICK_MAPS_BASELINE
-          : AppRoutes.QUICK_MAPS_BIOMARKER,
-      );
+      if (this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS) {
+        this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
+      } else {
+        this.quickMapsService.getBiomarkerData('2', 'wealth_quintile');
+        this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
+      }
       this.minimiseSideNav();
     }
   }
@@ -265,7 +263,12 @@ export class SideNavContentComponent {
     const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     let biomarkerSourcePromise: Promise<Array<BiomarkerDataSource>> = Promise.resolve([] as Array<BiomarkerDataSource>);
-    biomarkerSourcePromise = this.biomarkerDataService.getDataSources(country, micronutrient, ageGenderGroup, false);
+    biomarkerSourcePromise = this.quickMapsService.getBiomarkerDataSources(
+      country,
+      micronutrient,
+      ageGenderGroup,
+      false,
+    );
 
     void biomarkerSourcePromise.then((options: Array<BiomarkerDataSource>) => {
       console.debug(options);

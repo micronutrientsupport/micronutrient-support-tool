@@ -170,3 +170,6 @@
   <button id="button-view-results" mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>
+
+<button *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" id="button-view-results"
+  mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View Biomarker results</button>
