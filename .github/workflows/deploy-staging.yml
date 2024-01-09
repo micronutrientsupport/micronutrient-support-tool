@@ -47,7 +47,7 @@ jobs:
           args: deploy --dir=dist/micronutrient-support-tool --alias ${PR} --debug
 
       - name: Netlify Preview URL
-        uses: thollander/actions-comment-pull-request@v2
+        uses: micronutrientsupport/comment-on-pr@master
         if: github.event_name == 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
