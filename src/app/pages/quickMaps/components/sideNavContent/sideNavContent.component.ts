@@ -207,8 +207,7 @@ export class SideNavContentComponent {
       if (this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS) {
         this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
       } else {
-        this.quickMapsService.getBiomarkerData('2', 'wealth_quintile');
-        this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
+        this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
       }
       this.minimiseSideNav();
     }
@@ -271,11 +270,9 @@ export class SideNavContentComponent {
     );
 
     void biomarkerSourcePromise.then((options: Array<BiomarkerDataSource>) => {
-      console.debug(options);
       this.biomarkerNames = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length >= 1 && this.quickMapsForm.get('biomarkerSelect')) {
-          console.debug(this.quickMapsForm.get('biomarkerSelect'));
           this.quickMapsForm.get('biomarkerSelect').setValue(options[0]);
         }
       }
@@ -319,7 +316,6 @@ export class SideNavContentComponent {
   }
 
   private navigate(appRoute: AppRoute): void {
-    console.debug('navigate', this.quickMapsService.measure, appRoute);
     void this.router.navigate(appRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });

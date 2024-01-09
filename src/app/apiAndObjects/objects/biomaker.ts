@@ -14,11 +14,12 @@ export class Biomarker extends BaseObject {
   public readonly aggregatedThresholds: unknown;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
+    console.debug(sourceObject);
     super(sourceObject);
 
     this.totalStats = this._getArray(Biomarker.KEYS.TOTAL_STATS);
     this.aggregatedStats = this._getArray(Biomarker.KEYS.AGGREGATED_STATS);
     this.aggregatedOutliers = this._getArray(Biomarker.KEYS.AGGREGATED_OUTLIERS);
-    this.aggregatedThresholds = this._getArray(Biomarker.KEYS.AGGREGATED_THRESHOLDS);
+    this.aggregatedThresholds = this._getValue(Biomarker.KEYS.AGGREGATED_THRESHOLDS);
   }
 }

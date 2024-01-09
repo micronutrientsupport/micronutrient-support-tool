@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { QuickMapsService } from '../../quickMaps.service';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
@@ -17,6 +18,7 @@ export class BiomarkerComponent implements OnInit {
   public WIDGETS = BiomarkerWidgets;
   public options: GridsterConfig;
   public dashboard = new Array<GridsterItem>();
+
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -97,6 +99,7 @@ export class BiomarkerComponent implements OnInit {
       y: this.defaultWidgetHeight,
     });
     this.changedOptions();
+    this.quickMapsService.getBiomarkerData();
   }
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {

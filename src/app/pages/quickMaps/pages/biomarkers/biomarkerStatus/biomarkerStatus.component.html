@@ -7,15 +7,6 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
 
-    <mat-tab label="Raw Data">
-      <div *ngIf="biomarker">
-        {{biomarker | json}}
-      </div>
-      <div *ngIf="!biomarker">
-        <mat-progress-spinner></mat-progress-spinner>
-      </div>
-    </mat-tab>
-
     <mat-tab label="Map">
 
       <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>

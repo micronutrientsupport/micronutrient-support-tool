@@ -83,7 +83,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public dataTypes = new UntypedFormControl();
   public characteristics = new UntypedFormControl();
 
-  public biomarker: Biomarker;
+  public activeBiomarker: Biomarker;
 
   public dataList: Array<BiomarkerDataType> = [
     { name: 'Prevalence of Deficiency', value: 'pod' },
@@ -149,10 +149,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
-
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
-        // this.init();
+        this.init();
+      }),
+      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+        console.debug('data in status', data);
       }),
     );
 

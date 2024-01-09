@@ -167,9 +167,12 @@
   tourPosition="right" (tourForwardFunction)="submitForm()" tourTrigger="Quick MAPS Baseline Data">
   <div class="results-text" *ngIf="btnViewResultsActive === false"><i class="fas fa-info-circle"></i> No data sources
     available for this selection</div>
-  <button id="button-view-results" mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
+  <button *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.FOOD_SYSTEMS"
+    id="button-view-results" mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()"
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>
 
-<button *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" id="button-view-results"
-  mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View Biomarker results</button>
+<button [hidden]="(quickMapsService.slim.obs | async) === true"
+  *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" id="button-view-results"
+  mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View Biomarker
+  results</button>

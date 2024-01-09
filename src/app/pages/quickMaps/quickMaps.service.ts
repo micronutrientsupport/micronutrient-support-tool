@@ -242,16 +242,20 @@ export class QuickMapsService {
     );
   }
 
-  public getBiomarkerData(surveyId: string, aggregationField: string) {
-    return this.apiService.endpoints.biomarker.getBiomarker
-      .call({
-        surveyId,
-        groupId: this.ageGenderGroup.get().groupId,
-        biomarker: this.biomarkerSelect.get().biomarkerName,
-        aggregationField,
-      })
+  public getBiomarkerData(): void {
+    this.apiService.endpoints.biomarker.getBiomarker
+      .call(
+        {
+          surveyId: this.biomarkerDataSource.get().id,
+          groupId: this.ageGenderGroup.get().groupId,
+          biomarker: this.biomarkerDataSource.get().biomarkerName,
+          aggregationField: this.biomarkerDataSource.get().aggFields[1], //TODO: Specify which aggField to use as default.
+        },
+        false,
+      )
       .then((data: Array<Biomarker>) => {
-        this.biomarkerDataSrc.next(data.pop());
+        // console.debug('data', data);
+        this.biomarkerDataSrc.next(data.shift());
       });
   }
 }
