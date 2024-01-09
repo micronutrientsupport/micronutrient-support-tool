@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { QuickMapsService } from '../../quickMaps.service';
-import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
