@@ -6,7 +6,7 @@ export enum QuickMapsQueryParamKey {
   AGE_GENDER_GROUP_ID = 'age-gender-group-id',
   BIOMARKER = 'biomarker',
   SURVEY_ID = 'survey-id',
-  AGGREGATION_FIELD = 'agg-field ',
+  AGGREGATION_FIELD = 'agg-field',
   SCENARIO_MODE = 'sm',
   SCENARIO_ITEMS = 'si',
 }

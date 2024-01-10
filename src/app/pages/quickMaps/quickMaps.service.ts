@@ -145,8 +145,17 @@ export class QuickMapsService {
         this.micronutrient.get(),
       ),
       new StringConverter(QuickMapsQueryParamKey.MEASURE).setItem(this.measure.get()),
+
+      // Biomarker query params
       new DictItemConverter(QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID, DictionaryType.AGE_GENDER_GROUPS).setItem(
         this.ageGenderGroup.get(),
+      ),
+      new StringConverter(QuickMapsQueryParamKey.BIOMARKER).setItem(
+        this.biomarkerDataSource.get()?.biomarkerName ? this.biomarkerDataSource.get()?.biomarkerName : '',
+      ),
+      new StringConverter(QuickMapsQueryParamKey.SURVEY_ID).setItem(this.biomarkerDataSource.get().id),
+      new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD).setItem(
+        this.biomarkerDataSource.get().aggFields[1],
       ),
     ]);
   }

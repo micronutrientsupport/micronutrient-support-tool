@@ -207,6 +207,7 @@ export class SideNavContentComponent {
       if (this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS) {
         this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
       } else {
+        this.quickMapsService.getBiomarkerData();
         this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
       }
       this.minimiseSideNav();
