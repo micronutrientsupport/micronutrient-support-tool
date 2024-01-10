@@ -17,11 +17,13 @@ import { StringConverter } from './queryParams/converters/stringConverter';
 import { ActivatedRoute } from '@angular/router';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
+import { GetBiomarkerParams } from 'src/app/apiAndObjects/api/biomarker/getBiomarker';
 
 @Injectable()
 export class QuickMapsService {
   public readonly init = new Accessor<boolean>(false);
   public readonly slim = new Accessor<boolean>(false);
+  public readonly fetchingBiomarkerData = new Accessor<boolean>(false);
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
   public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
   public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
@@ -253,20 +255,24 @@ export class QuickMapsService {
     );
   }
 
-  public getBiomarkerData(): void {
+  public getBiomarkerData(manualQueryParams?: GetBiomarkerParams): void {
+    this.fetchingBiomarkerData.set(true);
     this.apiService.endpoints.biomarker.getBiomarker
       .call(
-        {
-          surveyId: this.biomarkerDataSource.get().id,
-          groupId: this.ageGenderGroup.get().groupId,
-          biomarker: this.biomarkerDataSource.get().biomarkerName,
-          aggregationField: this.biomarkerDataSource.get().aggFields[1], //TODO: Specify which aggField to use as default.
-        },
+        manualQueryParams
+          ? manualQueryParams
+          : {
+              surveyId: this.biomarkerDataSource.get().id,
+              groupId: this.ageGenderGroup.get().groupId,
+              biomarker: this.biomarkerDataSource.get().biomarkerName,
+              aggregationField: this.biomarkerDataSource.get().aggFields[1], //TODO: Specify which aggField to use as default.
+            },
         false,
       )
       .then((data: Array<Biomarker>) => {
         // console.debug('data', data);
         this.biomarkerDataSrc.next(data.shift());
-      });
+      })
+      .finally(() => this.fetchingBiomarkerData.set(false));
   }
 }
