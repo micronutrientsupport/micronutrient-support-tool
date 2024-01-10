@@ -1,4 +1,5 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { TotalStats } from './biomarker/totalStats';
 
 export class Biomarker extends BaseObject {
   public static readonly KEYS = {
@@ -8,7 +9,7 @@ export class Biomarker extends BaseObject {
     AGGREGATED_THRESHOLDS: 'aggregatedThresholds',
   };
 
-  public readonly totalStats: Array<unknown>;
+  public readonly totalStats: Array<TotalStats>;
   public readonly aggregatedStats: Array<unknown>;
   public readonly aggregatedOutliers: Array<unknown>;
   public readonly aggregatedThresholds: unknown;
