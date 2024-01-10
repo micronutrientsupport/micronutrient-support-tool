@@ -149,6 +149,7 @@ export class SideNavContentComponent {
             biomarkerOptions.push(value);
             if (biomarkerOptions.length === 0) {
               if (!this.showGoButton) {
+                console.debug('call');
                 // valid data --> invalid data
                 this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
               } else {
@@ -303,8 +304,9 @@ export class SideNavContentComponent {
       this.dataSources = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length === 0) {
-          if (!this.showGoButton) {
+          if (!this.showGoButton && measure === MicronutrientMeasureType.FOOD_SYSTEMS) {
             // valid data --> invalid data
+            console.debug('call');
             this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
           } else {
             // location page with invalid data
