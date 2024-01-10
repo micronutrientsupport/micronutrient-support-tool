@@ -98,7 +98,7 @@ export class BiomarkerComponent implements OnInit {
       y: this.defaultWidgetHeight,
     });
     this.changedOptions();
-    this.quickMapsService.getBiomarkerData(); // Updates Listeners on child components
+    // this.quickMapsService.getBiomarkerData(); // Updates Listeners on child components
   }
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {

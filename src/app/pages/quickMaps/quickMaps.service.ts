@@ -35,20 +35,19 @@ export class QuickMapsService {
    * changes, so that an observer doesn't need to subscribe to many.
    */
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   private readonly dietParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public dietParameterChangedObs = this.dietParameterChangedSrc.asObservable();
 
   private readonly biomarkerParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerParameterChangedObs = this.biomarkerParameterChangedSrc.asObservable();
 
   private readonly biomarkerDataSrc = new BehaviorSubject<Biomarker>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerDataObs = this.biomarkerDataSrc.asObservable();
+
+  private readonly biomarkerDataUpdatingSrc = new BehaviorSubject<boolean>(false);
+  public biomarkerDataUpdatingObs = this.biomarkerDataUpdatingSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
   private dietParameterChangeTimeout: NodeJS.Timeout;
@@ -243,6 +242,8 @@ export class QuickMapsService {
   }
 
   public getBiomarkerData(): void {
+    console.debug('calling');
+    this.biomarkerDataUpdatingSrc.next(true);
     this.apiService.endpoints.biomarker.getBiomarker
       .call(
         {
@@ -254,8 +255,9 @@ export class QuickMapsService {
         false,
       )
       .then((data: Array<Biomarker>) => {
-        // console.debug('data', data);
+        console.debug('DDDDDATA', data);
         this.biomarkerDataSrc.next(data.shift());
+        this.biomarkerDataUpdatingSrc.next(false);
       });
   }
 }

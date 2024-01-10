@@ -13,7 +13,6 @@ import { InterventionReviewRoutingModule } from './interventionReview-routing.mo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { InterventionBaselineComponent } from './pages/interventionBaseline/interventionBaseline.component';
 import { QuickMapsService } from '../../quickMaps/quickMaps.service';
 import { CostEffectivenessComponentsModule } from '../components/costEffectivenessComponents.module';
@@ -42,7 +41,6 @@ import { MicroNutrientsInPremixTableComponent } from './utilities/microNutrients
 import { PremixTableComponent } from './utilities/microNutrientsInPremixTable/premixTableRow/premixTable.component';
 import { ReusableCostGraphComponent } from './utilities/reusableCostGraph/reusableCostGraph.component';
 import { ReusableCostTableComponent } from './utilities/reusableCostTable/reusableCostTable.component';
-import { ReusableSkeletonTableComponent } from './utilities/reusableSkeletonTable/reusableSkeletonTable.component';
 import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
 import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
 
@@ -70,7 +68,6 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
     InterventionCostSummaryDetailedCostsGraphComponent,
     ReusableCostGraphComponent,
     ReusableCostTableComponent,
-    ReusableSkeletonTableComponent,
     InterventionStepDetailsComponent,
     MicroNutrientsInPremixTableComponent,
     PremixTableComponent,
@@ -92,7 +89,6 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
     PipesModule,
     ComponentsModule,
     DirectivesModule,
-    NgxSkeletonLoaderModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],
