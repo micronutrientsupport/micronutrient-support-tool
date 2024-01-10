@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -32,8 +32,8 @@ export class StatusTableComponent implements OnChanges {
 
   constructor(public quickMapsService: QuickMapsService) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(this.biomarkerData); // here you will get the data from parent once the input param is change
+  ngOnChanges() {
+    // console.log(this.biomarkerData); // here you will get the data from parent once the input param is change
   }
 
   private generateTable(data: Array<BiomarkerStatusData>) {

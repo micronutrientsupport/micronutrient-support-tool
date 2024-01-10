@@ -1,14 +1,4 @@
-import {
-  Component,
-  AfterViewInit,
-  ViewChild,
-  Input,
-  ChangeDetectionStrategy,
-  Optional,
-  Inject,
-  ChangeDetectorRef,
-  OnInit,
-} from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input, Optional, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { UntypedFormControl } from '@angular/forms';
