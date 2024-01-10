@@ -172,7 +172,9 @@
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>
 
-<button [hidden]="(quickMapsService.slim.obs | async) === true"
-  *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" id="button-view-results"
-  mat-flat-button color="primary" form="quickMapsForm" (click)="submitForm()">View Biomarker
-  results</button>
+<div class="footer-row" [class.show]="true">
+  <button [hidden]="(quickMapsService.slim.obs | async) === true"
+    *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" mat-flat-button color="primary"
+    form="quickMapsForm" (click)="submitForm()" [disabled]="viewBiomarkerResultsButtonDisabled">View Biomarker
+    results</button>
+</div>

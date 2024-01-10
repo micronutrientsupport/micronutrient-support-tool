@@ -153,9 +153,11 @@ export class QuickMapsService {
       new StringConverter(QuickMapsQueryParamKey.BIOMARKER).setItem(
         this.biomarkerDataSource.get()?.biomarkerName ? this.biomarkerDataSource.get()?.biomarkerName : '',
       ),
-      new StringConverter(QuickMapsQueryParamKey.SURVEY_ID).setItem(this.biomarkerDataSource.get().id),
+      new StringConverter(QuickMapsQueryParamKey.SURVEY_ID).setItem(
+        this.biomarkerDataSource.get()?.id ? this.biomarkerDataSource.get()?.id : '',
+      ),
       new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD).setItem(
-        this.biomarkerDataSource.get().aggFields[1],
+        this.biomarkerDataSource.get()?.aggFields ? this.biomarkerDataSource.get()?.aggFields[1] : '',
       ),
     ]);
   }

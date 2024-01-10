@@ -56,6 +56,8 @@ export class SideNavContentComponent {
   public quickMapsForm: UntypedFormGroup;
   public sideNavToggleLock = new UntypedFormControl(false);
   public btnViewResultsActive = false;
+
+  public viewBiomarkerResultsButtonDisabled = false;
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -145,7 +147,6 @@ export class SideNavContentComponent {
           this.quickMapsForm.get('biomarkerSelect').valueChanges.subscribe((value: BiomarkerDataSource) => {
             const biomarkerOptions = [];
             biomarkerOptions.push(value);
-
             if (biomarkerOptions.length === 0) {
               if (!this.showGoButton) {
                 // valid data --> invalid data
@@ -274,7 +275,10 @@ export class SideNavContentComponent {
       this.biomarkerNames = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length >= 1 && this.quickMapsForm.get('biomarkerSelect')) {
+          this.viewBiomarkerResultsButtonDisabled = false;
           this.quickMapsForm.get('biomarkerSelect').setValue(options[0]);
+        } else if (options.length === 0) {
+          this.viewBiomarkerResultsButtonDisabled = true;
         }
       }
     });
