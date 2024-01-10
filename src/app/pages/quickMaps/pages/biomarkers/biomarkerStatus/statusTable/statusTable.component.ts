@@ -32,8 +32,8 @@ export class StatusTableComponent implements OnChanges {
 
   constructor(public quickMapsService: QuickMapsService) {}
 
-  ngOnChanges() {
-    // console.log(this.biomarkerData); // here you will get the data from parent once the input param is change
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
   }
 
   private generateTable(data: Array<BiomarkerStatusData>) {
