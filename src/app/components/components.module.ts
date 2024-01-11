@@ -17,6 +17,8 @@ import { DirectivesModule } from '../directives/directives.module';
 import { NoResultsComponent } from './noResults/noResults.component';
 import { UserMenuComponent } from './header/user-menu/user-menu.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ReusableSkeletonTableComponent } from './reusableSkeletonTable/reusableSkeletonTable.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
     DownloadComponent,
     NoResultsComponent,
     UserMenuComponent,
+    ReusableSkeletonTableComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NotificationModule,
     DirectivesModule,
     MatMenuModule,
+    NgxSkeletonLoaderModule,
   ],
   exports: [
     HeaderComponent,
@@ -50,6 +54,7 @@ import { MatMenuModule } from '@angular/material/menu';
     NotFoundComponent,
     DownloadComponent,
     NoResultsComponent,
+    ReusableSkeletonTableComponent,
   ],
 })
 export class ComponentsModule {}

@@ -23,7 +23,7 @@ import { GetBiomarkerParams } from 'src/app/apiAndObjects/api/biomarker/getBioma
 export class QuickMapsService {
   public readonly init = new Accessor<boolean>(false);
   public readonly slim = new Accessor<boolean>(false);
-  public readonly fetchingBiomarkerData = new Accessor<boolean>(false);
+  public readonly biomarkerDataUpdatingSrc = new Accessor<boolean>(false);
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
   public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
   public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
@@ -37,19 +37,15 @@ export class QuickMapsService {
    * changes, so that an observer doesn't need to subscribe to many.
    */
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   private readonly dietParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public dietParameterChangedObs = this.dietParameterChangedSrc.asObservable();
 
   private readonly biomarkerParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerParameterChangedObs = this.biomarkerParameterChangedSrc.asObservable();
 
   private readonly biomarkerDataSrc = new BehaviorSubject<Biomarker>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerDataObs = this.biomarkerDataSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
@@ -256,7 +252,8 @@ export class QuickMapsService {
   }
 
   public getBiomarkerData(manualQueryParams?: GetBiomarkerParams): void {
-    this.fetchingBiomarkerData.set(true);
+    console.debug('calling');
+    this.biomarkerDataUpdatingSrc.set(true);
     this.apiService.endpoints.biomarker.getBiomarker
       .call(
         manualQueryParams
@@ -270,9 +267,9 @@ export class QuickMapsService {
         false,
       )
       .then((data: Array<Biomarker>) => {
-        // console.debug('data', data);
+        console.debug('DDDDDATA', data);
         this.biomarkerDataSrc.next(data.shift());
       })
-      .finally(() => this.fetchingBiomarkerData.set(false));
+      .finally(() => this.biomarkerDataUpdatingSrc.set(false));
   }
 }

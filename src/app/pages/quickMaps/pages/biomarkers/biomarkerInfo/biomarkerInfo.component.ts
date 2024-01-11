@@ -79,9 +79,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
       }),
-      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-        console.debug('data in info', data);
-      }),
+      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+      //   console.debug('data in info', data);
+      // }),
     );
   }
 

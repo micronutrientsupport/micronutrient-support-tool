@@ -107,10 +107,9 @@ export class BiomarkerComponent implements OnInit {
     });
     this.changedOptions();
 
-    if (!this.quickMapsService.fetchingBiomarkerData.get()) {
+    if (!this.quickMapsService.biomarkerDataUpdatingSrc.get()) {
       this.checkQueryParams();
     }
-    // this.quickMapsService.getBiomarkerData(); // Updates Listeners on child components
   }
 
   private changedOptions(): void {

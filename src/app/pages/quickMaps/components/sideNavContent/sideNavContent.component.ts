@@ -211,6 +211,7 @@ export class SideNavContentComponent {
       } else {
         this.quickMapsService.getBiomarkerData();
         this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
+        this.quickMapsService.getBiomarkerData();
       }
       this.minimiseSideNav();
     }

@@ -1,13 +1,4 @@
-import {
-  Component,
-  AfterViewInit,
-  ViewChild,
-  Input,
-  ChangeDetectionStrategy,
-  Optional,
-  Inject,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input, Optional, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { UntypedFormControl } from '@angular/forms';
@@ -16,7 +7,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject, lastValueFrom, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
 import { MatMenu } from '@angular/material/menu';
@@ -39,14 +30,12 @@ export interface BiomarkerStatusData {
   mineralOutlier: string;
 }
 
-interface simpleDataObject {
-  AreaName: string;
-  DemoGpN: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  ZnAdj_gdL: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  Zn_gdL_Outlier: string;
-}
+// interface simpleDataObject {
+//   AreaName: string;
+//   DemoGpN: string;
+//   ZnAdj_gdL: string;
+//   Zn_gdL_Outlier: string;
+// }
 
 export interface BiomarkerDataType {
   name: string;
@@ -66,9 +55,8 @@ export interface BiomarkerCharacteristicType {
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BiomarkerStatusComponent implements AfterViewInit {
+export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -77,12 +65,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public title: string;
   public selectedTab: number;
-
   public showOutliers = true;
   public outlierControl = new UntypedFormControl(true);
   public dataTypes = new UntypedFormControl();
   public characteristics = new UntypedFormControl();
-
   public activeBiomarker: Biomarker;
 
   public dataList: Array<BiomarkerDataType> = [
@@ -115,15 +101,13 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public selectedDataType: BiomarkerDataType;
   public selectedCharacteristicType: BiomarkerCharacteristicType;
   public selectedMediaType: BiomarkerMediaType;
-
-  // Copied in from MapView, structure will be similar but will however may change
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
   private subscriptions = new Array<Subscription>();
-
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
-
   private tabVisited = new Map<number, boolean>();
+  public bData!: Biomarker;
+  public biomarkerDataUpdating = false;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -136,7 +120,24 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
 
-  ngAfterViewInit(): void {
+  public ngOnInit(): void {
+    this.initSubs();
+  }
+
+  public initSubs(): void {
+    this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+      if (data) {
+        this.bData = data;
+        this.cdr.detectChanges();
+      }
+    });
+    this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
+      this.biomarkerDataUpdating = updating;
+      this.cdr.detectChanges();
+    });
+  }
+
+  public ngAfterViewInit(): void {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
@@ -153,9 +154,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
       }),
-      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-        console.debug('data in status', data);
-      }),
+      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+      //   console.debug('data in status', data);
+      // }),
     );
 
     this.card.showExpand = true;
@@ -224,27 +225,27 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     //     console.debug(data);
     //   });
 
-    void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })).then(
-      (data: string) => {
-        const blob = this.papa.parse(data, { header: true }).data;
-        const dataArray = new Array<BiomarkerStatusData>();
-        blob.forEach((simpleData: simpleDataObject) => {
-          const statusData: BiomarkerStatusData = {
-            areaName: simpleData.AreaName,
-            ageGenderGroup: simpleData.DemoGpN,
-            mineralLevelOne: simpleData.ZnAdj_gdL,
-            mineralOutlier: simpleData.Zn_gdL_Outlier,
-          };
-          dataArray.push(statusData);
-        });
+    // void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' })).then(
+    //   (data: string) => {
+    //     const blob = this.papa.parse(data, { header: true }).data;
+    //     const dataArray = new Array<BiomarkerStatusData>();
+    //     blob.forEach((simpleData: simpleDataObject) => {
+    //       const statusData: BiomarkerStatusData = {
+    //         areaName: simpleData.AreaName,
+    //         ageGenderGroup: simpleData.DemoGpN,
+    //         mineralLevelOne: simpleData.ZnAdj_gdL,
+    //         mineralOutlier: simpleData.Zn_gdL_Outlier,
+    //       };
+    //       dataArray.push(statusData);
+    //     });
 
-        const filterByParamatersArray = dataArray.filter(
-          (value) => value.areaName === 'Area6' && value.ageGenderGroup === 'WRA',
-        );
+    //     const filterByParamatersArray = dataArray.filter(
+    //       (value) => value.areaName === 'Area6' && value.ageGenderGroup === 'WRA',
+    //     );
 
-        this.mineralData = filterByParamatersArray;
-      },
-    );
+    //     this.mineralData = filterByParamatersArray;
+    //   },
+    // );
   }
 
   private openDialog(): void {

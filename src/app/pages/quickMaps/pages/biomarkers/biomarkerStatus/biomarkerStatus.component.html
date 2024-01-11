@@ -7,25 +7,9 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
 
-    <mat-tab label="Map">
-
-      <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>
-
-      <div class="status-map-select">
-        <mat-form-field appearance="outline">
-          <mat-label>Select data</mat-label>
-          <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-            <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-    </mat-tab>
-
     <mat-tab label="Table">
       <div class="bmgf-maps-nice-scrollbar">
-        <div class="status-element">
+        <div *ngIf="!biomarkerDataUpdating" class="status-element">
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
             <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
@@ -46,11 +30,38 @@
         </div>
 
         <div class="status-element">
-          <app-status-table [biomarkerData]="mineralData" [selectedDataType]="selectedDataType"
-            [selectedCharacteristicType]="selectedCharacteristicType"></app-status-table>
+          <app-status-table [biomarkerData]="bData" [selectedDataType]="selectedDataType"
+            [selectedCharacteristicType]="selectedCharacteristicType"
+            [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-table>
         </div>
       </div>
     </mat-tab>
+
+    <mat-tab label="Map">
+
+      <div *ngIf="biomarkerDataUpdating">
+        <div class="skeleton-loader-panel">
+          <ngx-skeleton-loader [theme]="{height: '300px'}"></ngx-skeleton-loader>
+        </div>
+      </div>
+      <div *ngIf="!biomarkerDataUpdating">
+        <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>
+
+        <div class="status-map-select">
+          <mat-form-field appearance="outline">
+            <mat-label>Select data</mat-label>
+            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+    </mat-tab>
+
+
 
     <mat-tab label="Chart">
       <div class="bmgf-maps-nice-scrollbar">
