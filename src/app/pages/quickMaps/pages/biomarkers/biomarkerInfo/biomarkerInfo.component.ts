@@ -14,6 +14,8 @@ import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
+import { BinnedValues } from 'src/app/apiAndObjects/objects/biomarker/binnedValues';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -33,15 +35,28 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
   public defThreshold = 70;
   public abnThreshold = 150;
+
+  public binnedValues: BinnedValues;
   public labels: Array<number>;
   public binData: Array<number>;
-  public displayedColumns = ['mean', 'median', 'stdDev', 'min', 'max', 'q1', 'q3', 'n', 'nonApplicables'];
+  public totalStats: Array<TotalStats>;
+  public displayedColumns = [
+    'NaS',
+    'lowerOutlier',
+    'lowerQuartile',
+    'maximum',
+    'mean',
+    'median',
+    'minimum',
+    'n',
+    'standardDeviation',
+    'upperOutlier',
+    'upperQuartile',
+  ];
 
-  public dataSource: MatTableDataSource<TableObject>;
+  public dataSource: MatTableDataSource<TotalStats>;
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
-  public mineralData: Array<number>;
-  public selectedBinSize = '25';
 
   public activeBiomarker: Biomarker;
 
@@ -75,13 +90,19 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
-        this.createBins();
+        // this.createBins();
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
       }),
-      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-      //   console.debug('data in info', data);
-      // }),
+      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+        if (data) {
+          this.totalStats = data.totalStats;
+          this.binnedValues = data.binnedValues;
+          this.createBins();
+        }
+        this.dataSource = new MatTableDataSource(this.totalStats);
+        console.debug('data in info', data);
+      }),
     );
   }
 
@@ -98,11 +119,11 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
   public createBins(): void {
     // Set bins
-    const arr = this.mineralData;
+    const arr = this.binnedValues.binData;
     if (null != arr) {
       const bins = new Array<BinObject>();
       let binCount = 0;
-      const interval = Number(this.selectedBinSize);
+      const interval = Number(this.binnedValues.binSize);
       const numOfBuckets = Math.max(...arr);
 
       // Setup Bins
@@ -152,99 +173,43 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       }
     }
 
-    void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' }))
-      .then((data: string) => {
-        const blob = this.papa.parse(data, { header: true }).data;
-        const dataArray = new Array<AdditionalInformationData>();
+    // void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' }))
+    //   .then((data: string) => {
+    //     const blob = this.papa.parse(data, { header: true }).data;
+    //     const dataArray = new Array<AdditionalInformationData>();
 
-        blob.forEach((simpleData) => {
-          const additionalData: AdditionalInformationData = {
-            ageGenderGroup: simpleData.DemoGpN,
-            zincLevelOne: simpleData.ZnAdj_gdL,
-          };
-          dataArray.push(additionalData);
-        });
+    //     blob.forEach((simpleData) => {
+    //       const additionalData: AdditionalInformationData = {
+    //         ageGenderGroup: simpleData.DemoGpN,
+    //         zincLevelOne: simpleData.ZnAdj_gdL,
+    //       };
+    //       dataArray.push(additionalData);
+    //     });
 
-        const filteredArray = dataArray
-          .filter((item: AdditionalInformationData) => {
-            if (ageGenderGroupName) {
-              return item.ageGenderGroup === ageGenderGroupName;
-            } else {
-              return item;
-            }
-          })
-          .map((item: AdditionalInformationData) => Number(item.zincLevelOne))
-          .filter((value: number) => value != null) // removes any null values
-          .filter((value: number) => !isNaN(value)); // removes any NaN values
+    //     const filteredArray = dataArray
+    //       .filter((item: AdditionalInformationData) => {
+    //         if (ageGenderGroupName) {
+    //           return item.ageGenderGroup === ageGenderGroupName;
+    //         } else {
+    //           return item;
+    //         }
+    //       })
+    //       .map((item: AdditionalInformationData) => Number(item.zincLevelOne))
+    //       .filter((value: number) => value != null) // removes any null values
+    //       .filter((value: number) => !isNaN(value)); // removes any NaN values
 
-        this.mineralData = filteredArray;
-        this.generateTable();
-        this.createBins(); // set interval
-        this.cdr.detectChanges();
-      })
-      .finally(() => {
-        this.cdr.detectChanges();
-        this.loadingSrc.next(false);
-      })
-      .catch((e) => {
-        this.errorSrc.next(true);
-        throw e;
-      });
-  }
-
-  private generateTable() {
-    const sortedArray = this.mineralData.sort((a, b) => a - b);
-    const n = sortedArray.length;
-    const mean = sortedArray.reduce((acc, val) => acc + val, 0) / n;
-    const median = (sortedArray[Math.floor((n - 1) / 2)] + sortedArray[Math.ceil((sortedArray.length - 1) / 2)]) / 2;
-    const standardDeviation = Math.sqrt(
-      sortedArray
-        .reduce((acc: Array<number>, val: number) => acc.concat((val - mean) ** 2), [])
-        .reduce((acc, val) => acc + val, 0) /
-        (n - 1),
-    );
-    const min = Math.min(...sortedArray);
-    const max = Math.max(...sortedArray);
-    const q1 = this.calcQuartile(sortedArray, 1);
-    const q3 = this.calcQuartile(sortedArray, 3);
-    const nonApplicables = this.mineralData.length - sortedArray.length;
-
-    const tableObject: TableObject = {
-      mean: mean,
-      median: median,
-      stdDev: standardDeviation,
-      min: min,
-      max: max,
-      q1: q1,
-      q3: q3,
-      n: n,
-      nonApplicables: nonApplicables, // TODO: confirm is guff data frequency;
-    };
-
-    const dataArray = new Array<TableObject>();
-    dataArray.push(tableObject);
-    this.dataSource = new MatTableDataSource(dataArray);
-  }
-
-  private calcQuartile(arr, q): number {
-    // Turn q into a decimal (e.g. 95 becomes 0.95)
-    q = q / 100;
-
-    // Sort the array into ascending order
-
-    // Work out the position in the array of the percentile point
-    const p = (arr.length - 1) * q;
-    const b = Math.floor(p);
-
-    // Work out what we rounded off (if anything)
-    const remainder = p - b;
-
-    // See whether that data exists directly
-    if (arr[b + 1] !== undefined) {
-      return parseFloat(arr[b]) + remainder * (parseFloat(arr[b + 1]) - parseFloat(arr[b]));
-    } else {
-      return parseFloat(arr[b]);
-    }
+    //     // this.mineralData = filteredArray;
+    //     this.createBins(); // set interval
+    //     this.cdr.detectChanges();
+    //   })
+    //   .finally(() => {
+    //     this.cdr.detectChanges();
+    //     this.loadingSrc.next(false);
+    //   })
+    //   .catch((e) => {
+    //     this.errorSrc.next(true);
+    //     throw e;
+    //   });
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {

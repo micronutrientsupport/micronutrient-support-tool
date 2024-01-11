@@ -271,7 +271,7 @@ export class QuickMapsService {
               surveyId: this.biomarkerDataSource.get().id,
               groupId: this.ageGenderGroup.get().groupId,
               biomarker: this.biomarkerDataSource.get().biomarkerName,
-              aggregationField: this.aggField.get(),
+              aggregationField: this.aggField.get() === '' ? this.DEFAULT_AGGREGATION_FIELD : this.aggField.get(),
             },
         false,
       )

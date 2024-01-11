@@ -2,6 +2,7 @@ import { BaseObject } from '../_lib_code/objects/baseObject';
 import { AggregatedOutliers } from './biomarker/aggregatedOutliers';
 import { AggregatedStats } from './biomarker/aggregatedStat';
 import { AggregatedThresholds } from './biomarker/aggregatedThresholds';
+import { BinnedValues } from './biomarker/binnedValues';
 import { TotalStats } from './biomarker/totalStats';
 
 export class Biomarker extends BaseObject {
@@ -10,12 +11,14 @@ export class Biomarker extends BaseObject {
     AGGREGATED_STATS: 'aggregatedStats',
     AGGREGATED_OUTLIERS: 'aggregatedOutliers',
     AGGREGATED_THRESHOLDS: 'aggregatedThresholds',
+    BINNED_VALUES: 'binnedValues',
   };
 
   public readonly totalStats: Array<TotalStats>;
   public readonly aggregatedStats: Array<AggregatedStats>;
   public readonly aggregatedOutliers: Array<AggregatedOutliers>;
   public readonly aggregatedThresholds: unknown;
+  public readonly binnedValues: BinnedValues;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);

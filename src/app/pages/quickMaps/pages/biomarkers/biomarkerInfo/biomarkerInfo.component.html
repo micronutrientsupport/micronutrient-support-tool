@@ -1,7 +1,7 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-      <div class="bmgf-maps-nice-scrollbar">
+      <div class="bmgf-maps-nice-scrollbar" *ngIf="binData">
         <div class="status-chart-header">
           Histogram of <strong>{{ (quickMapsService.ageGenderGroup.obs | async)?.name }}</strong> in
           {{ (quickMapsService.country.obs | async)?.name }}
@@ -9,14 +9,14 @@
         <mat-form-field *ngIf="null != chartData" appearance="fill">
           <mat-label>Bin selection</mat-label>
           <!-- <mat-select #select (selectionChange)="createBins(select.value)"> -->
-          <mat-select [(value)]="selectedBinSize" (selectionChange)="createBins()">
+          <!-- <mat-select [(value)]="selectedBinSize" (selectionChange)="createBins()">
             <mat-option value="1">1</mat-option>
             <mat-option value="2">2</mat-option>
             <mat-option value="5">5</mat-option>
             <mat-option value="10">10</mat-option>
             <mat-option value="25">25</mat-option>
             <mat-option value="50">50</mat-option>
-          </mat-select>
+          </mat-select> -->
         </mat-form-field>
         <!-- <ngx-chartjs *ngIf="chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
           [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs> -->
@@ -26,41 +26,49 @@
 
         <div class="status-chart-data">
           <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="NaS">
+              <th mat-header-cell *matHeaderCellDef>NaS</th>
+              <td mat-cell *matCellDef="let element">{{ element.NaS }}</td>
+            </ng-container>
+            <ng-container matColumnDef="lowerOutlier">
+              <th mat-header-cell *matHeaderCellDef>Lower Outlier</th>
+              <td mat-cell *matCellDef="let element">{{ element.lowerOutlier }}</td>
+            </ng-container>
+            <ng-container matColumnDef="lowerQuartile">
+              <th mat-header-cell *matHeaderCellDef>Lower Quartile</th>
+              <td mat-cell *matCellDef="let element">{{ element.lowerQuartile }}</td>
+            </ng-container>
+            <ng-container matColumnDef="maximum">
+              <th mat-header-cell *matHeaderCellDef>Maximum</th>
+              <td mat-cell *matCellDef="let element">{{ element.maximum }}</td>
+            </ng-container>
             <ng-container matColumnDef="mean">
               <th mat-header-cell *matHeaderCellDef>Mean</th>
-              <td mat-cell *matCellDef="let element">{{ element.mean.toFixed(2) }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.mean }}</td>
             </ng-container>
             <ng-container matColumnDef="median">
               <th mat-header-cell *matHeaderCellDef>Median</th>
-              <td mat-cell *matCellDef="let element">{{ element.median.toFixed(2) }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.median }}</td>
             </ng-container>
-            <ng-container matColumnDef="stdDev">
-              <th mat-header-cell *matHeaderCellDef>Standard Deviation</th>
-              <td mat-cell *matCellDef="let element">{{ element.stdDev.toFixed(2) }}</td>
-            </ng-container>
-            <ng-container matColumnDef="min">
+            <ng-container matColumnDef="minimum">
               <th mat-header-cell *matHeaderCellDef>Minimum</th>
-              <td mat-cell *matCellDef="let element">{{ element.min.toFixed(2) }}</td>
-            </ng-container>
-            <ng-container matColumnDef="max">
-              <th mat-header-cell *matHeaderCellDef>Maximum</th>
-              <td mat-cell *matCellDef="let element">{{ element.max.toFixed(2) }}</td>
-            </ng-container>
-            <ng-container matColumnDef="q1">
-              <th mat-header-cell *matHeaderCellDef>1st Quartile</th>
-              <td mat-cell *matCellDef="let element">{{ element.q1.toFixed(2) }}</td>
-            </ng-container>
-            <ng-container matColumnDef="q3">
-              <th mat-header-cell *matHeaderCellDef>3rd Quartile</th>
-              <td mat-cell *matCellDef="let element">{{ element.q3.toFixed(2) }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.minimum }}</td>
             </ng-container>
             <ng-container matColumnDef="n">
               <th mat-header-cell *matHeaderCellDef>N</th>
               <td mat-cell *matCellDef="let element">{{ element.n }}</td>
             </ng-container>
-            <ng-container matColumnDef="nonApplicables">
-              <th mat-header-cell *matHeaderCellDef>N/A</th>
-              <td mat-cell *matCellDef="let element">{{ element.nonApplicables }}</td>
+            <ng-container matColumnDef="standardDeviation">
+              <th mat-header-cell *matHeaderCellDef>Standard Deviation</th>
+              <td mat-cell *matCellDef="let element">{{ element.standardDeviation }}</td>
+            </ng-container>
+            <ng-container matColumnDef="upperOutlier">
+              <th mat-header-cell *matHeaderCellDef>Upper Outlier</th>
+              <td mat-cell *matCellDef="let element">{{ element.upperOutlier }}</td>
+            </ng-container>
+            <ng-container matColumnDef="upperQuartile">
+              <th mat-header-cell *matHeaderCellDef>Upper Quartile</th>
+              <td mat-cell *matCellDef="let element">{{ element.upperQuartile }}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
