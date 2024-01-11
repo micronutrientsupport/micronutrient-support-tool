@@ -18,6 +18,7 @@ import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
 export interface BiomarkerStatusDialogData {
   data: unknown;
@@ -101,11 +102,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private http: HttpClient,
-    private papa: Papa,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
+    private notificationService: NotificationsService,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
@@ -189,6 +189,9 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public setCharacteristicSelection(aggField: string): void {
     this.selectedAggregationField = aggField;
+    if (this.quickMapsService.aggField.get() !== aggField) {
+      this.notificationService.sendInformative('Please update model to view results with the new parameters.');
+    }
     this.quickMapsService.aggField.set(aggField);
 
     // Notify user to execute search;
@@ -196,7 +199,6 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public setDataSelection(dataType: SimpleAggregationThreshold): void {
     this.selectedDataType = dataType;
-    console.debug('call', this.selectedDataType);
   }
   public setMediaSelection(mediaType: BiomarkerMediaType): void {
     this.selectedMediaType = mediaType;

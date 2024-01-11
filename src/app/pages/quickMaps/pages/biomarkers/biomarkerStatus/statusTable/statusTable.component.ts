@@ -25,10 +25,17 @@ export class StatusTableComponent implements OnChanges {
   set aggregationThresholdData(data: SimpleAggregationThreshold) {
     if (data) {
       this.generateTable(data);
+      this.hidden = false;
     }
   }
 
-  @Input() biomarkerDataUpdating: boolean;
+  @Input() set biomarkerDataUpdating(updating: boolean) {
+    if (updating) {
+      this.hidden = true;
+    }
+  }
+
+  public hidden = false;
 
   public displayedColumns = ['aggregation', 'confidenceIntervalLower', 'confidenceIntervalUpper', 'x'];
   public dataSource: MatTableDataSource<TableObject>;

@@ -11,7 +11,7 @@
       <div class="bmgf-maps-nice-scrollbar">
         <div *ngIf="!biomarkerDataUpdating" class="status-element">
           <mat-form-field appearance="outline">
-            <mat-label>Select data</mat-label>
+            <mat-label>Select an Aggregation Threshold</mat-label>
             <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
               <mat-option *ngFor="let dataType of dataListMap | keyvalue" [value]="dataType">{{dataType.key}}
               </mat-option>
@@ -19,7 +19,7 @@
           </mat-form-field>
           <span class="spacer"> by </span>
           <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
-            <mat-label>Select a charactersitic</mat-label>
+            <mat-label>Select an Aggregation Field</mat-label>
             <mat-select [(value)]="selectedAggregationField"
               (selectionChange)="setCharacteristicSelection($event.value)">
               <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
