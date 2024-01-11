@@ -13,25 +13,23 @@
           <mat-form-field appearance="outline">
             <mat-label>Select data</mat-label>
             <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+              <mat-option *ngFor="let dataType of dataListMap | keyvalue" [value]="dataType">{{dataType.key}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <span class="spacer"> by </span>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
             <mat-label>Select a charactersitic</mat-label>
-            <mat-select [(value)]="selectedCharacteristicType"
+            <mat-select [(value)]="selectedAggregationField"
               (selectionChange)="setCharacteristicSelection($event.value)">
-              <mat-option *ngFor="let characteristic of characteristicList" [value]="characteristic">
-                {{characteristic.name}}</mat-option>
+              <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
+                {{aggField}}</mat-option>
             </mat-select>
           </mat-form-field>
-
         </div>
 
         <div class="status-element">
-          <app-status-table [biomarkerData]="bData" [selectedDataType]="selectedDataType"
-            [selectedCharacteristicType]="selectedCharacteristicType"
+          <app-status-table [aggregationThresholdData]="selectedDataType"
             [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-table>
         </div>
       </div>
@@ -45,7 +43,7 @@
         </div>
       </div>
       <div *ngIf="!biomarkerDataUpdating">
-        <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps>
+        <!-- <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps> -->
 
         <div class="status-map-select">
           <mat-form-field appearance="outline">
@@ -58,10 +56,7 @@
         </div>
       </div>
 
-
     </mat-tab>
-
-
 
     <mat-tab label="Chart">
       <div class="bmgf-maps-nice-scrollbar">
@@ -74,7 +69,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart>
+        <!-- <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart> -->
       </div>
     </mat-tab>
 
@@ -101,9 +96,9 @@
         <!-- <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"> -->
         <!-- <app-download> </app-download> -->
         <!-- <app-status-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"></app-status-download> -->
-        <app-status-download [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"
+        <!-- <app-status-download [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"
           [selectedMediaType]="selectedMediaType">
-        </app-status-download>>
+        </app-status-download>> -->
 
       </div>
 

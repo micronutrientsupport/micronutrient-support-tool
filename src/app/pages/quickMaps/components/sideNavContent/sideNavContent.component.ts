@@ -209,9 +209,9 @@ export class SideNavContentComponent {
       if (this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS) {
         this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
       } else {
+        // this.quickMapsService.aggField.set(this.quickMapsService.biomarkerDataSource.get().aggFields[1]);
         this.quickMapsService.getBiomarkerData();
         this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
-        this.quickMapsService.getBiomarkerData();
       }
       this.minimiseSideNav();
     }
@@ -306,8 +306,8 @@ export class SideNavContentComponent {
       if (null != country && null != micronutrient && null != measure) {
         if (options.length === 0) {
           if (!this.showGoButton && measure === MicronutrientMeasureType.FOOD_SYSTEMS) {
+            // Will only show 'No No Results' page for Food Systems Data.
             // valid data --> invalid data
-            console.debug('call');
             this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
           } else {
             // location page with invalid data

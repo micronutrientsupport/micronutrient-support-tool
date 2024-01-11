@@ -1,8 +1,8 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
-import { AggregatedOutliers } from './biomarkerObjects/aggregatedOutliers';
-import { AggregatedStats } from './biomarkerObjects/aggregatedStats';
-import { AggregatedThresholds } from './biomarkerObjects/aggregatedThresholds';
-import { TotalStats } from './biomarkerObjects/totalStats';
+import { AggregatedOutliers } from './biomarker/aggregatedOutliers';
+import { AggregatedStats } from './biomarker/aggregatedStat';
+import { AggregatedThresholds } from './biomarker/aggregatedThresholds';
+import { TotalStats } from './biomarker/totalStats';
 
 export class Biomarker extends BaseObject {
   public static readonly KEYS = {
@@ -15,7 +15,7 @@ export class Biomarker extends BaseObject {
   public readonly totalStats: Array<TotalStats>;
   public readonly aggregatedStats: Array<AggregatedStats>;
   public readonly aggregatedOutliers: Array<AggregatedOutliers>;
-  public readonly aggregatedThresholds: AggregatedThresholds;
+  public readonly aggregatedThresholds: unknown;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);

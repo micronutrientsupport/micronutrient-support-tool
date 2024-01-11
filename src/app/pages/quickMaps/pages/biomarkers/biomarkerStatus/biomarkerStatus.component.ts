@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, Input, Optional, Inject, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input, Optional, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { UntypedFormControl } from '@angular/forms';
@@ -17,6 +17,7 @@ import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 
 export interface BiomarkerStatusDialogData {
   data: unknown;
@@ -30,12 +31,10 @@ export interface BiomarkerStatusData {
   mineralOutlier: string;
 }
 
-// interface simpleDataObject {
-//   AreaName: string;
-//   DemoGpN: string;
-//   ZnAdj_gdL: string;
-//   Zn_gdL_Outlier: string;
-// }
+export interface SimpleAggregationThreshold {
+  key: string;
+  value: Array<object>;
+}
 
 export interface BiomarkerDataType {
   name: string;
@@ -46,17 +45,12 @@ export interface BiomarkerMediaType {
   value: string;
 }
 
-export interface BiomarkerCharacteristicType {
-  name: string;
-  value: string;
-}
-
 @Component({
   selector: 'app-biomarker-status',
   templateUrl: './biomarkerStatus.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './biomarkerStatus.component.scss'],
 })
-export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
+export class BiomarkerStatusComponent implements AfterViewInit {
   public static readonly COLOUR_PALETTE_ID = 'biomarker-map-view';
   @Input() card: CardComponent;
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
@@ -78,19 +72,12 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
     { name: 'Concentration Data', value: 'cda' },
   ];
 
+  public dataListMap = new Map<string, object>();
+
   public mediaList: Array<BiomarkerMediaType> = [
     { name: 'Map', value: 'map' },
     { name: 'Table', value: 'table' },
     { name: 'Chart', value: 'chart' },
-  ];
-
-  public characteristicList: Array<BiomarkerCharacteristicType> = [
-    { name: 'Regions', value: 'reg' },
-    { name: 'Residence', value: 'res' },
-    { name: 'Age group', value: 'age' },
-    { name: 'Wealth Quintiles', value: 'qui' },
-    { name: 'All characteristics', value: 'all' },
-    { name: 'Total', value: 'tot' },
   ];
 
   public selectedOption: unknown;
@@ -98,8 +85,11 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
   public mineralData: Array<BiomarkerStatusData>;
-  public selectedDataType: BiomarkerDataType;
-  public selectedCharacteristicType: BiomarkerCharacteristicType;
+
+  public biomarkerDataSrc: BiomarkerDataSource;
+  public selectedDataType: SimpleAggregationThreshold;
+  public selectedAggregationField: string;
+
   public selectedMediaType: BiomarkerMediaType;
   public temporaryData: SubRegionDataItem; // Temporary until new data coming in from API
   private subscriptions = new Array<Subscription>();
@@ -120,23 +110,6 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
 
-  public ngOnInit(): void {
-    this.initSubs();
-  }
-
-  public initSubs(): void {
-    this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-      if (data) {
-        this.bData = data;
-        this.cdr.detectChanges();
-      }
-    });
-    this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
-      this.biomarkerDataUpdating = updating;
-      this.cdr.detectChanges();
-    });
-  }
-
   public ngAfterViewInit(): void {
     this.card.showExpand = true;
     this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
@@ -154,9 +127,24 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
       }),
-      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-      //   console.debug('data in status', data);
-      // }),
+      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+        if (data) {
+          Object.entries(data.aggregatedThresholds).forEach(([key, value]) => {
+            this.dataListMap.set(key, value);
+          });
+        }
+        this.cdr.detectChanges();
+      }),
+      this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
+        this.biomarkerDataUpdating = updating;
+        this.cdr.detectChanges();
+      }),
+      this.quickMapsService.biomarkerDataSource.obs.subscribe((data: BiomarkerDataSource) => {
+        if (data) {
+          this.selectedAggregationField = this.quickMapsService.aggField.get();
+          this.biomarkerDataSrc = data;
+        }
+      }),
     );
 
     this.card.showExpand = true;
@@ -198,12 +186,17 @@ export class BiomarkerStatusComponent implements OnInit, AfterViewInit {
         break;
     }
   }
-  public setCharacteristicSelection(charateristicType: BiomarkerCharacteristicType): void {
-    this.selectedCharacteristicType = charateristicType;
+
+  public setCharacteristicSelection(aggField: string): void {
+    this.selectedAggregationField = aggField;
+    this.quickMapsService.aggField.set(aggField);
+
+    // Notify user to execute search;
   }
 
-  public setDataSelection(dataType: BiomarkerDataType): void {
+  public setDataSelection(dataType: SimpleAggregationThreshold): void {
     this.selectedDataType = dataType;
+    console.debug('call', this.selectedDataType);
   }
   public setMediaSelection(mediaType: BiomarkerMediaType): void {
     this.selectedMediaType = mediaType;

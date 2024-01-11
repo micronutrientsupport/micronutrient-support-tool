@@ -31,6 +31,7 @@ export class QuickMapsService {
   public readonly biomarkerDataSource = new NullableAccessor<BiomarkerDataSource>(null);
   public readonly ageGenderGroup = new NullableAccessor<AgeGenderDictionaryItem>(null);
   public readonly biomarkerSelect = new NullableAccessor<BiomarkerDataSource>(null);
+  public readonly aggField = new NullableAccessor<string>(null);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
@@ -53,6 +54,7 @@ export class QuickMapsService {
   private biomarkerParameterChangeTimeout: NodeJS.Timeout;
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
+  private readonly DEFAULT_AGGREGATION_FIELD = 'wealth_quintile';
 
   constructor(
     injector: Injector,
@@ -80,6 +82,14 @@ export class QuickMapsService {
         ).then((ageGenderGroup) => this.ageGenderGroup.set(ageGenderGroup)),
       ),
       this.quickMapsParameters.getMeasure().then((measure) => this.measure.set(measure)),
+      this.quickMapsParameters.getAggregationField().then((aggField) => {
+        if (aggField === '') {
+          // Set agg-field as 'wealth_quintile' if no aggregation previously set.
+          this.aggField.set(this.DEFAULT_AGGREGATION_FIELD);
+        } else {
+          this.aggField.set(aggField);
+        }
+      }),
     ])
       .then(() =>
         this.setInitialDataSources(
@@ -154,9 +164,7 @@ export class QuickMapsService {
       new StringConverter(QuickMapsQueryParamKey.SURVEY_ID).setItem(
         this.biomarkerDataSource.get()?.id ? this.biomarkerDataSource.get()?.id : '',
       ),
-      new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD).setItem(
-        this.biomarkerDataSource.get()?.aggFields ? this.biomarkerDataSource.get()?.aggFields[1] : '',
-      ),
+      new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD).setItem(this.aggField.get()),
     ]);
   }
 
@@ -181,6 +189,7 @@ export class QuickMapsService {
     // ensure not triggered too many times in quick succession
     clearTimeout(this.biomarkerParameterChangeTimeout);
     this.biomarkerParameterChangeTimeout = setTimeout(() => {
+      this.updateQueryParams();
       this.biomarkerParameterChangedSrc.next();
     }, 100);
   }
@@ -204,6 +213,7 @@ export class QuickMapsService {
     this.measure.obs.subscribe(() => this.biomarkerParameterChanged());
     this.biomarkerDataSource.obs.subscribe(() => this.biomarkerParameterChanged());
     this.ageGenderGroup.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.aggField.obs.subscribe(() => this.biomarkerParameterChanged());
   }
 
   private setInitialDataSources(
@@ -252,7 +262,6 @@ export class QuickMapsService {
   }
 
   public getBiomarkerData(manualQueryParams?: GetBiomarkerParams): void {
-    console.debug('calling');
     this.biomarkerDataUpdatingSrc.set(true);
     this.apiService.endpoints.biomarker.getBiomarker
       .call(
@@ -262,12 +271,12 @@ export class QuickMapsService {
               surveyId: this.biomarkerDataSource.get().id,
               groupId: this.ageGenderGroup.get().groupId,
               biomarker: this.biomarkerDataSource.get().biomarkerName,
-              aggregationField: this.biomarkerDataSource.get().aggFields[1], //TODO: Specify which aggField to use as default.
+              aggregationField: this.aggField.get(),
             },
         false,
       )
       .then((data: Array<Biomarker>) => {
-        console.debug('DDDDDATA', data);
+        console.debug('WHAT IS THIS DATA ERROR', data);
         this.biomarkerDataSrc.next(data.shift());
       })
       .finally(() => this.biomarkerDataUpdatingSrc.set(false));

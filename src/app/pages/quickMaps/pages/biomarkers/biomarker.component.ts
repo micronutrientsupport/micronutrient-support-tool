@@ -2,9 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angul
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { QuickMapsService } from '../../quickMaps.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { QuickMapsQueryParamKey } from '../../queryParams/quickMapsQueryParamKey.enum';
-import { MicronutrientMeasureType } from 'src/app/apiAndObjects/objects/enums/micronutrientMeasureType.enum';
-import { GetBiomarkerParams } from 'src/app/apiAndObjects/api/biomarker/getBiomarker';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
@@ -108,32 +105,13 @@ export class BiomarkerComponent implements OnInit {
     this.changedOptions();
 
     if (!this.quickMapsService.biomarkerDataUpdatingSrc.get()) {
-      this.checkQueryParams();
+      this.quickMapsService.getBiomarkerData();
     }
   }
 
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();
-    }
-  }
-
-  private checkQueryParams() {
-    if (this.queryParams[QuickMapsQueryParamKey.MEASURE] === MicronutrientMeasureType.BIOMARKER) {
-      if (
-        this.queryParams[QuickMapsQueryParamKey.BIOMARKER] &&
-        this.queryParams[QuickMapsQueryParamKey.SURVEY_ID] &&
-        this.queryParams[QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID] &&
-        this.queryParams[QuickMapsQueryParamKey.AGGREGATION_FIELD]
-      ) {
-        const biomarkerParams: GetBiomarkerParams = {
-          biomarker: this.queryParams[QuickMapsQueryParamKey.BIOMARKER],
-          surveyId: this.queryParams[QuickMapsQueryParamKey.SURVEY_ID],
-          groupId: this.queryParams[QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID],
-          aggregationField: this.queryParams[QuickMapsQueryParamKey.AGGREGATION_FIELD],
-        };
-        this.quickMapsService.getBiomarkerData(biomarkerParams);
-      }
     }
   }
 }
