@@ -18,7 +18,6 @@ export class Biomarker extends BaseObject {
   public readonly aggregatedThresholds: AggregatedThresholds;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
-    console.debug(sourceObject);
     super(sourceObject);
 
     this.totalStats = this._getArray(Biomarker.KEYS.TOTAL_STATS);
