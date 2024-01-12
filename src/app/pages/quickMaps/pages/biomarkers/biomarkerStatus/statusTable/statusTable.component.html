@@ -1,7 +1,7 @@
 <app-reusable-skeleton-table *ngIf="biomarkerDataUpdating"
   [setData]="{ columns: 4, rows: 5 }"></app-reusable-skeleton-table>
 
-<table *ngIf="!biomarkerDataUpdating && dataSource" mat-table [dataSource]="dataSource" matSort [hidden]="hidden">
+<table *ngIf="!biomarkerDataUpdating && dataSource" mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="aggregation" sticky>
     <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Aggregation</th>
     <td mat-cell *matCellDef="let element">{{ element.aggregation }}</td>
