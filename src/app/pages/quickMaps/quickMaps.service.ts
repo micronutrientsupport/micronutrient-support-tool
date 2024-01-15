@@ -83,7 +83,7 @@ export class QuickMapsService {
       ),
       this.quickMapsParameters.getMeasure().then((measure) => this.measure.set(measure)),
       this.quickMapsParameters.getAggregationField().then((aggField) => {
-        if (aggField === '') {
+        if (aggField === '' || aggField == null) {
           // Set agg-field as 'wealth_quintile' if no aggregation previously set.
           this.aggField.set(this.DEFAULT_AGGREGATION_FIELD);
         } else {

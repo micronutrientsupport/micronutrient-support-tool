@@ -130,6 +130,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           Object.entries(data.aggregatedThresholds).forEach(([key, value]) => {
             this.dataListMap.set(key, value);
           });
+          console.debug(this.dataListMap);
         }
         this.cdr.detectChanges();
       }),
