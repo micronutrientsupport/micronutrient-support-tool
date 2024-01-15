@@ -6,7 +6,6 @@ import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionarie
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
-import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
@@ -16,11 +15,15 @@ import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enu
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
 import { StringConverter } from './queryParams/converters/stringConverter';
 import { ActivatedRoute } from '@angular/router';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { ApiService } from 'src/app/apiAndObjects/api/api.service';
+import { GetBiomarkerParams } from 'src/app/apiAndObjects/api/biomarker/getBiomarker';
 
 @Injectable()
 export class QuickMapsService {
   public readonly init = new Accessor<boolean>(false);
   public readonly slim = new Accessor<boolean>(false);
+  public readonly biomarkerDataUpdatingSrc = new Accessor<boolean>(false);
   public readonly country = new NullableAccessor<CountryDictionaryItem>(null);
   public readonly micronutrient = new NullableAccessor<MicronutrientDictionaryItem>(null);
   public readonly measure = new NullableAccessor<MicronutrientMeasureType>(null);
@@ -28,34 +31,36 @@ export class QuickMapsService {
   public readonly biomarkerDataSource = new NullableAccessor<BiomarkerDataSource>(null);
   public readonly ageGenderGroup = new NullableAccessor<AgeGenderDictionaryItem>(null);
   public readonly biomarkerSelect = new NullableAccessor<BiomarkerDataSource>(null);
+  public readonly aggField = new NullableAccessor<string>(null);
 
   /**
    * subject to provide a single observable that can be subscribed to, to be notified if anything
    * changes, so that an observer doesn't need to subscribe to many.
    */
   private readonly parameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public parameterChangedObs = this.parameterChangedSrc.asObservable();
 
   private readonly dietParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public dietParameterChangedObs = this.dietParameterChangedSrc.asObservable();
 
   private readonly biomarkerParameterChangedSrc = new BehaviorSubject<void>(null);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   public biomarkerParameterChangedObs = this.biomarkerParameterChangedSrc.asObservable();
+
+  private readonly biomarkerDataSrc = new BehaviorSubject<Biomarker>(null);
+  public biomarkerDataObs = this.biomarkerDataSrc.asObservable();
 
   private parameterChangeTimeout: NodeJS.Timeout;
   private dietParameterChangeTimeout: NodeJS.Timeout;
   private biomarkerParameterChangeTimeout: NodeJS.Timeout;
 
   private readonly quickMapsParameters: QuickMapsQueryParams;
+  private readonly DEFAULT_AGGREGATION_FIELD = 'wealth_quintile';
 
   constructor(
     injector: Injector,
     private dietDataService: DietDataService,
-    private biomarkerDataService: BiomarkerDataService,
     private dictionaryService: DictionaryService,
+    private apiService: ApiService,
     private readonly route: ActivatedRoute,
   ) {
     this.quickMapsParameters = new QuickMapsQueryParams(injector);
@@ -77,6 +82,14 @@ export class QuickMapsService {
         ).then((ageGenderGroup) => this.ageGenderGroup.set(ageGenderGroup)),
       ),
       this.quickMapsParameters.getMeasure().then((measure) => this.measure.set(measure)),
+      this.quickMapsParameters.getAggregationField().then((aggField) => {
+        if (aggField === '' || aggField == null) {
+          // Set agg-field as 'wealth_quintile' if no aggregation previously set.
+          this.aggField.set(this.DEFAULT_AGGREGATION_FIELD);
+        } else {
+          this.aggField.set(aggField);
+        }
+      }),
     ])
       .then(() =>
         this.setInitialDataSources(
@@ -140,9 +153,18 @@ export class QuickMapsService {
         this.micronutrient.get(),
       ),
       new StringConverter(QuickMapsQueryParamKey.MEASURE).setItem(this.measure.get()),
+
+      // Biomarker query params
       new DictItemConverter(QuickMapsQueryParamKey.AGE_GENDER_GROUP_ID, DictionaryType.AGE_GENDER_GROUPS).setItem(
         this.ageGenderGroup.get(),
       ),
+      new StringConverter(QuickMapsQueryParamKey.BIOMARKER).setItem(
+        this.biomarkerDataSource.get()?.biomarkerName ? this.biomarkerDataSource.get()?.biomarkerName : '',
+      ),
+      new StringConverter(QuickMapsQueryParamKey.SURVEY_ID).setItem(
+        this.biomarkerDataSource.get()?.id ? this.biomarkerDataSource.get()?.id : '',
+      ),
+      new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD).setItem(this.aggField.get()),
     ]);
   }
 
@@ -167,6 +189,7 @@ export class QuickMapsService {
     // ensure not triggered too many times in quick succession
     clearTimeout(this.biomarkerParameterChangeTimeout);
     this.biomarkerParameterChangeTimeout = setTimeout(() => {
+      this.updateQueryParams();
       this.biomarkerParameterChangedSrc.next();
     }, 100);
   }
@@ -190,6 +213,7 @@ export class QuickMapsService {
     this.measure.obs.subscribe(() => this.biomarkerParameterChanged());
     this.biomarkerDataSource.obs.subscribe(() => this.biomarkerParameterChanged());
     this.ageGenderGroup.obs.subscribe(() => this.biomarkerParameterChanged());
+    this.aggField.obs.subscribe(() => this.biomarkerParameterChanged());
   }
 
   private setInitialDataSources(
@@ -210,13 +234,51 @@ export class QuickMapsService {
     }
     if (MicronutrientMeasureType.BIOMARKER === measure) {
       promises.push(
-        this.biomarkerDataService
-          .getDataSources(country, micronutrient, ageGenderGroup, true)
-          .then((ds) => this.biomarkerDataSource.set(ds[0])), // always first item
+        this.getBiomarkerDataSources(country, micronutrient, ageGenderGroup, true).then((ds) =>
+          this.biomarkerDataSource.set(ds[0]),
+        ), // always first item
       );
     } else {
       this.biomarkerDataSource.set(null);
     }
     return Promise.all(promises).then();
+  }
+
+  public getBiomarkerDataSources(
+    country: CountryDictionaryItem,
+    micronutrient: MicronutrientDictionaryItem,
+    ageGenderGroup: AgeGenderDictionaryItem,
+    singleOptionOnly = false,
+  ): Promise<Array<BiomarkerDataSource>> {
+    return this.apiService.endpoints.biomarker.getDataSources.call(
+      {
+        country,
+        micronutrient,
+        ageGenderGroup,
+        singleOptionOnly,
+      },
+      false,
+    );
+  }
+
+  public getBiomarkerData(manualQueryParams?: GetBiomarkerParams): void {
+    this.biomarkerDataUpdatingSrc.set(true);
+    this.apiService.endpoints.biomarker.getBiomarker
+      .call(
+        manualQueryParams
+          ? manualQueryParams
+          : {
+              surveyId: this.biomarkerDataSource.get().id,
+              groupId: this.ageGenderGroup.get().groupId,
+              biomarker: this.biomarkerDataSource.get().biomarkerName,
+              aggregationField: this.aggField.get() === '' ? this.DEFAULT_AGGREGATION_FIELD : this.aggField.get(),
+            },
+        false,
+      )
+      .then((data: Array<Biomarker>) => {
+        console.debug('WHAT IS THIS DATA ERROR', data);
+        this.biomarkerDataSrc.next(data.shift());
+      })
+      .finally(() => this.biomarkerDataUpdatingSrc.set(false));
   }
 }

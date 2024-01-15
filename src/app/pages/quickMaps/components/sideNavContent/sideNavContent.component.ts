@@ -27,7 +27,6 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystemsDataSource';
 import { DietDataService } from 'src/app/services/dietData.service';
-import { BiomarkerDataService } from 'src/app/services/biomarkerData.service';
 import { Named } from 'src/app/apiAndObjects/objects/named.interface';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Unsubscriber('subscriptions')
@@ -57,6 +56,8 @@ export class SideNavContentComponent {
   public quickMapsForm: UntypedFormGroup;
   public sideNavToggleLock = new UntypedFormControl(false);
   public btnViewResultsActive = false;
+
+  public viewBiomarkerResultsButtonDisabled = false;
   private subscriptions = new Array<Subscription>();
 
   constructor(
@@ -66,7 +67,6 @@ export class SideNavContentComponent {
     public routeGuardService: QuickMapsRouteGuardService,
     private fb: UntypedFormBuilder,
     private dietDataService: DietDataService,
-    private biomarkerDataService: BiomarkerDataService,
     private router: Router,
     private dialogService: DialogService,
   ) {
@@ -147,9 +147,9 @@ export class SideNavContentComponent {
           this.quickMapsForm.get('biomarkerSelect').valueChanges.subscribe((value: BiomarkerDataSource) => {
             const biomarkerOptions = [];
             biomarkerOptions.push(value);
-
             if (biomarkerOptions.length === 0) {
               if (!this.showGoButton) {
+                console.debug('call');
                 // valid data --> invalid data
                 this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
               } else {
@@ -180,7 +180,6 @@ export class SideNavContentComponent {
   public mndChange(type: MicronutrientType): void {
     if (type !== this.selectedMndType) {
       this.selectedMndType = type;
-
       this.selectMNDsFiltered = this.micronutrientsDictionary
         .getItems()
         .filter((micronutrientsDictionary: MicronutrientDictionaryItem) => micronutrientsDictionary.type === type)
@@ -207,11 +206,13 @@ export class SideNavContentComponent {
 
   public submitForm(): void {
     if (this.quickMapsForm.valid) {
-      this.navigate(
-        this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS
-          ? AppRoutes.QUICK_MAPS_BASELINE
-          : AppRoutes.QUICK_MAPS_BIOMARKER,
-      );
+      if (this.quickMapsService.measure.get() === MicronutrientMeasureType.FOOD_SYSTEMS) {
+        this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
+      } else {
+        // this.quickMapsService.aggField.set(this.quickMapsService.biomarkerDataSource.get().aggFields[1]);
+        this.quickMapsService.getBiomarkerData();
+        this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
+      }
       this.minimiseSideNav();
     }
   }
@@ -265,15 +266,21 @@ export class SideNavContentComponent {
     const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     let biomarkerSourcePromise: Promise<Array<BiomarkerDataSource>> = Promise.resolve([] as Array<BiomarkerDataSource>);
-    biomarkerSourcePromise = this.biomarkerDataService.getDataSources(country, micronutrient, ageGenderGroup, false);
+    biomarkerSourcePromise = this.quickMapsService.getBiomarkerDataSources(
+      country,
+      micronutrient,
+      ageGenderGroup,
+      false,
+    );
 
     void biomarkerSourcePromise.then((options: Array<BiomarkerDataSource>) => {
-      console.debug(options);
       this.biomarkerNames = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length >= 1 && this.quickMapsForm.get('biomarkerSelect')) {
-          console.debug(this.quickMapsForm.get('biomarkerSelect'));
+          this.viewBiomarkerResultsButtonDisabled = false;
           this.quickMapsForm.get('biomarkerSelect').setValue(options[0]);
+        } else if (options.length === 0) {
+          this.viewBiomarkerResultsButtonDisabled = true;
         }
       }
     });
@@ -298,7 +305,8 @@ export class SideNavContentComponent {
       this.dataSources = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length === 0) {
-          if (!this.showGoButton) {
+          if (!this.showGoButton && measure === MicronutrientMeasureType.FOOD_SYSTEMS) {
+            // Will only show 'No No Results' page for Food Systems Data.
             // valid data --> invalid data
             this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
           } else {
@@ -316,7 +324,6 @@ export class SideNavContentComponent {
   }
 
   private navigate(appRoute: AppRoute): void {
-    console.debug('navigate', this.quickMapsService.measure, appRoute);
     void this.router.navigate(appRoute.getRoute(), {
       queryParams: this.route.snapshot.queryParams,
     });

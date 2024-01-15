@@ -8,7 +8,6 @@ import { PageLoadingService } from './pageLoadingService.service';
 import { GridsterService } from './gridster.service';
 import { ScenarioDataService } from './scenarioData.service';
 import { ProjectionDataService } from './projectionData.service';
-import { BiomarkerDataService } from './biomarkerData.service';
 import { DietDataService } from './dietData.service';
 import { JSONLogicService } from './jsonlogic.service';
 import { QrCodeService } from './qrCode.service';
@@ -20,7 +19,6 @@ import { QrCodeService } from './qrCode.service';
   providers: [
     DictionaryService,
     DietDataService,
-    BiomarkerDataService,
     ProjectionDataService,
     SnackbarService,
     SharingService,

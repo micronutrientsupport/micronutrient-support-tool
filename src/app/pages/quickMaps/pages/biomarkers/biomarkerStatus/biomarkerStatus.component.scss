@@ -25,8 +25,8 @@
 .status-element {
   display: block;
   margin-top: 20px;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 10px;
+  margin-right: 10px;
   text-align: center;
 }
 
@@ -114,4 +114,8 @@ mat-form-field {
 .spacer {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.skeleton-loader-panel {
+  padding: 24px;
 }

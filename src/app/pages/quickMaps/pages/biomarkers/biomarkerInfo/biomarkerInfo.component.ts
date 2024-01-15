@@ -13,6 +13,7 @@ import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -22,7 +23,6 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 export class BiomarkerInfoComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('histo') public c1!: ElementRef<HTMLCanvasElement>;
-
   @Input() card: CardComponent;
   static additionalData: unknown;
   public chartData: Chart;
@@ -42,6 +42,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public selectedAgeGenderGroup = '';
   public mineralData: Array<number>;
   public selectedBinSize = '25';
+
+  public activeBiomarker: Biomarker;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
@@ -74,8 +76,12 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
         this.createBins();
+        // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
       }),
+      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+      //   console.debug('data in info', data);
+      // }),
     );
   }
 

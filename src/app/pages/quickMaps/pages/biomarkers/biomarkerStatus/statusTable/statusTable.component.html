@@ -1,28 +1,31 @@
-<table mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="region" sticky>
-    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Region</th>
-    <td mat-cell *matCellDef="let element">{{ element.region }}</td>
+<app-reusable-skeleton-table *ngIf="biomarkerDataUpdating"
+  [setData]="{ columns: 4, rows: 5 }"></app-reusable-skeleton-table>
+
+<table *ngIf="!biomarkerDataUpdating && dataSource" mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="aggregation" sticky>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Aggregation</th>
+    <td mat-cell *matCellDef="let element">{{ element.aggregation }}</td>
   </ng-container>
-  <ng-container matColumnDef="n">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">N</th>
-    <td mat-cell *matCellDef="let element">{{ element.n }}</td>
+  <ng-container matColumnDef="confidenceIntervalLower">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Confidence Interval Lower</th>
+    <td mat-cell *matCellDef="let element">{{ element.confidenceIntervalLower }}</td>
   </ng-container>
-  <ng-container matColumnDef="deficient">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Deficient</th>
-    <td mat-cell *matCellDef="let element">{{ element.deficient }}</td>
+  <ng-container matColumnDef="confidenceIntervalUpper">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Confidence Interval Upper</th>
+    <td mat-cell *matCellDef="let element">{{ element.confidenceIntervalUpper }}</td>
   </ng-container>
-  <ng-container matColumnDef="confidence">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Confidence interval (95%)</th>
-    <td mat-cell *matCellDef="let element">{{ element.confidence }}</td>
+  <ng-container matColumnDef="x">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{columnX}}</th>
+    <td mat-cell *matCellDef="let element">{{ element.x }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-<div class="status-element">
+<mat-paginator *ngIf="!biomarkerDataUpdating" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<div *ngIf="!biomarkerDataUpdating" class="status-element">
   <span>Description of how deficiency/excess was measured and details about groups</span>
 </div>
-<div class="status-element">
+<div *ngIf="!biomarkerDataUpdating" class="status-element">
   <span><b>Total samples (N) - {{ totalSamples }}</b></span>
 </div>
