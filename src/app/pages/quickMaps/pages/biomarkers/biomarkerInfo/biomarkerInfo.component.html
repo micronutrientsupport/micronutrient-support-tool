@@ -13,23 +13,23 @@
 
         <div class="status-chart-header">Descriptive Statistics</div>
 
-        <div class="status-chart-data">
+        <div *ngIf="dataSource" class="status-chart-data">
           <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="NaS">
+            <ng-container matColumnDef="nonApplicables">
               <th mat-header-cell *matHeaderCellDef>NaS</th>
-              <td mat-cell *matCellDef="let element">{{ element.NaS }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.nonApplicables }}</td>
             </ng-container>
-            <ng-container matColumnDef="lowerOutlier">
+            <!-- <ng-container matColumnDef="lowerOutlier">
               <th mat-header-cell *matHeaderCellDef>Lower Outlier</th>
               <td mat-cell *matCellDef="let element">{{ element.lowerOutlier }}</td>
             </ng-container>
             <ng-container matColumnDef="lowerQuartile">
               <th mat-header-cell *matHeaderCellDef>Lower Quartile</th>
               <td mat-cell *matCellDef="let element">{{ element.lowerQuartile }}</td>
-            </ng-container>
-            <ng-container matColumnDef="maximum">
+            </ng-container> -->
+            <ng-container matColumnDef="max">
               <th mat-header-cell *matHeaderCellDef>Maximum</th>
-              <td mat-cell *matCellDef="let element">{{ element.maximum }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.max }}</td>
             </ng-container>
             <ng-container matColumnDef="mean">
               <th mat-header-cell *matHeaderCellDef>Mean</th>
@@ -39,26 +39,34 @@
               <th mat-header-cell *matHeaderCellDef>Median</th>
               <td mat-cell *matCellDef="let element">{{ element.median }}</td>
             </ng-container>
-            <ng-container matColumnDef="minimum">
+            <ng-container matColumnDef="min">
               <th mat-header-cell *matHeaderCellDef>Minimum</th>
-              <td mat-cell *matCellDef="let element">{{ element.minimum }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.min }}</td>
             </ng-container>
             <ng-container matColumnDef="n">
               <th mat-header-cell *matHeaderCellDef>N</th>
               <td mat-cell *matCellDef="let element">{{ element.n }}</td>
             </ng-container>
-            <ng-container matColumnDef="standardDeviation">
+            <ng-container matColumnDef="stdDev">
               <th mat-header-cell *matHeaderCellDef>Standard Deviation</th>
-              <td mat-cell *matCellDef="let element">{{ element.standardDeviation }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.stdDev }}</td>
             </ng-container>
-            <ng-container matColumnDef="upperOutlier">
+            <ng-container matColumnDef="q1">
+              <th mat-header-cell *matHeaderCellDef>Q1</th>
+              <td mat-cell *matCellDef="let element">{{ element.q1 }}</td>
+            </ng-container>
+            <ng-container matColumnDef="q3">
+              <th mat-header-cell *matHeaderCellDef>Q3</th>
+              <td mat-cell *matCellDef="let element">{{ element.q3 }}</td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="upperOutlier">
               <th mat-header-cell *matHeaderCellDef>Upper Outlier</th>
               <td mat-cell *matCellDef="let element">{{ element.upperOutlier }}</td>
             </ng-container>
             <ng-container matColumnDef="upperQuartile">
               <th mat-header-cell *matHeaderCellDef>Upper Quartile</th>
               <td mat-cell *matCellDef="let element">{{ element.upperQuartile }}</td>
-            </ng-container>
+            </ng-container> -->
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

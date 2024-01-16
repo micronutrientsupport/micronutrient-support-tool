@@ -25,6 +25,8 @@ export class BiomarkerOverviewComponent implements AfterViewInit {
   }
 
   public keys(object: object): Array<string> {
-    return Object.keys(object);
+    if (object) {
+      return Object.keys(object);
+    }
   }
 }

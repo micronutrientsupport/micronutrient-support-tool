@@ -35,7 +35,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public abnThreshold = 150;
   public labels: Array<number>;
   public binData: Array<number>;
-  public displayedColumns = ['mean', 'median', 'stdDev', 'min', 'max', 'q1', 'q3', 'n', 'nonApplicables'];
+  public displayedColumns = ['nonApplicables', 'max', 'mean', 'median', 'min', 'n', 'stdDev', 'q1', 'q3'];
 
   public dataSource: MatTableDataSource<TableObject>;
   public selectedNutrient = '';
@@ -232,6 +232,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     const dataArray = new Array<TableObject>();
     dataArray.push(tableObject);
     this.dataSource = new MatTableDataSource(dataArray);
+    console.debug('this.dataSource = ', this.dataSource);
   }
 
   private calcQuartile(arr, q): number {
