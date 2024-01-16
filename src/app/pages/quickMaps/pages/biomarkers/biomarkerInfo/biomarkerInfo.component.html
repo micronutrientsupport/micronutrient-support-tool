@@ -1,15 +1,15 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
     <mat-tab label="Chart">
-      <div class="bmgf-maps-nice-scrollbar" *ngIf="binData">
+      <div class="bmgf-maps-nice-scrollbar">
         <div class="status-chart-header">
           Histogram of <strong>{{ (quickMapsService.ageGenderGroup.obs | async)?.name }}</strong> in
           {{ (quickMapsService.country.obs | async)?.name }}
         </div>
-        <mat-form-field *ngIf="null != chartData" appearance="fill">
-          <mat-label>Bin selection</mat-label>
-          <!-- <mat-select #select (selectionChange)="createBins(select.value)"> -->
-          <!-- <mat-select [(value)]="selectedBinSize" (selectionChange)="createBins()">
+        <!-- <mat-form-field *ngIf="null != chartData" appearance="fill">
+          <mat-label>Bin selection</mat-label> -->
+        <!-- <mat-select #select (selectionChange)="createBins(select.value)"> -->
+        <!-- <mat-select [(value)]="selectedBinSize" (selectionChange)="createBins()">
             <mat-option value="1">1</mat-option>
             <mat-option value="2">2</mat-option>
             <mat-option value="5">5</mat-option>
@@ -17,9 +17,10 @@
             <mat-option value="25">25</mat-option>
             <mat-option value="50">50</mat-option>
           </mat-select> -->
-        </mat-form-field>
+        <!-- </mat-form-field> -->
         <!-- <ngx-chartjs *ngIf="chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
           [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs> -->
+
         <canvas #histo>{{ chartData }}</canvas>
 
         <div class="status-chart-header">Descriptive Statistics</div>

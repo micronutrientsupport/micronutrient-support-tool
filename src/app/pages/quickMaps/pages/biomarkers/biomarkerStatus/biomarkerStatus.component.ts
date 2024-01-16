@@ -188,10 +188,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public setCharacteristicSelection(aggField: string): void {
     this.selectedAggregationField = aggField;
-    if (this.quickMapsService.aggField.get() !== aggField) {
-      this.notificationService.sendInformative('Please update model to view results with the new parameters.');
-    }
+    // if (this.quickMapsService.aggField.get() !== aggField) {
+    //   this.notificationService.sendInformative('Please update model to view results with the new parameters.');
+    // }
     this.quickMapsService.aggField.set(aggField);
+
+    this.quickMapsService.getBiomarkerData();
 
     // Notify user to execute search;
   }

@@ -78,7 +78,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.card.title = this.title;
     this.card.showExpand = true;
-    this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
+    // this.card.setLoadingObservable(this.loadingSrc.asObservable()).setErrorObservable(this.errorSrc.asObservable());
 
     this.subscriptions.push(
       this.card.onExpandClickObs.subscribe(() => this.openDialog()),
@@ -97,8 +97,10 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
         if (data) {
           this.totalStats = data.totalStats;
-          this.binnedValues = data.binnedValues;
-          this.createBins();
+          if (data.binnedValues) {
+            this.binnedValues = data.binnedValues;
+            this.createBins();
+          }
         }
         this.dataSource = new MatTableDataSource(this.totalStats);
         console.debug('data in info', data);
@@ -118,43 +120,45 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   public createBins(): void {
-    // Set bins
-    const arr = this.binnedValues.binData;
-    if (null != arr) {
-      const bins = new Array<BinObject>();
-      let binCount = 0;
-      const interval = Number(this.binnedValues.binSize);
-      const numOfBuckets = Math.max(...arr);
+    if (this.binnedValues) {
+      // Set bins
+      const arr = this.binnedValues.binData;
+      if (null != arr) {
+        const bins = new Array<BinObject>();
+        let binCount = 0;
+        const interval = Number(this.binnedValues.binSize);
+        const numOfBuckets = Math.max(...arr);
 
-      // Setup Bins
-      for (let i = 0; i < numOfBuckets; i += interval) {
-        bins.push({
-          binNum: binCount,
-          minNum: i,
-          maxNum: i + interval,
-          count: 0,
+        // Setup Bins
+        for (let i = 0; i < numOfBuckets; i += interval) {
+          bins.push({
+            binNum: binCount,
+            minNum: i,
+            maxNum: i + interval,
+            count: 0,
+          });
+          binCount++;
+        }
+
+        // Loop through data and add to bin's count
+        arr.forEach((value: number) => {
+          bins.forEach((bin: BinObject) => {
+            if (value > bin.minNum && value <= bin.maxNum) {
+              bin.count++;
+            }
+          });
         });
-        binCount++;
+
+        this.binData = bins.map((item: BinObject) => item.count);
+        this.labels = bins.map((item: BinObject) => item.maxNum);
+
+        this.setChart();
       }
-
-      // Loop through data and add to bin's count
-      arr.forEach((value: number) => {
-        bins.forEach((bin: BinObject) => {
-          if (value > bin.minNum && value <= bin.maxNum) {
-            bin.count++;
-          }
-        });
-      });
-
-      this.binData = bins.map((item: BinObject) => item.count);
-      this.labels = bins.map((item: BinObject) => item.maxNum);
-
-      this.setChart();
     }
   }
 
   private init(): void {
-    this.loadingSrc.next(true);
+    // this.loadingSrc.next(true);
     let ageGenderGroupName = '';
 
     switch (this.selectedAgeGenderGroup) {
@@ -219,8 +223,12 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   private setChart() {
-    this.counter++;
-    if (this.counter === 1) {
+    // this.counter++;
+    // if (this.counter === 1) {
+    if (this.c1) {
+      if (this.chartData) {
+        this.chartData.destroy();
+      }
       const ctx = this.c1.nativeElement.getContext('2d');
       const generatedChart = new Chart(ctx, {
         type: 'bar',
@@ -294,6 +302,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       });
       this.chartData = generatedChart;
     }
+    // }
   }
 
   private openDialog(): void {

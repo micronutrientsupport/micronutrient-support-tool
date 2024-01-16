@@ -27,5 +27,6 @@ export class Biomarker extends BaseObject {
     this.aggregatedStats = this._getArray(Biomarker.KEYS.AGGREGATED_STATS);
     this.aggregatedOutliers = this._getArray(Biomarker.KEYS.AGGREGATED_OUTLIERS);
     this.aggregatedThresholds = this._getValue(Biomarker.KEYS.AGGREGATED_THRESHOLDS) as AggregatedThresholds;
+    this.binnedValues = this._getValue(Biomarker.KEYS.BINNED_VALUES) as BinnedValues;
   }
 }
