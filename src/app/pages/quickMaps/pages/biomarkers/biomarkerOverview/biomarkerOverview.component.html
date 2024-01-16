@@ -9,13 +9,11 @@
     ({{ (quickMapsService.biomarkerDataSource.obs | async)?.year }})
   </span>
   <span class="separator"></span>
-  <span>
-    Deficient: <strong class="red">{{ 0.22 | percent }}</strong>
-  </span>
-  <span>
-    Excess: <strong class="red">{{ 0.22 | percent }}</strong>
-  </span>
-  <span>
-    Adequate: <strong class="green">{{ 0.22 | percent }}</strong>
+  <span *ngIf="activeBiomarker">
+    <span *ngFor="let threshold of keys(activeBiomarker.totalThresholds);">
+      {{ threshold | titlecase }}: <strong class="red">{{ activeBiomarker.totalThresholds[threshold][0][threshold] |
+        percent
+        }}</strong>
+    </span>
   </span>
 </div>
