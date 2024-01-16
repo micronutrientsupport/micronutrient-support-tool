@@ -75,13 +75,18 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
       this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
-        this.createBins();
+        //  this.createBins();
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
+        console.log({ activeBM: this.activeBiomarker });
       }),
-      // this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-      //   console.debug('data in info', data);
-      // }),
+      this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
+        this.activeBiomarker = data;
+        this.binData = this.activeBiomarker.binnedValues.binData;
+        this.labels = this.activeBiomarker.binnedValues.binLabel;
+        this.setChart();
+        console.log({ activeBM: this.activeBiomarker });
+      }),
     );
   }
 
@@ -127,6 +132,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
       this.binData = bins.map((item: BinObject) => item.count);
       this.labels = bins.map((item: BinObject) => item.maxNum);
+
+      console.log({ binData: this.binData, binLabels: this.labels });
+      console.log({ biomarker: this.activeBiomarker });
 
       this.setChart();
     }
@@ -179,7 +187,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
         this.mineralData = filteredArray;
         this.generateTable();
-        this.createBins(); // set interval
+        //  this.createBins(); // set interval
         this.cdr.detectChanges();
       })
       .finally(() => {
