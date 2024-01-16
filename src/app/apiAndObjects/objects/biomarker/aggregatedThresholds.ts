@@ -5,17 +5,20 @@ export class AggregatedThresholds extends BaseObject {
     DEFICIENCY_1: 'deficiency1',
     EXCESS_1: 'excess1',
     EXCESS_2: 'excess2',
+    TOTAL: 'total',
   };
 
   public readonly deficiency1: Array<Deficiency1>;
   public readonly excess1: Array<Excess1>;
   public readonly excess2: Array<Excess2>;
+  public readonly total: Array<Total>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
     this.deficiency1 = this._getArray(AggregatedThresholds.KEYS.DEFICIENCY_1);
     this.excess1 = this._getArray(AggregatedThresholds.KEYS.EXCESS_1);
     this.excess2 = this._getArray(AggregatedThresholds.KEYS.EXCESS_2);
+    this.total = this._getArray(AggregatedThresholds.KEYS.TOTAL);
   }
 }
 
@@ -38,4 +41,11 @@ export interface Excess2 {
   confidenceIntervalLower: number;
   confidenceIntervalUpper: number;
   excess2: number;
+}
+
+export interface Total {
+  aggregation: string;
+  confidenceIntervalLower: number;
+  confidenceIntervalUpper: number;
+  total: number;
 }
