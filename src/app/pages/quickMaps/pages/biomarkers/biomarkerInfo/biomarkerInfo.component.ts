@@ -17,6 +17,7 @@ import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
+import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -39,6 +40,7 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
   public labels: Array<number>;
   public bmAggStats: Array<AggregatedStats>;
   public bmAggOutliers: Array<AggregatedOutliers>;
+  public bmTotalStats: Array<TotalStats>;
   public displayedColumns = ['nonApplicables', 'max', 'mean', 'median', 'min', 'n', 'stdDev', 'q1', 'q3'];
 
   public dataSource: MatTableDataSource<TableObject>;
@@ -78,21 +80,18 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
       this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
       }),
-      this.quickMapsService.biomarkerParameterChangedObs.subscribe(() => {
-        //  this.createBins();
-        // Perhaps this can be used to trigger messgage to show tell user to refresh model
-        this.init();
-        // console.log({ activeBM: this.activeBiomarker });
-      }),
+
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
         if (data) {
           this.loadingSrc.next(true);
           this.activeBiomarker = data;
           this.bmAggStats = this.activeBiomarker.aggregatedStats;
           this.bmAggOutliers = this.activeBiomarker.aggregatedOutliers;
+          this.bmTotalStats = this.activeBiomarker.totalStats;
           this.labels = this.activeBiomarker.binnedValues.binLabel;
+
           this.setChart();
-          // console.log({ activeBM: this.activeBiomarker });
+          this.generateTable();
         }
       }),
     );
@@ -120,119 +119,24 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private init(): void {
-    this.loadingSrc.next(true);
-    let ageGenderGroupName = '';
-
-    switch (this.selectedAgeGenderGroup) {
-      case 'Adult Women':
-        ageGenderGroupName = 'WRA';
-        break;
-      case 'Adult Men':
-        ageGenderGroupName = 'Men';
-        break;
-      case 'Children':
-        ageGenderGroupName = 'PSC';
-        break;
-      default: {
-        ageGenderGroupName = null;
-        break;
-      }
-    }
-
-    void lastValueFrom(this.http.get('./assets/dummyData/FakeBiomarkerDataForDev.csv', { responseType: 'text' }))
-      .then((data: string) => {
-        const blob = this.papa.parse(data, { header: true }).data;
-        const dataArray = new Array<AdditionalInformationData>();
-
-        blob.forEach((simpleData) => {
-          const additionalData: AdditionalInformationData = {
-            ageGenderGroup: simpleData.DemoGpN,
-            zincLevelOne: simpleData.ZnAdj_gdL,
-          };
-          dataArray.push(additionalData);
-        });
-
-        const filteredArray = dataArray
-          .filter((item: AdditionalInformationData) => {
-            if (ageGenderGroupName) {
-              return item.ageGenderGroup === ageGenderGroupName;
-            } else {
-              return item;
-            }
-          })
-          .map((item: AdditionalInformationData) => Number(item.zincLevelOne))
-          .filter((value: number) => value != null) // removes any null values
-          .filter((value: number) => !isNaN(value)); // removes any NaN values
-
-        this.mineralData = filteredArray;
-        this.generateTable();
-        //  this.createBins(); // set interval
-        this.cdr.detectChanges();
-      })
-      .finally(() => {
-        this.cdr.detectChanges();
-        this.loadingSrc.next(false);
-      })
-      .catch((e) => {
-        this.errorSrc.next(true);
-        throw e;
-      });
-  }
-
   private generateTable() {
-    const sortedArray = this.mineralData.sort((a, b) => a - b);
-    const n = sortedArray.length;
-    const mean = sortedArray.reduce((acc, val) => acc + val, 0) / n;
-    const median = (sortedArray[Math.floor((n - 1) / 2)] + sortedArray[Math.ceil((sortedArray.length - 1) / 2)]) / 2;
-    const standardDeviation = Math.sqrt(
-      sortedArray
-        .reduce((acc: Array<number>, val: number) => acc.concat((val - mean) ** 2), [])
-        .reduce((acc, val) => acc + val, 0) /
-        (n - 1),
-    );
-    const min = Math.min(...sortedArray);
-    const max = Math.max(...sortedArray);
-    const q1 = this.calcQuartile(sortedArray, 1);
-    const q3 = this.calcQuartile(sortedArray, 3);
-    const nonApplicables = this.mineralData.length - sortedArray.length;
-
     const tableObject: TableObject = {
-      mean: mean,
-      median: median,
-      stdDev: standardDeviation,
-      min: min,
-      max: max,
-      q1: q1,
-      q3: q3,
-      n: n,
-      nonApplicables: nonApplicables, // TODO: confirm is guff data frequency;
+      mean: this.bmTotalStats[0].mean,
+      median: this.bmTotalStats[0].median,
+      stdDev: this.bmTotalStats[0].standardDeviation,
+      min: this.bmTotalStats[0].minimum,
+      max: this.bmTotalStats[0].maximum,
+      q1: this.bmTotalStats[0].lowerQuartile,
+      q3: this.bmTotalStats[0].upperQuartile,
+      n: this.bmTotalStats[0].n,
+      nonApplicables: this.bmTotalStats[0].NaS,
     };
 
     const dataArray = new Array<TableObject>();
     dataArray.push(tableObject);
     this.dataSource = new MatTableDataSource(dataArray);
-  }
 
-  private calcQuartile(arr, q): number {
-    // Turn q into a decimal (e.g. 95 becomes 0.95)
-    q = q / 100;
-
-    // Sort the array into ascending order
-
-    // Work out the position in the array of the percentile point
-    const p = (arr.length - 1) * q;
-    const b = Math.floor(p);
-
-    // Work out what we rounded off (if anything)
-    const remainder = p - b;
-
-    // See whether that data exists directly
-    if (arr[b + 1] !== undefined) {
-      return parseFloat(arr[b]) + remainder * (parseFloat(arr[b + 1]) - parseFloat(arr[b]));
-    } else {
-      return parseFloat(arr[b]);
-    }
+    this.cdr.detectChanges();
   }
 
   public tabChanged(tabChangeEvent: MatTabChangeEvent): void {
