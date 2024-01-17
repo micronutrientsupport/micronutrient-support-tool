@@ -352,10 +352,3 @@ interface TableObject {
   n: number;
   nonApplicables: number;
 }
-
-interface BinObject {
-  binNum: number;
-  minNum: number;
-  maxNum: number;
-  count: number;
-}
