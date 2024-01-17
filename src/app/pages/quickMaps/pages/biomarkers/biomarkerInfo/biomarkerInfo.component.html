@@ -3,11 +3,14 @@
     <mat-tab label="Chart">
       <div class="bmgf-maps-nice-scrollbar">
         <div class="status-chart-header">
-          Boxplot of <strong>{{ (quickMapsService.ageGenderGroup.obs | async)?.name }}</strong> in
+          Histogram of <strong>{{ (quickMapsService.ageGenderGroup.obs | async)?.name }}</strong> in
           {{ (quickMapsService.country.obs | async)?.name }}
         </div>
 
-        <canvas #histo>{{ chartData }}</canvas>
+        <div class="chart-container" style="position: relative; width:100%">
+          <canvas #histo>{{ chartData }}</canvas>
+        </div>
+
 
         <div class="status-chart-header">Descriptive Statistics</div>
 

@@ -136,6 +136,11 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
         this.biomarkerDataUpdating = updating;
+        if (updating) {
+          this.loadingSrc.next(true);
+        } else if (!updating) {
+          this.loadingSrc.next(false);
+        }
         this.cdr.detectChanges();
       }),
       this.quickMapsService.biomarkerDataSource.obs.subscribe((data: BiomarkerDataSource) => {

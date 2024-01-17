@@ -16,7 +16,6 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
-import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
 
 @Component({
@@ -24,7 +23,7 @@ import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
   templateUrl: './biomarkerInfo.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './biomarkerInfo.component.scss'],
 })
-export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
+export class BiomarkerInfoComponent implements AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('histo') public c1!: ElementRef<HTMLCanvasElement>;
   @Input() card: CardComponent;
@@ -48,7 +47,7 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
   public selectedAgeGenderGroup = '';
   public mineralData: Array<number>;
   public selectedBinSize = '25';
-
+  public binData: Array<number>;
   public activeBiomarker: Biomarker;
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
@@ -60,8 +59,6 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
   constructor(
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient,
-    private papa: Papa,
     public quickMapsService: QuickMapsService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
   ) {}
@@ -85,6 +82,8 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
         if (data) {
           this.loadingSrc.next(true);
           this.activeBiomarker = data;
+
+          this.binData = this.activeBiomarker.binnedValues.binData;
           this.bmAggStats = this.activeBiomarker.aggregatedStats;
           this.bmAggOutliers = this.activeBiomarker.aggregatedOutliers;
           this.bmTotalStats = this.activeBiomarker.totalStats;
@@ -102,10 +101,6 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
         this.loadingSrc.next(true);
       }
     });
-  }
-
-  ngOnInit(): void {
-    Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale);
   }
 
   ngOnDestroy(): void {
@@ -152,29 +147,22 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
 
     const ctx = this.c1.nativeElement.getContext('2d');
     const generatedChart = new Chart(ctx, {
-      type: 'boxplot',
+      type: 'bar',
       data: {
-        labels: this.bmAggStats.map((a) => a.aggregation),
+        labels: this.labels,
         datasets: [
           {
             label: `${this.selectedNutrient}`,
-            backgroundColor: () => '#ff6384',
-            borderColor: '#000000',
-            outlierRadius: 4,
-            data: this.bmAggStats.map((val, index) => ({
-              min: val.minimum,
-              q1: val.lowerQuartile,
-              median: val.median,
-              q3: val.upperQuartile,
-              max: val.maximum,
-              outliers: this.bmAggOutliers[index] ? this.bmAggOutliers[index].measurement : [],
-            })),
+            backgroundColor: () => 'rgba(0,220,255,0.5)',
+            borderColor: 'rgba(0,220,255,0.5)',
+            // outlierColor: 'rgba(0,0,0,0.5)',
+            // outlierRadius: 4,
+            data: this.binData,
           },
         ],
       },
       options: {
         devicePixelRatio: 2,
-        maintainAspectRatio: false,
         scales: {
           x: {
             title: {
@@ -190,41 +178,41 @@ export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
           },
         },
         plugins: {
-          // title: {
-          //   display: false,
-          //   text: this.title,
-          // },
-          // annotation: {
-          //   annotations: [
-          //     {
-          //       type: 'line',
-          //       // mode: 'vertical',
-          //       scaleID: 'x-axis-0',
-          //       value: this.defThreshold,
-          //       borderWidth: 2.0,
-          //       borderColor: 'rgba(255,0,0,0.5)',
-          //       label: {
-          //         // enabled: true,
-          //         content: 'Deficiency threshold',
-          //         backgroundColor: 'rgba(255,0,0,0.8)',
-          //       },
-          //     },
-          //     {
-          //       type: 'line',
-          //       id: 'abnLine',
-          //       // mode: 'vertical',
-          //       scaleID: 'x-axis-0',
-          //       value: this.abnThreshold,
-          //       borderWidth: 2.0,
-          //       borderColor: 'rgba(0,0,255,0.5)',
-          //       label: {
-          //         // enabled: true,
-          //         content: 'Threshold for abnormal values',
-          //         backgroundColor: 'rgba(0,0,255,0.8)',
-          //       },
-          //     },
-          //   ],
-          // },
+          title: {
+            display: false,
+            text: this.title,
+          },
+          annotation: {
+            annotations: [
+              {
+                type: 'line',
+                // mode: 'vertical',
+                scaleID: 'x-axis-0',
+                value: this.defThreshold,
+                borderWidth: 2.0,
+                borderColor: 'rgba(255,0,0,0.5)',
+                label: {
+                  // enabled: true,
+                  content: 'Deficiency threshold',
+                  backgroundColor: 'rgba(255,0,0,0.8)',
+                },
+              },
+              {
+                type: 'line',
+                id: 'abnLine',
+                // mode: 'vertical',
+                scaleID: 'x-axis-0',
+                value: this.abnThreshold,
+                borderWidth: 2.0,
+                borderColor: 'rgba(0,0,255,0.5)',
+                label: {
+                  // enabled: true,
+                  content: 'Threshold for abnormal values',
+                  backgroundColor: 'rgba(0,0,255,0.8)',
+                },
+              },
+            ],
+          },
         },
       },
     });
