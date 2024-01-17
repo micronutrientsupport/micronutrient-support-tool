@@ -16,6 +16,7 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
+import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -102,6 +103,10 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         this.loadingSrc.next(true);
       }
     });
+  }
+
+  ngOnInit(): void {
+    Chart.register(BoxPlotChart);
   }
 
   ngOnDestroy(): void {
