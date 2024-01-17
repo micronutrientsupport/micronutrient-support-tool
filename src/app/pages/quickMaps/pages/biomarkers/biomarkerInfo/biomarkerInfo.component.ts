@@ -1,5 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
