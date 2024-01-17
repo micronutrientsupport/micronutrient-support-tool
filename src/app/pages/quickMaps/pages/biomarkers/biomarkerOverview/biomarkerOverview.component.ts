@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { QuickMapsService } from '../../../quickMaps.service';
-import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,8 +18,7 @@ export class BiomarkerOverviewComponent implements AfterViewInit {
     this.subscriptions.push(
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
         this.activeBiomarker = data;
-
-        this.activeBiomarker.totalThresholds;
+        // this.activeBiomarker.totalThresholds;
       }),
     );
   }

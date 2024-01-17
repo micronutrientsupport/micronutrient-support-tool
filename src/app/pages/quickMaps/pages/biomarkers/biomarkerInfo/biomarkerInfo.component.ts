@@ -13,7 +13,9 @@ import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
-import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
+import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
+import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -34,7 +36,8 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public defThreshold = 70;
   public abnThreshold = 150;
   public labels: Array<number>;
-  public binData: Array<number>;
+  public bmAggStats: Array<AggregatedStats>;
+  public bmAggOutliers: Array<AggregatedOutliers>;
   public displayedColumns = ['nonApplicables', 'max', 'mean', 'median', 'min', 'n', 'stdDev', 'q1', 'q3'];
 
   public dataSource: MatTableDataSource<TableObject>;
@@ -47,9 +50,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
 
   private loadingSrc = new BehaviorSubject<boolean>(false);
   private errorSrc = new BehaviorSubject<boolean>(false);
+  public biomarkerDataUpdating = false;
 
   private subscriptions = new Array<Subscription>();
-  private counter = 0;
 
   constructor(
     private dialogService: DialogService,
@@ -78,16 +81,27 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         //  this.createBins();
         // Perhaps this can be used to trigger messgage to show tell user to refresh model
         this.init();
-        console.log({ activeBM: this.activeBiomarker });
+        // console.log({ activeBM: this.activeBiomarker });
       }),
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
-        this.activeBiomarker = data;
-        this.binData = this.activeBiomarker.binnedValues.binData;
-        this.labels = this.activeBiomarker.binnedValues.binLabel;
-        this.setChart();
-        console.log({ activeBM: this.activeBiomarker });
+        if (data) {
+          this.loadingSrc.next(true);
+          this.activeBiomarker = data;
+          this.bmAggStats = this.activeBiomarker.aggregatedStats;
+          this.bmAggOutliers = this.activeBiomarker.aggregatedOutliers;
+          this.labels = this.activeBiomarker.binnedValues.binLabel;
+          this.setChart();
+          // console.log({ activeBM: this.activeBiomarker });
+        }
       }),
     );
+
+    this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
+      this.biomarkerDataUpdating = updating;
+      if (updating) {
+        this.loadingSrc.next(true);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -99,45 +113,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public navigateToInfoTab(): void {
     this.selectedTab = 4;
     this.cdr.detectChanges();
-  }
-
-  public createBins(): void {
-    // Set bins
-    const arr = this.mineralData;
-    if (null != arr) {
-      const bins = new Array<BinObject>();
-      let binCount = 0;
-      const interval = Number(this.selectedBinSize);
-      const numOfBuckets = Math.max(...arr);
-
-      // Setup Bins
-      for (let i = 0; i < numOfBuckets; i += interval) {
-        bins.push({
-          binNum: binCount,
-          minNum: i,
-          maxNum: i + interval,
-          count: 0,
-        });
-        binCount++;
-      }
-
-      // Loop through data and add to bin's count
-      arr.forEach((value: number) => {
-        bins.forEach((bin: BinObject) => {
-          if (value > bin.minNum && value <= bin.maxNum) {
-            bin.count++;
-          }
-        });
-      });
-
-      this.binData = bins.map((item: BinObject) => item.count);
-      this.labels = bins.map((item: BinObject) => item.maxNum);
-
-      console.log({ binData: this.binData, binLabels: this.labels });
-      console.log({ biomarker: this.activeBiomarker });
-
-      this.setChart();
-    }
   }
 
   private init(): void {
@@ -232,7 +207,6 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     const dataArray = new Array<TableObject>();
     dataArray.push(tableObject);
     this.dataSource = new MatTableDataSource(dataArray);
-    console.debug('this.dataSource = ', this.dataSource);
   }
 
   private calcQuartile(arr, q): number {
@@ -263,81 +237,90 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   private setChart() {
-    this.counter++;
-    if (this.counter === 1) {
-      const ctx = this.c1.nativeElement.getContext('2d');
-      const generatedChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: this.labels,
-          datasets: [
-            {
-              label: `${this.selectedNutrient}`,
-              backgroundColor: () => 'rgba(0,220,255,0.5)',
-              borderColor: 'rgba(0,220,255,0.5)',
-              // outlierColor: 'rgba(0,0,0,0.5)',
-              // outlierRadius: 4,
-              data: this.binData,
-            },
-          ],
-        },
-        options: {
-          devicePixelRatio: 2,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: `Concentration of ${this.selectedNutrient} in microg/DI`,
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: `Number of ${this.selectedAgeGenderGroup}`,
-              },
-            },
-          },
-          plugins: {
-            title: {
-              display: false,
-              text: this.title,
-            },
-            annotation: {
-              annotations: [
-                {
-                  type: 'line',
-                  // mode: 'vertical',
-                  scaleID: 'x-axis-0',
-                  value: this.defThreshold,
-                  borderWidth: 2.0,
-                  borderColor: 'rgba(255,0,0,0.5)',
-                  label: {
-                    // enabled: true,
-                    content: 'Deficiency threshold',
-                    backgroundColor: 'rgba(255,0,0,0.8)',
-                  },
-                },
-                {
-                  type: 'line',
-                  id: 'abnLine',
-                  // mode: 'vertical',
-                  scaleID: 'x-axis-0',
-                  value: this.abnThreshold,
-                  borderWidth: 2.0,
-                  borderColor: 'rgba(0,0,255,0.5)',
-                  label: {
-                    // enabled: true,
-                    content: 'Threshold for abnormal values',
-                    backgroundColor: 'rgba(0,0,255,0.8)',
-                  },
-                },
-              ],
-            },
-          },
-        },
-      });
-      this.chartData = generatedChart;
+    if (this.chartData) {
+      this.chartData.destroy();
     }
+
+    const ctx = this.c1.nativeElement.getContext('2d');
+    const generatedChart = new Chart(ctx, {
+      type: 'boxplot',
+      data: {
+        labels: this.bmAggStats.map((a) => a.aggregation),
+        datasets: [
+          {
+            label: `${this.selectedNutrient}`,
+            backgroundColor: () => '#ff6384',
+            borderColor: '#000000',
+            outlierRadius: 4,
+            data: this.bmAggStats.map((val, index) => ({
+              min: val.minimum,
+              q1: val.lowerQuartile,
+              median: val.median,
+              q3: val.upperQuartile,
+              max: val.maximum,
+              outliers: this.bmAggOutliers[index] ? this.bmAggOutliers[index].measurement : [],
+            })),
+          },
+        ],
+      },
+      options: {
+        devicePixelRatio: 2,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: `Number of ${this.selectedAgeGenderGroup}`,
+            },
+          },
+        },
+        plugins: {
+          // title: {
+          //   display: false,
+          //   text: this.title,
+          // },
+          // annotation: {
+          //   annotations: [
+          //     {
+          //       type: 'line',
+          //       // mode: 'vertical',
+          //       scaleID: 'x-axis-0',
+          //       value: this.defThreshold,
+          //       borderWidth: 2.0,
+          //       borderColor: 'rgba(255,0,0,0.5)',
+          //       label: {
+          //         // enabled: true,
+          //         content: 'Deficiency threshold',
+          //         backgroundColor: 'rgba(255,0,0,0.8)',
+          //       },
+          //     },
+          //     {
+          //       type: 'line',
+          //       id: 'abnLine',
+          //       // mode: 'vertical',
+          //       scaleID: 'x-axis-0',
+          //       value: this.abnThreshold,
+          //       borderWidth: 2.0,
+          //       borderColor: 'rgba(0,0,255,0.5)',
+          //       label: {
+          //         // enabled: true,
+          //         content: 'Threshold for abnormal values',
+          //         backgroundColor: 'rgba(0,0,255,0.8)',
+          //       },
+          //     },
+          //   ],
+          // },
+        },
+      },
+    });
+    this.chartData = generatedChart;
+    this.loadingSrc.next(false);
   }
 
   private openDialog(): void {

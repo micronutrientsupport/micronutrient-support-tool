@@ -15,7 +15,7 @@ import { QuickMapsQueryParamKey } from './queryParams/quickMapsQueryParamKey.enu
 import { DictItemConverter } from './queryParams/converters/dictItemConverter';
 import { StringConverter } from './queryParams/converters/stringConverter';
 import { ActivatedRoute } from '@angular/router';
-import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { GetBiomarkerParams } from 'src/app/apiAndObjects/api/biomarker/getBiomarker';
 
@@ -276,7 +276,6 @@ export class QuickMapsService {
         false,
       )
       .then((data: Array<Biomarker>) => {
-        console.debug('WHAT IS THIS DATA ERROR', data);
         this.biomarkerDataSrc.next(data.shift());
       })
       .finally(() => this.biomarkerDataUpdatingSrc.set(false));

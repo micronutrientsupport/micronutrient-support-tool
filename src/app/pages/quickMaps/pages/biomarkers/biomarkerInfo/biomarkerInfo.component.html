@@ -6,8 +6,6 @@
           Histogram of <strong>{{ (quickMapsService.ageGenderGroup.obs | async)?.name }}</strong> in
           {{ (quickMapsService.country.obs | async)?.name }}
         </div>
-        <!-- <ngx-chartjs *ngIf="chartData" id="histo" [data]="chartData.data" [type]="chartData.type"
-          [options]="chartData.options" [plugins]="chartData.plugins"></ngx-chartjs> -->
 
         <canvas #histo>{{ chartData }}</canvas>
 
