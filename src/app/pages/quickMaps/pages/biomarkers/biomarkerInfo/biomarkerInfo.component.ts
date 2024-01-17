@@ -1,6 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef, OnInit } from '@angular/core';
-import { Chart, LinearScale, CategoryScale } from 'chart.js';
+import { Chart } from 'chart.js';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -8,8 +8,6 @@ import { ChangeDetectorRef } from '@angular/core';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { Papa } from 'ngx-papaparse';
 import { QuickMapsService } from '../../../quickMaps.service';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';

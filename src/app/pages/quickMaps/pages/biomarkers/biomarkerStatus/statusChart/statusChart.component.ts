@@ -3,14 +3,13 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Chart, LinearScale, CategoryScale } from 'chart.js';
-import { BiomarkerDataType } from '../biomarkerStatus.component';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { CardComponent } from 'src/app/components/card/card.component';
