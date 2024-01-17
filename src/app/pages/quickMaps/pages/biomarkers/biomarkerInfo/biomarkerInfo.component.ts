@@ -1,6 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Component, AfterViewInit, ViewChild, Input, Inject, Optional, ElementRef, OnInit } from '@angular/core';
+import { Chart, LinearScale, CategoryScale } from 'chart.js';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
@@ -16,14 +16,14 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
-import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
+import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 
 @Component({
   selector: 'app-biomarker-info',
   templateUrl: './biomarkerInfo.component.html',
   styleUrls: ['../../expandableTabGroup.scss', './biomarkerInfo.component.scss'],
 })
-export class BiomarkerInfoComponent implements AfterViewInit {
+export class BiomarkerInfoComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   @ViewChild('histo') public c1!: ElementRef<HTMLCanvasElement>;
   @Input() card: CardComponent;
@@ -106,7 +106,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   }
 
   ngOnInit(): void {
-    Chart.register(BoxPlotChart);
+    Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale);
   }
 
   ngOnDestroy(): void {
