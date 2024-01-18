@@ -14,7 +14,7 @@ import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dicti
 import { BiomarkerService } from '../biomarker.service';
 import { StatusMapsComponent } from './statusMaps/statusMaps.component';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
-import { Biomarker } from 'src/app/apiAndObjects/objects/biomaker';
+import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 
@@ -130,12 +130,17 @@ export class BiomarkerStatusComponent implements AfterViewInit {
           Object.entries(data.aggregatedThresholds).forEach(([key, value]) => {
             this.dataListMap.set(key, value);
           });
-          console.debug(this.dataListMap);
+          // console.debug(this.dataListMap);
         }
         this.cdr.detectChanges();
       }),
       this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
         this.biomarkerDataUpdating = updating;
+        if (updating) {
+          this.loadingSrc.next(true);
+        } else if (!updating) {
+          this.loadingSrc.next(false);
+        }
         this.cdr.detectChanges();
       }),
       this.quickMapsService.biomarkerDataSource.obs.subscribe((data: BiomarkerDataSource) => {
@@ -188,10 +193,12 @@ export class BiomarkerStatusComponent implements AfterViewInit {
 
   public setCharacteristicSelection(aggField: string): void {
     this.selectedAggregationField = aggField;
-    if (this.quickMapsService.aggField.get() !== aggField) {
-      this.notificationService.sendInformative('Please update model to view results with the new parameters.');
-    }
+    // if (this.quickMapsService.aggField.get() !== aggField) {
+    //   this.notificationService.sendInformative('Please update model to view results with the new parameters.');
+    // }
     this.quickMapsService.aggField.set(aggField);
+
+    this.quickMapsService.getBiomarkerData();
 
     // Notify user to execute search;
   }

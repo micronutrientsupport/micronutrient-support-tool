@@ -35,7 +35,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Map">
+    <mat-tab label="Map" disabled>
 
       <div *ngIf="biomarkerDataUpdating">
         <div class="skeleton-loader-panel">
@@ -62,18 +62,28 @@
       <div class="bmgf-maps-nice-scrollbar">
         <div class="status-element">
           <mat-form-field appearance="outline">
-            <mat-label>Select data</mat-label>
+            <mat-label>Select an Aggregation Threshold</mat-label>
             <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
+              <mat-option *ngFor="let dataType of dataListMap | keyvalue" [value]="dataType">{{dataType.key}}
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <span class="spacer"> by </span>
+          <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
+            <mat-label>Select an Aggregation Field</mat-label>
+            <mat-select [(value)]="selectedAggregationField"
+              (selectionChange)="setCharacteristicSelection($event.value)">
+              <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
+                {{aggField}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        <!-- <app-status-chart [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"></app-status-chart> -->
+        <app-status-chart [biomarkerData]="selectedNutrient"
+          [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-chart>
       </div>
     </mat-tab>
 
-    <mat-tab label="Download">
+    <mat-tab label="Download" disabled>
       <div class="bmgf-maps-nice-scrollbar">
         <div class="status-element">
           <mat-form-field appearance="outline">

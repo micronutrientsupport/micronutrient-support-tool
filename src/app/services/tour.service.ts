@@ -134,9 +134,9 @@ export class TourService {
     position: number,
     transparent = false,
   ): void {
-    console.log(
-      `Add tour step (${popup.title}) to ${tourName} in position ${position} | (Running = ${this.tourActive})`,
-    );
+    // console.log(
+    //   `Add tour step (${popup.title}) to ${tourName} in position ${position} | (Running = ${this.tourActive})`,
+    // );
 
     let stepMap = this.tourSteps.get(tourName);
     if (!stepMap) {

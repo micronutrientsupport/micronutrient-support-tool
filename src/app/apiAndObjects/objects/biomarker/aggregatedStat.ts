@@ -11,6 +11,8 @@ export class AggregatedStats extends BaseObject {
     STANDARD_DEVIATION: 'standardDeviation',
     UPPER_OUTLIER: 'upperOutlier',
     UPPER_QUARTILE: 'upperQuartile',
+    MINIMUM: 'minimum',
+    MAXIMUM: 'maximum',
   };
 
   public readonly aggregation: string;
@@ -22,6 +24,8 @@ export class AggregatedStats extends BaseObject {
   public readonly standardDeviation: number;
   public readonly upperOutlier: number;
   public readonly upperQuartile: number;
+  public readonly minimum: number;
+  public readonly maximum: number;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -34,5 +38,7 @@ export class AggregatedStats extends BaseObject {
     this.standardDeviation = this._getNumber(AggregatedStats.KEYS.STANDARD_DEVIATION);
     this.upperOutlier = this._getNumber(AggregatedStats.KEYS.UPPER_OUTLIER);
     this.upperQuartile = this._getNumber(AggregatedStats.KEYS.UPPER_QUARTILE);
+    this.minimum = this._getNumber(AggregatedStats.KEYS.MINIMUM);
+    this.maximum = this._getNumber(AggregatedStats.KEYS.MAXIMUM);
   }
 }

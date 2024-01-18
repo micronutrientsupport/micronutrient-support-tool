@@ -38,7 +38,7 @@ export class StatusTableComponent implements OnChanges {
   constructor(public quickMapsService: QuickMapsService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    // console.log(changes);
   }
 
   private generateTable(data: SimpleAggregationThreshold) {

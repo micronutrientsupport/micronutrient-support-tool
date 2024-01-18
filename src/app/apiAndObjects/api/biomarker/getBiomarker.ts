@@ -2,7 +2,7 @@ import { CacheableEndpoint } from '../../_lib_code/api/cacheableEndpoint.abstrac
 import { RequestMethod } from '../../_lib_code/api/requestMethod.enum';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { Biomarker } from '../../objects/biomaker';
+import { Biomarker } from '../../objects/biomarker';
 
 export class GetBiomarker extends CacheableEndpoint<Array<Biomarker>, GetBiomarkerParams, Biomarker> {
   protected getCacheKey(params: GetBiomarkerParams): string {
