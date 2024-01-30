@@ -1,3 +1,4 @@
+<!-- <form [formGroup]="form" *ngIf="form"> -->
 <table mat-table [dataSource]="dataSource" class="table-full-width">
   <ng-container matColumnDef="micronutrient">
     <th class="row-title-left focus " mat-header-cell *matHeaderCellDef>
@@ -8,7 +9,7 @@
         class="remove-mn action-button" (click)="removeMn(element, i)">
         <mat-icon>highlight_off</mat-icon>
       </button>
-      <span class="micronutrient-title">{{ element.micronutrient }}</span>
+      <span class="micronutrient-title">{{ mnDictionary.getItem(element.micronutrient).name }}</span>
     </td>
   </ng-container>
   <ng-container matColumnDef="compounds">
@@ -35,7 +36,7 @@
       <div *ngIf="editable" class="double-cell">
         <input type="number" matInput required
           [(ngModel)]="element.selectedCompound && element.selectedCompound.targetVal" (change)="setButtonEdited(i, 1)"
-          min="0">
+          (change)="handleUpdateStandard(element)" min="0">
         <button *ngIf="userEdited(i, 1) === false || userEdited(i, 1) == null" mat-button color="primary">
           GFDx<mat-icon>arrow_right_alt</mat-icon>
         </button>
@@ -89,3 +90,4 @@
   </div>
   <tr mat-row *matRowDef="let row; columns: addedFVdisplayedColumns;"></tr>
 </table>
+<!-- </form> -->

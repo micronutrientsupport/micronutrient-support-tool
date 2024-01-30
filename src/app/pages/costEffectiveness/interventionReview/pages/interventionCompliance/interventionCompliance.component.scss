@@ -1,5 +1,7 @@
+@use '@angular/material' as mat;
 @use '../interventionReviewPages.scss';
 @import 'src/assets/scss/_colour';
+
 input {
   // display: block;
   font-family: inherit;
@@ -23,4 +25,15 @@ input {
 input.ng-dirty {
   color: $color_input_blue;
   border-color: $color_input_blue;
+}
+
+.lower-table-wrapper ::ng-deep .mdc-data-table__content tr:nth-child(1) td {
+  color: $color_primary;
+  font-weight: bold;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  min-width: 6em;
+}
+
+.loading-indicator {
+  display: inline-block;
 }

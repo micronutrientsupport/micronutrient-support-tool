@@ -58,8 +58,6 @@ export interface IndustryInformation {
   dataSource: string;
   isEditable: boolean;
   isCalculated: boolean;
-  missingData: IndustryInformationMissingData;
-  missingRows: Array<number>;
   year0Edited: number;
   year1Edited: number;
   year2Edited: number;

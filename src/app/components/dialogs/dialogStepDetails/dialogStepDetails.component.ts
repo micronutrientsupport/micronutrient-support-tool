@@ -11,6 +11,7 @@ export class DialogStepDetailsComponent {
   constructor(private dialogService: DialogService) {}
   @Input('resetDefaultValues') public resetDefaultValues = false;
   @Input('showUserValues') public showUserValues = false;
+  @Input('showNonEditable') public showNonEditable = false;
   @Output('resetValues') reset: EventEmitter<void> = new EventEmitter();
 
   public resetValues(): void {

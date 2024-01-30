@@ -31,6 +31,9 @@ import { ApiMetadataDialogComponent } from './apiMetadataDialog/apiMetadataDialo
 import { DialogStepDetailsComponent } from './dialogStepDetails/dialogStepDetails.component';
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
+import { InterventionInputFieldComponent } from 'src/app/pages/costEffectiveness/interventionReview/components/ceInputField/ceInputField.component';
+import { ComponentsModule } from '../components.module';
+import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premixCostReviewDialog.component';
 
 @NgModule({
   declarations: [
@@ -54,9 +57,11 @@ import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDi
     WelcomeDialogComponent,
     WelcomeCEDialogComponent,
     SectionSummaryRecurringCostReviewDialogComponent,
+    PremixCostReviewDialogComponent,
     DialogStepDetailsComponent,
     UserLoginDialogComponent,
     UserRegisterDialogComponent,
+    InterventionInputFieldComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +74,7 @@ import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDi
     PipesModule,
     DirectivesModule,
   ],
-  exports: [BaseDialogComponent],
+  exports: [BaseDialogComponent, InterventionInputFieldComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DialogModule {}

@@ -29,6 +29,7 @@ import { WelcomeCEDialogComponent } from './welcomeCEDialog/dialogCEWelcome.comp
 import { Params } from '@angular/router';
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
+import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premixCostReviewDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -181,6 +182,17 @@ export class DialogService extends BaseDialogService {
     height = '80vh',
   ): Promise<DialogData<StartUpCosts>> {
     return this.openDialog('openSectionCostReviewDialog', SectionStartUpCostReviewDialogComponent, false, costs, {
+      width: width,
+      height: height,
+    });
+  }
+
+  public openPremixCostReviewDialog(
+    costs: RecurringCosts,
+    width = '70vw',
+    height = '70vh',
+  ): Promise<DialogData<RecurringCosts>> {
+    return this.openDialog('openPremixCostReviewDialog', PremixCostReviewDialogComponent, false, costs, {
       width: width,
       height: height,
     });

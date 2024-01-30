@@ -13,9 +13,15 @@
       </div>
     </div>
     <div class="item-group">
-      <div *ngIf="showUserValues" class="item-bottom-row">User defined values<div class='box blue'></div>
+      <div *ngIf="showUserValues" class="item-bottom-row">Model-calculated values (dynamic)<div class='box calculated'>
+        </div>
       </div>
-      <div class="item-bottom-row">Non-editable values<div class='box grey'></div>
+      <div *ngIf="showUserValues" class="item-bottom-row">User-overridden values (static)<div class='box overridden'>
+        </div>
+      </div>
+      <div *ngIf="showUserValues" class="item-bottom-row">User-defined values<div class='box blue'></div>
+      </div>
+      <div *ngIf="showNonEditable" class="item-bottom-row">Non-editable values<div class='box grey'></div>
       </div>
     </div>
   </div>

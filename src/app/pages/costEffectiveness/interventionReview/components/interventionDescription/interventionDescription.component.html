@@ -14,11 +14,13 @@
 <div class="intervention-summary-panel">
   <div class="item">
     <div class="title">Nation:</div>
-    <div class="value">{{ selectedIntervention?.countryId }}</div>
+    <div class="value" *ngIf="countryDictionary">{{ countryDictionary.getItem(selectedIntervention?.countryId).name }}
+    </div>
   </div>
   <div class="item">
     <div class="title">Micronutrient:</div>
-    <div class="value">{{ selectedIntervention?.focusMicronutrient }}</div>
+    <div class="value" *ngIf="mnDictionary">{{ mnDictionary.getItem(selectedIntervention?.focusMicronutrient).name }}
+    </div>
   </div>
   <div class="item">
     <div class="title">Intervention type:</div>

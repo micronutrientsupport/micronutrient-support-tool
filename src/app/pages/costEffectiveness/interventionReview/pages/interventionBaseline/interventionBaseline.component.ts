@@ -15,7 +15,7 @@ import {
 } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { AppRoutes } from 'src/app/routes/routes';
+import { getRoute, AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
@@ -25,6 +25,10 @@ import { DictionaryService } from 'src/app/services/dictionary.service';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictionaryItem.interface';
+import { MatTab } from '@angular/material/tabs';
+import { MatSelectChange } from '@angular/material/select';
+import { runInThisContext } from 'vm';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-intervention-baseline',
@@ -32,19 +36,21 @@ import { DictionaryItem } from 'src/app/apiAndObjects/_lib_code/objects/dictiona
   styleUrls: ['./interventionBaseline.component.scss'],
 })
 export class InterventionBaselineComponent implements AfterViewInit {
+  public baseYear = 2021;
   public dirtyIndexes = [];
   public ROUTES = AppRoutes;
   public pageStepperPosition = 0;
 
   public baselineAssumptions: BaselineAssumptions;
   public selectedCompound: FoodVehicleCompound;
-  public activeNutrientFVS: Array<FoodVehicleStandard>;
 
   public dataSource = new MatTableDataSource();
+
   public baselinedisplayedColumns = ['title', 'year0'];
 
   public FVdataSource = new MatTableDataSource();
-  public baselineFVdisplayedColumns = ['micronutrient', 'compound', 'targetVal', 'avgVal', 'calcFort'];
+  public baselineFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'calcFort'];
+  // public baselineFVdisplayedColumns = ['year0'];
 
   public optionalUserEnteredAverageAtPointOfFortification = '0';
 
@@ -60,9 +66,25 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public buttonTwoEdited = false;
 
   public dataLoaded = false;
+
+  public loading = false;
+
+  public focusDirtyIndexes = [];
+  public focusVehicleStandards: Array<FoodVehicleStandard>;
+  public focusMnDataSource = new MatTableDataSource();
   public focusMnForm: UntypedFormGroup;
   public focusMnData: Array<Record<string, unknown>> = [];
   public focusMnFormInitVals;
+
+  public premixDirtyIndexes = [];
+  public premixVehicleStandards: FoodVehicleStandard[];
+  public premixMnDataSource = new MatTableDataSource();
+  public premixMnForm: UntypedFormGroup;
+  public premixMnData: Array<Record<string, unknown>> = [];
+  public premixMnFormInitVals;
+
+  public selectedCompounds: { [key: string]: { index: number; rowIndex: number; targetVal: number } } = {};
+
   public mnDictionary: Dictionary;
 
   constructor(
@@ -74,6 +96,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private formBuilder: NonNullableFormBuilder,
     private notificationsService: NotificationsService,
     private readonly dictionariesService: DictionaryService,
+    private router: Router,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
@@ -83,7 +106,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS).then((dictionary) => {
       this.mnDictionary = dictionary;
     });
-    this.initFocusMicronutrientTable();
+    this.initFocusMnTable();
   }
 
   public ngAfterViewInit(): void {
@@ -96,15 +119,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
               .getInterventionFoodVehicleStandards(this.activeInterventionId)
               .then((data: InterventionFoodVehicleStandards) => {
                 if (null != data) {
-                  this.activeNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-                    return standard.micronutrient.includes(intervention.focusMicronutrient);
-                  });
-                  console.log({ activeNutrientFVS: this.activeNutrientFVS });
-                  this.createFVTableObject(this.activeNutrientFVS);
-                  this.compoundAvailable = true;
                   this.initBaselineAssumptionTable();
-
-                  // this.focusMnForm.get('targetVal').setValue(this.activeNutrientFVS[0].compounds[0].targetVal);
                 }
               })
               .catch((err) => {
@@ -117,38 +132,82 @@ export class InterventionBaselineComponent implements AfterViewInit {
     );
   }
 
-  private initFocusMicronutrientTable(): void {
-    this.focusMnForm = this.formBuilder.group({
-      compound: ['', Validators.required],
-      targetVal: [''],
-    });
+  private async initFocusMnTable() {
+    void this.interventionDataService
+      .getInterventionFoodVehicleStandards(this.activeInterventionId)
+      .then(async (data: InterventionFoodVehicleStandards) => {
+        this.cdr.detectChanges();
 
-    this.focusMnForm.valueChanges.pipe(startWith(this.focusMnForm.value), pairwise()).subscribe(([prev, curr]) => {
-      console.log('PREV', prev);
-      console.log('CURR', curr);
+        const intervention = await this.interventionDataService.getIntervention(this.activeInterventionId);
 
-      if (curr.compound && curr.targetVal !== '') {
-        this.focusMnFormInitVals = this.focusMnForm.value;
+        data.foodVehicleStandard.forEach((standard: FoodVehicleStandard, index: number) => {
+          console.log(standard.micronutrient);
 
-        this.selectedCompound = curr.compound;
-        this.selectedCompound.targetVal = curr.targetVal;
-
-        const changesArr = this.focusMnData.filter((item) => item.rowIndex === curr.compound.rowIndex);
-        if (changesArr.length === 0) {
-          this.focusMnData.push({
-            rowIndex: curr.compound.rowIndex,
+          standard.compounds.forEach((compound: FoodVehicleCompound, stdIndex: number) => {
+            console.log(index, compound);
+            if (compound.targetVal > 0) {
+              this.selectedCompounds[standard.micronutrient] = {
+                index: stdIndex,
+                rowIndex: standard.compounds[stdIndex].rowIndex,
+                targetVal: standard.compounds[stdIndex].targetVal,
+              };
+            }
           });
-        } else {
-          changesArr[0].year0 = curr.targetVal;
-        }
 
-        const newInterventionChanges = {
-          ...this.interventionDataService.getInterventionDataChanges(),
-          ...changesArr,
-        };
-        this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
-      }
-    });
+          if (!Object.prototype.hasOwnProperty.call(this.selectedCompounds, standard.micronutrient)) {
+            console.log('No value for ', standard.micronutrient);
+            // this.selectedCompounds[standard.micronutrient] = {
+            //   index: 0,
+            //   rowIndex: standard.compounds[0].rowIndex,
+            //   targetVal: standard.compounds[0].targetVal,
+            // };
+            //data.foodVehicleStandard.splice(index, 1);
+          }
+          console.log('SelCmpd', this.selectedCompounds);
+        });
+
+        this.focusVehicleStandards = data.foodVehicleStandard.filter((standard) => {
+          return standard.micronutrient.includes(intervention.focusMicronutrient);
+        });
+        this.focusMnDataSource = new MatTableDataSource(this.focusVehicleStandards);
+        const focusMnGroupArray = data.foodVehicleStandard.map((item) => {
+          return this.createPremixMnGroup(item);
+        });
+        console.log({ focusMnGroupArray });
+        this.focusMnForm = this.formBuilder.group({
+          items: this.formBuilder.array(focusMnGroupArray),
+        });
+
+        this.premixVehicleStandards = data.foodVehicleStandard.filter((standard) => {
+          return (
+            !standard.micronutrient.includes(intervention.focusMicronutrient) &&
+            Object.prototype.hasOwnProperty.call(this.selectedCompounds, standard.micronutrient)
+          );
+        });
+        this.premixMnDataSource = new MatTableDataSource(this.premixVehicleStandards);
+        const premixMnGroupArray = data.foodVehicleStandard.map((item) => {
+          return this.createPremixMnGroup(item);
+        });
+        this.premixMnForm = this.formBuilder.group({
+          items: this.formBuilder.array(premixMnGroupArray),
+        });
+
+        console.log('init:', { focusMnGroupArray });
+        console.log('stds:', this.premixVehicleStandards);
+        console.log('cmpds', this.selectedCompounds);
+        console.log('datasource:', this.focusMnDataSource);
+        console.log('form:', this.focusMnForm);
+
+        // Mark fields as touched/dirty if they have been previously edited and stored via the API
+        this.interventionDataService.setFormFieldState(this.premixMnForm, this.premixDirtyIndexes, 'targetVal');
+        this.interventionDataService.setFormFieldState(this.focusMnForm, this.focusDirtyIndexes, 'targetVal');
+
+        // Setup watched to track changes made to form fields and store them to the intervention
+        // data service to be synced to the API when needed
+        //this.interventionDataService.initFormChangeWatcher(this.premixMnForm, this.formChanges);
+        this.interventionDataService.initFormChangeWatcher(this.focusMnForm, this.formChanges);
+        console.log(this.focusMnForm.controls);
+      });
   }
 
   private initBaselineAssumptionTable() {
@@ -168,67 +227,28 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
         this.dataLoaded = true;
 
-        const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
-          return Object.entries(b).filter(([key, value]) => value !== a[key]);
-        };
-        const changes = {};
+        // Mark fields as touched/dirty if they have been previously edited and stored via the API
+        this.interventionDataService.setFormFieldState(this.form, this.dirtyIndexes);
 
-        this.form.valueChanges
-          .pipe(
-            startWith(this.form.value),
-            pairwise(),
-            map(([oldState, newState]) => {
-              for (const key in newState.items) {
-                const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-                const rowUnits = this.form.get('items')['controls'][key]['controls'].rowUnits.value;
-                if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
-                  const diff = compareObjs(oldState.items[key], newState.items[key]);
-                  if (Array.isArray(diff) && diff.length > 0) {
-                    diff.forEach((item) => {
-                      if (rowUnits === 'percent') {
-                        if (changes[rowIndex]) {
-                          changes[rowIndex] = {
-                            ...changes[rowIndex],
-                            [item[0]]: Number(item[1]) / 100,
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        } else {
-                          changes[rowIndex] = {
-                            [item[0]]: Number(item[1]) / 100,
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        }
-                      } else {
-                        if (changes[rowIndex]) {
-                          changes[rowIndex] = {
-                            ...changes[rowIndex],
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        } else {
-                          changes[rowIndex] = {
-                            [item[0]]: Number(item[1]),
-                          };
-                          changes[rowIndex]['rowIndex'] = rowIndex;
-                        }
-                      }
-                    });
-                  }
-                }
-              }
-              return changes;
-            }),
-            filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
-          )
-          .subscribe((value) => {
-            this.formChanges = value;
-            const newInterventionChanges = {
-              ...this.interventionDataService.getInterventionDataChanges(),
-              ...this.formChanges,
-            };
-            this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
-          });
+        // Setup watched to track changes made to form fields and store them to the intervention
+        // data service to be synced to the API when needed
+        this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
       });
+  }
+
+  private createPremixMnGroup(item: FoodVehicleStandard): UntypedFormGroup {
+    return this.formBuilder.group({
+      micronutrient: [item.micronutrient],
+      rowIndex: [item.compounds[0].rowIndex, []],
+      rowUnits: [item.compounds[0].rowUnits, []],
+      isEditable: [item.compounds[0].isEditable, []],
+      isCalculated: [false, []],
+      targetVal: [Number(item.compounds[0].targetVal), []],
+      targetValEdited: [Number(item.compounds[0].targetValEdited), []],
+      targetValDefault: [Number(item.compounds[0].targetValDefault), []],
+      // year0Overriden: item.year0Overriden,
+      // year0Formula: item.year0Formula,
+    });
   }
 
   private createBaselineDataGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
@@ -236,45 +256,30 @@ export class InterventionBaselineComponent implements AfterViewInit {
       rowIndex: [item.rowIndex, []],
       rowUnits: [item.rowUnits, []],
       isEditable: [item.isEditable, []],
+      isCalculated: [item.isCalculated, []],
       year0: [Number(item.year0), [Validators.min(0), Validators.max(100)]],
       year0Edited: [Number(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
+      year0Overriden: item.year0Overriden,
+      year0Formula: item.year0Formula,
     });
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 
   public createBaselineTableObject(): void {
     this.rawBaselineDataArray.push(
       this.baselineAssumptions.potentiallyFortified,
       this.baselineAssumptions.actuallyFortified,
-      this.baselineAssumptions /* The above code is declaring a variable named
-      "averageFortificationLevel" in TypeScript. */.averageFortificationLevel,
+      this.baselineAssumptions.averageFortificationLevel,
     );
     this.dataSource = new MatTableDataSource(this.rawBaselineDataArray);
-  }
-
-  public createFVTableObject(fvdata: Array<FoodVehicleStandard>): void {
-    console.log('Creating table with', fvdata[0]);
-    console.log(this.selectedCompound);
-    fvdata[0].compounds.forEach((compound, index) => {
-      console.log(index, compound);
-      if (compound.targetVal > 0) {
-        console.log('Bif');
-        this.selectedCompound = fvdata[0].compounds[index];
-      }
-    });
-    //this.selectedCompound = fvdata[0].compounds[0];
-    this.FVdataSource = new MatTableDataSource(fvdata);
-
-    this.focusMnForm.get('compound').setValue(this.selectedCompound);
-    this.focusMnForm.get('targetVal').setValue(this.selectedCompound.targetVal);
-
-    console.log(this.activeNutrientFVS);
-
-    this.cdr.detectChanges();
   }
 
   public openFortificationInfoDialog(): void {
@@ -307,6 +312,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {
+    console.log('Add new MN!', micronutrient);
     this.newMnInPremix = micronutrient;
   }
 
@@ -319,7 +325,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  public updateBaselineAssumptions() {
+  public updateBaselineAssumptions = () => {
+    console.log('Updateyfy');
     const potentiallyFortified = this.form.controls.items['controls'][0]['controls']['year0'].value / 100;
     const actuallyFortified = this.form.controls.items['controls'][1]['controls']['year0'].value / 100;
     const averageFortificationLevel = this.form.controls.items['controls'][2]['controls']['year0'].value / 100;
@@ -330,6 +337,27 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.baselineAssumptions.potentiallyFortified.year0 = potentiallyFortified;
     this.baselineAssumptions.actuallyFortified.year0 = actuallyFortified;
     this.baselineAssumptions.averageFortificationLevel.year0 = averageFortificationLevel;
+  };
+
+  public updateFVStandard(micronutrient: string) {
+    return ($event: Event) => {
+      this.selectedCompounds[micronutrient].targetVal = Number(($event.target as any).value);
+    };
+  }
+
+  public updateCompoundSelection($event: MatSelectChange, element: FoodVehicleStandard) {
+    const newIndex = $event.source.value;
+
+    console.log('Compound change', $event.source.value, element);
+
+    const newCompound = element.compounds[newIndex];
+    console.log(newCompound);
+
+    this.selectedCompounds[element.micronutrient] = {
+      index: newIndex,
+      rowIndex: newCompound.rowIndex,
+      targetVal: newCompound.targetVal,
+    };
   }
 
   public storeIndex(index: number) {
@@ -346,11 +374,5 @@ export class InterventionBaselineComponent implements AfterViewInit {
       this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
       this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
     }
-  }
-
-  public getCalculatedAverage(actuallyFortified: number, potentiallyFortified: number): string {
-    const calc =
-      Number(this.optionalUserEnteredAverageAtPointOfFortification) * actuallyFortified * potentiallyFortified;
-    return String(calc);
   }
 }

@@ -23,6 +23,9 @@ export class InterventionDescriptionComponent {
   public activeMn = '';
   public activeCountry = '';
 
+  public mnDictionary: Dictionary;
+  public countryDictionary: Dictionary;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private readonly interventionDataService: InterventionDataService,
@@ -58,6 +61,15 @@ export class InterventionDescriptionComponent {
           });
         }
       });
+  }
+
+  public ngOnInit(): void {
+    this.dictionaryService.getDictionary(DictionaryType.MICRONUTRIENTS).then((dictionary) => {
+      this.mnDictionary = dictionary;
+    });
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dictionary) => {
+      this.countryDictionary = dictionary;
+    });
   }
 
   public getSelectedCountryMnValues(): void {

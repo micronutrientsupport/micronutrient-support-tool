@@ -46,6 +46,7 @@ import { UserLogin } from './login/login';
 import { UserLogout } from './login/logout';
 import { GetUserProfile } from './login/getUserProfile';
 import { PatchIntervention } from './intervention/intervention/patchIntervention';
+import { GetInterventionFortificationLevel } from './intervention/interventionFortificationLevel/getInterventionFortificationLevel';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -86,6 +87,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
+      getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
       patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),

@@ -1,0 +1,88 @@
+@use 'src/app/pages/costEffectiveness/interventionReview/pages/interventionReviewPages.scss';
+@import 'src/assets/scss/_colour.scss';
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+
+  button {
+    margin: 0 5px 0 5px;
+  }
+
+  .confirm {
+    background-color: $color_primary;
+    color: white;
+  }
+}
+
+table {
+  width: 100%;
+  tr.mat-mdc-footer-row {
+    font-weight: bold;
+  }
+}
+
+.title {
+  border: solid 1px $color_primary;
+  margin: 1em;
+  padding: 10px;
+  span {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+tr.mat-mdc-footer-row td {
+  font-weight: bold;
+}
+
+::ng-deep app-premix-cost-review .mat-mdc-dialog-content {
+  max-height: 55vh;
+
+  tbody tr.premixRow:last-child {
+    // background: #eee;
+    position: relative;
+    vertical-align: top;
+
+    > td {
+      padding-top: 1em !important;
+
+      mat-icon {
+        vertical-align: bottom;
+      }
+
+      div.excipientDetails {
+        font-style: italic;
+        position: absolute;
+        margin-left: 3em;
+        border-left: 1px solid $color_primary;
+        background: rgba(155, 81, 224, 0.1);
+      }
+    }
+
+    td.excipient:not(:has(div.hidden)) {
+      height: 13em;
+      text-align: left;
+
+      input {
+        padding: 5px;
+        border-style: solid;
+        border-radius: 5px;
+        border: black 0.5px solid;
+        width: 6em;
+      }
+
+      tr {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}

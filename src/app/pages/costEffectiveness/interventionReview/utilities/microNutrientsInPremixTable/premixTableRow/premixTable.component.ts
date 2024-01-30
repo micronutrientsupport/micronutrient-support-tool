@@ -1,13 +1,17 @@
 import { Component, Input } from '@angular/core';
+import { NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { BaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleCompound,
   FoodVehicleStandard,
 } from 'src/app/apiAndObjects/objects/interventionFoodVehicleStandards';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
-import { InterventionDataService } from 'src/app/services/interventionData.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 
 @Component({
   selector: 'app-premix-table',
@@ -15,7 +19,12 @@ import { InterventionDataService } from 'src/app/services/interventionData.servi
   styleUrls: ['./premixTable.component.scss'],
 })
 export class PremixTableComponent {
-  constructor(private interventionDataService: InterventionDataService, private dialogService: DialogService) {}
+  constructor(
+    private interventionDataService: InterventionDataService,
+    private dialogService: DialogService,
+    private readonly dictionariesService: DictionaryService,
+    private formBuilder: NonNullableFormBuilder,
+  ) {}
 
   private data = new Subject<FoodVehicleStandard[]>();
   public optionalAverages: Record<number, number> = {};
@@ -24,6 +33,9 @@ export class PremixTableComponent {
   public selectedCompounds: Array<FoodVehicleCompound> = [];
   public tableIndex: number;
   public buttonsEdited: Array<Record<string, number | boolean>> = [];
+  public mnDictionary: Dictionary;
+  public form: UntypedFormGroup;
+  public formChanges: InterventionForm['formChanges'] = {};
 
   @Input() public editable = false;
   @Input() public baselineAssumptions: BaselineAssumptions;
@@ -49,6 +61,9 @@ export class PremixTableComponent {
   }
 
   ngOnInit(): void {
+    this.dictionariesService.getDictionary(DictionaryType.MICRONUTRIENTS).then((dictionary) => {
+      this.mnDictionary = dictionary;
+    });
     this.data.subscribe((micronutrients: FoodVehicleStandard[]) => {
       if (this.dataSource.data.length === 0) {
         if (micronutrients.length > 0) {
@@ -58,6 +73,13 @@ export class PremixTableComponent {
         this.dataSource.data = this.dataSource.data.concat(micronutrients);
       }
     });
+
+    this.form = this.formBuilder.group({
+      // compound: ['', Validators.required],
+      // targetVal: [''],
+    });
+
+    this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
   }
 
   public initTable(mnArr: FoodVehicleStandard[]): void {
@@ -66,6 +88,11 @@ export class PremixTableComponent {
 
   public compareObjects(obj1: Record<string, unknown>, obj2: Record<string, unknown>): boolean {
     return obj1.compound === obj2.compound && obj1.rowIndex === obj2.rowIndex;
+  }
+
+  public handleUpdateStandard(mn: FoodVehicleStandard): void {
+    // update localstorage with updated Mn and selected compound;
+    this.interventionDataService.updateMnCachedInPremix(mn);
   }
 
   public handleSelectCompound(mn: FoodVehicleStandard): void {

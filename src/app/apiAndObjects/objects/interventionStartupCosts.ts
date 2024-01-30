@@ -47,11 +47,14 @@ export interface StartUpCostBreakdown {
   year0: number;
   year0Default: number;
   year0Edited: number;
+  year0Overriden: boolean;
   year1: number;
   year1Default: number;
   year1Edited: number;
+  year1Overriden: boolean;
   rowUnits: string;
   isEditable: boolean;
+  isCalculated: boolean;
   dataSource: string;
   dataSourceDefault: string;
   dataCitation: string;
