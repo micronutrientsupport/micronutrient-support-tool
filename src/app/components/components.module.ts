@@ -19,6 +19,8 @@ import { UserMenuComponent } from './header/user-menu/user-menu.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { InterventionInputFieldComponent } from '../pages/costEffectiveness/interventionReview/components/ceInputField/ceInputField.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReusableSkeletonTableComponent } from './reusableSkeletonTable/reusableSkeletonTable.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DownloadComponent,
     NoResultsComponent,
     UserMenuComponent,
+    ReusableSkeletonTableComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +45,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NotificationModule,
     DirectivesModule,
     MatMenuModule,
+    NgxSkeletonLoaderModule,
   ],
   exports: [
     HeaderComponent,
@@ -52,6 +56,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NotFoundComponent,
     DownloadComponent,
     NoResultsComponent,
+    ReusableSkeletonTableComponent,
   ],
 })
 export class ComponentsModule {}

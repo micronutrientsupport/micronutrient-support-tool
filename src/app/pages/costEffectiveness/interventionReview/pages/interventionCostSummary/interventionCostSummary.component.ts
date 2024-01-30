@@ -21,6 +21,8 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;
+  //TODO: Leaving variable as any but should change.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public summaryCosts: { costBreakdown: any[] };
   public startupCosts: Array<StartUpScaleUpCost>;
   public recurringCosts: Array<RecurringCost>;

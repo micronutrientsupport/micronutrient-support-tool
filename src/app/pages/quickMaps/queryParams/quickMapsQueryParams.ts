@@ -11,6 +11,7 @@ import { Converter } from './converters/converter.abstract';
 import { DictItemConverter } from './converters/dictItemConverter';
 import { EnumConverter } from './converters/enumConverter';
 import { QuickMapsQueryParamKey } from './quickMapsQueryParamKey.enum';
+import { StringConverter } from './converters/stringConverter';
 
 export class QuickMapsQueryParams {
   private readonly dictionariesService: DictionaryService;
@@ -64,6 +65,10 @@ export class QuickMapsQueryParams {
       new EnumConverter<DietaryChangeMode>(QuickMapsQueryParamKey.SCENARIO_MODE, DietaryChangeMode, false),
       queryParamMap,
     ).getItem();
+  }
+
+  public getAggregationField(queryParamMap?: ParamMap): Promise<string> {
+    return this.get(new StringConverter(QuickMapsQueryParamKey.AGGREGATION_FIELD), queryParamMap).getItem();
   }
 
   public setQueryParams(converters: Array<Converter>): void {

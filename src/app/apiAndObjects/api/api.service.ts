@@ -47,6 +47,7 @@ import { UserLogout } from './login/logout';
 import { GetUserProfile } from './login/getUserProfile';
 import { PatchIntervention } from './intervention/intervention/patchIntervention';
 import { GetInterventionFortificationLevel } from './intervention/interventionFortificationLevel/getInterventionFortificationLevel';
+import { GetBiomarker } from './biomarker/getBiomarker';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -64,6 +65,7 @@ export class ApiService extends BaseApi {
     },
     biomarker: {
       getDataSources: new GetBiomarkerDataSources(ApiService.USE_LIVE_API),
+      getBiomarker: new GetBiomarker(ApiService.USE_LIVE_API),
     },
     projections: {
       getMicronutrientProjectionSources: new GetMicronutrientProjectionSources(ApiService.USE_LIVE_API),

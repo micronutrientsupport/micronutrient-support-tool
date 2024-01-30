@@ -20,7 +20,7 @@ export class GetBiomarkerDataSources extends CacheableEndpoint<
       .doCall(['biomarker', 'data-sources'], RequestMethod.GET, {
         countryId: params.country.id,
         micronutrientId: params.micronutrient.id,
-        // ageGenderGroup: params.ageGenderGroup,
+        groupId: params.ageGenderGroup.groupId,
       })
       .then((data: Array<Record<string, unknown>>) => this.processResponseData(data, params));
 

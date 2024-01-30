@@ -48,12 +48,12 @@ export class QuickMapsComponent implements OnInit, AfterViewInit {
     if (this.featureFlagsService.isEnabled('quick-maps-loading-tour')) {
       setTimeout(() => {
         const hasSeenTour = Boolean(localStorage.getItem('has-viewed-tour'));
-        console.log(hasSeenTour);
+        // console.log(hasSeenTour);
         if (!hasSeenTour || this.featureFlagsService.isEnabled('quick-maps-tour-always')) {
           this.openWelcomeDialog();
           localStorage.setItem('has-viewed-tour', 'true');
         } else {
-          console.log('Tour already viewed so skipping');
+          // console.log('Tour already viewed so skipping');
         }
       });
     }

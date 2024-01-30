@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit } from '@angular/core';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { QuickMapsService } from '../../quickMaps.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 // eslint-disable-next-line no-shadow
 enum BiomarkerWidgets {
@@ -17,6 +18,7 @@ export class BiomarkerComponent implements OnInit {
   public WIDGETS = BiomarkerWidgets;
   public options: GridsterConfig;
   public dashboard = new Array<GridsterItem>();
+
   public resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   public startEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -26,7 +28,11 @@ export class BiomarkerComponent implements OnInit {
   private readonly defaultWidgetHeight = 4;
   private readonly defaultWidgetWidth = 10;
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  public queryParams: Params;
+
+  constructor(public quickMapsService: QuickMapsService, private readonly route: ActivatedRoute) {
+    this.queryParams = this.route.snapshot.queryParams;
+  }
 
   ngOnInit(): void {
     this.options = {
@@ -97,7 +103,12 @@ export class BiomarkerComponent implements OnInit {
       y: this.defaultWidgetHeight,
     });
     this.changedOptions();
+
+    if (!this.quickMapsService.biomarkerDataUpdatingSrc.get()) {
+      this.quickMapsService.getBiomarkerData();
+    }
   }
+
   private changedOptions(): void {
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();

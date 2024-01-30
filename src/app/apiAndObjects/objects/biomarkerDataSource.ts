@@ -3,24 +3,41 @@ import { Named } from './named.interface';
 
 export class BiomarkerDataSource extends BaseObject implements Named {
   public static readonly KEYS = {
-    ID: 'surveyId',
-    NAME: 'surveyName',
-    BIOMARKER_NAME: 'surveyName',
+    COUNTRY_ID: 'countryId',
+    BIOMARKER_NAME: 'biomarkerName',
     MN_ID: 'micronutrientId',
-    // COUNTRY_ID: 'countryId', // needed? if so we might grab the dictionary item.
+    ID: 'surveyId',
+    GROUP_ID: 'groupId',
+    AGG_FIELDS: 'aggregationFields',
+    NAME: 'surveyName',
+    DESCRIPTION: 'surveyDescription',
+    METADATA: 'surveyMetadata',
+    YEAR: 'surveyYear',
   };
 
+  public readonly countryId: string;
+  public readonly biomarkerName: string;
+  public readonly mnId: string;
   public readonly id: string;
+  public readonly groupId: string;
+  public readonly aggFields: Array<string>;
   public readonly name: string;
+  public readonly description: string;
+  public readonly metadata: string;
   public readonly year: number;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
+    this.countryId = this._getString(BiomarkerDataSource.KEYS.COUNTRY_ID);
+    this.biomarkerName = this._getString(BiomarkerDataSource.KEYS.BIOMARKER_NAME);
+    this.mnId = this._getString(BiomarkerDataSource.KEYS.MN_ID);
     this.id = this._getString(BiomarkerDataSource.KEYS.ID);
+    this.groupId = this._getString(BiomarkerDataSource.KEYS.GROUP_ID);
+    this.aggFields = this._getArray(BiomarkerDataSource.KEYS.AGG_FIELDS);
     this.name = this._getString(BiomarkerDataSource.KEYS.NAME);
-
-    // TODO: update to value from underlying object when api response includes a year attribute
-    this.year = 2222;
+    this.description = this._getString(BiomarkerDataSource.KEYS.DESCRIPTION);
+    this.metadata = this._getString(BiomarkerDataSource.KEYS.METADATA);
+    this.year = this._getNumber(BiomarkerDataSource.KEYS.YEAR);
   }
 }

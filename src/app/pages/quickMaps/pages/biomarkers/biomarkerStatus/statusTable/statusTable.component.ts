@@ -1,61 +1,60 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BiomarkerCharacteristicType, BiomarkerDataType, BiomarkerStatusData } from '../biomarkerStatus.component';
+import { SimpleAggregationThreshold } from '../biomarkerStatus.component';
+import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 
 interface TableObject {
-  region: string;
-  n: number;
-  deficient: string;
-  confidence: string;
+  aggregation: string;
+  confidenceIntervalLower: number;
+  confidenceIntervalUpper: number;
+  x: number;
 }
 @Component({
   selector: 'app-status-table',
   templateUrl: './statusTable.component.html',
   styleUrls: ['./statusTable.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusTableComponent {
+export class StatusTableComponent implements OnChanges {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Input() set biomarkerData(data: Array<BiomarkerStatusData>) {
-    if (null != data) {
+
+  @Input()
+  set aggregationThresholdData(data: SimpleAggregationThreshold) {
+    if (data) {
       this.generateTable(data);
     }
   }
 
-  @Input() set selectedDataType(dataType: BiomarkerDataType) {
-    if (null != dataType) {
-      // set table with new data type.
-    }
-  }
+  @Input() biomarkerDataUpdating: boolean;
 
-  @Input() set selectedCharacteristicType(dataType: BiomarkerCharacteristicType) {
-    if (null != dataType) {
-      // set table with new charateristic type.
-    }
-  }
-
-  public displayedColumns = ['region', 'n', 'deficient', 'confidence'];
+  public displayedColumns = ['aggregation', 'confidenceIntervalLower', 'confidenceIntervalUpper', 'x'];
   public dataSource: MatTableDataSource<TableObject>;
   public totalSamples: number;
+  public columnX = '';
 
-  private generateTable(data: Array<BiomarkerStatusData>) {
-    const n = data.length;
+  constructor(public quickMapsService: QuickMapsService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    // console.log(changes);
+  }
+
+  private generateTable(data: SimpleAggregationThreshold) {
+    this.totalSamples = data.value.length;
     const dataArray = new Array<TableObject>();
 
-    this.totalSamples = n;
-
-    data.forEach((item: BiomarkerStatusData) => {
+    data.value.forEach((item: object) => {
       const tableObject: TableObject = {
-        region: item.areaName,
-        n: n,
-        deficient: item.mineralLevelOne,
-        confidence: item.mineralOutlier,
+        aggregation: item['aggregation'],
+        confidenceIntervalLower: item['confidenceIntervalLower'],
+        confidenceIntervalUpper: item['confidenceIntervalUpper'],
+        x: item[data.key],
       };
       dataArray.push(tableObject);
     });
-
+    this.columnX = data.key;
     this.dataSource = new MatTableDataSource(dataArray);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
