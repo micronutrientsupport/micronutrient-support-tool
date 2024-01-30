@@ -1,5 +1,62 @@
 # Changelog
 
+## [1.13.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.12.1...v1.13.0) (2024-01-30)
+
+
+### Features
+
+* 'Data to use' toggle enabled accordingly, age gender groups enabled, WRA default ([251d6e5](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/251d6e531949e0e00c30a2ffe731c8c7b80d91ff))
+* add objects for extra biomarker response fields.  Basic wiring and display of histogram and total threshold stats display ([8a7791e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/8a7791e9dbf93c253f6ec729f3090c0247a582c4))
+* added data source to biomarker sidebar ([1ca2561](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/1ca2561f6c481b9c7e0c00124a0ba72e47c7280d))
+* adding in biomarker selection to quickmaps sidebar ([66466ff](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/66466ffc92a749085a40ec1536a147ac6e9f7bab))
+* create all missing biomarker objects ([e5db7d4](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e5db7d4fdb148126db4b2e4b28cd20e2a3411718))
+* create totalStats object ([c66dbfb](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c66dbfbca384918d044d3a65c789e510be5f4e5b))
+* created biomarker caller class, object class and updated apiService ([e2e12de](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e2e12debb7077711099312a7f943be142a6b0fd3))
+* created biomarker get data fn on biomarker data service ([4c5c5dd](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4c5c5dd23497a8fc46cf071709f047dfd6612eea))
+* data being passed successfully to biomarker info and status components ([2c64a3b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2c64a3b259ffd93c9e36c8db62e00c4c28a49a60))
+* data is appropriately hidden / displayed after changing agg field ([6293bbb](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6293bbb9a80bcf2ef4095ad50297e5a55aec3757))
+* fix opening pages.  Add premix calculator ([87ecd13](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/87ecd135e0838dd007ec6f65cb557847ba8eb12b))
+* implementing skeleton loading to manage long api calls ([af3f4da](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/af3f4daf136e7ab2c2d3d702e06de1f3369ce7dd))
+* query params updating ([9ac305f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9ac305f5ae9ebfb80229df61bf0ac0f1a2874e6c))
+* re-enable biomarker toggle when data avaliable ([ad71600](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/ad716002913f94541253a9ec9fd833b2174f6b5f))
+* searching  for data based on url params ([dfcc78c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/dfcc78c9f053c24fb2fb32d5383d0a200224dc4e))
+* setting agg field default and using url params to set and store selected agg field ([0af8013](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/0af8013d5c8644be8bdcb42e30ca83026c5aa71f))
+
+
+### Bug Fixes
+
+* additional bio table ([bac7d69](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/bac7d69f0980a07922278008d4336475846773b9))
+* calling biomarker data sources on agegender change and passing correct age group ([6b365e2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6b365e27c2014c6f0ba642741770bca5a741af13))
+* fix premix calc total and intervention review page tables ([4e1b367](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4e1b3677e0d77e96d1cf326f93635fe64d93a6a5))
+* no longer shows no data page if looking at biomarker data ([a4ca815](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a4ca8158e5eaf3e510d458da6916e82641affd1d))
+* registering boxplot ([d12ee52](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/d12ee52a5cab1730cec512cce6fd3dc81fbefa11))
+* registering boxplot ([17eae06](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/17eae06c9753a461903319d81f17bc8ad6ae954b))
+* skelly displaying and using default agg field when null as well as an empty string ([3ea2c3c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/3ea2c3ccd5e28a086d90caddb96e2ec33b5afa0e))
+* update param sent to api for biomarker data sources ([#1314](https://github.com/micronutrientsupport/micronutrient-support-tool/issues/1314)) ([ee7aae5](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/ee7aae5e71920084631b5db6ccaa7a07f88468c7))
+* updated to use latest api data for biomarker additional info boxplot ([ad6a4b0](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/ad6a4b09159fe5beabaaf2525dd8dfd56f2ca560))
+* updated to use latest api data for biomarker additional info boxplot ([6d2a2f7](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6d2a2f7b9dc0b306a56c3a81a10bb41935a7a3c0))
+* using live data for additional information biomarker card descriptive statistics ([d314dec](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/d314dec96fb77c894f60e15c884ee50cb91a50e3))
+* using live data for additional information biomarker card descriptive statistics ([4b03319](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4b03319af2a37bc69f07a8e2fa27670af94cc1cb))
+* when changing country in quickmaps reset mn selection ([a4dbe05](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a4dbe05752408f40d96e57934513fdd33c55cc5b))
+* will use defualt agg field if not present ([f608eb7](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f608eb70ffe2ce2d7f587182b5ffb7543ff38c2e))
+* wiring up biomarker sections ([126dfe0](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/126dfe06869c64c5e1077298a19e9029a16c4227))
+
+
+### Miscellaneous
+
+* linting ([89354bd](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/89354bd66bed9983c57f98f757b91d8ec6de0490))
+* linting ([501f65f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/501f65f5e59e1c52440b9b7fa830f62da03e4c85))
+* linting ([0d2acad](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/0d2acade54aed10c6d71451ea3c8a71cfd1d9482))
+* linting ([3244613](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/3244613a38884c72538f373b6f07b74420a16d71))
+* linting ([7be6dba](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/7be6dba95aa2db6f470d6c69f13c61a57fee8188))
+* merge develop ([e354382](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e354382645242e2d010bf379135c39e3746ee86d))
+* pull stever-bio-skellies ([8514f40](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/8514f4087b630770ab409418f3e3a0d9791c0a17))
+* remove debug ([c3c5055](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c3c50552119ab761ea0398b51dd1c2899e58e088))
+* remove unusued variables ([187637c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/187637ce2819323f9ca3e48f5d1ca3da097bbbc5))
+* resolve lint ([3e512ea](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/3e512ea001f42a68fce8f94930e6d4db1977f939))
+* resolve lint warnings ([d9ee5b6](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/d9ee5b6cd41d4316f85e0dfd58989469c0cfc134))
+* slow progress debugging issues ([b3255b2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/b3255b2cd6d72fd04de93e62866d8aca5314d8af))
+
 ## [1.12.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.12.0...v1.12.1) (2023-11-02)
 
 
