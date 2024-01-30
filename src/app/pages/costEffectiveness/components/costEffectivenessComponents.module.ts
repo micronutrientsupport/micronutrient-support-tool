@@ -11,6 +11,8 @@ import { DialogModule } from 'src/app/components/dialogs/dialog.module';
 import { RouterModule } from '@angular/router';
 import { RoutesModule } from 'src/app/routes/routes.module';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { InterventionInputFieldComponent } from '../interventionReview/components/ceInputField/ceInputField.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     DescriptionComponent,
@@ -20,7 +22,16 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     InterventionComponent,
     InterventionComparisonCardComponent,
   ],
-  imports: [CommonModule, AppMaterialModule, DialogModule, RouterModule, RoutesModule, ClipboardModule],
+  imports: [
+    CommonModule,
+    AppMaterialModule,
+    DialogModule,
+    RouterModule,
+    RoutesModule,
+    ClipboardModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   exports: [
     DescriptionComponent,
     MenuComponent,

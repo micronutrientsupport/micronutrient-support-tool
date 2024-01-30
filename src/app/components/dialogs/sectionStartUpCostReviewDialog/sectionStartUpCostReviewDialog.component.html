@@ -5,51 +5,39 @@
         <ng-container matColumnDef="labelText">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
-          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}} </td>
+          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}}
+            <i *ngIf="element.isCalculated && element.rowNotes" class="fas fa-question-circle"
+              matTooltip="{{element.rowNotes}}"></i>
+          </td>
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
 
-        <ng-container matColumnDef="year0">
-          <th mat-header-cell *matHeaderCellDef>2021</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year0.toFixed(2) formControlName="year0"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year0.toFixed(2) formControlName="year0"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year0" name="year0" (change)="storeIndex(index)" type="number" [ngModel]="element.year0 * 100"
-                formControlName="year0" min="0" max="100" (keyup)="validateUserInput($event, index, 'year0')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
+        <ng-container *ngFor="let year of [0,1]; last as omitCopyButton" [matColumnDef]="'year' + year">
+          <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+            <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
+              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="year1">
-          <th mat-header-cell *matHeaderCellDef>2022</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'">
-              <input type="text" appDecimalInput required [value]=element.year1.toFixed(2) formControlName="year1"
-                (change)="recalculateChanges()">
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'">
-              <input type="text" appDecimalInput required [value]=element.year1.toFixed(2) formControlName="year1"
-                (change)="recalculateChanges()">
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'">
-              <input id="year1" name="year1" (change)="storeIndex(index)" type="number" [ngModel]="element.year1 * 100"
-                formControlName="year1" min="0" max="100" (keyup)="validateUserInput($event, index, 'year1')"
-                (change)="recalculateChanges()">
-            </div>
+        <ng-container matColumnDef="source">
+          <th mat-header-cell *matHeaderCellDef> Source </th>
+          <td mat-cell *matCellDef="let element let index = index">
+            <span>
+              <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index) === false" mat-button
+                color="primary">
+                GFDx<mat-icon>arrow_right_alt</mat-icon>
+              </button>
+              <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+                User Input
+              </button>
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+                User Overridden
+              </button>
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index) === false" mat-button color="primary">
+                Model calculation
+              </button>
+            </span>
           </td>
         </ng-container>
 
@@ -62,7 +50,7 @@
       <button mat-stroked-button (click)="dialogData.close()">Back</button>
       <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
     </div>
-    <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true"
-      [showUserValues]="true"></app-dialog-step-details>
+    <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="false"
+      [showUserValues]="true" [showNonEditable]="true"></app-dialog-step-details>
   </div>
 </app-base-dialog>

@@ -8,6 +8,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 import { NotificationsService } from '../../notifications/notification.service';
+import { DialogService } from '../dialog.service';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -44,6 +45,7 @@ export class SectionRecurringCostReviewDialogComponent {
     private formBuilder: UntypedFormBuilder,
     private jsonLogicService: JSONLogicService,
     private notificationsService: NotificationsService,
+    private dialogService: DialogService,
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
@@ -152,6 +154,10 @@ export class SectionRecurringCostReviewDialogComponent {
 
   get reucrringCostArray(): UntypedFormArray {
     return this.form.get('items')['controls'] as UntypedFormArray;
+  }
+
+  public openPremixCalculator() {
+    this.dialogService.openPremixCostReviewDialog(null);
   }
 
   private createRecurringCostGroup(item: RecurringCostBreakdown): UntypedFormGroup {
@@ -331,7 +337,6 @@ export class SectionRecurringCostReviewDialogComponent {
       const rowWantToUpdate = item.rowIndex;
       // Fetch the form values each iteration to reflect updated values from previous loops
       const allItems = this.getRawFormValues();
-
       for (let columnIndex = 0; columnIndex < 10; columnIndex++) {
         if (!item['year' + columnIndex + 'Formula']) {
           // if isEditable = true AND no yearXFormula exists, calculated value by vars outside this endpoint

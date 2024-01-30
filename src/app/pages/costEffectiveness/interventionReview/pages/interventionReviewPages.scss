@@ -26,6 +26,21 @@ footer {
   margin-right: 10px;
 }
 
+.header-container {
+  display: flex;
+  border: 1px solid $color_primary;
+  border-radius: 5px;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+
+  & .wideItem {
+    flex-grow: 1;
+    display: flex;
+    margin: 1em 0.5em;
+  }
+}
+
 .title {
   border: solid 1px $color_primary;
   margin: 1em;
@@ -117,7 +132,7 @@ input.ng-dirty.calculated {
   border-color: black;
 }
 
-// user overriden calculated values
+// user overridden calculated values
 input.calculated.ng-touched:not(.ng-pristine) {
   color: $color_input_blue;
   border-color: $color_input_blue;
@@ -139,6 +154,11 @@ input.calculated.ng-touched:not(.ng-pristine) {
   }
 }
 
+.copy-wrap {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
 .copy-wrap:has(input.calculated.ng-touched:not(.ng-pristine)) {
   width: 70%;
 
@@ -148,7 +168,11 @@ input.calculated.ng-touched:not(.ng-pristine) {
 }
 
 .mat-mdc-cell:has(input.calculated.ng-touched:not(.ng-pristine)) {
-  display: flex;
+  // display: flex;
   height: 52px;
   align-items: center;
+}
+
+app-ce-input-field {
+  display: flex;
 }

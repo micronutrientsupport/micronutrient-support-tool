@@ -1,3 +1,4 @@
+@use 'src/app/pages/costEffectiveness/interventionReview/pages/interventionReviewPages.scss';
 @import 'src/assets/scss/_colour.scss';
 
 .button-container {
@@ -32,59 +33,6 @@ table {
   span {
     font-size: 20px;
     font-weight: 600;
-  }
-}
-input {
-  // display: block;
-  font-family: inherit;
-  font-size: 100%;
-  margin: 0;
-  box-sizing: border-box;
-  width: 90%;
-  padding: 5px;
-  height: 30px;
-  border-radius: 5px;
-  border: black 0.5px solid;
-  text-align: center;
-
-  &:disabled {
-    background-color: $color_grey;
-    border: 0px;
-    color: white;
-  }
-}
-
-// user edited values
-input.ng-dirty {
-  color: $color_input_blue;
-  border-color: $color_input_blue;
-}
-
-.copy-wrap {
-  position: relative;
-}
-
-.copy-wrap:focus-within > button {
-  visibility: visible;
-}
-
-.copy-button {
-  visibility: hidden;
-  position: absolute;
-  width: 13px;
-  height: 100%;
-  top: 0;
-  left: calc(100% - 23px);
-  border-radius: 0 5px 5px 0;
-  padding: 0;
-  background: rgb(112, 58, 163);
-  color: #fff;
-  border: none;
-  padding-top: 0.6em;
-
-  mat-icon {
-    font-size: 1em;
-    width: 10px;
   }
 }
 

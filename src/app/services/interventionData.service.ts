@@ -17,7 +17,9 @@ import { InterventionMonitoringInformation } from '../apiAndObjects/objects/inte
 import { InterventionRecurringCosts } from '../apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts } from '../apiAndObjects/objects/interventionStartupCosts';
 import { AppRoutes } from '../routes/routes';
+import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
+import { FormGroup, UntypedFormGroup } from '@angular/forms';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -377,7 +379,7 @@ export class InterventionDataService {
     return this.interventionDataChangesSrc.value;
   }
 
-  public interventionPageConfirmContinue(): Promise<void> {
+  public async interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
 
     if (interventionChanges) {
@@ -387,9 +389,14 @@ export class InterventionDataService {
       }
 
       const interventionId = this.getActiveInterventionId();
-      return this.patchInterventionData(interventionId, dataArr).then(() => {
-        this.setInterventionDataChanges(null);
-      });
+      const res = await this.patchInterventionData(interventionId, dataArr);
+      console.log('Patched', res);
+      this.setInterventionDataChanges(null);
+      // return this.patchInterventionData(interventionId, dataArr).then((res) => {
+      //   console.log('Patched', res)
+
+      // });
+      return;
     } else {
       return;
     }
@@ -397,6 +404,172 @@ export class InterventionDataService {
 
   public setNewMicronutrientInPremix(micronutrient: MicronutrientDictionaryItem | null): void {
     this.newMicronutrientInPremix.next(micronutrient);
+  }
+
+  public setFormFieldState(form: UntypedFormGroup, dirtyIndexes?: number[], field?: string) {
+    form.controls.items['controls'].forEach((formRow: FormGroup, rowIndex: number) => {
+      let yearIndex = 0;
+      Object.keys(formRow.controls).forEach((key: string) => {
+        if (field && key === field) {
+          console.log({ key });
+          console.log({
+            editable: formRow.controls['isEditable'].value,
+            calculated: formRow.controls['isCalculated'].value,
+            edited: formRow.controls[field + 'Edited'].value,
+          });
+          if (formRow.controls['isEditable'].value === false) {
+            formRow.controls[key].disable(); // disabling control removes its value, for some reason
+          }
+          if (formRow.controls['isCalculated'].value === false && formRow.controls[field + 'Edited'].value == true) {
+            formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+            if (dirtyIndexes) {
+              dirtyIndexes.push(rowIndex);
+            } // mark row as containing user info
+          }
+          if (formRow.controls['isCalculated'].value === true && formRow.controls[field + 'Overriden'].value == true) {
+            formRow.controls[key].markAsTouched(); // mark field as ng-dirty and ng-touced i.e a calculated value which has been overridden
+            formRow.controls[key].markAsDirty();
+            if (dirtyIndexes) {
+              dirtyIndexes.push(rowIndex);
+            } // mark row as containing user info
+          }
+        } else if (key === 'year' + yearIndex) {
+          if (formRow.controls['isEditable'].value === false) {
+            formRow.controls[key].disable(); // disabling control removes its value, for some reason
+          }
+          if (
+            formRow.controls['isCalculated'].value === false &&
+            formRow.controls['year' + yearIndex + 'Edited'].value === true
+          ) {
+            formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
+            if (dirtyIndexes) {
+              dirtyIndexes.push(rowIndex);
+            } // mark row as containing user info
+          }
+          if (
+            formRow.controls['isCalculated'].value === true &&
+            formRow.controls['year' + yearIndex + 'Overriden'].value === true
+          ) {
+            formRow.controls[key].markAsTouched(); // mark field as ng-dirty and ng-touced i.e a calculated value which has been overridden
+            formRow.controls[key].markAsDirty();
+            if (dirtyIndexes) {
+              dirtyIndexes.push(rowIndex);
+            } // mark row as containing user info
+          }
+          yearIndex++;
+        }
+      });
+      console.log({ dirtyIndexes });
+    });
+  }
+
+  public resetForm(form: UntypedFormGroup, dirtyIndexes?: number[]) {
+    // set fields to default values as delivered per api
+    form.controls.items['controls'].forEach((formRow: FormGroup) => {
+      let yearIndex = 0;
+      Object.keys(formRow.controls).forEach((key: string) => {
+        if (key === 'year' + yearIndex) {
+          switch (formRow.controls['rowUnits'].value) {
+            case 'percent':
+              if (
+                formRow.controls['year' + yearIndex + 'Default'].value * 100 !==
+                formRow.controls['year' + yearIndex].value
+              ) {
+                formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value * 100); // set the value in 1-100 scale
+              }
+              break;
+            default:
+              if (
+                formRow.controls['year' + yearIndex + 'Default'].value !== formRow.controls['year' + yearIndex].value
+              ) {
+                formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value); // set the default value
+              }
+          }
+          yearIndex++;
+        }
+      });
+    });
+    //on reset mark forma as pristine to remove blue highlights
+    form.markAsPristine();
+    form.markAsUntouched();
+    //remove dirty indexes to reset button to GFDx input
+    if (dirtyIndexes) {
+      dirtyIndexes.splice(0);
+    }
+  }
+
+  public initFormChangeWatcher(form: UntypedFormGroup, formChanges: InterventionForm['formChanges'] = {}) {
+    const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
+      return Object.entries(b).filter(([key, value]) => value !== a[key]);
+    };
+    const changes = {};
+
+    form.valueChanges
+      .pipe(
+        startWith(form.value),
+        pairwise(),
+        map(([oldState, newState]) => {
+          // console.log({ oldState, newState });
+          for (const key in newState.items) {
+            const rowIndex = form.get('items')['controls'][key]['controls'].rowIndex.value;
+            const rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
+            if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
+              const diff = compareObjs(oldState.items[key], newState.items[key]);
+
+              if (Array.isArray(diff) && diff.length > 0) {
+                diff.forEach((item) => {
+                  const cellIsOverriden = !form.controls.items['controls'][key].controls[item[0]].pristine;
+                  const rowIsCalculated = newState.items[key]['isCalculated'];
+
+                  // Only send changes for user editible, non-calculated fields (or overridden)
+                  if (!rowIsCalculated || cellIsOverriden || item[0].endsWith('Overriden')) {
+                    // if (!rowIsCalculated || cellIsOverriden || item[0].endsWith('Overriden')) {
+                    if (rowUnits === 'percent') {
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: Number(item[1]) / 100,
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: Number(item[1]) / 100,
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
+                    } else {
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: Number(item[1]),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
+                    }
+                  }
+                });
+              }
+            }
+          }
+          console.log({ changes });
+          return changes;
+        }),
+        filter((changes) => Object.keys(changes).length !== 0 && !form.invalid),
+      )
+      .subscribe((value) => {
+        formChanges = value;
+        console.log(formChanges);
+        const newInterventionChanges = {
+          ...this.getInterventionDataChanges(),
+          ...formChanges,
+        };
+        this.setInterventionDataChanges(newInterventionChanges);
+      });
   }
 }
 

@@ -3,6 +3,7 @@ import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import {
   BaselineAssumptions,
   InterventionBaselineAssumptions,
@@ -59,43 +60,46 @@ export class MicroNutrientsInPremixTableComponent {
 
     this.interventionDataService
       .getInterventionFoodVehicleStandards(this.activeInterventionId)
-      .then((standards: InterventionFoodVehicleStandards) => {
-        console.log(standards);
+      .then(async (standards: InterventionFoodVehicleStandards) => {
+        //console.log(standards);
 
-        standards.foodVehicleStandard.forEach((standard) => {
-          const nonZeroCompound = standard.compounds.find((compound) => compound.targetVal > 0);
-          if (nonZeroCompound) {
-            console.log(standard.micronutrient, nonZeroCompound);
-            const cache = this.interventionDataService.getCachedMnInPremix();
-            console.log('The Cache', cache);
+        const intervention = await this.interventionDataService.getIntervention(this.activeInterventionId);
 
-            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
-              console.log('Not found');
-            }
+        for (const standard of standards.foodVehicleStandard) {
+          console.log(standard.micronutrient, intervention.focusMicronutrient);
+          if (standard.micronutrient !== intervention.focusMicronutrient) {
+            const nonZeroCompound = standard.compounds.find((compound) => compound.targetVal > 0);
+            console.log(nonZeroCompound, standard);
+            if (nonZeroCompound) {
+              console.log(standard.micronutrient, nonZeroCompound);
+              const cache = this.interventionDataService.getCachedMnInPremix();
+              console.log('The Cache', cache);
 
-            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
-              // Prepopulate table with food vehicle standards where target value not 0
-              this.addMnToTable(this.mnDictionary.getItem(standard.micronutrient));
+              if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+                console.log('Not found');
+              }
+
+              if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
+                // Prepopulate table with food vehicle standards where target value not 0
+                await this.addMnToTable(this.mnDictionary.getItem(standard.micronutrient));
+              }
             }
           }
-        });
+        }
       });
   }
 
-  private addMnToTable(micronutrient: MicronutrientDictionaryItem): void {
+  private async addMnToTable(micronutrient: MicronutrientDictionaryItem): Promise<void> {
     if (micronutrient && Object.keys(micronutrient).length !== 0) {
-      this.interventionDataService
-        .getInterventionFoodVehicleStandards(this.activeInterventionId)
-        .then((data: InterventionFoodVehicleStandards) => {
-          if (data != null) {
-            const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
-              return standard.micronutrient.includes(micronutrient.id);
-            });
-            this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
-            this.micronutrients = addedNutrientFVS;
-            this.displayPremixTable.next(true);
-          }
+      const data = await this.interventionDataService.getInterventionFoodVehicleStandards(this.activeInterventionId);
+      if (data != null) {
+        const addedNutrientFVS = data.foodVehicleStandard.filter((standard: FoodVehicleStandard) => {
+          return standard.micronutrient.includes(micronutrient.id);
         });
+        this.interventionDataService.addMnToCachedMnInPremix(addedNutrientFVS);
+        this.micronutrients = addedNutrientFVS;
+        this.displayPremixTable.next(true);
+      }
     }
   }
 }

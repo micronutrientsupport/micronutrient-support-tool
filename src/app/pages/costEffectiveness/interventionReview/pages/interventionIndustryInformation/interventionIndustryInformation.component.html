@@ -19,218 +19,14 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="year0">
-          <th mat-header-cell *matHeaderCellDef> 2021 </th>
+        <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9]; last as omitCopyButton" [matColumnDef]="'year' + year">
+          <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year0"
-                [ngClass]="{calculated: element.isCalculated, touched: element.touched}" formControlName="year0"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 0)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year0" name="year0" (change)="storeIndex(index)" type="number" [ngModel]="element.year0 * 100"
-                [ngClass]="{calculated: element.isCalculated, touched: element.touched}" formControlName="year0" min="0"
-                max="100" (keyup)="validateUserInput($event, index, 'year0')" (change)="recalculateChanges()"
-                class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 0)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
+            <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
+              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
           </td>
         </ng-container>
-        <ng-container matColumnDef="year1">
-          <th mat-header-cell *matHeaderCellDef> 2022 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year1"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year1"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 1)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year1" name="year1" (change)="storeIndex(index)" type="number" [ngModel]="element.year1 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year1" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year1')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 1)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year2">
-          <th mat-header-cell *matHeaderCellDef> 2023 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year2"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year2"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 2)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year2" name="year2" (change)="storeIndex(index)" type="number" [ngModel]="element.year2 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year2" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year2')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 2)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year3">
-          <th mat-header-cell *matHeaderCellDef> 2024 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year3"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year3"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 3)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year3" name="year3" (change)="storeIndex(index)" type="number" [ngModel]="element.year3 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year3" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year3')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 3)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year4">
-          <th mat-header-cell *matHeaderCellDef> 2025 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year4"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year4"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 4)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year4" name="year4" (change)="storeIndex(index)" type="number" [ngModel]="element.year4 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year4" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year4')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 4)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year5">
-          <th mat-header-cell *matHeaderCellDef> 2026 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
 
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year5"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year5"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 5)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year5" name="year5" (change)="storeIndex(index)" type="number" [ngModel]="element.year5 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year5" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year5')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 5)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year6">
-          <th mat-header-cell *matHeaderCellDef> 2027</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year6"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year6"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 6)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year6" name="year6" (change)="storeIndex(index)" type="number" [ngModel]="element.year6 * 100"
-                formControlName="year6" min="0" max="100" (keyup)="validateUserInput($event, index, 'year6')"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 6)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year7">
-          <th mat-header-cell *matHeaderCellDef> 2028 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year7"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year7"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 7)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year7" name="year7" (change)="storeIndex(index)" type="number" [ngModel]="element.year7 * 100"
-                formControlName="year7" min="0" max="100" (keyup)="validateUserInput($event, index, 'year7')"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 7)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year8">
-          <th mat-header-cell *matHeaderCellDef> 2029 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year8"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year8"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 8)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year8" name="year8" (change)="storeIndex(index)" type="number" [ngModel]="element.year8 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year8" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year8')" (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 8)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="year9">
-          <th mat-header-cell *matHeaderCellDef> 2030 </th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number' || element.rowUnits === null" class="copy-wrap">
-              <input (change)="storeIndex(index)" type="text" appDecimalInput required [value]="element.year9"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year9"
-                (change)="recalculateChanges()" (ngModelChange)="modelChange($event, index, 9)" class="copy-input">
-              <!-- <button matTooltip="Copy value to the right" (click)="copyAcross(index, 9)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button> -->
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year9" name="year9" (change)="storeIndex(index)" type="number" [ngModel]="element.year9 * 100"
-                [ngClass]="element.isCalculated ? 'calculated' : ''" formControlName="year9" min="0" max="100"
-                (keyup)="validateUserInput($event, index, 'year9')" (change)="recalculateChanges()" class="copy-input">
-              <!-- <button matTooltip="Copy value to the right" (click)="copyAcross(index, 9)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button> -->
-            </div>
-            <button matTooltip="Reset to model-calculated value" (click)="refreshMe(index, 9)"
-              class="reset-button"><mat-icon>settings_backup_restore</mat-icon></button>
-          </td>
-        </ng-container>
         <ng-container matColumnDef="source">
           <th mat-header-cell *matHeaderCellDef> Source </th>
           <td mat-cell *matCellDef="let element let index = index">
@@ -242,7 +38,10 @@
               <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
                 User Input
               </button>
-              <button *ngIf="element.isCalculated" mat-button color="primary">
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+                User Overridden
+              </button>
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index) === false" mat-button color="primary">
                 Model calculation
               </button>
             </span>

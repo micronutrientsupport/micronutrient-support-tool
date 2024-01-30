@@ -5,7 +5,11 @@
         <ng-container matColumnDef="labelText">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
-          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}} </td>
+          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}}
+            <mat-button *ngIf="element.labelText.startsWith('Premix cost')" matTooltip="Open premix calculator"
+              mat-stroked-button color="primary"
+              (click)="openPremixCalculator()"><mat-icon>calculate</mat-icon></mat-button>
+          </td>
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
         <ng-container matColumnDef="year0">
