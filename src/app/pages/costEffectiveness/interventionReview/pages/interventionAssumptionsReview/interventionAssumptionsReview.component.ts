@@ -2,8 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import {
+  ActuallyFortified,
+  AverageFortificationLevel,
   BaselineAssumptions,
   InterventionBaselineAssumptions,
+  PotentiallyFortified,
 } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import {
   FoodVehicleStandard,
@@ -22,6 +25,7 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 export class InterventionAssumptionsReviewComponent implements OnInit {
   @Input() public editable = false;
   public activeStandard: FoodVehicleStandard[];
+  public rawDataArray: Array<PotentiallyFortified | ActuallyFortified | AverageFortificationLevel> = [];
 
   public assumptionsDisplayedColumns = [
     'title',
@@ -50,6 +54,7 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
     'year8',
     'year9',
   ];
+  public baselineAssumptions: BaselineAssumptions;
   public dataSource = new MatTableDataSource();
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
 
@@ -57,6 +62,8 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
   public pageStepperPosition = 2;
   public interventionName = 'IntName';
   private subscriptions = new Array<Subscription>();
+
+  public activeIntervention: Intervention;
 
   public dataLoaded = false;
 
@@ -75,6 +82,10 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
                 .getInterventionBaselineAssumptions(activeInterventionId)
                 .then((data: InterventionBaselineAssumptions) => {
                   this.createTableObject(data);
+                  console.log('init', this.rawDataArray);
+                  this.dataSource = new MatTableDataSource(this.rawDataArray);
+
+                  this.dataLoaded = true;
                 }),
           );
           // .then((data: InterventionFoodVehicleStandards) => {
@@ -91,38 +102,43 @@ export class InterventionAssumptionsReviewComponent implements OnInit {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
-  public createTableObject(data: InterventionBaselineAssumptions): void {
-    const dataArray = [];
+  public createTableObject(
+    data: InterventionBaselineAssumptions,
+  ): Array<PotentiallyFortified | ActuallyFortified | AverageFortificationLevel> {
     const rawData = data.baselineAssumptions as BaselineAssumptions;
-    dataArray.push(rawData.actuallyFortified, rawData.potentiallyFortified);
-    this.dataLoaded = true;
-    this.dataSource = new MatTableDataSource(dataArray);
+    this.rawDataArray.push(rawData.potentiallyFortified, rawData.actuallyFortified, rawData.averageFortificationLevel);
+    // console.debug(dataArray);
+    this.baselineAssumptions = rawData;
     this.createAvNutrientLevelTable(rawData);
+    return this.rawDataArray;
   }
 
-  public createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): void {
+  public async createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): Promise<void> {
     const fvArray = [];
+
+    this.activeIntervention = await this.interventionDataService.getIntervention(
+      this.interventionDataService.getActiveInterventionId(),
+    );
 
     this.interventionDataService
       .getInterventionFoodVehicleStandards(this.interventionDataService.getActiveInterventionId())
       .then((standards: InterventionFoodVehicleStandards) => {
-        console.log(standards);
+        standards.foodVehicleStandard.sort((a, b) => {
+          // Standard alphabetic sort
+          const sortVal = a.micronutrient > b.micronutrient ? 1 : -1;
+
+          // If nutrient is focus MN then override and push to top
+          console.log({ a: a.micronutrient, b: b.micronutrient, sortVal: sortVal });
+          if (a.micronutrient === this.activeIntervention.focusMicronutrient) {
+            return -1;
+          } else {
+            return sortVal;
+          }
+        });
 
         standards.foodVehicleStandard.forEach((standard) => {
           const nonZeroCompound = standard.compounds.find((compound) => compound?.targetVal > 0);
           if (nonZeroCompound) {
-            console.log(standard.micronutrient, nonZeroCompound);
-            const cache = this.interventionDataService.getCachedMnInPremix();
-            console.log('The Cache', cache);
-
-            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
-              console.log('Not found');
-            }
-
-            if (!cache || !cache.find((element) => element.micronutrient === standard.micronutrient)) {
-              // Prepopulate table with food vehicle standards where target value not 0
-            }
-
             const standardValue = nonZeroCompound.targetVal;
             const tableObject: AverageNutrientLevelTableObject = {
               micronutrient: standard.micronutrient,

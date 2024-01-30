@@ -136,15 +136,23 @@
         </ng-container>
 
         <ng-container matColumnDef="upchargeLabel">
-          <td mat-footer-cell *matFooterCellDef>Upcharge:</td>
+          <td mat-footer-cell *matFooterCellDef>Up charge ($/kg):</td>
         </ng-container>
 
         <ng-container matColumnDef="totalLabel">
-          <td mat-footer-cell *matFooterCellDef>Total:</td>
+          <td mat-footer-cell *matFooterCellDef>Total premix cost ($/kg):</td>
         </ng-container>
 
         <ng-container matColumnDef="total">
-          <td mat-footer-cell *matFooterCellDef>Total</td>
+          <td mat-footer-cell *matFooterCellDef>{{ totalCost + upcharge | currency }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="finalLabel">
+          <td mat-footer-cell *matFooterCellDef>Total cost per MT of fortified food vehicle ($)</td>
+        </ng-container>
+
+        <ng-container matColumnDef="finalTotal">
+          <td mat-footer-cell *matFooterCellDef>{{ ((totalCost + upcharge)*additionRate)/1000 | currency }}</td>
         </ng-container>
 
         <ng-container matColumnDef="upcharge">
@@ -159,6 +167,7 @@
         <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
         <tr mat-footer-row *matFooterRowDef="upchargeColumns;"></tr>
         <tr mat-footer-row *matFooterRowDef="totalColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="finalColumns;"></tr>
         <tr class="mat-row" *matNoDataRow></tr>
       </table>
     </form>

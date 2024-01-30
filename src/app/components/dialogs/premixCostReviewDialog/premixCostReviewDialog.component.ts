@@ -49,6 +49,17 @@ export class PremixCostReviewDialogComponent {
     'totalLabel',
     'total',
   ];
+  public finalColumns: string[] = [
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'empty',
+    'finalLabel',
+    'finalTotal',
+  ];
   public baseYear = 2021;
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};

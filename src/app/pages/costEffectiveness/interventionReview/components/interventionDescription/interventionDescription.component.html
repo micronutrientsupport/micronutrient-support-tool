@@ -14,7 +14,8 @@
 <div class="intervention-summary-panel">
   <div class="item">
     <div class="title">Nation:</div>
-    <div class="value" *ngIf="countryDictionary">{{ countryDictionary.getItem(selectedIntervention?.countryId).name }}
+    <div class="value" *ngIf="selectedIntervention && countryDictionary">{{
+      countryDictionary.getItem(selectedIntervention?.countryId).name }}
     </div>
   </div>
   <div class="item">

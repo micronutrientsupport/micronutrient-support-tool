@@ -18,6 +18,7 @@ import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router } from '@angular/router';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 @Component({
   selector: 'app-intervention-compliance',
   templateUrl: './interventionCompliance.component.html',
@@ -64,6 +65,8 @@ export class InterventionComplianceComponent implements OnInit {
   private subscriptions = new Array<Subscription>();
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
+
+  public activeIntervention: Intervention;
 
   public dataLoaded = false;
   public loading = false;
@@ -127,38 +130,28 @@ export class InterventionComplianceComponent implements OnInit {
     // this.dataSource = new MatTableDataSource(this.rawDataArray);
   }
 
-  public createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): void {
-    const standardValue = 5.63;
-
-    // this.interventionDataService
-    // .getInterventionBaselineAssumptions(this.interventionDataService.getActiveInterventionId())
-    // .then((data: InterventionBaselineAssumptions) => {
-    //   this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-    //   if (this.interventionDataService.getCachedMnInPremix()) {
-    //     this.micronutrients = this.interventionDataService.getCachedMnInPremix();
-    //   }
-    // });
-
+  public async createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): Promise<void> {
     const fvArray = [];
+
+    this.activeIntervention = await this.interventionDataService.getIntervention(
+      this.interventionDataService.getActiveInterventionId(),
+    );
 
     this.interventionDataService
       .getInterventionFoodVehicleStandards(this.interventionDataService.getActiveInterventionId())
       .then((standards: InterventionFoodVehicleStandards) => {
-        console.log(standards);
-
         standards.foodVehicleStandard.sort((a, b) => {
           // Standard alphabetic sort
           const sortVal = a.micronutrient > b.micronutrient ? 1 : -1;
 
           // If nutrient is focus MN then override and push to top
           console.log({ a: a.micronutrient, b: b.micronutrient, sortVal: sortVal });
-          if (a.micronutrient === 'Zn') {
+          if (a.micronutrient === this.activeIntervention.focusMicronutrient) {
             return -1;
           } else {
             return sortVal;
           }
         });
-        console.log(standards);
 
         standards.foodVehicleStandard.forEach((standard) => {
           const nonZeroCompound = standard.compounds.find((compound) => compound?.targetVal > 0);
