@@ -30,7 +30,7 @@ export class StatusTableComponent implements OnChanges {
 
   @Input() biomarkerDataUpdating: boolean;
 
-  public displayedColumns = ['aggregation', 'confidenceIntervalLower', 'confidenceIntervalUpper', 'x'];
+  public displayedColumns = ['aggregation', 'x', 'confidenceIntervalLower', 'confidenceIntervalUpper'];
   public dataSource: MatTableDataSource<TableObject>;
   public totalSamples: number;
   public columnX = '';

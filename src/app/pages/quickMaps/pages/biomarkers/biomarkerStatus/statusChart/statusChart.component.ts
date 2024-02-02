@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/ageGenderDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { CardComponent } from 'src/app/components/card/card.component';
+import { TitleCasePipe } from '@angular/common';
 Chart.register(BoxPlotController, BoxAndWiskers);
 @Component({
   selector: 'app-status-chart',
@@ -54,7 +55,7 @@ export class StatusChartComponent implements AfterViewInit {
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  constructor(public quickMapsService: QuickMapsService, private titlecasePipe: TitleCasePipe) {}
 
   ngOnInit(): void {
     Chart.register(BoxPlotController, BoxAndWiskers, LinearScale, CategoryScale);
@@ -92,7 +93,7 @@ export class StatusChartComponent implements AfterViewInit {
     const generatedChart = new Chart(ctx, {
       type: 'boxplot',
       data: {
-        labels: this.bmAggStats.map((a) => a.aggregation),
+        labels: this.bmAggStats.map((a) => this.titlecasePipe.transform(a.aggregation)),
         datasets: [
           {
             label: `${this.selectedNutrient}`,
@@ -117,13 +118,13 @@ export class StatusChartComponent implements AfterViewInit {
           x: {
             title: {
               display: true,
-              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
+              text: `${this.titlecasePipe.transform(this.quickMapsService.aggField.get().replace('_', ' '))}`,
             },
           },
           y: {
             title: {
               display: true,
-              text: `Number of ${this.selectedAgeGenderGroup}`,
+              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
             },
           },
         },

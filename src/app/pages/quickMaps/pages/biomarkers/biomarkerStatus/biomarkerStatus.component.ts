@@ -7,7 +7,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { DialogData } from 'src/app/components/dialogs/baseDialogService.abstract';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription, first } from 'rxjs';
 import { MatMenu } from '@angular/material/menu';
 import { SubRegionDataItem } from 'src/app/apiAndObjects/objects/subRegionDataItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -17,6 +17,7 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { TitleCasePipe } from '@angular/common';
 
 export interface BiomarkerStatusDialogData {
   data: unknown;
@@ -86,7 +87,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public mineralData: Array<BiomarkerStatusData>;
 
   public biomarkerDataSrc: BiomarkerDataSource;
-  public selectedDataType: SimpleAggregationThreshold;
+  public selectedDataType: SimpleAggregationThreshold = { key: undefined, value: undefined };
+  public selectedDataTypeKey: string;
   public selectedAggregationField: string;
 
   public selectedMediaType: BiomarkerMediaType;
@@ -104,6 +106,7 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private biomarkerService: BiomarkerService,
     private notificationService: NotificationsService,
+    private titlecasePipe: TitleCasePipe,
 
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<BiomarkerStatusDialogData>,
   ) {}
@@ -127,10 +130,16 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
         if (data) {
+          this.dataListMap.clear();
           Object.entries(data.aggregatedThresholds).forEach(([key, value]) => {
             this.dataListMap.set(key, value);
           });
-          // console.debug(this.dataListMap);
+          if (this.dataListMap.size > 0) {
+            const firstThresh = this.dataListMap.entries().next().value;
+            this.setDataSelection(firstThresh[0]);
+            this.selectedDataTypeKey = firstThresh[0];
+          }
+          console.debug(this.dataListMap);
         }
         this.cdr.detectChanges();
       }),
@@ -203,8 +212,10 @@ export class BiomarkerStatusComponent implements AfterViewInit {
     // Notify user to execute search;
   }
 
-  public setDataSelection(dataType: SimpleAggregationThreshold): void {
-    this.selectedDataType = dataType;
+  public setDataSelection(dataType: string): void {
+    const thresh = this.dataListMap.get(dataType);
+    console.log({ key: dataType, thresh });
+    this.selectedDataType = { key: dataType, value: thresh } as SimpleAggregationThreshold;
   }
   public setMediaSelection(mediaType: BiomarkerMediaType): void {
     this.selectedMediaType = mediaType;
@@ -212,7 +223,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   private init(): void {
     const mnName = this.quickMapsService.micronutrient.get()?.name;
     const agName = this.quickMapsService.ageGenderGroup.get().name;
-    const titlePrefix = (null == mnName ? '' : `${mnName}`) + ' Status';
+    const bmName = this.titlecasePipe.transform(this.quickMapsService.biomarkerDataSource.get().biomarkerName);
+    const titlePrefix = 'Aggregated statistics - ' + (null == bmName ? '' : `${bmName}`);
     const titleSuffix = ' in ' + (null == agName ? '' : `${agName}`);
     this.title = titlePrefix + titleSuffix;
     if (null != this.card) {

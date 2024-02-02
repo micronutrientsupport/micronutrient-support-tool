@@ -77,9 +77,6 @@
       </ng-container>
     </fieldset>
 
-    {{quickMapsForm.valid }}
-    {{btnViewResultsActive}}
-    {{showGoButton}}
     <fieldset id="measure" appTour tourName="Quick MAPS Sidebar" tourStage="2"
       tourDescription="Select food systems or biomarker data (where available) for micronutrient availability calculations"
       tourTitle="Select data to use" tourPosition="right">
@@ -133,7 +130,8 @@
           <mat-select name="biomarkerSelect" formControlName="biomarkerSelect"
             [placeholder]="(0 < biomarkerNames.length) ? 'Click to select option' : 'None available'"
             panelClass="allow-long-text">
-            <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName}}
+            <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName.replace('_', ' ') |
+              titlecase }}
             </mat-option>
           </mat-select>
         </mat-form-field>

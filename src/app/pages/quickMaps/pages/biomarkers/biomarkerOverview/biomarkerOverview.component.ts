@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 export class BiomarkerOverviewComponent implements AfterViewInit {
   public activeBiomarker: Biomarker;
   private subscriptions = new Array<Subscription>();
+  public loading = false;
 
   constructor(public quickMapsService: QuickMapsService, private cdr: ChangeDetectorRef) {}
 
@@ -21,6 +22,10 @@ export class BiomarkerOverviewComponent implements AfterViewInit {
         // this.activeBiomarker.totalThresholds;
       }),
     );
+
+    this.quickMapsService.biomarkerDataUpdatingSrc.obs.subscribe((updating: boolean) => {
+      this.loading = updating;
+    });
   }
 
   public keys(object: object): Array<string> {

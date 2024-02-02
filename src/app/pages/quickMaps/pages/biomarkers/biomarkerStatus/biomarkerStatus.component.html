@@ -7,23 +7,26 @@
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
 
-    <mat-tab label="Table">
+    <mat-tab label="Aggregated Threshold Percentages" *ngIf="dataListMap.size > 0">
       <div class="bmgf-maps-nice-scrollbar">
         <div *ngIf="!biomarkerDataUpdating" class="status-element">
+          <span class="spacer">Prevalence of</span>
           <mat-form-field appearance="outline">
-            <mat-label>Select an Aggregation Threshold</mat-label>
-            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataListMap | keyvalue" [value]="dataType">{{dataType.key}}
+            <mat-label>Select a Threshold</mat-label>
+            <mat-select [ngModelOptions]=" 
+            {standalone: true}" [(ngModel)]="selectedDataTypeKey" (selectionChange)="setDataSelection($event.value)">
+              <mat-option *ngFor="let dataType of dataListMap | keyvalue"
+                [value]="dataType.key">{{dataType.key.replace('_', ' ') | titlecase}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <span class="spacer"> by </span>
+          <span class="spacer"> aggregated by </span>
           <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
             <mat-label>Select an Aggregation Field</mat-label>
             <mat-select [(value)]="selectedAggregationField"
               (selectionChange)="setCharacteristicSelection($event.value)">
               <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
-                {{aggField}}</mat-option>
+                {{aggField.replace('_', ' ') | titlecase}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -32,6 +35,24 @@
           <app-status-table [aggregationThresholdData]="selectedDataType"
             [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-table>
         </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Aggregated Box-and-Whisker Chart">
+      <div class="bmgf-maps-nice-scrollbar">
+        <div class="status-element">
+          <span class="spacer">Statistics aggregated by </span>
+          <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
+            <mat-label>Select an Aggregation Field</mat-label>
+            <mat-select [(value)]="selectedAggregationField"
+              (selectionChange)="setCharacteristicSelection($event.value)">
+              <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
+                {{aggField.replace('_', ' ') | titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <app-status-chart [biomarkerData]="selectedNutrient"
+          [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-chart>
       </div>
     </mat-tab>
 
@@ -56,31 +77,6 @@
         </div>
       </div>
 
-    </mat-tab>
-
-    <mat-tab label="Chart">
-      <div class="bmgf-maps-nice-scrollbar">
-        <div class="status-element">
-          <mat-form-field appearance="outline">
-            <mat-label>Select an Aggregation Threshold</mat-label>
-            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataListMap | keyvalue" [value]="dataType">{{dataType.key}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <span class="spacer"> by </span>
-          <mat-form-field appearance="outline" *ngIf="biomarkerDataSrc">
-            <mat-label>Select an Aggregation Field</mat-label>
-            <mat-select [(value)]="selectedAggregationField"
-              (selectionChange)="setCharacteristicSelection($event.value)">
-              <mat-option *ngFor="let aggField of biomarkerDataSrc.aggFields" [value]="aggField">
-                {{aggField}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <app-status-chart [biomarkerData]="selectedNutrient"
-          [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-chart>
-      </div>
     </mat-tab>
 
     <mat-tab label="Download" disabled>

@@ -10,10 +10,20 @@
   </span>
   <span class="separator"></span>
   <span *ngIf="activeBiomarker">
-    <span *ngFor="let threshold of keys(activeBiomarker.totalThresholds);">
-      {{ threshold | titlecase }}: <strong class="red">{{ activeBiomarker.totalThresholds[threshold][0][threshold] |
-        percent
-        }}</strong>
+    <div class="loading-indicator" *ngIf="loading">
+      <mat-spinner [diameter]="16" aria-label="spinner" color='accent'></mat-spinner>
+    </div>
+    <span *ngIf="!loading && keys(activeBiomarker.totalThresholds).length < 1">
+      <em>No adequacy thresholds available for {{ (quickMapsService.biomarkerDataSource.obs | async)?.biomarkerName |
+        titlecase
+        }}</em>
+    </span>
+    <span *ngIf="!loading">
+      <span *ngFor="let threshold of keys(activeBiomarker.totalThresholds);">
+        {{ threshold | titlecase }}: <strong class="red">{{ activeBiomarker.totalThresholds[threshold][0][threshold] |
+          percent
+          }}</strong>
+      </span>
     </span>
   </span>
 </div>
