@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.13.0...v1.13.1) (2024-02-02)
+
+
+### Bug Fixes
+
+* fix switching between food systems and biomarker ([7ebbbea](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/7ebbbea7630c9163d1d3abf0403ed4965926335a))
+* tweak biomarker presentation, loading and labeling ([520b8ec](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/520b8ecc53abf142550ebe2f112739ec9aac82cc))
+
 ## [1.13.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.12.1...v1.13.0) (2024-01-30)
 
 
