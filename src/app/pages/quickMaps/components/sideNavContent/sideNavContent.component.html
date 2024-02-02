@@ -130,7 +130,8 @@
           <mat-select name="biomarkerSelect" formControlName="biomarkerSelect"
             [placeholder]="(0 < biomarkerNames.length) ? 'Click to select option' : 'None available'"
             panelClass="allow-long-text">
-            <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName}}
+            <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName.replace('_', ' ') |
+              titlecase }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -172,8 +173,8 @@
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>
 
-<div class="footer-row" [class.show]="true">
-  <button [hidden]="(quickMapsService.slim.obs | async) === true"
+<div class="footer-row" [class.show]="showGoButton">
+  <button [hidden]=" (quickMapsService.slim.obs | async)===true"
     *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" mat-flat-button color="primary"
     form="quickMapsForm" (click)="submitForm()" [disabled]="viewBiomarkerResultsButtonDisabled">View Biomarker
     results</button>

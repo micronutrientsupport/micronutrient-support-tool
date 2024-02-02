@@ -4,7 +4,12 @@
 <table *ngIf="!biomarkerDataUpdating && dataSource" mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="aggregation" sticky>
     <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Aggregation</th>
-    <td mat-cell *matCellDef="let element">{{ element.aggregation }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.aggregation | titlecase }}</td>
+  </ng-container>
+  <ng-container matColumnDef="x">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{columnX.replace('_', ' ') |
+      titlecase}}</th>
+    <td mat-cell *matCellDef="let element">{{ element.x }}</td>
   </ng-container>
   <ng-container matColumnDef="confidenceIntervalLower">
     <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Confidence Interval Lower</th>
@@ -13,10 +18,6 @@
   <ng-container matColumnDef="confidenceIntervalUpper">
     <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">Confidence Interval Upper</th>
     <td mat-cell *matCellDef="let element">{{ element.confidenceIntervalUpper }}</td>
-  </ng-container>
-  <ng-container matColumnDef="x">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before">{{columnX}}</th>
-    <td mat-cell *matCellDef="let element">{{ element.x }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

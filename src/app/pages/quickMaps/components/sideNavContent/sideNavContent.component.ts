@@ -92,7 +92,10 @@ export class SideNavContentComponent {
             this.quickMapsService.ageGenderGroup.get(),
             (control: AbstractControl) => this.ageGenderRequiredValidator(control),
           ],
-          biomarkerSelect: [this.quickMapsService.biomarkerSelect.get(), Validators.required],
+          biomarkerSelect: [
+            this.quickMapsService.biomarkerSelect.get(),
+            (control: AbstractControl) => this.biomarkerRequiredValidator(control),
+          ],
         });
 
         this.subscriptions.push(
@@ -117,7 +120,6 @@ export class SideNavContentComponent {
         this.subscriptions.push(
           this.quickMapsForm.get('nation').valueChanges.subscribe((value: CountryDictionaryItem) => {
             this.quickMapsService.country.set(value);
-            this.quickMapsForm.get('micronutrient').reset();
             this.updateDataSources();
           }),
         );
@@ -129,7 +131,30 @@ export class SideNavContentComponent {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('measure').valueChanges.subscribe((value: MicronutrientMeasureType) => {
+            const oldMeasure = this.quickMapsService.measure.get();
+            if (value !== oldMeasure && value) {
+              this.quickMapsService.measure.set(value);
+
+              if (
+                value == MicronutrientMeasureType.BIOMARKER &&
+                this.quickMapsForm.valid &&
+                this.showGoButton == false
+              ) {
+                // Nav to Biomarker
+                this.navigate(AppRoutes.QUICK_MAPS_BIOMARKER);
+              } else if (
+                value == MicronutrientMeasureType.FOOD_SYSTEMS &&
+                this.quickMapsForm.valid &&
+                this.showGoButton == false
+              ) {
+                // Nav to Food Systems
+                this.navigate(AppRoutes.QUICK_MAPS_BASELINE);
+              } else if (!this.quickMapsForm.valid) {
+                // this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);
+              }
+            }
             this.quickMapsService.measure.set(value);
+
             // force re-validation of age-gender group
             this.quickMapsForm.get('ageGenderGroup').updateValueAndValidity();
             this.updateDataSources();
@@ -137,7 +162,10 @@ export class SideNavContentComponent {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('ageGenderGroup').valueChanges.subscribe((value: AgeGenderDictionaryItem) => {
-            if (this.measureBiomarkerEnabled) {
+            if (
+              this.quickMapsService.measure.get() === MicronutrientMeasureType.BIOMARKER &&
+              this.measureBiomarkerEnabled
+            ) {
               this.quickMapsService.ageGenderGroup.set(value);
               this.updatAgeGenderGroups();
             }
@@ -158,9 +186,6 @@ export class SideNavContentComponent {
               }
             } else if (biomarkerOptions.length >= 1) {
               this.quickMapsForm.get('dataSource').setValue(biomarkerOptions[0]);
-              if (this.showGoButton) {
-                this.btnViewResultsActive = true;
-              }
             }
             this.dataSources = biomarkerOptions;
           }),
@@ -170,6 +195,9 @@ export class SideNavContentComponent {
             .get('dataSource')
             .valueChanges.subscribe((value: FoodSystemsDataSource | BiomarkerDataSource) => {
               this.quickMapsService.setDataSource(value);
+              if (this.quickMapsService.measure.get() === MicronutrientMeasureType.BIOMARKER) {
+                this.quickMapsService.getBiomarkerData();
+              }
             }),
         );
 
@@ -224,6 +252,15 @@ export class SideNavContentComponent {
       valid = measureControl.value === MicronutrientMeasureType.FOOD_SYSTEMS || null != ageGenderControl.value;
     }
     return valid ? null : { ageGender: 'required' };
+  }
+
+  private biomarkerRequiredValidator(biomarkerControl: AbstractControl): ValidationErrors {
+    let valid = true;
+    if (null != this.quickMapsForm) {
+      const measureControl = this.quickMapsForm.get('measure');
+      valid = measureControl.value !== MicronutrientMeasureType.BIOMARKER || null != biomarkerControl.value;
+    }
+    return valid ? null : { biomarker: 'required' };
   }
 
   private updateDataMeasureOptions(): void {
@@ -284,6 +321,7 @@ export class SideNavContentComponent {
         }
       }
     });
+    this.updateDataSources();
   }
 
   private updateDataSources(): void {
@@ -292,11 +330,21 @@ export class SideNavContentComponent {
     const country = this.quickMapsService.country.get();
     const micronutrient = this.quickMapsService.micronutrient.get();
     const measure = this.quickMapsService.measure.get();
+    const ageGenderGroup = this.quickMapsService.ageGenderGroup.get();
 
     if (null != country && null != micronutrient && null != measure) {
       switch (measure) {
         case MicronutrientMeasureType.FOOD_SYSTEMS: {
           dataSourcePromise = this.dietDataService.getDataSources(country, micronutrient, true);
+          break;
+        }
+        case MicronutrientMeasureType.BIOMARKER: {
+          dataSourcePromise = this.quickMapsService.getBiomarkerDataSources(
+            country,
+            micronutrient,
+            ageGenderGroup,
+            true,
+          );
           break;
         }
       }
@@ -305,7 +353,7 @@ export class SideNavContentComponent {
       this.dataSources = options;
       if (null != country && null != micronutrient && null != measure) {
         if (options.length === 0) {
-          if (!this.showGoButton && measure === MicronutrientMeasureType.FOOD_SYSTEMS) {
+          if (!this.showGoButton /*&& measure === MicronutrientMeasureType.FOOD_SYSTEMS*/) {
             // Will only show 'No No Results' page for Food Systems Data.
             // valid data --> invalid data
             this.navigate(AppRoutes.QUICK_MAPS_NO_RESULTS);

@@ -50,6 +50,7 @@ export class QuickMapsRouteGuardService implements CanActivate {
       if (valids.every((value) => value)) {
         return true;
       } else {
+        console.log('Param Error', valids);
         // TODO: Show notification of "Params error"?
         void this.dialogService.openInvalidParametersDialog();
         // redirect to quickmaps map page
@@ -103,6 +104,16 @@ export class QuickMapsRouteGuardService implements CanActivate {
 
     return this.quickMapsParameters.getMeasure(snapshot.queryParamMap).then((measure) => {
       let navRoute: AppRoute; // route to navigate to
+
+      if (
+        (MicronutrientMeasureType.FOOD_SYSTEMS === measure &&
+          appRoute.getRoute()[0] === AppRoutes.QUICK_MAPS_BIOMARKER.getRoute()[0]) ||
+        (MicronutrientMeasureType.BIOMARKER === measure &&
+          appRoute.getRoute()[0] === AppRoutes.QUICK_MAPS_BASELINE.getRoute()[0])
+      ) {
+        return navRoute;
+      }
+
       if (
         MicronutrientMeasureType.FOOD_SYSTEMS === measure &&
         !appRoute.hasDescendent(AppRoutes.QUICK_MAPS_FOOD_SYSTEMS)

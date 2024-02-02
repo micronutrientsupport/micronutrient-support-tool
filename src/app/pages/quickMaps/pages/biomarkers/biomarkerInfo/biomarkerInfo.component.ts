@@ -29,7 +29,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public chartData: Chart;
   public chartPNG: string;
   public chartPDF: string;
-  public title = 'Additional Information';
+  public title = 'Additional Survey Statistics';
   public selectedTab: number;
 
   public defThreshold = 70;
