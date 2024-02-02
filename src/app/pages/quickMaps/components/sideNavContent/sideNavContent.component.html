@@ -77,6 +77,9 @@
       </ng-container>
     </fieldset>
 
+    {{quickMapsForm.valid }}
+    {{btnViewResultsActive}}
+    {{showGoButton}}
     <fieldset id="measure" appTour tourName="Quick MAPS Sidebar" tourStage="2"
       tourDescription="Select food systems or biomarker data (where available) for micronutrient availability calculations"
       tourTitle="Select data to use" tourPosition="right">
@@ -172,8 +175,8 @@
     [disabled]="btnViewResultsActive === false">View results</button>
 </div>
 
-<div class="footer-row" [class.show]="true">
-  <button [hidden]="(quickMapsService.slim.obs | async) === true"
+<div class="footer-row" [class.show]="showGoButton">
+  <button [hidden]=" (quickMapsService.slim.obs | async)===true"
     *ngIf="quickMapsService.measure.get() === MICRONUTRIENT_MEASURE_TYPE_ENUM.BIOMARKER" mat-flat-button color="primary"
     form="quickMapsForm" (click)="submitForm()" [disabled]="viewBiomarkerResultsButtonDisabled">View Biomarker
     results</button>
