@@ -6,7 +6,6 @@ import { RoutesModule } from '../routes/routes.module';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { DialogModule } from './dialogs/dialog.module';
 import { FooterLightComponent } from './footerLight/footerLight.component';
 import { LoadingComponent } from './loading/loading.component';
 import { CardComponent } from './card/card.component';
@@ -39,7 +38,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     AppMaterialModule,
     RoutesModule,
     ClipboardModule,
-    DialogModule,
     NotificationModule,
     DirectivesModule,
     MatMenuModule,
