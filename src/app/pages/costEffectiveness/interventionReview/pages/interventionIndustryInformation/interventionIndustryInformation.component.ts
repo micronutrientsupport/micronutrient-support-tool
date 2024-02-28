@@ -4,10 +4,11 @@ import {
   IndustryInformation,
   InterventionIndustryInformation,
 } from 'src/app/apiAndObjects/objects/interventionIndustryInformation';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-intervention-industry-information',
   templateUrl: './interventionIndustryInformation.component.html',
@@ -30,6 +31,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
     'source',
   ];
 
+  public loading = false;
+
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
@@ -43,6 +46,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
+    private router: Router,
   ) {}
 
   /**
@@ -150,8 +154,12 @@ export class InterventionIndustryInformationComponent implements OnInit {
     this.initFormWatcher();
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 
   public resetForm() {

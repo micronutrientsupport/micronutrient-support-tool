@@ -19,7 +19,7 @@
   }
 }
 
-table {
+.premixCalcForm table {
   width: 100%;
   tr.mat-mdc-footer-row {
     font-weight: bold;
@@ -41,48 +41,140 @@ tr.mat-mdc-footer-row td {
 }
 
 ::ng-deep app-premix-cost-review .mat-mdc-dialog-content {
-  max-height: 55vh;
+  max-height: 80vh;
 
-  tbody tr.premixRow:last-child {
-    // background: #eee;
-    position: relative;
-    vertical-align: top;
+  .premixCalcForm {
+    tbody::before {
+      //content: '';
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: calc(100% - 20px);
+      height: 30px;
+      right: 0;
+      position: absolute;
+      z-index: 9999999;
+      margin-left: auto;
+      margin-top: 8em;
+      top: 0;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.7) 40%, #fff 70%);
+    }
 
-    > td {
-      padding-top: 1em !important;
+    tbody::after {
+      //content: '';
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: calc(100% - 20px);
+      height: 30px;
+      right: 0;
+      position: absolute;
+      z-index: 9999999;
+      margin-left: auto;
+      top: 0;
+      margin-top: calc(15em + 8em - 60px);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.7) 40%, #fff 70%);
+    }
 
-      mat-icon {
-        vertical-align: bottom;
-      }
+    table {
+      width: 60em;
+      table-layout: fixed;
+      position: relative;
+    }
 
-      div.excipientDetails {
-        font-style: italic;
-        position: absolute;
-        margin-left: 3em;
-        border-left: 1px solid $color_primary;
-        background: rgba(155, 81, 224, 0.1);
+    thead th {
+      width: 10%;
+    }
+
+    tbody {
+      display: block;
+      width: 60em;
+      height: 15em;
+      overflow-y: scroll;
+
+      td {
+        width: 10%;
       }
     }
 
-    td.excipient:not(:has(div.hidden)) {
-      height: 13em;
-      text-align: left;
+    tfoot tr {
+      height: 36px !important;
+    }
 
-      input {
-        padding: 5px;
-        border-style: solid;
-        border-radius: 5px;
-        border: black 0.5px solid;
-        width: 6em;
+    tfoot tr:first-child td {
+      border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
+    }
+
+    tfoot td {
+      border: none;
+    }
+
+    tfoot td:nth-child(8) {
+      position: absolute;
+      right: 11%;
+      padding-top: 0.5em !important;
+    }
+
+    tfoot td:nth-child(5) {
+      position: absolute;
+      right: 45%;
+      padding-top: 0.5em !important;
+    }
+
+    tfoot input {
+      width: 5em;
+      text-align: center;
+      border-radius: 0.3em;
+      border: black 0.5px solid;
+    }
+
+    tbody tr.premixRow:last-child {
+      // background: #eee;
+      position: relative;
+      vertical-align: top;
+
+      > td {
+        padding-top: 1em !important;
+        width: calc(60em / 9);
+        mat-icon {
+          vertical-align: bottom;
+        }
+
+        div.excipientDetails {
+          font-style: italic;
+          //position: absolute;
+          margin-left: 3em;
+          border-left: 1px solid $color_primary;
+          background: rgba(155, 81, 224, 0.1);
+          position: absolute;
+          width: 30em;
+
+          table {
+            width: auto;
+          }
+        }
       }
 
-      tr {
+      td.excipient:not(:has(div.hidden)) {
+        height: 13em;
         text-align: left;
+
+        input {
+          padding: 5px;
+          border-style: solid;
+          border-radius: 5px;
+          border: black 0.5px solid;
+          width: 6em;
+        }
+
+        tr {
+          text-align: left;
+        }
       }
     }
   }
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }

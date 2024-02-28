@@ -18,6 +18,7 @@ export class InterventionInputFieldComponent implements OnInit {
   @Input() tableData: MatTableDataSource<any>;
   @Input() includeCopyRightButton = true;
   @Input() dirtyIndexes?: number[];
+  @Input() fieldType?: string;
   @Input() omitStyling = false;
   @Input() changeFunction?: ($event: Event) => void;
 
@@ -265,7 +266,13 @@ export class InterventionInputFieldComponent implements OnInit {
     return value;
   }
 
-  public updatePlainCurrency(event, index: number, row: number) {
+  public updatePlainCurrencyField(event, index: number, field: string) {
+    const value = String(event.target.value);
+    const plainCurrency = this.formatPlain(value);
+    this.form.controls.items['controls'][index].get(field).patchValue(plainCurrency);
+  }
+
+  public updatePlainCurrencyIdx(event, index: number, row: number) {
     const value = String(event.target.value);
     const plainCurrency = this.formatPlain(value);
     this.form.controls.items['controls'][index].patchValue({ ['year' + row]: plainCurrency });
@@ -280,7 +287,13 @@ export class InterventionInputFieldComponent implements OnInit {
     return value;
   }
 
-  public updateDollarCurrency(event, index: number, row: number) {
+  public updateDollarCurrencyField(event, index: number, field: string) {
+    const value = String(event.target.value);
+    const formattedCurrency = this.formatDollar(value);
+    this.form.controls.items['controls'][index].get(field).patchValue(formattedCurrency);
+  }
+
+  public updateDollarCurrencyIdx(event, index: number, row: number) {
     const value = String(event.target.value);
     const formattedCurrency = this.formatDollar(value);
     this.form.controls.items['controls'][index].patchValue({ ['year' + row]: formattedCurrency });

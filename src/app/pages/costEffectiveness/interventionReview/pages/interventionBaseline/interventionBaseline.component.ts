@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter, map, pairwise, startWith, Subscription } from 'rxjs';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -41,7 +41,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public pageStepperPosition = 0;
 
   public baselineAssumptions: BaselineAssumptions;
-  public selectedCompound: FoodVehicleCompound;
 
   public dataSource = new MatTableDataSource();
 
@@ -169,7 +168,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
           return standard.micronutrient.includes(intervention.focusMicronutrient);
         });
         this.focusMnDataSource = new MatTableDataSource(this.focusVehicleStandards);
-        const focusMnGroupArray = data.foodVehicleStandard.map((item) => {
+        const focusMnGroupArray = this.focusVehicleStandards.map((item) => {
           return this.createPremixMnGroup(item);
         });
         console.log({ focusMnGroupArray });
@@ -184,29 +183,28 @@ export class InterventionBaselineComponent implements AfterViewInit {
           );
         });
         this.premixMnDataSource = new MatTableDataSource(this.premixVehicleStandards);
-        const premixMnGroupArray = data.foodVehicleStandard.map((item) => {
+        const premixMnGroupArray = this.premixVehicleStandards.map((item) => {
           return this.createPremixMnGroup(item);
         });
         this.premixMnForm = this.formBuilder.group({
           items: this.formBuilder.array(premixMnGroupArray),
         });
 
-        console.log('init:', { focusMnGroupArray });
-        console.log('stds:', this.premixVehicleStandards);
-        console.log('cmpds', this.selectedCompounds);
-        console.log('datasource:', this.focusMnDataSource);
-        console.log('form:', this.focusMnForm);
-
         // Mark fields as touched/dirty if they have been previously edited and stored via the API
-        this.interventionDataService.setFormFieldState(this.premixMnForm, this.premixDirtyIndexes, 'targetVal');
+        //this.interventionDataService.setFormFieldState(this.premixMnForm, this.premixDirtyIndexes, 'targetVal');
         this.interventionDataService.setFormFieldState(this.focusMnForm, this.focusDirtyIndexes, 'targetVal');
 
         // Setup watched to track changes made to form fields and store them to the intervention
         // data service to be synced to the API when needed
-        //this.interventionDataService.initFormChangeWatcher(this.premixMnForm, this.formChanges);
         this.interventionDataService.initFormChangeWatcher(this.focusMnForm, this.formChanges);
-        console.log(this.focusMnForm.controls);
+        this.interventionDataService.initFormChangeWatcher(this.premixMnForm, this.formChanges);
       });
+  }
+
+  public rowIndex(micronutrient: string) {
+    const field = this.focusMnForm.controls.items['controls'].find((ele) => ele.value.micronutrient === micronutrient);
+
+    return field?.value?.rowIndex;
   }
 
   private initBaselineAssumptionTable() {
@@ -238,13 +236,13 @@ export class InterventionBaselineComponent implements AfterViewInit {
   private createPremixMnGroup(item: FoodVehicleStandard): UntypedFormGroup {
     return this.formBuilder.group({
       micronutrient: [item.micronutrient],
-      rowIndex: [item.compounds[0].rowIndex, []],
-      rowUnits: [item.compounds[0].rowUnits, []],
-      isEditable: [item.compounds[0].isEditable, []],
+      rowIndex: [item.compounds[this.selectedCompounds[item.micronutrient].index].rowIndex, []],
+      rowUnits: [item.compounds[this.selectedCompounds[item.micronutrient].index].rowUnits, []],
+      isEditable: [item.compounds[this.selectedCompounds[item.micronutrient].index].isEditable, []],
       isCalculated: [false, []],
-      targetVal: [Number(item.compounds[0].targetVal), []],
-      targetValEdited: [Number(item.compounds[0].targetValEdited), []],
-      targetValDefault: [Number(item.compounds[0].targetValDefault), []],
+      targetVal: [Number(item.compounds[this.selectedCompounds[item.micronutrient].index].targetVal), []],
+      targetValEdited: [Number(item.compounds[this.selectedCompounds[item.micronutrient].index].targetValEdited), []],
+      targetValDefault: [Number(item.compounds[this.selectedCompounds[item.micronutrient].index].targetValDefault), []],
       // year0Overriden: item.year0Overriden,
       // year0Formula: item.year0Formula,
     });
@@ -301,7 +299,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
         }
       });
     });
-    console.log(this.focusMnFormInitVals);
     this.focusMnForm.reset(this.focusMnFormInitVals);
 
     //on reset mark forma as pristine to remove blue highlights
@@ -325,7 +322,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
   }
 
   public updateBaselineAssumptions = () => {
-    console.log('Updateyfy');
     const potentiallyFortified = this.form.controls.items['controls'][0]['controls']['year0'].value / 100;
     const actuallyFortified = this.form.controls.items['controls'][1]['controls']['year0'].value / 100;
     const averageFortificationLevel = this.form.controls.items['controls'][2]['controls']['year0'].value / 100;
@@ -346,11 +342,20 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public updateCompoundSelection($event: MatSelectChange, element: FoodVehicleStandard) {
     const newIndex = $event.source.value;
-
-    console.log('Compound change', $event.source.value, element);
-
     const newCompound = element.compounds[newIndex];
-    console.log(newCompound);
+    this.focusMnForm.controls.items['controls'].forEach((control) => {
+      if (control.value.micronutrient === element.micronutrient) {
+        console.log(control.get('targetVal').value);
+        control.get('targetVal').patchValue(0);
+        control.get('rowIndex').patchValue(newCompound.rowIndex);
+      }
+    });
+    this.premixMnForm.controls.items['controls'].forEach((control) => {
+      if (control.value.micronutrient === element.micronutrient) {
+        control.get('rowIndex').patchValue(newCompound.rowIndex);
+      }
+    });
+    //this.form.controls.items['controls'][index].patchValue({ ['year' + i]: cellVal });
 
     this.selectedCompounds[element.micronutrient] = {
       index: newIndex,
@@ -361,7 +366,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
-    console.log(this.baselineAssumptions);
   }
 
   public validateUserInput(event: Event, rowIndex: number, year: string) {

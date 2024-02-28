@@ -189,7 +189,7 @@ export class DialogService extends BaseDialogService {
 
   public openPremixCostReviewDialog(
     costs: RecurringCosts,
-    width = '70vw',
+    width = '63em',
     height = '70vh',
   ): Promise<DialogData<RecurringCosts>> {
     return this.openDialog('openPremixCostReviewDialog', PremixCostReviewDialogComponent, false, costs, {

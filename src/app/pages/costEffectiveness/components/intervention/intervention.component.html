@@ -34,10 +34,10 @@
     <div class="flex-col">
       <div class="content-container">
         <div class="item-container">
-          <div class="item">
+          <!-- <div class="item">
             <span *ngIf="!intervention.baseYear">Base year: <strong>{{today | date:'y'}}</strong></span>
             <span *ngIf="intervention.baseYear">Base year: <strong>{{ intervention.baseYear }}</strong></span>
-          </div>
+          </div> -->
           <!-- <div class="item">
             10-year total cost: <strong>{{ intervention.totalCost| currency }}</strong>
           </div> -->
@@ -55,7 +55,7 @@
           <mat-icon>file_copy</mat-icon>
           Copy
         </button>
-        <a mat-flat-button color="primary" class="btn" (click)="reviewIntervention()">Review</a>
+        <a mat-flat-button color="primary" class="btn" (click)="reviewIntervention()">Edit</a>
       </div>
     </div>
   </mat-card>

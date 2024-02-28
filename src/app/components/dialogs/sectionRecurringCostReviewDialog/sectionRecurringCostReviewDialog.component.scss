@@ -100,3 +100,17 @@ tr:last-child {
     font-weight: bold;
   }
 }
+
+.premix-button {
+  background: #9b51e0 !important;
+  display: inline-block;
+  padding: 2px 4px;
+  margin-bottom: 4px;
+  color: #fff;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  mat-icon {
+    vertical-align: middle;
+  }
+}

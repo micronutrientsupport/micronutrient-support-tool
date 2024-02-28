@@ -1,5 +1,6 @@
-<div *ngIf="element.rowUnits === 'number' || element.rowUnits === null || !element.rowUnits" class="copy-wrap"
-  [formGroup]="form.controls.items['controls'][index]">
+<div
+  *ngIf="fieldType ? fieldType === 'number' : (element.rowUnits === 'number' || element.rowUnits === null || !element.rowUnits)"
+  class="copy-wrap" [formGroup]="form.controls.items['controls'][index]">
   <input (change)="storeIndex(index)" type="text" appDecimalInput required
     [ngModel]="field ? element[field] : element['year' + year]" [formControlName]="field ? field : 'year' + year"
     [ngClass]="{calculated: !omitStyling && element.isCalculated, touched: element.touched}"
@@ -9,7 +10,8 @@
   <button *ngIf="includeCopyRightButton" matTooltip="Copy value to the right" (click)="copyAcross(index, year)"
     class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
 </div>
-<div *ngIf="element.rowUnits === 'percent'" class="copy-wrap" [formGroup]="form.controls.items['controls'][index]">
+<div *ngIf="fieldType ? fieldType === 'percent' : element.rowUnits === 'percent'" class="copy-wrap"
+  [formGroup]="form.controls.items['controls'][index]">
   <input (change)="storeIndex(index)" type="number"
     [ngModel]="field ? element[field] * 100 : element['year' + year] * 100"
     [formControlName]="field ? field : 'year' + year"
@@ -21,14 +23,16 @@
   <button *ngIf="includeCopyRightButton" matTooltip="Copy value to the right" (click)="copyAcross(index, year)"
     class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
 </div>
-<div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap" [formGroup]="form.controls.items['controls'][index]">
+<div *ngIf="fieldType ? fieldType === 'US dollars' : element.rowUnits === 'US dollars'" class="copy-wrap"
+  [formGroup]="form.controls.items['controls'][index]">
   <input type="text" appDecimalInput required
     [ngModel]="field ? formatDollar(element[field]) : formatDollar(element['year' + year])"
     [formControlName]="field ? field : 'year' + year"
     [ngClass]="{calculated: !omitStyling && element.isCalculated, touched: element.touched}"
     (change)="recalculateChanges()" (change)="changeFunction($event)"
     (ngModelChange)="field ? modelChange($event, index, null, field) : modelChange($event, index, year)"
-    (focus)="updatePlainCurrency($event, index, year)" (blur)="updateDollarCurrency($event, index, year)"
+    (focus)="field ? updatePlainCurrencyField($event, index, field) : updatePlainCurrencyIdx($event, index, year)"
+    (blur)="field ? updateDollarCurrencyField($event, index, field) : updateDollarCurrencyIdx($event, index, year)"
     class="copy-input">
   <button matTooltip="Copy value to the right" (click)="copyAcross(index, year)"
     class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>

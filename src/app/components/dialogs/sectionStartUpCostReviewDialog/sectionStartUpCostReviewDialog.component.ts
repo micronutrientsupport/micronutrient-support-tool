@@ -21,6 +21,8 @@ export class SectionStartUpCostReviewDialogComponent {
   public year0Total = 0;
   public year1Total = 0;
 
+  public loading = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>,
     private interventionDataService: InterventionDataService,
@@ -82,14 +84,18 @@ export class SectionStartUpCostReviewDialogComponent {
     });
   }
 
-  public confirmChanges(): void {
+  public async confirmChanges(): Promise<boolean> {
     if (Object.keys(this.formChanges).length !== 0) {
+      this.loading = true;
       this.interventionDataService.interventionPageConfirmContinue().then(() => {
         this.interventionDataService.interventionStartupCostChanged(true); // trigger dialog source page to update content
         this.dialogData.close();
+        this.loading = false;
+        return true;
       });
     } else {
       this.dialogData.close();
+      return true;
     }
   }
 

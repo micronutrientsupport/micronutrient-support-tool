@@ -1,19 +1,18 @@
 <div class="info-wrapper">
-  <h2>Select an intervention</h2>
+  <h2>Create a Micronutrient intervention</h2>
   <span>
-    To explore the effectiveness of <strong>{{ (quickMapsService.micronutrient.obs | async)?.name }}</strong>
-    interventions in <strong>{{ (quickMapsService.country.obs | async)?.name }}</strong>, by choosing either an
-    existing (currently implemented
-    at scale*) or hypothetical/alternative (not currently implemented at scale or implemented under alternative
-    assumptions) intervention. Additional interventions can be added after the predicted effectiveness of the first
-    intervention has been displayed and stored.
+
+    To model the cost and/or effectiveness of a micronutrient intervention, begin by clicking the button below to create
+    the intervention. After you’ve created and stored one intervention, you will be able create additional interventions
+    and compare results across interventions.
+
   </span>
   <button mat-stroked-button color="primary" (click)="openCESelectionDialog()">
-    Add intervention
+    Create intervention
   </button>
 </div>
 
-<h2 *ngIf="this.selectedInterventions.length !== 0">Selected interventions</h2>
+<h2 *ngIf="this.selectedInterventions.length !== 0">Created interventions</h2>
 
 <app-ce-intervention *ngFor="let intervention of selectedSimpleInterventions" [intervention]="intervention">
 </app-ce-intervention>

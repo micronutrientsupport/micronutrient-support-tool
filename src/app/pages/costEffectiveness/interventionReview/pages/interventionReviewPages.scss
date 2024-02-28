@@ -176,3 +176,7 @@ input.calculated.ng-touched:not(.ng-pristine) {
 app-ce-input-field {
   display: flex;
 }
+
+.loading-indicator {
+  display: inline-block;
+}

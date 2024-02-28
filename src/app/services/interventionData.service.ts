@@ -52,6 +52,9 @@ export class InterventionDataService {
   private readonly interventionRecurringCostChangedSrc = new BehaviorSubject<boolean>(false);
   public interventionRecurringCostChangedObs = this.interventionRecurringCostChangedSrc.asObservable();
 
+  private readonly interventionPremixCostChangedSrc = new BehaviorSubject<boolean>(false);
+  public interventionPremixCostChangedObs = this.interventionPremixCostChangedSrc.asObservable();
+
   private readonly simpleInterventionArrChangedSrc = new BehaviorSubject<Array<SimpleIntervention>>(
     this.getSimpleInterventionsFromStorage(),
   );
@@ -232,6 +235,10 @@ export class InterventionDataService {
     this.interventionRecurringCostChangedSrc.next(source);
   }
 
+  public interventionPremixCostChanged(source: boolean): void {
+    this.interventionPremixCostChangedSrc.next(source);
+  }
+
   public getCachedSelectedCompoundsInMn(): Record<number, FoodVehicleCompound> {
     const ls = localStorage.getItem('cachedSelectedCompoundsInPremix');
     const cached = JSON.parse(ls);
@@ -381,11 +388,28 @@ export class InterventionDataService {
 
   public async interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
-
     if (interventionChanges) {
       const dataArr = [];
       for (const key in interventionChanges) {
-        dataArr.push(interventionChanges[key]);
+        if (key.startsWith('F')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = Number(key.substring(1));
+          (change as any).type = 'premix';
+        } else if (key.startsWith('global')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = 0;
+          (change as any).type = 'premix-global';
+        } else {
+          (interventionChanges[key] as any).type = 'data';
+        }
+        if (
+          Object.prototype.hasOwnProperty.call(interventionChanges[key], 'year0') &&
+          isNaN((interventionChanges[key] as any).year0)
+        ) {
+          console.error('NaN data!');
+        } else {
+          dataArr.push(interventionChanges[key]);
+        }
       }
 
       const interventionId = this.getActiveInterventionId();
@@ -498,6 +522,23 @@ export class InterventionDataService {
     }
   }
 
+  private reverseFormatNumber(val, locale) {
+    const group = new Intl.NumberFormat(locale).format(1111).replace(/1/g, '');
+    const decimal = new Intl.NumberFormat(locale).format(1.1).replace(/1/g, '');
+    let reversedVal = val.replace(new RegExp('\\' + group, 'g'), '');
+    reversedVal = reversedVal.replace(new RegExp('\\' + decimal, 'g'), '.');
+    return Number.isNaN(reversedVal) ? 0 : reversedVal;
+  }
+
+  public formatPlain(value: string) {
+    if (value.startsWith('$')) {
+      const plainCurrency = this.reverseFormatNumber(value.substr(1), 'en-US');
+      //console.log(`${value} -> ${plainCurrency}`);
+      return Number(plainCurrency);
+    }
+    return Number(value);
+  }
+
   public initFormChangeWatcher(form: UntypedFormGroup, formChanges: InterventionForm['formChanges'] = {}) {
     const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
       return Object.entries(b).filter(([key, value]) => value !== a[key]);
@@ -512,12 +553,18 @@ export class InterventionDataService {
           // console.log({ oldState, newState });
           for (const key in newState.items) {
             const rowIndex = form.get('items')['controls'][key]['controls'].rowIndex.value;
-            const rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
+            let rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
             if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
               const diff = compareObjs(oldState.items[key], newState.items[key]);
 
               if (Array.isArray(diff) && diff.length > 0) {
                 diff.forEach((item) => {
+                  // Check for alternative row units set for this specific control
+                  const altUnits = form.controls.items['controls'][key].controls[item[0] + 'Units']?.value;
+                  if (altUnits) {
+                    rowUnits = altUnits;
+                  }
+
                   const cellIsOverriden = !form.controls.items['controls'][key].controls[item[0]].pristine;
                   const rowIsCalculated = newState.items[key]['isCalculated'];
 
@@ -534,6 +581,19 @@ export class InterventionDataService {
                       } else {
                         changes[rowIndex] = {
                           [item[0]]: Number(item[1]) / 100,
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      }
+                    } else if (rowUnits === 'US dollars') {
+                      if (changes[rowIndex]) {
+                        changes[rowIndex] = {
+                          ...changes[rowIndex],
+                          [item[0]]: this.formatPlain(item[1] as string),
+                        };
+                        changes[rowIndex]['rowIndex'] = rowIndex;
+                      } else {
+                        changes[rowIndex] = {
+                          [item[0]]: this.formatPlain(item[1] as string),
                         };
                         changes[rowIndex]['rowIndex'] = rowIndex;
                       }
@@ -563,7 +623,7 @@ export class InterventionDataService {
       )
       .subscribe((value) => {
         formChanges = value;
-        console.log(formChanges);
+        // console.log('newChanges', formChanges);
         const newInterventionChanges = {
           ...this.getInterventionDataChanges(),
           ...formChanges,

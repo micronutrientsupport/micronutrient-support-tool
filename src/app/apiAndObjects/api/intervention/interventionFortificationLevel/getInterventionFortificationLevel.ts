@@ -1,8 +1,8 @@
-import { CacheableEndpoint } from '../../../_lib_code/api/cacheableEndpoint.abstract';
+import { Endpoint } from 'src/app/apiAndObjects/_lib_code/api/endpoint.abstract';
 import { RequestMethod } from '../../../_lib_code/api/requestMethod.enum';
 import { InterventionFortificantLevel } from 'src/app/apiAndObjects/objects/interventionFortificantLevel';
 
-export class GetInterventionFortificationLevel extends CacheableEndpoint<
+export class GetInterventionFortificationLevel extends Endpoint<
   InterventionFortificantLevel[],
   GetInverventionsParams,
   InterventionFortificantLevel
