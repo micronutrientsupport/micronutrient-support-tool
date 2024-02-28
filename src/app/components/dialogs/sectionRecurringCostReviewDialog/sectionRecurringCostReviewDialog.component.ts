@@ -1,7 +1,11 @@
 import { Component, Inject, Injectable } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { RecurringCosts, RecurringCostBreakdown } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import {
+  RecurringCosts,
+  RecurringCostBreakdown,
+  InterventionRecurringCosts,
+} from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
@@ -9,6 +13,7 @@ import { FormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } fro
 import { JSONLogicService } from 'src/app/services/jsonlogic.service';
 import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
+import { Subscription } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 @Component({
   selector: 'app-section-recurring-cost-review-dialog',
@@ -38,6 +43,10 @@ export class SectionRecurringCostReviewDialogComponent {
     'year9',
   ];
 
+  private subscriptions = new Array<Subscription>();
+
+  public isReloading = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dialogData: DialogData<RecurringCosts>,
@@ -49,6 +58,27 @@ export class SectionRecurringCostReviewDialogComponent {
   ) {
     this.initFormWatcher();
     this.title = dialogData.dataIn.section;
+
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+
+    this.subscriptions.push(
+      this.interventionDataService.interventionPremixCostChangedObs.subscribe((source: boolean) => {
+        if (source === true) {
+          if (null != activeInterventionId) {
+            this.interventionDataService.interventionPremixCostChanged(false);
+            this.isReloading = true;
+            void this.interventionDataService
+              .getInterventionRecurringCosts(activeInterventionId)
+              .then((data: InterventionRecurringCosts) => {
+                this.dataSource = new MatTableDataSource(data.recurringCosts[0]['costs'][0].costBreakdown);
+                this.isReloading = false;
+                //this.recurringCosts = data.recurringCosts;
+                // console.debug('initial: ', this.recurringCosts);
+              });
+          }
+        }
+      }),
+    );
   }
 
   /**

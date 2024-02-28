@@ -3,7 +3,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { StartUpCostBreakdown, StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { DialogData } from '../baseDialogService.abstract';
-import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormArray,
+  UntypedFormGroup,
+  FormArray,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { ApiService } from 'src/app/apiAndObjects/api/api.service';
 import { InterventionFortificantLevel } from 'src/app/apiAndObjects/objects/interventionFortificantLevel';
@@ -13,6 +20,9 @@ import { InterventionFortificantLevel } from 'src/app/apiAndObjects/objects/inte
   styleUrls: ['./premixCostReviewDialog.component.scss'],
 })
 export class PremixCostReviewDialogComponent {
+  public FormGroup = FormGroup;
+  public FormArray = FormArray;
+
   public dataSource = new MatTableDataSource<InterventionFortificantLevel>();
   public title = '';
   public dirtyIndexes = [];
@@ -66,13 +76,15 @@ export class PremixCostReviewDialogComponent {
   public year0Total = 0;
   public year1Total = 0;
 
-  public fortificationLevel: InterventionFortificantLevel[];
+  public fortificationLevel: any[];
 
   public displayExcipientDetails = false;
 
   //public additionRate = 250;
-  public fillerPercentage = 0.25;
+  public fillerPercentage = 25;
   public upcharge = 1;
+
+  public isDataLoading = true;
 
   public state: {
     fortificantActivity: number;
@@ -91,7 +103,7 @@ export class PremixCostReviewDialogComponent {
     // });
 
     this.initFormWatcher();
-    this.title = 'Premix Calculator';
+    this.title = 'Premix Cost Calculator';
   }
 
   /**
@@ -105,31 +117,23 @@ export class PremixCostReviewDialogComponent {
    *
    */
   private async initFormWatcher(): Promise<void> {
+    this.isDataLoading = true;
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.fortificationLevel = await this.apiService.endpoints.intervention.getInterventionFortificationLevel.call({
       id: activeInterventionId,
     });
     console.log(this.fortificationLevel);
     if (null != activeInterventionId) {
-      this.fortificationLevel.push(
-        InterventionFortificantLevel.makeExcipient({
-          interventionId: activeInterventionId,
-          fortificantMicronutrient: '',
-          fortificantCompound: 'Excipient',
-          fortificantId: 0,
+      const excipient = this.fortificationLevel.find((fortificant) => fortificant.fortificantCompound === 'Excipient');
 
-          // Activity 100 / Overage 0 means
-          // total amount = fortificationLevel
-          fortificantActivity: '100',
-          fortificationOverage: 0,
+      if (excipient) {
+        // Activity 100 / Overage 0 means
+        // total amount = fortificationLevel
 
-          fortificationLevel: this.filler,
-
-          fortificantPrice: '1.5',
-          fortificantAmount: '0',
-          fortificantProportion: '0',
-        }),
-      );
+        excipient.fortificantActivity = 1;
+        excipient.fortificantOverage = 0;
+        excipient.fortificationLevel = this.filler;
+      }
 
       this.dataSource = new MatTableDataSource(this.fortificationLevel);
 
@@ -137,16 +141,24 @@ export class PremixCostReviewDialogComponent {
         return this.createPremixGroup(item);
       });
 
-      console.log(startupGroupArr);
+      startupGroupArr.push(
+        this.formBuilder.group({
+          rowIndex: 'global',
+          rowUnits: 'number',
+          fillerPercentage: [25, []],
+          upcharge: [1, []],
+        }),
+      );
       this.form = this.formBuilder.group({
         items: this.formBuilder.array(startupGroupArr),
       });
       //   // // Mark fields as touched/dirty if they have been previously edited and stored via the API
       //   // this.interventionDataService.setFormFieldState(this.form, this.dirtyIndexes);
-
       // Setup watched to track changes made to form fields and store them to the intervention
       // data service to be synced to the API when needed
       this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
+
+      this.isDataLoading = false;
     }
   }
 
@@ -155,33 +167,53 @@ export class PremixCostReviewDialogComponent {
     return this.formBuilder.group({
       fortificantId: [Number(item.fortificantId), []],
       fortificantAmount: [0, []],
-      fortificantActivity: [Number(item.fortificantActivity), []],
+      fortificantActivity: [Number(item.fortificantActivity / 100), []],
+      fortificantActivityUnits: ['percent', []],
       fortificantProportion: [0, []],
       fortificantPrice: [Number(item.fortificantPrice), []],
+      fortificantPriceUnits: ['US dollars', []],
       fortificantOverage: [Number(0), []],
+      fortificantOverageUnits: ['percent', []],
       fortificationLevel: [Number(item.fortificationLevel), []],
       rowUnits: ['number', []],
-      rowIndex: [Number(item.fortificantId), []],
+      rowIndex: ['F' + Number(item.rowIndex), []],
       isCalculated: [false, []],
     });
   }
 
   public updateFortificantActivity(index: number) {
     return ($event: Event) => {
-      this.fortificationLevel[index].fortificantActivity = Number(($event.target as any).value);
+      this.fortificationLevel[index].fortificantActivity = Number(($event.target as any).value) / 100;
     };
   }
 
   public updateFortificantOverage(index: number) {
     return ($event: Event) => {
-      this.fortificationLevel[index].fortificantOverage = Number(($event.target as any).value);
+      this.fortificationLevel[index].fortificantOverage = Number(($event.target as any).value) / 100;
     };
   }
 
   public updateFortificantPrice(index: number) {
     return ($event: Event) => {
-      this.fortificationLevel[index].fortificantPrice = Number(($event.target as any).value);
+      this.fortificationLevel[index].fortificantPrice = Number(this.formatPlain(($event.target as any).value));
     };
+  }
+
+  private reverseFormatNumber(val, locale) {
+    const group = new Intl.NumberFormat(locale).format(1111).replace(/1/g, '');
+    const decimal = new Intl.NumberFormat(locale).format(1.1).replace(/1/g, '');
+    let reversedVal = val.replace(new RegExp('\\' + group, 'g'), '');
+    reversedVal = reversedVal.replace(new RegExp('\\' + decimal, 'g'), '.');
+    return Number.isNaN(reversedVal) ? 0 : reversedVal;
+  }
+
+  public formatPlain(value: string) {
+    if (value.startsWith('$')) {
+      const plainCurrency = this.reverseFormatNumber(value.substr(1), 'en-US');
+      //console.log(`${value} -> ${plainCurrency}`);
+      return plainCurrency;
+    }
+    return value;
   }
 
   get totalFortificantAmount(): number {
@@ -191,7 +223,7 @@ export class PremixCostReviewDialogComponent {
       // Omit the last row for
       (acc, value, index, arr) =>
         index != arr.length - 1
-          ? acc + ((1 + value.fortificantOverage) * value.fortificationLevel) / (value.fortificantActivity / 100)
+          ? acc + ((1 + value.fortificantOverage) * value.fortificationLevel) / value.fortificantActivity
           : acc,
       0,
     );
@@ -203,7 +235,7 @@ export class PremixCostReviewDialogComponent {
     return this.dataSource.data.reduce(
       (acc, value) =>
         acc +
-        (((1 + value.fortificantOverage) * value.fortificationLevel) / (value.fortificantActivity / 100)) *
+        (((1 + value.fortificantOverage) * value.fortificationLevel) / value.fortificantActivity) *
           (1 / this.additionRate) *
           value.fortificantPrice,
       0,
@@ -213,11 +245,11 @@ export class PremixCostReviewDialogComponent {
   get additionRate(): number {
     return this.fillerPercentage == 0
       ? Number(this.totalFortificantAmount.toFixed(2))
-      : this.ceiling((+this.fillerPercentage + 1) * this.totalFortificantAmount, 50);
+      : this.ceiling((+(this.fillerPercentage / 100) + 1) * this.totalFortificantAmount, 50);
   }
 
   get totalNutrientsAndExcipient(): number {
-    return (Number(this.fillerPercentage) + 1) * this.totalFortificantAmount;
+    return (Number(this.fillerPercentage / 100) + 1) * this.totalFortificantAmount;
   }
 
   get filler(): number {
@@ -228,19 +260,20 @@ export class PremixCostReviewDialogComponent {
     return filler;
   }
 
+  get fillerControl(): FormControl {
+    return ((this.form.controls.items as FormArray).controls[this.fortificationLevel.length] as FormGroup).controls
+      .fillerPercentage as FormControl;
+  }
+
   public ceiling(number: number, significance: number): number {
     return Math.ceil(number / significance) * significance;
   }
 
   public confirmChanges(): void {
-    if (Object.keys(this.formChanges).length !== 0) {
-      this.interventionDataService.interventionPageConfirmContinue().then(() => {
-        this.interventionDataService.interventionStartupCostChanged(true); // trigger dialog source page to update content
-        this.dialogData.close();
-      });
-    } else {
+    this.interventionDataService.interventionPageConfirmContinue().then(() => {
+      this.interventionDataService.interventionPremixCostChanged(true); // trigger dialog source page to update content
       this.dialogData.close();
-    }
+    });
   }
 
   public resetForm() {

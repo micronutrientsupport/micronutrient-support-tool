@@ -5,9 +5,10 @@ import {
   InterventionMonitoringInformation,
   MonitoringInformation,
 } from 'src/app/apiAndObjects/objects/interventionMonitoringInformation';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-intervention-monitoring-information',
   templateUrl: './interventionMonitoringInformation.component.html',
@@ -29,6 +30,9 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     'year9',
     'source',
   ];
+
+  public loading = false;
+
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
@@ -43,6 +47,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
+    private router: Router,
   ) {}
 
   /**
@@ -144,8 +149,12 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     this.initFormWatcher();
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 
   public resetForm() {

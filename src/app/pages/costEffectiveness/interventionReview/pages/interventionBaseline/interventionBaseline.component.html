@@ -29,7 +29,7 @@
                   {{ element.micronutrient}}
                   <app-ce-input-field [index]="index" [year]="0" [element]="element" [form]="form"
                     [tableData]="dataSource" [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="false"
-                    [omitStyling]="false" [changeFunction]="updateBaselineAssumptions"></app-ce-input-field>
+                    [changeFunction]="updateBaselineAssumptions" [omitStyling]="true"></app-ce-input-field>
                 </div>
                 <button *ngIf="dirtyIndexes.includes(index) === false && element.year0Edited === false" mat-button
                   color="primary">
@@ -66,7 +66,7 @@
 
 
       <!-- <form [formGroup]="focusMnForm"> -->
-      <form>
+      <form [formGroup]="focusMnForm" *ngIf="focusMnForm">
         <!-- <table mat-table [dataSource]="focusMnDataSource" formArrayName="items" class="table-full-width"> -->
         <table mat-table [dataSource]="focusMnDataSource" class="table-full-width">
           <ng-container matColumnDef="title">
@@ -94,7 +94,7 @@
                   [(ngModel)]="selectedCompounds[element.micronutrient].index"
                   (selectionChange)="updateCompoundSelection($event, element)">
                   <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                    {{ item.compound | titlecase }} ( {{item.rowIndex}})
+                    {{ item.compound | titlecase }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -113,7 +113,7 @@
                 <!-- <input (change)="updateButtonState(1)" type="number" matInput required
                   [value]="selectedCompounds[element.micronutrient].targetVal"> -->
                 <app-ce-input-field [index]="index" [field]="'targetVal'"
-                  [element]="element.compounds[selectedCompounds[element.micronutrient].index]" [form]="premixMnForm"
+                  [element]="element.compounds[selectedCompounds[element.micronutrient].index]" [form]="focusMnForm"
                   [tableData]="premixMnDataSource" [dirtyIndexes]="premixDirtyIndexes" [includeCopyRightButton]="false"
                   [changeFunction]="updateFVStandard(element.micronutrient)" [omitStyling]="false"></app-ce-input-field>
               </ng-container>
@@ -182,7 +182,7 @@
 
 
           <!-- <form [formGroup]="focusMnForm"> -->
-          <form>
+          <form [formGroup]="premixMnForm" *ngIf="premixMnForm">
             <!-- <table mat-table [dataSource]="focusMnDataSource" formArrayName="items" class="table-full-width"> -->
             <table mat-table [dataSource]="premixMnDataSource" class="table-full-width">
 
@@ -206,7 +206,7 @@
                       [(ngModel)]="selectedCompounds[element.micronutrient].index"
                       (selectionChange)="updateCompoundSelection($event, element)">
                       <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                        {{ item.compound | titlecase }} ( {{item.rowIndex}})
+                        {{ item.compound | titlecase }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -226,8 +226,8 @@
                     <!-- <input (change)="updateButtonState(1)" type="number" matInput required
                   [value]="selectedCompounds[element.micronutrient].targetVal"> -->
                     <app-ce-input-field [index]="index" [field]="'targetVal'"
-                      [element]="element.compounds[selectedCompounds[element.micronutrient].index]" [form]="focusMnForm"
-                      [tableData]="focusMnDataSource" [dirtyIndexes]="focusDirtyIndexes"
+                      [element]="element.compounds[selectedCompounds[element.micronutrient].index]"
+                      [form]="premixMnForm" [tableData]="focusMnDataSource" [dirtyIndexes]="focusDirtyIndexes"
                       [includeCopyRightButton]="false" [changeFunction]="updateFVStandard(element.micronutrient)"
                       [omitStyling]="false"></app-ce-input-field>
                   </ng-container>

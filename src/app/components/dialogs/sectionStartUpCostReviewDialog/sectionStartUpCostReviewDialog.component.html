@@ -48,7 +48,12 @@
     </form>
     <div class="button-container">
       <button mat-stroked-button (click)="dialogData.close()">Back</button>
-      <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
+      <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
+        (click)="confirmChanges()">
+        <span *ngIf="!loading">Confirm and continue</span>
+        <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator"
+            aria-label="spinner" [diameter]="16" color='accent'></mat-spinner></span>
+      </button>
     </div>
     <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="false"
       [showUserValues]="true" [showNonEditable]="true"></app-dialog-step-details>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-intervention-startup-scaleup-costs',
   templateUrl: './interventionStartupScaleupCosts.component.html',
@@ -19,9 +20,12 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public loading = false;
+
   constructor(
     private intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
+    private router: Router,
   ) {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
@@ -50,6 +54,14 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
         }
       }),
     );
+  }
+
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 
   public ngOnInit(): void {

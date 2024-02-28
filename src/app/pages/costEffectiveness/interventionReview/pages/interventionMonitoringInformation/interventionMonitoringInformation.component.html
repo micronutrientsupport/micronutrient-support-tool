@@ -62,9 +62,11 @@
       [routerLink]="ROUTES.INTERVENTION_REVIEW_INDUSTRY_INFORMATION | route" queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <a class="intervention-navigation-confirm" mat-flat-button color="primary"
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS | route" queryParamsHandling="preserve"
-      (click)="confirmAndContinue()">Confirm and
-      continue</a>
+    <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
+      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS)">
+      <span *ngIf="!loading">Confirm and continue</span>
+      <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+          [diameter]="16" color='accent'></mat-spinner></span>
+    </button>
   </footer>
 </div>

@@ -32,8 +32,10 @@ import { DialogStepDetailsComponent } from './dialogStepDetails/dialogStepDetail
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
 import { InterventionInputFieldComponent } from 'src/app/pages/costEffectiveness/interventionReview/components/ceInputField/ceInputField.component';
-import { ComponentsModule } from '../components.module';
 import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premixCostReviewDialog.component';
+import { ReusableSkeletonTableComponent } from '../reusableSkeletonTable/reusableSkeletonTable.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ComponentsModule } from '../components.module';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premix
     FormsModule,
     ReactiveFormsModule,
     PipesModule,
+    ComponentsModule,
     DirectivesModule,
   ],
   exports: [BaseDialogComponent, InterventionInputFieldComponent],
