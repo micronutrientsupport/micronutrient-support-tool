@@ -18,7 +18,7 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { getRoute, AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormGroup, NonNullableFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { DictionaryService } from 'src/app/services/dictionary.service';
@@ -68,6 +68,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public loading = false;
 
   public focusDirtyIndexes = [];
+  public allFoodVehicleStandards: Array<FoodVehicleStandard>;
   public focusVehicleStandards: Array<FoodVehicleStandard>;
   public focusMnDataSource = new MatTableDataSource();
   public focusMnForm: UntypedFormGroup;
@@ -138,6 +139,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
         const intervention = await this.interventionDataService.getIntervention(this.activeInterventionId);
 
+        this.interventionDataService.clearMicronutrientInPremix();
         data.foodVehicleStandard.forEach((standard: FoodVehicleStandard, index: number) => {
           console.log(standard.micronutrient);
 
@@ -149,6 +151,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
                 rowIndex: standard.compounds[stdIndex].rowIndex,
                 targetVal: standard.compounds[stdIndex].targetVal,
               };
+              this.interventionDataService.addMicronutrientInPremix(standard.micronutrient);
             }
           });
 
@@ -163,6 +166,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
           }
           console.log('SelCmpd', this.selectedCompounds);
         });
+
+        this.allFoodVehicleStandards = data.foodVehicleStandard;
 
         this.focusVehicleStandards = data.foodVehicleStandard.filter((standard) => {
           return standard.micronutrient.includes(intervention.focusMicronutrient);
@@ -285,6 +290,12 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public openCalculatedFortificationInfoDialog(): void {
     void this.dialogService.openCalculatedFortificationInfoDialog();
   }
+  public openBaselinePerformanceInfoDialog(): void {
+    void this.dialogService.openBaselinePerformanceInfoDialog();
+  }
+  public openfoodVehicleStandardInfoDialog(): void {
+    void this.dialogService.openfoodVehicleStandardInfoDialog();
+  }
 
   public resetForm() {
     // set fields to default values as delivered per api
@@ -309,7 +320,28 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public handleAddMn(micronutrient: MicronutrientDictionaryItem): void {
     console.log('Add new MN!', micronutrient);
-    this.newMnInPremix = micronutrient;
+
+    const newStandard = this.allFoodVehicleStandards.filter((standard) => {
+      return standard.micronutrient.includes(micronutrient.id);
+    });
+
+    this.premixVehicleStandards.push(newStandard[0]);
+
+    this.selectedCompounds[micronutrient.id] = {
+      index: 0,
+      rowIndex: newStandard[0].compounds[0].rowIndex,
+      targetVal: newStandard[0].compounds[0].targetVal,
+    };
+    const gp = this.createPremixMnGroup(newStandard[0]);
+
+    const initialControls = this.premixMnForm.controls;
+    (initialControls.items as FormArray).push(gp);
+    this.premixMnForm.addControl('items', initialControls);
+
+    this.premixMnDataSource = new MatTableDataSource(this.premixVehicleStandards);
+
+    // Add Mn to premix list to disable from the Add micronutrient menu
+    this.interventionDataService.addMicronutrientInPremix(micronutrient.id);
   }
 
   public updateButtonState(value: number): void {

@@ -30,6 +30,8 @@ import { Params } from '@angular/router';
 import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.component';
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
 import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premixCostReviewDialog.component';
+import { BaselinePerformanceInfoDialogComponent } from './baselinePerformanceInfoDialog/baselinePerformanceInfoDialog.component';
+import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehicleStandardDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -153,6 +155,18 @@ export class DialogService extends BaseDialogService {
       width: '50vw',
     });
   }
+
+  public openBaselinePerformanceInfoDialog(): Promise<DialogData> {
+    return this.openDialog('baselinePerformanceInfoDialog', BaselinePerformanceInfoDialogComponent, true, null, {
+      width: '50vw',
+    });
+  }
+  public openfoodVehicleStandardInfoDialog(): Promise<DialogData> {
+    return this.openDialog('foodVehicleStandardDialog', FoodVehicleStandardDialog, true, null, {
+      width: '50vw',
+    });
+  }
+
   public openCalculatedFortificationInfoDialog(): Promise<DialogData> {
     return this.openDialog(
       'ceCalculatedFortificationInfoDialog',

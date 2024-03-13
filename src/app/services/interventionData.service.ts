@@ -32,6 +32,8 @@ export class InterventionDataService {
   private cachedSelectedCompounds: Record<number, FoodVehicleCompound> = {};
   public ROUTES = AppRoutes;
 
+  private interventionPremixMns: string[] = [];
+
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
 
@@ -169,6 +171,18 @@ export class InterventionDataService {
       ? (JSON.parse(localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)) as Array<SimpleIntervention>)
       : [];
     return itemsArr;
+  }
+
+  public clearMicronutrientInPremix() {
+    this.interventionPremixMns = [];
+  }
+
+  public addMicronutrientInPremix(micronutrient: string) {
+    this.interventionPremixMns.push(micronutrient);
+  }
+
+  public getMicronutrientInPremix() {
+    return this.interventionPremixMns;
   }
 
   public setSimpleInterventionInStorage(intervention: Intervention) {

@@ -110,7 +110,8 @@ mat-form-field {
   justify-content: flex-start;
   align-items: center;
 
-  button {
+  button,
+  a {
     margin-left: 2rem;
   }
 }
@@ -184,4 +185,12 @@ mat-panel-title {
 
 .loading-indicator {
   display: inline-block;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.no-click {
+  pointer-events: none;
 }
