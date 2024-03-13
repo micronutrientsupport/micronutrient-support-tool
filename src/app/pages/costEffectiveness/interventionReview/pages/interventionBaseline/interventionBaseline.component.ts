@@ -312,6 +312,8 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
     this.focusMnForm.reset(this.focusMnFormInitVals);
 
+    this.premixMnForm.reset(this.premixMnFormInitVals);
+
     //on reset mark forma as pristine to remove blue highlights
     this.form.markAsPristine();
     //remove dirty indexes to reset button to GFDx input
