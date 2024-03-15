@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.0...v1.14.1) (2024-03-15)
+
+
+### Bug Fixes
+
+* reset dev deployment to use dev api ([c90360b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c90360b672aa310d4f18c11b8bc2e1ea6b5b529e))
+
 ## [1.14.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.13.1...v1.14.0) (2024-02-28)
 
 
