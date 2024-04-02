@@ -2,7 +2,7 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
     <div class="title">
-      <span>Review of program assumptions</span>
+      <span>Performance over time</span>
     </div>
 
     <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
@@ -38,7 +38,7 @@
       </table>
     </form>
     <div class="title">
-      <span>Average nutrient level (mg/kg) among all food vehicle at point of fortification</span>
+      <span>Average fortification level (mg/kg) among fortifiable food vehicle at point of fortification</span>
     </div>
     <div class="lower-table-wrapper">
       <table mat-table [dataSource]="newDataSource" matSort class="table-full-width">
@@ -156,8 +156,8 @@
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
     <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
-      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW)">
-      <span *ngIf="!loading">Confirm and continue</span>
+      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_INDUSTRY_INFORMATION)">
+      <span *ngIf="!loading">Confirm and continue to Costs</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>
     </button>

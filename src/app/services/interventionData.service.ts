@@ -564,7 +564,7 @@ export class InterventionDataService {
         startWith(form.value),
         pairwise(),
         map(([oldState, newState]) => {
-          // console.log({ oldState, newState });
+          console.log({ oldState, newState });
           for (const key in newState.items) {
             const rowIndex = form.get('items')['controls'][key]['controls'].rowIndex.value;
             let rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
@@ -637,7 +637,7 @@ export class InterventionDataService {
       )
       .subscribe((value) => {
         formChanges = value;
-        // console.log('newChanges', formChanges);
+        console.log('newChanges', formChanges);
         const newInterventionChanges = {
           ...this.getInterventionDataChanges(),
           ...formChanges,

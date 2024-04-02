@@ -236,7 +236,7 @@ export class SectionRecurringCostReviewDialogComponent {
   }
 
   public confirmChanges(): void {
-    if (Object.keys(this.formChanges).length !== 0) {
+    if (Object.keys(this.interventionDataService.getInterventionDataChanges()).length !== 0) {
       this.interventionDataService.interventionPageConfirmContinue().then(() => {
         this.interventionDataService.interventionRecurringCostChanged(true); // trigger dialog source page to update content
         this.dialogData.close();

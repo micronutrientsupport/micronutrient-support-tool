@@ -4,7 +4,6 @@ import { RouteData } from 'src/app/app-routing.module';
 import { FeatureFlagGuard } from 'src/app/guards/featureFlagGuard';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionReviewComponent } from './interventionReview.component';
-import { InterventionAssumptionsReviewComponent } from './pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionBaselineComponent } from './pages/interventionBaseline/interventionBaseline.component';
 import { InterventionComplianceComponent } from './pages/interventionCompliance/interventionCompliance.component';
 import { InterventionConsumptionComponent } from './pages/interventionConsumption/interventionConsumption.component';
@@ -29,20 +28,6 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_BASELINE,
-          title: '',
-          keywords: '',
-          description: '',
-          showLightFooter: true,
-        } as RouteData,
-      },
-      {
-        path: AppRoutes.INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW.getRouterPath(),
-        component: InterventionAssumptionsReviewComponent,
-        canActivate: [FeatureFlagGuard],
-        canLoad: [FeatureFlagGuard],
-        data: {
-          featureFlag: 'CE-Enable',
-          appRoute: AppRoutes.INTERVENTION_REVIEW_ASSUMPTIONS_REVIEW,
           title: '',
           keywords: '',
           description: '',

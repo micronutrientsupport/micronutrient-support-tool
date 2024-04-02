@@ -13,7 +13,7 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 })
 export class InterventionEffectivenessHouseholdsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 6;
 
   private subscriptions = new Array<Subscription>();
 

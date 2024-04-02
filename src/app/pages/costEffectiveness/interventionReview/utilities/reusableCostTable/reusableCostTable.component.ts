@@ -27,6 +27,10 @@ export class ReusableCostTableComponent implements OnInit {
     }
   }
 
+  public openPremixCostReviewDialog(costs: RecurringCosts): void {
+    this.dialogService.openPremixCostReviewDialog(costs);
+  }
+
   public openSectionRecurringCostReviewDialog(costs: RecurringCosts): void {
     this.dialogService.openSectionRecurringCostReviewDialog(costs);
   }

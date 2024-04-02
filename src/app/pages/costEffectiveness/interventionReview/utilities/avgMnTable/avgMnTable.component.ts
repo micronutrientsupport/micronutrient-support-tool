@@ -16,7 +16,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
   templateUrl: './avgMnTable.component.html',
   styleUrls: ['./avgMnTable.component.scss'],
 })
-export class AvgMnTableComponent implements OnInit {
+export class AvgMnTableComponent {
   public micronutrients: Array<FoodVehicleStandard> = [];
   public activeStandard: FoodVehicleStandard[];
   public baselineAssumptions: BaselineAssumptions;
@@ -38,7 +38,6 @@ export class AvgMnTableComponent implements OnInit {
   public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 2;
   public interventionName = 'IntName';
   private activeInterventionId: string;
   private subscriptions = new Array<Subscription>();
@@ -77,10 +76,6 @@ export class AvgMnTableComponent implements OnInit {
         }
       }),
     );
-  }
-
-  public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): void {

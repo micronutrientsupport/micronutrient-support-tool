@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class InterventionStartupScaleupCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 5;
+  public pageStepperPosition = 4;
   public interventionName = 'IntName';
 
   public startupCosts: Array<StartUpScaleUpCost>;
@@ -45,6 +45,7 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
               .getInterventionStartupCosts(activeInterventionId)
               .then((data: InterventionStartupCosts) => {
                 // setting null then timeout prevents the chart from flickering and allows animation to work
+                console.log('Reset the scaleup costs');
                 this.startupCosts = null;
                 setTimeout(() => {
                   this.startupCosts = data.startupScaleupCosts;

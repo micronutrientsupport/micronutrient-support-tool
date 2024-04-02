@@ -1,184 +1,184 @@
 <app-base-dialog [data]="dialogData" [title]="title">
-  <div class="bmgf-maps-nice-scrollbar">
+  <!-- <div class="bmgf-maps-nice-scrollbar"> -->
 
-    <app-reusable-skeleton-table *ngIf="isDataLoading" [setData]="{ columns: 9, rows: 6 }">
-    </app-reusable-skeleton-table>
+  <app-reusable-skeleton-table *ngIf="isDataLoading" [setData]="{ columns: 9, rows: 6 }">
+  </app-reusable-skeleton-table>
 
-    <form [formGroup]="form" *ngIf="form && !isDataLoading" class="premixCalcForm">
+  <form [formGroup]="form" *ngIf="form && !isDataLoading" class="premixCalcForm">
 
-      <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
+    <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
 
-        <ng-container matColumnDef="fortificantMicronutrient">
-          <th mat-header-cell *matHeaderCellDef>Nutrient</th>
-          <td mat-cell *matCellDef="let element; let index = index;" [formGroupName]="index">
-            <span *ngIf="index !== (fortificationLevel.length -1)">{{ element.fortificantMicronutrient}}</span>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+      <ng-container matColumnDef="fortificantMicronutrient">
+        <th mat-header-cell *matHeaderCellDef>Nutrient</th>
+        <td mat-cell *matCellDef="let element; let index = index;" [formGroupName]="index">
+          <span *ngIf="index !== (fortificationLevel.length -1)">{{ element.fortificantMicronutrient}}</span>
+          <span *ngIf="index == (fortificationLevel.length -1)"
+            (click)="displayExcipientDetails = !displayExcipientDetails">{{
+            element.fortificantCompound}}
+            <mat-icon *ngIf="!displayExcipientDetails">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="displayExcipientDetails">keyboard_arrow_up</mat-icon>
+          </span>
+          <div *ngIf="index == (fortificationLevel.length -1)" [class.hidden]="!displayExcipientDetails"
+            class="excipientDetails">
+            <table>
+              <tr>
+                <td>Nutrients Subtotal:</td>
+                <td>{{totalFortificantAmount.toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td>Excipient as a percent of nutrients subtotal:</td>
+                <td>
+                  <input type="numeric" appDecimalInput required [(ngModel)]="fillerPercentage"
+                    [formControl]="fillerControl">
+                </td>
+              </tr>
+              <tr>
+                <td>Starting nutrients + excipient calculation:</td>
+                <td>{{totalNutrientsAndExcipient.toFixed(2)}}</td>
+              </tr>
+              <tr>
+                <td>Addition rate: <i class=" fas fa-question-circle"
+                    matTooltip="Excipient should be at least 25% of nutrients subtotal, then round up addition rate in 50g increments"></i>
+                </td>
+                <td>{{ additionRate }}</td>
+              </tr>
+              <tr>
+                <td>Excipient (filler):</td>
+                <td>{{ filler.toFixed(2) }}</td>
+              </tr>
+            </table>
+          </div>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantCompound">
-          <th mat-header-cell *matHeaderCellDef>Fortificant Compound</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index"
-            [class]="displayExcipientDetails ? 'excipient' : ''">
-            <span *ngIf="index !== (fortificationLevel.length -1)">{{
-              element.fortificantCompound}}</span>
-            <span *ngIf="index == (fortificationLevel.length -1)"
-              (click)="displayExcipientDetails = !displayExcipientDetails">{{
-              element.fortificantCompound}}
-              <mat-icon *ngIf="!displayExcipientDetails">keyboard_arrow_down</mat-icon>
-              <mat-icon *ngIf="displayExcipientDetails">keyboard_arrow_up</mat-icon>
-            </span>
-            <div *ngIf="index == (fortificationLevel.length -1)" [class.hidden]="!displayExcipientDetails"
-              class="excipientDetails">
-              <table>
-                <tr>
-                  <td>Nutrients Subtotal:</td>
-                  <td>{{totalFortificantAmount.toFixed(2)}}</td>
-                </tr>
-                <tr>
-                  <td>Excipient as a percent of nutrients subtotal:</td>
-                  <td>
-                    <input type="numeric" appDecimalInput required [(ngModel)]="fillerPercentage"
-                      [formControl]="fillerControl">
-                  </td>
-                </tr>
-                <tr>
-                  <td>Starting nutrients + excipient calculation:</td>
-                  <td>{{totalNutrientsAndExcipient.toFixed(2)}}</td>
-                </tr>
-                <tr>
-                  <td>Addition rate: <i class=" fas fa-question-circle"
-                      matTooltip="Excipient should be at least 25% of nutrients subtotal, then round up addition rate in 50g increments"></i>
-                  </td>
-                  <td>{{ additionRate }}</td>
-                </tr>
-                <tr>
-                  <td>Excipient (filler):</td>
-                  <td>{{ filler.toFixed(2) }}</td>
-                </tr>
-              </table>
-            </div>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+      <ng-container matColumnDef="fortificantCompound">
+        <th mat-header-cell *matHeaderCellDef>Fortificant Compound</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index"
+          [class]="displayExcipientDetails ? 'excipient' : ''">
+          <span *ngIf="index !== (fortificationLevel.length -1)">{{
+            element.fortificantCompound}}</span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantActivity">
-          <th mat-header-cell *matHeaderCellDef>Activity (% of nutrient in fortificant compound)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <!-- <input matInput type="text" appDecimalInput required [(ngModel)]="element.fortificantActivity"
+      <ng-container matColumnDef="fortificantActivity">
+        <th mat-header-cell *matHeaderCellDef>Activity (% of nutrient in fortificant compound)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          <!-- <input matInput type="text" appDecimalInput required [(ngModel)]="element.fortificantActivity"
               [ngModelOptions]="{standalone: true}"> -->
-            <span *ngIf="index !== (fortificationLevel.length -1)"><app-ce-input-field [index]="index"
-                [field]="'fortificantActivity'" [fieldType]="'percent'" [element]="element" [form]="form"
-                [tableData]="dataSource" [dirtyIndexes]="[]" [includeCopyRightButton]="false"
-                [changeFunction]="updateFortificantActivity(index)" [omitStyling]="false"></app-ce-input-field></span>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+          <span *ngIf="index !== (fortificationLevel.length -1)"><app-ce-input-field [index]="index"
+              [field]="'fortificantActivity'" [fieldType]="'percent'" [element]="element" [form]="form"
+              [tableData]="dataSource" [dirtyIndexes]="[]" [includeCopyRightButton]="false"
+              [changeFunction]="updateFortificantActivity(index)" [omitStyling]="false"></app-ce-input-field></span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef>Nutrients Subtotal (excluding excipient): </td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificationLevel">
-          <th mat-header-cell *matHeaderCellDef>Fortification level (mg/kg)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <span *ngIf="index !== (fortificationLevel.length -1)">{{ element.fortificationLevel}}</span>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+      <ng-container matColumnDef="fortificationLevel">
+        <th mat-header-cell *matHeaderCellDef>Fortification level (mg/kg)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          <span *ngIf="index !== (fortificationLevel.length -1)">{{ element.fortificationLevel}}</span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantOverage">
-          <th mat-header-cell *matHeaderCellDef>Overage (%)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <span *ngIf="index !== (fortificationLevel.length -1)"><app-ce-input-field [index]="index"
-                [field]="'fortificantOverage'" [fieldType]="'percent'" [element]="element" [form]="form"
-                [tableData]="dataSource" [dirtyIndexes]="[]" [includeCopyRightButton]="false"
-                [changeFunction]="updateFortificantOverage(index)" [omitStyling]="false"></app-ce-input-field></span>
-          </td>
-          <td mat-footer-cell *matFooterCellDef>Nutrients Subtotal (excluding excipient): </td>
-        </ng-container>
+      <ng-container matColumnDef="fortificantOverage">
+        <th mat-header-cell *matHeaderCellDef>Overage (%)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          <span *ngIf="index !== (fortificationLevel.length -1)"><app-ce-input-field [index]="index"
+              [field]="'fortificantOverage'" [fieldType]="'percent'" [element]="element" [form]="form"
+              [tableData]="dataSource" [dirtyIndexes]="[]" [includeCopyRightButton]="false"
+              [changeFunction]="updateFortificantOverage(index)" [omitStyling]="false"></app-ce-input-field></span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantAmount">
-          <th mat-header-cell *matHeaderCellDef>Amount of fortificant (mg/kg food vehicle)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            {{ (((1 +
-            element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)).toFixed(2) }}
-          </td>
-          <td class="" mat-footer-cell *matFooterCellDef>{{totalFortificantAmount.toFixed(2)}}</td>
-        </ng-container>
+      <ng-container matColumnDef="fortificantAmount">
+        <th mat-header-cell *matHeaderCellDef>Amount of fortificant (mg/kg food vehicle)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          {{ (((1 +
+          element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)).toFixed(2) }}
+        </td>
+        <td class="" mat-footer-cell *matFooterCellDef>{{totalFortificantAmount.toFixed(2)}}</td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantProportion">
-          <th mat-header-cell *matHeaderCellDef>Proportion of fortificant in premix</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            {{ ((((1 +
-            element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)) *
-            (1/additionRate)).toFixed(2)}}
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+      <ng-container matColumnDef="fortificantProportion">
+        <th mat-header-cell *matHeaderCellDef>Proportion of fortificant in premix</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          {{ ((((1 +
+          element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)) *
+          (1/additionRate)).toFixed(2)}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantPrice">
-          <th mat-header-cell *matHeaderCellDef>Fortificant compound price (US$/kg)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <app-ce-input-field [index]="index" [field]="'fortificantPrice'" [fieldType]="'US dollars'"
-              [element]="element" [form]="form" [tableData]="dataSource" [dirtyIndexes]="[]"
-              [includeCopyRightButton]="false" [changeFunction]="updateFortificantPrice(index)"
-              [omitStyling]="false"></app-ce-input-field>
-          </td>
-          <td mat-footer-cell *matFooterCellDef>Premix cost ($/kg): </td>
+      <ng-container matColumnDef="fortificantPrice">
+        <th mat-header-cell *matHeaderCellDef>Fortificant compound price (US$/kg)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          <app-ce-input-field [index]="index" [field]="'fortificantPrice'" [fieldType]="'US dollars'"
+            [element]="element" [form]="form" [tableData]="dataSource" [dirtyIndexes]="[]"
+            [includeCopyRightButton]="false" [changeFunction]="updateFortificantPrice(index)"
+            [omitStyling]="false"></app-ce-input-field>
+        </td>
+        <td mat-footer-cell *matFooterCellDef>Premix cost ($/kg): </td>
 
-        </ng-container>
+      </ng-container>
 
-        <ng-container matColumnDef="fortificantCost">
-          <th mat-header-cell *matHeaderCellDef>Cost of fortificant (US$/kg premix)</th>
-          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            {{ ((((1 +
-            element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)) *
-            (1/additionRate)) * element.fortificantPrice | currency }}
-          </td>
-          <td mat-footer-cell *matFooterCellDef>{{ totalCost | currency }}</td>
+      <ng-container matColumnDef="fortificantCost">
+        <th mat-header-cell *matHeaderCellDef>Cost of fortificant (US$/kg premix)</th>
+        <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+          {{ ((((1 +
+          element.fortificantOverage)*element.fortificationLevel)/(element.fortificantActivity)) *
+          (1/additionRate)) * element.fortificantPrice | currency }}
+        </td>
+        <td mat-footer-cell *matFooterCellDef>{{ totalCost | currency }}</td>
 
-        </ng-container>
+      </ng-container>
 
-        <ng-container matColumnDef="empty">
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+      <ng-container matColumnDef="empty">
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-        <ng-container matColumnDef="upchargeLabel">
-          <td mat-footer-cell *matFooterCellDef>Up charge ($/kg):</td>
-        </ng-container>
+      <ng-container matColumnDef="upchargeLabel">
+        <td mat-footer-cell *matFooterCellDef>Up charge ($/kg):</td>
+      </ng-container>
 
-        <ng-container matColumnDef="totalLabel">
-          <td mat-footer-cell *matFooterCellDef>Total premix cost ($/kg):</td>
-        </ng-container>
+      <ng-container matColumnDef="totalLabel">
+        <td mat-footer-cell *matFooterCellDef>Total premix cost ($/kg):</td>
+      </ng-container>
 
-        <ng-container matColumnDef="total">
-          <td mat-footer-cell *matFooterCellDef>{{ totalCost + upcharge | currency }}</td>
-        </ng-container>
+      <ng-container matColumnDef="total">
+        <td mat-footer-cell *matFooterCellDef>{{ totalCost + upcharge | currency }}</td>
+      </ng-container>
 
-        <ng-container matColumnDef="finalLabel">
-          <td mat-footer-cell *matFooterCellDef>Total cost per MT of fortified food vehicle ($)</td>
-        </ng-container>
+      <ng-container matColumnDef="finalLabel">
+        <td mat-footer-cell *matFooterCellDef>Total cost per MT of fortified food vehicle ($)</td>
+      </ng-container>
 
-        <ng-container matColumnDef="finalTotal">
-          <td mat-footer-cell *matFooterCellDef>{{ ((totalCost + upcharge)*additionRate)/1000 | currency }}</td>
-        </ng-container>
+      <ng-container matColumnDef="finalTotal">
+        <td mat-footer-cell *matFooterCellDef>{{ ((totalCost + upcharge)*additionRate)/1000 | currency }}</td>
+      </ng-container>
 
-        <ng-container matColumnDef="upcharge">
-          <td mat-footer-cell *matFooterCellDef [formGroupName]="fortificationLevel.length">
-            <input type="numeric" appDecimalInput required [(ngModel)]="upcharge" [formControlName]="'upcharge'">
-          </td>
-        </ng-container>
+      <ng-container matColumnDef="upcharge">
+        <td mat-footer-cell *matFooterCellDef [formGroupName]="fortificationLevel.length">
+          <input type="numeric" appDecimalInput required [(ngModel)]="upcharge" [formControlName]="'upcharge'">
+        </td>
+      </ng-container>
 
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-        <tr class="premixRow" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="upchargeColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="totalColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="finalColumns;"></tr>
-        <tr class="mat-row" *matNoDataRow></tr>
-      </table>
-    </form>
-    <div class="button-container">
-      <button mat-stroked-button (click)="dialogData.close()">Back</button>
-      <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
-    </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+      <tr class="premixRow" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="upchargeColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="totalColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="finalColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow></tr>
+    </table>
+  </form>
+  <div class="button-container">
+    <button mat-stroked-button (click)="dialogData.close()">Back</button>
+    <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
   </div>
+  <!-- </div> -->
 </app-base-dialog>
