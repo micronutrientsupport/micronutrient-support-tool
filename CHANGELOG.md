@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.14.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.1...v1.14.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* fix intervention ids ([a548df2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a548df2f74046bf2e3e7ebb2ab4b29101bfa8c1d))
+
+
+### Miscellaneous
+
+* fix api url ([bb1a982](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/bb1a982429529a92d37d65410fb1518d69acb5ee))
+
 ## [1.14.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.0...v1.14.1) (2024-04-16)
 
 
