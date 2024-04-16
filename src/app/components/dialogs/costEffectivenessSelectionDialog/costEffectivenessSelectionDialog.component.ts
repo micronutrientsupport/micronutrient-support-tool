@@ -90,7 +90,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           'Existing intervention program': {
             /*     'wheat flour': '2', */
             // 'maize flour': '3',
-            'refined oil': '1',
+            'refined oil': '12',
             // sugar: '4',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -101,7 +101,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B1: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -112,7 +112,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B2: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -123,7 +123,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B3: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -134,7 +134,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B6: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -145,7 +145,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B9: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -156,7 +156,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B12: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -205,7 +205,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       Zn: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '2',
+            'wheat flour': '13',
             // 'maize flour': '3',
             // 'salt, iodine': '5',
             // rice: '8',
@@ -239,9 +239,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       A: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
-            'refined oil': '11',
+            'refined oil': '1',
             // sugar: '14',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -252,7 +252,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B1: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -263,7 +263,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B2: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -274,7 +274,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B3: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -296,7 +296,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B9: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -307,7 +307,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       B12: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -345,7 +345,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       Fe: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
@@ -356,7 +356,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       Zn: {
         LSFF: {
           'Existing intervention program': {
-            'wheat flour': '12',
+            'wheat flour': '2',
             // 'maize flour': '13',
             // 'salt, iodine': '15',
             // rice: '16',
