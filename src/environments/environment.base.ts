@@ -15,7 +15,7 @@ export const environment = {
   //main API
   // apiBaseUrl: 'http://10.148.7.2:3001',
   // apiBaseUrl: 'http://bmgf-maps-api-1.bgslcdevops.test:3001',
-  // apiBaseUrl: 'https://api.micronutrient.support/v2',
+
 
   //temp api:
   //apiBaseUrl: 'http://zhwldock002.ad.nerc.ac.uk:3001/',
