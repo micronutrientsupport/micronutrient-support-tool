@@ -20,7 +20,6 @@ import { AddMicronutrientComponent } from './components/add-micronutrient/add-mi
 import { InterventionDescriptionComponent } from './components/interventionDescription/interventionDescription.component';
 import { InterventionReviewComponentsModule } from './components/interventionReviewComponents.module';
 import { InterventionSideNavContentService } from './components/interventionSideNavContent/interventionSideNavContent.service';
-import { InterventionAssumptionsReviewComponent } from './pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionComplianceComponent } from './pages/interventionCompliance/interventionCompliance.component';
 import { InterventionConsumptionComponent } from './pages/interventionConsumption/interventionConsumption.component';
 import { InterventionCostSummaryDetailedCostsGraphComponent } from './pages/interventionCostSummary/components/detailedView/graphCosts/graphCosts.component';
@@ -55,7 +54,6 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
     InterventionRecurringCostsComponent,
     InterventionStartupScaleupCostsComponent,
     InterventionConsumptionComponent,
-    InterventionAssumptionsReviewComponent,
     InterventionEffectivenessHouseholdsComponent,
     InterventionEffectivenessMetricsComponent,
     InterventionDescriptionComponent,

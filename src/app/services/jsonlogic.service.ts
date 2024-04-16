@@ -73,7 +73,14 @@ export class JSONLogicService {
     allItems: Array<IndustryInformation | MonitoringInformation | StartUpCostBreakdown | RecurringCostBreakdown>,
   ): number {
     this.setItems(allItems);
-    return jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
+    const result = jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
+    switch (item['rowUnits']) {
+      case 'percent':
+        return Math.round(result * 100) / 100;
+        break;
+      default:
+        return result;
+    }
   }
 
   public setItems(

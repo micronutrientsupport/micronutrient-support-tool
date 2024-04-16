@@ -6,7 +6,7 @@
       <mat-tab label="Quick Summary">
         <div class="tab-content">
           <h2>Quick summary</h2>
-          <p>Quick summary overview shows the total and discounted intervention costs for the upcoming 10 years.</p>
+          <p>The quick cost summary shows annual average costs, 10-year total costs, and other summary cost metrics.</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group" [(selectedIndex)]="selectedTabSummary">
             <mat-tab label="Table">
               <app-reusable-skeleton-table *ngIf="!summaryCosts"
@@ -34,10 +34,11 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Detailed view">
+      <mat-tab label="Detailed Summary">
         <div class="tab-content">
-          <h2>Detailed view</h2>
-          <p>Detailed summary shows intervention costs grouped by activity for the upcoming 10 years.</p>
+          <h2>Detailed summary</h2>
+          <p>The detailed cost summary shows intervention costs grouped by activity for each year of the 10-year
+            modeling time horizon.</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
             <mat-tab label="Table">
               <app-intervention-cost-summary-detailed-startup-table *ngIf="null != startupCosts"

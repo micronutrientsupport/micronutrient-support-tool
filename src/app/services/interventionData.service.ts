@@ -32,6 +32,8 @@ export class InterventionDataService {
   private cachedSelectedCompounds: Record<number, FoodVehicleCompound> = {};
   public ROUTES = AppRoutes;
 
+  private interventionPremixMns: string[] = [];
+
   private readonly interventionSummaryChartPNGSrc = new BehaviorSubject<string>(null);
   public interventionSummaryChartPNGObs = this.interventionSummaryChartPNGSrc.asObservable();
 
@@ -169,6 +171,18 @@ export class InterventionDataService {
       ? (JSON.parse(localStorage.getItem(RECENT_INTERVENTIONS_SIMPLE)) as Array<SimpleIntervention>)
       : [];
     return itemsArr;
+  }
+
+  public clearMicronutrientInPremix() {
+    this.interventionPremixMns = [];
+  }
+
+  public addMicronutrientInPremix(micronutrient: string) {
+    this.interventionPremixMns.push(micronutrient);
+  }
+
+  public getMicronutrientInPremix() {
+    return this.interventionPremixMns;
   }
 
   public setSimpleInterventionInStorage(intervention: Intervention) {
@@ -389,6 +403,7 @@ export class InterventionDataService {
   public async interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
     if (interventionChanges) {
+      console.log(interventionChanges);
       const dataArr = [];
       for (const key in interventionChanges) {
         if (key.startsWith('F')) {
@@ -550,7 +565,7 @@ export class InterventionDataService {
         startWith(form.value),
         pairwise(),
         map(([oldState, newState]) => {
-          // console.log({ oldState, newState });
+          console.log({ oldState, newState });
           for (const key in newState.items) {
             const rowIndex = form.get('items')['controls'][key]['controls'].rowIndex.value;
             let rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
@@ -623,7 +638,7 @@ export class InterventionDataService {
       )
       .subscribe((value) => {
         formChanges = value;
-        // console.log('newChanges', formChanges);
+        console.log('newChanges', formChanges);
         const newInterventionChanges = {
           ...this.getInterventionDataChanges(),
           ...formChanges,

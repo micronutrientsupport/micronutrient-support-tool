@@ -33,9 +33,9 @@ import { UserLoginDialogComponent } from './userLoginDialog/userLoginDialog.comp
 import { UserRegisterDialogComponent } from './userRegisterDialog/userRegisterDialog.component';
 import { InterventionInputFieldComponent } from 'src/app/pages/costEffectiveness/interventionReview/components/ceInputField/ceInputField.component';
 import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premixCostReviewDialog.component';
-import { ReusableSkeletonTableComponent } from '../reusableSkeletonTable/reusableSkeletonTable.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ComponentsModule } from '../components.module';
+import { BaselinePerformanceInfoDialogComponent } from './baselinePerformanceInfoDialog/baselinePerformanceInfoDialog.component';
+import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehicleStandardDialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +46,8 @@ import { ComponentsModule } from '../components.module';
     MapSettingsDialogComponent,
     InvalidParametersDialogComponent,
     BaselineDescriptionDialogComponent,
+    BaselinePerformanceInfoDialogComponent,
+    FoodVehicleStandardDialog,
     ScenarioChangeWarningComponent,
     CostEffectivenessInfoDialogComponent,
     CostEffectivenessSelectionDialogComponent,

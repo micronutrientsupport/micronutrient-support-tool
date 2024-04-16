@@ -134,7 +134,7 @@ export class InterventionInputFieldComponent implements OnInit {
           continue;
         }
 
-        // console.log('Calculate row ' + item.rowIndex + '/ year ' + columnIndex);
+        console.log('Calculate row ' + item.rowIndex + '/ year ' + columnIndex);
 
         // getRawValue returns values even if cell is marked as disabled
         let allItems: Array<any> = this.form.getRawValue().items;
@@ -144,12 +144,16 @@ export class InterventionInputFieldComponent implements OnInit {
           switch (item.rowUnits) {
             case 'US dollars':
               for (let i = 0; i < 10; i++) {
-                item['year' + i] = this.formatPlain(item['year' + i]);
+                if (item['year' + i]) {
+                  item['year' + i] = this.formatPlain(item['year' + i]);
+                }
               }
               break;
             case 'percent':
               for (let i = 0; i < 10; i++) {
-                item['year' + i] = item['year' + i] / 100;
+                if (item['year' + i]) {
+                  item['year' + i] = item['year' + i] / 100;
+                }
               }
               break;
           }

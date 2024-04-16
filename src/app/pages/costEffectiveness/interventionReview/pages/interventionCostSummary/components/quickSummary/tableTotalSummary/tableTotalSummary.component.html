@@ -1,14 +1,14 @@
 <div class="tab-content">
-  <h2>Summary of annual average costs</h2>
+  <h2>Summary of undiscounted annual average cost estimates</h2>
 
   <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
     <ng-container matColumnDef="year">
-      <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention year</th>
+      <th class="row-title-left" mat-header-cell *matHeaderCellDef>Cost</th>
       <td class="row-title-left" mat-cell *matCellDef="let element">{{element.labelText}}</td>
     </ng-container>
 
     <ng-container matColumnDef="year0">
-      <th mat-header-cell *matHeaderCellDef="let element">Today</th>
+      <th mat-header-cell *matHeaderCellDef="let element">Estimate</th>
       <td mat-cell *matCellDef="let element">{{element.year0 | currencyExtended}}</td>
     </ng-container>
     <ng-container matColumnDef="year1">

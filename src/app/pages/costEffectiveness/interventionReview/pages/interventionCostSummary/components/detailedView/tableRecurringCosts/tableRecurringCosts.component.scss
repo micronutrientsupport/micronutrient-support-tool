@@ -11,3 +11,32 @@ table {
     text-overflow: ellipsis;
   }
 }
+
+.thead-data {
+  min-width: 6em;
+}
+
+.thead-head {
+  max-width: 15em;
+  width: 15em;
+}
+
+.thead-row {
+  height: 4.5em;
+  button {
+    white-space: normal;
+
+    &::ng-deep .mdc-button__label {
+      width: 100%;
+    }
+
+    mat-icon {
+      width: 2rem;
+    }
+  }
+}
+
+.tab-content {
+  align-items: baseline;
+  overflow: scroll;
+}

@@ -42,6 +42,7 @@ tr.mat-mdc-footer-row td {
 
 ::ng-deep app-premix-cost-review .mat-mdc-dialog-content {
   max-height: 80vh;
+  overflow: unset;
 
   .premixCalcForm {
     tbody::before {
@@ -89,7 +90,7 @@ tr.mat-mdc-footer-row td {
     tbody {
       display: block;
       width: 60em;
-      height: 15em;
+      // height: 15em;
       overflow-y: scroll;
 
       td {
@@ -138,6 +139,7 @@ tr.mat-mdc-footer-row td {
         width: calc(60em / 9);
         mat-icon {
           vertical-align: bottom;
+          float: right;
         }
 
         div.excipientDetails {
@@ -177,4 +179,14 @@ tr.mat-mdc-footer-row td {
 
 .hidden {
   display: none;
+}
+
+.button-container {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.mdc-dialog__content {
+  overflow: unset;
 }

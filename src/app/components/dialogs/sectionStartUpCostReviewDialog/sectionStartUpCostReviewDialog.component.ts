@@ -85,7 +85,7 @@ export class SectionStartUpCostReviewDialogComponent {
   }
 
   public async confirmChanges(): Promise<boolean> {
-    if (Object.keys(this.formChanges).length !== 0) {
+    if (Object.keys(this.interventionDataService.getInterventionDataChanges()).length !== 0) {
       this.loading = true;
       this.interventionDataService.interventionPageConfirmContinue().then(() => {
         this.interventionDataService.interventionStartupCostChanged(true); // trigger dialog source page to update content

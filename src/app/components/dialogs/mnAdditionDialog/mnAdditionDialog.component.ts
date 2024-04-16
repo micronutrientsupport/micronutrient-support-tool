@@ -70,9 +70,9 @@ export class MnAdditionDialogComponent {
   }
 
   public alreadyAdded(micronutrientId: MicronutrientDictionaryItem['id']): boolean {
-    const cached = this.interventionDataService.getCachedMnInPremix();
-    if (cached && cached.length > 0) {
-      return cached.filter((item) => item.micronutrient === micronutrientId).length > 0;
+    const premix = this.interventionDataService.getMicronutrientInPremix();
+    if (premix && premix.length > 0) {
+      return premix.filter((item) => item === micronutrientId).length > 0;
     }
     return false;
   }

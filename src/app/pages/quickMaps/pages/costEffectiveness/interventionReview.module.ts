@@ -21,7 +21,6 @@ import { InterventionStartupScaleupCostsComponent } from './interventionReview/p
 import { CostEffectivenessComponentsModule } from './components/costEffectivenessComponents.module';
 import { InterventionReviewComponentsModule } from './interventionReview/components/interventionReviewComponents.module';
 import { InterventionConsumptionComponent } from './interventionReview/pages/interventionConsumption/interventionConsumption.component';
-import { InterventionAssumptionsReviewComponent } from './interventionReview/pages/interventionAssumptionsReview/interventionAssumptionsReview.component';
 import { InterventionSideNavContentService } from './interventionReview/components/interventionSideNavContent/interventionSideNavContent.service';
 import { InterventionDescriptionComponent } from './interventionReview/components/interventionDescription/interventionDescription.component';
 import { InterventionCostSummaryQuickUndiscountedTableComponent } from './interventionReview/pages/interventionCostSummary/components/quickSummary/tableTotalUndiscounted/tableTotalUndiscounted.component';
@@ -55,7 +54,6 @@ import { ReusableSkeletonTableComponent } from './interventionReview/utilities/r
     InterventionRecurringCostsComponent,
     InterventionStartupScaleupCostsComponent,
     InterventionConsumptionComponent,
-    InterventionAssumptionsReviewComponent,
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,

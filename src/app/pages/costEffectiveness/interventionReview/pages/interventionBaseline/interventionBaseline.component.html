@@ -2,7 +2,10 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
     <div class="title">
-      <span>Baseline Performance</span>
+      <span>Baseline Performance
+        <button class="icon-display floater" mat-mini-fab color="primary"
+          (click)="openBaselinePerformanceInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
+        </button></span>
     </div>
     <div *ngIf="!this.compoundAvailable">
       <app-quickmaps-no-results></app-quickmaps-no-results>
@@ -16,6 +19,7 @@
           <ng-container matColumnDef="title">
             <td class="row-title-left" mat-cell *matCellDef="let element">
               {{ element.labelText }}
+              <i *ngIf="element.rowNotes" class="fas fa-question-circle" matTooltip="{{element.rowNotes}}"></i>
             </td>
           </ng-container>
 
@@ -31,9 +35,15 @@
                     [tableData]="dataSource" [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="false"
                     [changeFunction]="updateBaselineAssumptions" [omitStyling]="true"></app-ce-input-field>
                 </div>
-                <button *ngIf="dirtyIndexes.includes(index) === false && element.year0Edited === false" mat-button
-                  color="primary">
-                  GFDx<mat-icon>arrow_right_alt</mat-icon>
+                <a mat-button [href]="element.dataSource" target="_blank"
+                  *ngIf="element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
+                  mat-button color="primary">
+                  View external source&nbsp;<mat-icon iconPositionEnd>open_in_new</mat-icon>
+                </a>
+                <button class="no-click"
+                  *ngIf="!element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
+                  mat-button color="primary">
+                  {{ element.dataSource}} Input
                 </button>
                 <button *ngIf="dirtyIndexes.includes(index) || element.year0Edited === true" mat-button color="primary">
                   User Input
@@ -52,10 +62,14 @@
 
       <div class="header-row">
         <div class="title standard">
-          <span>Food vehicle standard/target fortification levels</span>
+          <span>Food vehicle standard/target fortification levels<button class="icon-display floater" mat-mini-fab
+              color="primary" (click)="openfoodVehicleStandardInfoDialog()"><mat-icon
+                class="icon-display">question_mark</mat-icon>
+            </button>
+          </span>
         </div>
         <div class="title compliance">
-          <span>Baseline compliance/fortification in practice</span>
+          <span>Calculated average baseline fortification levels before accounting for micronutrient losses</span>
         </div>
       </div>
 
@@ -79,7 +93,7 @@
             <th class="row-title-left focus" mat-header-cell *matHeaderCellDef>
               Micronutrient
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="text-left">
               <span class="focus-mn-title">{{ mnDictionary.getItem(element.micronutrient).name }}
               </span>
             </td>
@@ -121,8 +135,8 @@
           </ng-container>
 
           <ng-container matColumnDef="avgVal">
-            <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated baseline
-              fortification levels in practice
+            <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Average fortification level
+              (mg/kg) among fortifiable food vehicle at point of fortification
               <button class="icon-display floater" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()">
                 <mat-icon class="icon-display">question_mark</mat-icon>
               </button>
@@ -140,8 +154,7 @@
 
           <ng-container matColumnDef="calcFort">
             <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>
-              Calculated average fortification level (mg/kg)
-              among all food vehicle
+              Average fortification level (mg/kg) among all food vehicle
               <button class="icon-display floater" mat-mini-fab color="primary"
                 (click)="openCalculatedFortificationInfoDialog()">
                 <mat-icon class="icon-display">question_mark</mat-icon>
@@ -190,8 +203,9 @@
                 <th class="row-title-left focus" mat-header-cell *matHeaderCellDef>
                   Micronutrient
                 </th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element" class="text-left">
                   <span>{{ mnDictionary.getItem(element.micronutrient).name }}
+                    {{ element.dataSource}}
                   </span>
                 </td>
               </ng-container>

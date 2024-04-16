@@ -1,12 +1,11 @@
 <app-base-dialog [data]="dialogData"
-  title="Average nutrient level* (mg/kg) among fortified food vehicle at point of fortification">
+  title="Average fortification level (mg/kg) among fortifiable food vehicle at point of fortification">
   <div class="container">
-    <h2>What is the average nutrient level?</h2>
-    <p>If no additional information is available on average nutrient level at point of fortification, average level
-      among percentage of fortifiable food vehicle that is fortified is assumed to be standard/target level. To
-      instead adjust baseline compliance/fortification in practice based on average nutrient level among all
-      fortifiable food vehicle, adjust the percent of fortifiable/industrially process food vehicle that is fortified
-      with this micronutrient to 100% and change the average nutrient level (in mg/kg) among fortified food vehicle to
-      the appropriate value.</p>
+    <!-- <h2>What is the average nutrient level?</h2> -->
+    <p>This value represents the average fortification level among all fortifiable food vehicle in the food system at
+      point of fortification (i.e., before adjusting for post-fortification micronutrient losses). It is calculated as
+      the target/standard fortification level multiplied by the percent of fortifiable food vehicle that is fortified to
+      any extent and by the average fortification level among fortified food vehicle as a percent of the standard. This
+      value will change as you adjust the “Baseline performance” values above.</p>
   </div>
 </app-base-dialog>

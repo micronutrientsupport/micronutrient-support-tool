@@ -28,10 +28,10 @@ export class PremixCostReviewDialogComponent {
   public dirtyIndexes = [];
   public displayedColumns: string[] = [
     'fortificantMicronutrient',
-    'fortificantCompound',
-    'fortificantActivity',
     'fortificationLevel',
     'fortificantOverage',
+    'fortificantCompound',
+    'fortificantActivity',
     'fortificantAmount',
     'fortificantProportion',
     'fortificantPrice',
