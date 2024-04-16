@@ -5,7 +5,7 @@
     <form [formGroup]="form" *ngIf="form && !isReloading">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
         <ng-container matColumnDef="labelText">
-          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
+          <th class="thead-head row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
           <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}}
             <mat-button *ngIf="element.labelText.startsWith('Premix cost')"
@@ -15,260 +15,16 @@
           </td>
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
-        <ng-container matColumnDef="year0">
-          <th mat-header-cell *matHeaderCellDef>2021</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year0 formControlName="year0"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year0)"
-                formControlName="year0" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 0)"
-                (blur)="updateDollarCurrency($event, index, 0)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year0" name="year0" (change)="storeIndex(index)" type="number" [ngModel]="element.year0 * 100"
-                formControlName="year0" min="0" max="100" (keyup)="validateUserInput($event, index, 'year0')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 0)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-          <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year0') | currencyExtended}} TBC</td>
-        </ng-container>
-        <!-- year1 -->
-        <ng-container matColumnDef="year1">
-          <th mat-header-cell *matHeaderCellDef>2022</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year1 formControlName="year1"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year1)"
-                formControlName="year1" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 1)"
-                (blur)="updateDollarCurrency($event, index, 1)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year1" name="year1" (change)="storeIndex(index)" type="number" [ngModel]="element.year1 * 100"
-                formControlName="year1" min="0" max="100" (keyup)="validateUserInput($event, index, 'year1')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 1)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
+
+        <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9]; last as omitCopyButton" [matColumnDef]="'year' + year">
+          <th class="thead-data" mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+            <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
+              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
           </td>
         </ng-container>
-        <!-- year2 -->
-        <ng-container matColumnDef="year2">
-          <th mat-header-cell *matHeaderCellDef>2023</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year2 formControlName="year2"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year2)"
-                formControlName="year2" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 2)"
-                (blur)="updateDollarCurrency($event, index, 2)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year2" name="year2" (change)="storeIndex(index)" type="number" [ngModel]="element.year2 * 100"
-                formControlName="year2" min="0" max="100" (keyup)="validateUserInput($event, index, 'year2')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 2)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year3 -->
-        <ng-container matColumnDef="year3">
-          <th mat-header-cell *matHeaderCellDef>2024</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year3 formControlName="year3"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year3)"
-                formControlName="year3" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 3)"
-                (blur)="updateDollarCurrency($event, index, 3)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year3" name="year3" (change)="storeIndex(index)" type="number" [ngModel]="element.year3 * 100"
-                formControlName="year3" min="0" max="100" (keyup)="validateUserInput($event, index, 'year3')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 3)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year4 -->
-        <ng-container matColumnDef="year4">
-          <th mat-header-cell *matHeaderCellDef>2025</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year4 formControlName="year4"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year4)"
-                formControlName="year4" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 4)"
-                (blur)="updateDollarCurrency($event, index, 4)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year4" name="year4" (change)="storeIndex(index)" type="number" [ngModel]="element.year4 * 100"
-                formControlName="year4" min="0" max="100" (keyup)="validateUserInput($event, index, 'year4')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 4)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year5 -->
-        <ng-container matColumnDef="year5">
-          <th mat-header-cell *matHeaderCellDef>2026</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year5 formControlName="year5"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year5)"
-                formControlName="year5" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 5)"
-                (blur)="updateDollarCurrency($event, index, 5)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year5" name="year5" (change)="storeIndex(index)" type="number" [ngModel]="element.year5 * 100"
-                formControlName="year5" min="0" max="100" (keyup)="validateUserInput($event, index, 'year5')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 5)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year6 -->
-        <ng-container matColumnDef="year6">
-          <th mat-header-cell *matHeaderCellDef>2027</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year6 formControlName="year6"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year6)"
-                formControlName="year6" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 6)"
-                (blur)="updateDollarCurrency($event, index, 6)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year6" name="year6" (change)="storeIndex(index)" type="number" [ngModel]="element.year6 * 100"
-                formControlName="year6" min="0" max="100" (keyup)="validateUserInput($event, index, 'year6')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 6)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year7 -->
-        <ng-container matColumnDef="year7">
-          <th mat-header-cell *matHeaderCellDef>2028</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year7 formControlName="year7"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year7)"
-                formControlName="year7" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 7)"
-                (blur)="updateDollarCurrency($event, index, 7)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year7" name="year7" (change)="storeIndex(index)" type="number" [ngModel]="element.year7 * 100"
-                formControlName="year7" min="0" max="100" (keyup)="validateUserInput($event, index, 'year7')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 7)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year8 -->
-        <ng-container matColumnDef="year8">
-          <th mat-header-cell *matHeaderCellDef>2029</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year8 formControlName="year8"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year8)"
-                formControlName="year8" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 8)"
-                (blur)="updateDollarCurrency($event, index, 8)" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year8" name="year8" (change)="storeIndex(index)" type="number" [ngModel]="element.year8 * 100"
-                formControlName="year8" min="0" max="100" (keyup)="validateUserInput($event, index, 'year8')"
-                (change)="recalculateChanges()" class="copy-input">
-              <button matTooltip="Copy value to the right" (click)="copyAcross(index, 8)"
-                class="copy-button"><mat-icon>keyboard_tab</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-        <!-- year9 -->
-        <ng-container matColumnDef="year9">
-          <th mat-header-cell *matHeaderCellDef>2030</th>
-          <td class="column-title" mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <div *ngIf="element.rowUnits === 'number'" class="copy-wrap">
-              <input type="text" appDecimalInput required [value]=element.year9 formControlName="year9"
-                (change)="recalculateChanges()" class="copy-input">
-            </div>
-            <div *ngIf="element.rowUnits === 'US dollars'" class="copy-wrap">
-              <input type="text" appDecimalInput required [ngModel]="formatDollar(element.year9)"
-                formControlName="year9" (change)="recalculateChanges()" (focus)="updatePlainCurrency($event, index, 9)"
-                (blur)="updateDollarCurrency($event, index, 9)" class="copy-input">
-            </div>
-            <div *ngIf="element.rowUnits === 'percent'" class="copy-wrap">
-              <input id="year9" name="year9" (change)="storeIndex(index)" type="number" [ngModel]="element.year9 * 100"
-                formControlName="year9" min="0" max="100" (keyup)="validateUserInput($event, index, 'year9')"
-                (change)="recalculateChanges()" class="copy-input">
-            </div>
-          </td>
-        </ng-container>
+
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow></tr>
@@ -278,7 +34,12 @@
       [showUserValues]="true"></app-dialog-step-details>
     <div class="button-container">
       <button mat-stroked-button (click)="dialogData.close()">Back</button>
-      <button class="confirm" mat-stroked-button color="primary" (click)="confirmChanges()">Confirm</button>
+      <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
+        (click)="confirmChanges()">
+        <span *ngIf="!loading">Confirm</span>
+        <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator"
+            aria-label="spinner" [diameter]="16" color='accent'></mat-spinner></span>
+      </button>
     </div>
   </div>
 </app-base-dialog>

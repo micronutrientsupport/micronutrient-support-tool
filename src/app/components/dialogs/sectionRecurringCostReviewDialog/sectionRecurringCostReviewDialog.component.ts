@@ -24,10 +24,13 @@ export class SectionRecurringCostReviewDialogComponent {
   public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
   public title = '';
   public dirtyIndexes = [];
+  public baseYear = 2021;
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public year0Total = 0;
   public year1Total = 0;
+
+  public loading = false;
 
   public displayedColumns: string[] = [
     'labelText',
@@ -104,81 +107,11 @@ export class SectionRecurringCostReviewDialogComponent {
       });
 
       // Mark fields as touched/dirty if they have been previously edited and stored via the API
-      this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
-        let yearIndex = 0;
-        Object.keys(formRow.controls).forEach((key: string) => {
-          if (key === 'year' + yearIndex) {
-            if (formRow.controls['isEditable'].value === false) {
-              formRow.controls[key].disable();
-            }
-            if (formRow.controls['year' + yearIndex + 'Edited'].value === true) {
-              formRow.controls[key].markAsDirty(); // mark field as ng-dirty i.e. user edited
-            }
-            yearIndex++;
-          }
-        });
-      });
+      this.interventionDataService.setFormFieldState(this.form, this.dirtyIndexes);
 
-      const compareObjs = (a: Record<string, unknown>, b: Record<string, unknown>) => {
-        return Object.entries(b).filter(([key, value]) => value !== a[key]);
-      };
-      const changes = {};
-
-      this.form.valueChanges
-        .pipe(
-          startWith(this.form.value),
-          pairwise(),
-          map(([oldState, newState]) => {
-            for (const key in newState.items) {
-              const rowIndex = this.form.get('items')['controls'][key]['controls'].rowIndex.value;
-              const rowUnits = this.form.get('items')['controls'][key]['controls'].rowUnits.value;
-              if (oldState.items[key] !== newState.items[key] && oldState.items[key] !== undefined) {
-                const diff = compareObjs(oldState.items[key], newState.items[key]);
-                if (Array.isArray(diff) && diff.length > 0) {
-                  diff.forEach((item) => {
-                    if (rowUnits === 'percent') {
-                      if (changes[rowIndex]) {
-                        changes[rowIndex] = {
-                          ...changes[rowIndex],
-                          [item[0]]: Number(item[1]) / 100,
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
-                      } else {
-                        changes[rowIndex] = {
-                          [item[0]]: Number(item[1]) / 100,
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
-                      }
-                    } else {
-                      if (changes[rowIndex]) {
-                        changes[rowIndex] = {
-                          ...changes[rowIndex],
-                          [item[0]]: Number(item[1]),
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
-                      } else {
-                        changes[rowIndex] = {
-                          [item[0]]: Number(item[1]),
-                        };
-                        changes[rowIndex]['rowIndex'] = rowIndex;
-                      }
-                    }
-                  });
-                }
-              }
-            }
-            return changes;
-          }),
-          filter((changes) => Object.keys(changes).length !== 0 && !this.form.invalid),
-        )
-        .subscribe((value) => {
-          this.formChanges = value;
-          const newInterventionChanges = {
-            ...this.interventionDataService.getInterventionDataChanges(),
-            ...this.formChanges,
-          };
-          this.interventionDataService.setInterventionDataChanges(newInterventionChanges);
-        });
+      // Setup watched to track changes made to form fields and store them to the intervention
+      // data service to be synced to the API when needed
+      this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
     }
   }
 
@@ -195,36 +128,47 @@ export class SectionRecurringCostReviewDialogComponent {
       rowIndex: [item.rowIndex, []],
       rowUnits: [item.rowUnits, []],
       isEditable: [item.isEditable, []],
+      isCalculated: [item.isCalculated, []],
       year0: [Number(item.year0), []],
       year0Edited: [Boolean(item.year0Edited), []],
       year0Default: [Number(item.year0Default), []],
+      year0Overriden: [item.year0Overriden, []],
       year1: [Number(item.year1), []],
       year1Edited: [Boolean(item.year1Edited), []],
       year1Default: [Number(item.year1Default), []],
+      year1Overriden: [item.year0Overriden, []],
       year2: [Number(item.year2), []],
       year2Edited: [Boolean(item.year2Edited), []],
       year2Default: [Number(item.year2Default), []],
+      year2Overriden: [item.year0Overriden, []],
       year3: [Number(item.year3), []],
       year3Edited: [Boolean(item.year3Edited), []],
       year3Default: [Number(item.year3Default), []],
+      year3Overriden: [item.year0Overriden, []],
       year4: [Number(item.year4), []],
       year4Edited: [Boolean(item.year4Edited), []],
       year4Default: [Number(item.year4Default), []],
+      year4Overriden: [item.year0Overriden, []],
       year5: [Number(item.year5), []],
       year5Edited: [Boolean(item.year5Edited), []],
       year5Default: [Number(item.year5Default), []],
+      year5Overriden: [item.year0Overriden, []],
       year6: [Number(item.year6), []],
       year6Edited: [Boolean(item.year6Edited), []],
       year6Default: [Number(item.year6Default), []],
+      year6Overriden: [item.year0Overriden, []],
       year7: [Number(item.year7), []],
       year7Edited: [Boolean(item.year7Edited), []],
       year7Default: [Number(item.year7Default), []],
+      year7Overriden: [item.year0Overriden, []],
       year8: [Number(item.year8), []],
       year8Edited: [Boolean(item.year8Edited), []],
       year8Default: [Number(item.year8Default), []],
+      year8Overriden: [item.year0Overriden, []],
       year9: [Number(item.year9), []],
       year9Edited: [Boolean(item.year9Edited), []],
       year9Default: [Number(item.year9Default), []],
+      year9Overriden: [item.year0Overriden, []],
     });
   }
 
@@ -235,14 +179,18 @@ export class SectionRecurringCostReviewDialogComponent {
     return filterItemsInDollars.map((costBreakdown) => costBreakdown[yearKey]).reduce((acc, value) => acc + value, 0);
   }
 
-  public confirmChanges(): void {
+  public async confirmChanges(): Promise<boolean> {
     if (Object.keys(this.interventionDataService.getInterventionDataChanges()).length !== 0) {
+      this.loading = true;
       this.interventionDataService.interventionPageConfirmContinue().then(() => {
         this.interventionDataService.interventionRecurringCostChanged(true); // trigger dialog source page to update content
         this.dialogData.close();
+        this.loading = false;
+        return true;
       });
     } else {
       this.dialogData.close();
+      return true;
     }
   }
   public resetForm() {
@@ -390,7 +338,6 @@ export class SectionRecurringCostReviewDialogComponent {
               if (key === 'year' + columnIndex) {
                 const dynamicYearColumn = 'year' + columnIndex;
                 // Update the value stored in the form with the new value
-                console.log(this.form.controls.items['controls'][rowIndex]['controls']['rowUnits'].value);
                 if (this.form.controls.items['controls'][rowIndex]['controls']['rowUnits'].value === 'US dollars') {
                   this.form.controls.items['controls'][rowIndex].patchValue({
                     [dynamicYearColumn]: this.formatDollar(theResult),

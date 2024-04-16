@@ -403,6 +403,7 @@ export class InterventionDataService {
   public async interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
     if (interventionChanges) {
+      console.log(interventionChanges);
       const dataArr = [];
       for (const key in interventionChanges) {
         if (key.startsWith('F')) {

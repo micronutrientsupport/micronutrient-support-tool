@@ -74,10 +74,8 @@ export class JSONLogicService {
   ): number {
     this.setItems(allItems);
     const result = jsonLogic.apply(item['year' + columnIndex + 'Formula'], {});
-    console.log(item['rowUnits']);
     switch (item['rowUnits']) {
       case 'percent':
-        console.log('Perc', result, '->', Math.round(result * 100) / 100);
         return Math.round(result * 100) / 100;
         break;
       default:
