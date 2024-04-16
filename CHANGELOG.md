@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.14.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.0...v1.14.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* add micronutrient fixed in baseline page.  Updated supporting text ([5639941](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/56399417e0ff8ad0545798e3f4b2e8ce2dadc106))
+* baseline reset also resets other premix mn table ([c738fe9](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c738fe92fc1323c572bd2563b41b81b58abd3d3b))
+* ce tweaks ([9a9fb84](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9a9fb84ffb26646db4d8e6b946537ffd404d0f90))
+* fix premix calc scrolling, various text stweaks, fix susu and rc update calls ([f8dcf35](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f8dcf359e44995b17d3c54f1e7bf48afeb370a89))
+* reset dev deployment to use dev api ([c90360b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c90360b672aa310d4f18c11b8bc2e1ea6b5b529e))
+
 ## [1.14.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.13.1...v1.14.0) (2024-02-28)
 
 
