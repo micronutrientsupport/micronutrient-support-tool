@@ -19,6 +19,24 @@
         </div>
       </div>
     </div>
+
+    <div *ngFor="let userCost of userCosts">
+      <div class="title">
+        <span>{{userCost.category}} summary</span>
+      </div>
+      <div class="row-container">
+        <div class="startUpTable">
+          <app-reusable-cost-table *ngIf="null != startupCosts" [startUpScaleUpCost]="userCost"
+            [headers]="displayHeaders">
+          </app-reusable-cost-table>
+        </div>
+        <div class="divider"></div>
+        <div class="startUpGraph">
+          <app-reusable-cost-graph [costData]="userCost"></app-reusable-cost-graph>
+        </div>
+      </div>
+    </div>
+
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button

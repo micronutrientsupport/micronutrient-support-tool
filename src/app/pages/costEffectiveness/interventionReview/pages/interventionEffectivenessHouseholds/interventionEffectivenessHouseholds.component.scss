@@ -24,3 +24,26 @@ input.ng-dirty {
   color: $color_input_blue;
   border-color: $color_input_blue;
 }
+
+.row-left {
+  font-weight: bold;
+}
+
+.table-full-width {
+  tr:has(.national) {
+    vertical-align: top;
+    height: 7em;
+    td {
+      padding-top: 1em !important;
+    }
+  }
+}
+
+.floater {
+  display: flex;
+}
+
+.icon-display {
+  transform: scale(0.6);
+  display: inline-block !important;
+}

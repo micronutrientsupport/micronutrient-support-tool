@@ -20,6 +20,7 @@ import { AppRoutes } from '../routes/routes';
 import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
+import { InterventionProjectedHouseholds } from '../apiAndObjects/objects/interventionProjectedHouseholds';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -141,6 +142,15 @@ export class InterventionDataService {
 
   public getInterventionCostSummary(id: string): Promise<InterventionCostSummary> {
     return this.apiService.endpoints.intervention.getInterventionCostSummary.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionProjectedHouseholds(id: string): Promise<InterventionProjectedHouseholds[]> {
+    return this.apiService.endpoints.intervention.getInterventionProjectedHouseholds.call(
       {
         id,
       },

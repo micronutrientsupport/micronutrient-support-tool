@@ -48,6 +48,7 @@ import { GetUserProfile } from './login/getUserProfile';
 import { PatchIntervention } from './intervention/intervention/patchIntervention';
 import { GetInterventionFortificationLevel } from './intervention/interventionFortificationLevel/getInterventionFortificationLevel';
 import { GetBiomarker } from './biomarker/getBiomarker';
+import { GetInterventionProjectedHouseholds } from './intervention/interventionProjectedHouseholds/getInterventionProjectedHouseholds';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -90,6 +91,7 @@ export class ApiService extends BaseApi {
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),
+      getInterventionProjectedHouseholds: new GetInterventionProjectedHouseholds(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
       patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),
