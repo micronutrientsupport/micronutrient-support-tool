@@ -71,18 +71,18 @@ export class InterventionInputFieldComponent implements OnInit {
   }
 
   public modelChange(event: any, index: number, year: number, fieldName = 'year' + year) {
-    console.log('Change, row', index, 'year', year, 'to', event);
+    // console.log('Change, row', index, 'year', year, 'to', event);
 
-    console.log({
-      touched: this.form.controls.items['controls'][index].controls[fieldName].touched,
-      pristine: this.form.controls.items['controls'][index].controls[fieldName].pristine,
-      dirty: this.form.controls.items['controls'][index].controls[fieldName].dirty,
-    });
+    // console.log({
+    //   touched: this.form.controls.items['controls'][index].controls[fieldName].touched,
+    //   pristine: this.form.controls.items['controls'][index].controls[fieldName].pristine,
+    //   dirty: this.form.controls.items['controls'][index].controls[fieldName].dirty,
+    // });
 
-    console.log(
-      this.form.controls.items['controls'][index].controls[fieldName].touched &&
-        !this.form.controls.items['controls'][index].controls[fieldName].pristine,
-    );
+    // console.log(
+    //   this.form.controls.items['controls'][index].controls[fieldName].touched &&
+    //     !this.form.controls.items['controls'][index].controls[fieldName].pristine,
+    // );
     // Model change from user input returns new value as a string in event
     // Model change from formula recalculation returns 'new' (even if unchanged) value as an array
     if (!Array.isArray(event)) {
@@ -182,7 +182,7 @@ export class InterventionInputFieldComponent implements OnInit {
                   )
                 ) {
                   // Set calculated value appropriately for the rowUnits
-                  console.log(this.form.controls.items['controls'][rowIndex].value['rowUnits']);
+                  // console.log(this.form.controls.items['controls'][rowIndex].value['rowUnits']);
                   switch (this.form.controls.items['controls'][rowIndex].value['rowUnits']) {
                     case 'US dollars':
                       this.form.controls.items['controls'][rowIndex].patchValue({
@@ -199,7 +199,7 @@ export class InterventionInputFieldComponent implements OnInit {
                       this.form.controls.items['controls'][rowIndex].patchValue({ [dynamicYearColumn]: theResult });
                   }
 
-                  console.log('Set var', dynamicYearColumn, rowIndex, 'val', theResult);
+                  // console.log('Set var', dynamicYearColumn, rowIndex, 'val', theResult);
 
                   // this.form.controls.items['controls'][rowIndex].patchValue({
                   //   [dynamicYearColumn + 'Overriden']: true,
@@ -222,7 +222,7 @@ export class InterventionInputFieldComponent implements OnInit {
 
     let defaultVal = allItems[index]['year' + year + 'Default'];
 
-    console.log(defaultVal);
+    // console.log(defaultVal);
 
     switch (this.form.controls.items['controls'][index].value['rowUnits']) {
       case 'US dollars':
@@ -232,7 +232,7 @@ export class InterventionInputFieldComponent implements OnInit {
         defaultVal = defaultVal * 100;
         break;
     }
-    console.log(defaultVal);
+    // console.log(defaultVal);
     this.form.controls.items['controls'][index].patchValue({ ['year' + year]: defaultVal });
 
     this.form.controls.items['controls'][index].patchValue({ ['year' + year + 'Overriden']: false });

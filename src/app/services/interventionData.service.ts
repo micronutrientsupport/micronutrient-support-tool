@@ -21,6 +21,7 @@ import { pairwise, map, filter, startWith } from 'rxjs/operators';
 import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { InterventionProjectedHouseholds } from '../apiAndObjects/objects/interventionProjectedHouseholds';
+import { InterventionIntakeThreshold } from '../apiAndObjects/objects/interventionIntakeThreshold';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -151,6 +152,15 @@ export class InterventionDataService {
 
   public getInterventionProjectedHouseholds(id: string): Promise<InterventionProjectedHouseholds[]> {
     return this.apiService.endpoints.intervention.getInterventionProjectedHouseholds.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionIntakeThreshold(id: string): Promise<InterventionIntakeThreshold[]> {
+    return this.apiService.endpoints.intervention.getInterventionIntakeThreshold.call(
       {
         id,
       },
@@ -413,7 +423,7 @@ export class InterventionDataService {
   public async interventionPageConfirmContinue(): Promise<void> {
     const interventionChanges = this.getInterventionDataChanges();
     if (interventionChanges) {
-      console.log(interventionChanges);
+      // console.log(interventionChanges);
       const dataArr = [];
       for (const key in interventionChanges) {
         if (key.startsWith('F')) {
@@ -424,6 +434,10 @@ export class InterventionDataService {
           const change = interventionChanges[key];
           (change as any).rowIndex = 0;
           (change as any).type = 'premix-global';
+        } else if (key.startsWith('thresholds')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = 0;
+          (change as any).type = 'intervention-thresholds';
         } else {
           (interventionChanges[key] as any).type = 'data';
         }
@@ -439,7 +453,7 @@ export class InterventionDataService {
 
       const interventionId = this.getActiveInterventionId();
       const res = await this.patchInterventionData(interventionId, dataArr);
-      console.log('Patched', res);
+      // console.log('Patched', res);
       this.setInterventionDataChanges(null);
       // return this.patchInterventionData(interventionId, dataArr).then((res) => {
       //   console.log('Patched', res)
@@ -460,12 +474,12 @@ export class InterventionDataService {
       let yearIndex = 0;
       Object.keys(formRow.controls).forEach((key: string) => {
         if (field && key === field) {
-          console.log({ key });
-          console.log({
-            editable: formRow.controls['isEditable'].value,
-            calculated: formRow.controls['isCalculated'].value,
-            edited: formRow.controls[field + 'Edited'].value,
-          });
+          // console.log({ key });
+          // console.log({
+          //   editable: formRow.controls['isEditable'].value,
+          //   calculated: formRow.controls['isCalculated'].value,
+          //   edited: formRow.controls[field + 'Edited'].value,
+          // });
           if (formRow.controls['isEditable'].value === false) {
             formRow.controls[key].disable(); // disabling control removes its value, for some reason
           }
@@ -508,7 +522,7 @@ export class InterventionDataService {
           yearIndex++;
         }
       });
-      console.log({ dirtyIndexes });
+      // console.log({ dirtyIndexes });
     });
   }
 
@@ -648,7 +662,7 @@ export class InterventionDataService {
       )
       .subscribe((value) => {
         formChanges = value;
-        console.log('newChanges', formChanges);
+        // console.log('newChanges', formChanges);
         const newInterventionChanges = {
           ...this.getInterventionDataChanges(),
           ...formChanges,

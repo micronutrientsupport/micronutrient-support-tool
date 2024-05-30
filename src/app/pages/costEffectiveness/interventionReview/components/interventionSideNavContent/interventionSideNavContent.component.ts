@@ -43,10 +43,7 @@ export class InterventionSideNavContentComponent {
         // console.log(`${position} => effectiveness ${position - (this.assumptionSteps + this.costsSteps)}`);
         this.stepperEffectiveness.selectedIndex = position - (this.assumptionSteps + this.costsSteps);
       } else {
-        console
-          .log
-          // `${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`,
-          ();
+        // console.log(`${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`);
         this.stepperSummary.selectedIndex =
           position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps);
       }
