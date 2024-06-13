@@ -7,5 +7,5 @@ export const environment = {
   unleashSecret: 'proxy-key',
   unleashAppName: 'MAPS Tool',
   unleashEnvironment: 'staging-branch',
-  apiBaseUrl: 'https://devapi.micronutrient.support/v2',
+  apiBaseUrl: 'https://apidev.micronutrient.support/v2',
 };
