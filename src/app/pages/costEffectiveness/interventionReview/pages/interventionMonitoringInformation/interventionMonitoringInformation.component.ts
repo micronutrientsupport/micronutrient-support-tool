@@ -36,7 +36,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
+  public pageStepperPosition = 4;
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};

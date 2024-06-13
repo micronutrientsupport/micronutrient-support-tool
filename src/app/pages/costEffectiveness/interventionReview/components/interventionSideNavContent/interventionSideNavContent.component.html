@@ -21,6 +21,10 @@
           <ng-template matStepLabel>Performance over time</ng-template>
           <div class="intervention-stage-info">Review and update assumptions about program performance over time.</div>
         </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Point of consumption</ng-template>
+          <div class="intervention-stage-info">Information about this step</div>
+        </mat-step>
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
           {{index +1}}
@@ -128,6 +132,15 @@
         <mat-step>
           <ng-template matStepLabel>Cost summary</ng-template>
           <div class="intervention-stage-info">View and download summary intervention cost estimates.</div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Effectiveness summary</ng-template>
+          <div class="intervention-stage-info">View and download summary intervention effectiveness estimates.</div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Cost-effectiveness summary</ng-template>
+          <div class="intervention-stage-info">View and download summary intervention cost-effectiveness estimates.
+          </div>
         </mat-step>
 
         <!-- Keep icons as numbers -->

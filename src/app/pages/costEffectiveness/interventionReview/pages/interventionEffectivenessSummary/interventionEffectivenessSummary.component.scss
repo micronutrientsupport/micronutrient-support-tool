@@ -1,0 +1,76 @@
+@use '../interventionReviewPages.scss';
+@import 'src/assets/scss/_colour';
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 90%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+}
+
+// input:focus {
+//   outline: none;
+//   border: 1px solid blue;
+// }
+
+// user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+}
+
+.row-left {
+  font-weight: bold;
+}
+
+.table-full-width {
+  tr:has(.national) {
+    vertical-align: top;
+    height: 7em;
+    td {
+      padding-top: 1em !important;
+    }
+  }
+}
+
+.floater {
+  display: flex;
+}
+
+.icon-display {
+  transform: scale(0.6);
+  display: inline-block !important;
+}
+
+table {
+  padding: 0rem 2rem;
+}
+
+.nested-tab-group {
+  min-width: 90%;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  width: auto !important;
+}
+
+.title {
+  display: flex;
+  gap: 1em;
+
+  & > span {
+    display: block;
+    flex-grow: 1;
+  }
+}
+
+.loading-spinner {
+  width: 32px;
+  padding-top: 10px;
+}

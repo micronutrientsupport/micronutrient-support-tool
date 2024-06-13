@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class InterventionStartupScaleupCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 4;
+  public pageStepperPosition = 5;
   public interventionName = 'IntName';
 
   public startupCosts: Array<StartUpScaleUpCost>;

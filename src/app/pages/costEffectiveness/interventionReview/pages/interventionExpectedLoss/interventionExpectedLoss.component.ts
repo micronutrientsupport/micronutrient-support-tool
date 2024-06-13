@@ -4,17 +4,16 @@ import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
 import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
-import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
-  selector: 'app-intervention-effectiveness-households',
-  templateUrl: './interventionEffectivenessHouseholds.component.html',
-  styleUrls: ['./interventionEffectivenessHouseholds.component.scss'],
+  selector: 'app-intervention-expected-losses',
+  templateUrl: './interventionExpectedLoss.component.html',
+  styleUrls: ['./interventionExpectedLoss.component.scss'],
 })
-export class InterventionEffectivenessHouseholdsComponent implements OnInit {
+export class InterventionExpectedLossComponent implements OnInit {
   public displayedColumns: string[] = [
     'areaName',
     'population2021',
@@ -34,7 +33,7 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 2;
 
   private subscriptions = new Array<Subscription>();
 

@@ -50,6 +50,8 @@ import { GetInterventionFortificationLevel } from './intervention/interventionFo
 import { GetBiomarker } from './biomarker/getBiomarker';
 import { GetInterventionProjectedHouseholds } from './intervention/interventionProjectedHouseholds/getInterventionProjectedHouseholds';
 import { GetInterventionIntakeThreshold } from './intervention/interventionIntakeThreshold/getInterventionIntakeThreshold';
+import { GetInterventionExpectedLosses } from './intervention/interventionExpectedLosses/getInterventionExpectedLosses';
+import { GetInterventionLsffEffectivenessSummary } from './intervention/interventionLsffEffecttivenessSummary/getInterventionLsffEffectivenessSummary';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -94,6 +96,8 @@ export class ApiService extends BaseApi {
       getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),
       getInterventionProjectedHouseholds: new GetInterventionProjectedHouseholds(ApiService.USE_LIVE_API),
       getInterventionIntakeThreshold: new GetInterventionIntakeThreshold(ApiService.USE_LIVE_API),
+      getInterventionExpectedLosses: new GetInterventionExpectedLosses(ApiService.USE_LIVE_API),
+      getInterventionLsffEffectivenessSummary: new GetInterventionLsffEffectivenessSummary(ApiService.USE_LIVE_API),
       postIntervention: new PostIntervention(ApiService.USE_LIVE_API),
       patchIntervention: new PatchIntervention(ApiService.USE_LIVE_API),
       patchInterventionData: new PatchInterventionData(ApiService.USE_LIVE_API),

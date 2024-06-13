@@ -22,6 +22,8 @@ import { SimpleIntervention } from '../pages/costEffectiveness/intervention';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { InterventionProjectedHouseholds } from '../apiAndObjects/objects/interventionProjectedHouseholds';
 import { InterventionIntakeThreshold } from '../apiAndObjects/objects/interventionIntakeThreshold';
+import { InterventionExpectedLosses } from '../apiAndObjects/objects/interventionExpectedLosses';
+import { InterventionLsffEffectivenessSummary } from '../apiAndObjects/objects/interventionLsffEffectivenessSummary';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -96,6 +98,15 @@ export class InterventionDataService {
     );
   }
 
+  public getInterventionExpectedLosses(id: string): Promise<InterventionExpectedLosses> {
+    return this.apiService.endpoints.intervention.getInterventionExpectedLosses.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
   public getInterventionMonitoringInformation(id: string): Promise<InterventionMonitoringInformation> {
     return this.apiService.endpoints.intervention.getInterventionMonitoringInformation.call(
       {
@@ -154,6 +165,21 @@ export class InterventionDataService {
     return this.apiService.endpoints.intervention.getInterventionProjectedHouseholds.call(
       {
         id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionLsffEffectivenessSummary(
+    id: string,
+    aggregation?: string,
+    metric?: string,
+  ): Promise<InterventionLsffEffectivenessSummary[]> {
+    return this.apiService.endpoints.intervention.getInterventionLsffEffectivenessSummary.call(
+      {
+        id: id,
+        aggregation: aggregation,
+        metric: metric,
       },
       false,
     );

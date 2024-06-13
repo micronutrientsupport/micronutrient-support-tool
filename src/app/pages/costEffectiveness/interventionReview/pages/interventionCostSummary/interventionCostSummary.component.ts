@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { InterventionCostSummary } from 'src/app/apiAndObjects/objects/interventionCostSummary';
 import { InterventionRecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { InterventionStartupCosts, StartUpScaleUpCost } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 8;
+  public pageStepperPosition = 9;
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;
@@ -31,6 +31,8 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   public chartDetailedPNG = '';
   public chartDetailedPDF = '';
   private subscriptions = new Array<Subscription>();
+
+  public loading = false;
 
   constructor(
     private intSideNavService: InterventionSideNavContentService,
@@ -88,6 +90,15 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.cdRef.detectChanges();
+  }
+
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    console.log('Confirm and continue', route);
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 
   public onSubmit(): void {

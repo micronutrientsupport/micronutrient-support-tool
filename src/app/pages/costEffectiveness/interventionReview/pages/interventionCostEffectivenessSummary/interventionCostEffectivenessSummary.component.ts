@@ -8,13 +8,15 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InterventionLsffEffectivenessSummary } from 'src/app/apiAndObjects/objects/interventionLsffEffectivenessSummary';
 
 @Component({
-  selector: 'app-intervention-effectiveness-households',
-  templateUrl: './interventionEffectivenessHouseholds.component.html',
-  styleUrls: ['./interventionEffectivenessHouseholds.component.scss'],
+  selector: 'app-intervention-cost-effectiveness-summary',
+  templateUrl: './interventionCostEffectivenessSummary.component.html',
+  styleUrls: ['./interventionCostEffectivenessSummary.component.scss'],
 })
-export class InterventionEffectivenessHouseholdsComponent implements OnInit {
+export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   public displayedColumns: string[] = [
     'areaName',
     'population2021',
@@ -34,7 +36,7 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 11;
 
   private subscriptions = new Array<Subscription>();
 
@@ -43,6 +45,8 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
     private intSideNavService: InterventionSideNavContentService,
     private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   public ngOnInit(): void {
@@ -50,8 +54,9 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService
-        .getInterventionProjectedHouseholds(activeInterventionId)
-        .then((data: InterventionProjectedHouseholds[]) => {
+        .getInterventionLsffEffectivenessSummary(activeInterventionId)
+        .then((data: InterventionLsffEffectivenessSummary[]) => {
+          console.log(data);
           this.dataSource = new MatTableDataSource(data);
           this.dataLoaded = true;
         });
@@ -64,5 +69,12 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
 
   public confirmAndContinue(): void {
     this.interventionDataService.interventionPageConfirmContinue();
+  }
+
+  public onSubmit(): void {
+    // navigate back to list of selected interventions
+    this.router.navigate(this.ROUTES.COST_EFFECTIVENESS.getRoute(), {
+      queryParams: this.route.snapshot.queryParams,
+    });
   }
 }
