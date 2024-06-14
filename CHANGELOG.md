@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.15.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.2...v1.15.0) (2024-06-14)
+
+
+### Features
+
+* add basic expected loss (readonly) view ([5b301d5](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5b301d50370b64900705bca920afce25dec8d8a0))
+* add CE effectiveness pages ([77ff84e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/77ff84e3511a6ad12d9217905506f21c5fd0f657))
+* add cost-effectiveness api handlers and page ([5490be4](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5490be4b4b662cb78e1c98670196415c10fc7b47))
+* add Effectiveness metrics page and API handlers ([5ddf450](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5ddf45050ab5c20627ac2780b849d2d59c7ef8f6))
+* add effectiveness projected households api handler and UI table ([610f07c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/610f07caac1071a8ec1158dfe1c94eced8094c57))
+* reorder intervention steps for clarity, replace effectiveness dummy text ([2b2e5cf](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2b2e5cf4053de9d39cfb2ce6a8159760154b535e))
+
+
+### Bug Fixes
+
+* fix intervention template lookup: ([51b6a86](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/51b6a8617801d4f77d73b5ac08be8e5e5633aeea))
+
+
+### Miscellaneous
+
+* add missing file ([a60a63f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a60a63fd6ba270f97ff0c3d06a1558de2ba5ccf7))
+* fix dev api endpoint ([9a29d25](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9a29d255e73e5ef172be064f946f650260326318))
+* fix logo image url ([f3101fa](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f3101fa7e06beb071b26d68d96ad559abdbf7909))
+
 ## [1.14.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.1...v1.14.2) (2024-04-16)
 
 
