@@ -7,6 +7,8 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { InterventionExpectedLosses } from 'src/app/apiAndObjects/objects/interventionExpectedLosses';
+import { InterventionBaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 
 @Component({
   selector: 'app-intervention-expected-losses',
@@ -15,16 +17,11 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 })
 export class InterventionExpectedLossComponent implements OnInit {
   public displayedColumns: string[] = [
-    'areaName',
-    'population2021',
-    'population2022',
-    'population2023',
-    'population2024',
-    'population2025',
-    'population2026',
-    'population2027',
-    'population2028',
-    'population2029',
+    'micronutrient',
+    'averageFortificationLevel',
+    'expectedLosses',
+    'averageFortificationLevelPoC',
+    'source',
   ];
 
   public loading = false;
@@ -58,10 +55,21 @@ export class InterventionExpectedLossComponent implements OnInit {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService
-        .getInterventionProjectedHouseholds(activeInterventionId)
-        .then((data: InterventionProjectedHouseholds[]) => {
-          this.dataSource = new MatTableDataSource(data);
-          this.dataLoaded = true;
+        .getInterventionExpectedLosses(activeInterventionId)
+        .then((data: InterventionExpectedLosses) => {
+          this.interventionDataService
+            .getInterventionBaselineAssumptions(activeInterventionId)
+            .then((baseline: InterventionBaselineAssumptions) => {
+              console.log(data);
+              console.log(baseline);
+
+              for (const mn of data.expectedLosses) {
+                mn['baseline'] = baseline.baselineAssumptions;
+              }
+
+              this.dataSource = new MatTableDataSource(data.expectedLosses);
+              this.dataLoaded = true;
+            });
         });
     }
   }
