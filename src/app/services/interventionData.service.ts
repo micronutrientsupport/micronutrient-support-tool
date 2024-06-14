@@ -24,6 +24,7 @@ import { InterventionProjectedHouseholds } from '../apiAndObjects/objects/interv
 import { InterventionIntakeThreshold } from '../apiAndObjects/objects/interventionIntakeThreshold';
 import { InterventionExpectedLosses } from '../apiAndObjects/objects/interventionExpectedLosses';
 import { InterventionLsffEffectivenessSummary } from '../apiAndObjects/objects/interventionLsffEffectivenessSummary';
+import { InterventionCostEffectivenessSummary } from '../apiAndObjects/objects/interventionCostEffectivenessSummary';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -154,6 +155,15 @@ export class InterventionDataService {
 
   public getInterventionCostSummary(id: string): Promise<InterventionCostSummary> {
     return this.apiService.endpoints.intervention.getInterventionCostSummary.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionCostEffectivenessSummary(id: string): Promise<InterventionCostEffectivenessSummary> {
+    return this.apiService.endpoints.intervention.getInterventionCostEffectivenessSummary.call(
       {
         id,
       },

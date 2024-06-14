@@ -52,6 +52,7 @@ import { GetInterventionProjectedHouseholds } from './intervention/interventionP
 import { GetInterventionIntakeThreshold } from './intervention/interventionIntakeThreshold/getInterventionIntakeThreshold';
 import { GetInterventionExpectedLosses } from './intervention/interventionExpectedLosses/getInterventionExpectedLosses';
 import { GetInterventionLsffEffectivenessSummary } from './intervention/interventionLsffEffecttivenessSummary/getInterventionLsffEffectivenessSummary';
+import { GetInterventionCostEffectivenessSummary } from './intervention/interventionCostEffectivenessSummary/getInterventionCostEffectivenessSummary';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -93,6 +94,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
+      getInterventionCostEffectivenessSummary: new GetInterventionCostEffectivenessSummary(ApiService.USE_LIVE_API),
       getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),
       getInterventionProjectedHouseholds: new GetInterventionProjectedHouseholds(ApiService.USE_LIVE_API),
       getInterventionIntakeThreshold: new GetInterventionIntakeThreshold(ApiService.USE_LIVE_API),

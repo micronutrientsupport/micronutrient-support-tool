@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterventionLsffEffectivenessSummary } from 'src/app/apiAndObjects/objects/interventionLsffEffectivenessSummary';
+import { InterventionCostEffectivenessSummary } from 'src/app/apiAndObjects/objects/interventionCostEffectivenessSummary';
 
 @Component({
   selector: 'app-intervention-cost-effectiveness-summary',
@@ -18,16 +19,10 @@ import { InterventionLsffEffectivenessSummary } from 'src/app/apiAndObjects/obje
 })
 export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   public displayedColumns: string[] = [
-    'areaName',
-    'population2021',
-    'population2022',
-    'population2023',
-    'population2024',
-    'population2025',
-    'population2026',
-    'population2027',
-    'population2028',
-    'population2029',
+    'intervention',
+    'annualAverageCost',
+    'averageHouseholdsCovered',
+    'costPerHouseholdCovered',
   ];
 
   public loading = false;
@@ -39,6 +34,8 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   public pageStepperPosition = 11;
 
   private subscriptions = new Array<Subscription>();
+
+  public selectedIntervention: Intervention;
 
   constructor(
     public quickMapsService: QuickMapsService,
@@ -52,12 +49,17 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.interventionDataService
+      .getIntervention(this.interventionDataService.getActiveInterventionId())
+      .then((selectedIntervention: Intervention) => {
+        this.selectedIntervention = selectedIntervention;
+      });
     if (null != activeInterventionId) {
       void this.interventionDataService
-        .getInterventionLsffEffectivenessSummary(activeInterventionId)
-        .then((data: InterventionLsffEffectivenessSummary[]) => {
+        .getInterventionCostEffectivenessSummary(activeInterventionId)
+        .then((data: InterventionCostEffectivenessSummary) => {
           console.log(data);
-          this.dataSource = new MatTableDataSource(data);
+          this.dataSource = new MatTableDataSource([data]);
           this.dataLoaded = true;
         });
     }
