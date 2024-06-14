@@ -2,7 +2,7 @@
   <div class="content">
     <app-intervention-description></app-intervention-description>
     <div class="title">
-      <span>Effectiveness metric and nutrient requirements</span>
+      <span>Nutrient requirements</span>
     </div>
 
     <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
@@ -53,11 +53,11 @@
   </div>
   <footer>
     <a class="intervention-navigation" mat-stroked-button
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_RECURRING_COSTS | route" queryParamsHandling="preserve">Back</a>
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS | route" queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
     <a class="intervention-navigation-confirm" mat-flat-button color="primary"
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_COST_SUMMARY | route" queryParamsHandling="preserve"
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY | route" queryParamsHandling="preserve"
       (click)="confirmAndContinue()">Confirm and
       continue</a>
   </footer>

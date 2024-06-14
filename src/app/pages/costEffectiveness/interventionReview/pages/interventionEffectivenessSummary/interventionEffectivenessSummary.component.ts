@@ -64,7 +64,6 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
   public displayedColumnsReach: string[] = [
     'geographicArea',
     'householdCount',
-    'householdReachCount',
     'householdReachPercentage',
     'meanFortificantConsumption',
     'medianFortificantConsumption',

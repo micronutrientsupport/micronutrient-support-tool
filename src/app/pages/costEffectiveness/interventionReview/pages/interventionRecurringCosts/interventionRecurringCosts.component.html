@@ -37,14 +37,9 @@
       queryParamsHandling="preserve">Save and close</a>
     <button [disabled]="loading" class="intervention-navigation" mat-flat-button color="primary"
       (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_COST_SUMMARY)">
-      <span *ngIf="!loading">Confirm and continue to Costs Summary</span>
+      <span *ngIf="!loading">Confirm and continue</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>
     </button>
-
-    <a class="intervention-navigation" mat-flat-button color="primary"
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS | route" queryParamsHandling="preserve">Confirm
-      and
-      continue to Effectiveness</a>
   </footer>
 </div>

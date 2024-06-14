@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
@@ -33,7 +33,9 @@ export class InterventionExpectedLossComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 2;
+  public pageStepperPosition = 7;
+
+  public prevRoute: AppRoute = AppRoutes.INTERVENTION_REVIEW_COMPLIANCE;
 
   private subscriptions = new Array<Subscription>();
 
@@ -46,6 +48,13 @@ export class InterventionExpectedLossComponent implements OnInit {
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+
+    const previousPage = this.intSideNavService.getPreviousStepperPosition();
+    this.prevRoute =
+      this.pageStepperPosition - previousPage === 1
+        ? this.ROUTES.INTERVENTION_REVIEW_COST_SUMMARY
+        : this.ROUTES.INTERVENTION_REVIEW_COMPLIANCE;
+
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService

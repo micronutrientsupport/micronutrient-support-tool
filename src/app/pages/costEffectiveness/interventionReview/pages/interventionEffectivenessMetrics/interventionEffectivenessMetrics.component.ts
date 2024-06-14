@@ -28,7 +28,7 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
   public data;
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 8;
+  public pageStepperPosition = 9;
 
   private subscriptions = new Array<Subscription>();
 

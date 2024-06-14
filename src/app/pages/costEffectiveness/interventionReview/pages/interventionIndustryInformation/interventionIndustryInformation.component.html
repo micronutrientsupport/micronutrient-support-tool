@@ -57,8 +57,8 @@
       [showAddMicronutrient]="false"></app-intervention-step-details>
   </div>
   <footer>
-    <a class="intervention-navigation" mat-stroked-button
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_EXPECTED_LOSSES | route" queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.INTERVENTION_REVIEW_COMPLIANCE | route"
+      queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
     <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"

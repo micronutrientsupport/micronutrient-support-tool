@@ -17,7 +17,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 9;
+  public pageStepperPosition = 6;
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;

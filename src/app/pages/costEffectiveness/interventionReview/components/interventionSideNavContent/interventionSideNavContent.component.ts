@@ -24,10 +24,10 @@ export class InterventionSideNavContentComponent {
   @ViewChild('interventionStepperEffectiveness', { static: false }) stepperEffectiveness: MatStepper;
   @ViewChild('interventionStepperSummary', { static: false }) stepperSummary: MatStepper;
 
-  public assumptionSteps = 3;
-  public costsSteps = 4;
-  public effectivenessSteps = 2;
-  public summarySteps = 3;
+  public assumptionSteps = 2;
+  public costsSteps = 5;
+  public effectivenessSteps = 4;
+  public summarySteps = 1;
 
   public currentStepPosition = 0;
 

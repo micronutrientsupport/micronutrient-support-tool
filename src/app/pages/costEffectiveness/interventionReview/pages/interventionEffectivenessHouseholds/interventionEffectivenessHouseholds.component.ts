@@ -34,7 +34,7 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 7;
+  public pageStepperPosition = 8;
 
   private subscriptions = new Array<Subscription>();
 

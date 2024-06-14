@@ -6,7 +6,7 @@
       [expanded]="currentStepPosition <= (assumptionSteps -1)">
       <mat-expansion-panel-header class="expansion-header">
         <mat-panel-title>
-          Performance
+          Intervention
         </mat-panel-title>
         <mat-panel-description>
         </mat-panel-description>
@@ -20,10 +20,6 @@
         <mat-step>
           <ng-template matStepLabel>Performance over time</ng-template>
           <div class="intervention-stage-info">Review and update assumptions about program performance over time.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Point of consumption</ng-template>
-          <div class="intervention-stage-info">Information about this step</div>
         </mat-step>
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
@@ -68,6 +64,10 @@
           <ng-template matStepLabel>Recurring costs</ng-template>
           <div class="intervention-stage-info">Review and update the recurring costs of the intervention program.</div>
         </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Cost summary</ng-template>
+          <div class="intervention-stage-info">View and download summary intervention cost estimates.</div>
+        </mat-step>
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
           {{index + assumptionSteps + 1}}
@@ -95,13 +95,21 @@
       </mat-expansion-panel-header>
       <mat-vertical-stepper class="intervention-steps" #interventionStepperEffectiveness>
         <mat-step>
+          <ng-template matStepLabel>Micronutrient losses</ng-template>
+          <div class="intervention-stage-info">Information about this step</div>
+        </mat-step>
+        <mat-step>
           <ng-template matStepLabel>Projected number of households</ng-template>
           <div class="intervention-stage-info">Information about this step.</div>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>Effectiveness metric and nutrient requirements
+          <ng-template matStepLabel>Nutrient requirements
           </ng-template>
           <div class="intervention-stage-info">Information about this step.</div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Effectiveness summary</ng-template>
+          <div class="intervention-stage-info">View and download summary intervention effectiveness estimates.</div>
         </mat-step>
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
@@ -123,20 +131,12 @@
       [expanded]="currentStepPosition > (assumptionSteps + costsSteps + effectivenessSteps -1)">
       <mat-expansion-panel-header class="expansion-header">
         <mat-panel-title>
-          Summary
+          Cost&nbsp;Effectiveness
         </mat-panel-title>
         <mat-panel-description>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-vertical-stepper class="intervention-steps" #interventionStepperSummary>
-        <mat-step>
-          <ng-template matStepLabel>Cost summary</ng-template>
-          <div class="intervention-stage-info">View and download summary intervention cost estimates.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Effectiveness summary</ng-template>
-          <div class="intervention-stage-info">View and download summary intervention effectiveness estimates.</div>
-        </mat-step>
         <mat-step>
           <ng-template matStepLabel>Cost-effectiveness summary</ng-template>
           <div class="intervention-stage-info">View and download summary intervention cost-effectiveness estimates.

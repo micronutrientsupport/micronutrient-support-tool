@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class InterventionRecurringCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 6;
+  public pageStepperPosition = 5;
   public interventionName = 'IntName';
   public recurringCosts: Array<RecurringCost>;
   public displayHeaders = [
