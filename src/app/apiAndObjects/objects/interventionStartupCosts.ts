@@ -31,6 +31,7 @@ export interface StartUpScaleUpCost {
 export enum StartUpScaleUpCostCategoryType {
   GOVERNMENT = 'Government-related start-up/scale-up costs',
   INDUSTRY = 'Industry-related start-up/scale-up costs',
+  USER = 'User added start-up/scale-up costs',
 }
 export interface StartUpCosts {
   section: string;
@@ -43,7 +44,7 @@ export interface StartUpCosts {
 
 export interface StartUpCostBreakdown {
   labelText: string;
-  rowIndex: number;
+  rowIndex: number | string;
   year0: number;
   year0Default: number;
   year0Edited: number;

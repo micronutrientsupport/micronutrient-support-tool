@@ -5,6 +5,9 @@ import { AppRoutes } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
+import { MatTableDataSource } from '@angular/material/table';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-intervention-effectiveness-households',
@@ -12,26 +15,51 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
   styleUrls: ['./interventionEffectivenessHouseholds.component.scss'],
 })
 export class InterventionEffectivenessHouseholdsComponent implements OnInit {
+  public displayedColumns: string[] = [
+    'areaName',
+    'population2021',
+    'population2022',
+    'population2023',
+    'population2024',
+    'population2025',
+    'population2026',
+    'population2027',
+    'population2028',
+    'population2029',
+  ];
+
+  public loading = false;
+  public dataLoaded = false;
+  public baseYear = 2021;
+  public dataSource = new MatTableDataSource();
+
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 6;
+  public pageStepperPosition = 8;
 
   private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
+    private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
-  ) {
-    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.subscriptions.push(
-      void this.interventionDataService.getIntervention(activeInterventionId).then((intervention: Intervention) => {
-        console.log('Do something with the intervention', intervention);
-      }),
-    );
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+    const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    if (null != activeInterventionId) {
+      void this.interventionDataService
+        .getInterventionProjectedHouseholds(activeInterventionId)
+        .then((data: InterventionProjectedHouseholds[]) => {
+          this.dataSource = new MatTableDataSource(data);
+          this.dataLoaded = true;
+        });
+    }
+  }
+
+  public openProjectedHouseholdsInfoDialog(): void {
+    void this.dialogService.openProjectedHouseholdsInfoDialog();
   }
 
   public confirmAndContinue(): void {

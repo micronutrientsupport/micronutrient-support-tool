@@ -25,8 +25,8 @@ export class InterventionSideNavContentComponent {
   @ViewChild('interventionStepperSummary', { static: false }) stepperSummary: MatStepper;
 
   public assumptionSteps = 2;
-  public costsSteps = 4;
-  public effectivenessSteps = 2;
+  public costsSteps = 5;
+  public effectivenessSteps = 4;
   public summarySteps = 1;
 
   public currentStepPosition = 0;
@@ -43,10 +43,7 @@ export class InterventionSideNavContentComponent {
         // console.log(`${position} => effectiveness ${position - (this.assumptionSteps + this.costsSteps)}`);
         this.stepperEffectiveness.selectedIndex = position - (this.assumptionSteps + this.costsSteps);
       } else {
-        console
-          .log
-          // `${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`,
-          ();
+        // console.log(`${position} => summary ${position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps)}`);
         this.stepperSummary.selectedIndex =
           position - (this.assumptionSteps + this.costsSteps + this.effectivenessSteps);
       }

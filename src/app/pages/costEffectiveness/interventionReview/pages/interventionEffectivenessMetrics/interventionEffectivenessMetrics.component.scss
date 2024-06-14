@@ -24,3 +24,52 @@ input.ng-dirty {
   color: $color_input_blue;
   border-color: $color_input_blue;
 }
+
+table {
+  width: 50%;
+  border: 1px solid gray;
+  margin-bottom: 1.5em;
+}
+
+th {
+  width: 33%;
+  // border: 1px solid red;
+  font-weight: bold;
+  padding: 0.5em !important;
+}
+
+td {
+  text-align: left !important;
+  padding: 0.5em;
+  border: 1px solid gray;
+  padding: 0.5em !important;
+}
+
+td:first-child {
+  text-align: center !important;
+}
+
+td.non-editable {
+  background: #d8d8d8;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  /* row border */
+  border: 1px solid gray;
+  background-color: #f1ecf6 !important;
+  text-align: left !important;
+}
+
+td.mat-cell {
+  /* row padding */
+  padding: 20px 0;
+  border: none;
+}
+
+form {
+  padding: 1rem 2rem;
+}

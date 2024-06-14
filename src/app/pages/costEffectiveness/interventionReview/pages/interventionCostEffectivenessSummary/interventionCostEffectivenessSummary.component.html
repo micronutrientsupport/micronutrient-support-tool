@@ -1,0 +1,57 @@
+<div class="bmgf-maps-nice-scrollbar container">
+  <div class="content">
+    <app-intervention-description></app-intervention-description>
+    <div class="title">
+      <span>Cost Effectiveness Summary
+        <button class="icon-display floater" mat-mini-fab color="primary"
+          (click)="openProjectedHouseholdsInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
+        </button></span>
+    </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 4, rows: 2 }"></app-reusable-skeleton-table>
+
+    <table mat-table [dataSource]="dataSource" *ngIf="dataLoaded" class="table-full-width">
+      <ng-container matColumnDef="intervention">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+          Intervention </th>
+        <td class="row-title-left row-left" mat-cell *matCellDef="let element">
+          <span>{{ selectedIntervention?.foodVehicleName | titlecase }} Fortification</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="annualAverageCost">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>
+          Annual average cost, 2021 USD</th>
+        <td class="row-left" mat-cell *matCellDef="let element">
+          <span>{{ element.averageAnnualCost | currencyExtended }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="averageHouseholdsCovered">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>
+          Average annual number of households effectively covered</th>
+        <td class="row-left" mat-cell *matCellDef="let element">
+          <span>{{ element.averageEffectivelyCoveredHouseholds | number:'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="costPerHouseholdCovered">
+        <th class="row-title" mat-header-cell *matHeaderCellDef>
+          Cost per household effectively covered, 2021 USD</th>
+        <td class="row-left" mat-cell *matCellDef="let element">
+          <span>{{ element.costPerHouseholdCovered | currency }}</span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+  <footer>
+    <a class="intervention-navigation" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY | route" queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation-confirm" mat-flat-button color="primary" color="primary" (click)="onSubmit()"
+      queryParamsHandling="preserve">Save and close</a>
+  </footer>
+</div>

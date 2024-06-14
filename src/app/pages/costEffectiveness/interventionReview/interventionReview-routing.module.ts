@@ -14,6 +14,9 @@ import { InterventionRecurringCostsComponent } from './pages/interventionRecurri
 import { InterventionStartupScaleupCostsComponent } from './pages/interventionStartupScaleupCosts/interventionStartupScaleupCosts.component';
 import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
 import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
+import { InterventionExpectedLossComponent } from './pages/interventionExpectedLoss/interventionExpectedLoss.component';
+import { InterventionEffectivenessSummaryComponent } from './pages/interventionEffectivenessSummary/interventionEffectivenessSummary.component';
+import { InterventionCostEffectivenessSummaryComponent } from './pages/interventionCostEffectivenessSummary/interventionCostEffectivenessSummary.component';
 
 const routes: Routes = [
   {
@@ -154,6 +157,48 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_EXPECTED_LOSSES.getRouterPath(),
+        component: InterventionExpectedLossComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_EXPECTED_LOSSES,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY.getRouterPath(),
+        component: InterventionEffectivenessSummaryComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY.getRouterPath(),
+        component: InterventionCostEffectivenessSummaryComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY,
           title: '',
           keywords: '',
           description: '',

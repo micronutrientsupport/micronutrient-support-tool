@@ -1,0 +1,314 @@
+<div class="bmgf-maps-nice-scrollbar container">
+  <div class="content">
+    <app-intervention-description></app-intervention-description>
+    <div class="title">
+      <span>Effectiveness Summary
+        <button class="icon-display floater" mat-mini-fab color="primary"
+          (click)="openProjectedHouseholdsInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
+        </button></span>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Effectiveness Metric</mat-label>
+        <mat-select [ngModelOptions]=" 
+          {standalone: true}" [(ngModel)]="selectedEffectivenessMetric" (selectionChange)="refreshEffectivenessData()">
+          <mat-option *ngFor="let metric of effectivenessMetricOptions | keyvalue" [value]="metric.key">{{metric.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Display effectiveness results by</mat-label>
+        <mat-select [ngModelOptions]=" 
+          {standalone: true}" [(ngModel)]="selectedEffectivenessAggregation"
+          (selectionChange)="refreshEffectivenessData()">
+          <mat-option *ngFor="let metric of effectivenesAggregations | keyvalue" [value]="metric.key">{{metric.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="loading-spinner">
+        <mat-spinner *ngIf="!dataLoaded" class="loading-indicator" aria-label="spinner" [diameter]="32"
+          color='accent'></mat-spinner>
+      </div>
+    </div>
+
+    <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTab">
+
+      <mat-tab label="Reach and apparent consumption">
+        <div class="tab-content">
+          <h2>Reach and apparent consumption</h2>
+          <p>The estimate of reach show the proportion of household that reported consuming the food vehicle, in any
+            quantity, during the recall period. The estimates of apparent consumption show the mean and median quantity
+            of the food vehicle apparently consumed, among consumers (i.e., excluding household who did not consume the
+            food vehicle) per day per AFE.</p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+            <mat-tab label="Table">
+              <app-reusable-skeleton-table *ngIf="!dataLoaded"
+                [setData]="{ columns: 5, rows: 2 }"></app-reusable-skeleton-table>
+              <table mat-table *ngIf="dataLoaded" [dataSource]="dataSource" class="table-full-width">
+                <ng-container matColumnDef="geographicArea">
+                  <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+                    Geographic Area </th>
+                  <td class="row-title-left row-left" mat-cell *matCellDef="let element">
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin1'">{{element.admin1Name}}</span>
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin0'">{{element.admin0Name}}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="householdCount">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Household Count </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.householdCount}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="householdReachPercentage">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Household Reach (%)</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.householdReachPerc | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="meanFortificantConsumption">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Mean consumption of food vehicle among consumers (g/day/AFE)</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.meanFortificantConsumption | number: '1.1-1'}}g
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="medianFortificantConsumption">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Median consumption of food vehicle among consumers (g/day/AFE)</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.medianFortificantConsumption | number: '1.1-1'}}g
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsReach"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsReach;"></tr>
+              </table>
+            </mat-tab>
+            <!-- <mat-tab label="Graph">
+
+            </mat-tab>
+            <mat-tab label="Download">
+
+            </mat-tab> -->
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Micronutrient inadequacy">
+        <div class="tab-content">
+          <h2>Micronutrient inadequacy</h2>
+          <p>These estimates show the proportion of households with an inadequate supply of the focus micronutrient at
+            baseline (i.e., without interventions) and with the specified intervention.</p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group" [(selectedIndex)]="selectedTabSummary">
+            <mat-tab label="Table">
+
+              <app-reusable-skeleton-table *ngIf="!dataLoaded"
+                [setData]="{ columns: 12, rows: 2 }"></app-reusable-skeleton-table>
+              <table mat-table *ngIf="dataLoaded" [dataSource]="dataSource" class="table-full-width">
+                <ng-container matColumnDef="geographicArea">
+                  <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+                    Geographic<br />Area</th>
+                  <td class="row-title-left row-left" mat-cell *matCellDef="let element">
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin1'">{{element.admin1Name}}</span>
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin0'">{{element.admin0Name}}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="householdCount">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Household<br />Count</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.householdCount}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="baseline">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Baseline</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.inadequacyPercBaseline | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+
+                <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9];" [matColumnDef]="'excess' + (baseYear + year)">
+                  <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+                  <td mat-cell *matCellDef="let element; let index = index">
+                    {{element.inadequacyPerc[year] | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsInadequacy"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsInadequacy;"></tr>
+              </table>
+              <!-- <app-intervention-cost-summary-quick-undiscounted-table *ngIf="null != summaryCosts"
+                [summaryCosts]="summaryCosts">
+              </app-intervention-cost-summary-quick-undiscounted-table>
+
+              <app-intervention-cost-summary-quick-discounted-table *ngIf="null != summaryCosts"
+                [summaryCosts]="summaryCosts">
+              </app-intervention-cost-summary-quick-discounted-table> -->
+            </mat-tab>
+            <!-- <mat-tab label="Graph">
+              <app-intervention-cost-summary-quick-total-graph [summaryCosts]="summaryCosts"
+                *ngIf="selectedTabSummary === 1">
+              </app-intervention-cost-summary-quick-total-graph>
+            </mat-tab>
+            <mat-tab label="Download">
+              <app-download [chartDownloadPNG]="chartSummaryPNG" [chartDownloadPDF]="chartSummaryPDF"></app-download>
+            </mat-tab> -->
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Effective coverage">
+        <div class="tab-content">
+          <h2>Effective coverage</h2>
+          <p>These estimates show the proportion of household with an inadequate supply of the focus micronutrient at
+            baseline (i.e., without interventions) that have an adequate supply with the specified intervention. In
+            other words, this is the change in the prevalence of inadequacy from baseline to with the specified
+            intervention.</p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+            <mat-tab label="Table">
+
+
+              <app-reusable-skeleton-table *ngIf="!dataLoaded"
+                [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
+              <table mat-table *ngIf="dataLoaded" [dataSource]="dataSource" class="table-full-width">
+                <ng-container matColumnDef="geographicArea">
+                  <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+                    Geographic<br />Area </th>
+                  <td class="row-title-left row-left" mat-cell *matCellDef="let element">
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin1'">{{element.admin1Name}}</span>
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin0'">{{element.admin0Name}}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="householdCount">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Household<br />Count </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.householdCount}}
+                  </td>
+                </ng-container>
+
+                <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9];"
+                  [matColumnDef]="'coverage' + (baseYear + year)">
+                  <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+                  <td mat-cell *matCellDef="let element; let index = index">
+                    {{element.coveragePerc[year] | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsCoverage"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsCoverage;"></tr>
+              </table>
+
+            </mat-tab>
+            <!-- <mat-tab label="Graph">
+
+            </mat-tab>
+            <mat-tab label="Download">
+
+            </mat-tab> -->
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Risk of high intakes">
+        <div class="tab-content">
+          <h2>Risk of high intakes</h2>
+          <p>These estimates show the proportion of households with intake of the focus micronutrient above the
+            tolerable upper intake level (UL). If the focus micronutrient does not have a UL, the table will be blank.
+          </p>
+          <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
+            <mat-tab label="Table">
+              <app-reusable-skeleton-table *ngIf="!dataLoaded"
+                [setData]="{ columns: 12, rows: 2 }"></app-reusable-skeleton-table>
+              <table mat-table *ngIf="dataLoaded" [dataSource]="dataSource" class="table-full-width">
+                <ng-container matColumnDef="geographicArea">
+                  <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+                    Geographic<br />Area </th>
+                  <td class="row-title-left row-left" mat-cell *matCellDef="let element">
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin1'">{{element.admin1Name}}</span>
+                    <span *ngIf="selectedEffectivenessAggregation == 'admin0'">{{element.admin0Name}}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="householdCount">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Household<br />Count </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.householdCount}}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="baseline">
+                  <th class="row-title" mat-header-cell *matHeaderCellDef>
+                    Baseline</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.excessCountBaseline | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+
+                <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9];" [matColumnDef]="'excess' + (baseYear + year)">
+                  <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+                  <td mat-cell *matCellDef="let element; let index = index">
+                    {{element.excessCount[year] | number: '1.0-0'}}%
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsExcess"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsExcess;"></tr>
+              </table>
+            </mat-tab>
+            <!-- <mat-tab label="Graph">
+
+            </mat-tab>
+            <mat-tab label="Download">
+
+            </mat-tab> -->
+          </mat-tab-group>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+
+    <!-- <table mat-table [dataSource]="dataSource" class="table-full-width">
+      <ng-container matColumnDef="areaName">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>
+          Geographic Area </th>
+        <td class="row-title-left row-left" [ngClass]="{'national': element.adminLevel === 0}" mat-cell
+          *matCellDef="let element">
+          <span *ngIf="element.adminLevel === 0">National</span>
+          <span *ngIf="element.adminLevel > 0">{{element.areaName}}</span>
+          <i *ngIf="element.isCalculated && element.rowNotes" class="fas fa-question-circle"
+            matTooltip="{{element.rowNotes}}"></i>
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9]; last as omitCopyButton"
+        [matColumnDef]="'population' + (baseYear + year)">
+        <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+        <td mat-cell *matCellDef="let element; let index = index">
+          {{element['population' + (baseYear + year)] | number: '1.0-0'}}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table> -->
+
+  </div>
+  <footer>
+    <a class="intervention-navigation" mat-stroked-button
+      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS | route" queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-flat-button color="primary" [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
+      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY)">
+      <span *ngIf="!loading">Continue to Cost Effectiveness</span>
+      <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+          [diameter]="16" color='accent'></mat-spinner></span>
+    </button>
+  </footer>
+</div>

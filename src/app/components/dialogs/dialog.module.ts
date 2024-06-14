@@ -36,6 +36,7 @@ import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premix
 import { ComponentsModule } from '../components.module';
 import { BaselinePerformanceInfoDialogComponent } from './baselinePerformanceInfoDialog/baselinePerformanceInfoDialog.component';
 import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehicleStandardDialog.component';
+import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehic
     UserLoginDialogComponent,
     UserRegisterDialogComponent,
     InterventionInputFieldComponent,
+    ProjectedHouseholdsInfoDialogComponent,
   ],
   imports: [
     CommonModule,

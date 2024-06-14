@@ -163,6 +163,16 @@ export class AppRoutes {
     segments: 'intervention-cost-summary',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
+  public static readonly INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY = {
+    ...BASE_ROUTE,
+    segments: 'intervention-effectiveness-summary',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY = {
+    ...BASE_ROUTE,
+    segments: 'intervention-cost-effectiveness-summary',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
   public static readonly INTERVENTION_REVIEW_INDUSTRY_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-industry-information',
@@ -191,6 +201,11 @@ export class AppRoutes {
   public static readonly INTERVENTION_REVIEW_EFFECTIVENESS_METRICS = {
     ...BASE_ROUTE,
     segments: 'intervention-effectiveness-metrics',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_EXPECTED_LOSSES = {
+    ...BASE_ROUTE,
+    segments: 'intervention-expected-losses',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
 

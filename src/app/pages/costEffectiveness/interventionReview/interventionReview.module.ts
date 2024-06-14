@@ -42,6 +42,9 @@ import { ReusableCostGraphComponent } from './utilities/reusableCostGraph/reusab
 import { ReusableCostTableComponent } from './utilities/reusableCostTable/reusableCostTable.component';
 import { InterventionEffectivenessHouseholdsComponent } from './pages/interventionEffectivenessHouseholds/interventionEffectivenessHouseholds.component';
 import { InterventionEffectivenessMetricsComponent } from './pages/interventionEffectivenessMetrics/interventionEffectivenessMetrics.component';
+import { InterventionExpectedLossComponent } from './pages/interventionExpectedLoss/interventionExpectedLoss.component';
+import { InterventionEffectivenessSummaryComponent } from './pages/interventionEffectivenessSummary/interventionEffectivenessSummary.component';
+import { InterventionCostEffectivenessSummaryComponent } from './pages/interventionCostEffectivenessSummary/interventionCostEffectivenessSummary.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +59,9 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
     InterventionConsumptionComponent,
     InterventionEffectivenessHouseholdsComponent,
     InterventionEffectivenessMetricsComponent,
+    InterventionExpectedLossComponent,
+    InterventionEffectivenessSummaryComponent,
+    InterventionCostEffectivenessSummaryComponent,
     InterventionDescriptionComponent,
     InterventionCostSummaryQuickUndiscountedTableComponent,
     InterventionCostSummaryQuickDiscountedTableComponent,
