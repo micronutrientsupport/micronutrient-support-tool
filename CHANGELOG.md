@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.15.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.0...v1.15.1) (2024-06-16)
+
+
+### Bug Fixes
+
+* disable placeholder user added costs ([9c26986](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9c26986ca0c5953c9b771c29b311d0928aa82db4))
+* fix effectiveness excess view to display percentage not household count ([cab263e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/cab263e1a13a1ae1d0ed0e9fc2ed695239d83ad5))
+* quick and dirty filter to ensure national level effectiveness data only displays focus nation ([85e9d2a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/85e9d2ac31264d86cb891e124de0b75090f52650))
+
 ## [1.15.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.2...v1.15.0) (2024-06-14)
 
 
