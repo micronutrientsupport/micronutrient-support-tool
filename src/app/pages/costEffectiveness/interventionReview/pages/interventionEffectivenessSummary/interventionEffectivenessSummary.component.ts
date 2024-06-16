@@ -10,6 +10,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { Router } from '@angular/router';
 import { InterventionLsffEffectivenessSummary } from 'src/app/apiAndObjects/objects/interventionLsffEffectivenessSummary';
+import { DictionaryService } from 'src/app/services/dictionary.service';
+import { Dictionary } from 'src/app/apiAndObjects/_lib_code/objects/dictionary';
+import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 
 @Component({
   selector: 'app-intervention-effectiveness-summary',
@@ -95,16 +98,28 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public countryDictionary: Dictionary;
+  public selectedIntervention: Intervention;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
     private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
     private router: Router,
+    private dictionaryService: DictionaryService,
   ) {}
 
   public ngOnInit(): void {
     this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
+    this.interventionDataService
+      .getIntervention(this.interventionDataService.getActiveInterventionId())
+      .then((selectedIntervention: Intervention) => {
+        this.selectedIntervention = selectedIntervention;
+      });
+    this.dictionaryService.getDictionary(DictionaryType.COUNTRIES).then((dictionary) => {
+      this.countryDictionary = dictionary;
+    });
     this.refreshEffectivenessData();
   }
 
@@ -121,8 +136,12 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
           this.selectedEffectivenessAggregation,
           this.selectedEffectivenessMetric,
         )
-        .then((data: InterventionLsffEffectivenessSummary[]) => {
-          // console.log(data);
+        .then(async (data: InterventionLsffEffectivenessSummary[]) => {
+          if (this.selectedEffectivenessAggregation === 'admin0') {
+            const nation = this.countryDictionary.getItem(this.selectedIntervention?.countryId).name;
+            data = data.filter((val) => val.admin0Name === nation);
+          }
+
           this.dataSource = new MatTableDataSource(data);
           this.dataLoaded = true;
         });
