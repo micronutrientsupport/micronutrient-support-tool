@@ -42,7 +42,7 @@
 
       <ng-container matColumnDef="averageFortificationLevelPoC">
         <th class="row-title" mat-header-cell *matHeaderCellDef>
-          Calculated average fortification level (mg/kg) among food vehicle at point of consumption</th>
+          Calculated average fortification level (mg/kg) among food vehicle at households</th>
         <td class="row-left" [ngClass]="{'national': element.adminLevel === 0}" mat-cell *matCellDef="let element">
           {{ element.baseline.actuallyFortified.year0 *
           element.baseline.averageFortificationLevel.year0 *
