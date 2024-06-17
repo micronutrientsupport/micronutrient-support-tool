@@ -56,7 +56,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionTypeArray = [];
   public interventionStatusArray = ['Existing intervention program' /*, 'Hypothetical intervention program' */];
   public interventionNatureArray = [
-    /*'Status Quo',*/ 'Scale-up' /*, 'Improved Complicance', 'Revision of existing standards' */,
+    'Status Quo' /*'Scale-up'*/ /*, 'Improved Complicance', 'Revision of existing standards' */,
   ];
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
@@ -84,164 +84,164 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private micronutrientsDictionary: Dictionary;
 
   private interventionMapping = {
-    ETH: {
-      A: {
-        LSFF: {
-          'Existing intervention program': {
-            /*     'wheat flour': '2', */
-            // 'maize flour': '3',
-            'refined oil': '1',
-            // sugar: '4',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B1: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B2: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B3: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B6: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B9: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B12: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      /*       D: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2', 
-            // 'maize flour': '3',
-            'refined oil': '1',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-      // E: {
-      //   LSFF: {
-      //     'Existing intervention program': {
-      //       // rice: '8',
-      //     },
-      //     'Hypothetical intervention program': {},
-      //   },
-      // },
-      // I: {
-      //   LSFF: {
-      //     'Existing intervention program': {
-      //       // 'salt, iodine': '5',
-      //     },
-      //     'Hypothetical intervention program': {},
-      //   },
-      // },
-      /*       Fe: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-      Zn: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // 'salt, iodine': '5',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      // Ca data not working for baseline compliance
-      /*       Ca: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-      /*       Se: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '2',
-            // 'maize flour': '3',
-            // rice: '8',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-    },
+    // ETH: {
+    //   A: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         /*     'wheat flour': '2', */
+    //         // 'maize flour': '3',
+    //         'refined oil': '1',
+    //         // sugar: '4',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B1: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B2: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B3: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B6: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B9: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   B12: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   /*       D: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         'refined oil': '1',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   }, */
+    //   // E: {
+    //   //   LSFF: {
+    //   //     'Existing intervention program': {
+    //   //       // rice: '8',
+    //   //     },
+    //   //     'Hypothetical intervention program': {},
+    //   //   },
+    //   // },
+    //   // I: {
+    //   //   LSFF: {
+    //   //     'Existing intervention program': {
+    //   //       // 'salt, iodine': '5',
+    //   //     },
+    //   //     'Hypothetical intervention program': {},
+    //   //   },
+    //   // },
+    //   /*       Fe: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   }, */
+    //   Zn: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // 'salt, iodine': '5',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   },
+    //   // Ca data not working for baseline compliance
+    //   /*       Ca: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   }, */
+    //   /*       Se: {
+    //     LSFF: {
+    //       'Existing intervention program': {
+    //         'wheat flour': '2',
+    //         // 'maize flour': '3',
+    //         // rice: '8',
+    //       },
+    //       'Hypothetical intervention program': {},
+    //     },
+    //   }, */
+    // },
     MWI: {
       A: {
         LSFF: {
           'Existing intervention program': {
             'wheat flour': '12',
             // 'maize flour': '13',
-            'refined oil': '11',
+            // 'refined oil': '11',
             // sugar: '14',
             // 'salt, iodine': '15',
             // rice: '16',

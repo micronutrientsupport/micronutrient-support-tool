@@ -148,8 +148,8 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
     }
   }
 
-  public openProjectedHouseholdsInfoDialog(): void {
-    void this.dialogService.openProjectedHouseholdsInfoDialog();
+  public openEffectivenessInfoDialog(): void {
+    void this.dialogService.openEffectivenessInfoDialog();
   }
 
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {

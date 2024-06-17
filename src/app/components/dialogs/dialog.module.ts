@@ -37,6 +37,8 @@ import { ComponentsModule } from '../components.module';
 import { BaselinePerformanceInfoDialogComponent } from './baselinePerformanceInfoDialog/baselinePerformanceInfoDialog.component';
 import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehicleStandardDialog.component';
 import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
+import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
+import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,9 @@ import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDia
     UserRegisterDialogComponent,
     InterventionInputFieldComponent,
     ProjectedHouseholdsInfoDialogComponent,
+    ExpectedLossesInfoDialogComponent,
+    EffectivenessSummaryDialogComponent,
+    CostEffectivenessInfoDialogComponent,
   ],
   imports: [
     CommonModule,
