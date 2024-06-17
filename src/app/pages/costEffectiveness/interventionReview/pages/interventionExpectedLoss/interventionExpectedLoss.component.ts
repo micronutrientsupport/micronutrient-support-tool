@@ -74,8 +74,8 @@ export class InterventionExpectedLossComponent implements OnInit {
     }
   }
 
-  public openProjectedHouseholdsInfoDialog(): void {
-    void this.dialogService.openProjectedHouseholdsInfoDialog();
+  public openExpectedLossesInfoDialog(): void {
+    void this.dialogService.openExpectedLossesInfoDialog();
   }
 
   public confirmAndContinue(): void {

@@ -65,8 +65,8 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
     }
   }
 
-  public openProjectedHouseholdsInfoDialog(): void {
-    void this.dialogService.openProjectedHouseholdsInfoDialog();
+  public openCostEffectivenessInfoDialog(): void {
+    void this.dialogService.openCostEffectivenessInfoDialog();
   }
 
   public confirmAndContinue(): void {

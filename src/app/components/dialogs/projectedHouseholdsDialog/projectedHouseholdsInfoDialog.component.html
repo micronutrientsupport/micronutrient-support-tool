@@ -1,5 +1,13 @@
-<app-base-dialog [data]="dialogData" title="Projected Households">
+<app-base-dialog [data]="dialogData" title="Projected number of households">
   <div class="container">
-    <p>Blah blah blah</p>
+    <p>The projected number of households combines UN World Population Prospects (<a
+        href="https://population.un.org/wpp/" target="_blank">https://population.un.org/wpp/</a>)
+      population projections over the 10-year time horizon with estimates of average household size to project the
+      number of households for each year of the 10-year time horizon. Specifically, the national population projection
+      in each year is weighted by the admin level 1 share of the national population (according to the most recent
+      census data) to disaggregate the population projections to the sub-national level. Then, we estimate the number of
+      households each year by dividing the sub-national projections by estimates of the average household size at each
+      admin level 1 (typically according to the most recent Demographic and Health Survey or the most recent Household
+      Consumption and Expenditure Survey).</p>
   </div>
 </app-base-dialog>

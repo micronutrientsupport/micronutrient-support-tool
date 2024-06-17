@@ -33,6 +33,8 @@ import { PremixCostReviewDialogComponent } from './premixCostReviewDialog/premix
 import { BaselinePerformanceInfoDialogComponent } from './baselinePerformanceInfoDialog/baselinePerformanceInfoDialog.component';
 import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehicleStandardDialog.component';
 import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
+import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
+import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -165,6 +167,24 @@ export class DialogService extends BaseDialogService {
 
   public openProjectedHouseholdsInfoDialog(): Promise<DialogData> {
     return this.openDialog('projectedHouseholdsInfoDialog', ProjectedHouseholdsInfoDialogComponent, true, null, {
+      width: '50vw',
+    });
+  }
+
+  public openExpectedLossesInfoDialog(): Promise<DialogData> {
+    return this.openDialog('projectedHouseholdsInfoDialog', ExpectedLossesInfoDialogComponent, true, null, {
+      width: '50vw',
+    });
+  }
+
+  public openEffectivenessInfoDialog(): Promise<DialogData> {
+    return this.openDialog('projectedHouseholdsInfoDialog', EffectivenessSummaryDialogComponent, true, null, {
+      width: '50vw',
+    });
+  }
+
+  public openCostEffectivenessInfoDialog(): Promise<DialogData> {
+    return this.openDialog('projectedHouseholdsInfoDialog', CostEffectivenessInfoDialogComponent, true, null, {
       width: '50vw',
     });
   }
