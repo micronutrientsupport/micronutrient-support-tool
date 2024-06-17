@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.16.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.1...v1.16.0) (2024-06-17)
+
+
+### Features
+
+* add info dialogs to effectiveness pages ([4c171ee](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4c171ee773990cba00cd275b4eb736893d3b98bb))
+
+
+### Bug Fixes
+
+* limit intervention options for workshop ([316e38e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/316e38e7aaee9835d293941947d6e2b51a62e4c7))
+* minor CE text tweaks ([97a6f8f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/97a6f8fe818c5d784366b60ad8ef226f4d5c73a9))
+
 ## [1.15.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.0...v1.15.1) (2024-06-16)
 
 
