@@ -107,6 +107,8 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
         if (source === true) {
           if (null != activeInterventionId) {
             this.interventionDataService.interventionStartupCostChanged(false);
+            this.loading = true;
+            this.startupCosts = null;
             void this.interventionDataService
               .getInterventionStartupCosts(activeInterventionId)
               .then((data: InterventionStartupCosts) => {
@@ -115,6 +117,7 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
                 this.startupCosts = null;
                 setTimeout(() => {
                   this.startupCosts = data.startupScaleupCosts;
+                  this.loading = false;
                 }, 0);
               });
           }
