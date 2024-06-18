@@ -85,6 +85,7 @@ export class SectionStartUpCostReviewDialogComponent {
   }
 
   public async confirmChanges(): Promise<boolean> {
+    console.log(this.interventionDataService.getInterventionDataChanges());
     if (Object.keys(this.interventionDataService.getInterventionDataChanges()).length !== 0) {
       this.loading = true;
       this.interventionDataService.interventionPageConfirmContinue().then(() => {

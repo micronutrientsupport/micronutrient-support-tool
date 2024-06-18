@@ -180,3 +180,12 @@ app-ce-input-field {
 .loading-indicator {
   display: inline-block;
 }
+
+.sourceBtn {
+  &::ng-deep .mdc-button__label {
+    max-width: 10em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
