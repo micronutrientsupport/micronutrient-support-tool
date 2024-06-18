@@ -56,7 +56,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionTypeArray = [];
   public interventionStatusArray = ['Existing intervention program' /*, 'Hypothetical intervention program' */];
   public interventionNatureArray = [
-    'Status Quo' /*'Scale-up'*/ /*, 'Improved Complicance', 'Revision of existing standards' */,
+    'Status Quo',
+    'Scale-up' /*, 'Improved Complicance', 'Revision of existing standards' */,
   ];
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
@@ -527,7 +528,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
           // Temporarily limit to ETH/MWI
           // TODO: Remove this
-          .filter((country) => country.id === 'ETH' || country.id === 'MWI');
+          .filter((country) => country.id === 'MWI');
         this.setPreselected(DictionaryType.COUNTRIES);
         break;
       case type === DictionaryType.MICRONUTRIENTS:
