@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.1...v1.17.0) (2024-06-18)
+
+
+### Features
+
+* fix sources ([029af6f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/029af6fb6c735dbddfeb9b85d12109893580659d))
+
 ## [1.16.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.0...v1.16.1) (2024-06-18)
 
 
