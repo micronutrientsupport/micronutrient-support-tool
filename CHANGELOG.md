@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.0...v1.16.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* add loading indicator when closing SUSU dialog ([98ccc73](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/98ccc738d725a767ed685855a5373c68f69b8aaf))
+* update effectiveness selection options ([6499a3f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6499a3f5a061f8cc30076b1c72af4d1f5490474a))
+
 ## [1.16.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.1...v1.16.0) (2024-06-17)
 
 
