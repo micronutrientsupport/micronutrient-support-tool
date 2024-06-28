@@ -141,8 +141,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       // this.interventionsAllowedToUse = this.interventionsAllowedToUse.filter(
       //   (i) => !currentlySelectedInterventionIDsAsStrings.includes(i.id),
       // );
-      this.createParameterForm();
-      this.createParameterForm2();
     });
   }
 
@@ -162,6 +160,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       newInterventionFocusGeography: '',
     };
     this.initParamFormData();
+    this.createParameterForm();
+    this.createParameterForm2();
     this.createInterventionForm();
     this.interventionForm.valueChanges.subscribe((fields) => {
       if (fields.newInterventionName !== '') {
