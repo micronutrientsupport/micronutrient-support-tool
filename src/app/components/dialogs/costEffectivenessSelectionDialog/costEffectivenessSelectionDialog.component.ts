@@ -59,9 +59,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     'Status Quo',
     'Scale-up' /*, 'Improved Complicance', 'Revision of existing standards' */,
   ];
+  public interventionBaseYearArray = ['2021'];
+  public interventionReferenceMemberArray = ['Non-pregnant, Non-lactating Adult Female'];
   public proceed = new BehaviorSubject<boolean>(false);
   public showResults = new BehaviorSubject<boolean>(false);
   public parameterForm: UntypedFormGroup;
+  public parameterForm2: UntypedFormGroup;
   public countryOptionArray: DictionaryItem[] = [];
   public regionOptionArray: Region[] = [];
   public micronutrientsOptionArray: DictionaryItem[] = [];
@@ -75,6 +78,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public selectedInterventionType = '';
   public selectedInterventionStatus = '';
   public selectedInterventionNature = '';
+  public selectedInterventionBaseYear = '';
+  public selectedInterventionReferenceMember = '';
   public parameterFormObj: CEFormBody;
   public interventionRequestBody: InterventionCERequest;
   public recentInterventions = '';
@@ -84,309 +89,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
 
-  private interventionMapping = {
-    // ETH: {
-    //   A: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         /*     'wheat flour': '2', */
-    //         // 'maize flour': '3',
-    //         'refined oil': '1',
-    //         // sugar: '4',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B1: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B2: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B3: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B6: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B9: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   B12: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   /*       D: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         'refined oil': '1',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   }, */
-    //   // E: {
-    //   //   LSFF: {
-    //   //     'Existing intervention program': {
-    //   //       // rice: '8',
-    //   //     },
-    //   //     'Hypothetical intervention program': {},
-    //   //   },
-    //   // },
-    //   // I: {
-    //   //   LSFF: {
-    //   //     'Existing intervention program': {
-    //   //       // 'salt, iodine': '5',
-    //   //     },
-    //   //     'Hypothetical intervention program': {},
-    //   //   },
-    //   // },
-    //   /*       Fe: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   }, */
-    //   Zn: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // 'salt, iodine': '5',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   },
-    //   // Ca data not working for baseline compliance
-    //   /*       Ca: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   }, */
-    //   /*       Se: {
-    //     LSFF: {
-    //       'Existing intervention program': {
-    //         'wheat flour': '2',
-    //         // 'maize flour': '3',
-    //         // rice: '8',
-    //       },
-    //       'Hypothetical intervention program': {},
-    //     },
-    //   }, */
-    // },
-    MWI: {
-      A: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'refined oil': '11',
-            // sugar: '14',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B1: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B2: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B3: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      /*       B6: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-      B9: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      B12: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      /*       D: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            'refined oil': '11',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-      // E: {
-      //   LSFF: {
-      //     'Existing intervention program': {
-      //       // rice: '16',
-      //     },
-      //     'Hypothetical intervention program': {},
-      //   },
-      // },
-      // I: {
-      //   LSFF: {
-      //     'Existing intervention program': {
-      //       // 'salt, iodine': '15',
-      //     },
-      //     'Hypothetical intervention program': {},
-      //   },
-      // },
-      Fe: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      Zn: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // 'salt, iodine': '15',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      /*       Ca: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      },
-      Se: {
-        LSFF: {
-          'Existing intervention program': {
-            'wheat flour': '12',
-            // 'maize flour': '13',
-            // rice: '16',
-          },
-          'Hypothetical intervention program': {},
-        },
-      }, */
-    },
-  };
+  private interventionMapping;
 
   constructor(
     public dialog: MatDialog,
@@ -439,6 +142,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       //   (i) => !currentlySelectedInterventionIDsAsStrings.includes(i.id),
       // );
       this.createParameterForm();
+      this.createParameterForm2();
     });
   }
 
@@ -478,7 +182,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     }
   }
 
-  private initParamFormData(): void {
+  private async initParamFormData(): Promise<void> {
+    const res = await this.apiService.endpoints.intervention.getInterventionTemplates.call();
+    this.interventionMapping = res.templates as unknown;
+    console.log({ res });
+
     this.regionOptionArray = [];
     this.dictionariesService
       .getDictionaries([DictionaryType.COUNTRIES, DictionaryType.MICRONUTRIENTS, DictionaryType.AGE_GENDER_GROUPS])
@@ -518,7 +226,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
   private getDictionaryItems(type: DictionaryType, countryId?: string): void {
     console.log('GetDictionary', countryId);
-    const tempMns = ['A', 'B1', 'B2', 'B3', 'B6', 'B9', 'B12', 'D', 'E', 'I', 'Fe', 'Zn', 'Ca', 'Se'];
     switch (true) {
       case type === DictionaryType.COUNTRIES:
         //this.countryOptionArray = this.countriesDictionary.getItems().sort(this.sort);
@@ -528,7 +235,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
           // Temporarily limit to ETH/MWI
           // TODO: Remove this
-          .filter((country) => country.id === 'MWI');
+          .filter((country) => Object.keys(this.interventionMapping).includes(country.id));
         this.setPreselected(DictionaryType.COUNTRIES);
         break;
       case type === DictionaryType.MICRONUTRIENTS:
@@ -543,8 +250,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
               console.log(`${countryId} MN list: ${Object.keys(this.interventionMapping[countryId])}`);
               return Object.keys(this.interventionMapping[countryId]).includes(micronutrient.id);
             } else {
-              console.log(`Default MN list: ${tempMns}`);
-              return tempMns.includes(micronutrient.id);
+              //console.log(`Default MN list: ${tempMns}`);
+              return false;
+              //return tempMns.includes(micronutrient.id);
             }
           });
         this.setPreselected(DictionaryType.MICRONUTRIENTS);
@@ -559,18 +267,6 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       focusMicronutrient: new UntypedFormControl('', [Validators.required]),
       nation: new UntypedFormControl('', [Validators.required]),
       focusGeography: new UntypedFormControl('', []),
-      interventionStatus: new UntypedFormControl('', [Validators.required]),
-      interventionNature: new UntypedFormControl('', [Validators.required]),
-
-      // interventionType: new UntypedFormControl(
-      //   {
-      //     value: this.interventionTypeOptionArray,
-      //     disabled: true,
-      //   },
-      //   [],
-      // ),
-      // foodVehicle: new UntypedFormControl({ value: '', disabled: true }, []),
-      // interventionStatus: new UntypedFormControl({ value: '', disabled: true }, []),
     });
     this.parameterForm.valueChanges
       .pipe(map(() => this.parameterForm.getRawValue()))
@@ -585,6 +281,23 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       this.getDictionaryItems(DictionaryType.COUNTRIES);
       this.getDictionaryItems(DictionaryType.MICRONUTRIENTS);
     }, 100);
+  }
+
+  private createParameterForm2(): void {
+    this.parameterForm2 = this.formBuilder.group({
+      interventionStatus: new UntypedFormControl('', [Validators.required]),
+      interventionNature: new UntypedFormControl('', [Validators.required]),
+      interventionBaseYear: new UntypedFormControl('', [Validators.required]),
+      interventionReferenceMember: new UntypedFormControl('', [Validators.required]),
+    });
+    this.parameterForm.valueChanges
+      .pipe(map(() => this.parameterForm.getRawValue()))
+      .subscribe((changes: CEFormBody) => {
+        this.parameterFormObj = changes;
+        // this.interventionRequestBody.newInterventionNation = changes.nation;
+        // this.interventionRequestBody.newInterventionFocusGeography = changes.focusGeography;
+        // this.interventionRequestBody.newInterventionFocusMicronutrient = changes.focusMicronutrient;
+      });
   }
 
   private createInterventionForm(): void {
@@ -752,9 +465,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.selectedFoodVehicle = '';
     this.parameterForm.controls['interventionType'].reset();
     this.selectedInterventionType = '';
-    this.parameterForm.controls['interventionStatus'].reset();
+    this.parameterForm2.controls['interventionStatus'].reset();
     this.selectedInterventionStatus = '';
-    this.parameterForm.controls['interventionNature'].reset();
+    this.parameterForm2.controls['interventionNature'].reset();
     this.selectedInterventionNature = '';
 
     // this.apiService.endpoints.region.getRegions
@@ -771,15 +484,15 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public handleMnChange(mnId: string): void {
     console.log('Handle MN change', this.selectedCountry, mnId);
 
-    this.interventionTypeArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
+    this.interventionTypeArray = ['LSFF']; //Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
 
     this.parameterForm.controls['foodVehicle'].reset();
     this.selectedFoodVehicle = '';
     this.parameterForm.controls['interventionType'].reset();
     this.selectedInterventionType = '';
-    this.parameterForm.controls['interventionStatus'].reset();
+    this.parameterForm2.controls['interventionStatus'].reset();
     this.selectedInterventionStatus = '';
-    this.parameterForm.controls['interventionNature'].reset();
+    this.parameterForm2.controls['interventionNature'].reset();
     this.selectedInterventionNature = '';
     //
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
@@ -797,17 +510,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
     this.parameterForm.controls['foodVehicle'].reset();
     this.selectedFoodVehicle = '';
-    this.parameterForm.controls['interventionStatus'].reset();
+    this.parameterForm2.controls['interventionStatus'].reset();
     this.selectedInterventionStatus = '';
-    this.parameterForm.controls['interventionNature'].reset();
+    this.parameterForm2.controls['interventionNature'].reset();
     this.selectedInterventionNature = '';
 
     // this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]['LSFF']['Existing intervention program']);
-    this.foodVehicleArray = Object.keys(
-      this.interventionMapping[this.selectedCountry][this.selectedMn][interventionType][
-        'Existing intervention program'
-      ],
-    );
+    this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][this.selectedMn]);
 
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
   }
@@ -821,10 +530,20 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       this.selectedInterventionStatus,
     );
 
-    this.parameterForm.controls['interventionStatus'].reset();
+    this.parameterForm2.controls['interventionStatus'].reset();
     this.selectedInterventionStatus = '';
-    this.parameterForm.controls['interventionNature'].reset();
+    this.parameterForm2.controls['interventionNature'].reset();
     this.selectedInterventionNature = '';
+
+    // Select the intervention id from the mapping object
+    this.selectedInterventionId =
+      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedFoodVehicle];
+
+    console.log('Loading intervention', this.selectedInterventionId);
+    // Grab the associated intervention from the list
+    this.selectedIntervention = this.interventions.find((intervention) => {
+      return intervention.id == this.selectedInterventionId;
+    });
   }
 
   public handleStatusChange(interventionStatus: string): void {
@@ -836,18 +555,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       interventionStatus,
     );
 
-    // Select the intervention id from the mapping object
-    this.selectedInterventionId =
-      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedInterventionType][
-        interventionStatus
-      ][this.selectedFoodVehicle];
-
-    console.log('Loading intervention', this.selectedInterventionId);
-    // Grab the associated intervention from the list
-    this.selectedIntervention = this.interventions.find((intervention) => {
-      return intervention.id == this.selectedInterventionId;
-    });
-
     console.log(this.selectedIntervention);
+  }
+
+  public handleYearChange(interventioBaseYear: string): void {
+    console.log(interventioBaseYear);
   }
 }

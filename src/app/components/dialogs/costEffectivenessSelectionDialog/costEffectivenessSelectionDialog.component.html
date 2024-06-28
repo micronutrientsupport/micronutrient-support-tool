@@ -4,133 +4,230 @@
       <mat-tab [label]="isCopyMode ? 'Copy existing intervention' : 'Create new intervention'">
         <ng-container>
           <ng-container *ngIf="parameterForm && !isCopyMode">
-            <form [formGroup]="parameterForm" id="parameter-form">
-              <div class="form-flex-wrapper">
-                <div class="form-50">
-                  <div>
-                    <h4>1. Nation <i class="fas fa-question-circle"
-                        matTooltip="Currently dummy models are provided for Ethiopia and Malawi.  In the future, the ability to customise models for other locales will also be supported."></i>
-                    </h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)"
-                        name="nation" formControlName="nation">
-                        <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
-                          {{ item.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+
+
+            <mat-stepper [linear]="true" #stepper>
+              <mat-step [stepControl]="parameterForm" label="Select intervention template">
+                <form [formGroup]="parameterForm">
+                  <div class="form-flex-wrapper">
+                    <div class="form-50">
+                      <div>
+                        <h4>1. Nation <i class="fas fa-question-circle"
+                            matTooltip="Currently dummy models are provided for Ethiopia and Malawi.  In the future, the ability to customise models for other locales will also be supported."></i>
+                        </h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)"
+                            name="nation" formControlName="nation">
+                            <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
+                              {{ item.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <h4>2. Focus micronutrient</h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedMn" name="focusMicronutrient"
+                            formControlName="focusMicronutrient" (valueChange)="handleMnChange($event)">
+                            <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
+                              {{ item.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div>
+                        <h4>3. Intervention type <i class="fas fa-question-circle"
+                            matTooltip="Currently only Large Scale Food Fortification (LSFF) is available, but in the future modelling of Biofortification and Agri-fortification will also be possible."></i>
+                        </h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedInterventionType" name="interventionType"
+                            formControlName="interventionType" (valueChange)="handleInterventionTypeChange($event)">
+                            <mat-option *ngFor="let item of interventionTypeArray" [value]="item">
+                              {{ item }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <h4>4. Food vehicle <i class="fas fa-question-circle"
+                            matTooltip="Currently dummy models support Wheat Flour and Oil as food vehicles (subject to Micronutrient selection).  The range of available food vehicles will be expanded in the future to incliude additional vehicles."></i>
+                        </h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedFoodVehicle" name="foodVehicle" formControlName="foodVehicle"
+                            (valueChange)="handleFoodVehicleChange()">
+                            <mat-option *ngFor="let item of foodVehicleArray" [value]="item">
+                              {{ item | titlecase }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+                    <div class="form-50">
+                      <div class="intervention-info"
+                        *ngIf="selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && selectedIntervention">
+                        <h3>Selected Intervention Template</h3>
+                        <table>
+                          <tr>
+                            <td>Template:</td>
+                            <td>{{ selectedIntervention.name }}</td>
+                          </tr>
+                          <tr>
+                            <td>ID:</td>
+                            <td>{{ selectedInterventionId }}</td>
+                          </tr>
+                          <tr>
+                            <td>Description:</td>
+                            <td>No description available</td>
+                          </tr>
+                          <tr>
+                            <td>Last updated:</td>
+                            <td>No date available</td>
+                          </tr>
+                        </table>
+                        <div class="next-button">
+                          <button mat-flat-button color="primary" matStepperNext>Customise this template</button>
+                        </div>
+                      </div>
+                      <div class="intervention-info"
+                        *ngIf="!(selectedCountry && selectedMn && selectedInterventionType) || !(selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle) && foodVehicleArray.length > 0">
+                        <h3>MAPS Intervention Templates</h3>
+                        <img src="/assets/images/intervention-template.svg" alt="Calcuator Image"
+                          class="margin-bottom-big template-image" />
+
+                        <p>MAPS provides a collection of template interventions which can be customised for your use
+                          case. Some are prepopulated with expert solicted values (which can still be overriden), Some
+                          are 'default' models where all values will need to be provided by the user.
+                        </p>
+
+                        <span
+                          *ngIf="!(selectedCountry && selectedMn && selectedInterventionType) || !(selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle) && foodVehicleArray.length > 0">
+                          Select all intervention parameters to select an intervention template
+                        </span>
+                        <span
+                          *ngIf="selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && selectedIntervention">
+                          Selected intervention template: {{ selectedIntervention.name }} (ID:
+                          {{selectedInterventionId}})
+                        </span>
+                        <span class="error"
+                          *ngIf="selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && !selectedIntervention">
+                          No intervention templates found for these combinations of parameters. Please make an
+                          alternative
+                          selection
+                        </span>
+                        <span class="error"
+                          *ngIf="selectedCountry && selectedMn && selectedInterventionType && foodVehicleArray.length == 0">
+                          No intervention templates found for these combinations of parameters. Please make an
+                          alternative
+                          selection
+                        </span>
+
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="parameterForm2" label="Customise template">
+                <form [formGroup]="parameterForm2">
+                  <div class="form-flex-wrapper">
+                    <div class="form-50">
+                      <div>
+                        <h4>5. Intervention Base Year <i class="fas fa-question-circle" matTooltip="..."></i>
+                        </h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedInterventionBaseYear" name="interventionBaseYear"
+                            formControlName="interventionBaseYear" (valueChange)="handleYearChange($event)">
+                            <mat-option *ngFor="let item of interventionBaseYearArray" [value]="item">
+                              {{ item | titlecase }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <h4>6. Intervention Status <i class="fas fa-question-circle"
+                            matTooltip="Current models are provided for Existing Intervention Programmes.  In the future, the ability to model Hypothetical Intervention Programmes locales will also be supported."></i>
+                        </h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedInterventionStatus" name="interventionStatus"
+                            formControlName="interventionStatus" (valueChange)="handleStatusChange($event)">
+                            <mat-option *ngFor="let item of interventionStatusArray" [value]="item">
+                              {{ item | titlecase }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="form-50">
+                      <div>
+                        <h4>7. Nature of intervention <i class="fas fa-question-circle"
+                            matTooltip="Currently dummy models are provided for 'Scale Up' intervention programmes for modelling Scale up compliance over time when a standard has recently been established.  In the future, the ability to model other intervention natures (Status Quo, Improved Compliance, Revision of Existing Standard) will also be supported.">
+                          </i></h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedInterventionNature" name="interventionNature"
+                            formControlName="interventionNature">
+                            <mat-option *ngFor="let item of interventionNatureArray" [value]="item">
+                              {{ item | titlecase }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <h4>8. Reference household member <i class="fas fa-question-circle" matTooltip="...">
+                          </i></h4>
+                        <mat-form-field>
+                          <mat-label>Select</mat-label>
+                          <mat-select [(value)]="selectedInterventionReferenceMember" name="interventionReferenceMember"
+                            formControlName="interventionReferenceMember">
+                            <mat-option *ngFor="let item of interventionReferenceMemberArray" [value]="item">
+                              {{ item | titlecase }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
                   </div>
                   <div>
-                    <h4>2. Focus micronutrient</h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedMn" name="focusMicronutrient" formControlName="focusMicronutrient"
-                        (valueChange)="handleMnChange($event)">
-                        <mat-option *ngFor="let item of micronutrientsOptionArray" [value]="item.id">
-                          {{ item.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
                   </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="interventionForm" label="Intervention information">
+                <form [formGroup]="interventionForm">
+                  <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
+                    <mat-form-field appearance="outline" class="hint">
+                      <mat-hint>Add a unique intervention name that will help you distingusih this intervention from
+                        other
+                        interventions or scenarios</mat-hint>
+                      <mat-label>Intervention name</mat-label>
+                      <input matInput [placeholder]="'Enter intervention name'" name="newInterventionName"
+                        formControlName="newInterventionName" required>
+
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Intervention description</mat-label>
+                      <textarea (click)="createID()" matInput [placeholder]="'Enter intervention description'"
+                        name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
+                    </mat-form-field>
+                  </form>
                   <div>
-                    <h4>3. Intervention type <i class="fas fa-question-circle"
-                        matTooltip="Currently only Large Scale Food Fortification (LSFF) is available, but in the future modelling of Biofortification and Agri-fortification will also be possible."></i>
-                    </h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedInterventionType" name="interventionType"
-                        formControlName="interventionType" (valueChange)="handleInterventionTypeChange($event)">
-                        <mat-option *ngFor="let item of interventionTypeArray" [value]="item">
-                          {{ item }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
                   </div>
-                </div>
-                <div class="form-50">
-                  <div>
-                    <h4>4. Food vehicle <i class="fas fa-question-circle"
-                        matTooltip="Currently dummy models support Wheat Flour and Oil as food vehicles (subject to Micronutrient selection).  The range of available food vehicles will be expanded in the future to incliude additional vehicles."></i>
-                    </h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedFoodVehicle" name="foodVehicle" formControlName="foodVehicle"
-                        (valueChange)="handleFoodVehicleChange()">
-                        <mat-option *ngFor="let item of foodVehicleArray" [value]="item">
-                          {{ item | titlecase }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div>
-                    <h4>5. Intervention Status <i class="fas fa-question-circle"
-                        matTooltip="Current models are provided for Existing Intervention Programmes.  In the future, the ability to model Hypothetical Intervention Programmes locales will also be supported."></i>
-                    </h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedInterventionStatus" name="interventionStatus"
-                        formControlName="interventionStatus" (valueChange)="handleStatusChange($event)">
-                        <mat-option *ngFor="let item of interventionStatusArray" [value]="item">
-                          {{ item | titlecase }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div>
-                    <h4>6. Nature of intervention <i class="fas fa-question-circle"
-                        matTooltip="Currently dummy models are provided for 'Scale Up' intervention programmes for modelling Scale up compliance over time when a standard has recently been established.  In the future, the ability to model other intervention natures (Status Quo, Improved Compliance, Revision of Existing Standard) will also be supported.">
-                      </i></h4>
-                    <mat-form-field>
-                      <mat-label>Select</mat-label>
-                      <mat-select [(value)]="selectedInterventionNature" name="interventionNature"
-                        formControlName="interventionNature">
-                        <mat-option *ngFor="let item of interventionNatureArray" [value]="item">
-                          {{ item | titlecase }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                </div>
-              </div>
-              <small>
-                <span
-                  *ngIf="!(selectedCountry && selectedMn && selectedInterventionType) || !(selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && selectedInterventionStatus) && foodVehicleArray.length > 0">
-                  Select all intervention parameters to select an intervention template
-                </span>
-                <span
-                  *ngIf="selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && selectedInterventionStatus && selectedIntervention">
-                  Selected intervention template: {{ selectedIntervention.name }} (ID: {{selectedInterventionId}})
-                </span>
-                <span class="error"
-                  *ngIf="selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle && selectedInterventionStatus && !selectedIntervention">
-                  No intervention templates found for these combinations of parameters. Please make an alternative
-                  selection
-                </span>
-                <span class="error"
-                  *ngIf="selectedCountry && selectedMn && selectedInterventionType && foodVehicleArray.length == 0">
-                  No intervention templates found for these combinations of parameters. Please make an alternative
-                  selection
-                </span>
-              </small>
-            </form>
+                </form>
+              </mat-step>
+            </mat-stepper>
           </ng-container>
           <ng-container>
-            <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
-              <mat-form-field appearance="outline" class="hint">
-                <mat-hint>Add a unique intervention name that will help you distingusih this intervention from other
-                  interventions or scenarios</mat-hint>
-                <mat-label>Intervention name</mat-label>
-                <input matInput [placeholder]="'Enter intervention name'" name="newInterventionName"
-                  formControlName="newInterventionName" required>
 
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Intervention description</mat-label>
-                <textarea (click)="createID()" matInput [placeholder]="'Enter intervention description'"
-                  name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
-              </mat-form-field>
-            </form>
             <mat-divider *ngIf="selectedInterventionEdit"></mat-divider>
           </ng-container>
         </ng-container>

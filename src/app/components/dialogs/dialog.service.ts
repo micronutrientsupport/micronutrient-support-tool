@@ -112,7 +112,7 @@ export class DialogService extends BaseDialogService {
         isCopyMode: isCopyMode,
         preselectedInterventionId: selectedIntervention,
       },
-      {},
+      { height: '90vh' },
     );
   }
   public openCEInfoDialog(): Promise<DialogData> {
