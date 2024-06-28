@@ -144,7 +144,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // const recentInterventions = [];
     // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
     //   recentInterventions.push(intervention.id.toString());
@@ -159,7 +159,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       newInterventionNation: '',
       newInterventionFocusGeography: '',
     };
-    this.initParamFormData();
+    await this.initParamFormData();
     this.createParameterForm();
     this.createParameterForm2();
     this.createInterventionForm();
