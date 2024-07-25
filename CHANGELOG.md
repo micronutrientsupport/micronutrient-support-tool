@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.17.0...v1.18.0) (2024-07-25)
+
+
+### Features
+
+* update biomarker display content and sidebar group selection ([dc92b82](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/dc92b82e12377186bec27b99189c42f8b7aa715f))
+
 ## [1.17.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.1...v1.17.0) (2024-06-18)
 
 
