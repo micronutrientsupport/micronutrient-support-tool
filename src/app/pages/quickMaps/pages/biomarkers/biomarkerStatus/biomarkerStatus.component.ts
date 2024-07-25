@@ -18,6 +18,7 @@ import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { TitleCasePipe } from '@angular/common';
+import { BiomarkerThresholdList } from 'src/app/apiAndObjects/objects/biomarker/biomarkerThresholds';
 
 export interface BiomarkerStatusDialogData {
   data: unknown;
@@ -100,6 +101,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
   public bData!: Biomarker;
   public biomarkerDataUpdating = false;
 
+  public thresholds: BiomarkerThresholdList;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private dialogService: DialogService,
@@ -130,6 +133,8 @@ export class BiomarkerStatusComponent implements AfterViewInit {
       }),
       this.quickMapsService.biomarkerDataObs.subscribe((data: Biomarker) => {
         if (data) {
+          this.thresholds = data.thresholds;
+
           this.dataListMap.clear();
           Object.entries(data.aggregatedThresholds).forEach(([key, value]) => {
             this.dataListMap.set(key, value);

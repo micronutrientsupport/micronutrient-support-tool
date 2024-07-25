@@ -6,7 +6,6 @@
 
 <ng-template #componentTemplate>
   <mat-tab-group mat-align-tabs="center" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTab">
-
     <mat-tab label="Aggregated Threshold Percentages" *ngIf="dataListMap.size > 0">
       <div class="bmgf-maps-nice-scrollbar">
         <div *ngIf="!biomarkerDataUpdating" class="status-element">
@@ -33,12 +32,13 @@
 
         <div class="status-element">
           <app-status-table [aggregationThresholdData]="selectedDataType"
-            [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-table>
+            [biomarkerDataUpdating]="biomarkerDataUpdating" [thresholdList]="thresholds"
+            [threshold]="thresholds[selectedDataType.key]"></app-status-table>
         </div>
       </div>
     </mat-tab>
 
-    <mat-tab label="Aggregated Box-and-Whisker Chart">
+    <mat-tab label=" Aggregated Box-and-Whisker Chart">
       <div class="bmgf-maps-nice-scrollbar">
         <div class="status-element">
           <span class="spacer">Statistics aggregated by </span>
@@ -54,60 +54,6 @@
         <app-status-chart [biomarkerData]="selectedNutrient"
           [biomarkerDataUpdating]="biomarkerDataUpdating"></app-status-chart>
       </div>
-    </mat-tab>
-
-    <mat-tab label="Map" disabled>
-
-      <div *ngIf="biomarkerDataUpdating">
-        <div class="skeleton-loader-panel">
-          <ngx-skeleton-loader [theme]="{height: '300px'}"></ngx-skeleton-loader>
-        </div>
-      </div>
-      <div *ngIf="!biomarkerDataUpdating">
-        <!-- <app-status-maps [biomarkerData]="temporaryData" [selectedDataType]="selectedDataType"></app-status-maps> -->
-
-        <div class="status-map-select">
-          <mat-form-field appearance="outline">
-            <mat-label>Select data</mat-label>
-            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-    </mat-tab>
-
-    <mat-tab label="Download" disabled>
-      <div class="bmgf-maps-nice-scrollbar">
-        <div class="status-element">
-          <mat-form-field appearance="outline">
-            <mat-label>Select data</mat-label>
-            <mat-select [(value)]="selectedDataType" (selectionChange)="setDataSelection($event.value)">
-              <mat-option *ngFor="let dataType of dataList" [value]="dataType">{{dataType.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <span class="spacer"> &</span>
-          <mat-form-field appearance="outline">
-            <mat-label>Select media type</mat-label>
-            <mat-select [(value)]="selectedMediaType" (selectionChange)="setMediaSelection($event.value)">
-              <mat-option *ngFor="let mediaType of mediaList" [value]="mediaType">{{mediaType.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <!-- <app-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"> -->
-        <!-- <app-download> </app-download> -->
-        <!-- <app-status-download [chartDownloadPNG]="chartPNG" [chartDownloadPDF]="chartPDF" [dataArray]="dataSource?.data"></app-status-download> -->
-        <!-- <app-status-download [biomarkerData]="selectedNutrient" [selectedDataType]="selectedDataType"
-          [selectedMediaType]="selectedMediaType">
-        </app-status-download>> -->
-
-      </div>
-
     </mat-tab>
 
     <mat-tab label="About {{title}}">

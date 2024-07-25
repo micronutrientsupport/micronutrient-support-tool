@@ -103,25 +103,6 @@
       <fieldset>
         <legend>
           <div class="field-title">
-            <h2>Age-gender-group</h2>
-            <i class="fas fa-question-circle"
-              matTooltip="You can choose from the original biomarker survey demographic groups"></i>
-          </div>
-        </legend>
-        <mat-form-field appearance="fill">
-          <mat-select name="ageGenderGroup" formControlName="ageGenderGroup" placeholder="Click to select option"
-            panelClass="allow-long-text">
-            <mat-option *ngFor="let item of ageGenderGroupsDictionary.itemsObs | async" [value]="item">{{ item.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </fieldset>
-    </div>
-
-    <div [hidden]="!biomarkerToggle.checked">
-      <fieldset>
-        <legend>
-          <div class="field-title">
             <h2>Biomarker</h2>
             <i class="fas fa-question-circle" matTooltip="Placeholder"></i>
           </div>
@@ -133,6 +114,28 @@
             <mat-option *ngFor="let item of biomarkerNames" [value]="item">{{item.biomarkerName.replace('_', ' ') |
               titlecase }}
             </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </fieldset>
+    </div>
+
+    <div [hidden]="!biomarkerToggle.checked">
+      <fieldset>
+        <legend>
+          <div class="field-title">
+            <h2>Age-gender-group</h2>
+            <i class="fas fa-question-circle"
+              matTooltip="You can choose from the original biomarker survey demographic groups"></i>
+          </div>
+        </legend>
+        <mat-form-field appearance="fill">
+          <mat-select name="ageGenderGroup" formControlName="ageGenderGroup"
+            [placeholder]="(0 < biomarkerNames.length) ? 'Click to select option' : 'None available'"
+            panelClass="allow-long-text">
+            <mat-option
+              *ngFor="let item of (ageGenderGroupsDictionary.itemsObs | filterAgeGroup:biomarkerNames:selectedBiomarker | async )"
+              [value]="item">{{ item.name
+              }}</mat-option>
           </mat-select>
         </mat-form-field>
       </fieldset>

@@ -4,6 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SimpleAggregationThreshold } from '../biomarkerStatus.component';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
+import {
+  BiomarkerThreshold,
+  BiomarkerThresholdList,
+} from 'src/app/apiAndObjects/objects/biomarker/biomarkerThresholds';
 
 interface TableObject {
   aggregation: string;
@@ -23,6 +27,9 @@ export class StatusTableComponent implements OnChanges {
 
   @Input()
   set aggregationThresholdData(data: SimpleAggregationThreshold) {
+    console.log('AGG');
+    console.log({ data });
+
     if (data) {
       this.generateTable(data);
     }
@@ -30,14 +37,19 @@ export class StatusTableComponent implements OnChanges {
 
   @Input() biomarkerDataUpdating: boolean;
 
+  @Input() threshold: BiomarkerThreshold;
+  @Input() thresholdList: BiomarkerThresholdList;
+
   public displayedColumns = ['aggregation', 'x', 'confidenceIntervalLower', 'confidenceIntervalUpper'];
   public dataSource: MatTableDataSource<TableObject>;
   public totalSamples: number;
   public columnX = '';
 
-  constructor(public quickMapsService: QuickMapsService) {}
+  public thresholdKeys = [];
 
+  constructor(public quickMapsService: QuickMapsService) {}
   ngOnChanges(changes: SimpleChanges) {
+    this.thresholdKeys = Object.keys(this.thresholdList);
     // console.log(changes);
   }
 

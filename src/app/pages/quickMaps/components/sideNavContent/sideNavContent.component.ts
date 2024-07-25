@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { DictionaryType } from 'src/app/apiAndObjects/api/dictionaryType.enum';
 import { CountryDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/countryDictionaryItem';
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
@@ -29,6 +29,7 @@ import { FoodSystemsDataSource } from 'src/app/apiAndObjects/objects/foodSystems
 import { DietDataService } from 'src/app/services/dietData.service';
 import { Named } from 'src/app/apiAndObjects/objects/named.interface';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+
 @Unsubscriber('subscriptions')
 @Component({
   selector: 'app-side-nav-content',
@@ -50,6 +51,7 @@ export class SideNavContentComponent {
   public selectedGeographyType: GeographyTypes;
   public selectedMndType: MicronutrientType;
   public geographyOptionArray: Array<DictionaryItem>;
+  public selectedBiomarker: string;
   public selectMNDsFiltered = new Array<DictionaryItem>();
   public dataSources = new Array<Named | BiomarkerDataSource>();
   public biomarkerNames = new Array<BiomarkerDataSource>();
@@ -173,6 +175,7 @@ export class SideNavContentComponent {
         );
         this.subscriptions.push(
           this.quickMapsForm.get('biomarkerSelect').valueChanges.subscribe((value: BiomarkerDataSource) => {
+            this.selectedBiomarker = value.biomarkerName;
             const biomarkerOptions = [];
             biomarkerOptions.push(value);
             if (biomarkerOptions.length === 0) {
@@ -398,5 +401,37 @@ export class SideNavContentComponent {
   public tourSetMicronutrient(mnId: string): void {
     const micronutrientDictionaryCalcium = this.micronutrientsDictionary.getItem(mnId);
     this.quickMapsForm.get('micronutrient').setValue(micronutrientDictionaryCalcium);
+  }
+}
+
+@Pipe({
+  name: 'filterAgeGroup',
+})
+export class filterAgeGroupPipe implements PipeTransform {
+  async transform(
+    value: Observable<DictionaryItem[]>,
+    dataSource: Array<BiomarkerDataSource>,
+    biomarker: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<DictionaryItem[]> {
+    console.log('Pipeypipeu');
+
+    const currentDataSource = dataSource.find((element) => element.biomarkerName === biomarker);
+    const currentAgGroups = currentDataSource.groupId;
+
+    const v = await firstValueFrom(value);
+
+    const nV = v.reduce<DictionaryItem[]>((prev: DictionaryItem[], curr: DictionaryItem): DictionaryItem[] => {
+      console.log(prev);
+      console.log(curr);
+
+      if (currentAgGroups.includes(curr.id)) {
+        prev.push(curr);
+      }
+      return prev;
+    }, [] as DictionaryItem[]);
+
+    console.log({ value, nV });
+    return Promise.resolve(nV);
   }
 }
