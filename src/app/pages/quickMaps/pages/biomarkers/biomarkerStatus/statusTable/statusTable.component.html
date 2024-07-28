@@ -28,7 +28,9 @@
 
   <p>
     <span *ngFor="let threshold of thresholdKeys">
-      {{ threshold | titlecase }} was defined as {{ (quickMapsService.micronutrient.obs | async)?.name }} {{
+      {{ threshold | titlecase }} was defined as {{ (quickMapsService.biomarkerDataSource.obs | async)?.biomarkerName |
+      titlecase
+      }} {{
       thresholdList[threshold].thresholdType.startsWith('deficiency') ? '&lt; ' + thresholdList[threshold].upper :
       '&gt; ' + thresholdList[threshold].lower }}
       <span *ngIf="thresholdList[threshold].comments">({{ thresholdList[threshold].comments }})</span>

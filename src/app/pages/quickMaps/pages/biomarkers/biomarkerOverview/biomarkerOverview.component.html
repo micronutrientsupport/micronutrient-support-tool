@@ -1,7 +1,7 @@
 <div class="container">
   <span>
-    <strong>{{ (quickMapsService.country.obs | async)?.name }} {{ (quickMapsService.micronutrient.obs|
-      async)?.name
+    <strong>{{ (quickMapsService.country.obs | async)?.name }} {{ (quickMapsService.biomarkerDataSource.obs |
+      async)?.biomarkerName | titlecase
       }}
       Status</strong>
     in
