@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.0...v1.18.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* use biomarker rather than mn name in biomarker pages ([34d9f8a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/34d9f8aee5f0a0622723c2cb447122f267fc0833))
+
 ## [1.18.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.17.0...v1.18.0) (2024-07-25)
 
 
