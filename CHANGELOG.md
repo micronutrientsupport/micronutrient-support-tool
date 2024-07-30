@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.2...v1.19.0) (2024-07-30)
+
+
+### Features
+
+* add bm units to threhsold details.  Update placeholder text ([86d2502](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/86d25025935bc6072f89cf13fb799bfb44e0bcb2))
+
 ## [1.18.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.1...v1.18.2) (2024-07-30)
 
 
