@@ -15,6 +15,8 @@ import { Biomarker } from 'src/app/apiAndObjects/objects/biomarker';
 import { AggregatedStats } from 'src/app/apiAndObjects/objects/biomarker/aggregatedStat';
 import { AggregatedOutliers } from 'src/app/apiAndObjects/objects/biomarker/aggregatedOutliers';
 import { TotalStats } from 'src/app/apiAndObjects/objects/biomarker/totalStats';
+import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-biomarker-info',
@@ -43,6 +45,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
   public dataSource: MatTableDataSource<TableObject>;
   public selectedNutrient = '';
   public selectedAgeGenderGroup = '';
+  public selectedBiomarker = '';
   public mineralData: Array<number>;
   public selectedBinSize = '25';
   public binData: Array<number>;
@@ -58,6 +61,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
     public quickMapsService: QuickMapsService,
+    private titlecasePipe: TitleCasePipe,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData?: DialogData<AdditionalInformationDialogData>,
   ) {}
 
@@ -71,6 +75,9 @@ export class BiomarkerInfoComponent implements AfterViewInit {
       this.card.onInfoClickObs.subscribe(() => this.navigateToInfoTab()),
       this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
+      }),
+      this.quickMapsService.biomarkerDataSource.obs.subscribe((biomarker: BiomarkerDataSource) => {
+        this.selectedBiomarker = this.titlecasePipe.transform(biomarker.biomarkerName);
       }),
       this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
@@ -150,7 +157,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
         labels: this.labels,
         datasets: [
           {
-            label: `${this.selectedNutrient}`,
+            label: `${this.selectedBiomarker}`,
             backgroundColor: () => 'rgba(0,220,255,0.5)',
             borderColor: 'rgba(0,220,255,0.5)',
             // outlierColor: 'rgba(0,0,0,0.5)',
@@ -165,7 +172,7 @@ export class BiomarkerInfoComponent implements AfterViewInit {
           x: {
             title: {
               display: true,
-              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
+              text: `Concentration of ${this.selectedBiomarker} in microg/DI`,
             },
           },
           y: {
