@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.1...v1.18.2) (2024-07-30)
+
+
+### Bug Fixes
+
+* biomarker rather than micronutrient name in chart labels ([46f4f1c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/46f4f1cd361056002bdd1a0d26ae52b043d27a18))
+
 ## [1.18.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.0...v1.18.1) (2024-07-29)
 
 
