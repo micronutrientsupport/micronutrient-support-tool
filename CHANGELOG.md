@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.19.0...v1.19.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* typo in unit template ([521b8fc](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/521b8fc7289b145f5dd1dd0bef2e873a2299ca2b))
+
 ## [1.19.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.2...v1.19.0) (2024-07-30)
 
 
