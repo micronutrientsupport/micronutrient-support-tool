@@ -151,9 +151,14 @@ small {
 
 .next-button {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 ::ng-deep app-costEffectivenessSelectionDialog .mat-mdc-dialog-content {
   max-height: 80vh;
+  min-width: 90vw;
+}
+
+.text-left {
+  text-align: left !important;
 }

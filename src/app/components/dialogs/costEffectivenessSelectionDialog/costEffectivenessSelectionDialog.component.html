@@ -87,12 +87,9 @@
                           </tr>
                           <tr>
                             <td>Last updated:</td>
-                            <td>No date available</td>
+                            <td>{{ selectedIntervention.templateDate.format("YYYY-MM-DD") }}</td>
                           </tr>
                         </table>
-                        <div class="next-button">
-                          <button mat-flat-button color="primary" matStepperNext>Customise this template</button>
-                        </div>
                       </div>
                       <div class="intervention-info"
                         *ngIf="!(selectedCountry && selectedMn && selectedInterventionType) || !(selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle) && foodVehicleArray.length > 0">
@@ -158,13 +155,11 @@
                           <mat-select [(value)]="selectedInterventionStatus" name="interventionStatus"
                             formControlName="interventionStatus" (valueChange)="handleStatusChange($event)">
                             <mat-option *ngFor="let item of interventionStatusArray" [value]="item">
-                              {{ item | titlecase }}
+                              {{ item.name }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
                       </div>
-                    </div>
-                    <div class="form-50">
                       <div>
                         <h4>7. Nature of intervention <i class="fas fa-question-circle"
                             matTooltip="Currently dummy models are provided for 'Scale Up' intervention programmes for modelling Scale up compliance over time when a standard has recently been established.  In the future, the ability to model other intervention natures (Status Quo, Improved Compliance, Revision of Existing Standard) will also be supported.">
@@ -174,7 +169,7 @@
                           <mat-select [(value)]="selectedInterventionNature" name="interventionNature"
                             formControlName="interventionNature">
                             <mat-option *ngFor="let item of interventionNatureArray" [value]="item">
-                              {{ item | titlecase }}
+                              {{ item.name }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -193,18 +188,36 @@
                         </mat-form-field>
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
+                    <div class="form-50">
+                      <div class="intervention-info">
+                        <h3>Intervention Customisation</h3>
+                        <p class="text-left">
+                          <strong> {{ selectedInterventionStatus?.name}}</strong>
+                          <br />
+                          {{ selectedInterventionStatus?.desc}}
+                        </p>
+                        <p class="text-left">
+                          <strong> {{ selectedInterventionNature?.name}}</strong>
+                          <br />
+                          {{ selectedInterventionNature?.desc}}
+                        </p>
+                        <p class="text-left" *ngIf="selectedInterventionNature?.whenToUse">
+                          <strong>When to use</strong>
+                          <br />
+                          {{ selectedInterventionNature?.whenToUse}}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </mat-step>
               <mat-step [stepControl]="interventionForm" label="Intervention information">
-                <form [formGroup]="interventionForm">
-                  <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
+                <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
+                  <div>
+                    <h4>9. Intervention Name <i class="fas fa-question-circle" matTooltip="...">
+                      </i></h4>
                     <mat-form-field appearance="outline" class="hint">
-                      <mat-hint>Add a unique intervention name that will help you distingusih this intervention from
+                      <mat-hint>Add a unique intervention name that will help you distinguish this intervention from
                         other
                         interventions or scenarios</mat-hint>
                       <mat-label>Intervention name</mat-label>
@@ -212,15 +225,15 @@
                         formControlName="newInterventionName" required>
 
                     </mat-form-field>
+                  </div>
+                  <div>
+                    <h4>10. Intervention Description <i class="fas fa-question-circle" matTooltip="...">
+                      </i></h4>
                     <mat-form-field appearance="outline">
                       <mat-label>Intervention description</mat-label>
                       <textarea (click)="createID()" matInput [placeholder]="'Enter intervention description'"
                         name="newInterventionDesc" formControlName="newInterventionDesc"></textarea>
                     </mat-form-field>
-                  </form>
-                  <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
                   </div>
                 </form>
               </mat-step>
@@ -293,9 +306,21 @@
       <button mat-stroked-button type="button" (click)="closeDialog()">
         Cancel
       </button>
+
+      <button mat-stroked-button type="button"
+        *ngIf="stepper && stepper?.selectedIndex !== 0 && tabID === 'copy' && !isCopyMode" (click)=" previous()">
+        Previous
+      </button>
+
+      <button mat-flat-button color="primary" *ngIf="stepper?.selectedIndex === 0 && tabID === 'copy' && !isCopyMode"
+        [disabled]=" !parameterForm.valid" (click)="next()">Customise this
+        template</button>
+      <button mat-flat-button color="primary" *ngIf="stepper?.selectedIndex === 1 && tabID === 'copy' && !isCopyMode"
+        [disabled]=" !parameterForm2.valid" (click)="next()">Name this
+        intervention</button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
-        *ngIf="tabID === 'copy' && !isCopyMode"
-        [disabled]="!interventionForm.valid || !parameterForm.valid || !selectedIntervention">
+        *ngIf="stepper?.selectedIndex === 2 && tabID === 'copy' && !isCopyMode"
+        [disabled]="!(interventionForm && interventionForm.valid) || !(parameterForm && parameterForm.valid) || !selectedIntervention">
         Create Intervention
       </button>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"

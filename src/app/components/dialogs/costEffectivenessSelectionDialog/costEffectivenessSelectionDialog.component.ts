@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -22,6 +22,8 @@ import { NotificationsService } from '../../notifications/notification.service';
 import { DialogService } from '../dialog.service';
 import { UserLoginService } from 'src/app/services/userLogin.service';
 import { LoginRegisterResponseDataSource } from 'src/app/apiAndObjects/objects/loginRegisterResponseDataSource';
+import { InterventionStatus } from 'src/app/apiAndObjects/objects/interventionStatus';
+import { MatStepper } from '@angular/material/stepper';
 
 interface InterventionType {
   fortificationTypeId?: string;
@@ -54,11 +56,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionForm: UntypedFormGroup;
   public foodVehicleArray = [];
   public interventionTypeArray = [];
-  public interventionStatusArray = ['Existing intervention program' /*, 'Hypothetical intervention program' */];
-  public interventionNatureArray = [
-    'Status Quo',
-    'Scale-up' /*, 'Improved Complicance', 'Revision of existing standards' */,
-  ];
+  public interventionStatusArray = [];
+  public interventionNatureArray = [];
   public interventionBaseYearArray = ['2021'];
   public interventionReferenceMemberArray = ['Non-pregnant, Non-lactating Adult Female'];
   public proceed = new BehaviorSubject<boolean>(false);
@@ -76,10 +75,10 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public selectedIntervention: InterventionsDictionaryItem = undefined;
   public selectedFoodVehicle = '';
   public selectedInterventionType = '';
-  public selectedInterventionStatus = '';
-  public selectedInterventionNature = '';
-  public selectedInterventionBaseYear = '';
-  public selectedInterventionReferenceMember = '';
+  public selectedInterventionStatus;
+  public selectedInterventionNature;
+  public selectedInterventionBaseYear = '2021';
+  public selectedInterventionReferenceMember = 'Non-pregnant, Non-lactating Adult Female';
   public parameterFormObj: CEFormBody;
   public interventionRequestBody: InterventionCERequest;
   public recentInterventions = '';
@@ -88,6 +87,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private onlyAllowInterventionsAboveID = 3;
   private countriesDictionary: Dictionary;
   private micronutrientsDictionary: Dictionary;
+
+  public statuses: InterventionStatus[];
+
+  @ViewChild('stepper')
+  stepper: MatStepper;
 
   private interventionMapping;
 
@@ -145,6 +149,30 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.statuses = await this.interventionDataService.getInterventionStatusDictionary();
+
+    console.log(this.statuses);
+
+    const foo = this.statuses.reduce((prev, curr) => {
+      if (!prev[curr.status]) {
+        prev[curr.status] = {
+          id: curr.status,
+          name: curr.statusName,
+          desc: curr.statusDesc,
+          natures: [],
+        };
+      }
+      prev[curr.status]['natures'].push({
+        id: curr.nature,
+        name: curr.natureName,
+        desc: curr.natureDesc,
+        whenToUse: curr.whenToUse,
+      });
+      return prev;
+    }, {});
+
+    this.interventionStatusArray = Object.values(foo);
+
     // const recentInterventions = [];
     // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
     //   recentInterventions.push(intervention.id.toString());
@@ -158,6 +186,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       newInterventionFocusMicronutrient: '',
       newInterventionNation: '',
       newInterventionFocusGeography: '',
+      newInterventionNature: undefined,
+      newInterventionStatus: undefined,
     };
     await this.initParamFormData();
     this.createParameterForm();
@@ -294,9 +324,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       .pipe(map(() => this.parameterForm.getRawValue()))
       .subscribe((changes: CEFormBody) => {
         this.parameterFormObj = changes;
-        // this.interventionRequestBody.newInterventionNation = changes.nation;
-        // this.interventionRequestBody.newInterventionFocusGeography = changes.focusGeography;
-        // this.interventionRequestBody.newInterventionFocusMicronutrient = changes.focusMicronutrient;
+        this.interventionRequestBody.newInterventionNature = (changes.interventionNature as any)?.id;
+        this.interventionRequestBody.newInterventionStatus = (changes.interventionStatus as any)?.id;
       });
   }
 
@@ -415,6 +444,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.selectedCountry,
           this.selectedCountry,
           this.selectedMn,
+          this.selectedInterventionNature.id,
+          this.selectedInterventionStatus.id,
         )
         .then((result: Intervention) => {
           this.interventionDataService.setSimpleInterventionInStorage(result);
@@ -466,9 +497,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.parameterForm.controls['interventionType'].reset();
     this.selectedInterventionType = '';
     this.parameterForm2.controls['interventionStatus'].reset();
-    this.selectedInterventionStatus = '';
+    this.selectedInterventionStatus = undefined;
     this.parameterForm2.controls['interventionNature'].reset();
-    this.selectedInterventionNature = '';
+    this.selectedInterventionNature = undefined;
 
     // this.apiService.endpoints.region.getRegions
     //   .call({
@@ -491,9 +522,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.parameterForm.controls['interventionType'].reset();
     this.selectedInterventionType = '';
     this.parameterForm2.controls['interventionStatus'].reset();
-    this.selectedInterventionStatus = '';
+    this.selectedInterventionStatus = undefined;
     this.parameterForm2.controls['interventionNature'].reset();
-    this.selectedInterventionNature = '';
+    this.selectedInterventionNature = undefined;
     //
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
 
@@ -511,9 +542,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.parameterForm.controls['foodVehicle'].reset();
     this.selectedFoodVehicle = '';
     this.parameterForm2.controls['interventionStatus'].reset();
-    this.selectedInterventionStatus = '';
+    this.selectedInterventionStatus = undefined;
     this.parameterForm2.controls['interventionNature'].reset();
-    this.selectedInterventionNature = '';
+    this.selectedInterventionNature = undefined;
 
     // this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]['LSFF']['Existing intervention program']);
     this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][this.selectedMn]);
@@ -531,9 +562,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     );
 
     this.parameterForm2.controls['interventionStatus'].reset();
-    this.selectedInterventionStatus = '';
+    this.selectedInterventionStatus = undefined;
     this.parameterForm2.controls['interventionNature'].reset();
-    this.selectedInterventionNature = '';
+    this.selectedInterventionNature = undefined;
 
     // Select the intervention id from the mapping object
     this.selectedInterventionId =
@@ -546,19 +577,49 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     });
   }
 
-  public handleStatusChange(interventionStatus: string): void {
+  public handleStatusChange(interventionStatus): void {
     console.log(
-      'Handle intervention type change',
+      'Handle intervention status change',
       this.selectedCountry,
       this.selectedMn,
       this.selectedInterventionType,
       interventionStatus,
     );
 
+    this.interventionNatureArray = interventionStatus.natures;
+
     console.log(this.selectedIntervention);
   }
 
   public handleYearChange(interventioBaseYear: string): void {
     console.log(interventioBaseYear);
+  }
+
+  public previous(): void {
+    this.stepper.previous();
+  }
+
+  public next(): void {
+    switch (this.stepper.selectedIndex) {
+      case 0:
+        this.parameterForm.markAllAsTouched();
+        this.parameterForm.updateValueAndValidity();
+        if (this.parameterForm.valid) {
+          this.stepper.next();
+        }
+        break;
+      case 1:
+        this.parameterForm2.markAllAsTouched();
+        this.parameterForm2.updateValueAndValidity();
+        if (this.parameterForm2.valid) {
+          this.stepper.next();
+        }
+        break;
+    }
+    // this.stepper.linear = false;
+    // this.stepper.selectedIndex = this.stepperIndex + 1;
+    // setTimeout(() => {
+    //   this.stepper.linear = true;
+    // });
   }
 }

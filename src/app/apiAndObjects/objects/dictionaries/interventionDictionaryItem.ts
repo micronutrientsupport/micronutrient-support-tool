@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { MapsDictionaryItem } from './mapsBaseDictionaryItem';
 
 export class InterventionsDictionaryItem extends MapsDictionaryItem {
@@ -13,6 +14,7 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
     TEN_YEAR_TOTAL: 'tenYearTotalCost',
     LAST_EDITED: 'lastEdited',
     IS_TEMPLATE_INTERVENTION: 'isTemplateIntervention',
+    TEMPLATE_DATE: 'templateDate',
     PARENT_INTERVENTION: 'parentIntervention',
   };
   public readonly countryId: string;
@@ -26,6 +28,7 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
   public readonly lastEdited: string;
   public readonly isTemplateIntervention: boolean;
   public readonly parentIntervention: number;
+  public readonly templateDate: Moment;
 
   protected constructor(sourceObject: Record<string, unknown>, id: string, name: string, description: string) {
     super(sourceObject, id, name, description);
@@ -41,5 +44,6 @@ export class InterventionsDictionaryItem extends MapsDictionaryItem {
     this.lastEdited = this._getString(InterventionsDictionaryItem.KEYS.LAST_EDITED);
     this.isTemplateIntervention = this._getBoolean(InterventionsDictionaryItem.KEYS.IS_TEMPLATE_INTERVENTION);
     this.parentIntervention = this._getNumber(InterventionsDictionaryItem.KEYS.PARENT_INTERVENTION);
+    this.templateDate = this._getDate(InterventionsDictionaryItem.KEYS.TEMPLATE_DATE);
   }
 }
