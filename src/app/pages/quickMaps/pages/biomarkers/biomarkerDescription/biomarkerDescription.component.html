@@ -25,6 +25,6 @@
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <div class="description">Short Summary of how and when the data was collected...</div>
+    <div class="description">{{ (quickMapsService.biomarkerDataSource.obs | async)?.description }}</div>
   </mat-expansion-panel>
 </div>

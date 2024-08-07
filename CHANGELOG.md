@@ -1,5 +1,113 @@
 # Changelog
 
+## [1.19.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.19.0...v1.19.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* typo in unit template ([521b8fc](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/521b8fc7289b145f5dd1dd0bef2e873a2299ca2b))
+
+## [1.19.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.2...v1.19.0) (2024-07-30)
+
+
+### Features
+
+* add bm units to threhsold details.  Update placeholder text ([86d2502](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/86d25025935bc6072f89cf13fb799bfb44e0bcb2))
+
+## [1.18.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.1...v1.18.2) (2024-07-30)
+
+
+### Bug Fixes
+
+* biomarker rather than micronutrient name in chart labels ([46f4f1c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/46f4f1cd361056002bdd1a0d26ae52b043d27a18))
+
+## [1.18.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.18.0...v1.18.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* use biomarker rather than mn name in biomarker pages ([34d9f8a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/34d9f8aee5f0a0622723c2cb447122f267fc0833))
+
+## [1.18.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.17.0...v1.18.0) (2024-07-25)
+
+
+### Features
+
+* update biomarker display content and sidebar group selection ([dc92b82](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/dc92b82e12377186bec27b99189c42f8b7aa715f))
+
+## [1.17.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.1...v1.17.0) (2024-06-18)
+
+
+### Features
+
+* fix sources ([029af6f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/029af6fb6c735dbddfeb9b85d12109893580659d))
+
+## [1.16.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.16.0...v1.16.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* add loading indicator when closing SUSU dialog ([98ccc73](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/98ccc738d725a767ed685855a5373c68f69b8aaf))
+* update effectiveness selection options ([6499a3f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6499a3f5a061f8cc30076b1c72af4d1f5490474a))
+
+## [1.16.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.1...v1.16.0) (2024-06-17)
+
+
+### Features
+
+* add info dialogs to effectiveness pages ([4c171ee](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4c171ee773990cba00cd275b4eb736893d3b98bb))
+
+
+### Bug Fixes
+
+* limit intervention options for workshop ([316e38e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/316e38e7aaee9835d293941947d6e2b51a62e4c7))
+* minor CE text tweaks ([97a6f8f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/97a6f8fe818c5d784366b60ad8ef226f4d5c73a9))
+
+## [1.15.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.15.0...v1.15.1) (2024-06-16)
+
+
+### Bug Fixes
+
+* disable placeholder user added costs ([9c26986](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9c26986ca0c5953c9b771c29b311d0928aa82db4))
+* fix effectiveness excess view to display percentage not household count ([cab263e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/cab263e1a13a1ae1d0ed0e9fc2ed695239d83ad5))
+* quick and dirty filter to ensure national level effectiveness data only displays focus nation ([85e9d2a](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/85e9d2ac31264d86cb891e124de0b75090f52650))
+
+## [1.15.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.2...v1.15.0) (2024-06-14)
+
+
+### Features
+
+* add basic expected loss (readonly) view ([5b301d5](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5b301d50370b64900705bca920afce25dec8d8a0))
+* add CE effectiveness pages ([77ff84e](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/77ff84e3511a6ad12d9217905506f21c5fd0f657))
+* add cost-effectiveness api handlers and page ([5490be4](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5490be4b4b662cb78e1c98670196415c10fc7b47))
+* add Effectiveness metrics page and API handlers ([5ddf450](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/5ddf45050ab5c20627ac2780b849d2d59c7ef8f6))
+* add effectiveness projected households api handler and UI table ([610f07c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/610f07caac1071a8ec1158dfe1c94eced8094c57))
+* reorder intervention steps for clarity, replace effectiveness dummy text ([2b2e5cf](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2b2e5cf4053de9d39cfb2ce6a8159760154b535e))
+
+
+### Bug Fixes
+
+* fix intervention template lookup: ([51b6a86](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/51b6a8617801d4f77d73b5ac08be8e5e5633aeea))
+
+
+### Miscellaneous
+
+* add missing file ([a60a63f](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a60a63fd6ba270f97ff0c3d06a1558de2ba5ccf7))
+* fix dev api endpoint ([9a29d25](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9a29d255e73e5ef172be064f946f650260326318))
+* fix logo image url ([f3101fa](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f3101fa7e06beb071b26d68d96ad559abdbf7909))
+
+## [1.14.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.1...v1.14.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* fix intervention ids ([a548df2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/a548df2f74046bf2e3e7ebb2ab4b29101bfa8c1d))
+
+
+### Miscellaneous
+
+* fix api url ([bb1a982](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/bb1a982429529a92d37d65410fb1518d69acb5ee))
+
 ## [1.14.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.14.0...v1.14.1) (2024-04-16)
 
 

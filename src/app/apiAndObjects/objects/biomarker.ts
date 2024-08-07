@@ -3,6 +3,7 @@ import { AggregatedOutliers } from './biomarker/aggregatedOutliers';
 import { AggregatedStats } from './biomarker/aggregatedStat';
 import { AggregatedThresholds } from './biomarker/aggregatedThresholds';
 import { BinnedValues } from './biomarker/binnedValues';
+import { BiomarkerThresholdList } from './biomarker/biomarkerThresholds';
 import { TotalStats } from './biomarker/totalStats';
 
 export class Biomarker extends BaseObject {
@@ -13,6 +14,7 @@ export class Biomarker extends BaseObject {
     AGGREGATED_OUTLIERS: 'aggregatedOutliers',
     AGGREGATED_THRESHOLDS: 'aggregatedThresholds',
     BINNED_VALUES: 'binnedValues',
+    THRESHOLDS: 'thresholds',
   };
 
   public readonly totalStats: Array<TotalStats>;
@@ -21,6 +23,7 @@ export class Biomarker extends BaseObject {
   public readonly aggregatedOutliers: Array<AggregatedOutliers>;
   public readonly aggregatedThresholds: AggregatedThresholds;
   public readonly binnedValues: BinnedValues;
+  public readonly thresholds: BiomarkerThresholdList;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -31,5 +34,6 @@ export class Biomarker extends BaseObject {
     this.aggregatedOutliers = this._getArray(Biomarker.KEYS.AGGREGATED_OUTLIERS);
     this.aggregatedThresholds = this._getValue(Biomarker.KEYS.AGGREGATED_THRESHOLDS) as AggregatedThresholds;
     this.binnedValues = this._getValue(Biomarker.KEYS.BINNED_VALUES) as BinnedValues;
+    this.thresholds = this._getValue(Biomarker.KEYS.THRESHOLDS) as BiomarkerThresholdList;
   }
 }

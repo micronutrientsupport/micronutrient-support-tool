@@ -19,7 +19,7 @@ export class BiomarkerDataSource extends BaseObject implements Named {
   public readonly biomarkerName: string;
   public readonly mnId: string;
   public readonly id: string;
-  public readonly groupId: string;
+  public readonly groupId: Array<string>;
   public readonly aggFields: Array<string>;
   public readonly name: string;
   public readonly description: string;
@@ -33,7 +33,7 @@ export class BiomarkerDataSource extends BaseObject implements Named {
     this.biomarkerName = this._getString(BiomarkerDataSource.KEYS.BIOMARKER_NAME);
     this.mnId = this._getString(BiomarkerDataSource.KEYS.MN_ID);
     this.id = this._getString(BiomarkerDataSource.KEYS.ID);
-    this.groupId = this._getString(BiomarkerDataSource.KEYS.GROUP_ID);
+    this.groupId = this._getArray(BiomarkerDataSource.KEYS.GROUP_ID);
     this.aggFields = this._getArray(BiomarkerDataSource.KEYS.AGG_FIELDS);
     this.name = this._getString(BiomarkerDataSource.KEYS.NAME);
     this.description = this._getString(BiomarkerDataSource.KEYS.DESCRIPTION);

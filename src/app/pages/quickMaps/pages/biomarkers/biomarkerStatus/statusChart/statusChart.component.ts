@@ -14,6 +14,7 @@ import { AgeGenderDictionaryItem } from 'src/app/apiAndObjects/objects/dictionar
 import { MicronutrientDictionaryItem } from 'src/app/apiAndObjects/objects/dictionaries/micronutrientDictionaryItem';
 import { CardComponent } from 'src/app/components/card/card.component';
 import { TitleCasePipe } from '@angular/common';
+import { BiomarkerDataSource } from 'src/app/apiAndObjects/objects/biomarkerDataSource';
 Chart.register(BoxPlotController, BoxAndWiskers);
 @Component({
   selector: 'app-status-chart',
@@ -53,6 +54,7 @@ export class StatusChartComponent implements AfterViewInit {
   public bmTotalStats: Array<TotalStats>;
   public labels: Array<number>;
   public selectedNutrient = '';
+  public selectedBiomarker = '';
   public selectedAgeGenderGroup = '';
 
   constructor(public quickMapsService: QuickMapsService, private titlecasePipe: TitleCasePipe) {}
@@ -65,6 +67,10 @@ export class StatusChartComponent implements AfterViewInit {
     this.subscriptions.push(
       this.quickMapsService.micronutrient.obs.subscribe((micronutrient: MicronutrientDictionaryItem) => {
         this.selectedNutrient = micronutrient.name;
+      }),
+      this.quickMapsService.biomarkerDataSource.obs.subscribe((biomarker: BiomarkerDataSource) => {
+        console.log({ biomarker });
+        this.selectedBiomarker = this.titlecasePipe.transform(biomarker.biomarkerName);
       }),
       this.quickMapsService.ageGenderGroup.obs.subscribe((ageGenderGroup: AgeGenderDictionaryItem) => {
         this.selectedAgeGenderGroup = ageGenderGroup.name;
@@ -96,7 +102,7 @@ export class StatusChartComponent implements AfterViewInit {
         labels: this.bmAggStats.map((a) => this.titlecasePipe.transform(a.aggregation)),
         datasets: [
           {
-            label: `${this.selectedNutrient}`,
+            label: `${this.selectedBiomarker}`,
             backgroundColor: () => '#ff6384',
             borderColor: '#000000',
             outlierRadius: 4,
@@ -124,7 +130,7 @@ export class StatusChartComponent implements AfterViewInit {
           y: {
             title: {
               display: true,
-              text: `Concentration of ${this.selectedNutrient} in microg/DI`,
+              text: `Concentration of ${this.selectedBiomarker} in microg/DI`,
             },
           },
         },

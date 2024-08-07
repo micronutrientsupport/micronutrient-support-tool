@@ -25,8 +25,20 @@
 </table>
 <mat-paginator *ngIf="!biomarkerDataUpdating" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 <div *ngIf="!biomarkerDataUpdating" class="status-element">
-  <span>Description of how deficiency/excess was measured and details about groups</span>
-</div>
-<div *ngIf="!biomarkerDataUpdating" class="status-element">
-  <span><b>Total samples (N) - {{ totalSamples }}</b></span>
+
+  <p>
+    <span *ngFor="let threshold of thresholdKeys">
+      {{ threshold | titlecase }} was defined as {{ (quickMapsService.biomarkerDataSource.obs | async)?.biomarkerName |
+      titlecase
+      }} {{
+      thresholdList[threshold].thresholdType.startsWith('deficiency') ? '&lt; ' + thresholdList[threshold].upper :
+      '&gt; ' + thresholdList[threshold].lower }}{{thresholdList[threshold]?.unit}}
+      <span *ngIf="thresholdList[threshold].comments">({{ thresholdList[threshold].comments }})</span>
+      <br />
+    </span>
+  </p>
+  <p>
+    Inflammation adjustment of micronutrients was done according to the <a
+      href="https://pubmed.ncbi.nlm.nih.gov/36792034/" target="_blank">BRINDA method</a>.
+  </p>
 </div>
