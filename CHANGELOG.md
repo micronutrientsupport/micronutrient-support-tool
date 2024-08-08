@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.20.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.19.1...v1.20.0) (2024-08-08)
+
+
+### Features
+
+* add app version json to assets dir ([87c7322](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/87c7322ded0172fe244a085f75ad5a558469d2d6))
+* fix intervention selection dialog to support intervention status and nature ([37058ae](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/37058ae4c61ee22d1bf10b59b9299f19d1a07709))
+
+
+### Miscellaneous
+
+* fix build scripts ([71e9162](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/71e9162fdcee954bb427d00f5b2ede0bd34d7c44))
+
 ## [1.19.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.19.0...v1.19.1) (2024-07-30)
 
 
