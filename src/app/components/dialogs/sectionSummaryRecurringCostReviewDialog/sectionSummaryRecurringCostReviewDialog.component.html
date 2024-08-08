@@ -56,6 +56,26 @@
         <td mat-cell *matCellDef="let element">{{element.year9Total | currencyExtended}}</td>
         <td mat-footer-cell *matFooterCellDef> {{getTotalCost('year9Total') | currencyExtended}} </td>
       </ng-container>
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef> Source </th>
+        <td mat-cell *matCellDef="let element let index = index">
+          <span>
+            <button class="sourceBtn" mat-button color="primary" matTooltip="{{element.dataSource}}">
+              {{element.dataSource}}
+              <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
+            </button>
+            <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+              User Input
+            </button>
+            <button *ngIf="element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+              User Overridden
+            </button>
+            <button *ngIf="element.isCalculated && dirtyIndexes.includes(index) === false" mat-button color="primary">
+              Model calculation
+            </button>
+          </span>
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayHeaders;"></tr>
       <tr mat-row *matRowDef="let row; columns: displayHeaders"></tr>
       <tr class="mat-row" *matNoDataRow></tr>

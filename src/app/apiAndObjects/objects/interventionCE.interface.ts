@@ -4,7 +4,8 @@ export interface CEFormBody {
   focusMicronutrient: string;
   interventionType: string;
   foodVehicle: string;
-  interventionStatus: string;
+  interventionStatus: object;
+  interventionNature: object;
 }
 
 export interface InterventionCERequest {
@@ -14,4 +15,6 @@ export interface InterventionCERequest {
   newInterventionNation: string;
   newInterventionFocusGeography: string;
   newInterventionFocusMicronutrient: string;
+  newInterventionNature;
+  newInterventionStatus;
 }

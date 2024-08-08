@@ -25,7 +25,10 @@ export class SectionSummaryRecurringCostReviewDialogComponent {
     'year7Total',
     'year8Total',
     'year9Total',
+    'source',
   ];
+
+  public dirtyIndexes = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCost>) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costs);

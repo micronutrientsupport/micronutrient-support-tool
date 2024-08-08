@@ -40,6 +40,8 @@ export class PostIntervention extends Endpoint<Intervention, PostInterventionPar
         newInterventionNation: params.newInterventionNation,
         newInterventionFocusGeography: params.newInterventionFocusGeography,
         newInterventionFocusMicronutrient: params.newInterventionFocusMicronutrient,
+        newInterventionStatus: params.newInterventionStatus,
+        newInterventionNature: params.newInterventionNature,
       },
       headers,
     );
@@ -69,4 +71,6 @@ export interface PostInterventionParams {
   newInterventionNation?: string;
   newInterventionFocusGeography?: string;
   newInterventionFocusMicronutrient?: string;
+  newInterventionNature?: number;
+  newInterventionStatus?: number;
 }

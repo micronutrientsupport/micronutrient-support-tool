@@ -56,3 +56,5 @@ Thumbs.db
 # Cypress outputs
 cypress/videos
 cypress/screenshots
+
+src/assets/version.json

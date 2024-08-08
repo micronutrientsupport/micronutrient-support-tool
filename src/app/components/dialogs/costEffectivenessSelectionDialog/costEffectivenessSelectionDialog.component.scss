@@ -125,3 +125,40 @@ small {
   max-width: 30em;
   color: rgba(0, 0, 0, 0.6);
 }
+
+.intervention-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & p {
+    text-align: center;
+    margin-top: 1em;
+    max-width: 90%;
+  }
+
+  & span {
+    text-align: center;
+    margin-top: 1em;
+    max-width: 90%;
+  }
+}
+
+.template-image {
+  max-width: 50%;
+  display: block;
+}
+
+.next-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+::ng-deep app-costEffectivenessSelectionDialog .mat-mdc-dialog-content {
+  max-height: 80vh;
+  min-width: 90vw;
+}
+
+.text-left {
+  text-align: left !important;
+}

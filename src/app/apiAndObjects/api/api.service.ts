@@ -53,6 +53,8 @@ import { GetInterventionIntakeThreshold } from './intervention/interventionIntak
 import { GetInterventionExpectedLosses } from './intervention/interventionExpectedLosses/getInterventionExpectedLosses';
 import { GetInterventionLsffEffectivenessSummary } from './intervention/interventionLsffEffecttivenessSummary/getInterventionLsffEffectivenessSummary';
 import { GetInterventionCostEffectivenessSummary } from './intervention/interventionCostEffectivenessSummary/getInterventionCostEffectivenessSummary';
+import { GetInterventionTemplates } from './intervention/intervention/getInterventionTemplates';
+import { GetInterventionStatus } from './intervention/interventionStatus/getInterventionStatus';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -85,6 +87,8 @@ export class ApiService extends BaseApi {
       getDietChangeFoodItem: new GetDietChangeFoodItem(ApiService.USE_LIVE_API),
     },
     intervention: {
+      getInterventionStatusDictionary: new GetInterventionStatus(ApiService.USE_LIVE_API),
+      getInterventionTemplates: new GetInterventionTemplates(ApiService.USE_LIVE_API),
       getIntervention: new GetIntervention(ApiService.USE_LIVE_API),
       getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
       getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),

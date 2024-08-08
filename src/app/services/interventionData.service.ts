@@ -25,6 +25,7 @@ import { InterventionIntakeThreshold } from '../apiAndObjects/objects/interventi
 import { InterventionExpectedLosses } from '../apiAndObjects/objects/interventionExpectedLosses';
 import { InterventionLsffEffectivenessSummary } from '../apiAndObjects/objects/interventionLsffEffectivenessSummary';
 import { InterventionCostEffectivenessSummary } from '../apiAndObjects/objects/interventionCostEffectivenessSummary';
+import { InterventionStatus } from '../apiAndObjects/objects/interventionStatus';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -204,6 +205,10 @@ export class InterventionDataService {
     );
   }
 
+  public getInterventionStatusDictionary(): Promise<InterventionStatus[]> {
+    return this.apiService.endpoints.intervention.getInterventionStatusDictionary.call(null, false);
+  }
+
   public setIntervention(
     parentInterventionId: number,
     newInterventionName: string,
@@ -211,6 +216,8 @@ export class InterventionDataService {
     newInterventionNation?: string,
     newInterventionFocusGeography?: string,
     newInterventionFocusMicronutrient?: string,
+    newInterventionNature?: number,
+    newInterventionStatus?: number,
   ): Promise<Intervention> {
     return this.apiService.endpoints.intervention.postIntervention.call({
       parentInterventionId,
@@ -219,6 +226,8 @@ export class InterventionDataService {
       newInterventionNation,
       newInterventionFocusGeography,
       newInterventionFocusMicronutrient,
+      newInterventionNature,
+      newInterventionStatus,
     });
   }
 
