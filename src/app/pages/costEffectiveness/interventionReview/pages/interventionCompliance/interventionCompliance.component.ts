@@ -26,7 +26,6 @@ import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 })
 export class InterventionComplianceComponent implements OnInit {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 1;
   public interventionName = 'IntName';
   public activeStandard: FoodVehicleStandard[];
   public rawDataArray: Array<PotentiallyFortified | ActuallyFortified | AverageFortificationLevel> = [];
@@ -73,7 +72,7 @@ export class InterventionComplianceComponent implements OnInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
@@ -113,7 +112,6 @@ export class InterventionComplianceComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
   }
 

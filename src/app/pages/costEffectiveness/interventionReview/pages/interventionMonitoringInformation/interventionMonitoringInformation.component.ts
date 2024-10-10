@@ -36,7 +36,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
@@ -44,7 +43,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public dataLoaded = false;
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
@@ -145,7 +144,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
   }
 

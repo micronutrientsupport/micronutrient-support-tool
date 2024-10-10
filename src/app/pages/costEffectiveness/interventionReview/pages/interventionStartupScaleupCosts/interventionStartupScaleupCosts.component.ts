@@ -14,9 +14,8 @@ import { Router } from '@angular/router';
   templateUrl: './interventionStartupScaleupCosts.component.html',
   styleUrls: ['./interventionStartupScaleupCosts.component.scss'],
 })
-export class InterventionStartupScaleupCostsComponent implements OnInit {
+export class InterventionStartupScaleupCostsComponent {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 4;
   public interventionName = 'IntName';
 
   public startupCosts: Array<StartUpScaleUpCost>;
@@ -89,7 +88,7 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
   ];
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private router: Router,
   ) {
@@ -134,9 +133,6 @@ export class InterventionStartupScaleupCostsComponent implements OnInit {
     return true;
   }
 
-  public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
-  }
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }

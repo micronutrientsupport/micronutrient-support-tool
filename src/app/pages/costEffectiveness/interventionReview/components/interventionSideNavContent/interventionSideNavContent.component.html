@@ -2,162 +2,39 @@
   <span class="intervention-review-title">Intervention details</span>
   <span class="intervention-review-subtitle">Review/edit the information in the steps below</span>
   <mat-accordion>
-    <mat-expansion-panel class="sidebar-expansion" [class.is-active]="currentStepPosition <= (assumptionSteps -1)"
-      [expanded]="currentStepPosition <= (assumptionSteps -1)">
+    <mat-expansion-panel *ngFor="let section of sections; index as i" class="sidebar-expansion"
+      [class.is-active]="currentStepPosition <= (sectionCount(i) + section.pages.length -1)"
+      [expanded]="currentStepPosition >= sectionCount(i) && currentStepPosition < sectionCount(i+1)">
       <mat-expansion-panel-header class="expansion-header">
-        <mat-panel-title>
-          Intervention
+        <mat-panel-title [innerHTML]="addNBbspTitle(section.title)">
+          <!-- {{ addNBbspTitle(section.title) }} -->
         </mat-panel-title>
         <mat-panel-description>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-vertical-stepper class="intervention-steps" #interventionStepperAssumptions>
-        <mat-step>
-          <ng-template matStepLabel>Baseline performance</ng-template>
-          <div class="intervention-stage-info">Review and update baseline performance assumptions and food vehicle
-            standards/targets.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Performance over time</ng-template>
-          <div class="intervention-stage-info">Review and update assumptions about program performance over time.</div>
-        </mat-step>
-        <!-- Keep icons as numbers -->
-        <ng-template matStepperIcon="edit" let-index="index">
-          {{index +1}}
-        </ng-template>
-        <ng-template matStepperIcon="create" let-index="index">
-          {{index +1}}
-        </ng-template>
-        <ng-template matStepperIcon="number" let-index="index">
-          {{index +1}}
-        </ng-template>
-        <ng-template matStepperIcon="done" let-index="index">
-          {{index +1}}
-        </ng-template>
-      </mat-vertical-stepper>
-    </mat-expansion-panel>
-    <mat-expansion-panel class="sidebar-expansion"
-      [class.is-active]="currentStepPosition > (assumptionSteps -1) && currentStepPosition <  (assumptionSteps + costsSteps)"
-      [expanded]="currentStepPosition > (assumptionSteps -1) && currentStepPosition <  (assumptionSteps + costsSteps)">
-      <mat-expansion-panel-header class="expansion-header">
-        <mat-panel-title>
-          Costs
-        </mat-panel-title>
-        <mat-panel-description>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-vertical-stepper class="intervention-steps" #interventionStepperCosts>
-        <mat-step index="4">
-          <ng-template matStepLabel>Industry information</ng-template>
-          <div class="intervention-stage-info">Review and update information about the food vehicle industry.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Monitoring information</ng-template>
-          <div class="intervention-stage-info">Review and update intervention monitoring assumptions.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Startup/Scaleup costs</ng-template>
-          <div class="intervention-stage-info">Review and update costs related to the startup and scaleup of the
-            intervention program.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Recurring costs</ng-template>
-          <div class="intervention-stage-info">Review and update the recurring costs of the intervention program.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Cost summary</ng-template>
-          <div class="intervention-stage-info">View and download summary intervention cost estimates.</div>
-        </mat-step>
-        <!-- Keep icons as numbers -->
-        <ng-template matStepperIcon="edit" let-index="index">
-          {{index + assumptionSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="create" let-index="index">
-          {{index + assumptionSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="number" let-index="index">
-          {{index + assumptionSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="done" let-index="index">
-          {{index + assumptionSteps + 1}}
-        </ng-template>
-      </mat-vertical-stepper>
-    </mat-expansion-panel>
-    <mat-expansion-panel class="sidebar-expansion"
-      [class.is-active]="currentStepPosition > (assumptionSteps + costsSteps -1) && currentStepPosition <  (assumptionSteps + costsSteps + effectivenessSteps)"
-      [expanded]="currentStepPosition > (assumptionSteps + costsSteps -1) && currentStepPosition <  (assumptionSteps + costsSteps + effectivenessSteps)">
-      <mat-expansion-panel-header class="expansion-header">
-        <mat-panel-title>
-          Effectiveness
-        </mat-panel-title>
-        <mat-panel-description>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-vertical-stepper class="intervention-steps" #interventionStepperEffectiveness>
-        <mat-step>
-          <ng-template matStepLabel>Micronutrient losses</ng-template>
-          <div class="intervention-stage-info">Information about this step</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Projected number of households</ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Nutrient requirements
-          </ng-template>
-          <div class="intervention-stage-info">Information about this step.</div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Effectiveness summary</ng-template>
-          <div class="intervention-stage-info">View and download summary intervention effectiveness estimates.</div>
-        </mat-step>
-        <!-- Keep icons as numbers -->
-        <ng-template matStepperIcon="edit" let-index="index">
-          {{index + assumptionSteps + costsSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="create" let-index="index">
-          {{index + assumptionSteps + costsSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="number" let-index="index">
-          {{index + assumptionSteps + costsSteps + 1}}
-        </ng-template>
-        <ng-template matStepperIcon="done" let-index="index">
-          {{index + assumptionSteps + costsSteps + 1}}
-        </ng-template>
-      </mat-vertical-stepper>
-    </mat-expansion-panel>
-    <mat-expansion-panel class="sidebar-expansion"
-      [class.is-active]="currentStepPosition > (assumptionSteps + costsSteps + effectivenessSteps -1)"
-      [expanded]="currentStepPosition > (assumptionSteps + costsSteps + effectivenessSteps -1)">
-      <mat-expansion-panel-header class="expansion-header">
-        <mat-panel-title>
-          Cost&nbsp;Effectiveness
-        </mat-panel-title>
-        <mat-panel-description>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-vertical-stepper class="intervention-steps" #interventionStepperSummary>
-        <mat-step>
-          <ng-template matStepLabel>Cost-effectiveness summary</ng-template>
-          <div class="intervention-stage-info">View and download summary intervention cost-effectiveness estimates.
+      <mat-vertical-stepper class="intervention-steps" #cmp>
+        <mat-step *ngFor="let step of section.pages">
+          <ng-template matStepLabel>{{ step.title }}</ng-template>
+          <div class="intervention-stage-info">{{ step.description }}
           </div>
         </mat-step>
-
         <!-- Keep icons as numbers -->
         <ng-template matStepperIcon="edit" let-index="index">
-          {{index + assumptionSteps + costsSteps + effectivenessSteps + 1}}
+          {{index + sectionCount(i) + 1}}
         </ng-template>
         <ng-template matStepperIcon="create" let-index="index">
-          {{index + assumptionSteps + costsSteps + effectivenessSteps + 1}}
+          {{index + sectionCount(i) + 1}}
         </ng-template>
         <ng-template matStepperIcon="number" let-index="index">
-          {{index + assumptionSteps + costsSteps + effectivenessSteps + 1}}
+          {{index + sectionCount(i) + 1}}
         </ng-template>
         <ng-template matStepperIcon="done" let-index="index">
-          {{index + assumptionSteps + costsSteps + effectivenessSteps + 1}}
+          {{index + sectionCount(i) + 1}}
         </ng-template>
       </mat-vertical-stepper>
     </mat-expansion-panel>
+
+
   </mat-accordion>
 
 </div>

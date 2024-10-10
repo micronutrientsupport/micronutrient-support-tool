@@ -7,8 +7,14 @@
         <ng-container matColumnDef="labelText">
           <th class="thead-head row-title-left" mat-header-cell *matHeaderCellDef>Years of start-up or scale-up
           </th>
-          <td class="row-title-left" mat-cell *matCellDef="let element"> {{element.labelText}}
-            <mat-button *ngIf="element.labelText.startsWith('Premix cost')"
+          <td class="row-title-left" mat-cell *matCellDef="let element; let index = index">
+            <span *ngIf="canAddExtraCosts && element.isEditable" [formGroup]="form.controls.items['controls'][index]">
+              <input matInput placeholder="New Cost" [ngModel]="element.labelText" [formControlName]="'labelText'">
+            </span>
+            <span *ngIf="!canAddExtraCosts || !element.isEditable" class="text-center">
+              {{element.labelText}}
+            </span>
+            <mat-button *ngIf=" element.labelText.startsWith('Premix cost')"
               matTooltip="Adjust composition and costs of the premix compounds" mat-stroked-button color="primary"
               (click)="openPremixCalculator()" class="premix-button"><mat-icon>calculate</mat-icon>Open
               Premix Calculator</mat-button>
@@ -16,19 +22,28 @@
           <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
         </ng-container>
 
-        <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9]; last as omitCopyButton" [matColumnDef]="'year' + year">
+        <ng-container *ngFor="let year of years; last as omitCopyButton" [matColumnDef]="'year' + year">
           <th class="thead-data" mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
             <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
-              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
+              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"
+              [changeFunction]="updateTotals(year)"></app-ce-input-field>
           </td>
         </ng-container>
 
+        <ng-container [matColumnDef]="'actions'">
+          <th class="thead-data" mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+            <button mat-stroked-button *ngIf="element.isEditable" (click)="deleteRow(element)">Delete</button>
+          </td>
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow></tr>
       </table>
+
+      <button *ngIf="canAddExtraCosts" mat-flat-button color="primary" (click)="addData()">Add Record</button>
     </form>
     <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true"
       [showUserValues]="true"></app-dialog-step-details>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { InterventionProjectedHouseholds } from 'src/app/apiAndObjects/objects/interventionProjectedHouseholds';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intervention-effectiveness-households',
@@ -34,19 +35,18 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 8;
 
   private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private dialogService: DialogService,
+    private router: Router,
     private interventionDataService: InterventionDataService,
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService
@@ -62,7 +62,11 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
     void this.dialogService.openProjectedHouseholdsInfoDialog();
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 }
