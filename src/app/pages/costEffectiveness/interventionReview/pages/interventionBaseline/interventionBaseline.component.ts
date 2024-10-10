@@ -38,7 +38,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public baseYear = 2021;
   public dirtyIndexes = [];
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 0;
 
   public baselineAssumptions: BaselineAssumptions;
 
@@ -90,7 +89,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
     public quickMapsService: QuickMapsService,
     private interventionDataService: InterventionDataService,
     private dialogService: DialogService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private readonly cdr: ChangeDetectorRef,
     private formBuilder: NonNullableFormBuilder,
     private notificationsService: NotificationsService,
@@ -98,7 +97,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     private router: Router,
   ) {
     this.activeInterventionId = this.interventionDataService.getActiveInterventionId();
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public ngOnInit(): void {

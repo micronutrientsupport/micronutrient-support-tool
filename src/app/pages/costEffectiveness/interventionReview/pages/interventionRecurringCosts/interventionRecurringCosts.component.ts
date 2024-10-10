@@ -10,9 +10,8 @@ import { Router } from '@angular/router';
   templateUrl: './interventionRecurringCosts.component.html',
   styleUrls: ['./interventionRecurringCosts.component.scss'],
 })
-export class InterventionRecurringCostsComponent implements OnInit {
+export class InterventionRecurringCostsComponent {
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 5;
   public interventionName = 'IntName';
   public recurringCosts: Array<RecurringCost>;
   public displayHeaders = [
@@ -35,7 +34,7 @@ export class InterventionRecurringCostsComponent implements OnInit {
   public loading = false;
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private router: Router,
   ) {
@@ -76,10 +75,6 @@ export class InterventionRecurringCostsComponent implements OnInit {
     this.loading = false;
     this.router.navigate(getRoute(route));
     return true;
-  }
-
-  public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
   }
 
   public ngOnDestroy(): void {

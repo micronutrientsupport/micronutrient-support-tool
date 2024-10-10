@@ -81,7 +81,6 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
   public selectedTabSummary: number;
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 10;
 
   public readonly effectivenessMetricOptions = {
     ear: 'Apparent intake per AFE',
@@ -103,7 +102,7 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
     private router: Router,
@@ -111,7 +110,6 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
       .then((selectedIntervention: Intervention) => {

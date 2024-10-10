@@ -91,7 +91,7 @@ input.ng-dirty {
 // Style the last data row as total values
 tr:last-child {
   input {
-    border: none;
+    //border: none;
     background: transparent;
     color: black !important;
     font-weight: bold;
@@ -121,4 +121,9 @@ tr:last-child {
   mat-icon {
     vertical-align: middle;
   }
+}
+
+.text-center {
+  text-align: center;
+  display: block;
 }

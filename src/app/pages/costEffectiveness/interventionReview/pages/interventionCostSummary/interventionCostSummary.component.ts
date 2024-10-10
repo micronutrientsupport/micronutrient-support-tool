@@ -17,7 +17,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 6;
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;
@@ -35,7 +34,7 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   public loading = false;
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private cdRef: ChangeDetectorRef,
     private router: Router,
@@ -43,7 +42,6 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       this.subscriptions.push(

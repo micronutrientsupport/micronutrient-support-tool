@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { MatTableDataSource } from '@angular/material/table';
 import { InterventionIntakeThreshold } from 'src/app/apiAndObjects/objects/interventionIntakeThreshold';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intervention-effectiveness-metrics',
@@ -28,26 +29,23 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
   public data;
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 9;
 
   private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
+    private router: Router,
     private formBuilder: UntypedFormBuilder,
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService
         .getInterventionIntakeThreshold(activeInterventionId)
         .then((data: InterventionIntakeThreshold[]) => {
-          console.log(data);
-
           const nr: Array<{
             title: string;
             threshold: number;
@@ -102,8 +100,6 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
             },
           ];
 
-          console.log(nr);
-
           this.dataSource = new MatTableDataSource(nr);
           this.data = nr;
 
@@ -124,9 +120,6 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
           this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
 
           this.dataLoaded = true;
-          console.log(data);
-          console.log(this.dataSource);
-          console.log(this.form);
         });
     }
   }
@@ -135,8 +128,6 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
     return ($event: Event) => {
       // Update
       this.data[index][field] = Number(($event.target as any).value);
-
-      console.log(this.data);
 
       // Recalc CND and CUL
       this.dataSource.data[2]['threshold'] = (this.data[0].ear / this.data[1].energy) * 1000;
@@ -159,7 +150,11 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
     console.log(this.dataSource.data);
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 }

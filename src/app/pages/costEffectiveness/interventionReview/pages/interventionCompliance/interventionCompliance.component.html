@@ -152,19 +152,13 @@
 
   </div>
   <footer>
-    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.INTERVENTION_REVIEW_BASELINE | route"
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="intSideNavService.getPreviousRoute() | route"
       queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <button [disabled]="loading" class="intervention-navigation intervention-navigation-confirm" mat-flat-button
-      color="primary" (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_INDUSTRY_INFORMATION)">
-      <span *ngIf="!loading">Confirm and continue to Costs</span>
-      <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
-          [diameter]="16" color='accent'></mat-spinner></span>
-    </button>
-    <button [disabled]="loading" class="intervention-navigation intervention-navigation-confirm" mat-flat-button
-      color="primary" (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_EXPECTED_LOSSES)">
-      <span *ngIf="!loading">Confirm and continue to Effectiveness</span>
+    <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
+      mat-flat-button color="primary" (click)="confirmAndContinue(route.route)">
+      <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>
     </button>

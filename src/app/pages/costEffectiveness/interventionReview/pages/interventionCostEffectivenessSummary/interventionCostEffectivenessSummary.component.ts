@@ -31,7 +31,6 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   public dataSource = new MatTableDataSource();
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 11;
 
   private subscriptions = new Array<Subscription>();
 
@@ -39,7 +38,7 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
     private router: Router,
@@ -47,7 +46,6 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     this.interventionDataService
       .getIntervention(this.interventionDataService.getActiveInterventionId())
