@@ -88,8 +88,8 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
   };
 
   public readonly effectivenesAggregations = {
-    admin0: 'Level 0 Administrative Region',
-    admin1: 'Level 1 Administrative Region',
+    admin0: 'National',
+    admin1: 'Subnational Geography',
   };
 
   public selectedEffectivenessMetric = 'ear';

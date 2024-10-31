@@ -189,3 +189,9 @@ app-ce-input-field {
     text-overflow: ellipsis;
   }
 }
+
+.sourceBtnWide {
+  &::ng-deep .mdc-button__label {
+    max-width: 15em;
+  }
+}

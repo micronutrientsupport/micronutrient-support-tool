@@ -2,6 +2,8 @@
   <div class="bmgf-maps-nice-scrollbar">
     <app-reusable-skeleton-table *ngIf="isReloading" [setData]="{ columns: 11, rows: 10 }">
     </app-reusable-skeleton-table>
+    <button *ngIf="dialogData.dataIn.capitalCosts" mat-stroked-button
+      (click)="openSectionRecurringCostCapitalCostDialog()">{{ dialogData.dataIn.capitalCosts.category }}</button>
     <form [formGroup]="form" *ngIf="form && !isReloading">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
         <ng-container matColumnDef="labelText">
@@ -31,6 +33,28 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="source">
+          <th mat-header-cell *matHeaderCellDef> Source </th>
+          <td class="source-col" mat-cell *matCellDef="let element let index = index">
+            <span *ngIf="element.labelText !== 'Total'">
+              <button class="sourceBtn" *ngIf="!element.isCalculated && dirtyIndexes.includes(index) === false"
+                mat-button color="primary" matTooltip="{{element.dataSource}}">
+                {{element.dataSource}}
+                <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
+              </button>
+              <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+                User Input
+              </button>
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+                User Overridden
+              </button>
+              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index) === false" mat-button color="primary">
+                Model calculation
+              </button>
+            </span>
+          </td>
+        </ng-container>
+
         <ng-container [matColumnDef]="'actions'">
           <th class="thead-data" mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
@@ -43,7 +67,7 @@
         <tr class="mat-row" *matNoDataRow></tr>
       </table>
 
-      <button *ngIf="canAddExtraCosts" mat-flat-button color="primary" (click)="addData()">Add Record</button>
+      <button *ngIf="canAddExtraCosts" mat-flat-button color="primary" (click)="addData()">Add Cost Line</button>
     </form>
     <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true"
       [showUserValues]="true"></app-dialog-step-details>

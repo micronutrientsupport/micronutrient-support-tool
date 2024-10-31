@@ -128,14 +128,17 @@ export class InterventionSideNavContentService {
 
   public getNextRoutes(): { route: AppRoute; title: string }[] {
     const section = this.getSection(this.currentStepPosition);
+    console.log(section);
     if (section && Object.prototype.hasOwnProperty.call(section, 'skip') && section.skip) {
       return section.skip.map((skip: string) => {
         const skipSection = this.sections.find((sec) => sec.title === skip);
         return { route: skipSection?.pages[0]?.route, title: `Confirm and continue to ${skip}` };
       });
+    } else if (section) {
+      return [{ route: this.getRoute(this.currentStepPosition + 1), title: 'Confirm and continue' }];
+    } else {
+      return [];
     }
-
-    return [{ route: this.getRoute(this.currentStepPosition + 1), title: 'Confirm and continue' }];
   }
 
   public getPreviousRoute(): AppRoute {

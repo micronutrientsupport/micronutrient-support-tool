@@ -10,6 +10,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
 import { InterventionExpectedLosses } from 'src/app/apiAndObjects/objects/interventionExpectedLosses';
 import { InterventionBaselineAssumptions } from 'src/app/apiAndObjects/objects/interventionBaselineAssumptions';
 import { Router } from '@angular/router';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 
 @Component({
   selector: 'app-intervention-expected-losses',
@@ -60,15 +61,21 @@ export class InterventionExpectedLossComponent implements OnInit {
           this.interventionDataService
             .getInterventionBaselineAssumptions(activeInterventionId)
             .then((baseline: InterventionBaselineAssumptions) => {
-              console.log(data);
-              console.log(baseline);
+              this.interventionDataService.getIntervention(activeInterventionId).then((intervention: Intervention) => {
+                console.log(data);
+                console.log(baseline);
 
-              for (const mn of data.expectedLosses) {
-                mn['baseline'] = baseline.baselineAssumptions;
-              }
+                const eLFocusMN = data.expectedLosses.filter((val) => {
+                  return val.micronutrient === intervention.focusMicronutrient;
+                });
 
-              this.dataSource = new MatTableDataSource(data.expectedLosses);
-              this.dataLoaded = true;
+                for (const mn of eLFocusMN) {
+                  mn['baseline'] = baseline.baselineAssumptions;
+                }
+
+                this.dataSource = new MatTableDataSource(eLFocusMN);
+                this.dataLoaded = true;
+              });
             });
         });
     }

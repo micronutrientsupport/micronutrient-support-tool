@@ -88,7 +88,7 @@ input.ng-dirty {
   }
 }
 
-// Style the last data row as total values
+//Style the last data row as total values
 tr:last-child {
   input {
     //border: none;
@@ -126,4 +126,8 @@ tr:last-child {
 .text-center {
   text-align: center;
   display: block;
+}
+
+.source-col {
+  max-width: 10em;
 }

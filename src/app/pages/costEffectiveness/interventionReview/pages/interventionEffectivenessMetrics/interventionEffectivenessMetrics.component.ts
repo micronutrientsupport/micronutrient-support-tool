@@ -126,8 +126,10 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
 
   public updateField(index: number, field: string) {
     return ($event: Event) => {
+      console.log(this.data);
+
       // Update
-      this.data[index][field] = Number(($event.target as any).value);
+      this.data[index]['threshold'] = Number(($event.target as any).value);
 
       // Recalc CND and CUL
       this.dataSource.data[2]['threshold'] = (this.data[0].ear / this.data[1].energy) * 1000;

@@ -10,7 +10,7 @@ import { DialogService } from 'src/app/components/dialogs/dialog.service';
   styleUrls: ['./reusableCostTable.component.scss'],
 })
 export class ReusableCostTableComponent implements OnInit {
-  @Input() recurringCost?: RecurringCost;
+  @Input() recurringCost?: { costs: RecurringCost; capitalCosts?: RecurringCost };
   @Input() startUpScaleUpCost?: StartUpScaleUpCost;
   @Input() headers: Array<string>;
 
@@ -37,11 +37,11 @@ export class ReusableCostTableComponent implements OnInit {
 
   ngOnInit(): void {
     if (null != this.recurringCost) {
-      this.dataSource = new MatTableDataSource(this.recurringCost.costs);
+      this.dataSource = new MatTableDataSource(this.recurringCost.costs.costs);
       const years = [];
       const displayYears = ['section'];
       for (let i = 0; i < 10; i++) {
-        if (this.recurringCost.costs[0].costBreakdown[0]['year' + i] === null) {
+        if (this.recurringCost.costs.costs[0].costBreakdown[0]['year' + i] === null) {
           break;
         } else {
           years.push(i);
@@ -50,6 +50,9 @@ export class ReusableCostTableComponent implements OnInit {
       }
       this.years = years;
       this.displayHeaders = displayYears;
+
+      console.log(this.years);
+      console.log(this.displayHeaders);
     }
     if (null != this.startUpScaleUpCost) {
       this.dataSource = new MatTableDataSource(this.startUpScaleUpCost.costs);
@@ -60,8 +63,8 @@ export class ReusableCostTableComponent implements OnInit {
     this.dialogService.openPremixCostReviewDialog(costs);
   }
 
-  public openSectionRecurringCostReviewDialog(costs: RecurringCosts): void {
-    this.dialogService.openSectionRecurringCostReviewDialog(costs);
+  public openSectionRecurringCostReviewDialog(costs: RecurringCosts, capitalCosts?: RecurringCosts): void {
+    this.dialogService.openSectionRecurringCostReviewDialog(costs, capitalCosts);
   }
 
   public openSectionStartUpCostReviewDialog(costs: StartUpCosts): void {

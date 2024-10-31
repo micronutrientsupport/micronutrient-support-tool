@@ -60,6 +60,56 @@ export interface StartUpCostBreakdown {
   dataSourceDefault: string;
   dataCitation: string;
 }
+interface StartupCostBreakdownConstructable {
+  new (id: number): StartUpCostBreakdown;
+}
+
+export class UserStartupCostFactory implements StartUpCostBreakdown {
+  labelText: string;
+  rowIndex: number;
+  year0: number;
+  year0Default: number;
+  year0Edited: number;
+  year0Overriden: boolean;
+  year1: number;
+  year1Default: number;
+  year1Edited: number;
+  year1Overriden: boolean;
+  year2: number;
+  year2Default: number;
+  year2Edited: number;
+  year2Overriden: boolean;
+  rowUnits: string;
+  isEditable: boolean;
+  isCalculated: boolean;
+  dataSource: string;
+  dataSourceDefault: string;
+  dataCitation: string;
+
+  constructor(public id: number) {
+    this.labelText = 'New Cost';
+    this.rowUnits = 'US dollars';
+    (this.rowIndex as any) = `uecsn_${id}`;
+    this.isCalculated = false;
+    this.isEditable = true;
+    this.year0 = 0;
+    this.year0Default = 0;
+    this.year0Edited = 0;
+    this.year0Overriden = false;
+    this.year1 = 0;
+    this.year1Default = 0;
+    this.year1Edited = 0;
+    this.year1Overriden = false;
+    this.year2 = 0;
+    this.year2Default = 0;
+    this.year2Edited = 0;
+    this.year2Overriden = false;
+  }
+}
+
+export function makeUserCost(cost: StartupCostBreakdownConstructable, id = -1) {
+  return new cost(id);
+}
 
 export interface StartUpCostSummary {
   category: string;

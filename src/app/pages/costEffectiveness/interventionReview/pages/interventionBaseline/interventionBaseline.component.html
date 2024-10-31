@@ -35,15 +35,16 @@
                     [tableData]="dataSource" [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="false"
                     [changeFunction]="updateBaselineAssumptions" [omitStyling]="true"></app-ce-input-field>
                 </div>
-                <a mat-button [href]="element.dataSource" target="_blank"
+                <a matTooltip="{{element.dataSource}}" class="sourceBtn sourceBtnWide" [href]="element.dataSource"
+                  target="_blank"
                   *ngIf="element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
                   mat-button color="primary">
-                  View external source&nbsp;<mat-icon iconPositionEnd>open_in_new</mat-icon>
+                  {{ element.dataSource}}&nbsp;<mat-icon iconPositionEnd>open_in_new</mat-icon>
                 </a>
-                <button class="no-click"
+                <button matTooltip="{{element.dataSource}}" class="sourceBtn sourceBtnWide"
                   *ngIf="!element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
                   mat-button color="primary">
-                  {{ element.dataSource}} Input
+                  {{ element.dataSource}}
                 </button>
                 <button *ngIf="dirtyIndexes.includes(index) || element.year0Edited === true" mat-button color="primary">
                   User Input
@@ -310,7 +311,7 @@
     <a [disabled]="!compoundAvailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
     <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
-      mat-flat-button color="primary" (click)="confirmAndContinue(route.route)">
+      mat-flat-button color="primary" (click)="confirmAndContinue(route?.route)">
       <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>

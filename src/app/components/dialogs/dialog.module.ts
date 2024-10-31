@@ -39,6 +39,7 @@ import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehic
 import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
 import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
 import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
+import { SectionRecurringCostCapitalCostDialogComponent } from './sectionRecurringCostCapitalCostDialog/sectionRecurringCostCapitalCostDialog.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialo
     CeFortificationInfoDialogComponent,
     CeCalculatedFortificationInfoDialogComponent,
     SectionRecurringCostReviewDialogComponent,
+    SectionRecurringCostCapitalCostDialogComponent,
     SectionStartUpCostReviewDialogComponent,
     IframeDialogComponent,
     WelcomeDialogComponent,

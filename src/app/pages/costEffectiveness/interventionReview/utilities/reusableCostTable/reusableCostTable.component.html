@@ -5,8 +5,21 @@
       <span *ngIf="years.length == 1">Section</span>
     </th>
     <td class="thead-row row-title-left" mat-cell *matCellDef="let element">
-      <button class="table-edit-button" mat-button color="primary"
-        (click)="openSectionRecurringCostReviewDialog(element)">
+      <button *ngIf="element.section === 'Fortification'" class="table-edit-button" mat-button color="primary"
+        (click)="openSectionRecurringCostReviewDialog(element, recurringCost?.capitalCosts?.costs[0])">
+        <mat-icon>edit</mat-icon>{{element.section}}
+      </button>
+      <button *ngIf="element.section.includes('QA/QC')" class="table-edit-button" mat-button color="primary"
+        (click)="openSectionRecurringCostReviewDialog(element, recurringCost?.capitalCosts?.costs[1])">
+        <mat-icon>edit</mat-icon>{{element.section}}
+      </button>
+      <button *ngIf="element.section.includes('monitoring')" class="table-edit-button" mat-button color="primary"
+        (click)="openSectionRecurringCostReviewDialog(element, recurringCost?.capitalCosts?.costs[0])">
+        <mat-icon>edit</mat-icon>{{element.section}}
+      </button>
+      <button
+        *ngIf="!element.section.includes('QA/QC') && !element.section.includes('monitoring') && element.section !== 'Fortification'"
+        class="table-edit-button" mat-button color="primary" (click)="openSectionRecurringCostReviewDialog(element)">
         <mat-icon>edit</mat-icon>{{element.section}}
       </button>
     </td>

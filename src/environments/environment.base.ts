@@ -19,8 +19,8 @@ export const environment = {
   //temp api:
   //apiBaseUrl: 'http://zhwldock002.ad.nerc.ac.uk:3001/',
   // local running api project
-  //apiBaseUrl: 'http://localhost:3000',
-  apiBaseUrl: 'https://api.micronutrient.support/v2',
+  apiBaseUrl: 'http://localhost:3000',
+  //apiBaseUrl: 'https://api.micronutrient.support/v2',
 
   analyticsSnippetUrl: 'https://stats.micronutrient.support/js/plausible.js',
   analyticsDomain: 'preview.micronutrient.support',

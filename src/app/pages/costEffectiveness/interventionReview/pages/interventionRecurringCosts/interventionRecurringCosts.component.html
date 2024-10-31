@@ -7,7 +7,7 @@
         </app-reusable-skeleton-table>
         <div *ngFor="let recurringCost of recurringCosts">
           <div class="title">
-            <span>{{ recurringCost.category }} summary</span>
+            <span>{{ recurringCost.costs.category }} summary</span>
           </div>
           <div class="recurringCostTable">
             <app-reusable-cost-table *ngIf="null != recurringCosts" [recurringCost]="recurringCost"
@@ -19,10 +19,10 @@
       <mat-tab label="Graphs">
         <div *ngFor="let recurringCost of recurringCosts" class="recurring-cost">
           <div class="title">
-            <span>{{ recurringCost.category }}</span>
+            <span>{{ recurringCost.costs.category }}</span>
           </div>
           <div class="chart-wrapper">
-            <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost">
+            <app-reusable-cost-graph *ngIf="null != recurringCosts" [costData]="recurringCost.costs">
             </app-reusable-cost-graph>
           </div>
         </div>
@@ -35,8 +35,8 @@
       queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
-      mat-flat-button color="primary" (click)="confirmAndContinue(route.route)">
+    <button *ngFor="let route of intSideNavService.getNextRoutes(); trackBy: trackRoute" [disabled]="loading"
+      class="intervention-navigation" mat-flat-button color="primary" (click)="confirmAndContinue(route?.route)">
       <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { InterventionRecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
+import {
+  InterventionRecurringCosts,
+  RecurringCost,
+  RecurringCosts,
+} from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
@@ -13,7 +17,8 @@ import { Router } from '@angular/router';
 export class InterventionRecurringCostsComponent {
   public ROUTES = AppRoutes;
   public interventionName = 'IntName';
-  public recurringCosts: Array<RecurringCost>;
+  public recurringCosts: Array<{ costs: RecurringCost; capitalCosts?: RecurringCost }>;
+
   public displayHeaders = [
     'section',
     'year0Total',
@@ -44,8 +49,28 @@ export class InterventionRecurringCostsComponent {
         .getInterventionRecurringCosts(activeInterventionId)
         .then((data: InterventionRecurringCosts) => {
           this.dataLoaded = true;
-          this.recurringCosts = data.recurringCosts;
-          // console.debug('initial: ', this.recurringCosts);
+          this.recurringCosts = data.recurringCosts.map((cost) => {
+            return {
+              costs: cost,
+            };
+          });
+
+          const industryCapitalIdx = data.recurringCosts.findIndex(
+            (costs: RecurringCost) => (costs.category as string) === 'Industry-related capital costs',
+          );
+          const industryCapital = this.recurringCosts.splice(industryCapitalIdx, 1);
+          // console.log({ industryCapital });
+
+          const governmetnCapitalIdx = this.recurringCosts.findIndex(
+            (costs: { costs: RecurringCost; capitalCosts: RecurringCost }) =>
+              (costs.costs.category as string) === 'Government-related capital costs',
+          );
+          const governmetnCapital = this.recurringCosts.splice(governmetnCapitalIdx, 1);
+
+          this.recurringCosts[1].capitalCosts = industryCapital[0].costs;
+          this.recurringCosts[2].capitalCosts = governmetnCapital[0].costs;
+
+          console.debug('initial: ', this.recurringCosts);
         });
     }
 
@@ -59,7 +84,26 @@ export class InterventionRecurringCostsComponent {
               .then((data: InterventionRecurringCosts) => {
                 this.dataLoaded = true;
                 setTimeout(() => {
-                  this.recurringCosts = data.recurringCosts;
+                  this.recurringCosts = data.recurringCosts.map((cost) => {
+                    return {
+                      costs: cost,
+                    };
+                  });
+
+                  const industryCapitalIdx = data.recurringCosts.findIndex(
+                    (costs: RecurringCost) => (costs.category as string) === 'Industry-related capital costs',
+                  );
+                  const industryCapital = this.recurringCosts.splice(industryCapitalIdx, 1);
+                  // console.log({ industryCapital });
+
+                  const governmetnCapitalIdx = this.recurringCosts.findIndex(
+                    (costs: { costs: RecurringCost; capitalCosts: RecurringCost }) =>
+                      (costs.costs.category as string) === 'Government-related capital costs',
+                  );
+                  const governmetnCapital = this.recurringCosts.splice(governmetnCapitalIdx, 1);
+
+                  this.recurringCosts[1].capitalCosts = industryCapital[0].costs;
+                  this.recurringCosts[2].capitalCosts = governmetnCapital[0].costs;
                 }, 0);
                 // this.recurringCosts = data.recurringCosts;
               });
@@ -67,6 +111,11 @@ export class InterventionRecurringCostsComponent {
         }
       }),
     );
+  }
+
+  public trackRoute(index: number) {
+    console.log('TrackRoute');
+    return 1;
   }
 
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {
