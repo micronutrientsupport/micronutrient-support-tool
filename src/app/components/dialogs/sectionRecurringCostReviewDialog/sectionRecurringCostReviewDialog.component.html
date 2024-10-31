@@ -3,7 +3,8 @@
     <app-reusable-skeleton-table *ngIf="isReloading" [setData]="{ columns: 11, rows: 10 }">
     </app-reusable-skeleton-table>
     <button *ngIf="dialogData.dataIn.capitalCosts" mat-stroked-button
-      (click)="openSectionRecurringCostCapitalCostDialog()">{{ dialogData.dataIn.capitalCosts.category }}</button>
+      (click)="openSectionRecurringCostCapitalCostDialog()">{{ dialogData.dataIn.capitalCosts.section }} annualised
+      capital costs</button>
     <form [formGroup]="form" *ngIf="form && !isReloading">
       <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
         <ng-container matColumnDef="labelText">
