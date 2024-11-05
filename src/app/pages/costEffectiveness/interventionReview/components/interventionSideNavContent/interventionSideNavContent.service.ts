@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 
@@ -128,7 +128,7 @@ export class InterventionSideNavContentService {
 
   public getNextRoutes(): { route: AppRoute; title: string }[] {
     const section = this.getSection(this.currentStepPosition);
-    console.log(section);
+    // console.log(section);
     if (section && Object.prototype.hasOwnProperty.call(section, 'skip') && section.skip) {
       return section.skip.map((skip: string) => {
         const skipSection = this.sections.find((sec) => sec.title === skip);
@@ -162,6 +162,7 @@ export class InterventionSideNavContentService {
   }
 
   public getRoute(stepperPosition: number): AppRoute {
+    console.log('getRoute', stepperPosition);
     let count = 0;
     let next: AppRoute;
     this.sections.forEach((section) => {
@@ -182,5 +183,23 @@ export class InterventionSideNavContentService {
 
   public getPreviousStepperPosition(): number {
     return this.previousStepPosition;
+  }
+}
+
+@Pipe({
+  name: 'getRoute',
+})
+export class GetRoutePipe implements PipeTransform {
+  transform(stepperPosition: number, sections: any[]) {
+    console.log('Pipe for ', stepperPosition, sections);
+    let count = 0;
+    let next: AppRoute;
+    sections.forEach((section) => {
+      if (stepperPosition >= count && stepperPosition < count + section.pages.length) {
+        next = section.pages[stepperPosition - count].route;
+      }
+      count += section.pages.length;
+    });
+    return next;
   }
 }

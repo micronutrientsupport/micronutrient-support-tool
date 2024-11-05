@@ -129,5 +129,21 @@ tr:last-child {
 }
 
 .source-col {
-  max-width: 10em;
+  max-width: 12em;
+}
+
+.source-col {
+  button {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 11em;
+
+    &::ng-deep .mdc-button__label {
+      max-width: 11em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
 }
