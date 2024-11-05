@@ -4,7 +4,7 @@
   width: 100%;
 }
 
-::ng-deep.pie-chart > div > canvas {
+::ng-deep.pie-chart-container > div > canvas {
   height: 200px !important;
 }
 
