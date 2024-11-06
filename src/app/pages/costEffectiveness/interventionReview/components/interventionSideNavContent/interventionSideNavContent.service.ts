@@ -34,12 +34,12 @@ export class InterventionSideNavContentService {
       title: 'Intervention',
       pages: [
         {
-          title: 'Baseline performance',
-          description: 'Review and update baseline performance assumptions and food vehicle standards/targets.',
+          title: 'Food vehicle standard/target',
+          description: 'Review and update food vehicle standards/targets.',
           route: AppRoutes.INTERVENTION_REVIEW_BASELINE,
         },
         {
-          title: 'Performance over time',
+          title: 'Performance',
           description: 'Review and update assumptions about program performance over time.',
           route: AppRoutes.INTERVENTION_REVIEW_COMPLIANCE,
           skip: ['Costs', 'Effectiveness'],

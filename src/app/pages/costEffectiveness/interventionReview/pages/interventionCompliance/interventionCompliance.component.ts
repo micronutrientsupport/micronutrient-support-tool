@@ -60,7 +60,9 @@ export class InterventionComplianceComponent implements OnInit {
   public baseYear = 2021;
   public baselineAssumptions: BaselineAssumptions;
   public dataSource = new MatTableDataSource();
-  public newDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
+  public averageFortificationAtPointOfFortificationDataSource =
+    new MatTableDataSource<AverageNutrientLevelTableObject>();
+  public averageFortificationAmongAllFoodVehicleDataSource = new MatTableDataSource<AverageNutrientLevelTableObject>();
   private subscriptions = new Array<Subscription>();
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
@@ -130,6 +132,7 @@ export class InterventionComplianceComponent implements OnInit {
 
   public async createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): Promise<void> {
     const fvArray = [];
+    const pofArray = [];
 
     this.activeIntervention = await this.interventionDataService.getIntervention(
       this.interventionDataService.getActiveInterventionId(),
@@ -155,7 +158,7 @@ export class InterventionComplianceComponent implements OnInit {
           const nonZeroCompound = standard.compounds.find((compound) => compound?.targetVal > 0);
           if (nonZeroCompound) {
             const standardValue = nonZeroCompound.targetVal;
-            const tableObject: AverageNutrientLevelTableObject = {
+            const pofObject: AverageNutrientLevelTableObject = {
               micronutrient: standard.micronutrient,
               standard: standardValue,
               year0:
@@ -199,11 +202,58 @@ export class InterventionComplianceComponent implements OnInit {
                 baselineAssumptions.potentiallyFortified.year9 *
                 standardValue,
             };
-            fvArray.push(tableObject);
+            pofArray.push(pofObject);
+
+            const fvObject: AverageNutrientLevelTableObject = {
+              micronutrient: standard.micronutrient,
+              standard: standardValue,
+              year0:
+                baselineAssumptions.actuallyFortified.year0 *
+                baselineAssumptions.averageFortificationLevel.year0 *
+                standardValue,
+              year1:
+                baselineAssumptions.actuallyFortified.year1 *
+                baselineAssumptions.averageFortificationLevel.year1 *
+                standardValue,
+              year2:
+                baselineAssumptions.actuallyFortified.year2 *
+                baselineAssumptions.averageFortificationLevel.year2 *
+                standardValue,
+              year3:
+                baselineAssumptions.actuallyFortified.year3 *
+                baselineAssumptions.averageFortificationLevel.year3 *
+                standardValue,
+              year4:
+                baselineAssumptions.actuallyFortified.year4 *
+                baselineAssumptions.averageFortificationLevel.year4 *
+                standardValue,
+              year5:
+                baselineAssumptions.actuallyFortified.year5 *
+                baselineAssumptions.averageFortificationLevel.year5 *
+                standardValue,
+              year6:
+                baselineAssumptions.actuallyFortified.year6 *
+                baselineAssumptions.averageFortificationLevel.year6 *
+                standardValue,
+              year7:
+                baselineAssumptions.actuallyFortified.year7 *
+                baselineAssumptions.averageFortificationLevel.year7 *
+                standardValue,
+              year8:
+                baselineAssumptions.actuallyFortified.year8 *
+                baselineAssumptions.averageFortificationLevel.year8 *
+                standardValue,
+              year9:
+                baselineAssumptions.actuallyFortified.year9 *
+                baselineAssumptions.averageFortificationLevel.year9 *
+                standardValue,
+            };
+            fvArray.push(pofObject);
           }
         });
         console.log('FV', fvArray);
-        this.newDataSource = new MatTableDataSource(fvArray);
+        this.averageFortificationAtPointOfFortificationDataSource = new MatTableDataSource(pofArray);
+        this.averageFortificationAmongAllFoodVehicleDataSource = new MatTableDataSource(fvArray);
       });
   }
 

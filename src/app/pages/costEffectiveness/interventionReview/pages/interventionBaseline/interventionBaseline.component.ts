@@ -46,7 +46,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public baselinedisplayedColumns = ['title', 'year0'];
 
   public FVdataSource = new MatTableDataSource();
-  public baselineFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal', 'avgVal', 'calcFort'];
+  public baselineFVdisplayedColumns = ['micronutrient', 'compounds', 'targetVal' /*'avgVal', 'calcFort'*/];
   // public baselineFVdisplayedColumns = ['year0'];
 
   public optionalUserEnteredAverageAtPointOfFortification = '0';
@@ -56,7 +56,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
   public newMnInPremix: MicronutrientDictionaryItem;
   public rawBaselineDataArray: Array<PotentiallyFortified | ActuallyFortified> = [];
 
-  public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public compoundAvailable = true;
   public buttonOneEdited = false;
@@ -112,17 +111,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
         .getIntervention(this.activeInterventionId)
         .then((intervention: Intervention) => {
           if (null != intervention.focusMicronutrient) {
-            this.interventionDataService
-              .getInterventionFoodVehicleStandards(this.activeInterventionId)
-              .then((data: InterventionFoodVehicleStandards) => {
-                if (null != data) {
-                  this.initBaselineAssumptionTable();
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-                this.compoundAvailable = false;
-              });
+            this.interventionDataService.getInterventionFoodVehicleStandards(this.activeInterventionId).catch((err) => {
+              console.error(err);
+              this.compoundAvailable = false;
+            });
           }
           this.cdr.detectChanges();
         }),
@@ -210,32 +202,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     return field?.value?.rowIndex;
   }
 
-  private initBaselineAssumptionTable() {
-    void this.interventionDataService
-      .getInterventionBaselineAssumptions(this.activeInterventionId)
-      .then((data: InterventionBaselineAssumptions) => {
-        this.baselineAssumptions = data.baselineAssumptions as BaselineAssumptions;
-        this.cdr.detectChanges();
-
-        this.createBaselineTableObject();
-        const baselineGroupArr = this.rawBaselineDataArray.map((item) => {
-          return this.createBaselineDataGroup(item);
-        });
-        this.form = this.formBuilder.group({
-          items: this.formBuilder.array(baselineGroupArr),
-        });
-
-        this.dataLoaded = true;
-
-        // Mark fields as touched/dirty if they have been previously edited and stored via the API
-        this.interventionDataService.setFormFieldState(this.form, this.dirtyIndexes);
-
-        // Setup watched to track changes made to form fields and store them to the intervention
-        // data service to be synced to the API when needed
-        this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
-      });
-  }
-
   private createPremixMnGroup(item: FoodVehicleStandard): UntypedFormGroup {
     return this.formBuilder.group({
       micronutrient: [item.micronutrient],
@@ -251,35 +217,12 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
   }
 
-  private createBaselineDataGroup(item: PotentiallyFortified | ActuallyFortified): UntypedFormGroup {
-    return this.formBuilder.group({
-      rowIndex: [item.rowIndex, []],
-      rowUnits: [item.rowUnits, []],
-      isEditable: [item.isEditable, []],
-      isCalculated: [item.isCalculated, []],
-      year0: [Number(item.year0), [Validators.min(0), Validators.max(100)]],
-      year0Edited: [Number(item.year0Edited), []],
-      year0Default: [Number(item.year0Default), []],
-      year0Overriden: item.year0Overriden,
-      year0Formula: item.year0Formula,
-    });
-  }
-
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {
     this.loading = true;
     await this.interventionDataService.interventionPageConfirmContinue();
     this.loading = false;
     this.router.navigate(getRoute(route));
     return true;
-  }
-
-  public createBaselineTableObject(): void {
-    this.rawBaselineDataArray.push(
-      this.baselineAssumptions.potentiallyFortified,
-      this.baselineAssumptions.actuallyFortified,
-      this.baselineAssumptions.averageFortificationLevel,
-    );
-    this.dataSource = new MatTableDataSource(this.rawBaselineDataArray);
   }
 
   public openFortificationInfoDialog(): void {
@@ -297,23 +240,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public resetForm() {
     // set fields to default values as delivered per api
-    this.form.controls.items['controls'].forEach((formRow: FormGroup) => {
-      let yearIndex = 0;
-      Object.keys(formRow.controls).forEach((key: string) => {
-        if (key === 'year' + yearIndex) {
-          if (formRow.controls['year' + yearIndex + 'Default'].value !== formRow.controls['year' + yearIndex].value) {
-            formRow.controls[key].setValue(formRow.controls['year' + yearIndex + 'Default'].value); // set the default value
-          }
-          yearIndex++;
-        }
-      });
-    });
     this.focusMnForm.reset(this.focusMnFormInitVals);
 
     this.premixMnForm.reset(this.premixMnFormInitVals);
 
-    //on reset mark forma as pristine to remove blue highlights
-    this.form.markAsPristine();
     //remove dirty indexes to reset button to GFDx input
     this.dirtyIndexes.splice(0);
   }
@@ -353,19 +283,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  public updateBaselineAssumptions = () => {
-    const potentiallyFortified = this.form.controls.items['controls'][0]['controls']['year0'].value / 100;
-    const actuallyFortified = this.form.controls.items['controls'][1]['controls']['year0'].value / 100;
-    const averageFortificationLevel = this.form.controls.items['controls'][2]['controls']['year0'].value / 100;
-    // console.log(row);
-
-    console.log(this.baselineAssumptions);
-
-    this.baselineAssumptions.potentiallyFortified.year0 = potentiallyFortified;
-    this.baselineAssumptions.actuallyFortified.year0 = actuallyFortified;
-    this.baselineAssumptions.averageFortificationLevel.year0 = averageFortificationLevel;
-  };
-
   public updateFVStandard(micronutrient: string) {
     return ($event: Event) => {
       this.selectedCompounds[micronutrient].targetVal = Number(($event.target as any).value);
@@ -398,16 +315,5 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public storeIndex(index: number) {
     this.dirtyIndexes.push(index);
-  }
-
-  public validateUserInput(event: Event, rowIndex: number, year: string) {
-    const userInput = Number((event.target as HTMLInputElement).value);
-    if (userInput < 0) {
-      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 0 });
-      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
-    } else if (userInput > 100) {
-      this.form.controls.items['controls'][rowIndex].patchValue({ [year]: 100 });
-      this.notificationsService.sendInformative('Percentage input must be between 0 and 100.');
-    }
   }
 }

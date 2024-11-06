@@ -23,23 +23,6 @@
   }
 }
 
-.header-row {
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-
-  .standard {
-    width: 60%;
-    margin-right: 0.5em;
-  }
-
-  .compliance {
-    width: 39%;
-    margin-left: 0.5em;
-  }
-}
-
 .focus-mn {
   display: flex;
   justify-content: flex-start;
