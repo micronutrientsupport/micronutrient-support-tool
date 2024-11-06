@@ -37,3 +37,8 @@ input.ng-dirty {
 .loading-indicator {
   display: inline-block;
 }
+
+.icon-display {
+  transform: scale(0.6);
+  display: inline-block !important;
+}

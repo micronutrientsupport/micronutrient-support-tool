@@ -19,6 +19,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router } from '@angular/router';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
+import { DialogService } from 'src/app/components/dialogs/dialog.service';
 @Component({
   selector: 'app-intervention-compliance',
   templateUrl: './interventionCompliance.component.html',
@@ -75,6 +76,7 @@ export class InterventionComplianceComponent implements OnInit {
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
+    private dialogService: DialogService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
@@ -128,6 +130,16 @@ export class InterventionComplianceComponent implements OnInit {
     this.createAvNutrientLevelTable(rawData);
     return this.rawDataArray;
     // this.dataSource = new MatTableDataSource(this.rawDataArray);
+  }
+
+  public openFortificationInfoDialog(): void {
+    void this.dialogService.openFortificationInfoDialog();
+  }
+  public openCalculatedFortificationInfoDialog(): void {
+    void this.dialogService.openCalculatedFortificationInfoDialog();
+  }
+  public openBaselinePerformanceInfoDialog(): void {
+    void this.dialogService.openBaselinePerformanceInfoDialog();
   }
 
   public async createAvNutrientLevelTable(baselineAssumptions: BaselineAssumptions): Promise<void> {

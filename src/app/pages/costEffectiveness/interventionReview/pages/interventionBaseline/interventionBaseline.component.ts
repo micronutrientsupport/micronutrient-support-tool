@@ -225,15 +225,6 @@ export class InterventionBaselineComponent implements AfterViewInit {
     return true;
   }
 
-  public openFortificationInfoDialog(): void {
-    void this.dialogService.openFortificationInfoDialog();
-  }
-  public openCalculatedFortificationInfoDialog(): void {
-    void this.dialogService.openCalculatedFortificationInfoDialog();
-  }
-  public openBaselinePerformanceInfoDialog(): void {
-    void this.dialogService.openBaselinePerformanceInfoDialog();
-  }
   public openfoodVehicleStandardInfoDialog(): void {
     void this.dialogService.openfoodVehicleStandardInfoDialog();
   }

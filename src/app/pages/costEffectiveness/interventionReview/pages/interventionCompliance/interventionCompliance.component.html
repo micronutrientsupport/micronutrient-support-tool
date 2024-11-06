@@ -1,8 +1,12 @@
 <div class="bmgf-maps-nice-scrollbar container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
-    <div class="title">
-      <span>Performance over time</span>
+    <div class="header-row">
+      <div class="title">
+        <span>Performance over time <button class="icon-display floater" mat-mini-fab color="primary"
+            (click)="openBaselinePerformanceInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
+          </button></span>
+      </div>
     </div>
 
     <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
@@ -39,9 +43,12 @@
       </table>
     </form>
     <div class="title">
-      <span>Average fortification level (mg/kg) among fortifiable food vehicle at point of fortification</span>
+      <span>Average fortification level (mg/kg) among fortifiable food vehicle at point of fortification<button
+          class="icon-display floater" mat-mini-fab color="primary" (click)="openFortificationInfoDialog()"><mat-icon
+            class="icon-display">question_mark</mat-icon>
+        </button></span>
     </div>
-    <div class="lower-table-wrapper">
+    <div class="lower-table-wrapper bmgf-maps-nice-scrollbar">
       <table mat-table [dataSource]="averageFortificationAtPointOfFortificationDataSource" matSort
         class="table-full-width">
         <ng-container matColumnDef="micronutrient">
@@ -150,9 +157,12 @@
 
 
     <div class="title">
-      <span>Average fortification level (mg/kg) among all food vehicle before accounting for micronutrient losses</span>
+      <span>Average fortification level (mg/kg) among all food vehicle before accounting for micronutrient losses<button
+          class="icon-display floater" mat-mini-fab color="primary"
+          (click)="openCalculatedFortificationInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
+        </button></span>
     </div>
-    <div class="lower-table-wrapper">
+    <div class="lower-table-wrapper  bmgf-maps-nice-scrollbar">
       <table mat-table [dataSource]="averageFortificationAmongAllFoodVehicleDataSource" matSort
         class="table-full-width">
         <ng-container matColumnDef="micronutrient">
