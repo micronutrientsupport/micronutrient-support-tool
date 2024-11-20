@@ -71,7 +71,7 @@ export class InterventionSideNavContentService {
         },
         {
           title: 'Cost summary',
-          description: 'View and download summary intervention cost estimates',
+          description: 'View and download summary intervention cost estimates.',
           route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
         },
       ],
@@ -81,17 +81,17 @@ export class InterventionSideNavContentService {
       pages: [
         {
           title: 'Micronutrient losses',
-          description: 'Information about this step',
+          description: 'Expected post-fortification micronutrient losses.',
           route: AppRoutes.INTERVENTION_REVIEW_EXPECTED_LOSSES,
         },
         {
           title: 'Projected number of households',
-          description: 'Information about this step.',
+          description: 'Projected number of households over 10-year time horizon.',
           route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS,
         },
         {
           title: 'Nutrient requirements',
-          description: 'Information about this step.',
+          description: '-	Nutrient and energy requirements for reference household member.',
           route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
         },
         {

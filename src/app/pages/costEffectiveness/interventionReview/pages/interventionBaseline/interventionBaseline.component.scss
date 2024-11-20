@@ -177,3 +177,14 @@ mat-panel-title {
 .no-click {
   pointer-events: none;
 }
+
+.disclaimer {
+  margin-left: 1.75rem;
+  margin-right: 1.75rem;
+  background: lightgoldenrodyellow;
+  padding: 1em;
+
+  a {
+    color: $color_grey;
+  }
+}

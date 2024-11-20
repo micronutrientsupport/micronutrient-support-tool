@@ -20,6 +20,9 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { Router } from '@angular/router';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { DialogService } from 'src/app/components/dialogs/dialog.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
+
 @Component({
   selector: 'app-intervention-compliance',
   templateUrl: './interventionCompliance.component.html',
@@ -43,6 +46,7 @@ export class InterventionComplianceComponent implements OnInit {
     'year7',
     'year8',
     'year9',
+    'source',
   ];
   public averageNutrientDisplayedColumns = [
     'micronutrient',
@@ -80,6 +84,8 @@ export class InterventionComplianceComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
+    public snackbarService: SnackbarService,
+    public notificationsService: NotificationsService,
   ) {}
 
   private initFormWatcher(): void {
@@ -95,6 +101,10 @@ export class InterventionComplianceComponent implements OnInit {
         .then((data: InterventionBaselineAssumptions) => {
           this.createTableObject(data);
           console.log('init', this.rawDataArray);
+          this.rawDataArray[0].rowNotes =
+            'This refers to foods produced by formal and centralized industries that could be fortified according to national/regional/local legislation and standards.';
+          this.rawDataArray[2].rowNotes =
+            'Average fortification level among the fortified food vehicle as a percent of the standard” parameter on the “Performance over time” step that reads: “This parameter should reflect average fortification level at point of fortification. If your data to inform this parameter is based on market or household samples (vs samples collected at point of fortification), values may need to be adjusted to reflect expected losses from point of fortification to markets or households.';
           this.dataSource = new MatTableDataSource(this.rawDataArray);
           const assumptionsGroupArr = this.rawDataArray.map((item) => {
             return this.createAssumptionGroup(item);
@@ -337,8 +347,8 @@ export class InterventionComplianceComponent implements OnInit {
       const potentiallyFortified = this.form.controls.items['controls'][0]['controls']['year' + year].value / 100;
       const actuallyFortified = this.form.controls.items['controls'][1]['controls']['year' + year].value / 100;
       const averageFortificationLevel = this.form.controls.items['controls'][2]['controls']['year' + year].value / 100;
-      // console.log(row);
 
+      console.log({ potentiallyFortified, actuallyFortified, averageFortificationLevel });
       console.log(this.baselineAssumptions);
 
       this.baselineAssumptions.potentiallyFortified['year' + year] = potentiallyFortified;
@@ -357,6 +367,7 @@ export class InterventionComplianceComponent implements OnInit {
 
   public resetForm() {
     this.interventionDataService.resetForm(this.form, this.dirtyIndexes);
+    this.updateBaselineAssumptions();
   }
 }
 

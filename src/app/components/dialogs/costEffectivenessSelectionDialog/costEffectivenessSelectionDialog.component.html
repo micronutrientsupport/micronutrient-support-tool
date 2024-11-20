@@ -101,6 +101,11 @@
                           case. Some are prepopulated with expert solicted values (which can still be overriden), Some
                           are 'default' models where all values will need to be provided by the user.
                         </p>
+                        <p class="disclaimer">
+                          <strong>Note:</strong> You can choose to model any combination of focus micronutrient and food
+                          vehicle/crop. However, the user is responsible for ensuring the technical feasibility of the
+                          combination.
+                        </p>
 
                         <span
                           *ngIf="!(selectedCountry && selectedMn && selectedInterventionType) || !(selectedCountry && selectedMn && selectedInterventionType && selectedFoodVehicle) && foodVehicleArray.length > 0">
@@ -134,7 +139,8 @@
                   <div class="form-flex-wrapper">
                     <div class="form-50">
                       <div>
-                        <h4>5. Intervention Base Year <i class="fas fa-question-circle" matTooltip="..."></i>
+                        <h4>5. Intervention Base Year <i class="fas fa-question-circle"
+                            matTooltip="The base year is the first year of the 10-year cost and effectiveness modeling time horizon. The default base year is 2021. This parameter may be modifiable by users in future iterations of the MAPS tool."></i>
                         </h4>
                         <mat-form-field>
                           <mat-label>Select</mat-label>
@@ -175,7 +181,8 @@
                         </mat-form-field>
                       </div>
                       <div>
-                        <h4>8. Reference household member <i class="fas fa-question-circle" matTooltip="...">
+                        <h4>8. Reference household member <i class="fas fa-question-circle"
+                            matTooltip="The reference household member is the person for whom the adequacy of the household diet, without and with a micronutrient intervention program, is assessed. The default reference household member is a non-pregnant, non-lactating adult female, so adequacy of the household diet is assessed relative to meeting the micronutrient requirements of a non-pregnant, non-lactating adult female. This parameter may be modifiable by users in future iterations of the MAPS tool.">
                           </i></h4>
                         <mat-form-field>
                           <mat-label>Select</mat-label>
@@ -214,7 +221,9 @@
               <mat-step [stepControl]="interventionForm" label="Intervention information">
                 <form [formGroup]="interventionForm" (ngSubmit)="handleSubmit()" id="intervention-form">
                   <div>
-                    <h4>9. Intervention Name <i class="fas fa-question-circle" matTooltip="...">
+                    <h4>9. Intervention Name <i class="fas fa-question-circle" matTooltip="Add a unique intervention name that will help you distinguish this intervention from
+                      other
+                      interventions or scenarios">
                       </i></h4>
                     <mat-form-field appearance="outline" class="hint">
                       <mat-hint>Add a unique intervention name that will help you distinguish this intervention from
@@ -227,7 +236,8 @@
                     </mat-form-field>
                   </div>
                   <div>
-                    <h4>10. Intervention Description <i class="fas fa-question-circle" matTooltip="...">
+                    <h4>10. Intervention Description <i class="fas fa-question-circle"
+                        matTooltip="This step is an optional opportunity to add any additional information you would like to describe this intervention.">
                       </i></h4>
                     <mat-form-field appearance="outline">
                       <mat-label>Intervention description</mat-label>

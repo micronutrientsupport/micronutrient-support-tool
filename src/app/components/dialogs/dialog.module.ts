@@ -40,6 +40,7 @@ import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDia
 import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
 import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
 import { SectionRecurringCostCapitalCostDialogComponent } from './sectionRecurringCostCapitalCostDialog/sectionRecurringCostCapitalCostDialog.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { SectionRecurringCostCapitalCostDialogComponent } from './sectionRecurri
     PipesModule,
     ComponentsModule,
     DirectivesModule,
+    ClipboardModule,
   ],
   exports: [BaseDialogComponent, InterventionInputFieldComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

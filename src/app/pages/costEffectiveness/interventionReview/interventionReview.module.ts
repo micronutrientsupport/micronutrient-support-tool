@@ -45,6 +45,7 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
 import { InterventionExpectedLossComponent } from './pages/interventionExpectedLoss/interventionExpectedLoss.component';
 import { InterventionEffectivenessSummaryComponent } from './pages/interventionEffectivenessSummary/interventionEffectivenessSummary.component';
 import { InterventionCostEffectivenessSummaryComponent } from './pages/interventionCostEffectivenessSummary/interventionCostEffectivenessSummary.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { InterventionCostEffectivenessSummaryComponent } from './pages/intervent
     PipesModule,
     ComponentsModule,
     DirectivesModule,
+    ClipboardModule,
   ],
   providers: [QuickMapsService, ExportService, PipesModule, DialogService, InterventionSideNavContentService],
   exports: [],

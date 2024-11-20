@@ -9,6 +9,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-intervention-industry-information',
   templateUrl: './interventionIndustryInformation.component.html',
@@ -46,6 +47,7 @@ export class InterventionIndustryInformationComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
+    public notificationsService: NotificationsService,
   ) {}
 
   /**

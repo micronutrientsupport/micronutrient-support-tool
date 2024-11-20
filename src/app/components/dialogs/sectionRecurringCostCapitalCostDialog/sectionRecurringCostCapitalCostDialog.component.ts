@@ -70,7 +70,7 @@ export class SectionRecurringCostCapitalCostDialogComponent {
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
     private jsonLogicService: JSONLogicService,
-    private notificationsService: NotificationsService,
+    public notificationsService: NotificationsService,
     private dialogService: DialogService,
   ) {
     this.initFormWatcher();

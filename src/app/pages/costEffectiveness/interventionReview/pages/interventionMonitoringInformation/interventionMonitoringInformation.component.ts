@@ -9,6 +9,7 @@ import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-intervention-monitoring-information',
   templateUrl: './interventionMonitoringInformation.component.html',
@@ -47,6 +48,7 @@ export class InterventionMonitoringInformationComponent implements OnInit {
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
+    public notificationsService: NotificationsService,
   ) {}
 
   /**

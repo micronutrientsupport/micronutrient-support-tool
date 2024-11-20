@@ -41,7 +41,10 @@
           <td class="source-col" mat-cell *matCellDef="let element let index = index">
             <span *ngIf="element.labelText !== 'Total'">
               <button class="sourceBtn" *ngIf="!element.isCalculated && dirtyIndexes.includes(index) === false"
-                mat-button color="primary" matTooltip="{{element.dataSource}}">
+                mat-button color="primary" matTooltip="{{element.dataSource}}"
+                cdkCopyToClipboard="{{element.dataSource}}"
+                (click)="notificationsService.sendInformative('Data source copied to clipboard')">
+                <i class=" fa-regular fa-copy"></i>
                 {{element.dataSource}}
                 <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
               </button>

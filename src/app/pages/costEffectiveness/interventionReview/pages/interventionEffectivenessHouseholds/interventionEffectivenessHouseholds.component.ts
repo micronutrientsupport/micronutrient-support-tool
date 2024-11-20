@@ -27,6 +27,7 @@ export class InterventionEffectivenessHouseholdsComponent implements OnInit {
     'population2027',
     'population2028',
     'population2029',
+    'population2030',
   ];
 
   public loading = false;

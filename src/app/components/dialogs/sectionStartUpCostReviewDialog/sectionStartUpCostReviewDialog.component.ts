@@ -10,6 +10,7 @@ import {
 import { DialogData } from '../baseDialogService.abstract';
 import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, FormArray, FormGroup } from '@angular/forms';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
+import { NotificationsService } from '../../notifications/notification.service';
 @Component({
   selector: 'app-section-start-up-cost-review',
   templateUrl: './sectionStartUpCostReviewDialog.component.html',
@@ -37,6 +38,7 @@ export class SectionStartUpCostReviewDialogComponent {
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    public notificationsService: NotificationsService,
   ) {}
 
   public ngOnInit() {

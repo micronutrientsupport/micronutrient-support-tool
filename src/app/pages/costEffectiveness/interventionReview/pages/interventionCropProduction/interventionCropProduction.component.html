@@ -55,7 +55,10 @@
       <ng-container matColumnDef="source">
         <th class="row-title" mat-header-cell *matHeaderCellDef>
           Source for default expected loss values </th>
-        <td class="row-left" [ngClass]="{'national': element.adminLevel === 0}" mat-cell *matCellDef="let element">
+        <td class="row-left" [ngClass]="{'national': element.adminLevel === 0}" mat-cell *matCellDef="let element"
+          cdkCopyToClipboard="{{expectedLosses.source}}"
+          (click)="notificationsService.sendInformative('Data source copied to clipboard')">
+          <i class=" fa-regular fa-copy"></i>
           {{ element.expectedLosses.source }}
 
         </td>

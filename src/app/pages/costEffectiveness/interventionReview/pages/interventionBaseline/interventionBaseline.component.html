@@ -50,7 +50,7 @@
                   [(ngModel)]="selectedCompounds[element.micronutrient].index"
                   (selectionChange)="updateCompoundSelection($event, element)">
                   <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                    {{ item.compound | titlecase }}
+                    {{ item.compound | capitalFirst }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -159,7 +159,7 @@
                       [(ngModel)]="selectedCompounds[element.micronutrient].index"
                       (selectionChange)="updateCompoundSelection($event, element)">
                       <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                        {{ item.compound | titlecase }}
+                        {{ item.compound | capitalFirst }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -194,6 +194,14 @@
 
         </mat-expansion-panel>
       </mat-accordion>
+      <p class="disclaimer"><strong>Note:</strong> You can choose to model the cost and/or effectiveness of LSFF at any
+        fortification level. However, identifying feasible fortification levels require consideration of potential
+        technical limitations, sensory issues, safety, etc on a micronutrient-, fortificant-, and food vehicle-specific
+        basis. <a href="https://www.who.int/publications/i/item/9241594012" target="_blank">The WHO Guidelines on
+          Fortification with
+          Micronutrients <i class="fa-solid fa-arrow-up-right-from-square"></i></a> provides helpful discussion of these
+        issues for many
+        micronutrients. </p>
     </div>
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showUserOverrideValues]="true" [showNonEditable]="false" [showMnUnits]="true"

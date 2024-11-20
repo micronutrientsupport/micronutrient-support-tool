@@ -2,6 +2,12 @@
 @use '../interventionReviewPages.scss';
 @import 'src/assets/scss/_colour';
 
+.container {
+  .content {
+    overflow-x: hidden;
+  }
+}
+
 input {
   // display: block;
   font-family: inherit;

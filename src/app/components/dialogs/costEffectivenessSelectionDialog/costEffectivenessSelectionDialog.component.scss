@@ -145,7 +145,7 @@ small {
 }
 
 .template-image {
-  max-width: 50%;
+  max-width: 35%;
   display: block;
 }
 
@@ -161,4 +161,14 @@ small {
 
 .text-left {
   text-align: left !important;
+}
+
+.disclaimer {
+  max-width: 80% !important;
+  background: lightgoldenrodyellow;
+  padding: 1em;
+
+  a {
+    color: $color_grey;
+  }
 }

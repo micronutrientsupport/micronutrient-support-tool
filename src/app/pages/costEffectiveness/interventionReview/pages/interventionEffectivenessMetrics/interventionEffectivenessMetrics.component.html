@@ -17,14 +17,16 @@
         [dataSource]="dataSource.filteredData | slice:index:(index+1)" class="table-full-width">
         <ng-container matColumnDef="threshold">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef>
-            {{ row.title }} </th>
-          <td class="row-title-left row-left" [ngClass]="{'non-editable': !element.field}" mat-cell
-            *matCellDef="let element">
-            <span *ngIf="!element.field">{{ element.threshold | number: '1.0-0' }}</span>
-            <app-ce-input-field *ngIf="element.field" [index]="0" [field]="element.field" [fieldType]="'number'"
-              [element]="data[index]" [form]="form" [tableData]="dataSource" [dirtyIndexes]="[]"
+            {{ row.title }} <i *ngIf="row.notes" class="fas fa-question-circle" matTooltip="{{row.notes}}"></i>
+          </th>
+          <td class="row-title-left row-left" [ngClass]="{'non-editable': !element.field || !element.threshold}"
+            mat-cell *matCellDef="let element">
+            <span *ngIf="element.threshold && !element.field">{{ element.threshold | number: '1.1-2' }}</span>
+            <app-ce-input-field *ngIf="element.threshold && element.field" [index]="0" [field]="element.field"
+              [fieldType]="'number'" [element]="data[index]" [form]="form" [tableData]="dataSource" [dirtyIndexes]="[]"
               [includeCopyRightButton]="false" [changeFunction]="updateField(index, element.field)"
               [omitStyling]="false"></app-ce-input-field>
+            <span *ngIf="!element.threshold">N/A</span>
           </td>
         </ng-container>
 

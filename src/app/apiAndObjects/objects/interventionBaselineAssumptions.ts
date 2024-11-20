@@ -33,6 +33,7 @@ export interface PotentiallyFortified {
   labelText: string;
   rowIndex: number;
   rowUnits: string;
+  rowNotes?: string;
   isEditable: true;
   isCalculated: boolean;
   year0: number;

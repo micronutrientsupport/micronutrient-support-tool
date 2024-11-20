@@ -135,7 +135,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
           standard.compounds.forEach((compound: FoodVehicleCompound, stdIndex: number) => {
             console.log(index, compound);
-            if (compound.targetVal > 0) {
+            if (compound.targetVal > 0 || standard.micronutrient == intervention.focusMicronutrient) {
               this.selectedCompounds[standard.micronutrient] = {
                 index: stdIndex,
                 rowIndex: standard.compounds[stdIndex].rowIndex,
@@ -162,6 +162,7 @@ export class InterventionBaselineComponent implements AfterViewInit {
         this.focusVehicleStandards = data.foodVehicleStandard.filter((standard) => {
           return standard.micronutrient.includes(intervention.focusMicronutrient);
         });
+        console.log({ focusVehicleStandards: this.focusVehicleStandards });
         this.focusMnDataSource = new MatTableDataSource(this.focusVehicleStandards);
         const focusMnGroupArray = this.focusVehicleStandards.map((item) => {
           return this.createPremixMnGroup(item);
