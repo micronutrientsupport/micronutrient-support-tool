@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormGroup, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { JSONLogicService } from 'src/app/services/jsonlogic.service';
@@ -49,6 +49,10 @@ export class InterventionInputFieldComponent implements OnInit {
     for (let i = year; i < 10; i++) {
       const currentValue = this.form.controls.items['controls'][index].getRawValue()['year' + i];
       this.form.controls.items['controls'][index].patchValue({ ['year' + i]: cellVal });
+
+      // Trigger the change function for updated control
+      this.changeFunction(new Event('change'));
+
       if (currentValue != cellVal) {
         setTimeout(() => {
           if (isCalculated) {
@@ -60,6 +64,7 @@ export class InterventionInputFieldComponent implements OnInit {
             this.form.controls.items['controls'][index]['controls']['year' + i].markAsDirty();
             rowDirtied = true;
           }
+          console.log({ ele: this.form.controls.items['controls'][index]['controls']['year' + i] });
         }, 0);
       }
     }
