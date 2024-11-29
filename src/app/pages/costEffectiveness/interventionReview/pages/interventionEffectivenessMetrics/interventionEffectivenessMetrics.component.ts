@@ -32,6 +32,9 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
@@ -127,6 +130,8 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
           this.dataLoaded = true;
         });
     }
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public updateField(index: number, field: string) {

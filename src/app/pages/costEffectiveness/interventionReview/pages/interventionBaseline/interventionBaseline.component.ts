@@ -84,6 +84,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
 
   public mnDictionary: Dictionary;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private interventionDataService: InterventionDataService,
@@ -103,6 +106,9 @@ export class InterventionBaselineComponent implements AfterViewInit {
       this.mnDictionary = dictionary;
     });
     this.initFocusMnTable();
+
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public ngAfterViewInit(): void {

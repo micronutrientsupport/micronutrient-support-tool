@@ -35,6 +35,9 @@ export class InterventionCropProductionComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     private intSideNavService: InterventionSideNavContentService,
@@ -70,6 +73,8 @@ export class InterventionCropProductionComponent implements OnInit {
             });
         });
     }
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public openExpectedLossesInfoDialog(): void {

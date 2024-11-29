@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './interventionRecurringCosts.component.html',
   styleUrls: ['./interventionRecurringCosts.component.scss'],
 })
-export class InterventionRecurringCostsComponent {
+export class InterventionRecurringCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
   public interventionName = 'IntName';
   public recurringCosts: Array<{ costs: RecurringCost; capitalCosts?: RecurringCost }>;
@@ -37,6 +37,9 @@ export class InterventionRecurringCostsComponent {
   public dataLoaded = false;
 
   public loading = false;
+
+  public nextRoutes = [];
+  public previousRoute;
 
   constructor(
     public intSideNavService: InterventionSideNavContentService,
@@ -116,6 +119,11 @@ export class InterventionRecurringCostsComponent {
   public trackRoute(index: number) {
     console.log('TrackRoute');
     return 1;
+  }
+
+  public ngOnInit(): void {
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {

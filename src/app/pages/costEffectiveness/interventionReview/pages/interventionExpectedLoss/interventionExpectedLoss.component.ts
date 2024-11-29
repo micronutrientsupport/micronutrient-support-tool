@@ -37,6 +37,9 @@ export class InterventionExpectedLossComponent implements OnInit {
 
   private subscriptions = new Array<Subscription>();
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
@@ -79,6 +82,8 @@ export class InterventionExpectedLossComponent implements OnInit {
             });
         });
     }
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public openExpectedLossesInfoDialog(): void {

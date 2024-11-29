@@ -77,6 +77,9 @@ export class InterventionComplianceComponent implements OnInit {
   public dataLoaded = false;
   public loading = false;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
@@ -127,6 +130,8 @@ export class InterventionComplianceComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initFormWatcher();
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public createTableObject(

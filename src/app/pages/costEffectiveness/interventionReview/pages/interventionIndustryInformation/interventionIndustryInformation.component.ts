@@ -42,6 +42,9 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public formChanges: InterventionForm['formChanges'] = {};
   public dataLoaded = false;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
@@ -152,6 +155,8 @@ export class InterventionIndustryInformationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initFormWatcher();
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {
