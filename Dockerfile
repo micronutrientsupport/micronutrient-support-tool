@@ -13,4 +13,5 @@ RUN npm run build:prod
 FROM nginx:1.19.0-alpine
 VOLUME /var/cache/nginx
 COPY --from=builder /micronutrient-support-tool/dist/micronutrient-support-tool/ /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
