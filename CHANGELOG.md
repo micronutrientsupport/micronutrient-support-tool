@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.21.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.20.0...v1.21.0) (2024-11-29)
+
+
+### Features
+
+* add user costs and capital costs dialog ([3053d28](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/3053d281a89173d6293e0ca13d3ad4b8a12782ac))
+* update intervention sidebar and page nav to be dynamic ready to support additional fortification modes ([9f0d9ae](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/9f0d9ae663eda49167de2735a50a85bffda0faa1))
+
+
+### Bug Fixes
+
+* minor tweaks ([4d581c5](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4d581c5018f2f45600164232e4044ea25a57343d))
+* move help dialogs to nre performance page ([0195fdd](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/0195fdd14b48d88f001243a15bb224ba5a38b682))
+* nginx tweak allow cors for assets/version.json ([#1492](https://github.com/micronutrientsupport/micronutrient-support-tool/issues/1492)) ([e7191f4](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e7191f467cfdafdf0a7c1c76e2c63386d9bff31c))
+* quality if life and text imporvements to LSFF CE module ([f72e81d](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f72e81d552658d468cacd4d3a13b55959504eee1))
+* resolve issue with monthly food chart failing when good groups not present in every month ([d67e333](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/d67e3330a41a635a0f724a02856b711965866692))
+* restructure CE paes 1 & 2 to remove baseline and move fortification performance to single tab ([d5f0726](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/d5f072619679f7d4a8b75ce873d87101d9285090))
+* styling improvement ([f834ec4](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/f834ec439a5ad34eb7c3e4273a30363b4469b394))
+* summary costs include average annual costs. Styling tweaks ([c320c2b](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/c320c2bd0cb9ec50893fe3944ecf74742a81ba40))
+* susu chart styling improvements ([6ab9f62](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/6ab9f627a37d4c505877e3534802e8e673d86d17))
+
+
+### Miscellaneous
+
+* fix: typo ([33922f2](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/33922f2398bf157dd4f2976ed6002a18ae2f8d79))
+
 ## [1.20.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.19.1...v1.20.0) (2024-08-08)
 
 
