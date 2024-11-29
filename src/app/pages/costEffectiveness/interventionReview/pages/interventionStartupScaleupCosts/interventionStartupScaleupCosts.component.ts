@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './interventionStartupScaleupCosts.component.html',
   styleUrls: ['./interventionStartupScaleupCosts.component.scss'],
 })
-export class InterventionStartupScaleupCostsComponent {
+export class InterventionStartupScaleupCostsComponent implements OnInit {
   public ROUTES = AppRoutes;
   public interventionName = 'IntName';
 
@@ -87,6 +87,9 @@ export class InterventionStartupScaleupCostsComponent {
     // },
   ];
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
@@ -123,6 +126,11 @@ export class InterventionStartupScaleupCostsComponent {
         }
       }),
     );
+  }
+
+  public ngOnInit(): void {
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public async confirmAndContinue(route: AppRoute): Promise<boolean> {

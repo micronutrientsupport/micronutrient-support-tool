@@ -69,12 +69,12 @@
 
   </div>
   <footer>
-    <a class="intervention-navigation" mat-stroked-button [routerLink]="intSideNavService.getPreviousRoute() | route"
+    <a *ngIf="previousRoute" class="intervention-navigation" mat-stroked-button [routerLink]="previousRoute | route"
       queryParamsHandling="preserve">Back</a>
     <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
-      mat-flat-button color="primary" (click)="confirmAndContinue(route?.route)">
+    <button *ngFor="let route of nextRoutes" [disabled]="loading" class="intervention-navigation" mat-flat-button
+      color="primary" (click)="confirmAndContinue(route?.route)">
       <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>

@@ -36,6 +36,9 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
 
   public selectedIntervention: Intervention;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
@@ -61,6 +64,8 @@ export class InterventionCostEffectivenessSummaryComponent implements OnInit {
           this.dataLoaded = true;
         });
     }
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public openCostEffectivenessInfoDialog(): void {

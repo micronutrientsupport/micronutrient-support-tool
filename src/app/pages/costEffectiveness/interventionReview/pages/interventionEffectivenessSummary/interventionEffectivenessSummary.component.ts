@@ -100,6 +100,9 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
   public countryDictionary: Dictionary;
   public selectedIntervention: Intervention;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
     public quickMapsService: QuickMapsService,
     public intSideNavService: InterventionSideNavContentService,
@@ -119,6 +122,8 @@ export class InterventionEffectivenessSummaryComponent implements OnInit {
       this.countryDictionary = dictionary;
     });
     this.refreshEffectivenessData();
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public refreshEffectivenessData(): void {
