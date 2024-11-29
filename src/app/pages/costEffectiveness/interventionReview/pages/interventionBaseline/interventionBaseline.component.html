@@ -1,76 +1,20 @@
 <div class="bmgf-maps-nice-scrollbar container">
   <div class="content">
     <app-intervention-description></app-intervention-description>
-    <div class="title">
-      <span>Baseline Performance
-        <button class="icon-display floater" mat-mini-fab color="primary"
-          (click)="openBaselinePerformanceInfoDialog()"><mat-icon class="icon-display">question_mark</mat-icon>
-        </button></span>
-    </div>
-    <div *ngIf="!this.compoundAvailable">
-      <app-quickmaps-no-results></app-quickmaps-no-results>
-    </div>
+
     <div *ngIf="this.compoundAvailable">
-      <app-reusable-skeleton-table *ngIf="!dataLoaded"
-        [setData]="{ columns: 3, rows: 3 }"></app-reusable-skeleton-table>
-
-      <form [formGroup]="form" *ngIf="form">
-        <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
-          <ng-container matColumnDef="title">
-            <td class="row-title-left" mat-cell *matCellDef="let element">
-              {{ element.labelText }}
-              <i *ngIf="element.rowNotes" class="fas fa-question-circle" matTooltip="{{element.rowNotes}}"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="year0">
-            <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-              <div class="double-cell">
-                <div>
-                  <!-- <input id="year0" name="year0" (change)="updateBaselineAssumptions(); storeIndex(index)" type="number"
-                    [ngModel]="element.year0 * 100" formControlName="year0" min="0" max="100"
-                    (keyup)="validateUserInput($event, index, 'year0')"> -->
-                  {{ element.micronutrient}}
-                  <app-ce-input-field [index]="index" [year]="0" [element]="element" [form]="form"
-                    [tableData]="dataSource" [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="false"
-                    [changeFunction]="updateBaselineAssumptions" [omitStyling]="true"></app-ce-input-field>
-                </div>
-                <a mat-button [href]="element.dataSource" target="_blank"
-                  *ngIf="element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
-                  mat-button color="primary">
-                  View external source&nbsp;<mat-icon iconPositionEnd>open_in_new</mat-icon>
-                </a>
-                <button class="no-click"
-                  *ngIf="!element.dataSource.startsWith('http') && dirtyIndexes.includes(index) === false && element.year0Edited === false"
-                  mat-button color="primary">
-                  {{ element.dataSource}} Input
-                </button>
-                <button *ngIf="dirtyIndexes.includes(index) || element.year0Edited === true" mat-button color="primary">
-                  User Input
-                </button>
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-row *matRowDef="let row; columns: baselinedisplayedColumns;"></tr>
-        </table>
-      </form>
-
-
-
-
 
       <div class="header-row">
-        <div class="title standard">
+        <div class="title">
           <span>Food vehicle standard/target fortification levels<button class="icon-display floater" mat-mini-fab
               color="primary" (click)="openfoodVehicleStandardInfoDialog()"><mat-icon
                 class="icon-display">question_mark</mat-icon>
             </button>
           </span>
         </div>
-        <div class="title compliance">
+        <!-- <div class="title compliance">
           <span>Calculated average baseline fortification levels before accounting for micronutrient losses</span>
-        </div>
+        </div> -->
       </div>
 
       <div class="focus-mn">
@@ -79,9 +23,7 @@
       </div>
 
 
-      <!-- <form [formGroup]="focusMnForm"> -->
       <form [formGroup]="focusMnForm" *ngIf="focusMnForm">
-        <!-- <table mat-table [dataSource]="focusMnDataSource" formArrayName="items" class="table-full-width"> -->
         <table mat-table [dataSource]="focusMnDataSource" class="table-full-width">
           <ng-container matColumnDef="title">
             <td class="row-title-left" mat-cell *matCellDef="let element">
@@ -108,12 +50,11 @@
                   [(ngModel)]="selectedCompounds[element.micronutrient].index"
                   (selectionChange)="updateCompoundSelection($event, element)">
                   <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                    {{ item.compound | titlecase }}
+                    {{ item.compound | capitalFirst }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <!-- <span *ngFor="let compound of element.compounds;">{{ compound.compound }}
-              </span> -->
+
             </td>
           </ng-container>
 
@@ -124,8 +65,6 @@
             </th>
             <td mat-cell *matCellDef="let element;  let index = index">
               <ng-container class="double-cell">
-                <!-- <input (change)="updateButtonState(1)" type="number" matInput required
-                  [value]="selectedCompounds[element.micronutrient].targetVal"> -->
                 <app-ce-input-field [index]="index" [field]="'targetVal'"
                   [element]="element.compounds[selectedCompounds[element.micronutrient].index]" [form]="focusMnForm"
                   [tableData]="premixMnDataSource" [dirtyIndexes]="premixDirtyIndexes" [includeCopyRightButton]="false"
@@ -133,7 +72,7 @@
               </ng-container>
             </td>
           </ng-container>
-
+          <!-- 
           <ng-container matColumnDef="avgVal">
             <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Average fortification level
               (mg/kg) among fortifiable food vehicle at point of fortification
@@ -169,7 +108,7 @@
                 </span>
               </ng-container>
             </td>
-          </ng-container>
+          </ng-container> -->
 
           <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
@@ -220,7 +159,7 @@
                       [(ngModel)]="selectedCompounds[element.micronutrient].index"
                       (selectionChange)="updateCompoundSelection($event, element)">
                       <mat-option [id]="item.rowIndex" *ngFor="let item of element.compounds; index as i" [value]="i">
-                        {{ item.compound | titlecase }}
+                        {{ item.compound | capitalFirst }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -248,48 +187,6 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="avgVal">
-                <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>Calculated baseline
-                  fortification levels in practice
-                  <button class="icon-display floater" mat-mini-fab color="primary"
-                    (click)="openFortificationInfoDialog()">
-                    <mat-icon class="icon-display">question_mark</mat-icon>
-                  </button>
-
-                </th>
-                <td mat-cell *matCellDef="let element">
-                  <ng-container class="double-cell">
-                    <span>
-                      {{ selectedCompounds[element.micronutrient].targetVal *
-                      baselineAssumptions?.actuallyFortified.year0 *
-                      baselineAssumptions?.averageFortificationLevel.year0 | sigFig: 3 }}
-                    </span>
-                  </ng-container>
-                </td>
-              </ng-container>
-
-
-              <ng-container matColumnDef="calcFort">
-                <th class="row-title-left header-top-align" mat-header-cell *matHeaderCellDef>
-                  Calculated average fortification level (mg/kg)
-                  among all food vehicle
-                  <button class="icon-display floater" mat-mini-fab color="primary"
-                    (click)="openCalculatedFortificationInfoDialog()">
-                    <mat-icon class="icon-display">question_mark</mat-icon>
-                  </button>
-                </th>
-                <td mat-cell *matCellDef="let element">
-                  <ng-container class="double-cell">
-                    <span *ngIf="null != baselineAssumptions">
-                      {{ selectedCompounds[element.micronutrient].targetVal *
-                      baselineAssumptions?.actuallyFortified.year0 *
-                      baselineAssumptions?.averageFortificationLevel.year0 *
-                      baselineAssumptions.potentiallyFortified.year0 | sigFig:3 }}
-                    </span>
-                  </ng-container>
-                </td>
-              </ng-container>
-
               <!-- <tr mat-header-row *matHeaderRowDef="baselineFVdisplayedColumns"></tr> -->
               <tr mat-row *matRowDef="let row; columns: baselineFVdisplayedColumns;"></tr>
             </table>
@@ -297,6 +194,14 @@
 
         </mat-expansion-panel>
       </mat-accordion>
+      <p class="disclaimer"><strong>Note:</strong> You can choose to model the cost and/or effectiveness of LSFF at any
+        fortification level. However, identifying feasible fortification levels require consideration of potential
+        technical limitations, sensory issues, safety, etc on a micronutrient-, fortificant-, and food vehicle-specific
+        basis. <a href="https://www.who.int/publications/i/item/9241594012" target="_blank">The WHO Guidelines on
+          Fortification with
+          Micronutrients <i class="fa-solid fa-arrow-up-right-from-square"></i></a> provides helpful discussion of these
+        issues for many
+        micronutrients. </p>
     </div>
     <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
       [showUserValues]="true" [showUserOverrideValues]="true" [showNonEditable]="false" [showMnUnits]="true"
@@ -305,16 +210,15 @@
   </div>
 
   <footer>
-    <a *ngIf="!compoundAvailable" class="intervention-navigation" mat-stroked-button
-      [routerLink]="ROUTES.COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Back</a>
+    <!-- <a class="intervention-navigation" mat-stroked-button [routerLink]="intSideNavService.getPreviousRoute() | route"
+      queryParamsHandling="preserve">Back</a> -->
     <a [disabled]="!compoundAvailable" class="intervention-navigation" mat-stroked-button
       [routerLink]="ROUTES.COST_EFFECTIVENESS | route" queryParamsHandling="preserve">Save and close</a>
-    <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
-      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_COMPLIANCE)">
-      <span *ngIf="!loading">Confirm and continue</span>
+    <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
+      mat-flat-button color="primary" (click)="confirmAndContinue(route?.route)">
+      <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>
     </button>
-
   </footer>
 </div>

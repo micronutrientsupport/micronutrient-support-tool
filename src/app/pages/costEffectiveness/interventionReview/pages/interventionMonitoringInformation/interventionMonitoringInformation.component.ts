@@ -9,6 +9,7 @@ import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-intervention-monitoring-information',
   templateUrl: './interventionMonitoringInformation.component.html',
@@ -36,7 +37,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 3;
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
@@ -44,10 +44,11 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   public dataLoaded = false;
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
+    public notificationsService: NotificationsService,
   ) {}
 
   /**
@@ -145,7 +146,6 @@ export class InterventionMonitoringInformationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
   }
 

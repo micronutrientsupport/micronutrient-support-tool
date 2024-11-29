@@ -39,6 +39,8 @@ import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehic
 import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
 import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
 import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
+import { SectionRecurringCostCapitalCostDialogComponent } from './sectionRecurringCostCapitalCostDialog/sectionRecurringCostCapitalCostDialog.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialo
     CeFortificationInfoDialogComponent,
     CeCalculatedFortificationInfoDialogComponent,
     SectionRecurringCostReviewDialogComponent,
+    SectionRecurringCostCapitalCostDialogComponent,
     SectionStartUpCostReviewDialogComponent,
     IframeDialogComponent,
     WelcomeDialogComponent,
@@ -85,6 +88,7 @@ import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialo
     PipesModule,
     ComponentsModule,
     DirectivesModule,
+    ClipboardModule,
   ],
   exports: [BaseDialogComponent, InterventionInputFieldComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

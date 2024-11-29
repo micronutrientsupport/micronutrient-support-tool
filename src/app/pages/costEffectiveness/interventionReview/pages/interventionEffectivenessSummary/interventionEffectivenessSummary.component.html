@@ -35,10 +35,11 @@
       <mat-tab label="Reach and apparent consumption">
         <div class="tab-content">
           <h2>Reach and apparent consumption</h2>
-          <p>The estimate of reach show the proportion of household that reported consuming the food vehicle, in any
+          <p>The estimates of reach show the proportion of household that reported consuming the food vehicle (or any
+            products containing the food vehicle), in any
             quantity, during the recall period. The estimates of apparent consumption show the mean and median quantity
             of the food vehicle apparently consumed, among consumers (i.e., excluding household who did not consume the
-            food vehicle) per day per AFE.</p>
+            food vehicle) per day per adult female equivalent (AFE).</p>
           <mat-tab-group mat-align-tabs="center" class="nested-tab-group">
             <mat-tab label="Table">
               <app-reusable-skeleton-table *ngIf="!dataLoaded"
@@ -300,13 +301,13 @@
 
   </div>
   <footer>
-    <a class="intervention-navigation" mat-stroked-button
-      [routerLink]="ROUTES.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS | route" queryParamsHandling="preserve">Back</a>
-    <a class="intervention-navigation" mat-flat-button color="primary" [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="intSideNavService.getPreviousRoute() | route"
+      queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
       queryParamsHandling="preserve">Save and close</a>
-    <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
-      (click)="confirmAndContinue(ROUTES.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY)">
-      <span *ngIf="!loading">Continue to Cost Effectiveness</span>
+    <button *ngFor="let route of intSideNavService.getNextRoutes()" [disabled]="loading" class="intervention-navigation"
+      mat-flat-button color="primary" (click)="confirmAndContinue(route?.route)">
+      <span *ngIf="!loading">{{ route.title }}</span>
       <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
           [diameter]="16" color='accent'></mat-spinner></span>
     </button>

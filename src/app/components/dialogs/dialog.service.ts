@@ -35,6 +35,7 @@ import { FoodVehicleStandardDialog } from './foodVehicleStandardDialog/foodVehic
 import { ProjectedHouseholdsInfoDialogComponent } from './projectedHouseholdsDialog/projectedHouseholdsInfoDialog.component';
 import { ExpectedLossesInfoDialogComponent } from './expectedLossesDialog/expectedLossesInfoDialog.component';
 import { EffectivenessSummaryDialogComponent } from './effectivenessSummaryDialog/effectivenessSummaryInfoDialog.component';
+import { SectionRecurringCostCapitalCostDialogComponent } from './sectionRecurringCostCapitalCostDialog/sectionRecurringCostCapitalCostDialog.component';
 
 type InterventionDialogParams = {
   interventions: Array<InterventionsDictionaryItem>;
@@ -209,13 +210,37 @@ export class DialogService extends BaseDialogService {
 
   public openSectionRecurringCostReviewDialog(
     costs: RecurringCosts,
+    capitalCosts: RecurringCosts,
     width = '80vw',
     height = '80vh',
+  ): Promise<DialogData<{ costs: RecurringCosts; capitalCosts?: RecurringCosts }>> {
+    return this.openDialog(
+      'openSectionCostReviewDialog',
+      SectionRecurringCostReviewDialogComponent,
+      false,
+      { costs: costs, capitalCosts: capitalCosts },
+      {
+        width: width,
+        height: height,
+      },
+    );
+  }
+
+  public openSectionRecurringCostCapitalCostDialog(
+    costs: RecurringCosts,
+    width = '70vw',
+    height = '70vh',
   ): Promise<DialogData<RecurringCosts>> {
-    return this.openDialog('openSectionCostReviewDialog', SectionRecurringCostReviewDialogComponent, false, costs, {
-      width: width,
-      height: height,
-    });
+    return this.openDialog(
+      'openSectionCostCapitalCostDialog',
+      SectionRecurringCostCapitalCostDialogComponent,
+      false,
+      costs,
+      {
+        width: width,
+        height: height,
+      },
+    );
   }
 
   public openSectionStartUpCostReviewDialog(
@@ -242,7 +267,7 @@ export class DialogService extends BaseDialogService {
 
   public openSectionSummaryRecurringCostReviewDialog(
     costs: RecurringCost,
-    width = '80vw',
+    width = '85vw',
     height = '80vh',
   ): Promise<DialogData<RecurringCost>> {
     return this.openDialog(

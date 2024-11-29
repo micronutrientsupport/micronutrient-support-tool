@@ -91,6 +91,112 @@ export interface RecurringCostBreakdown {
   dataCitation: string;
 }
 
+interface RecurringCostBreakdownConstructable {
+  new (id: number): RecurringCostBreakdown;
+}
+
+export class UserRecurringCostFactory implements RecurringCostBreakdown {
+  labelText: string;
+  rowIndex: number;
+  year0: number;
+  year0Default: number;
+  year0Edited: number;
+  year0Overriden: boolean;
+  year1: number;
+  year1Default: number;
+  year1Edited: number;
+  year1Overriden: boolean;
+  year2: number;
+  year2Default: number;
+  year2Edited: number;
+  year2Overriden: boolean;
+  year3: number;
+  year3Default: number;
+  year3Edited: number;
+  year3Overriden: boolean;
+  year4: number;
+  year4Default: number;
+  year4Edited: number;
+  year4Overriden: boolean;
+  year5: number;
+  year5Default: number;
+  year5Edited: number;
+  year5Overriden: boolean;
+  year6: number;
+  year6Default: number;
+  year6Edited: number;
+  year6Overriden: boolean;
+  year7: number;
+  year7Default: number;
+  year7Edited: number;
+  year7Overriden: boolean;
+  year8: number;
+  year8Default: number;
+  year8Edited: number;
+  year8Overriden: boolean;
+  year9: number;
+  year9Default: number;
+  year9Edited: number;
+  year9Overriden: boolean;
+  rowUnits: string;
+  isEditable: boolean;
+  isCalculated: boolean;
+  dataSource: string;
+  dataSourceDefault: string;
+  dataCitation: string;
+  constructor(public id: number) {
+    this.labelText = 'New Cost';
+    this.rowUnits = 'US dollars';
+    (this.rowIndex as any) = `uecrn_${id}`;
+    this.isCalculated = false;
+    this.isEditable = true;
+    this.year0 = 0;
+    this.year0Default = 0;
+    this.year0Edited = 0;
+    this.year0Overriden = false;
+    this.year1 = 0;
+    this.year1Default = 0;
+    this.year1Edited = 0;
+    this.year1Overriden = false;
+    this.year2 = 0;
+    this.year2Default = 0;
+    this.year2Edited = 0;
+    this.year2Overriden = false;
+    this.year3 = 0;
+    this.year3Default = 0;
+    this.year3Edited = 0;
+    this.year3Overriden = false;
+    this.year4 = 0;
+    this.year4Default = 0;
+    this.year4Edited = 0;
+    this.year4Overriden = false;
+    this.year5 = 0;
+    this.year5Default = 0;
+    this.year5Edited = 0;
+    this.year5Overriden = false;
+    this.year6 = 0;
+    this.year6Default = 0;
+    this.year6Edited = 0;
+    this.year6Overriden = false;
+    this.year7 = 0;
+    this.year7Default = 0;
+    this.year7Edited = 0;
+    this.year7Overriden = false;
+    this.year8 = 0;
+    this.year8Default = 0;
+    this.year8Edited = 0;
+    this.year8Overriden = false;
+    this.year9 = 0;
+    this.year9Default = 0;
+    this.year9Edited = 0;
+    this.year9Overriden = false;
+  }
+}
+
+export function makeUserCost(cost: RecurringCostBreakdownConstructable, id = -1) {
+  return new cost(id);
+}
+
 export interface RecurringCostSummary {
   category: string;
   year0CombinedTotal: number;

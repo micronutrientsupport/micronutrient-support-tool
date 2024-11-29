@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { RecurringCosts, RecurringCost } from 'src/app/apiAndObjects/objects/interventionRecurringCosts';
 import { DialogData } from '../baseDialogService.abstract';
+import { NotificationsService } from '../../notifications/notification.service';
 
 @Component({
   selector: 'app-section-summary-recurring-cost-review-dialog',
@@ -30,7 +31,10 @@ export class SectionSummaryRecurringCostReviewDialogComponent {
 
   public dirtyIndexes = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCost>) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<RecurringCost>,
+    public notificationsService: NotificationsService,
+  ) {
     this.dataSource = new MatTableDataSource(dialogData.dataIn.costs);
     this.title = dialogData.dataIn.category;
   }

@@ -4,7 +4,9 @@
   <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
     <ng-container matColumnDef="year">
       <th class="row-title-left" mat-header-cell *matHeaderCellDef>Cost</th>
-      <td class="row-title-left" mat-cell *matCellDef="let element">{{element.labelText}}</td>
+      <td class="row-title-left" mat-cell *matCellDef="let element">{{element.labelText}}
+        <i *ngIf="element.rowNotes" class="fas fa-question-circle" matTooltip="{{element.rowNotes}}"></i>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="year0">

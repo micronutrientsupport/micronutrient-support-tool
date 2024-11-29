@@ -9,6 +9,7 @@ import { InterventionDataService, InterventionForm } from 'src/app/services/inte
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'src/app/components/notifications/notification.service';
 @Component({
   selector: 'app-intervention-industry-information',
   templateUrl: './interventionIndustryInformation.component.html',
@@ -36,17 +37,17 @@ export class InterventionIndustryInformationComponent implements OnInit {
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 2;
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
   public formChanges: InterventionForm['formChanges'] = {};
   public dataLoaded = false;
 
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private formBuilder: NonNullableFormBuilder,
     private router: Router,
+    public notificationsService: NotificationsService,
   ) {}
 
   /**
@@ -150,7 +151,6 @@ export class InterventionIndustryInformationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     this.initFormWatcher();
   }
 

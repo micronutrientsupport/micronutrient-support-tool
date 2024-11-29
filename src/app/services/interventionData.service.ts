@@ -483,6 +483,22 @@ export class InterventionDataService {
           const change = interventionChanges[key];
           (change as any).rowIndex = 0;
           (change as any).type = 'intervention-thresholds';
+        } else if (key.startsWith('uecr_')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = Number((change as any).rowIndex.replace('uecr_', ''));
+          (change as any).type = 'user-recurring';
+        } else if (key.startsWith('uecs_')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = Number((change as any).rowIndex.replace('uecs_', ''));
+          (change as any).type = 'user-susu';
+        } else if (key.startsWith('uecrn_')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = Number((change as any).rowIndex.replace('uecrn_', ''));
+          (change as any).type = 'user-recurring-new';
+        } else if (key.startsWith('uecsn_')) {
+          const change = interventionChanges[key];
+          (change as any).rowIndex = Number((change as any).rowIndex.replace('uecsn_', ''));
+          (change as any).type = 'user-susu-new';
         } else {
           (interventionChanges[key] as any).type = 'data';
         }
@@ -615,7 +631,7 @@ export class InterventionDataService {
   }
 
   public formatPlain(value: string) {
-    if (value.startsWith('$')) {
+    if (value && value.startsWith('$')) {
       const plainCurrency = this.reverseFormatNumber(value.substr(1), 'en-US');
       //console.log(`${value} -> ${plainCurrency}`);
       return Number(plainCurrency);
@@ -634,7 +650,6 @@ export class InterventionDataService {
         startWith(form.value),
         pairwise(),
         map(([oldState, newState]) => {
-          console.log({ oldState, newState });
           for (const key in newState.items) {
             const rowIndex = form.get('items')['controls'][key]['controls'].rowIndex.value;
             let rowUnits = form.get('items')['controls'][key]['controls'].rowUnits.value;
@@ -670,10 +685,19 @@ export class InterventionDataService {
                       }
                     } else if (rowUnits === 'US dollars') {
                       if (changes[rowIndex]) {
-                        changes[rowIndex] = {
-                          ...changes[rowIndex],
-                          [item[0]]: this.formatPlain(item[1] as string),
-                        };
+                        // If field = labelText (for user added costs)
+                        // don't try to cast to number or re-format
+                        if (item[0] == 'labelText' || item[0] == 'isDeleted' || item[0] == 'rowIndex') {
+                          changes[rowIndex] = {
+                            ...changes[rowIndex],
+                            [item[0]]: item[1],
+                          };
+                        } else {
+                          changes[rowIndex] = {
+                            ...changes[rowIndex],
+                            [item[0]]: this.formatPlain(String(item[1]) as string),
+                          };
+                        }
                         changes[rowIndex]['rowIndex'] = rowIndex;
                       } else {
                         changes[rowIndex] = {

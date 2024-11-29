@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { QuickMapsService } from 'src/app/pages/quickMaps/quickMaps.service';
-import { AppRoutes } from 'src/app/routes/routes';
+import { AppRoute, AppRoutes, getRoute } from 'src/app/routes/routes';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
 import { InterventionSideNavContentService } from '../../components/interventionSideNavContent/interventionSideNavContent.service';
 import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 import { MatTableDataSource } from '@angular/material/table';
 import { InterventionIntakeThreshold } from 'src/app/apiAndObjects/objects/interventionIntakeThreshold';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intervention-effectiveness-metrics',
@@ -28,26 +29,23 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
   public data;
 
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 9;
 
   private subscriptions = new Array<Subscription>();
 
   constructor(
     public quickMapsService: QuickMapsService,
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
+    private router: Router,
     private formBuilder: UntypedFormBuilder,
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       void this.interventionDataService
         .getInterventionIntakeThreshold(activeInterventionId)
         .then((data: InterventionIntakeThreshold[]) => {
-          console.log(data);
-
           const nr: Array<{
             title: string;
             threshold: number;
@@ -60,9 +58,10 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
             cnd?: number;
             cul?: number;
             field?: string;
+            notes?: string;
           }> = [
             {
-              title: 'Nutrient Requirement',
+              title: 'Average nutrient requirement',
               threshold: data[0].ear,
               thresholdDefault: data[0].earDefault,
               units: `${data[0].unitAdequacy}/day`,
@@ -82,27 +81,29 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
             {
               title: 'Critical Nutrient Density',
               threshold: (data[0].ear / data[0].energy) * 1000,
-              units: `${data[0].unitCnd}/day`,
+              units: `${data[0].unitAdequacy}/1,000 ${data[0].unitCnd}/day`,
               source: 'Calculation',
+              notes:
+                'The critical nutrient density is used to estimate the adequacy of the household diet for meeting the micronutrient requirements of the reference household member using the nutrient density method. It is the age- and sex-specific average nutrient requirement divided by the age- and sex-specific energy requirements of the reference household member, expressed per 1,000 kcals.',
             },
             {
               title: 'Tolerable Upper Intake Level',
               threshold: data[0].ul,
               thresholdDefault: data[0].ulDefault,
-              units: `${data[0].unitExcess}/day`,
-              source: data[0].source,
+              units: `${data[0].unitAdequacy}/day`,
+              source: data[0].ul ? `${data[0].source}` : `N/A`,
               ul: data[0].ul,
               field: 'ul',
             },
             {
-              title: 'Critical upper level',
+              title: 'Critical upper density',
               threshold: data[0].cul,
-              units: `${data[0].unitCnd}/day`,
-              source: 'Calculation',
+              units: `${data[0].unitAdequacy}/1,000 ${data[0].unitCnd}/day`,
+              source: data[0].ul ? `Calculation` : `N/A`,
+              notes:
+                'The critical upper density is used to estimate the risk of high micronutrient intakes using the nutrient density method. It is the age- and sex-specific tolerable upper intake level divided by the age- and sex-specific energy requirements of the reference household member, expressed per 1,000 kcals.',
             },
           ];
-
-          console.log(nr);
 
           this.dataSource = new MatTableDataSource(nr);
           this.data = nr;
@@ -124,19 +125,16 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
           this.interventionDataService.initFormChangeWatcher(this.form, this.formChanges);
 
           this.dataLoaded = true;
-          console.log(data);
-          console.log(this.dataSource);
-          console.log(this.form);
         });
     }
   }
 
   public updateField(index: number, field: string) {
     return ($event: Event) => {
-      // Update
-      this.data[index][field] = Number(($event.target as any).value);
-
       console.log(this.data);
+
+      // Update
+      this.data[index]['threshold'] = Number(($event.target as any).value);
 
       // Recalc CND and CUL
       this.dataSource.data[2]['threshold'] = (this.data[0].ear / this.data[1].energy) * 1000;
@@ -159,7 +157,11 @@ export class InterventionEffectivenessMetricsComponent implements OnInit {
     console.log(this.dataSource.data);
   }
 
-  public confirmAndContinue(): void {
-    this.interventionDataService.interventionPageConfirmContinue();
+  public async confirmAndContinue(route: AppRoute): Promise<boolean> {
+    this.loading = true;
+    await this.interventionDataService.interventionPageConfirmContinue();
+    this.loading = false;
+    this.router.navigate(getRoute(route));
+    return true;
   }
 }

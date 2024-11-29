@@ -1,13 +1,5 @@
-@use '@angular/material' as mat;
 @use '../interventionReviewPages.scss';
 @import 'src/assets/scss/_colour';
-
-.container {
-  .content {
-    overflow-x: hidden;
-  }
-}
-
 input {
   // display: block;
   font-family: inherit;
@@ -33,18 +25,25 @@ input.ng-dirty {
   border-color: $color_input_blue;
 }
 
-.lower-table-wrapper ::ng-deep .mdc-data-table__content tr:nth-child(1) td {
-  color: $color_primary;
-  font-weight: bold;
-  border-bottom-color: rgba(0, 0, 0, 0.12);
-  min-width: 6em;
+.table-full-width {
+  tr:has(.national) {
+    vertical-align: top;
+    height: 7em;
+    td {
+      padding-top: 1em !important;
+    }
+  }
 }
 
-.loading-indicator {
-  display: inline-block;
+.floater {
+  display: flex;
 }
 
 .icon-display {
   transform: scale(0.6);
   display: inline-block !important;
+}
+
+table {
+  padding: 0rem 2rem;
 }

@@ -1,10 +1,16 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { StartUpCostBreakdown, StartUpCosts } from 'src/app/apiAndObjects/objects/interventionStartupCosts';
+import {
+  makeUserCost,
+  StartUpCostBreakdown,
+  StartUpCosts,
+  UserStartupCostFactory,
+} from 'src/app/apiAndObjects/objects/interventionStartupCosts';
 import { DialogData } from '../baseDialogService.abstract';
-import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, FormArray, FormGroup } from '@angular/forms';
 import { InterventionDataService, InterventionForm } from 'src/app/services/interventionData.service';
+import { NotificationsService } from '../../notifications/notification.service';
 @Component({
   selector: 'app-section-start-up-cost-review',
   templateUrl: './sectionStartUpCostReviewDialog.component.html',
@@ -21,17 +27,28 @@ export class SectionStartUpCostReviewDialogComponent {
   public year0Total = 0;
   public year1Total = 0;
 
+  public years = [0, 1];
   public loading = false;
+
+  public isReloading = false;
+
+  public canAddExtraCosts = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<StartUpCosts>,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
+    public notificationsService: NotificationsService,
   ) {}
 
   public ngOnInit() {
     this.initFormWatcher();
     this.title = this.dialogData.dataIn.section;
+
+    if (this.title === 'Additional Costs') {
+      this.canAddExtraCosts = true;
+      this.displayedColumns.push('actions');
+    }
   }
 
   /**
@@ -69,8 +86,10 @@ export class SectionStartUpCostReviewDialogComponent {
 
   private createStartupCostGroup(item: StartUpCostBreakdown): UntypedFormGroup {
     return this.formBuilder.group({
+      isDeleted: [false, []],
       rowIndex: [item.rowIndex, []],
       rowUnits: [item.rowUnits, []],
+      labelText: [item.labelText, []],
       isEditable: [item.isEditable, []],
       isCalculated: [item.isCalculated, []],
       year0: [Number(item.year0), []],
@@ -98,6 +117,86 @@ export class SectionStartUpCostReviewDialogComponent {
       this.dialogData.close();
       return true;
     }
+  }
+
+  public addData() {
+    const f = makeUserCost(UserStartupCostFactory, this.dataSource.data.length + 1);
+    this.dataSource.data.push(f);
+
+    //this.dataSource.data.splice(this.dataSource.data.length - 1, 0, f);
+    this.dataSource.filter = '';
+    const formGroup = this.createStartupCostGroup(f);
+    const items = this.form.get('items') as FormArray;
+
+    //(items.value as Array<FormGroup>).splice(items.value.length - 1, 0, formGroup);
+    //items.value.splice(items.value.length - 1, 0, formGroup);
+    items.push(formGroup);
+  }
+
+  public deleteRow(row) {
+    const idx = this.dataSource.data.findIndex((ele) => {
+      return ele.rowIndex === row.rowIndex;
+    });
+    this.dataSource.data.splice(idx, 1);
+    this.dataSource.filter = '';
+    const items = this.form.get('items') as FormArray;
+    (items.controls[idx] as FormGroup).get('isDeleted').setValue(true);
+    // items.controls[idx].setValue('isDeleted', true);
+    items.removeAt(idx);
+
+    // Recalc total
+    this.years.map((year) => this.updateTotals(year)(null));
+  }
+
+  public updateTotals(index: number) {
+    return ($event: Event) => {
+      const total = this.getTotalCost('year' + index);
+      const items = this.form.get('items') as FormArray;
+      const res = items.controls.find((row) => row.get('isEditable').value == false);
+      res.get('year' + index).setValue(this.formatDollar(total));
+    };
+  }
+
+  public formatDollar(value: string | number) {
+    if (typeof value === 'number' || !value.startsWith('$')) {
+      const formattedCurrency = '$' + new Intl.NumberFormat('en-US').format(Number(value));
+      //console.log(`${value} -> ${formattedCurrency}`);
+      return formattedCurrency;
+    }
+    return value;
+  }
+
+  private reverseFormatNumber(val, locale) {
+    const group = new Intl.NumberFormat(locale).format(1111).replace(/1/g, '');
+    const decimal = new Intl.NumberFormat(locale).format(1.1).replace(/1/g, '');
+    let reversedVal = val.replace(new RegExp('\\' + group, 'g'), '');
+    reversedVal = reversedVal.replace(new RegExp('\\' + decimal, 'g'), '.');
+    return Number.isNaN(reversedVal) ? 0 : reversedVal;
+  }
+
+  public formatPlain(value: string) {
+    if (value.startsWith('$')) {
+      const plainCurrency = this.reverseFormatNumber(value.substr(1), 'en-US');
+      //console.log(`${value} -> ${plainCurrency}`);
+      return plainCurrency;
+    }
+    return value;
+  }
+
+  public getTotalCost(yearKey: string): number {
+    // Only calculate the cost for items specifed as US Dollars.
+    // TODO: update this to factor in percentage modifiers
+
+    const items = this.form.get('items') as FormArray;
+
+    const filterItemsInDollars = items.controls.filter(
+      (cost) => cost.get('rowUnits').value === 'US dollars' && cost.get('isEditable').value == true,
+    );
+    return filterItemsInDollars
+      .map((costBreakdown) => Number(this.formatPlain(costBreakdown.get(yearKey).value)))
+      .reduce((acc, value) => {
+        return acc + value;
+      }, 0);
   }
 
   public resetForm() {

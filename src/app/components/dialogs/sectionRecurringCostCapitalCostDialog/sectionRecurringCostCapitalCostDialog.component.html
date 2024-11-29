@@ -1,0 +1,86 @@
+<app-base-dialog [data]="dialogData" [title]="title">
+  <div class="bmgf-maps-nice-scrollbar">
+    <app-reusable-skeleton-table *ngIf="isReloading" [setData]="{ columns: 11, rows: 10 }">
+    </app-reusable-skeleton-table>
+    <form [formGroup]="form" *ngIf="form && !isReloading">
+
+      <mat-tab-group *ngIf="dataSources.length > 0">
+        <mat-tab *ngFor="let dataSource of dataSources; let i = index;" [label]="getSectionTitle(i)">
+          <table mat-table [dataSource]="dataSource" matSort class="table-full-width" formArrayName="items">
+            <ng-container matColumnDef="labelText">
+              <th class="thead-head row-title-left" mat-header-cell *matHeaderCellDef>
+              </th>
+              <td class="row-title-left" mat-cell *matCellDef="let element; let index = index">
+                <span *ngIf="canAddExtraCosts && element.isEditable"
+                  [formGroup]="form.controls.items['controls'][index+rowsForIndex(i)]">
+                  <input matInput placeholder="New Cost" [ngModel]="element.labelText" [formControlName]="'labelText'">
+                </span>
+                <span *ngIf="!canAddExtraCosts || !element.isEditable" class="text-center">
+                  {{element.labelText}}
+                </span>
+                <mat-button *ngIf=" element.labelText.startsWith('Premix cost')"
+                  matTooltip="Adjust composition and costs of the premix compounds" mat-stroked-button color="primary"
+                  (click)="openPremixCalculator()" class="premix-button"><mat-icon>calculate</mat-icon>Open
+                  Premix Calculator</mat-button>
+              </td>
+              <td class="row-title-left" mat-footer-cell *matFooterCellDef>Total</td>
+            </ng-container>
+
+            <ng-container *ngFor="let year of years; last as omitCopyButton" [matColumnDef]="'year' + year">
+              <th class="thead-data" mat-header-cell *matHeaderCellDef> Annualised Value </th>
+              <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="(index + rowsForIndex(i))">
+                <app-ce-input-field [index]="(index+rowsForIndex(i))" [year]="year" [element]="element" [form]="form"
+                  [tableData]="dataSource" [dirtyIndexes]="dirtyIndexes"
+                  [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="source">
+              <th mat-header-cell *matHeaderCellDef> Source </th>
+              <td class="source-col" mat-cell *matCellDef="let element let index = index">
+                <span *ngIf="element.labelText !== 'Total'">
+                  <button class="sourceBtn"
+                    *ngIf="!element.isCalculated && dirtyIndexes.includes(index + rowsForIndex(i)) === false" mat-button
+                    color="primary" matTooltip="{{element.dataSource}}" cdkCopyToClipboard="{{element.dataSource}}"
+                    (click)="notificationsService.sendInformative('Data source copied to clipboard')">
+                    <i class=" fa-regular fa-copy"></i>
+                    {{element.dataSource}}
+                    <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
+                  </button>
+                  <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index + rowsForIndex(i))" mat-button
+                    color="primary">
+                    User Input
+                  </button>
+                  <button *ngIf="element.isCalculated && dirtyIndexes.includes(index + rowsForIndex(i))" mat-button
+                    color="primary">
+                    User Overridden
+                  </button>
+                  <button *ngIf="element.isCalculated && dirtyIndexes.includes(index + rowsForIndex(i)) === false"
+                    mat-button color="primary">
+                    Model calculation
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+            <tr [ngClass]="row.labelText.includes('Annualized') ? 'row-end' : ''" mat-row
+              *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row" *matNoDataRow></tr>
+          </table>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+    <app-dialog-step-details (resetValues)="resetForm()" [resetDefaultValues]="true"
+      [showUserValues]="true"></app-dialog-step-details>
+    <div class="button-container">
+      <button mat-stroked-button (click)="dialogData.close()">Back</button>
+      <button [disabled]="loading" class="intervention-navigation-confirm" mat-flat-button color="primary"
+        (click)="confirmChanges()">
+        <span *ngIf="!loading">Confirm</span>
+        <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator"
+            aria-label="spinner" [diameter]="16" color='accent'></mat-spinner></span>
+      </button>
+    </div>
+  </div>
+</app-base-dialog>

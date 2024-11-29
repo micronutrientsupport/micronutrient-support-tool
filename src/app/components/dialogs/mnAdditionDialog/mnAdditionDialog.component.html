@@ -1,6 +1,6 @@
 <app-base-dialog title="Add micronutrient">
   <div class="container">
-    <p>Select the micronutrient that you would like to add</p>
+    <p>Select the micronutrient that you would like to add to the premix</p>
     <mat-form-field appearance="outline">
       <mat-select [(ngModel)]="micronutrientsSelected" (selectionChange)="handleSelectionChange($event)">
         <mat-option *ngFor="let micronutrient of micronutrientsFiltered" [value]="micronutrient"

@@ -25,14 +25,13 @@ import { DialogService } from '../dialog.service';
 import { Subscription } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 @Component({
-  selector: 'app-section-recurring-cost-review-dialog',
-  templateUrl: './sectionRecurringCostReviewDialog.component.html',
-  styleUrls: ['./sectionRecurringCostReviewDialog.component.scss'],
-}) /* The above code appears to be a TypeScript code snippet defining a component named
-SectionRecurringCostReviewDialogComponent. This component likely represents a dialog or
-modal window for reviewing recurring costs in an application. The triple hash symbol ( */
-export class SectionRecurringCostReviewDialogComponent {
-  public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
+  selector: 'app-section-recurring-cost-capital-cost-dialog',
+  templateUrl: './sectionRecurringCostCapitalCostDialog.component.html',
+  styleUrls: ['./sectionRecurringCostCapitalCostDialog.component.scss'],
+})
+export class SectionRecurringCostCapitalCostDialogComponent {
+  public dataSources: MatTableDataSource<RecurringCostBreakdown>[] = [];
+  //public dataSource = new MatTableDataSource<RecurringCostBreakdown>();
   public title = '';
   public dirtyIndexes = [];
   public baseYear = 2021;
@@ -57,7 +56,6 @@ export class SectionRecurringCostReviewDialogComponent {
     'year7',
     'year8',
     'year9',
-    'source',
   ];
 
   private subscriptions = new Array<Subscription>();
@@ -68,7 +66,7 @@ export class SectionRecurringCostReviewDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public dialogData: DialogData<{ costs: RecurringCosts; capitalCosts?: RecurringCosts }>,
+    public dialogData: DialogData<RecurringCosts>,
     private interventionDataService: InterventionDataService,
     private formBuilder: UntypedFormBuilder,
     private jsonLogicService: JSONLogicService,
@@ -76,7 +74,7 @@ export class SectionRecurringCostReviewDialogComponent {
     private dialogService: DialogService,
   ) {
     this.initFormWatcher();
-    this.title = dialogData.dataIn.costs.section;
+    this.title = dialogData.dataIn.section + ' annualised capital costs';
 
     if (this.title === 'Additional Costs') {
       this.canAddExtraCosts = true;
@@ -94,7 +92,21 @@ export class SectionRecurringCostReviewDialogComponent {
             void this.interventionDataService
               .getInterventionRecurringCosts(activeInterventionId)
               .then((data: InterventionRecurringCosts) => {
-                this.dataSource = new MatTableDataSource(data.recurringCosts[0]['costs'][0].costBreakdown);
+                const end = false;
+                // const split = data.recurringCosts[0]['costs'][0].costBreakdown.reduce((prev, curr) => {
+                //   if (end) {
+                //     prev.push([]);
+                //     end = false;
+                //   }
+                //   if (curr.labelText.includes('Annualized')) {
+                //     end = true;
+                //   }
+                //   prev[prev.length - 1].push(curr);
+                //   return prev;
+                // }, []);
+                // console.log({ split });
+
+                // this.dataSource = new MatTableDataSource(data.recurringCosts[0]['costs'][0].costBreakdown);
                 this.isReloading = false;
                 //this.recurringCosts = data.recurringCosts;
                 // console.debug('initial: ', this.recurringCosts);
@@ -118,24 +130,47 @@ export class SectionRecurringCostReviewDialogComponent {
   private initFormWatcher(): void {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
-      this.dataSource = new MatTableDataSource(this.dialogData.dataIn.costs.costBreakdown);
+      let end = false;
+      const split = this.dialogData.dataIn.costBreakdown
+        .reduce(
+          (prev, curr) => {
+            if (end) {
+              prev.push([]);
+              end = false;
+            }
+            if (curr.labelText.includes('Annualized')) {
+              end = true;
+            }
+            prev[prev.length - 1].push(curr);
+            return prev;
+          },
+          [[]],
+        )
+        .map((el) => {
+          return new MatTableDataSource<RecurringCostBreakdown>(el);
+        });
+
+      this.dataSources = split;
+      console.log({ split });
+
+      // this.dataSource = new MatTableDataSource(this.dialogData.dataIn.costBreakdown);
 
       const years = [];
       const displayYears = ['labelText'];
       for (let i = 0; i < 10; i++) {
-        if (this.dialogData.dataIn.costs.costBreakdown[0]['year' + i] === null) {
+        if (this.dialogData.dataIn.costBreakdown[0]['year' + i] === null) {
           break;
         } else {
           years.push(i);
           displayYears.push('year' + i);
         }
       }
-      this.years = years;
       displayYears.push('source');
+      this.years = years;
       this.displayedColumns = displayYears;
 
       // console.debug('datasource = ', this.dataSource.data);
-      const reucrringGroupArr = this.dialogData.dataIn.costs.costBreakdown.map((item) => {
+      const reucrringGroupArr = this.dialogData.dataIn.costBreakdown.map((item) => {
         return this.createRecurringCostGroup(item);
       });
       this.form = this.formBuilder.group({
@@ -157,10 +192,6 @@ export class SectionRecurringCostReviewDialogComponent {
 
   public openPremixCalculator() {
     this.dialogService.openPremixCostReviewDialog(null);
-  }
-
-  public openSectionRecurringCostCapitalCostDialog(): void {
-    this.dialogService.openSectionRecurringCostCapitalCostDialog(this.dialogData.dataIn.capitalCosts);
   }
 
   private createRecurringCostGroup(item: RecurringCostBreakdown): UntypedFormGroup {
@@ -212,60 +243,6 @@ export class SectionRecurringCostReviewDialogComponent {
       year9Default: [Number(item.year9Default), []],
       year9Overriden: [item.year0Overriden, []],
     });
-  }
-
-  public addData() {
-    const f = makeUserCost(UserRecurringCostFactory, this.dataSource.data.length + 1);
-    this.dataSource.data.push(f);
-
-    //this.dataSource.data.splice(this.dataSource.data.length - 1, 0, f);
-    this.dataSource.filter = '';
-    const formGroup = this.createRecurringCostGroup(f);
-    const items = this.form.get('items') as FormArray;
-
-    //(items.value as Array<FormGroup>).splice(items.value.length - 1, 0, formGroup);
-    //items.value.splice(items.value.length - 1, 0, formGroup);
-    items.push(formGroup);
-  }
-
-  public deleteRow(row) {
-    const idx = this.dataSource.data.findIndex((ele) => {
-      return ele.rowIndex === row.rowIndex;
-    });
-    this.dataSource.data.splice(idx, 1);
-    this.dataSource.filter = '';
-    const items = this.form.get('items') as FormArray;
-    (items.controls[idx] as FormGroup).get('isDeleted').setValue(true);
-    // items.controls[idx].setValue('isDeleted', true);
-    items.removeAt(idx);
-
-    // Recalc total
-    this.years.map((year) => this.updateTotals(year)(null));
-  }
-
-  public updateTotals(index: number) {
-    return ($event: Event) => {
-      const total = this.getTotalCost('year' + index);
-      const items = this.form.get('items') as FormArray;
-      const res = items.controls.find((row) => row.get('isEditable').value == false);
-      res.get('year' + index).setValue(this.formatDollar(total));
-    };
-  }
-
-  public getTotalCost(yearKey: string): number {
-    // Only calculate the cost for items specifed as US Dollars.
-    // TODO: update this to factor in percentage modifiers
-
-    const items = this.form.get('items') as FormArray;
-
-    const filterItemsInDollars = items.controls.filter(
-      (cost) => cost.get('rowUnits').value === 'US dollars' && cost.get('isEditable').value == true,
-    );
-    return filterItemsInDollars
-      .map((costBreakdown) => Number(this.formatPlain(costBreakdown.get(yearKey).value)))
-      .reduce((acc, value) => {
-        return acc + value;
-      }, 0);
   }
 
   public async confirmChanges(): Promise<boolean> {
@@ -393,9 +370,21 @@ export class SectionRecurringCostReviewDialogComponent {
     this.form.controls.items['controls'][index].patchValue({ ['year' + row]: formattedCurrency });
   }
 
+  public rowsForIndex(index: number) {
+    let count = 0;
+    for (let i = 0; i < index; i++) {
+      count += this.dataSources[i].data.length;
+    }
+    return count;
+  }
+
+  public getSectionTitle(index: number) {
+    return this.dataSources[index].data[this.dataSources[index].data.length - 1].labelText;
+  }
+
   public recalculateChanges(): void {
     // find all the rows which have formulas to calculate their new value
-    const allItemsWithRowFormulas = this.dataSource.data.filter(
+    const allItemsWithRowFormulas = this.dataSources[0].data.filter(
       (item: RecurringCostBreakdown) => item.isEditable === false,
     );
 

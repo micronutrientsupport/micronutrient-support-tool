@@ -33,6 +33,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
 import { DietDataService } from 'src/app/services/dietData.service';
 import ColorHash from 'color-hash-ts';
+import { Month } from 'src/app/apiAndObjects/objects/month';
 
 @Component({
   selector: 'app-monthly-food',
@@ -150,19 +151,30 @@ export class MonthlyFoodComponent implements AfterViewInit {
           datasets: [],
         };
 
+        const tf = timePeriod.map((time) => {
+          return data.filter((item) => item.month.name === time);
+        });
         foodTypes.forEach((thing, index) => {
           monthlyStackedChartData.datasets.push({
             barPercentage: 0.9,
             categoryPercentage: 1.0,
             label: foodTypes[index],
-            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+            data: tf
+              .map((t) =>
+                t.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+              )
+              .map((res) => (res.length > 0 ? res[0] : 0)),
             backgroundColor: this.genColorHex(foodTypes[index]),
           });
           monthlyLineChartData.datasets.push({
             barPercentage: 0.9,
             categoryPercentage: 1.0,
             label: foodTypes[index],
-            data: data.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+            data: tf
+              .map((t) =>
+                t.filter((item) => item.foodGroupName === foodTypes[index]).map((item) => item.percentageConsumed),
+              )
+              .map((res) => (res.length > 0 ? res[0] : 0)),
             backgroundColor: this.genColorHex(foodTypes[index]),
             fill: true,
           });

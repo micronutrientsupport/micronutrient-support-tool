@@ -17,7 +17,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
   public ROUTES = AppRoutes;
-  public pageStepperPosition = 6;
   public interventionName = 'IntName';
   public selectedTab: number;
   public selectedTabSummary: number;
@@ -34,8 +33,11 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
 
   public loading = false;
 
+  public nextRoutes = [];
+  public previousRoute;
+
   constructor(
-    private intSideNavService: InterventionSideNavContentService,
+    public intSideNavService: InterventionSideNavContentService,
     private interventionDataService: InterventionDataService,
     private cdRef: ChangeDetectorRef,
     private router: Router,
@@ -43,7 +45,6 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.intSideNavService.setCurrentStepperPosition(this.pageStepperPosition);
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
     if (null != activeInterventionId) {
       this.subscriptions.push(
@@ -51,9 +52,11 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
         void this.interventionDataService
           .getInterventionCostSummary(activeInterventionId)
           .then((data: InterventionCostSummary) => {
-            console.log('summary');
             const sums = data.summaryCosts[0]['costs'].filter((section) => section['section'] === 'Summaries');
             console.log(sums);
+
+            sums[0].costBreakdown = sums[0].costBreakdown.sort(({ rowIndex: a }, { rowIndex: b }) => b - a);
+
             this.summaryCosts = sums[0];
           }),
         void this.interventionDataService.interventionSummaryChartPNGObs.subscribe((chart: string) => {
@@ -86,6 +89,9 @@ export class InterventionCostSummaryComponent implements OnInit, AfterViewInit {
         }),
       );
     }
+
+    this.nextRoutes = this.intSideNavService.getNextRoutes();
+    this.previousRoute = this.intSideNavService.getPreviousRoute();
   }
 
   public ngAfterViewInit(): void {
