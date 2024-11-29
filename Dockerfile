@@ -1,8 +1,8 @@
 FROM node:16-alpine AS builder
-#RUN apk update && apk upgrade && \
-#    apk add --no-cache bash git openssh
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
 
-#WORKDIR /micronutrient-support-tool
+WORKDIR /micronutrient-support-tool
 COPY package*.json ./
 
 RUN npm ci
