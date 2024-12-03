@@ -40,6 +40,12 @@ export class InterventionSideNavContentComponent {
   public currentStepPosition = 0;
 
   public ngOnInit() {
+    // print array of CustomComponent objects
+    void this.interventionDataService.getIntervention(this.activeInterventionId).then((intervention: Intervention) => {
+      this.currentInterventionType = intervention.fortificationTypeId;
+      this.sections = this.intSideNavService.getSections(this.currentInterventionType);
+      this.inferSidebarStepPosition(this.router.url);
+    });
     this.stepperSubscription = this.router.events
       .pipe(filter((e: RouterEvent) => e instanceof NavigationEnd))
       .subscribe((e: RouterEvent) => {
@@ -59,6 +65,7 @@ export class InterventionSideNavContentComponent {
       }
       return i >= 0;
     });
+    console.log('set pos to ', count + 1);
     this.intSideNavService.setCurrentStepperPosition(count + i, this.currentInterventionType);
   }
 

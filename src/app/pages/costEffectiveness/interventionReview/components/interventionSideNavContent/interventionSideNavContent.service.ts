@@ -1,4 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
+import { reject } from 'cypress/types/bluebird';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 
@@ -12,6 +13,9 @@ export class InterventionSideNavContentService {
   private currentInterventionType: string;
 
   public sections = [];
+
+  private readonly readySrc = new BehaviorSubject<null>(null);
+  public readyObs = this.stepperPositionSrc.asObservable();
 
   public BfDSections = [
     {
@@ -119,6 +123,7 @@ export class InterventionSideNavContentService {
     } else if (interventionType === 'BF') {
       this.sections = this.BfDSections;
     }
+    this.readySrc.next(null);
     return this.sections;
   }
 

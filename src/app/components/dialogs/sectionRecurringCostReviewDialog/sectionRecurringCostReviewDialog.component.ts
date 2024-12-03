@@ -94,7 +94,7 @@ export class SectionRecurringCostReviewDialogComponent {
             void this.interventionDataService
               .getInterventionRecurringCosts(activeInterventionId)
               .then((data: InterventionRecurringCosts) => {
-                this.dataSource = new MatTableDataSource(data.recurringCosts[0]['costs'][0].costBreakdown);
+                this.dataSource = new MatTableDataSource(data.recurringCosts[2]['costs'][0].costBreakdown);
                 this.isReloading = false;
                 //this.recurringCosts = data.recurringCosts;
                 // console.debug('initial: ', this.recurringCosts);

@@ -107,8 +107,10 @@ export class InterventionBaselineComponent implements AfterViewInit {
     });
     this.initFocusMnTable();
 
-    this.nextRoutes = this.intSideNavService.getNextRoutes();
-    this.previousRoute = this.intSideNavService.getPreviousRoute();
+    this.intSideNavService.readyObs.subscribe(() => {
+      this.nextRoutes = this.intSideNavService.getNextRoutes();
+      this.previousRoute = this.intSideNavService.getPreviousRoute();
+    });
   }
 
   public ngAfterViewInit(): void {
