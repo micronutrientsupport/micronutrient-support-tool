@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.1...v1.21.2) (2024-12-03)
+
+
+### Bug Fixes
+
+* intervention nav bugfixes ([#1499](https://github.com/micronutrientsupport/micronutrient-support-tool/issues/1499)) ([e1d5997](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/e1d59977d04e43d1f307335603a9f931a3b73b6d))
+
 ## [1.21.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.0...v1.21.1) (2024-11-29)
 
 
