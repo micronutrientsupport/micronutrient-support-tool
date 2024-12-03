@@ -147,3 +147,11 @@ tr:last-child {
     }
   }
 }
+
+input {
+  &:disabled {
+    background-color: #a0a0a0;
+    border: 0px;
+    color: white !important;
+  }
+}

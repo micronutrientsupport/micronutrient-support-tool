@@ -33,12 +33,9 @@
               [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"
               [changeFunction]="updateTotals(year)"></app-ce-input-field>
             <span *ngIf="dialogData.dataIn.capitalCosts && element.labelText.startsWith('Annualized')">
-
-              <input type="text" appDecimalInput required value="element['year'
+              <input type="text" disabled="true" appDecimalInput required [value]="element['year'
               + year] | number:'1.0-0'" class="copy-input">
-
-              {{element['year'
-              + year] | number:'1.0-0'}}</span>
+            </span>
           </td>
         </ng-container>
 
