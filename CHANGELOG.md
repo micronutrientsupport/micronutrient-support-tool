@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.0...v1.21.1) (2024-11-29)
+
+
+### Bug Fixes
+
+* fix next page route to statically defeined to fix perf issue ([#1494](https://github.com/micronutrientsupport/micronutrient-support-tool/issues/1494)) ([b212838](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/b21283816bc963ebf7ee13bd0ec389524ad1e795))
+
 ## [1.21.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.20.0...v1.21.0) (2024-11-29)
 
 
