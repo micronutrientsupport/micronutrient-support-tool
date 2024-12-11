@@ -9,6 +9,7 @@ export interface SimpleIntervention {
   userId: string;
   focusMicronutrient: string;
   focusNation: string;
+  fortificationType?: string;
 }
 
 export const SimpleInterventions: Array<SimpleIntervention> = [

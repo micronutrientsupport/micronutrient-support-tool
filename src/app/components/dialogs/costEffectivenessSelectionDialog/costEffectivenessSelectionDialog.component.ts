@@ -56,6 +56,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public interventionForm: UntypedFormGroup;
   public foodVehicleArray = [];
   public interventionTypeArray = [];
+  public interventionStatuses = {};
   public interventionStatusArray = [];
   public interventionNatureArray = [];
   public interventionBaseYearArray = ['2021'];
@@ -89,6 +90,8 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private micronutrientsDictionary: Dictionary;
 
   public statuses: InterventionStatus[];
+
+  public loading = true;
 
   @ViewChild('stepper')
   stepper: MatStepper;
@@ -149,20 +152,25 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
     this.statuses = await this.interventionDataService.getInterventionStatusDictionary();
 
     console.log(this.statuses);
 
     const foo = this.statuses.reduce((prev, curr) => {
-      if (!prev[curr.status]) {
-        prev[curr.status] = {
+      if (!prev[curr.fortificationType]) {
+        prev[curr.fortificationType] = {};
+      }
+
+      if (!prev[curr.fortificationType][curr.status]) {
+        prev[curr.fortificationType][curr.status] = {
           id: curr.status,
           name: curr.statusName,
           desc: curr.statusDesc,
           natures: [],
         };
       }
-      prev[curr.status]['natures'].push({
+      prev[curr.fortificationType][curr.status]['natures'].push({
         id: curr.nature,
         name: curr.natureName,
         desc: curr.natureDesc,
@@ -171,7 +179,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       return prev;
     }, {});
 
-    this.interventionStatusArray = Object.values(foo);
+    console.log({ foo });
+    this.interventionStatuses = foo;
+    //this.interventionStatusArray = Object.values(foo);
 
     // const recentInterventions = [];
     // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
@@ -202,6 +212,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.proceed.next(false);
       }
     });
+    this.loading = false;
   }
 
   private toggleRegionDropdown(regions: Region[]): void {
@@ -515,7 +526,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public handleMnChange(mnId: string): void {
     console.log('Handle MN change', this.selectedCountry, mnId);
 
-    this.interventionTypeArray = ['LSFF']; //Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
+    this.interventionTypeArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
 
     this.parameterForm.controls['foodVehicle'].reset();
     this.selectedFoodVehicle = '';
@@ -547,7 +558,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.selectedInterventionNature = undefined;
 
     // this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]['LSFF']['Existing intervention program']);
-    this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][this.selectedMn]);
+    this.foodVehicleArray = Object.keys(
+      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedInterventionType],
+    );
+
+    this.interventionStatusArray = Object.values(this.interventionStatuses[interventionType]);
 
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
   }
@@ -568,7 +583,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
     // Select the intervention id from the mapping object
     this.selectedInterventionId =
-      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedFoodVehicle];
+      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedInterventionType][
+        this.selectedFoodVehicle
+      ];
 
     console.log('Loading intervention', this.selectedInterventionId);
     // Grab the associated intervention from the list

@@ -17,6 +17,11 @@ import { InterventionEffectivenessMetricsComponent } from './pages/interventionE
 import { InterventionExpectedLossComponent } from './pages/interventionExpectedLoss/interventionExpectedLoss.component';
 import { InterventionEffectivenessSummaryComponent } from './pages/interventionEffectivenessSummary/interventionEffectivenessSummary.component';
 import { InterventionCostEffectivenessSummaryComponent } from './pages/interventionCostEffectivenessSummary/interventionCostEffectivenessSummary.component';
+import { InterventionCropProductionInformationComponent } from './pages/interventionCropProductionInformation/interventionCropProductionInformation.component';
+import { InterventionCropProductionProjectionsComponent } from './pages/interventionCropProductionProjections/interventionCropProductionProjections.component';
+import { InterventionCropTargettingComponent } from './pages/interventionCropTargetting/interventionCropTargetting.component';
+import { InterventionFarmerAdoptionRatesComponent } from './pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
+import { InterventionSeedPricesComponent } from './pages/interventionSeedPrices/interventionSeedPrices.component';
 
 const routes: Routes = [
   {
@@ -45,6 +50,20 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_COMPLIANCE,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION.getRouterPath(),
+        component: InterventionFarmerAdoptionRatesComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION,
           title: '',
           keywords: '',
           description: '',
@@ -87,6 +106,62 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_INDUSTRY_INFORMATION,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION.getRouterPath(),
+        component: InterventionCropProductionInformationComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS.getRouterPath(),
+        component: InterventionCropProductionProjectionsComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING.getRouterPath(),
+        component: InterventionCropTargettingComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_SEED_PRICES.getRouterPath(),
+        component: InterventionSeedPricesComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_SEED_PRICES,
           title: '',
           keywords: '',
           description: '',

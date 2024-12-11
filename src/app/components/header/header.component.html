@@ -7,28 +7,19 @@
       <app-user-menu [activeUser]="activeUser"></app-user-menu>
     </div>
     <div class="large">
-      <a [routerLink]="ROUTES.MAPS_TOOL | route">MAPS Tools</a>
-      <a [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">Educational Resources</a>
-      <a [routerLink]="ROUTES.HELP | route">Help</a>
-      <a [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">Project Objectives</a>
+      <a href="https://micronutrient.support/guides" target="_blank">Help and Guidance</a>
+      <a mat-raised-button class="project-website-btn" href="https://micronutrient.support" target="_blank">MAPS Project
+        Website</a>
     </div>
     <div class="small">
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <i class="fas fa-bars"></i>
       </button>
       <mat-menu #menu="matMenu" class="mat-menu">
-        <button mat-menu-item [routerLink]="ROUTES.MAPS_TOOL | route">
-          MAPS Tools
-        </button>
-        <button mat-menu-item [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">
-          Educational Resources
-        </button>
-        <button mat-menu-item [routerLink]="ROUTES.HELP | route">
-          Help
-        </button>
-        <button mat-menu-item [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">
-          Project Objectives
-        </button>
+        <a href="https://micronutrient.support/guides" target="_blank">Help and Guidance</a>
+        <a mat-raised-button class="project-website-btn" href="https://micronutrient.support" target="_blank">MAPS
+          Project
+          Website</a>
       </mat-menu>
     </div>
   </mat-toolbar>

@@ -1,0 +1,18 @@
+@use '../interventionReviewPages.scss';
+
+.yes {
+  color: green;
+}
+
+.no {
+  color: red;
+}
+table {
+  max-width: 90%;
+  margin-left: 2em;
+}
+
+.footer-row {
+  text-align: left !important;
+  font-weight: bold;
+}

@@ -3,6 +3,8 @@
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="handleTabChange($event)">
       <mat-tab [label]="isCopyMode ? 'Copy existing intervention' : 'Create new intervention'">
         <ng-container>
+          <app-reusable-skeleton-table *ngIf="loading"
+            [setData]="{ columns: 2, rows: 6 }"></app-reusable-skeleton-table>
           <ng-container *ngIf="parameterForm && !isCopyMode">
 
 
@@ -162,6 +164,7 @@
                             formControlName="interventionStatus" (valueChange)="handleStatusChange($event)">
                             <mat-option *ngFor="let item of interventionStatusArray" [value]="item">
                               {{ item.name }}
+                              {{ item.fortificationType }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -255,7 +258,7 @@
           </ng-container>
         </ng-container>
       </mat-tab>
-      <mat-tab label="Load an existing intervention" *ngIf="!isCopyMode">
+      <mat-tab label="Load an existing intervention" *ngIf="!isCopyMode" [disabled]="loading">
         <div class="content-container">
           <p class="load-message">
             Re-load an intervention previously created within the MAPS tool by entering the ID of the intervention below

@@ -55,6 +55,10 @@ import { GetInterventionLsffEffectivenessSummary } from './intervention/interven
 import { GetInterventionCostEffectivenessSummary } from './intervention/interventionCostEffectivenessSummary/getInterventionCostEffectivenessSummary';
 import { GetInterventionTemplates } from './intervention/intervention/getInterventionTemplates';
 import { GetInterventionStatus } from './intervention/interventionStatus/getInterventionStatus';
+import { GetInterventionCropProductionInformation } from './intervention/interventionCropProductionInformation/getInterventionCropProductionInformation';
+import { GetInterventionCropTargetting } from './intervention/interventionCropTargetting/getInterventionCropTargetting';
+import { GetInterventionFarmerAdoption } from './intervention/interventionFarmerAdoption/getInterventionFarmerAdoption';
+import { GetInterventionSeedPrices } from './intervention/interventionSeedPrices/getInterventionSeedPrices';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -93,10 +97,14 @@ export class ApiService extends BaseApi {
       getInterventionData: new GetInterventionData(ApiService.USE_LIVE_API),
       getInterventionFoodVehicleStandards: new GetInterventionFoodVehicleStandards(ApiService.USE_LIVE_API),
       getInterventionIndustryInformation: new GetInterventionIndustryInformation(ApiService.USE_LIVE_API),
+      getInterventionCropProductionInformation: new GetInterventionCropProductionInformation(ApiService.USE_LIVE_API),
+      getInterventionCropTargettng: new GetInterventionCropTargetting(ApiService.USE_LIVE_API),
+      GetInterventionSeedPrices: new GetInterventionSeedPrices(ApiService.USE_LIVE_API),
       getInterventionMonitoringInformation: new GetInterventionMonitoringInformation(ApiService.USE_LIVE_API),
       getInterventionRecurringCosts: new GetInterventionRecurringCosts(ApiService.USE_LIVE_API),
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
+      getInterventionFarmerAdoption: new GetInterventionFarmerAdoption(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       getInterventionCostEffectivenessSummary: new GetInterventionCostEffectivenessSummary(ApiService.USE_LIVE_API),
       getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),

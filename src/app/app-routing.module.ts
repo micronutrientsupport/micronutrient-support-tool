@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Data } from '@angular/router';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { EducationalResourcesComponent } from './pages/educationalResources/educationalResources.component';
-import { HelpComponent } from './pages/help/help.component';
 import { HomeComponent } from './pages/home/home.component';
-import { MapsToolComponent } from './pages/mapsTool/mapsTool.component';
-import { ProjectObjectivesComponent } from './pages/projectObjectives/projectObjectives.component';
 import { StyleGuideComponent } from './pages/styleGuide/styleGuide.component';
 import { AppRoute, AppRoutes } from './routes/routes';
 import { PathResolveService } from './services/pathResolve.service';
@@ -48,53 +44,6 @@ const routes: Routes = [
       keywords: `tools, data,`,
       // eslint-disable-next-line max-len
       description: 'Tool for user to access and edit their profile details.',
-    } as RouteData,
-  },
-  {
-    path: AppRoutes.MAPS_TOOL.getRouterPath(),
-    component: MapsToolComponent,
-    data: {
-      appRoute: AppRoutes.MAPS_TOOL,
-
-      title: 'Tools',
-      keywords: `Micronutrients, maps, tools, data, interventions, projections,
-      deficiency risks, food fortification, food system changes, national, sub-national`,
-      // eslint-disable-next-line max-len
-      description:
-        'Various tools to explore micronutrient deficiencies in your geography of interest and possible interventions ' +
-        'to mitigate the micro-nutrient deficiencies.',
-    } as RouteData,
-  },
-  {
-    path: AppRoutes.EDUCATIONAL_RESOURCES.getRouterPath(),
-    component: EducationalResourcesComponent,
-    data: {
-      appRoute: AppRoutes.EDUCATIONAL_RESOURCES,
-      title: 'Educational Resources',
-      keywords: 'Micronutrients, maps, policy, education resources',
-      description: 'Various education resources to exapnd knowledge related to this topic.',
-    } as RouteData,
-  },
-  {
-    path: AppRoutes.HELP.getRouterPath(),
-    component: HelpComponent,
-    data: {
-      appRoute: AppRoutes.HELP,
-      title: 'Help',
-      keywords: 'Micronutrients, maps, policy, help',
-      description:
-        'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it has to offer.',
-    } as RouteData,
-  },
-  {
-    path: AppRoutes.PROJECT_OBJECTIVES.getRouterPath(),
-    component: ProjectObjectivesComponent,
-    data: {
-      appRoute: AppRoutes.PROJECT_OBJECTIVES,
-      title: 'Project Objectives',
-      keywords: 'Micronutrients, maps, policy, project objectives',
-      description:
-        'Some more information on what Micronutrient Action Policy Support (MAPS) does and what it aims to achieve.',
     } as RouteData,
   },
   {

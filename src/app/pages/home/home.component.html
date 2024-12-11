@@ -12,12 +12,19 @@
     <div class="mdc-layout-grid__inner">
       <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--align-middle">
         <h1>Micronutrient Action Policy Support (MAPS) Tool</h1>
-        <h2>MAPS will be a web-hosted tool, communicating estimates of dietary micronutrient (MN) supplies and
+        <h2 style="color: #703AA3;">MAPS is a web-hosted tool, communicating estimates of dietary micronutrient (MN)
+          supplies and
           deficiency
           risks at national and sub-national scales in Africa. </h2>
-        <button mat-flat-button color="primary" [routerLink]="ROUTES.MAPS_TOOL | route">Maps Tool
-          Portal</button>
-        <img src="/assets/images/maps-logo-full-greyscale.svg" alt="BMGF MAPS Logo" class="logo">
+        <p>
+          We have co-created this web-hosted tool to estimate micronutrient deficiencies
+          and explore pathways to improve nutrition. Features available include QuickMAPS and cost-effectiveness
+          modelling of interventions.
+        </p>
+        <button mat-flat-button color="primary" [routerLink]="ROUTES.QUICK_MAPS | route">Open Quick MAPS</button>
+        |
+        <button mat-flat-button color="primary" [routerLink]="ROUTES.COST_EFFECTIVENESS | route">Open
+          Cost-Effectiveness</button>
       </div>
       <div class="mdc-layout-grid__cell--span-6">
         <img class="header-image" src="/assets/images/webp/study-map-min.webp" alt="placeholder">
@@ -31,43 +38,32 @@
     <div class=" mdc-layout-grid__inner">
       <div class="homeCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
         <div class="basic-card">
-          <img src="/assets/images/webp/learning-min.webp" alt="placeholder">
+          <i class="fas fa-map-marked-alt fa-5x" style="color: #703AA3;"></i>
           <div class="text text-center">
-            <h2>Educational Resources</h2>
-            <p>Educational resources related to the MAPS tool</p>
-            <button mat-stroked-button color="primary" [routerLink]="ROUTES.EDUCATIONAL_RESOURCES | route">View</button>
+            <h2>Quick MAPS</h2>
+            <p>The Quick MAPS tool allow users to <strong>easily investigate the risks of micronutrient
+                deficiencies</strong> in their chosen geographic region by utilising default settings. It enables them
+              to explore future projections up to the year 2050.</p>
+            <button mat-stroked-button color="primary" [routerLink]="ROUTES.QUICK_MAPS | route">Open the Quick MAPS
+              Tool</button>
           </div>
-
         </div>
       </div>
       <div class="homeCell mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
         <div class="basic-card">
-          <img src="/assets/images/webp/objectives-min.webp" alt="placeholder">
+          <i class="fas fa-coins fa-5x" style="color: #703AA3;"></i>
           <div class="text text-center">
-            <h2>Project Objectives</h2>
-            <p>Project goals and ambitions for the future</p>
-            <button mat-stroked-button color="primary" [routerLink]="ROUTES.PROJECT_OBJECTIVES | route">View</button>
+            <h2>Cost & Effectiveness</h2>
+            <p>The cost & effectiveness module allows users to select a specific micronutrient, nation and populatuion
+              for interventions and offers the <strong>choice between existing or hypothetical interventions</strong>.
+              Users can review and modify the intervention details, view the predicted cost, effectiveness and
+              cost-effectiveness. The <strong>results can be exported and shared to facilitate further analysis and
+                decision-making</strong> on nutritional intervention strategies.</p>
+            <button mat-stroked-button color="primary" [routerLink]="ROUTES.COST_EFFECTIVENESS | route">Open Cost &
+              Effectiveness Tool</button>
           </div>
+
         </div>
-      </div>
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div class="mdc-layout-grid section">
-    <div class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell--span-6">
-        <h2 color="primary">Maps Tool Portal</h2>
-        <p>The MAPS tool allows the user to choose pre-loaded data to examine micronutrient deficiency data, including
-          projections. The user can also explore cost and effectiveness options to reduce micronutrient deficiencies
-          through model functionalities. Please note, some functionality is still under pre-release development. Please
-          contact us for more details.</p>
-        <button mat-flat-button color="primary" [routerLink]="ROUTES.MAPS_TOOL | route">Maps Tool
-          Portal</button>
-      </div>
-      <div class="mdc-layout-grid__cell--span-6">
-        <img class="homeCellImage" src="/assets/images/webp/maps-min.webp" alt="placeholder">
       </div>
     </div>
   </div>

@@ -19,15 +19,87 @@ export class InterventionSideNavContentService {
 
   public BfDSections = [
     {
-      title: 'Test',
+      title: 'Targeting',
       pages: [
         {
-          title: 'Foo',
-          description: 'Foo!',
+          title: 'Crop production projections',
+          description: 'Information about this step',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
         },
         {
-          title: 'Bar',
-          description: 'Bar!',
+          title: 'Biofortified crop targeting',
+          description: 'Information about this step',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
+        },
+      ],
+    },
+    {
+      title: 'Intervention',
+      pages: [
+        {
+          title: 'Farmer adoption rates',
+          description: 'Information about this step',
+          route: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION,
+        },
+        {
+          title: 'Crop production information',
+          description: 'Information about this step',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+        },
+      ],
+    },
+    {
+      title: 'Costs',
+      pages: [
+        {
+          title: 'Seed prices and incremental costs',
+          description: 'Information about this step',
+          route: AppRoutes.INTERVENTION_SEED_PRICES,
+        },
+        {
+          title: 'Startup/Scaleup costs',
+          description: 'Review and update costs related to the startup and scaleup of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+        },
+        {
+          title: 'Recurring costs',
+          description: 'Review and update the recurring costs of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
+        },
+        {
+          title: 'Cost summary',
+          description: 'View and download summary intervention cost estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
+        },
+      ],
+    },
+    {
+      title: 'Effectiveness',
+      pages: [
+        {
+          title: 'Projected number of households',
+          description: 'Projected number of households over 10-year time horizon.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS,
+        },
+        {
+          title: 'Nutrient requirements',
+          description: 'Nutrient and energy requirements for reference household member.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
+        },
+        {
+          title: 'Effectiveness summary',
+          description: 'View and download summary intervention effectiveness estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY,
+        },
+      ],
+    },
+    {
+      title: 'Cost Effectiveness',
+      pages: [
+        {
+          title: 'Cost-effectiveness summary',
+          description: 'View and download summary intervention cost-effectiveness estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY,
         },
       ],
     },
@@ -95,7 +167,7 @@ export class InterventionSideNavContentService {
         },
         {
           title: 'Nutrient requirements',
-          description: '-	Nutrient and energy requirements for reference household member.',
+          description: 'Nutrient and energy requirements for reference household member.',
           route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
         },
         {

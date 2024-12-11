@@ -153,6 +153,11 @@ export class AppRoutes {
     segments: 'intervention-compliance',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
+  public static readonly INTERVENTION_REVIEW_FARMER_ADOPTION = {
+    ...BASE_ROUTE,
+    segments: 'intervention-farmer-adoption',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
   public static readonly INTERVENTION_REVIEW_CONSUMPTION = {
     ...BASE_ROUTE,
     segments: 'intervention-consumption',
@@ -176,6 +181,26 @@ export class AppRoutes {
   public static readonly INTERVENTION_REVIEW_INDUSTRY_INFORMATION = {
     ...BASE_ROUTE,
     segments: 'intervention-industry-information',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION = {
+    ...BASE_ROUTE,
+    segments: 'intervention-crop-production-information',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS = {
+    ...BASE_ROUTE,
+    segments: 'intervention-crop-production-projections',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_REVIEW_CROP_TARGETTING = {
+    ...BASE_ROUTE,
+    segments: 'intervention-crop-targetting',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
+  public static readonly INTERVENTION_SEED_PRICES = {
+    ...BASE_ROUTE,
+    segments: 'intervention-seed-prices',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
   public static readonly INTERVENTION_REVIEW_MONITORING_INFORMATION = {
