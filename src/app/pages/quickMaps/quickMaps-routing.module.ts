@@ -88,7 +88,7 @@ const routes: Routes = [
       {
         path: AppRoutes.QUICK_MAPS_DIETARY_CHANGE.getRouterPath(),
         component: DietaryChangeComponent,
-        canLoad: [FeatureFlagGuard],
+        // canLoad: [FeatureFlagGuard],
         data: {
           featureFlag: 'DietaryScenarios-Enable',
           appRoute: AppRoutes.QUICK_MAPS_DIETARY_CHANGE,
@@ -97,7 +97,7 @@ const routes: Routes = [
           description: '',
           showLightFooter: true,
         } as RouteData,
-        canActivate: [FeatureFlagGuard, QuickMapsRouteGuardService],
+        canActivate: [/*FeatureFlagGuard, */ QuickMapsRouteGuardService],
       },
       {
         path: AppRoutes.QUICK_MAPS_BIOMARKER.getRouterPath(),
