@@ -153,6 +153,14 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
+    if (!this.interventions) {
+      console.log('Interventions not loaded on previous page so grabbing now');
+      await this.dictionariesService
+        .getDictionaries([DictionaryType.INTERVENTIONS], false)
+        .then((dicts: Array<Dictionary>) => {
+          this.interventions = dicts.shift().getItems();
+        });
+    }
     this.statuses = await this.interventionDataService.getInterventionStatusDictionary();
 
     console.log(this.statuses);

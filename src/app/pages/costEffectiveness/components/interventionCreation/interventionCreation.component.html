@@ -10,6 +10,7 @@
   <button mat-stroked-button color="primary" (click)="openCESelectionDialog()">
     Create intervention
   </button>
+  {{ selectedInterventions}}
 </div>
 
 <h2 *ngIf="this.selectedInterventions.length !== 0">Created interventions</h2>
