@@ -45,6 +45,7 @@ export class InterventionSideNavContentService {
           title: 'Crop production information',
           description: 'Information about this step',
           route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+          skip: ['Costs', 'Effectiveness'],
         },
       ],
     },
