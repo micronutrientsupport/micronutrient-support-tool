@@ -1,6 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { reject } from 'cypress/types/bluebird';
-import { intersectionBy } from 'cypress/types/lodash';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 
@@ -452,7 +451,6 @@ export class InterventionSideNavContentService {
         this.sections = this.AfSections;
       }
     }
-
     this.readySrc.next(null);
     return this.sections;
   }

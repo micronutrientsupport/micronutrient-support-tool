@@ -43,7 +43,6 @@ export class InterventionSideNavContentComponent {
     // print array of CustomComponent objects
     void this.interventionDataService.getIntervention(this.activeInterventionId).then((intervention: Intervention) => {
       this.currentInterventionType = intervention.fortificationTypeId;
-      console.log('COnly', intervention.isCostOnly);
       this.sections = this.intSideNavService.getSections(this.currentInterventionType, intervention.isCostOnly);
       this.inferSidebarStepPosition(this.router.url);
     });
