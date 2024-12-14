@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.2...v1.22.0) (2024-12-14)
+
+
+### Features
+
+* ce upgrade to bf and af. ui qol improvement ([2d37fb8](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/2d37fb81a3a414e7ad19fca604bf4a07f1c53c19))
+
 ## [1.21.2](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.1...v1.21.2) (2024-12-03)
 
 
