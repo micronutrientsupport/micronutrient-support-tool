@@ -1,5 +1,6 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { reject } from 'cypress/types/bluebird';
+import { intersectionBy } from 'cypress/types/lodash';
 import { BehaviorSubject } from 'rxjs';
 import { AppRoute, AppRoutes } from 'src/app/routes/routes';
 
@@ -17,18 +18,18 @@ export class InterventionSideNavContentService {
   private readonly readySrc = new BehaviorSubject<null>(null);
   public readyObs = this.stepperPositionSrc.asObservable();
 
-  public BfDSections = [
+  public BfSectionsCost = [
     {
       title: 'Targeting',
       pages: [
         {
           title: 'Crop production projections',
-          description: 'Information about this step',
+          description: 'Review and modify annual crop production projections',
           route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
         },
         {
           title: 'Biofortified crop targeting',
-          description: 'Information about this step',
+          description: 'Specify subnational biofortified crop production targeting',
           route: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
         },
       ],
@@ -38,12 +39,171 @@ export class InterventionSideNavContentService {
       pages: [
         {
           title: 'Farmer adoption rates',
-          description: 'Information about this step',
+          description: 'Review and modify modeled farmer adoption rate',
           route: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION,
         },
         {
           title: 'Crop production information',
-          description: 'Information about this step',
+          description: 'Review and modify crop production detail',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+        },
+      ],
+    },
+    {
+      title: 'Costs',
+      pages: [
+        {
+          title: 'Seed prices and incremental costs',
+          description: 'Review and modify incremental biofortified seed costs',
+          route: AppRoutes.INTERVENTION_SEED_PRICES,
+        },
+        {
+          title: 'Startup/Scaleup costs',
+          description: 'Review and update costs related to the startup and scaleup of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+        },
+        {
+          title: 'Recurring costs',
+          description: 'Review and update the recurring costs of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
+        },
+        {
+          title: 'Cost summary',
+          description: 'View and download summary intervention cost estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
+        },
+      ],
+    },
+  ];
+
+  public AfSectionsCost = [
+    {
+      title: 'Targeting',
+      pages: [
+        {
+          title: 'Crop production projections',
+          description: 'Review and modify annual crop production projections',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
+        },
+        {
+          title: 'Biofortified crop targeting',
+          description: 'Specify subnational biofortified crop production targeting',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
+        },
+      ],
+    },
+    {
+      title: 'Intervention',
+      pages: [
+        {
+          title: 'Farmer adoption rates',
+          description: 'Review and modify modeled farmer adoption rate',
+          route: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION_AF,
+        },
+        {
+          title: 'Crop production information',
+          description: 'Review and modify crop production detail',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+        },
+      ],
+    },
+    {
+      title: 'Costs',
+      pages: [
+        {
+          title: 'Startup/Scaleup costs',
+          description: 'Review and update costs related to the startup and scaleup of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+        },
+        {
+          title: 'Recurring costs',
+          description: 'Review and update the recurring costs of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
+        },
+        {
+          title: 'Cost summary',
+          description: 'View and download summary intervention cost estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
+        },
+      ],
+    },
+  ];
+
+  public lsFFsectionsCost = [
+    {
+      title: 'Intervention',
+      pages: [
+        {
+          title: 'Food vehicle standard/target',
+          description: 'Review and update food vehicle standards/targets.',
+          route: AppRoutes.INTERVENTION_REVIEW_BASELINE,
+        },
+        {
+          title: 'Performance',
+          description: 'Review and update assumptions about program performance over time.',
+          route: AppRoutes.INTERVENTION_REVIEW_COMPLIANCE,
+        },
+      ],
+    },
+    {
+      title: 'Costs',
+      pages: [
+        {
+          title: 'Industry information',
+          description: 'Review and update information about the food vehicle industry.',
+          route: AppRoutes.INTERVENTION_REVIEW_INDUSTRY_INFORMATION,
+        },
+        {
+          title: 'Monitoring information',
+          description: 'Review and update intervention monitoring assumptions.',
+          route: AppRoutes.INTERVENTION_REVIEW_MONITORING_INFORMATION,
+        },
+        {
+          title: 'Startup/Scaleup costs',
+          description: 'Review and update costs related to the startup and scaleup of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+        },
+        {
+          title: 'Recurring costs',
+          description: 'Review and update the recurring costs of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
+        },
+        {
+          title: 'Cost summary',
+          description: 'View and download summary intervention cost estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
+        },
+      ],
+    },
+  ];
+
+  public BfSections = [
+    {
+      title: 'Targeting',
+      pages: [
+        {
+          title: 'Crop production projections',
+          description: 'Review and modify annual crop production projections',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
+        },
+        {
+          title: 'Biofortified crop targeting',
+          description: 'Specify subnational biofortified crop production targeting',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
+        },
+      ],
+    },
+    {
+      title: 'Intervention',
+      pages: [
+        {
+          title: 'Farmer adoption rates',
+          description: 'Review and modify modeled farmer adoption rate',
+          route: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION,
+        },
+        {
+          title: 'Crop production information',
+          description: 'Review and modify crop production detail',
           route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
           skip: ['Costs', 'Effectiveness'],
         },
@@ -54,9 +214,93 @@ export class InterventionSideNavContentService {
       pages: [
         {
           title: 'Seed prices and incremental costs',
-          description: 'Information about this step',
+          description: 'Review and modify incremental biofortified seed costs',
           route: AppRoutes.INTERVENTION_SEED_PRICES,
         },
+        {
+          title: 'Startup/Scaleup costs',
+          description: 'Review and update costs related to the startup and scaleup of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_STARTUP_SCALEUP_COSTS,
+        },
+        {
+          title: 'Recurring costs',
+          description: 'Review and update the recurring costs of the intervention program.',
+          route: AppRoutes.INTERVENTION_REVIEW_RECURRING_COSTS,
+        },
+        {
+          title: 'Cost summary',
+          description: 'View and download summary intervention cost estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_SUMMARY,
+        },
+      ],
+    },
+    {
+      title: 'Effectiveness',
+      pages: [
+        {
+          title: 'Projected number of households',
+          description: 'Projected number of households over 10-year time horizon.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_HOUSEHOLDS,
+        },
+        {
+          title: 'Nutrient requirements',
+          description: 'Nutrient and energy requirements for reference household member.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_METRICS,
+        },
+        {
+          title: 'Effectiveness summary',
+          description: 'View and download summary intervention effectiveness estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_EFFECTIVENESS_SUMMARY,
+        },
+      ],
+    },
+    {
+      title: 'Cost Effectiveness',
+      pages: [
+        {
+          title: 'Cost-effectiveness summary',
+          description: 'View and download summary intervention cost-effectiveness estimates.',
+          route: AppRoutes.INTERVENTION_REVIEW_COST_EFFECTIVENESS_SUMMARY,
+        },
+      ],
+    },
+  ];
+
+  public AfSections = [
+    {
+      title: 'Targeting',
+      pages: [
+        {
+          title: 'Crop production projections',
+          description: 'Review and modify annual crop production projections',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS,
+        },
+        {
+          title: 'Biofortified crop targeting',
+          description: 'Specify subnational biofortified crop production targeting',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_TARGETTING,
+        },
+      ],
+    },
+    {
+      title: 'Intervention',
+      pages: [
+        {
+          title: 'Farmer adoption rates',
+          description: 'Review and modify modeled farmer adoption rate',
+          route: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION_AF,
+        },
+        {
+          title: 'Crop production information',
+          description: 'Review and modify crop production detail',
+          route: AppRoutes.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION,
+          skip: ['Costs', 'Effectiveness'],
+        },
+      ],
+    },
+    {
+      title: 'Costs',
+      pages: [
         {
           title: 'Startup/Scaleup costs',
           description: 'Review and update costs related to the startup and scaleup of the intervention program.',
@@ -190,12 +434,25 @@ export class InterventionSideNavContentService {
     },
   ];
 
-  public getSections(interventionType: string) {
-    if (interventionType === 'LSFF') {
-      this.sections = this.lsFFsections;
-    } else if (interventionType === 'BF') {
-      this.sections = this.BfDSections;
+  public getSections(interventionType: string, isCostOnly?: boolean) {
+    if (isCostOnly) {
+      if (interventionType === 'LSFF') {
+        this.sections = this.lsFFsectionsCost;
+      } else if (interventionType === 'BF') {
+        this.sections = this.BfSectionsCost;
+      } else if (interventionType === 'AF') {
+        this.sections = this.AfSectionsCost;
+      }
+    } else {
+      if (interventionType === 'LSFF') {
+        this.sections = this.lsFFsections;
+      } else if (interventionType === 'BF') {
+        this.sections = this.BfSections;
+      } else if (interventionType === 'AF') {
+        this.sections = this.AfSections;
+      }
     }
+
     this.readySrc.next(null);
     return this.sections;
   }

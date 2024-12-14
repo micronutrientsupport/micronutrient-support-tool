@@ -59,6 +59,7 @@ import { GetInterventionCropProductionInformation } from './intervention/interve
 import { GetInterventionCropTargetting } from './intervention/interventionCropTargetting/getInterventionCropTargetting';
 import { GetInterventionFarmerAdoption } from './intervention/interventionFarmerAdoption/getInterventionFarmerAdoption';
 import { GetInterventionSeedPrices } from './intervention/interventionSeedPrices/getInterventionSeedPrices';
+import { GetInterventionFarmerAdoptionAF } from './intervention/interventionFarmerAdoptionAF/getInterventionFarmerAdoptionAF';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -105,6 +106,7 @@ export class ApiService extends BaseApi {
       getInterventionStartupCosts: new GetInterventionStartupCosts(ApiService.USE_LIVE_API),
       getInterventionBaselineAssumptions: new GetInterventionBaselineAssumptions(ApiService.USE_LIVE_API),
       getInterventionFarmerAdoption: new GetInterventionFarmerAdoption(ApiService.USE_LIVE_API),
+      getInterventionFarmerAdoptionAF: new GetInterventionFarmerAdoptionAF(ApiService.USE_LIVE_API),
       getInterventionCostSummary: new GetInterventionCostSummary(ApiService.USE_LIVE_API),
       getInterventionCostEffectivenessSummary: new GetInterventionCostEffectivenessSummary(ApiService.USE_LIVE_API),
       getInterventionFortificationLevel: new GetInterventionFortificationLevel(ApiService.USE_LIVE_API),

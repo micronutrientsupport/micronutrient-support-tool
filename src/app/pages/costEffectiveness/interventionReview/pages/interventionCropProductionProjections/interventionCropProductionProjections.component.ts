@@ -10,6 +10,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { Intervention } from 'src/app/apiAndObjects/objects/intervention';
 @Component({
   selector: 'app-intervention-crop-production-projections',
   templateUrl: './interventionCropProductionProjections.component.html',
@@ -42,6 +43,8 @@ export class InterventionCropProductionProjectionsComponent implements OnInit {
   public formChanges: InterventionForm['formChanges'] = {};
   public dataLoaded = false;
 
+  public intervention: Intervention;
+
   public nextRoutes = [];
   public previousRoute;
 
@@ -63,8 +66,9 @@ export class InterventionCropProductionProjectionsComponent implements OnInit {
    * at the end of the chain for processing.
    *
    */
-  private initFormWatcher(): void {
+  private async initFormWatcher(): Promise<void> {
     const activeInterventionId = this.interventionDataService.getActiveInterventionId();
+    this.intervention = await this.interventionDataService.getIntervention(activeInterventionId);
     if (null != activeInterventionId) {
       void this.interventionDataService
         .getInterventionCropProductionInformation(activeInterventionId)

@@ -51,6 +51,8 @@ import { InterventionCropProductionProjectionsComponent } from './pages/interven
 import { InterventionCropTargettingComponent } from './pages/interventionCropTargetting/interventionCropTargetting.component';
 import { InterventionFarmerAdoptionRatesComponent } from './pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
 import { InterventionSeedPricesComponent } from './pages/interventionSeedPrices/interventionSeedPrices.component';
+import { InterventionFarmerAdoption } from 'src/app/apiAndObjects/objects/interventionFarmerAdoption';
+import { InterventionFarmerAdoptionRatesAFComponent } from './pages/interventionFarmerAdoptionRatesAF/interventionFarmerAdoptionRatesAF.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { InterventionSeedPricesComponent } from './pages/interventionSeedPrices/
     InterventionBaselineComponent,
     InterventionComplianceComponent,
     InterventionFarmerAdoptionRatesComponent,
+    InterventionFarmerAdoptionRatesAFComponent,
     InterventionCostSummaryComponent,
     InterventionIndustryInformationComponent,
     InterventionCropProductionInformationComponent,

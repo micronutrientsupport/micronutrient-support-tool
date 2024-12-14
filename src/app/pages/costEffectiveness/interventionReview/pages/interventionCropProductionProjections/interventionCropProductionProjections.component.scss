@@ -1,1 +1,28 @@
 @use '../interventionReviewPages.scss';
+
+input {
+  &:disabled {
+    background-color: #a0a0a0;
+    border: 0px;
+    color: white !important;
+  }
+}
+
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 90%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+  &:disabled {
+    background-color: #a0a0a0;
+    border: 0px;
+    color: white !important;
+  }
+}

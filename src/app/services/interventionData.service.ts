@@ -30,6 +30,7 @@ import { InterventionCropProductionInformation } from '../apiAndObjects/objects/
 import { InterventionCropTargetting } from '../apiAndObjects/objects/interventionCropTargetting';
 import { InterventionFarmerAdoption } from '../apiAndObjects/objects/interventionFarmerAdoption';
 import { InterventionSeedPrices } from '../apiAndObjects/objects/interventionSeedPrices';
+import { InterventionFarmerAdoptionAF } from '../apiAndObjects/objects/interventionFarmerAdoptionAF';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -187,6 +188,15 @@ export class InterventionDataService {
 
   public getInterventionFarmerAdoption(id: string): Promise<InterventionFarmerAdoption> {
     return this.apiService.endpoints.intervention.getInterventionFarmerAdoption.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionFarmerAdoptionAF(id: string): Promise<InterventionFarmerAdoptionAF> {
+    return this.apiService.endpoints.intervention.getInterventionFarmerAdoptionAF.call(
       {
         id,
       },
@@ -495,6 +505,13 @@ export class InterventionDataService {
       void this.router.navigate(route, { queryParams: params });
     }
     if (intervention.fortificationTypeId === 'BF') {
+      const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS.getRoute();
+      // const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION.getRoute();
+      console.log('start with', route);
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    }
+    if (intervention.fortificationTypeId === 'AF') {
       const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS.getRoute();
       // const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION.getRoute();
       console.log('start with', route);

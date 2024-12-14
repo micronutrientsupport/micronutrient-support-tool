@@ -1,0 +1,57 @@
+@use '@angular/material' as mat;
+@use '../interventionReviewPages.scss';
+@import 'src/assets/scss/_colour';
+
+.container {
+  .content {
+    overflow-x: hidden;
+  }
+}
+
+input {
+  // display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 90%;
+  padding: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: black 0.5px solid;
+  text-align: center;
+}
+
+// input:focus {
+//   outline: none;
+//   border: 1px solid blue;
+// }
+
+// user edited values
+input.ng-dirty {
+  color: $color_input_blue;
+  border-color: $color_input_blue;
+}
+
+.lower-table-wrapper ::ng-deep .mdc-data-table__content tr:nth-child(1) td {
+  color: $color_primary;
+  font-weight: bold;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  min-width: 6em;
+}
+
+.loading-indicator {
+  display: inline-block;
+}
+
+.icon-display {
+  transform: scale(0.6);
+  display: inline-block !important;
+}
+
+.first {
+  max-width: 20em;
+  padding-bottom: 1em !important;
+  padding-top: 1em !important;
+  padding-right: 1em !important;
+}

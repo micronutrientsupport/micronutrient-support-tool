@@ -22,6 +22,7 @@ import { InterventionCropProductionProjectionsComponent } from './pages/interven
 import { InterventionCropTargettingComponent } from './pages/interventionCropTargetting/interventionCropTargetting.component';
 import { InterventionFarmerAdoptionRatesComponent } from './pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
 import { InterventionSeedPricesComponent } from './pages/interventionSeedPrices/interventionSeedPrices.component';
+import { InterventionFarmerAdoptionRatesAFComponent } from './pages/interventionFarmerAdoptionRatesAF/interventionFarmerAdoptionRatesAF.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,20 @@ const routes: Routes = [
         data: {
           featureFlag: 'CE-Enable',
           appRoute: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION,
+          title: '',
+          keywords: '',
+          description: '',
+          showLightFooter: true,
+        } as RouteData,
+      },
+      {
+        path: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION_AF.getRouterPath(),
+        component: InterventionFarmerAdoptionRatesAFComponent,
+        canActivate: [FeatureFlagGuard],
+        canLoad: [FeatureFlagGuard],
+        data: {
+          featureFlag: 'CE-Enable',
+          appRoute: AppRoutes.INTERVENTION_REVIEW_FARMER_ADOPTION_AF,
           title: '',
           keywords: '',
           description: '',

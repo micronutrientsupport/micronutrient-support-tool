@@ -14,11 +14,11 @@
                   <div class="form-flex-wrapper">
                     <div class="form-50">
                       <div>
-                        <h4>1. Nation <i class="fas fa-question-circle"
+                        <h4>1. Template Nation <i class="fas fa-question-circle"
                             matTooltip="Currently dummy models are provided for Ethiopia and Malawi.  In the future, the ability to customise models for other locales will also be supported."></i>
                         </h4>
                         <mat-form-field>
-                          <mat-label>Select</mat-label>
+                          <mat-label>Select template nation</mat-label>
                           <mat-select [(value)]="selectedCountry" (selectionChange)="handleNationChange($event)"
                             name="nation" formControlName="nation">
                             <mat-option *ngFor="let item of countryOptionArray" [value]="item.id">
@@ -26,6 +26,28 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
+
+                        <mat-expansion-panel class="e-panel">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title> Use this template as the basis for modelling in another
+                              nation?</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p>Copy the cost model parameters from {{selectedCountry}} to create a model for a different
+                            nation.</p>
+                          <p class="disclaimer">
+                            <strong>Note:</strong> It is the responsibility of the
+                            user to evaluate and update the default values to ensure they are appropriate for their
+                            use case.
+                          </p>
+                          <mat-form-field>
+                            <mat-label>Select override nation</mat-label>
+                            <mat-select [(value)]="overrideCountry" name="nation" formControlName="nation">
+                              <mat-option *ngFor="let item of allCountryOptionArray" [value]="item.id">
+                                {{ item.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </mat-expansion-panel>
                       </div>
                       <div>
                         <h4>2. Focus micronutrient</h4>
@@ -49,7 +71,7 @@
                           <mat-select [(value)]="selectedInterventionType" name="interventionType"
                             formControlName="interventionType" (valueChange)="handleInterventionTypeChange($event)">
                             <mat-option *ngFor="let item of interventionTypeArray" [value]="item">
-                              {{ item }}
+                              {{ fortificationTypeFullNames[item] }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -100,13 +122,17 @@
                           class="margin-bottom-big template-image" />
 
                         <p>MAPS provides a collection of template interventions which can be customised for your use
-                          case. Some are prepopulated with expert solicted values (which can still be overriden), Some
-                          are 'default' models where all values will need to be provided by the user.
+                          case. These are prepopulated with expert solicted values (which can still be overriden). For
+                          nations which doe not currently have a dedicated model, the most appropriate nation with a
+                          pre-populated model can be selected and used as a basis for the new model.
                         </p>
                         <p class="disclaimer">
                           <strong>Note:</strong> You can choose to model any combination of focus micronutrient and food
                           vehicle/crop. However, the user is responsible for ensuring the technical feasibility of the
                           combination.
+                          <br />
+                          Effectiveness and Cost-Effectiveness can only be modeled for nations with population and HCES
+                          consumption data within the MAPS Tool. Costs can be modeled for all interventions.
                         </p>
 
                         <span
@@ -331,11 +357,13 @@
       <button mat-flat-button color="primary" *ngIf="stepper?.selectedIndex === 1 && tabID === 'copy' && !isCopyMode"
         [disabled]=" !parameterForm2.valid" (click)="next()">Name this
         intervention</button>
-      <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
+      <a form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
         *ngIf="stepper?.selectedIndex === 2 && tabID === 'copy' && !isCopyMode"
-        [disabled]="!(interventionForm && interventionForm.valid) || !(parameterForm && parameterForm.valid) || !selectedIntervention">
-        Create Intervention
-      </button>
+        [disabled]="intLoading || !(interventionForm && interventionForm.valid) || !(parameterForm && parameterForm.valid) || !selectedIntervention">
+        <span *ngIf="!intLoading">Create Intervention</span>
+        <span *ngIf="intLoading">Creating Intervention&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+            [diameter]="16" color='accent'></mat-spinner></span>
+      </a>
       <button form="form" mat-flat-button color="primary" (click)="createIntervention()" class="btn-proceed"
         *ngIf="isCopyMode" [disabled]="!interventionForm.valid">
         Copy Intervention

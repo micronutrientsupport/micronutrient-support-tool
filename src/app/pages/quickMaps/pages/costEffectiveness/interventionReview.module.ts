@@ -47,6 +47,7 @@ import { InterventionCropProductionProjectionsComponent } from './interventionRe
 import { InterventionCropTargettingComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionCropTargetting/interventionCropTargetting.component';
 import { InterventionFarmerAdoptionRatesComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
 import { InterventionSeedPricesComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionSeedPrices/interventionSeedPrices.component';
+import { InterventionFarmerAdoptionRatesAFComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionFarmerAdoptionRatesAF/interventionFarmerAdoptionRatesAF.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { InterventionSeedPricesComponent } from 'src/app/pages/costEffectiveness
     InterventionBaselineComponent,
     InterventionComplianceComponent,
     InterventionFarmerAdoptionRatesComponent,
+    InterventionFarmerAdoptionRatesAFComponent,
     InterventionCostSummaryComponent,
     InterventionIndustryInformationComponent,
     InterventionCropProductionInformationComponent,

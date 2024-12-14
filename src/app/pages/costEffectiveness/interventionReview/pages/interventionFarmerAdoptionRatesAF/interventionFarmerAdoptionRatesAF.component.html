@@ -1,0 +1,76 @@
+<div class="bmgf-maps-nice-scrollbar container">
+  <div class="content">
+    <app-intervention-description></app-intervention-description>
+    <div class="header-row">
+      <div class="title">
+        <span>Farmer Adoption Rates</span>
+      </div>
+    </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 11, rows: 2 }"></app-reusable-skeleton-table>
+
+    <form [formGroup]="form" *ngIf="form">
+
+      <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
+        <ng-container matColumnDef="title">
+          <th class="row-title-left" mat-header-cell *matHeaderCellDef>Intervention
+            year
+          </th>
+          <td class="row-title-left first" mat-cell *matCellDef="let element">{{element.labelText}}
+            <i *ngIf="element.rowNotes" class="fas fa-question-circle" matTooltip="{{element.rowNotes}}"></i>
+          </td>
+        </ng-container>
+
+        <ng-container *ngFor="let year of [0, 1,2,3,4,5,6,7,8,9]; last as omitCopyButton"
+          [matColumnDef]="'year' + year">
+          <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
+          <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
+            <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
+              [includeCopyRightButton]="!omitCopyButton"
+              [changeFunction]="updateBaselineAssumptions"></app-ce-input-field>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="source">
+          <th mat-header-cell *matHeaderCellDef> Source </th>
+          <td class="source-col" mat-cell *matCellDef="let element let index = index">
+            <button class="sourceBtn" *ngIf="!element.isCalculated && dirtyIndexes.includes(index) === false" mat-button
+              color="primary" matTooltip="{{element.dataSourceDefault}}"
+              cdkCopyToClipboard="{{element.dataSourceDefault}}"
+              (click)="notificationsService.sendInformative('Data source copied to clipboard')">
+              <i class=" fa-regular fa-copy"></i>
+              {{element.dataSourceDefault}}
+              <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
+            </button>
+            <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
+              User Input
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="assumptionsDisplayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: assumptionsDisplayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+        </tr>
+      </table>
+    </form>
+
+    <!-- <app-micro-nutrients-in-premix-table [editable]="false"></app-micro-nutrients-in-premix-table> -->
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="true"
+      [showUserValues]="true" [showUserOverrideValues]="true" [showAddMicronutrient]="false"
+      [showMnUnits]="true"></app-intervention-step-details>
+
+  </div>
+  <footer>
+    <a *ngIf="previousRoute" class="intervention-navigation" mat-stroked-button [routerLink]="previousRoute | route"
+      queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <button *ngFor="let route of nextRoutes" [disabled]="loading" class="intervention-navigation" mat-flat-button
+      color="primary" (click)="confirmAndContinue(route?.route)">
+      <span *ngIf="!loading">{{ route.title }}</span>
+      <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+          [diameter]="16" color='accent'></mat-spinner></span>
+    </button>
+  </footer>
+</div>

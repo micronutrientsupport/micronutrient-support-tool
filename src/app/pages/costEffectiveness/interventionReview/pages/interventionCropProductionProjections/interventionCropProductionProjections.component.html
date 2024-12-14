@@ -5,15 +5,14 @@
       <span> Crop Production Projections</span>
     </div>
 
-    <app-reusable-skeleton-table *ngIf="!dataLoaded"
-      [setData]="{ columns: 12, rows: 10 }"></app-reusable-skeleton-table>
+    <app-reusable-skeleton-table *ngIf="!dataLoaded" [setData]="{ columns: 12, rows: 1 }"></app-reusable-skeleton-table>
 
     <form [formGroup]="form" *ngIf="form">
       <table mat-table [dataSource]="dataSource" formArrayName="items" class="table-full-width">
         <ng-container matColumnDef="labelText">
           <th class="row-title-left" mat-header-cell *matHeaderCellDef> Intervention year </th>
           <td class="row-title-left" mat-cell *matCellDef="let element">
-            {{element.labelText}}
+            Total area under crop production <span *ngIf="intervention">({{intervention.foodVehicleName}})</span>
             <i *ngIf="element.isCalculated && element.rowNotes" class="fas fa-question-circle"
               matTooltip="{{element.rowNotes}}"></i>
           </td>
@@ -22,8 +21,8 @@
         <ng-container *ngFor="let year of [0,1,2,3,4,5,6,7,8,9]; last as omitCopyButton" [matColumnDef]="'year' + year">
           <th mat-header-cell *matHeaderCellDef> {{ baseYear + year }} </th>
           <td mat-cell *matCellDef="let element; let index = index" [formGroupName]="index">
-            <app-ce-input-field [index]="index" [year]="year" [element]="element" [form]="form" [tableData]="dataSource"
-              [dirtyIndexes]="dirtyIndexes" [includeCopyRightButton]="!omitCopyButton"></app-ce-input-field>
+            <input type="text" disabled="true" appDecimalInput required [value]="element['year'
+              + year] | number:'1.0-0'" class="copy-input">
           </td>
         </ng-container>
 
@@ -31,22 +30,12 @@
           <th mat-header-cell *matHeaderCellDef> Source </th>
           <td mat-cell *matCellDef="let element let index = index">
             <span>
-              <button class="sourceBtn" *ngIf="!element.isCalculated && dirtyIndexes.includes(index) === false"
-                mat-button color="primary" matTooltip="{{element.dataSource}}"
+              <button class="sourceBtn" mat-button color="primary" matTooltip="{{element.dataSource}}"
                 cdkCopyToClipboard="{{element.dataSource}}"
                 (click)="notificationsService.sendInformative('Data source copied to clipboard')">
                 <i class=" fa-regular fa-copy"></i>
-                {{element.dataSource}}
+                IFPRI IMPACT Model Foresight (HGEM2 climate change scenario)
                 <!-- GFDx<mat-icon>arrow_right_alt</mat-icon> -->
-              </button>
-              <button *ngIf="!element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
-                User Input
-              </button>
-              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index)" mat-button color="primary">
-                User Overridden
-              </button>
-              <button *ngIf="element.isCalculated && dirtyIndexes.includes(index) === false" mat-button color="primary">
-                Model calculation
               </button>
             </span>
           </td>

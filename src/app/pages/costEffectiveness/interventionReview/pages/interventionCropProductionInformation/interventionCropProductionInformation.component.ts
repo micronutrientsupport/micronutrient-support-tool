@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {
   CropProductionInformation,
   InterventionCropProductionInformation,
@@ -10,6 +10,7 @@ import { InterventionSideNavContentService } from '../../components/intervention
 import { UntypedFormArray, UntypedFormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { MatTab } from '@angular/material/tabs';
 @Component({
   selector: 'app-intervention-crop-production-information',
   templateUrl: './interventionCropProductionInformation.component.html',
@@ -36,6 +37,7 @@ export class InterventionCropProductionInformationComponent implements OnInit {
 
   public baseYear = 2021;
   public dataSource = new MatTableDataSource();
+  public dataSourceBf = new MatTableDataSource();
   public ROUTES = AppRoutes;
   public interventionName = 'IntName';
   public form: UntypedFormGroup;
@@ -69,11 +71,26 @@ export class InterventionCropProductionInformationComponent implements OnInit {
       void this.interventionDataService
         .getInterventionCropProductionInformation(activeInterventionId)
         .then((data: InterventionCropProductionInformation) => {
-          this.dataSource = new MatTableDataSource(data.cropProductionInformation);
-          const cropProductionGroupArr = data.cropProductionInformation.map((item) => {
+          const cpi = data.cropProductionInformation;
+          cpi.splice(
+            cpi.findIndex((e) => e.labelText.startsWith('Placeholder row')),
+            1,
+          );
+
+          const cropProductionGroupArr = cpi.map((item) => {
             // for each item in the API result, create a row of results to populate the table
             return this.createCropProductionGroup(item);
           });
+
+          const bfSplit = cpi.findIndex(
+            (element) =>
+              element.rowName === 'area_under_crop_production_local' || element.rowName === 'crop_fertilization_rate',
+          );
+
+          const bf = cpi.splice(bfSplit);
+          this.dataSource = new MatTableDataSource(cpi);
+          this.dataSourceBf = new MatTableDataSource(bf);
+
           this.form = this.formBuilder.group({
             items: this.formBuilder.array(cropProductionGroupArr),
           });

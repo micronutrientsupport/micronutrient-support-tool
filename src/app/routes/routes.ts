@@ -158,6 +158,11 @@ export class AppRoutes {
     segments: 'intervention-farmer-adoption',
     parent: AppRoutes.COST_EFFECTIVENESS,
   };
+  public static readonly INTERVENTION_REVIEW_FARMER_ADOPTION_AF = {
+    ...BASE_ROUTE,
+    segments: 'intervention-farmer-adoption-af',
+    parent: AppRoutes.COST_EFFECTIVENESS,
+  };
   public static readonly INTERVENTION_REVIEW_CONSUMPTION = {
     ...BASE_ROUTE,
     segments: 'intervention-consumption',
