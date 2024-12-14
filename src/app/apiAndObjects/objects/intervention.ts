@@ -9,6 +9,7 @@ export class Intervention extends BaseObject implements Named {
     DESCRIPTION: 'description',
     USER_ID: 'userId',
     COUNTRY_ID: 'countryId',
+    FOCUS_GEOGRAPHY: 'focusGeography',
     FOCUS_MICRONUTRIENT: 'focusMicronutrient',
     FORTIFICATION_ID: 'fortificationTypeId',
     FORTIFICATION_NAME: 'fortificationTypeName',
@@ -39,6 +40,7 @@ export class Intervention extends BaseObject implements Named {
   public readonly lastEdited: string;
   public readonly isTemplateIntervention: boolean;
   public readonly parentIntervention: number;
+  public readonly isCostOnly: boolean;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -49,7 +51,7 @@ export class Intervention extends BaseObject implements Named {
     // this.dataLevel = this._getEnum(FoodSystemsDataSource.KEYS.CONSUMPTION_DATA_TYPE, DataLevel);
 
     this.userId = this._getString(Intervention.KEYS.USER_ID);
-    this.countryId = this._getString(Intervention.KEYS.COUNTRY_ID);
+    this.countryId = this._getString(Intervention.KEYS.FOCUS_GEOGRAPHY);
     this.focusMicronutrient = this._getString(Intervention.KEYS.FOCUS_MICRONUTRIENT);
     this.fortificationTypeId = this._getString(Intervention.KEYS.FORTIFICATION_ID);
     this.fortificationTypeName = this._getString(Intervention.KEYS.FORTIFICATION_NAME);
@@ -61,5 +63,7 @@ export class Intervention extends BaseObject implements Named {
     this.lastEdited = this._getString(Intervention.KEYS.LAST_EDITED);
     this.isTemplateIntervention = this._getBoolean(Intervention.KEYS.IS_TEMPLATE_INTERVENTION);
     this.parentIntervention = this._getNumber(Intervention.KEYS.PARENT_INTERVENTION);
+    this.isCostOnly =
+      this._getString(Intervention.KEYS.FOCUS_GEOGRAPHY) !== this._getString(Intervention.KEYS.COUNTRY_ID);
   }
 }

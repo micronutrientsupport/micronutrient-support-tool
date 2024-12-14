@@ -61,17 +61,26 @@ export class InterventionRecurringCostsComponent implements OnInit {
           const industryCapitalIdx = data.recurringCosts.findIndex(
             (costs: RecurringCost) => (costs.category as string) === 'Industry-related capital costs',
           );
-          const industryCapital = this.recurringCosts.splice(industryCapitalIdx, 1);
-          // console.log({ industryCapital });
+          let industryCapital;
+          if (industryCapitalIdx >= 0) {
+            industryCapital = this.recurringCosts.splice(industryCapitalIdx, 1);
+          }
 
           const governmetnCapitalIdx = this.recurringCosts.findIndex(
             (costs: { costs: RecurringCost; capitalCosts: RecurringCost }) =>
               (costs.costs.category as string) === 'Government-related capital costs',
           );
-          const governmetnCapital = this.recurringCosts.splice(governmetnCapitalIdx, 1);
+          let governmetnCapital;
+          if (governmetnCapitalIdx >= 0) {
+            governmetnCapital = this.recurringCosts.splice(governmetnCapitalIdx, 1);
+          }
 
-          this.recurringCosts[1].capitalCosts = industryCapital[0].costs;
-          this.recurringCosts[2].capitalCosts = governmetnCapital[0].costs;
+          if (industryCapital) {
+            this.recurringCosts[1].capitalCosts = industryCapital[0].costs;
+          }
+          if (governmetnCapital) {
+            this.recurringCosts[2].capitalCosts = governmetnCapital[0].costs;
+          }
 
           console.debug('initial: ', this.recurringCosts);
         });

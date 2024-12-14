@@ -26,6 +26,11 @@ import { InterventionExpectedLosses } from '../apiAndObjects/objects/interventio
 import { InterventionLsffEffectivenessSummary } from '../apiAndObjects/objects/interventionLsffEffectivenessSummary';
 import { InterventionCostEffectivenessSummary } from '../apiAndObjects/objects/interventionCostEffectivenessSummary';
 import { InterventionStatus } from '../apiAndObjects/objects/interventionStatus';
+import { InterventionCropProductionInformation } from '../apiAndObjects/objects/interventionCropProductionInformation';
+import { InterventionCropTargetting } from '../apiAndObjects/objects/interventionCropTargetting';
+import { InterventionFarmerAdoption } from '../apiAndObjects/objects/interventionFarmerAdoption';
+import { InterventionSeedPrices } from '../apiAndObjects/objects/interventionSeedPrices';
+import { InterventionFarmerAdoptionAF } from '../apiAndObjects/objects/interventionFarmerAdoptionAF';
 
 export const ACTIVE_INTERVENTION_ID = 'activeInterventionId';
 export const CACHED_MN_IN_PREMIX = 'cachedMnInPremix';
@@ -127,6 +132,33 @@ export class InterventionDataService {
     );
   }
 
+  public getInterventionCropProductionInformation(id: string): Promise<InterventionCropProductionInformation> {
+    return this.apiService.endpoints.intervention.getInterventionCropProductionInformation.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionSeedPrices(id: string): Promise<InterventionSeedPrices> {
+    return this.apiService.endpoints.intervention.GetInterventionSeedPrices.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionCropTargetting(id: string): Promise<InterventionCropTargetting> {
+    return this.apiService.endpoints.intervention.getInterventionCropTargettng.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
   public getInterventionRecurringCosts(id: string): Promise<InterventionRecurringCosts> {
     return this.apiService.endpoints.intervention.getInterventionRecurringCosts.call(
       {
@@ -147,6 +179,24 @@ export class InterventionDataService {
 
   public getInterventionBaselineAssumptions(id: string): Promise<InterventionBaselineAssumptions> {
     return this.apiService.endpoints.intervention.getInterventionBaselineAssumptions.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionFarmerAdoption(id: string): Promise<InterventionFarmerAdoption> {
+    return this.apiService.endpoints.intervention.getInterventionFarmerAdoption.call(
+      {
+        id,
+      },
+      false,
+    );
+  }
+
+  public getInterventionFarmerAdoptionAF(id: string): Promise<InterventionFarmerAdoptionAF> {
+    return this.apiService.endpoints.intervention.getInterventionFarmerAdoptionAF.call(
       {
         id,
       },
@@ -262,6 +312,7 @@ export class InterventionDataService {
       userId: intervention.userId,
       focusMicronutrient: intervention.focusMicronutrient,
       focusNation: intervention.countryId,
+      fortificationType: intervention.fortificationTypeName,
     };
     const testDuplicate = activeItemsArr.find((activeItem: SimpleIntervention) => activeItem.id === intervention.id);
 
@@ -443,11 +494,30 @@ export class InterventionDataService {
   //   localStorage.setItem(RECENT_INTERVENTIONS, JSON.stringify(cached));
   // }
 
-  public startReviewingIntervention(interventionID: string): void {
+  public async startReviewingIntervention(interventionID: string): Promise<void> {
     this.setActiveInterventionId(interventionID);
-    const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
-    const params = this.route.snapshot.queryParams;
-    void this.router.navigate(route, { queryParams: params });
+    const intervention = await this.getIntervention(interventionID);
+    console.log({ intervention }, intervention.fortificationTypeId);
+    if (intervention.fortificationTypeId === 'LSFF') {
+      const route = this.ROUTES.INTERVENTION_REVIEW_BASELINE.getRoute();
+      console.log('start with', route);
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    }
+    if (intervention.fortificationTypeId === 'BF') {
+      const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS.getRoute();
+      // const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION.getRoute();
+      console.log('start with', route);
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    }
+    if (intervention.fortificationTypeId === 'AF') {
+      const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_PROJECTIONS.getRoute();
+      // const route = this.ROUTES.INTERVENTION_REVIEW_CROP_PRODUCTION_INFORMATION.getRoute();
+      console.log('start with', route);
+      const params = this.route.snapshot.queryParams;
+      void this.router.navigate(route, { queryParams: params });
+    }
   }
 
   public patchInterventionData(

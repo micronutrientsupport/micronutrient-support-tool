@@ -6,15 +6,15 @@
     <mat-button-toggle value="create">
       Create Interventions
     </mat-button-toggle>
-    <mat-button-toggle value="compare">
+    <!-- <mat-button-toggle value="compare">
       Compare Interventions
-    </mat-button-toggle>
+    </mat-button-toggle> -->
   </mat-button-toggle-group>
-  <span matTooltip="Select interventions to compare them.">
+  <!-- <span matTooltip="Select interventions to compare them.">
     <mat-icon [matBadge]="interventionCount" matBadgeOverlap="false">shopping_basket</mat-icon>
-  </span>
+  </span> -->
 </div>
 <div>
   <app-intervention-creation *ngIf="group.value === 'create'"></app-intervention-creation>
-  <app-intervention-comparison *ngIf="group.value === 'compare'"></app-intervention-comparison>
+  <!-- <app-intervention-comparison *ngIf="group.value === 'compare'"></app-intervention-comparison> -->
 </div>

@@ -52,10 +52,16 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public selectedInterventionIDLoad = '';
   public interventionId = '';
   public tabID = 'copy';
+  public fortificationTypeFullNames = {
+    LSFF: 'Large-Scale Food Fortification',
+    BF: 'Biofortification',
+    AF: 'Agronomic Biofortification',
+  };
   public err = new BehaviorSubject<boolean>(false);
   public interventionForm: UntypedFormGroup;
   public foodVehicleArray = [];
   public interventionTypeArray = [];
+  public interventionStatuses = {};
   public interventionStatusArray = [];
   public interventionNatureArray = [];
   public interventionBaseYearArray = ['2021'];
@@ -65,11 +71,13 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public parameterForm: UntypedFormGroup;
   public parameterForm2: UntypedFormGroup;
   public countryOptionArray: DictionaryItem[] = [];
+  public allCountryOptionArray: DictionaryItem[] = [];
   public regionOptionArray: Region[] = [];
   public micronutrientsOptionArray: DictionaryItem[] = [];
   public interventionTypeOptionArray: InterventionType[] = [];
   public foodVehicleOptionArray: FoodVehicle[] = [];
   public selectedCountry = '';
+  public overrideCountry = '';
   public selectedMn = '';
   public selectedInterventionId = '';
   public selectedIntervention: InterventionsDictionaryItem = undefined;
@@ -89,6 +97,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   private micronutrientsDictionary: Dictionary;
 
   public statuses: InterventionStatus[];
+
+  public loading = true;
+  public intLoading = false;
 
   @ViewChild('stepper')
   stepper: MatStepper;
@@ -149,20 +160,33 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
+    if (!this.interventions) {
+      console.log('Interventions not loaded on previous page so grabbing now');
+      await this.dictionariesService
+        .getDictionaries([DictionaryType.INTERVENTIONS], false)
+        .then((dicts: Array<Dictionary>) => {
+          this.interventions = dicts.shift().getItems();
+        });
+    }
     this.statuses = await this.interventionDataService.getInterventionStatusDictionary();
 
     console.log(this.statuses);
 
     const foo = this.statuses.reduce((prev, curr) => {
-      if (!prev[curr.status]) {
-        prev[curr.status] = {
+      if (!prev[curr.fortificationType]) {
+        prev[curr.fortificationType] = {};
+      }
+
+      if (!prev[curr.fortificationType][curr.status]) {
+        prev[curr.fortificationType][curr.status] = {
           id: curr.status,
           name: curr.statusName,
           desc: curr.statusDesc,
           natures: [],
         };
       }
-      prev[curr.status]['natures'].push({
+      prev[curr.fortificationType][curr.status]['natures'].push({
         id: curr.nature,
         name: curr.natureName,
         desc: curr.natureDesc,
@@ -171,7 +195,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
       return prev;
     }, {});
 
-    this.interventionStatusArray = Object.values(foo);
+    console.log({ foo });
+    this.interventionStatuses = foo;
+    //this.interventionStatusArray = Object.values(foo);
 
     // const recentInterventions = [];
     // this.interventionDataService.getRecentInterventions().forEach((intervention: InterventionsDictionaryItem) => {
@@ -202,6 +228,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         this.proceed.next(false);
       }
     });
+    this.loading = false;
   }
 
   private toggleRegionDropdown(regions: Region[]): void {
@@ -267,6 +294,12 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           // TODO: Remove this
           .filter((country) => Object.keys(this.interventionMapping).includes(country.id));
         this.setPreselected(DictionaryType.COUNTRIES);
+
+        this.allCountryOptionArray = this.countriesDictionary
+          .getItems()
+          .sort(this.sort)
+          .filter((country) => !Object.keys(this.interventionMapping).includes(country.id));
+
         break;
       case type === DictionaryType.MICRONUTRIENTS:
         //this.micronutrientsOptionArray = this.micronutrientsDictionary.getItems().sort(this.sort);
@@ -435,6 +468,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           }
         });
     } else if (this.tabID === 'copy') {
+      this.intLoading = true;
       // TODO: POST to endpoint with parameterFormObj as body
       this.interventionDataService
         .setIntervention(
@@ -442,7 +476,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
           this.interventionRequestBody.newInterventionName,
           this.interventionRequestBody.newInterventionDescription,
           this.selectedCountry,
-          this.selectedCountry,
+          this.overrideCountry ? this.overrideCountry : this.selectedCountry,
           this.selectedMn,
           this.selectedInterventionNature.id,
           this.selectedInterventionStatus.id,
@@ -455,6 +489,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
         })
         .catch((err) => {
           console.error(err);
+          this.intLoading = false;
           throw new Error(err);
         });
     }
@@ -515,7 +550,7 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
   public handleMnChange(mnId: string): void {
     console.log('Handle MN change', this.selectedCountry, mnId);
 
-    this.interventionTypeArray = ['LSFF']; //Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
+    this.interventionTypeArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]);
 
     this.parameterForm.controls['foodVehicle'].reset();
     this.selectedFoodVehicle = '';
@@ -547,7 +582,11 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
     this.selectedInterventionNature = undefined;
 
     // this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][mnId]['LSFF']['Existing intervention program']);
-    this.foodVehicleArray = Object.keys(this.interventionMapping[this.selectedCountry][this.selectedMn]);
+    this.foodVehicleArray = Object.keys(
+      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedInterventionType],
+    );
+
+    this.interventionStatusArray = Object.values(this.interventionStatuses[interventionType]);
 
     // return Object.keys(this.interventionMapping[this.countryOptionArray.]).includes(micronutrient.id);
   }
@@ -568,7 +607,9 @@ export class CostEffectivenessSelectionDialogComponent implements OnInit {
 
     // Select the intervention id from the mapping object
     this.selectedInterventionId =
-      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedFoodVehicle];
+      this.interventionMapping[this.selectedCountry][this.selectedMn][this.selectedInterventionType][
+        this.selectedFoodVehicle
+      ];
 
     console.log('Loading intervention', this.selectedInterventionId);
     // Grab the associated intervention from the list

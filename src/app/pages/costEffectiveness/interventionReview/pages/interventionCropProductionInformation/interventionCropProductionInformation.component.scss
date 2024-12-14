@@ -1,0 +1,6 @@
+@use '../interventionReviewPages.scss';
+
+tr:has(td.gap) {
+  background: red;
+  margin-bottom: 2em;
+}

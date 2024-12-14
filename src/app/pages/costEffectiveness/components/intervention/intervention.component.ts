@@ -43,7 +43,10 @@ export class InterventionComponent {
   public costsText = 'Confirmed';
   public today: number = Date.now();
 
+  public loading = false;
+
   public reviewIntervention(): void {
+    this.loading = true;
     this.interventionDataService.startReviewingIntervention(this.intervention.id.toString());
   }
 

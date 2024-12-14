@@ -46,14 +46,27 @@ import { InterventionExpectedLossComponent } from './pages/interventionExpectedL
 import { InterventionEffectivenessSummaryComponent } from './pages/interventionEffectivenessSummary/interventionEffectivenessSummary.component';
 import { InterventionCostEffectivenessSummaryComponent } from './pages/interventionCostEffectivenessSummary/interventionCostEffectivenessSummary.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { InterventionCropProductionInformationComponent } from './pages/interventionCropProductionInformation/interventionCropProductionInformation.component';
+import { InterventionCropProductionProjectionsComponent } from './pages/interventionCropProductionProjections/interventionCropProductionProjections.component';
+import { InterventionCropTargettingComponent } from './pages/interventionCropTargetting/interventionCropTargetting.component';
+import { InterventionFarmerAdoptionRatesComponent } from './pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
+import { InterventionSeedPricesComponent } from './pages/interventionSeedPrices/interventionSeedPrices.component';
+import { InterventionFarmerAdoption } from 'src/app/apiAndObjects/objects/interventionFarmerAdoption';
+import { InterventionFarmerAdoptionRatesAFComponent } from './pages/interventionFarmerAdoptionRatesAF/interventionFarmerAdoptionRatesAF.component';
 
 @NgModule({
   declarations: [
     InterventionReviewComponent,
     InterventionBaselineComponent,
     InterventionComplianceComponent,
+    InterventionFarmerAdoptionRatesComponent,
+    InterventionFarmerAdoptionRatesAFComponent,
     InterventionCostSummaryComponent,
     InterventionIndustryInformationComponent,
+    InterventionCropProductionInformationComponent,
+    InterventionCropProductionProjectionsComponent,
+    InterventionCropTargettingComponent,
+    InterventionSeedPricesComponent,
     InterventionMonitoringInformationComponent,
     InterventionRecurringCostsComponent,
     InterventionStartupScaleupCostsComponent,

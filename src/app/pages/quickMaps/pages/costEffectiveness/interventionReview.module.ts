@@ -42,14 +42,26 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { AddMicronutrientComponent } from './interventionReview/components/add-micronutrient/add-micronutrient.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ReusableSkeletonTableComponent } from './interventionReview/utilities/reusableSkeletonTable/reusableSkeletonTable.component';
+import { InterventionCropProductionInformationComponent } from './interventionReview/pages/interventionCropProductionInformation/interventionCropProductionInformation.component';
+import { InterventionCropProductionProjectionsComponent } from './interventionReview/pages/interventionCropProductionProjections/interventionCropProductionProjections.component';
+import { InterventionCropTargettingComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionCropTargetting/interventionCropTargetting.component';
+import { InterventionFarmerAdoptionRatesComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionFarmerAdoptionRates/interventionFarmerAdoptionRates.component';
+import { InterventionSeedPricesComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionSeedPrices/interventionSeedPrices.component';
+import { InterventionFarmerAdoptionRatesAFComponent } from 'src/app/pages/costEffectiveness/interventionReview/pages/interventionFarmerAdoptionRatesAF/interventionFarmerAdoptionRatesAF.component';
 
 @NgModule({
   declarations: [
     InterventionReviewComponent,
     InterventionBaselineComponent,
     InterventionComplianceComponent,
+    InterventionFarmerAdoptionRatesComponent,
+    InterventionFarmerAdoptionRatesAFComponent,
     InterventionCostSummaryComponent,
     InterventionIndustryInformationComponent,
+    InterventionCropProductionInformationComponent,
+    InterventionCropProductionProjectionsComponent,
+    InterventionCropTargettingComponent,
+    InterventionSeedPricesComponent,
     InterventionMonitoringInformationComponent,
     InterventionRecurringCostsComponent,
     InterventionStartupScaleupCostsComponent,

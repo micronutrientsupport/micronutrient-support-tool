@@ -2,6 +2,7 @@ import { BaseObject } from '../_lib_code/objects/baseObject';
 
 export class InterventionStatus extends BaseObject {
   public static readonly KEYS = {
+    FORTIFICATION_TYPE: 'fortificationType',
     STATUS: 'status',
     STATUS_NAME: 'statusName',
     STATUS_DESC: 'statusDesc',
@@ -11,6 +12,7 @@ export class InterventionStatus extends BaseObject {
     WHEN_TO_USE: 'whenToUse',
   };
 
+  public readonly fortificationType: string;
   public readonly status: number;
   public readonly statusName: string;
   public readonly statusDesc: string;
@@ -22,6 +24,7 @@ export class InterventionStatus extends BaseObject {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
+    this.fortificationType = this._getString(InterventionStatus.KEYS.FORTIFICATION_TYPE);
     this.status = this._getNumber(InterventionStatus.KEYS.STATUS);
     this.statusName = this._getString(InterventionStatus.KEYS.STATUS_NAME);
     this.statusDesc = this._getString(InterventionStatus.KEYS.STATUS_DESC);

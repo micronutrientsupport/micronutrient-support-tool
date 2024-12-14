@@ -1,0 +1,85 @@
+<div class="bmgf-maps-nice-scrollbar container">
+  <div class="content">
+    <app-intervention-description></app-intervention-description>
+    <div class="title">
+      <span>Biofortified Crop Targetting</span>
+    </div>
+
+    <app-reusable-skeleton-table *ngIf="!dataLoaded"
+      [setData]="{ columns: 12, rows: 10 }"></app-reusable-skeleton-table>
+
+    <table mat-table [dataSource]="dataSource" class="table-full-width">
+
+      <ng-container matColumnDef="region">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef> Agricultural Development Division (ADD) </th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          {{element.region}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="footer-row">Total</td>
+      </ng-container>
+
+      <ng-container matColumnDef="is_region_targeted">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef> ADD targeted for biofortification? </th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          <span class="yes" *ngIf="element.is_region_targeted">Yes</span>
+          <span class="no" *ngIf="!element.is_region_targeted">No</span>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="zones_targeted">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>Number of extension planning areas within ADD
+          targeted for biofortification</th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          {{element.zones_targeted}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="footer-row">{{totalZonesTargeted}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cultivation_area_ha">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>Area (ha) under cultivation</th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          {{element.cultivation_area_ha | number:'1.2-2'}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <ng-container matColumnDef="targeted_area_ha">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>Targeted area (ha) under cultivation</th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          {{element.targeted_area_ha | number:'1.2-2'}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="footer-row">{{totalTargetedArea | number:'1.2-2'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="regional_share_pc">
+        <th class="row-title-left" mat-header-cell *matHeaderCellDef>ADD share of total targeted area</th>
+        <td class="row-title-left" mat-cell *matCellDef="let element">
+          {{element.regional_share_pc | percent}}
+        </td>
+        <td mat-footer-cell *matFooterCellDef class="footer-row">{{totalAddShare | percent}}</td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
+    </table>
+
+    <app-intervention-step-details (resetValues)="resetForm()" [resetDefaultValues]="true" [showFocusMn]="false"
+      [showUserValues]="true" [showUserOverrideValues]="true" [showNonEditable]="true" [showMnUnits]="false"
+      [showAddMicronutrient]="false"></app-intervention-step-details>
+  </div>
+  <footer>
+    <a *ngIf="previousRoute" class="intervention-navigation" mat-stroked-button [routerLink]="previousRoute | route"
+      queryParamsHandling="preserve">Back</a>
+    <a class="intervention-navigation" mat-stroked-button [routerLink]="ROUTES.COST_EFFECTIVENESS | route"
+      queryParamsHandling="preserve">Save and close</a>
+    <button *ngFor="let route of nextRoutes" [disabled]="loading" class="intervention-navigation" mat-flat-button
+      color="primary" (click)="confirmAndContinue(route?.route)">
+      <span *ngIf="!loading">{{ route.title }}</span>
+      <span *ngIf="loading">Recalculating model values&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+          [diameter]="16" color='accent'></mat-spinner></span>
+    </button>
+  </footer>
+</div>

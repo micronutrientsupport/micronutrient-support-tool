@@ -6,6 +6,7 @@
           <div>
             <span *ngIf="!intervention.name"><strong>No intervention name set</strong></span>
             <span *ngIf="intervention.name"><strong>{{ intervention.name }}</strong> |
+              {{intervention.fortificationType}} |
               {{intervention.focusNation}} |
               {{intervention.focusMicronutrient}}</span>
           </div>
@@ -55,7 +56,11 @@
           <mat-icon>file_copy</mat-icon>
           Copy
         </button>
-        <a mat-flat-button color="primary" class="btn" (click)="reviewIntervention()">Edit</a>
+        <a mat-flat-button color="primary" class="btn" [disabled]="loading" (click)="reviewIntervention()">
+          <span *ngIf="!loading">Edit</span>
+          <span *ngIf="loading">Loading model&nbsp;<mat-spinner class="loading-indicator" aria-label="spinner"
+              [diameter]="16" color='accent'></mat-spinner></span>
+        </a>
       </div>
     </div>
   </mat-card>
