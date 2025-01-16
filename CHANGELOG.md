@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.1](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.22.0...v1.22.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* remove dummy text ([4839c9c](https://github.com/micronutrientsupport/micronutrient-support-tool/commit/4839c9c782ff75cfc42560e3521766ee32330d78))
+
 ## [1.22.0](https://github.com/micronutrientsupport/micronutrient-support-tool/compare/v1.21.2...v1.22.0) (2024-12-14)
 
 
